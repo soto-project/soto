@@ -45,71 +45,68 @@ class APIGatewayV2Tests: XCTestCase {
         } else {
             print("Connecting to AWS")
         }
-        /// If we create a rest api for each test, when we delete them APIGateway will throttle and we will most likely not delete the all APIs
-        /// So we create one API to be used by all tests
-        let eventLoop = self.apiGatewayV2.client.eventLoopGroup.next()
-        let createResult = self.createRestApi(name: self.restApiName, on: eventLoop)
-            .flatMapErrorThrowing { error in
+        /// If we create a rest api for each test, when we delete them APIGateway will throttle
+        /// and we will most likely not delete the all APIs so we create one API to be used by all tests
+        XCTAssertNoThrow(try runThrowingTask(on: Self.client.eventLoopGroup.any()) {
+            do {
+                Self.restApiId = try await self.createRestApi(name: self.restApiName)
+            } catch {
                 print("Failed to create APIGateway rest api, error: \(error)")
                 throw error
             }
-        XCTAssertNoThrow(Self.restApiId = try createResult.wait())
+        })
     }
 
     override class func tearDown() {
         guard !TestEnvironment.isUsingLocalstack else { return }
-        XCTAssertNoThrow(_ = try self.deleteRestApi(id: self.restApiId).wait())
+        XCTAssertNoThrow(try runThrowingTask(on: Self.client.eventLoopGroup.any()) {
+            _ = try await self.deleteRestApi(id: self.restApiId)
+        })
         XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
-    static func createRestApi(name: String, on eventLoop: EventLoop) -> EventLoopFuture<String> {
-        return self.apiGatewayV2.getApis(.init(), logger: TestEnvironment.logger)
-            .flatMap { response in
-                if let restApi = response.items?.first(where: { $0.name == name }) {
-                    guard let apiId = restApi.apiId else { return eventLoop.makeFailedFuture(APIGatewayV2TestsError.noApi) }
-                    return eventLoop.makeSucceededFuture(apiId)
-                } else {
-                    let request = ApiGatewayV2.CreateApiRequest(
-                        description: "\(name) API",
-                        name: name,
-                        protocolType: .http
-                    )
-                    return Self.apiGatewayV2.createApi(request, logger: TestEnvironment.logger).flatMapThrowing { response -> String in
-                        let apiId = try XCTUnwrap(response.apiId)
-                        return apiId
-                    }
-                }
-            }
+    static func createRestApi(name: String) async throws -> String {
+        let response = try await self.apiGatewayV2.getApis(.init(), logger: TestEnvironment.logger)
+        if let restApi = response.items?.first(where: { $0.name == name }) {
+            guard let apiId = restApi.apiId else { throw APIGatewayV2TestsError.noApi }
+            return apiId
+        } else {
+            let request = ApiGatewayV2.CreateApiRequest(
+                description: "\(name) API",
+                name: name,
+                protocolType: .http
+            )
+            let response = try await Self.apiGatewayV2.createApi(request, logger: TestEnvironment.logger)
+            let apiId = try XCTUnwrap(response.apiId)
+            return apiId
+        }
     }
 
-    static func deleteRestApi(id: String) -> EventLoopFuture<Void> {
-        return self.apiGatewayV2.deleteApi(.init(apiId: id), logger: TestEnvironment.logger).map {}
+    static func deleteRestApi(id: String) async throws {
+        try await self.apiGatewayV2.deleteApi(.init(apiId: id), logger: TestEnvironment.logger)
     }
 
     /// create Rest api with supplied name and run supplied closure with rest api id
-    func testRestApi(body: @escaping (String) -> EventLoopFuture<Void>) -> EventLoopFuture<Void> {
-        body(Self.restApiId)
+    func testRestApi(body: @escaping (String) async throws -> Void) async throws {
+        try await body(Self.restApiId)
     }
 
     // MARK: TESTS
 
     /// tests whether created date is loading correctly
-    func testGetApis() throws {
+    func testGetApis() async throws {
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         // get date from 1 minute before now.
         let date = Date(timeIntervalSinceNow: -60.0)
-        let response = self.testRestApi { id in
-            return Self.apiGatewayV2.getApis(.init(), logger: TestEnvironment.logger)
-                .flatMapThrowing { response in
-                    let restApi = response.items?.first(where: { $0.apiId == id })
-                    XCTAssertNotNil(restApi)
-                    XCTAssertEqual(restApi?.name, Self.restApiName)
-                    let createdDate = try XCTUnwrap(restApi?.createdDate)
-                    XCTAssertGreaterThanOrEqual(createdDate, date)
-                }
+        try await self.testRestApi { id in
+            let response = try await Self.apiGatewayV2.getApis(.init(), logger: TestEnvironment.logger)
+            let restApi = response.items?.first(where: { $0.apiId == id })
+            XCTAssertNotNil(restApi)
+            XCTAssertEqual(restApi?.name, Self.restApiName)
+            let createdDate = try XCTUnwrap(restApi?.createdDate)
+            XCTAssertGreaterThanOrEqual(createdDate, date)
         }
-        XCTAssertNoThrow(try response.wait())
     }
 }

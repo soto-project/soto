@@ -24,6 +24,7 @@ enum APIGatewayTestsError: Error {
 class APIGatewayTests: XCTestCase {
     static var client: AWSClient!
     static var apiGateway: APIGateway!
+    static var setup = false
 
     static let restApiName: String = TestEnvironment.generateResourceName("APIGatewayTests")
     static var restApiId: String!
@@ -46,143 +47,111 @@ class APIGatewayTests: XCTestCase {
         } else {
             print("Connecting to AWS")
         }
-        /// If we create a rest api for each test, when we delete them APIGateway will throttle and we will most likely not delete the all APIs
-        /// So we create one API to be used by all tests
-        let eventLoop = self.apiGateway.client.eventLoopGroup.next()
-        let createResult = self.createRestApi(name: self.restApiName, on: eventLoop)
-            .flatMapThrowing { response in
-                return try XCTUnwrap(response.id)
-            }
-            .flatMapErrorThrowing { error in
-                print("Failed to create APIGateway rest api, error: \(error)")
-                throw error
-            }
-        XCTAssertNoThrow(Self.restApiId = try createResult.wait())
+        /// If we create a rest api for each test, when we delete them APIGateway will
+        /// throttle and we will most likely not delete the all APIs so we create one API to be used by all tests
+        XCTAssertNoThrow(try runThrowingTask(on: self.client.eventLoopGroup.any()) {
+            let response = try await self.createRestApi(name: self.restApiName)
+            Self.restApiId = try XCTUnwrap(response.id)
+        })
     }
 
     override class func tearDown() {
-        XCTAssertNoThrow(_ = try self.deleteRestApi(id: self.restApiId).wait())
+        XCTAssertNoThrow(try runThrowingTask(on: self.client.eventLoopGroup.any()) {
+            _ = try await self.deleteRestApi(id: self.restApiId)
+        })
         XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
-    static func createRestApi(name: String, on eventLoop: EventLoop) -> EventLoopFuture<APIGateway.RestApi> {
+    static func createRestApi(name: String) async throws -> APIGateway.RestApi {
         let request = APIGateway.GetRestApisRequest()
-        return self.apiGateway.getRestApis(request, logger: TestEnvironment.logger)
-            .flatMap { response in
-                if let restApi = response.items?.first(where: { $0.name == name }) {
-                    return eventLoop.makeSucceededFuture(restApi)
-                } else {
-                    let request = APIGateway.CreateRestApiRequest(
-                        description: "\(name) API",
-                        endpointConfiguration: APIGateway.EndpointConfiguration(types: [.regional]),
-                        name: name
-                    )
-                    return Self.apiGateway.createRestApi(request, logger: TestEnvironment.logger)
-                }
-            }
+        let response = try await self.apiGateway.getRestApis(request, logger: TestEnvironment.logger)
+        if let restApi = response.items?.first(where: { $0.name == name }) {
+            return restApi
+        } else {
+            let request = APIGateway.CreateRestApiRequest(
+                description: "\(name) API",
+                endpointConfiguration: APIGateway.EndpointConfiguration(types: [.regional]),
+                name: name
+            )
+            return try await Self.apiGateway.createRestApi(request, logger: TestEnvironment.logger)
+        }
     }
 
-    static func deleteRestApi(id: String) -> EventLoopFuture<Void> {
+    static func deleteRestApi(id: String) async throws {
         let request = APIGateway.DeleteRestApiRequest(restApiId: id)
-        return self.apiGateway.deleteRestApi(request, logger: TestEnvironment.logger).map {}
+        _ = try await self.apiGateway.deleteRestApi(request, logger: TestEnvironment.logger)
     }
 
     /// create Rest api with supplied name and run supplied closure with rest api id
-    func testRestApi(body: @escaping (String) -> EventLoopFuture<Void>) -> EventLoopFuture<Void> {
-        body(Self.restApiId)
+    func testRestApi(body: @escaping (String) async throws -> Void) async throws {
+        try await body(Self.restApiId)
     }
 
     // MARK: TESTS
 
-    func testGetRestApis() {
-        let response = self.testRestApi { id in
+    func testGetRestApis() async throws {
+        try await self.testRestApi { id in
             let request = APIGateway.GetRestApisRequest()
-            return Self.apiGateway.getRestApis(request, logger: TestEnvironment.logger)
-                .map { response in
-                    let restApi = response.items?.first(where: { $0.id == id })
-                    XCTAssertNotNil(restApi)
-                    XCTAssertEqual(restApi?.name, Self.restApiName)
-                }
+            let response = try await Self.apiGateway.getRestApis(request, logger: TestEnvironment.logger)
+            let restApi = response.items?.first(where: { $0.id == id })
+            XCTAssertNotNil(restApi)
+            XCTAssertEqual(restApi?.name, Self.restApiName)
         }
-        XCTAssertNoThrow(try response.wait())
     }
 
-    func testGetRestApi() {
-        let response = self.testRestApi { id in
+    func testGetRestApi() async throws {
+        try await self.testRestApi { id in
             let request = APIGateway.GetRestApiRequest(restApiId: id)
-            return Self.apiGateway.getRestApi(request, logger: TestEnvironment.logger)
-                .map { response in
-                    XCTAssertEqual(response.name, Self.restApiName)
-                }
+            let response = try await Self.apiGateway.getRestApi(request, logger: TestEnvironment.logger)
+            XCTAssertEqual(response.name, Self.restApiName)
         }
-        XCTAssertNoThrow(try response.wait())
     }
 
-    func testCreateGetResource() {
-        let response = self.testRestApi { id in
+    func testCreateGetResource() async throws {
+        try await self.testRestApi { id in
             // get parent resource
             let request = APIGateway.GetResourcesRequest(restApiId: id)
-            return Self.apiGateway.getResources(request, logger: TestEnvironment.logger)
-                .flatMapThrowing { response throws -> String in
-                    let items = try XCTUnwrap(response.items)
-                    XCTAssertEqual(items.count, 1)
-                    let parentId = try XCTUnwrap(items[0].id)
-                    return parentId
-                }
-                // create new resource
-                .flatMap { parentId -> EventLoopFuture<APIGateway.Resource> in
-                    let request = APIGateway.CreateResourceRequest(parentId: parentId, pathPart: "test", restApiId: id)
-                    return Self.apiGateway.createResource(request, logger: TestEnvironment.logger)
-                }
-                // extract resource id
-                .flatMapThrowing { response throws -> String in
-                    let resourceId = try XCTUnwrap(response.id)
-                    return resourceId
-                }
-                // get resource
-                .flatMap { resourceId -> EventLoopFuture<APIGateway.Resource> in
-                    let request = APIGateway.GetResourceRequest(embed: ["orange", "apple", "star*"], resourceId: resourceId, restApiId: id)
-                    return Self.apiGateway.getResource(request, logger: TestEnvironment.logger)
-                }
-                // verify resource is correct
-                .map { response in
-                    XCTAssertEqual(response.pathPart, "test")
-                }
+            let response = try await Self.apiGateway.getResources(request, logger: TestEnvironment.logger)
+            let items = try XCTUnwrap(response.items)
+            XCTAssertEqual(items.count, 1)
+            let parentId = try XCTUnwrap(items[0].id)
+            let createRequest = APIGateway.CreateResourceRequest(parentId: parentId, pathPart: "test", restApiId: id)
+            let createResponse = try await Self.apiGateway.createResource(createRequest, logger: TestEnvironment.logger)
+            let resourceId = try XCTUnwrap(createResponse.id)
+            let getResourceRequest = APIGateway.GetResourceRequest(embed: ["orange", "apple", "star*"], resourceId: resourceId, restApiId: id)
+            let getResourceResponse = try await Self.apiGateway.getResource(getResourceRequest, logger: TestEnvironment.logger)
+            XCTAssertEqual(getResourceResponse.pathPart, "test")
         }
-        XCTAssertNoThrow(try response.wait())
     }
 
-    func testPathWithSpecialCharacters() {
-        let request = APIGateway.GetResourcesRequest(restApiId: "Test+%/*%25")
-        let response = Self.apiGateway.getResources(request, logger: TestEnvironment.logger).map { _ in }
-
-        XCTAssertThrowsError(try response.wait()) { error in
-            switch error {
-            case let error as AWSClientError where error == .invalidSignature:
-                XCTFail()
-            case let error as APIGatewayErrorType where error == .notFoundException:
-                // Localstack produces a different error message to AWS
-                if !TestEnvironment.isUsingLocalstack {
-                    XCTAssertEqual(error.message, "Invalid API identifier specified 931875313149:Test+%/*%25")
-                }
-            default:
-                break
+    func testPathWithSpecialCharacters() async throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+        do {
+            let request = APIGateway.GetResourcesRequest(restApiId: "Test+%/*%25")
+            _ = try await Self.apiGateway.getResources(request, logger: TestEnvironment.logger)
+            XCTFail("This request should fail")
+        } catch let error as APIGatewayErrorType where error == .notFoundException {
+            // Localstack produces a different error message to AWS
+            if !TestEnvironment.isUsingLocalstack {
+                XCTAssertEqual(error.message, "Invalid API identifier specified 931875313149:Test+%/*%25")
             }
+        } catch let error as AWSClientError where error == .invalidSignature {
+            XCTFail("Invalid signature")
         }
     }
 
-    func testError() {
-        let response = Self.apiGateway.getModels(.init(restApiId: "invalid-rest-api-id"), logger: TestEnvironment.logger)
-        XCTAssertThrowsError(try response.wait()) { error in
-            switch error {
-            case let error as APIGatewayErrorType where error == .notFoundException:
-                XCTAssertNotNil(error.message)
-            default:
-                // local stack is returning a duff error at the moment
-                if TestEnvironment.isUsingLocalstack {
-                    return
-                }
-                XCTFail("Wrong error: \(error)")
+    func testError() async throws {
+        do {
+            _ = try await Self.apiGateway.getModels(.init(restApiId: "invalid-rest-api-id"), logger: TestEnvironment.logger)
+            XCTFail("This request should fail")
+        } catch let error as APIGatewayErrorType where error == .notFoundException {
+            XCTAssertNotNil(error.message)
+
+        } catch {
+            // local stack is returning a duff error at the moment
+            if !TestEnvironment.isUsingLocalstack {
+                throw error
             }
         }
     }

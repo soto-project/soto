@@ -47,32 +47,32 @@ class STSTests: XCTestCase {
         XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
-    func testGetCallerIdentity() {
-        let response = Self.sts.getCallerIdentity(.init())
-        XCTAssertNoThrow(try response.wait())
+    func testGetCallerIdentity() async throws {
+        _ = try await Self.sts.getCallerIdentity(.init())
     }
 
-    func testSTSCredentialProviderShutdown() {
-        let credentialProvider = CredentialProviderFactory.stsAssumeRole(request: .init(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session"), region: .euwest2)
-        let client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .createNew, logger: Logger(label: "Soto"))
-        XCTAssertNoThrow(try client.syncShutdown())
+    func testSTSCredentialProviderShutdown() async throws {
+        let request = STS.AssumeRoleRequest(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session")
+        let credentialProvider = CredentialProviderFactory.stsAssumeRole(request: request, region: .euwest2)
+        let client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .createNew, logger: TestEnvironment.logger)
+        try await client.shutdown()
     }
 
-    func testSTSCredentialProviderClosure() {
+    func testSTSCredentialProviderClosure() async throws {
         let request = STS.AssumeRoleRequest(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session")
         var returnedRequest: STS.AssumeRoleRequest?
-        let credentialProvider = CredentialProviderFactory.stsAssumeRole(region: .euwest2) { eventLoop in
-            return eventLoop.scheduleTask(in: .milliseconds(500)) {
-                returnedRequest = request
-                return request
-            }.futureResult
+        let credentialProvider = CredentialProviderFactory.stsAssumeRole(region: .euwest2) {
+            try await Task.sleep(nanoseconds: 500_000_000)
+            returnedRequest = request
+            return request
         }
-        let client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .createNew, logger: Logger(label: "Soto"))
-        XCTAssertNoThrow(try client.syncShutdown())
+        let client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .createNew, logger: TestEnvironment.logger)
+        _ = try? await client.credentialProvider.getCredential(logger: TestEnvironment.logger)
+        try await client.shutdown()
         XCTAssertEqual(request.roleSessionName, returnedRequest?.roleSessionName)
     }
 
-    func testFederationToken() {
+    func testFederationToken() async throws {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
         // create a role with this policy
@@ -102,32 +102,25 @@ class STSTests: XCTestCase {
             httpClientProvider: .createNew,
             logger: Logger(label: "Soto")
         )
-        defer { XCTAssertNoThrow(try client.syncShutdown()) }
-        let s3 = S3(client: client, region: .euwest1)
-        XCTAssertNoThrow(try s3.listBuckets().wait())
-        let sns = SNS(client: client)
-        XCTAssertThrowsError(try sns.listTopics(.init()).wait()) { error in
-            switch error {
-            case let error as SNSErrorType where error == .authorizationErrorException:
-                break
-            default:
-                XCTFail("Wrong error \(error)")
+        do {
+            let s3 = S3(client: client, region: .euwest1)
+            _ = try await s3.listBuckets()
+            let sns = SNS(client: client)
+            await XCTAsyncExpectError(SNSErrorType.authorizationErrorException) {
+                _ = try await sns.listTopics(.init())
             }
         }
+        try await client.shutdown()
     }
 
-    func testError() {
-        let request = STS.AssumeRoleWithWebIdentityRequest(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "now", webIdentityToken: "webtoken")
-        let response = Self.sts.assumeRoleWithWebIdentity(request)
-            .map { _ in }
-            .flatMapErrorThrowing { error in
-                switch error {
-                case let error as STSErrorType where error == .invalidIdentityTokenException:
-                    XCTAssertNotNil(error.message)
-                default:
-                    throw error
-                }
-            }
-        XCTAssertNoThrow(try response.wait())
+    func testError() async throws {
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+        await XCTAsyncExpectError(STSErrorType.invalidIdentityTokenException) {
+            let request = STS.AssumeRoleWithWebIdentityRequest(
+                roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "now",
+                webIdentityToken: "webtoken"
+            )
+            _ = try await Self.sts.assumeRoleWithWebIdentity(request, logger: TestEnvironment.logger)
+        }
     }
 }

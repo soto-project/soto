@@ -21,6 +21,8 @@ import XCTest
 class DynamoDBTests: XCTestCase {
     static var client: AWSClient!
     static var dynamoDB: DynamoDB!
+    static var tableName: String!
+    static var tableWithValueName: String!
 
     override class func setUp() {
         if TestEnvironment.isUsingLocalstack {
@@ -35,164 +37,115 @@ class DynamoDBTests: XCTestCase {
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
+        /// If we create a rest api for each test, when we delete them APIGateway will
+        /// throttle and we will most likely not delete the all APIs so we create one API to be used by all tests
+        XCTAssertNoThrow(try runThrowingTask(on: self.client.eventLoopGroup.any()) {
+            try await withThrowingTaskGroup(of: Void.self) { group in
+                group.addTask {
+                    self.tableName = TestEnvironment.generateResourceName("soto-dynamodb-tests")
+                    _ = try await Self.createTable(
+                        name: self.tableName,
+                        attributeDefinitions: [.init(attributeName: "id", attributeType: .s)],
+                        keySchema: [.init(attributeName: "id", keyType: .hash)]
+                    )
+                }
+                group.addTask {
+                    self.tableWithValueName = TestEnvironment.generateResourceName("soto-dynamodb-tests_value")
+                    _ = try await Self.createTable(
+                        name: self.tableWithValueName,
+                        attributeDefinitions: [.init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n)],
+                        keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
+                    )
+                }
+                try await group.waitForAll()
+            }
+        })
     }
 
     override class func tearDown() {
+        XCTAssertNoThrow(try runThrowingTask(on: self.client.eventLoopGroup.any()) {
+            _ = try await Self.deleteTable(name: self.tableName)
+            _ = try await Self.deleteTable(name: self.tableWithValueName)
+        })
         XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
-    func createTable(name: String, hashKey: String) -> EventLoopFuture<Void> {
+    static func createTable(
+        name: String,
+        attributeDefinitions: [DynamoDB.AttributeDefinition],
+        keySchema: [DynamoDB.KeySchemaElement]
+    ) async throws {
         let input = DynamoDB.CreateTableInput(
-            attributeDefinitions: [.init(attributeName: hashKey, attributeType: .s)],
-            keySchema: [.init(attributeName: hashKey, keyType: .hash)],
+            attributeDefinitions: attributeDefinitions,
+            keySchema: keySchema,
             provisionedThroughput: .init(readCapacityUnits: 5, writeCapacityUnits: 5),
             tableName: name
         )
-        return Self.dynamoDB.createTable(input)
-            .map { response in
-                XCTAssertEqual(response.tableDescription?.tableName, name)
-                return
-            }
-            .flatMapErrorThrowing { error in
-                switch error {
-                case let error as DynamoDBErrorType where error == .resourceInUseException:
-                    print("Table (\(name)) already exists")
-                    return
-                default:
-                    throw error
-                }
-            }
-            .flatMap { _ -> EventLoopFuture<Void> in
-                return Self.dynamoDB.waitUntilTableExists(.init(tableName: name))
-            }
-    }
-
-    func waitForActiveTable(name: String, on eventLoop: EventLoop) -> EventLoopFuture<Void> {
-        let promise = eventLoop.makePromise(of: Void.self)
-        func waitForActiveTableInternal(waitTime: TimeAmount) {
-            let scheduled = eventLoop.flatScheduleTask(in: waitTime) {
-                return Self.dynamoDB.describeTable(.init(tableName: name))
-            }
-            scheduled.futureResult.map { response in
-                if response.table?.tableStatus == .active {
-                    promise.succeed(())
-                } else {
-                    waitForActiveTableInternal(waitTime: waitTime + .seconds(1))
-                }
-            }.cascadeFailure(to: promise)
+        do {
+            let response = try await Self.dynamoDB.createTable(input, logger: TestEnvironment.logger)
+            XCTAssertEqual(response.tableDescription?.tableName, name)
+        } catch let error as DynamoDBErrorType where error == .resourceInUseException {
+            print("Table (\(name)) already exists")
         }
-        waitForActiveTableInternal(waitTime: .seconds(1))
-        return promise.futureResult
+        try await Self.dynamoDB.waitUntilTableExists(.init(tableName: name), logger: TestEnvironment.logger)
     }
 
-    func deleteTable(name: String) -> EventLoopFuture<Void> {
+    static func deleteTable(name: String) async throws {
         let input = DynamoDB.DeleteTableInput(tableName: name)
-        return Self.dynamoDB.deleteTable(input).map { _ in }
+        _ = try await Self.dynamoDB.deleteTable(input, logger: TestEnvironment.logger)
     }
 
-    func putItem(tableName: String, values: [String: Any]) -> EventLoopFuture<DynamoDB.PutItemOutput> {
+    func putItem(tableName: String, values: [String: Any]) async throws -> DynamoDB.PutItemOutput {
         let input = DynamoDB.PutItemInput(item: values.mapValues { DynamoDB.AttributeValue(any: $0) }, tableName: tableName)
-        return Self.dynamoDB.putItem(input)
+        return try await Self.dynamoDB.putItem(input)
     }
 
-    func getItem(tableName: String, keys: [String: String]) -> EventLoopFuture<DynamoDB.GetItemOutput> {
+    func getItem(tableName: String, keys: [String: String]) async throws -> DynamoDB.GetItemOutput {
         let input = DynamoDB.GetItemInput(consistentRead: true, key: keys.mapValues { DynamoDB.AttributeValue.s($0) }, tableName: tableName)
-        return Self.dynamoDB.getItem(input)
+        return try await Self.dynamoDB.getItem(input)
     }
 
     // MARK: TESTS
 
-    func testCreateDeleteTable() {
-        let tableName = TestEnvironment.generateResourceName()
-        let response = self.createTable(name: tableName, hashKey: "ID")
-            .flatAlways { _ in
-                return self.deleteTable(name: tableName)
-            }
-        XCTAssertNoThrow(try response.wait())
+    func testGetObject() async throws {
+        _ = try await self.putItem(tableName: Self.tableName, values: ["id": "testGetObject", "First name": "John", "Surname": "Smith"])
+        let response = try await self.getItem(tableName: Self.tableName, keys: ["id": "testGetObject"])
+        XCTAssertEqual(response.item?["id"], .s("testGetObject"))
+        XCTAssertEqual(response.item?["First name"], .s("John"))
+        XCTAssertEqual(response.item?["Surname"], .s("Smith"))
     }
 
-    func testGetObject() {
-        let tableName = TestEnvironment.generateResourceName()
-        let response = self.createTable(name: tableName, hashKey: "ID")
-            .flatMap { _ in
-                return self.putItem(tableName: tableName, values: ["ID": "first", "First name": "John", "Surname": "Smith"])
-            }
-            .flatMap { _ -> EventLoopFuture<DynamoDB.GetItemOutput> in
-                return self.getItem(tableName: tableName, keys: ["ID": "first"])
-            }
-            .map { response -> Void in
-                XCTAssertEqual(response.item?["ID"], .s("first"))
-                XCTAssertEqual(response.item?["First name"], .s("John"))
-                XCTAssertEqual(response.item?["Surname"], .s("Smith"))
-            }
-            .flatAlways { _ in
-                return self.deleteTable(name: tableName)
-            }
-        XCTAssertNoThrow(try response.wait())
-    }
-
-    func testDataItem() {
-        let tableName = TestEnvironment.generateResourceName()
+    func testDataItem() async throws {
         let data = Data("testdata".utf8)
-        let response = self.createTable(name: tableName, hashKey: "ID")
-            .flatMap { _ in
-                return self.putItem(tableName: tableName, values: ["ID": "1", "data": data])
-            }
-            .flatMap { _ -> EventLoopFuture<DynamoDB.GetItemOutput> in
-                return self.getItem(tableName: tableName, keys: ["ID": "1"])
-            }
-            .map { response -> Void in
-                XCTAssertEqual(response.item?["ID"], .s("1"))
-                XCTAssertEqual(response.item?["data"], .b(.data(data)))
-            }
-            .flatAlways { _ in
-                return self.deleteTable(name: tableName)
-            }
-        XCTAssertNoThrow(try response.wait())
+        _ = try await self.putItem(tableName: Self.tableName, values: ["id": "testDataItem", "data": data])
+        let response = try await self.getItem(tableName: Self.tableName, keys: ["id": "testDataItem"])
+        XCTAssertEqual(response.item?["id"], .s("testDataItem"))
+        XCTAssertEqual(response.item?["data"], .b(.data(data)))
     }
 
-    func testNumberSetItem() {
-        let tableName = TestEnvironment.generateResourceName()
-        let response = self.createTable(name: tableName, hashKey: "ID")
-            .flatMap { _ in
-                return self.putItem(tableName: tableName, values: ["ID": "1", "numbers": [2, 4.001, -6, 8]])
-            }
-            .flatMap { _ -> EventLoopFuture<DynamoDB.GetItemOutput> in
-                return self.getItem(tableName: tableName, keys: ["ID": "1"])
-            }
-            .flatMapThrowing { response -> Void in
-                XCTAssertEqual(response.item?["ID"], .s("1"))
-                if case .ns(let numbers) = response.item?["numbers"] {
-                    let numberSet = Set(numbers)
-                    XCTAssert(numberSet.contains("2"))
-                    XCTAssert(numberSet.contains("4.001"))
-                    XCTAssert(numberSet.contains("-6"))
-                    XCTAssert(numberSet.contains("8"))
-                } else {
-                    XCTFail()
-                }
-            }
-            .flatAlways { _ in
-                return self.deleteTable(name: tableName)
-            }
-        XCTAssertNoThrow(try response.wait())
+    func testNumberSetItem() async throws {
+        _ = try await self.putItem(tableName: Self.tableName, values: ["id": "testNumberSetItem", "numbers": [2, 4.001, -6, 8]])
+        let response = try await self.getItem(tableName: Self.tableName, keys: ["id": "testNumberSetItem"])
+        XCTAssertEqual(response.item?["id"], .s("testNumberSetItem"))
+        if case .ns(let numbers) = response.item?["numbers"] {
+            let numberSet = Set(numbers)
+            XCTAssert(numberSet.contains("2"))
+            XCTAssert(numberSet.contains("4.001"))
+            XCTAssert(numberSet.contains("-6"))
+            XCTAssert(numberSet.contains("8"))
+        } else {
+            XCTFail()
+        }
     }
 
-    func testDescribeEndpoints() {
+    func testDescribeEndpoints() async throws {
         guard !TestEnvironment.isUsingLocalstack else { return }
-        let response = Self.dynamoDB.describeEndpoints(.init())
-        XCTAssertNoThrow(try response.wait())
+        _ = try await Self.dynamoDB.describeEndpoints(.init())
     }
 
-    func testError() {
-        let response = Self.dynamoDB.describeTable(.init(tableName: "non-existent-table"))
-        XCTAssertThrowsError(try response.wait()) { error in
-            switch error {
-            case let error as DynamoDBErrorType where error == .resourceNotFoundException:
-                XCTAssertNotNil(error.message)
-            default:
-                XCTFail("Wrong error: \(error)")
-            }
+    func testError() async {
+        await XCTAsyncExpectError(DynamoDBErrorType.resourceNotFoundException) {
+            _ = try await Self.dynamoDB.describeTable(.init(tableName: "non-existent-table"))
         }
     }
 }

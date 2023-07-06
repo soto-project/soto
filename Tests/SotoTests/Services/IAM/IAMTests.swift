@@ -40,70 +40,62 @@ class IAMTests: XCTestCase {
         XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
-    func createUser(userName: String, tags: [String: String] = [:], iam: IAM? = nil) -> EventLoopFuture<Void> {
-        let iam: IAM = iam ?? Self.iam
-        let request = IAM.CreateUserRequest(tags: tags.map { return IAM.Tag(key: $0.key, value: $0.value) }, userName: userName)
-        return iam.createUser(request, logger: TestEnvironment.logger)
-            .map { response in
-                XCTAssertEqual(response.user?.userName, userName)
-            }
-            .flatMapErrorThrowing { error in
-                switch error {
-                case let error as IAMErrorType where error == .entityAlreadyExistsException:
-                    print("User (\(userName)) already exists")
-                    return
-                default:
-                    throw error
-                }
-            }
-            .flatMap { _ in
-                iam.waitUntilUserExists(.init(userName: userName))
-            }
+    /// create SNS topic with supplied name and run supplied closure
+    func testUser(
+        userName: String,
+        tags: [String: String] = [:],
+        iam: IAM? = nil,
+        test: @escaping (String) async throws -> Void
+    ) async throws {
+        try await XCTTestAsset {
+            try await self.createUser(userName: userName, tags: tags, iam: iam)
+            return userName
+        } test: {
+            try await test($0)
+        } delete: {
+            try await self.deleteUser(userName: $0, iam: iam)
+        }
     }
 
-    func deleteUser(userName: String, iam: IAM? = nil) -> EventLoopFuture<Void> {
+    func createUser(userName: String, tags: [String: String] = [:], iam: IAM? = nil) async throws {
         let iam: IAM = iam ?? Self.iam
-        let eventLoop = Self.iam.client.eventLoopGroup.next()
+        let request = IAM.CreateUserRequest(tags: tags.map { return IAM.Tag(key: $0.key, value: $0.value) }, userName: userName)
+        do {
+            let response = try await iam.createUser(request, logger: TestEnvironment.logger)
+            XCTAssertEqual(response.user?.userName, userName)
+        } catch let error as IAMErrorType where error == .entityAlreadyExistsException {
+            print("User (\(userName)) already exists")
+        }
+        try await iam.waitUntilUserExists(.init(userName: userName))
+    }
+
+    func deleteUser(userName: String, iam: IAM? = nil) async throws {
+        let iam: IAM = iam ?? Self.iam
         let request = IAM.ListUserPoliciesRequest(userName: userName)
-        return iam.listUserPolicies(request, logger: TestEnvironment.logger)
-            .flatMap { response -> EventLoopFuture<Void> in
-                let futures = response.policyNames.map { policyName -> EventLoopFuture<Void> in
-                    let deletePolicy = IAM.DeleteUserPolicyRequest(policyName: policyName, userName: userName)
-                    // add stall to avoid throttling errors.
-                    return eventLoop.flatScheduleTask(deadline: .now() + .seconds(2)) {
-                        return iam.deleteUserPolicy(deletePolicy, logger: TestEnvironment.logger)
-                    }.futureResult
-                }
-                return EventLoopFuture.andAllComplete(futures, on: Self.iam.client.eventLoopGroup.next())
-            }
-            .flatMap { _ -> EventLoopFuture<Void> in
-                // add stall to avoid throttling errors.
-                let scheduled: Scheduled<Void> = eventLoop.scheduleTask(deadline: .now() + .seconds(2)) {}
-                return scheduled.futureResult
-            }
-            .flatMap { _ in
-                return iam.deleteUser(.init(userName: userName), logger: TestEnvironment.logger).map { _ in }
-            }
+        let response = try await iam.listUserPolicies(request, logger: TestEnvironment.logger)
+        // add stall to avoid throttling errors.
+        try await Task.sleep(nanoseconds: 2_000_000_000)
+        for policyName in response.policyNames {
+            let deletePolicy = IAM.DeleteUserPolicyRequest(policyName: policyName, userName: userName)
+            try await iam.deleteUserPolicy(deletePolicy, logger: TestEnvironment.logger)
+        }
+        try await iam.deleteUser(.init(userName: userName), logger: TestEnvironment.logger)
     }
 
     // MARK: TESTS
 
-    func testCreateDeleteUser() {
+    func testCreateDeleteUser() async throws {
         let username = TestEnvironment.generateResourceName()
-        let response = self.createUser(userName: username)
-            .flatMap { _ in self.deleteUser(userName: username) }
-        XCTAssertNoThrow(try response.wait())
+        try await self.testUser(userName: username) { _ in }
     }
 
-    func testFIPSEndpoint() {
+    func testFIPSEndpoint() async throws {
         let iam = Self.iam.with(options: .useFipsEndpoint)
         let username = TestEnvironment.generateResourceName()
-        let response = self.createUser(userName: username, iam: iam)
-            .flatMap { _ in self.deleteUser(userName: username, iam: iam) }
-        XCTAssertNoThrow(try response.wait())
+        try await self.testUser(userName: username, iam: iam) { _ in }
     }
 
-    func testSetGetPolicy() {
+    func testSetGetPolicy() async throws {
         // put a policy on the user
         let policyDocument = """
         {
@@ -122,101 +114,66 @@ class IAMTests: XCTestCase {
         }
         """
         let username = TestEnvironment.generateResourceName()
-        let response = self.createUser(userName: username)
-            .flatMap { _ -> EventLoopFuture<IAM.GetUserResponse> in
-                return Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
-            }
-            .flatMap { user -> EventLoopFuture<Void> in
-                let request = IAM.PutUserPolicyRequest(
-                    policyDocument: policyDocument,
-                    policyName: "testSetGetPolicy",
-                    userName: user.user.userName
-                )
-                return Self.iam.putUserPolicy(request, logger: TestEnvironment.logger)
-            }
-            .flatMap { _ -> EventLoopFuture<IAM.GetUserPolicyResponse> in
-                let request = IAM.GetUserPolicyRequest(policyName: "testSetGetPolicy", userName: username)
-                return Self.iam.getUserPolicy(request, logger: TestEnvironment.logger)
-            }
-            .map { response in
-                let responsePolicyDocument = response.policyDocument.removingPercentEncoding
-                XCTAssertEqual(responsePolicyDocument, policyDocument)
-            }
-            .flatAlways { _ in
-                return self.deleteUser(userName: username)
-            }
-
-        XCTAssertNoThrow(try response.wait())
+        try await self.testUser(userName: username) { _ in
+            let user = try await Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
+            let request = IAM.PutUserPolicyRequest(
+                policyDocument: policyDocument,
+                policyName: "testSetGetPolicy",
+                userName: user.user.userName
+            )
+            try await Self.iam.putUserPolicy(request, logger: TestEnvironment.logger)
+            let getPolicyRequest = IAM.GetUserPolicyRequest(policyName: "testSetGetPolicy", userName: username)
+            let getPolicyResponse = try await Self.iam.getUserPolicy(getPolicyRequest, logger: TestEnvironment.logger)
+            let responsePolicyDocument = getPolicyResponse.policyDocument.removingPercentEncoding
+            XCTAssertEqual(responsePolicyDocument, policyDocument)
+        }
     }
 
-    func testSimulatePolicy() {
+    func testSimulatePolicy() async throws {
         guard !TestEnvironment.isUsingLocalstack else { return }
         // put a policy on the user
         let policyDocument = """
         {"Version": "2012-10-17","Statement": [{"Effect": "Allow","Action": ["sns:*","s3:*","sqs:*"],"Resource": "*"}]}
         """
         let username = TestEnvironment.generateResourceName()
-        let response = self.createUser(userName: username)
-            .flatMap { _ -> EventLoopFuture<IAM.GetUserResponse> in
-                return Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
-            }
-            .flatMap { user -> EventLoopFuture<IAM.SimulatePolicyResponse> in
-                let request = IAM.SimulateCustomPolicyRequest(actionNames: ["sns:*", "sqs:*", "dynamodb:*"], callerArn: user.user.arn, policyInputList: [policyDocument])
-                return Self.iam.simulateCustomPolicy(request, logger: TestEnvironment.logger)
-            }
-            .map { response in
-                XCTAssertEqual(response.evaluationResults?[0].evalDecision, .allowed)
-                XCTAssertEqual(response.evaluationResults?[1].evalDecision, .allowed)
-                XCTAssertEqual(response.evaluationResults?[2].evalDecision, .implicitDeny)
-            }
-            .flatAlways { _ -> EventLoopFuture<Void> in
-                let eventLoop = Self.iam.client.eventLoopGroup.next()
-                if TestEnvironment.isUsingLocalstack {
-                    return self.deleteUser(userName: username)
-                }
-                // wait ten seconds for user to be deleted. This is to avoid throttled errors
-                let scheduled: Scheduled<Void> = eventLoop.flatScheduleTask(deadline: .now() + .seconds(10)) { return self.deleteUser(userName: username) }
-                return scheduled.futureResult.map {}
-            }
-
-        // this test is quite good at creating a throttling error
+        try await self.createUser(userName: username)
         do {
-            try response.wait()
-        } catch let error as AWSClientError where error == .throttling {
-            print("Throttling error")
+            let user = try await Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
+            let request = IAM.SimulateCustomPolicyRequest(actionNames: ["sns:*", "sqs:*", "dynamodb:*"], callerArn: user.user.arn, policyInputList: [policyDocument])
+            let response = try await Self.iam.simulateCustomPolicy(request, logger: TestEnvironment.logger)
+            XCTAssertEqual(response.evaluationResults?[0].evalDecision, .allowed)
+            XCTAssertEqual(response.evaluationResults?[1].evalDecision, .allowed)
+            XCTAssertEqual(response.evaluationResults?[2].evalDecision, .implicitDeny)
+            if !TestEnvironment.isUsingLocalstack {
+                try await Task.sleep(nanoseconds: 10_000_000_000)
+            }
+        } catch {
+            XCTFail("\(error)")
+        }
+        // this test is very good as creating throttling errors
+        if !TestEnvironment.isUsingLocalstack {
+            try await Task.sleep(nanoseconds: 10_000_000_000)
+        }
+        try await self.deleteUser(userName: username)
+    }
+
+    func testUserTags() async throws {
+        let username = TestEnvironment.generateResourceName()
+        try await self.createUser(userName: username, tags: ["test": "tag"])
+        do {
+            let response = try await Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
+            XCTAssertEqual(response.user.tags?.first?.key, "test")
+            XCTAssertEqual(response.user.tags?.first?.value, "tag")
         } catch {
             XCTFail("\(error)")
         }
     }
 
-    func testUserTags() {
-        let username = TestEnvironment.generateResourceName()
-        let response = self.createUser(userName: username, tags: ["test": "tag"])
-            .flatMap { _ -> EventLoopFuture<IAM.GetUserResponse> in
-                return Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
-            }
-            .map { response in
-                XCTAssertEqual(response.user.tags?.first?.key, "test")
-                XCTAssertEqual(response.user.tags?.first?.value, "tag")
-            }
-            .flatAlways { _ in
-                return self.deleteUser(userName: username)
-            }
-        XCTAssertNoThrow(try response.wait())
-    }
-
-    func testError() throws {
+    func testError() async throws {
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-
-        let response = Self.iam.getRole(.init(roleName: "_invalid-role-name"), logger: TestEnvironment.logger)
-        XCTAssertThrowsError(try response.wait()) { error in
-            switch error {
-            case let error as IAMErrorType where error == .noSuchEntityException:
-                XCTAssertNotNil(error.message)
-            default:
-                XCTFail("Wrong error: \(error)")
-            }
+        await XCTAsyncExpectError(IAMErrorType.noSuchEntityException) {
+            _ = try await Self.iam.getRole(.init(roleName: "_invalid-role-name"), logger: TestEnvironment.logger)
         }
     }
 }

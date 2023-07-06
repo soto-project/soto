@@ -40,33 +40,21 @@ class GlacierTests: XCTestCase {
         XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
-    func testWaiter() {
+    func testWaiter() async throws {
         guard !TestEnvironment.isUsingLocalstack else { return }
         let vaultName = TestEnvironment.generateResourceName()
-        let response = Self.glacier.createVault(.init(accountId: "-", vaultName: vaultName))
-            .flatMap { _ in
-                Self.glacier.waitUntilVaultExists(.init(accountId: "-", vaultName: vaultName))
-            }
-            .flatAlways { _ in
-                Self.glacier.deleteVault(.init(accountId: "-", vaultName: vaultName))
-            }
-        XCTAssertNoThrow(try response.wait())
+        _ = try await Self.glacier.createVault(.init(accountId: "-", vaultName: vaultName))
+        try await Self.glacier.waitUntilVaultExists(.init(accountId: "-", vaultName: vaultName))
+        try await Self.glacier.deleteVault(.init(accountId: "-", vaultName: vaultName))
     }
 
-    func testError() throws {
+    func testError() async throws {
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-
-        let job = Glacier.JobParameters(description: "Inventory", format: "CSV", type: "inventory-retrieval")
-        let inventoryJobInput = Glacier.InitiateJobInput(accountId: "-", jobParameters: job, vaultName: "aws-test-vault-doesnt-exist")
-        let response = Self.glacier.initiateJob(inventoryJobInput)
-        XCTAssertThrowsError(try response.wait()) { error in
-            switch error {
-            case let error as GlacierErrorType where error == .resourceNotFoundException:
-                XCTAssertNotNil(error.message)
-            default:
-                XCTFail("Wrong error: \(error)")
-            }
+        await XCTAsyncExpectError(GlacierErrorType.resourceNotFoundException) {
+            let job = Glacier.JobParameters(description: "Inventory", format: "CSV", type: "inventory-retrieval")
+            let inventoryJobInput = Glacier.InitiateJobInput(accountId: "-", jobParameters: job, vaultName: "aws-test-vault-doesnt-exist")
+            _ = try await Self.glacier.initiateJob(inventoryJobInput)
         }
     }
 }

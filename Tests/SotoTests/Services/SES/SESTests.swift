@@ -41,9 +41,9 @@ class SESTests: XCTestCase {
     }
 
     // Tests query protocol requests with no body
-    func testGetAccountSendingEnabled() throws {
+    func testGetAccountSendingEnabled() async throws {
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-        XCTAssertNoThrow(_ = try Self.ses.getAccountSendingEnabled().wait())
+        _ = try await Self.ses.getAccountSendingEnabled()
     }
 
     /* func testSESIdentityExistsWaiter() {
@@ -53,10 +53,7 @@ class SESTests: XCTestCase {
              }
          XCTAssertNoThrow(try response.wait())
      } */
-}
 
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-extension SESTests {
     // test fips region
     func testFipsRegion() async throws {
         struct TestError: Error {}

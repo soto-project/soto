@@ -34,6 +34,30 @@ extension EventLoopFuture {
     }
 }
 
+@available(*, noasync, message: "runAndWait() can block indefinitely")
+func runThrowingTask<T>(on eventLoop: EventLoop, _ task: @escaping @Sendable () async throws -> T) throws -> T {
+    let promise = eventLoop.makePromise(of: T.self)
+    Task {
+        do {
+            let result = try await task()
+            promise.succeed(result)
+        } catch {
+            promise.fail(error)
+        }
+    }
+    return try promise.futureResult.wait()
+}
+
+@available(*, noasync, message: "runAndWait() can block indefinitely")
+func runTask<T>(on eventLoop: EventLoop, _ task: @escaping @Sendable () async -> T) -> T {
+    let promise = eventLoop.makePromise(of: T.self)
+    Task {
+        let result = await task()
+        promise.succeed(result)
+    }
+    return try! promise.futureResult.wait()
+}
+
 /// Provide various test environment variables
 enum TestEnvironment {
     /// are we using Localstack to test. Also return use localstack if we are running a github action and don't have an access key if
@@ -71,4 +95,81 @@ enum TestEnvironment {
         }
         return AWSClient.loggingDisabled
     }()
+}
+
+/// Run some test code for a specific asset
+func XCTTestAsset<T>(
+    create: () async throws -> T,
+    test: (T) async throws -> Void,
+    delete: (T) async throws -> Void
+) async throws {
+    let asset = try await create()
+    do {
+        try await test(asset)
+    } catch {
+        XCTFail("\(error)")
+    }
+    try await delete(asset)
+}
+
+/// Test for specific error being thrown when running some code
+func XCTAsyncExpectError<E: Error & Equatable>(
+    _ expectedError: E,
+    _ expression: () async throws -> Void,
+    _ message: @autoclosure () -> String = "",
+    file: StaticString = #filePath,
+    line: UInt = #line
+) async {
+    do {
+        _ = try await expression()
+        XCTFail("\(file):\(line) was expected to throw an error but it didn't")
+    } catch let error as E where error == expectedError {
+    } catch {
+        XCTFail("\(file):\(line) expected error \(expectedError) but got \(error)")
+    }
+}
+
+/// An AsyncSequence that reports every element that is returned by its iterator
+struct ReportAsyncSequence<Base: AsyncSequence>: AsyncSequence {
+    typealias Element = Base.Element
+
+    let base: Base
+    let process: @Sendable (Element) throws -> Void
+
+    struct AsyncIterator: AsyncIteratorProtocol {
+        @usableFromInline
+        var iterator: Base.AsyncIterator
+        @usableFromInline
+        let process: @Sendable (Element) throws -> Void
+
+        @usableFromInline
+        init(iterator: Base.AsyncIterator, process: @Sendable @escaping (Element) throws -> Void) {
+            self.iterator = iterator
+            self.process = process
+        }
+
+        @inlinable
+        public mutating func next() async throws -> Element? {
+            if let element = try await self.iterator.next() {
+                try self.process(element)
+                return element
+            }
+            return nil
+        }
+    }
+
+    /// Make async iterator
+    __consuming func makeAsyncIterator() -> AsyncIterator {
+        return AsyncIterator(iterator: self.base.makeAsyncIterator(), process: self.process)
+    }
+}
+
+extension ReportAsyncSequence: Sendable where Base: Sendable {}
+
+extension AsyncSequence where Element == ByteBuffer {
+    /// Return an AsyncSequence that sends every element it process to a report function
+    /// - Parameter chunkSize: Size of each chunk
+    func report(_ process: @Sendable @escaping (Element) throws -> Void) -> ReportAsyncSequence<Self> {
+        return .init(base: self, process: process)
+    }
 }
