@@ -140,7 +140,8 @@ extension STS {
 
             self.webIdentityProvider = AssumeRoleWithWebIdentityCredentialProvider(
                 requestProvider: .dynamic {
-                    let token = try await Self.loadTokenFile(tokenFile, on: context.eventLoop)
+                    let eventLoop = context.httpClient.eventLoopGroup.any()
+                    let token = try await Self.loadTokenFile(tokenFile, on: eventLoop)
                     return STS.AssumeRoleWithWebIdentityRequest(
                         roleArn: roleArn,
                         roleSessionName: sessionName ?? UUID().uuidString,
