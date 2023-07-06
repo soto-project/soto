@@ -18,6 +18,8 @@ import SotoCore
 import SotoCrypto
 import SotoXML
 
+// TODO: Reimplement SelectObjectContent
+
 // MARK: SelectObjectContent EventStream
 
 public enum S3SelectError: Error {
@@ -151,40 +153,40 @@ extension S3 {
     /// - Returns: Response structure
     public func selectObjectContentEventStream(
         _ input: SelectObjectContentRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        _ stream: @escaping (SelectObjectContentEventStream, EventLoop) -> EventLoopFuture<Void>
-    ) -> EventLoopFuture<SelectObjectContentOutput> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws -> SelectObjectContentOutput {
         // byte buffer for storing unprocessed data
-        var selectByteBuffer: ByteBuffer?
-        return client.execute(
+        // var selectByteBuffer: ByteBuffer?
+        return try await client.execute(
             operation: "SelectObjectContent",
             path: "/{Bucket}/{Key+}?select&select-type=2",
             httpMethod: .POST,
             serviceConfig: config,
             input: input,
-            logger: logger,
-            on: eventLoop
-        ) { (byteBuffer: ByteBuffer, eventLoop: EventLoop) in
-            var byteBuffer = byteBuffer
-            if var selectByteBuffer2 = selectByteBuffer {
-                selectByteBuffer2.writeBuffer(&byteBuffer)
-                byteBuffer = selectByteBuffer2
-                selectByteBuffer = nil
-            }
-            do {
-                var events: [SelectObjectContentEventStream] = []
-                while let event = try SelectObjectContentEventStream.consume(byteBuffer: &byteBuffer) {
-                    events.append(event)
-                }
-                if byteBuffer.readableBytes > 0 {
-                    selectByteBuffer = byteBuffer
-                }
-                let streamFutures = events.map { stream($0, eventLoop) }
-                return EventLoopFuture.andAllSucceed(streamFutures, on: eventLoop)
-            } catch {
-                return eventLoop.makeFailedFuture(error)
-            }
-        }
+            logger: logger
+        )
+        // TODO: Reimplement SelectObjectContent
+        /*
+           { (byteBuffer: ByteBuffer, eventLoop: EventLoop) in
+             var byteBuffer = byteBuffer
+             if var selectByteBuffer2 = selectByteBuffer {
+                 selectByteBuffer2.writeBuffer(&byteBuffer)
+                 byteBuffer = selectByteBuffer2
+                 selectByteBuffer = nil
+             }
+             do {
+                 var events: [SelectObjectContentEventStream] = []
+                 while let event = try SelectObjectContentEventStream.consume(byteBuffer: &byteBuffer) {
+                     events.append(event)
+                 }
+                 if byteBuffer.readableBytes > 0 {
+                     selectByteBuffer = byteBuffer
+                 }
+                 let streamFutures = events.map { stream($0, eventLoop) }
+                 return EventLoopFuture.andAllSucceed(streamFutures, on: eventLoop)
+             } catch {
+                 return eventLoop.makeFailedFuture(error)
+             }
+         }*/
     }
 }

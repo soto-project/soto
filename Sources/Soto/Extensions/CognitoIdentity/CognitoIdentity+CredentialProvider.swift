@@ -29,8 +29,7 @@ extension CognitoIdentity {
             identityProvider: IdentityProviderFactory,
             region: Region,
             httpClient: HTTPClient,
-            logger: Logger = AWSClient.loggingDisabled,
-            eventLoop: EventLoop
+            logger: Logger = AWSClient.loggingDisabled
         ) {
             self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient), logger: logger)
             self.cognitoIdentity = CognitoIdentity(client: self.client, region: region)
@@ -39,45 +38,29 @@ extension CognitoIdentity {
             self.identityProvider = identityProvider.createProvider(context: context)
         }
 
-        func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
-            return self.identityProvider.getIdentity(on: eventLoop, logger: logger).flatMap { identity -> EventLoopFuture<GetCredentialsForIdentityResponse> in
-                let credentialsRequest = CognitoIdentity.GetCredentialsForIdentityInput(identityId: identity.id, logins: identity.logins)
-                return self.cognitoIdentity.getCredentialsForIdentity(credentialsRequest, logger: logger, on: eventLoop)
+        func getCredential(logger: Logger) async throws -> Credential {
+            let identity = try await self.identityProvider.getIdentity(logger: logger)
+            let credentialsRequest = CognitoIdentity.GetCredentialsForIdentityInput(identityId: identity.id, logins: identity.logins)
+            let response = try await self.cognitoIdentity.getCredentialsForIdentity(credentialsRequest, logger: logger)
+            guard let credentials = response.credentials,
+                  let accessKeyId = credentials.accessKeyId,
+                  let secretAccessKey = credentials.secretKey,
+                  let sessionToken = credentials.sessionToken,
+                  let expiration = credentials.expiration
+            else {
+                throw CredentialProviderError.noProvider
             }
-            .flatMapThrowing { response in
-                guard let credentials = response.credentials,
-                      let accessKeyId = credentials.accessKeyId,
-                      let secretAccessKey = credentials.secretKey,
-                      let sessionToken = credentials.sessionToken,
-                      let expiration = credentials.expiration
-                else {
-                    throw CredentialProviderError.noProvider
-                }
-                return RotatingCredential(
-                    accessKeyId: accessKeyId,
-                    secretAccessKey: secretAccessKey,
-                    sessionToken: sessionToken,
-                    expiration: expiration
-                )
-            }
+            return RotatingCredential(
+                accessKeyId: accessKeyId,
+                secretAccessKey: secretAccessKey,
+                sessionToken: sessionToken,
+                expiration: expiration
+            )
         }
 
-        func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
-            identityProvider.shutdown(on: eventLoop)
-                .flatMapError { _ in eventLoop.makeSucceededFuture(()) }
-                .flatMap { _ in self.shutdownAWSClient(on: eventLoop) }
-        }
-
-        func shutdownAWSClient(on eventLoop: EventLoop) -> EventLoopFuture<Void> {
-            let promise = eventLoop.makePromise(of: Void.self)
-            client.shutdown { error in
-                if let error = error {
-                    promise.completeWith(.failure(error))
-                } else {
-                    promise.completeWith(.success(()))
-                }
-            }
-            return promise.futureResult
+        func shutdown() async throws {
+            try await identityProvider.shutdown()
+            try await self.client.shutdown()
         }
     }
 }
@@ -101,8 +84,7 @@ extension CredentialProviderFactory {
                 identityProvider: .static(logins: logins),
                 region: region,
                 httpClient: context.httpClient,
-                logger: logger,
-                eventLoop: context.eventLoop
+                logger: logger
             )
             return RotatingCredentialProvider(context: context, provider: provider)
         }
@@ -145,8 +127,7 @@ extension CredentialProviderFactory {
                 identityProvider: identityProvider,
                 region: region,
                 httpClient: context.httpClient,
-                logger: logger,
-                eventLoop: context.eventLoop
+                logger: logger
             )
             return RotatingCredentialProvider(context: context, provider: provider)
         }
