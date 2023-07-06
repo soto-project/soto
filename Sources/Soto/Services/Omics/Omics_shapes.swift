@@ -2241,9 +2241,9 @@ extension Omics {
         public static let _payloadPath: String = "payload"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         /// The read set file payload.
-        public let payload: AWSPayload?
+        public let payload: HTTPBody?
 
-        public init(payload: AWSPayload? = nil) {
+        public init(payload: HTTPBody? = nil) {
             self.payload = payload
         }
 
@@ -2446,9 +2446,9 @@ extension Omics {
         public static let _payloadPath: String = "payload"
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         /// The reference file payload.
-        public let payload: AWSPayload?
+        public let payload: HTTPBody?
 
-        public init(payload: AWSPayload? = nil) {
+        public init(payload: HTTPBody? = nil) {
             self.payload = payload
         }
 
@@ -6096,13 +6096,13 @@ extension Omics {
         ///  The source file for an upload part.
         public let partSource: ReadSetPartSource
         ///  The read set data to upload for a part.
-        public let payload: AWSPayload
+        public let payload: HTTPBody
         ///  The Sequence Store ID used for the multipart upload.
         public let sequenceStoreId: String
         ///  The ID for the initiated multipart upload.
         public let uploadId: String
 
-        public init(partNumber: Int, partSource: ReadSetPartSource, payload: AWSPayload, sequenceStoreId: String, uploadId: String) {
+        public init(partNumber: Int, partSource: ReadSetPartSource, payload: HTTPBody, sequenceStoreId: String, uploadId: String) {
             self.partNumber = partNumber
             self.partSource = partSource
             self.payload = payload

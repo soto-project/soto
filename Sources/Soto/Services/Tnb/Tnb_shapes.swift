@@ -534,9 +534,9 @@ extension Tnb {
         /// Indicates the media type of the resource.
         public let contentType: PackageContentType?
         /// Contents of the function package.
-        public let packageContent: AWSPayload?
+        public let packageContent: HTTPBody?
 
-        public init(contentType: PackageContentType? = nil, packageContent: AWSPayload? = nil) {
+        public init(contentType: PackageContentType? = nil, packageContent: HTTPBody? = nil) {
             self.contentType = contentType
             self.packageContent = packageContent
         }
@@ -581,9 +581,9 @@ extension Tnb {
         /// Indicates the media type of the resource.
         public let contentType: DescriptorContentType?
         /// Contents of the function package descriptor.
-        public let vnfd: AWSPayload?
+        public let vnfd: HTTPBody?
 
-        public init(contentType: DescriptorContentType? = nil, vnfd: AWSPayload? = nil) {
+        public init(contentType: DescriptorContentType? = nil, vnfd: HTTPBody? = nil) {
             self.contentType = contentType
             self.vnfd = vnfd
         }
@@ -930,9 +930,9 @@ extension Tnb {
         /// Indicates the media type of the resource.
         public let contentType: PackageContentType?
         /// Content of the network service descriptor in the network package.
-        public let nsdContent: AWSPayload?
+        public let nsdContent: HTTPBody?
 
-        public init(contentType: PackageContentType? = nil, nsdContent: AWSPayload? = nil) {
+        public init(contentType: PackageContentType? = nil, nsdContent: HTTPBody? = nil) {
             self.contentType = contentType
             self.nsdContent = nsdContent
         }
@@ -973,9 +973,9 @@ extension Tnb {
         /// Indicates the media type of the resource.
         public let contentType: DescriptorContentType?
         /// Contents of the network service descriptor in the network package.
-        public let nsd: AWSPayload?
+        public let nsd: HTTPBody?
 
-        public init(contentType: DescriptorContentType? = nil, nsd: AWSPayload? = nil) {
+        public init(contentType: DescriptorContentType? = nil, nsd: HTTPBody? = nil) {
             self.contentType = contentType
             self.nsd = nsd
         }
@@ -1759,11 +1759,11 @@ extension Tnb {
         /// Function package content type.
         public let contentType: PackageContentType?
         /// Function package file.
-        public let file: AWSPayload
+        public let file: HTTPBody
         /// Function package ID.
         public let vnfPkgId: String
 
-        public init(contentType: PackageContentType? = nil, file: AWSPayload, vnfPkgId: String) {
+        public init(contentType: PackageContentType? = nil, file: HTTPBody, vnfPkgId: String) {
             self.contentType = contentType
             self.file = file
             self.vnfPkgId = vnfPkgId
@@ -1833,11 +1833,11 @@ extension Tnb {
         /// Network package content type.
         public let contentType: PackageContentType?
         /// Network package file.
-        public let file: AWSPayload
+        public let file: HTTPBody
         /// Network service descriptor info ID.
         public let nsdInfoId: String
 
-        public init(contentType: PackageContentType? = nil, file: AWSPayload, nsdInfoId: String) {
+        public init(contentType: PackageContentType? = nil, file: HTTPBody, nsdInfoId: String) {
             self.contentType = contentType
             self.file = file
             self.nsdInfoId = nsdInfoId
@@ -2188,11 +2188,11 @@ extension Tnb {
         /// Function package content type.
         public let contentType: PackageContentType?
         /// Function package file.
-        public let file: AWSPayload
+        public let file: HTTPBody
         /// Function package ID.
         public let vnfPkgId: String
 
-        public init(contentType: PackageContentType? = nil, file: AWSPayload, vnfPkgId: String) {
+        public init(contentType: PackageContentType? = nil, file: HTTPBody, vnfPkgId: String) {
             self.contentType = contentType
             self.file = file
             self.vnfPkgId = vnfPkgId
@@ -2262,11 +2262,11 @@ extension Tnb {
         /// Network package content type.
         public let contentType: PackageContentType?
         /// Network package file.
-        public let file: AWSPayload
+        public let file: HTTPBody
         /// Network service descriptor file.
         public let nsdInfoId: String
 
-        public init(contentType: PackageContentType? = nil, file: AWSPayload, nsdInfoId: String) {
+        public init(contentType: PackageContentType? = nil, file: HTTPBody, nsdInfoId: String) {
             self.contentType = contentType
             self.file = file
             self.nsdInfoId = nsdInfoId

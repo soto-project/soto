@@ -624,7 +624,7 @@ extension Glacier {
         /// The description of an archive.
         public let archiveDescription: String?
         /// The job data, either archive data or inventory data.
-        public let body: AWSPayload?
+        public let body: HTTPBody?
         /// The checksum of the data in the response. This header is returned only when retrieving the output for an archive retrieval job. Furthermore, this header appears only under the following conditions:   You get the entire range of the archive.   You request a range to return of the archive that starts and ends on a multiple of 1 MB. For example, if you have an 3.1 MB archive and you specify a range to return that starts at 1 MB and ends at 2 MB, then the x-amz-sha256-tree-hash is returned as a response header.   You request a range of the archive to return that starts on a multiple of 1 MB and goes to the end of the archive. For example, if you have a 3.1 MB archive and you specify a range that starts at 2 MB and ends at 3.1 MB (the end of the archive), then the x-amz-sha256-tree-hash is returned as a response header.
         public let checksum: String?
         /// The range of bytes returned by Amazon S3 Glacier. If only partial output is downloaded, the response provides the range of bytes Amazon S3 Glacier returned. For example, bytes 0-1048575/8388608 returns the first 1 MB from 8 MB.
@@ -634,7 +634,7 @@ extension Glacier {
         /// The HTTP response code for a job output request. The value depends on whether a range was specified in the request.
         public let status: Int?
 
-        public init(acceptRanges: String? = nil, archiveDescription: String? = nil, body: AWSPayload? = nil, checksum: String? = nil, contentRange: String? = nil, contentType: String? = nil, status: Int? = nil) {
+        public init(acceptRanges: String? = nil, archiveDescription: String? = nil, body: HTTPBody? = nil, checksum: String? = nil, contentRange: String? = nil, contentType: String? = nil, status: Int? = nil) {
             self.acceptRanges = acceptRanges
             self.archiveDescription = archiveDescription
             self.body = body
@@ -1705,13 +1705,13 @@ extension Glacier {
         /// The optional description of the archive you are uploading.
         public let archiveDescription: String?
         /// The data to upload.
-        public let body: AWSPayload?
+        public let body: HTTPBody?
         /// The SHA256 tree hash of the data being uploaded.
         public let checksum: String?
         /// The name of the vault.
         public let vaultName: String
 
-        public init(accountId: String, archiveDescription: String? = nil, body: AWSPayload? = nil, checksum: String? = nil, vaultName: String) {
+        public init(accountId: String, archiveDescription: String? = nil, body: HTTPBody? = nil, checksum: String? = nil, vaultName: String) {
             self.accountId = accountId
             self.archiveDescription = archiveDescription
             self.body = body
@@ -1766,7 +1766,7 @@ extension Glacier {
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The data to upload.
-        public let body: AWSPayload?
+        public let body: HTTPBody?
         /// The SHA256 tree hash of the data being uploaded.
         public let checksum: String?
         /// Identifies the range of bytes in the assembled archive that will be uploaded in this part. Amazon S3 Glacier uses this information to assemble the archive in the proper sequence. The format of this header follows RFC 2616. An example header is Content-Range:bytes 0-4194303/*.
@@ -1776,7 +1776,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
-        public init(accountId: String, body: AWSPayload? = nil, checksum: String? = nil, range: String? = nil, uploadId: String, vaultName: String) {
+        public init(accountId: String, body: HTTPBody? = nil, checksum: String? = nil, range: String? = nil, uploadId: String, vaultName: String) {
             self.accountId = accountId
             self.body = body
             self.checksum = checksum

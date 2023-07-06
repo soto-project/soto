@@ -100,8 +100,9 @@ public struct ACMPCA: AWSService {
     /// 			returns the Amazon Resource Name (ARN) of the CA.  Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see Access
     /// 						policies for CRLs in Amazon S3.  Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption.  For more information, see Encrypting Your
     /// 			CRLs.
-    public func createCertificateAuthority(_ input: CreateCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCertificateAuthorityResponse> {
-        return self.client.execute(operation: "CreateCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCertificateAuthority(_ input: CreateCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCertificateAuthorityResponse {
+        return try await self.client.execute(operation: "CreateCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an audit report that lists every time that your CA private key is used. The
@@ -109,8 +110,9 @@ public struct ACMPCA: AWSService {
     /// 			the private key.   Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see Access
     /// 						policies for CRLs in Amazon S3.  Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption.  For more information, see Encrypting Your Audit
     /// 				Reports.  You can generate a maximum of one report every 30 minutes.
-    public func createCertificateAuthorityAuditReport(_ input: CreateCertificateAuthorityAuditReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCertificateAuthorityAuditReportResponse> {
-        return self.client.execute(operation: "CreateCertificateAuthorityAuditReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCertificateAuthorityAuditReport(_ input: CreateCertificateAuthorityAuditReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCertificateAuthorityAuditReportResponse {
+        return try await self.client.execute(operation: "CreateCertificateAuthorityAuditReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants one or more permissions on a private CA to the Certificate Manager (ACM) service
@@ -125,8 +127,9 @@ public struct ACMPCA: AWSService {
     /// 			cross-account issuance and renewals. For more information, see
     /// 			Using a Resource
     /// 			Based Policy with Amazon Web Services Private CA.
-    @discardableResult public func createPermission(_ input: CreatePermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "CreatePermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createPermission(_ input: CreatePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "CreatePermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a private certificate authority (CA). You must provide the Amazon Resource
@@ -143,8 +146,9 @@ public struct ACMPCA: AWSService {
     /// 			days. You can set the parameter from 7 to 30 days. The DescribeCertificateAuthority action returns the time remaining in the
     /// 			restoration window of a private CA in the DELETED state. To restore an
     /// 			eligible CA, call the RestoreCertificateAuthority action.
-    @discardableResult public func deleteCertificateAuthority(_ input: DeleteCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCertificateAuthority(_ input: DeleteCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Revokes permissions on a private CA granted to the Certificate Manager (ACM) service principal
@@ -160,8 +164,9 @@ public struct ACMPCA: AWSService {
     /// 			cross-account issuance and renewals. For more information, see
     /// 			Using a Resource
     /// 			Based Policy with Amazon Web Services Private CA.
-    @discardableResult public func deletePermission(_ input: DeletePermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeletePermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePermission(_ input: DeletePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeletePermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the resource-based policy attached to a private CA. Deletion will remove any
@@ -178,8 +183,9 @@ public struct ACMPCA: AWSService {
     /// 			Using a Service Linked Role with ACM.   Updates made in Amazon Web Services Resource Manager (RAM) are reflected in policies. For more information,
     /// 			see Attach a Policy for Cross-Account
     /// 			Access.
-    @discardableResult public func deletePolicy(_ input: DeletePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeletePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePolicy(_ input: DeletePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeletePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists information about your private certificate authority (CA) or one that has been
@@ -193,16 +199,18 @@ public struct ACMPCA: AWSService {
     /// 				    DELETED - Your private CA is within the restoration period, after
     /// 					which it is permanently deleted. The length of time remaining in the CA's
     /// 					restoration period is also included in this action's output.
-    public func describeCertificateAuthority(_ input: DescribeCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCertificateAuthorityResponse> {
-        return self.client.execute(operation: "DescribeCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeCertificateAuthority(_ input: DescribeCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCertificateAuthorityResponse {
+        return try await self.client.execute(operation: "DescribeCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists information about a specific audit report created by calling the CreateCertificateAuthorityAuditReport action. Audit information is created
     /// 			every time the certificate authority (CA) private key is used. The private key is used
     /// 			when you call the IssueCertificate action or the
     /// 				RevokeCertificate action.
-    public func describeCertificateAuthorityAuditReport(_ input: DescribeCertificateAuthorityAuditReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCertificateAuthorityAuditReportResponse> {
-        return self.client.execute(operation: "DescribeCertificateAuthorityAuditReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeCertificateAuthorityAuditReport(_ input: DescribeCertificateAuthorityAuditReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCertificateAuthorityAuditReportResponse {
+        return try await self.client.execute(operation: "DescribeCertificateAuthorityAuditReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a certificate from your private CA or one that has been shared with you. The
@@ -213,16 +221,18 @@ public struct ACMPCA: AWSService {
     /// 			the CreateCertificateAuthorityAuditReport action to create a report that
     /// 			contains information about all of the certificates issued and revoked by your private
     /// 			CA.
-    public func getCertificate(_ input: GetCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCertificateResponse> {
-        return self.client.execute(operation: "GetCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCertificate(_ input: GetCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCertificateResponse {
+        return try await self.client.execute(operation: "GetCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the certificate and certificate chain for your private certificate authority
     /// 			(CA) or one that has been shared with you. Both the certificate and the chain are base64
     /// 			PEM-encoded. The chain does not include the CA certificate. Each certificate in the
     /// 			chain signs the one before it.
-    public func getCertificateAuthorityCertificate(_ input: GetCertificateAuthorityCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCertificateAuthorityCertificateResponse> {
-        return self.client.execute(operation: "GetCertificateAuthorityCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCertificateAuthorityCertificate(_ input: GetCertificateAuthorityCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCertificateAuthorityCertificateResponse {
+        return try await self.client.execute(operation: "GetCertificateAuthorityCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the certificate signing request (CSR) for your private certificate authority
@@ -230,8 +240,9 @@ public struct ACMPCA: AWSService {
     /// 			or on-premises root or subordinate CA. Then import the signed certificate back into
     /// 			Amazon Web Services Private CA by calling the ImportCertificateAuthorityCertificate action. The CSR is returned as a
     /// 			base64 PEM-encoded string.
-    public func getCertificateAuthorityCsr(_ input: GetCertificateAuthorityCsrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCertificateAuthorityCsrResponse> {
-        return self.client.execute(operation: "GetCertificateAuthorityCsr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCertificateAuthorityCsr(_ input: GetCertificateAuthorityCsrRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCertificateAuthorityCsrResponse {
+        return try await self.client.execute(operation: "GetCertificateAuthorityCsr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the resource-based policy attached to a private CA. If either the private CA
@@ -246,8 +257,9 @@ public struct ACMPCA: AWSService {
     /// 			Using a Service Linked Role with ACM.   Updates made in Amazon Web Services Resource Manager (RAM) are reflected in policies. For more information,
     /// 			see Attach a Policy for Cross-Account
     /// 			Access.
-    public func getPolicy(_ input: GetPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPolicyResponse> {
-        return self.client.execute(operation: "GetPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPolicy(_ input: GetPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyResponse {
+        return try await self.client.execute(operation: "GetPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Imports a signed private CA certificate into Amazon Web Services Private CA. This action is used when you
@@ -265,8 +277,9 @@ public struct ACMPCA: AWSService {
     /// 					and so on until your chain is built.    The chain must be PEM-encoded.   The maximum allowed size of a certificate is 32 KB.   The maximum allowed size of a certificate chain is 2 MB.    Enforcement of Critical Constraints  Amazon Web Services Private CA allows the following extensions to be marked critical in the imported CA
     /// 			certificate or chain.   Basic constraints (must be marked critical)   Subject alternative names   Key usage   Extended key usage   Authority key identifier   Subject key identifier   Issuer alternative name   Subject directory attributes   Subject information access   Certificate policies   Policy mappings   Inhibit anyPolicy   Amazon Web Services Private CA rejects the following extensions when they are marked critical in an
     /// 			imported CA certificate or chain.   Name constraints   Policy constraints   CRL distribution points   Authority information access   Freshest CRL   Any other extension
-    @discardableResult public func importCertificateAuthorityCertificate(_ input: ImportCertificateAuthorityCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "ImportCertificateAuthorityCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func importCertificateAuthorityCertificate(_ input: ImportCertificateAuthorityCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "ImportCertificateAuthorityCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Uses your private certificate authority (CA), or one that has been shared with you, to
@@ -274,13 +287,15 @@ public struct ACMPCA: AWSService {
     /// 			certificate. You can retrieve the certificate by calling the GetCertificate action and
     /// 			specifying the ARN.   You cannot use the ACM ListCertificateAuthorities action to retrieve the ARNs of the
     /// 				certificates that you issue by using Amazon Web Services Private CA.
-    public func issueCertificate(_ input: IssueCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<IssueCertificateResponse> {
-        return self.client.execute(operation: "IssueCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func issueCertificate(_ input: IssueCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> IssueCertificateResponse {
+        return try await self.client.execute(operation: "IssueCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the private certificate authorities that you created by using the CreateCertificateAuthority action.
-    public func listCertificateAuthorities(_ input: ListCertificateAuthoritiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCertificateAuthoritiesResponse> {
-        return self.client.execute(operation: "ListCertificateAuthorities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCertificateAuthorities(_ input: ListCertificateAuthoritiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCertificateAuthoritiesResponse {
+        return try await self.client.execute(operation: "ListCertificateAuthorities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List all permissions on a private CA, if any, granted to the Certificate Manager (ACM) service
@@ -295,16 +310,18 @@ public struct ACMPCA: AWSService {
     /// 			cross-account issuance and renewals. For more information, see
     /// 			Using a Resource
     /// 			Based Policy with Amazon Web Services Private CA.
-    public func listPermissions(_ input: ListPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPermissionsResponse> {
-        return self.client.execute(operation: "ListPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPermissions(_ input: ListPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPermissionsResponse {
+        return try await self.client.execute(operation: "ListPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the tags, if any, that are associated with your private CA or one that has been
     /// 			shared with you. Tags are labels that you can use to identify and organize your CAs.
     /// 			Each tag consists of a key and an optional value. Call the TagCertificateAuthority
     /// 			action to add one or more tags to your CA. Call the UntagCertificateAuthority action to remove tags.
-    public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsResponse> {
-        return self.client.execute(operation: "ListTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsResponse {
+        return try await self.client.execute(operation: "ListTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Attaches a resource-based policy to a private CA.  A policy can also be applied by sharing a private CA through Amazon Web Services Resource Access
@@ -319,8 +336,9 @@ public struct ACMPCA: AWSService {
     /// 			Using a Service Linked Role with ACM.   Updates made in Amazon Web Services Resource Manager (RAM) are reflected in policies. For more information,
     /// 			see Attach a Policy for Cross-Account
     /// 			Access.
-    @discardableResult public func putPolicy(_ input: PutPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putPolicy(_ input: PutPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "PutPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Restores a certificate authority (CA) that is in the DELETED state. You
@@ -334,8 +352,9 @@ public struct ACMPCA: AWSService {
     /// 				PENDING_CERTIFICATE state at deletion, you must use the ImportCertificateAuthorityCertificate action to import a certificate
     /// 			authority into the private CA before it can be activated. You cannot restore a CA after
     /// 			the restoration period has ended.
-    @discardableResult public func restoreCertificateAuthority(_ input: RestoreCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "RestoreCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func restoreCertificateAuthority(_ input: RestoreCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "RestoreCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Revokes a certificate that was issued inside Amazon Web Services Private CA. If you enable a certificate
@@ -348,8 +367,9 @@ public struct ACMPCA: AWSService {
     /// 			more information, see Supported CloudWatch Metrics.  Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see Access
     /// 						policies for CRLs in Amazon S3.  Amazon Web Services Private CA also writes revocation information to the audit report. For more
     /// 			information, see CreateCertificateAuthorityAuditReport.  You cannot revoke a root CA self-signed certificate.
-    @discardableResult public func revokeCertificate(_ input: RevokeCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "RevokeCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func revokeCertificate(_ input: RevokeCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "RevokeCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds one or more tags to your private CA. Tags are labels that you can use to identify
@@ -364,8 +384,9 @@ public struct ACMPCA: AWSService {
     /// 					CreateCertificateAuthority action and explicitly allow tagging. For
     /// 				more information, see Attaching tags to a CA
     /// 					at the time of creation.
-    @discardableResult public func tagCertificateAuthority(_ input: TagCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagCertificateAuthority(_ input: TagCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "TagCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Remove one or more tags from your private CA. A tag consists of a key-value pair. If
@@ -373,8 +394,9 @@ public struct ACMPCA: AWSService {
     /// 			be removed regardless of value. If you specify a value, the tag is removed only if it is
     /// 			associated with the specified value. To add tags to a private CA, use the TagCertificateAuthority. Call the ListTags action to see what tags are
     /// 			associated with your CA.
-    @discardableResult public func untagCertificateAuthority(_ input: UntagCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagCertificateAuthority(_ input: UntagCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UntagCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the status or configuration of a private certificate authority (CA). Your
@@ -382,8 +404,9 @@ public struct ACMPCA: AWSService {
     /// 			can update it. You can disable a private CA that is in the ACTIVE state or
     /// 			make a CA that is in the DISABLED state active again.  Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see Access
     /// 						policies for CRLs in Amazon S3.
-    @discardableResult public func updateCertificateAuthority(_ input: UpdateCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateCertificateAuthority(_ input: UpdateCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UpdateCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -398,57 +421,24 @@ extension ACMPCA {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ACMPCA {
     /// Lists the private certificate authorities that you created by using the CreateCertificateAuthority action.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCertificateAuthoritiesPaginator<Result>(
-        _ input: ListCertificateAuthoritiesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCertificateAuthoritiesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCertificateAuthorities,
-            inputKey: \ListCertificateAuthoritiesRequest.nextToken,
-            outputKey: \ListCertificateAuthoritiesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCertificateAuthoritiesPaginator(
         _ input: ListCertificateAuthoritiesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCertificateAuthoritiesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCertificateAuthoritiesRequest, ListCertificateAuthoritiesResponse> {
+        return .init(
             input: input,
             command: self.listCertificateAuthorities,
             inputKey: \ListCertificateAuthoritiesRequest.nextToken,
             outputKey: \ListCertificateAuthoritiesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -464,55 +454,21 @@ extension ACMPCA {
     /// 			cross-account issuance and renewals. For more information, see
     /// 			Using a Resource
     /// 			Based Policy with Amazon Web Services Private CA.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPermissionsPaginator<Result>(
-        _ input: ListPermissionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPermissionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPermissions,
-            inputKey: \ListPermissionsRequest.nextToken,
-            outputKey: \ListPermissionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPermissionsPaginator(
         _ input: ListPermissionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPermissionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPermissionsRequest, ListPermissionsResponse> {
+        return .init(
             input: input,
             command: self.listPermissions,
             inputKey: \ListPermissionsRequest.nextToken,
             outputKey: \ListPermissionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -520,55 +476,21 @@ extension ACMPCA {
     /// 			shared with you. Tags are labels that you can use to identify and organize your CAs.
     /// 			Each tag consists of a key and an optional value. Call the TagCertificateAuthority
     /// 			action to add one or more tags to your CA. Call the UntagCertificateAuthority action to remove tags.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTagsPaginator<Result>(
-        _ input: ListTagsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTagsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTags,
-            inputKey: \ListTagsRequest.nextToken,
-            outputKey: \ListTagsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTagsPaginator(
         _ input: ListTagsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTagsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTagsRequest, ListTagsResponse> {
+        return .init(
             input: input,
             command: self.listTags,
             inputKey: \ListTagsRequest.nextToken,
             outputKey: \ListTagsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }
@@ -605,14 +527,13 @@ extension ACMPCA.ListTagsRequest: AWSPaginateToken {
 
 // MARK: Waiters
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ACMPCA {
-    /// Wait until a Audit Report is created
     public func waitUntilAuditReportCreated(
         _ input: DescribeCertificateAuthorityAuditReportRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("auditReportStatus", expected: "SUCCESS")),
@@ -621,16 +542,14 @@ extension ACMPCA {
             minDelayTime: .seconds(3),
             command: self.describeCertificateAuthorityAuditReport
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a Certificate Authority CSR is created
     public func waitUntilCertificateAuthorityCSRCreated(
         _ input: GetCertificateAuthorityCsrRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: AWSSuccessMatcher()),
@@ -639,16 +558,14 @@ extension ACMPCA {
             minDelayTime: .seconds(3),
             command: self.getCertificateAuthorityCsr
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
-    /// Wait until a certificate is issued
     public func waitUntilCertificateIssued(
         _ input: GetCertificateRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: AWSSuccessMatcher()),
@@ -657,6 +574,6 @@ extension ACMPCA {
             minDelayTime: .seconds(3),
             command: self.getCertificate
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 }

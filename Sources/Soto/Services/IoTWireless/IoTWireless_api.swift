@@ -74,553 +74,662 @@ public struct IoTWireless: AWSService {
     // MARK: API Calls
 
     /// Associates a partner account with your AWS account.
-    public func associateAwsAccountWithPartnerAccount(_ input: AssociateAwsAccountWithPartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateAwsAccountWithPartnerAccountResponse> {
-        return self.client.execute(operation: "AssociateAwsAccountWithPartnerAccount", path: "/partner-accounts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateAwsAccountWithPartnerAccount(_ input: AssociateAwsAccountWithPartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateAwsAccountWithPartnerAccountResponse {
+        return try await self.client.execute(operation: "AssociateAwsAccountWithPartnerAccount", path: "/partner-accounts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associate a multicast group with a FUOTA task.
-    public func associateMulticastGroupWithFuotaTask(_ input: AssociateMulticastGroupWithFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateMulticastGroupWithFuotaTaskResponse> {
-        return self.client.execute(operation: "AssociateMulticastGroupWithFuotaTask", path: "/fuota-tasks/{Id}/multicast-group", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateMulticastGroupWithFuotaTask(_ input: AssociateMulticastGroupWithFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateMulticastGroupWithFuotaTaskResponse {
+        return try await self.client.execute(operation: "AssociateMulticastGroupWithFuotaTask", path: "/fuota-tasks/{Id}/multicast-group", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associate a wireless device with a FUOTA task.
-    public func associateWirelessDeviceWithFuotaTask(_ input: AssociateWirelessDeviceWithFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateWirelessDeviceWithFuotaTaskResponse> {
-        return self.client.execute(operation: "AssociateWirelessDeviceWithFuotaTask", path: "/fuota-tasks/{Id}/wireless-device", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateWirelessDeviceWithFuotaTask(_ input: AssociateWirelessDeviceWithFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateWirelessDeviceWithFuotaTaskResponse {
+        return try await self.client.execute(operation: "AssociateWirelessDeviceWithFuotaTask", path: "/fuota-tasks/{Id}/wireless-device", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates a wireless device with a multicast group.
-    public func associateWirelessDeviceWithMulticastGroup(_ input: AssociateWirelessDeviceWithMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateWirelessDeviceWithMulticastGroupResponse> {
-        return self.client.execute(operation: "AssociateWirelessDeviceWithMulticastGroup", path: "/multicast-groups/{Id}/wireless-device", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateWirelessDeviceWithMulticastGroup(_ input: AssociateWirelessDeviceWithMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateWirelessDeviceWithMulticastGroupResponse {
+        return try await self.client.execute(operation: "AssociateWirelessDeviceWithMulticastGroup", path: "/multicast-groups/{Id}/wireless-device", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates a wireless device with a thing.
-    public func associateWirelessDeviceWithThing(_ input: AssociateWirelessDeviceWithThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateWirelessDeviceWithThingResponse> {
-        return self.client.execute(operation: "AssociateWirelessDeviceWithThing", path: "/wireless-devices/{Id}/thing", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateWirelessDeviceWithThing(_ input: AssociateWirelessDeviceWithThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateWirelessDeviceWithThingResponse {
+        return try await self.client.execute(operation: "AssociateWirelessDeviceWithThing", path: "/wireless-devices/{Id}/thing", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates a wireless gateway with a certificate.
-    public func associateWirelessGatewayWithCertificate(_ input: AssociateWirelessGatewayWithCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateWirelessGatewayWithCertificateResponse> {
-        return self.client.execute(operation: "AssociateWirelessGatewayWithCertificate", path: "/wireless-gateways/{Id}/certificate", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateWirelessGatewayWithCertificate(_ input: AssociateWirelessGatewayWithCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateWirelessGatewayWithCertificateResponse {
+        return try await self.client.execute(operation: "AssociateWirelessGatewayWithCertificate", path: "/wireless-gateways/{Id}/certificate", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates a wireless gateway with a thing.
-    public func associateWirelessGatewayWithThing(_ input: AssociateWirelessGatewayWithThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateWirelessGatewayWithThingResponse> {
-        return self.client.execute(operation: "AssociateWirelessGatewayWithThing", path: "/wireless-gateways/{Id}/thing", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateWirelessGatewayWithThing(_ input: AssociateWirelessGatewayWithThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateWirelessGatewayWithThingResponse {
+        return try await self.client.execute(operation: "AssociateWirelessGatewayWithThing", path: "/wireless-gateways/{Id}/thing", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Cancels an existing multicast group session.
-    public func cancelMulticastGroupSession(_ input: CancelMulticastGroupSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelMulticastGroupSessionResponse> {
-        return self.client.execute(operation: "CancelMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func cancelMulticastGroupSession(_ input: CancelMulticastGroupSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelMulticastGroupSessionResponse {
+        return try await self.client.execute(operation: "CancelMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new destination that maps a device message to an AWS IoT rule.
-    public func createDestination(_ input: CreateDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDestinationResponse> {
-        return self.client.execute(operation: "CreateDestination", path: "/destinations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDestination(_ input: CreateDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDestinationResponse {
+        return try await self.client.execute(operation: "CreateDestination", path: "/destinations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new device profile.
-    public func createDeviceProfile(_ input: CreateDeviceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeviceProfileResponse> {
-        return self.client.execute(operation: "CreateDeviceProfile", path: "/device-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDeviceProfile(_ input: CreateDeviceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDeviceProfileResponse {
+        return try await self.client.execute(operation: "CreateDeviceProfile", path: "/device-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a FUOTA task.
-    public func createFuotaTask(_ input: CreateFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFuotaTaskResponse> {
-        return self.client.execute(operation: "CreateFuotaTask", path: "/fuota-tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createFuotaTask(_ input: CreateFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFuotaTaskResponse {
+        return try await self.client.execute(operation: "CreateFuotaTask", path: "/fuota-tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a multicast group.
-    public func createMulticastGroup(_ input: CreateMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMulticastGroupResponse> {
-        return self.client.execute(operation: "CreateMulticastGroup", path: "/multicast-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createMulticastGroup(_ input: CreateMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMulticastGroupResponse {
+        return try await self.client.execute(operation: "CreateMulticastGroup", path: "/multicast-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new network analyzer configuration.
-    public func createNetworkAnalyzerConfiguration(_ input: CreateNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNetworkAnalyzerConfigurationResponse> {
-        return self.client.execute(operation: "CreateNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createNetworkAnalyzerConfiguration(_ input: CreateNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNetworkAnalyzerConfigurationResponse {
+        return try await self.client.execute(operation: "CreateNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new service profile.
-    public func createServiceProfile(_ input: CreateServiceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateServiceProfileResponse> {
-        return self.client.execute(operation: "CreateServiceProfile", path: "/service-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createServiceProfile(_ input: CreateServiceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceProfileResponse {
+        return try await self.client.execute(operation: "CreateServiceProfile", path: "/service-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provisions a wireless device.
-    public func createWirelessDevice(_ input: CreateWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWirelessDeviceResponse> {
-        return self.client.execute(operation: "CreateWirelessDevice", path: "/wireless-devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createWirelessDevice(_ input: CreateWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWirelessDeviceResponse {
+        return try await self.client.execute(operation: "CreateWirelessDevice", path: "/wireless-devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provisions a wireless gateway.
-    public func createWirelessGateway(_ input: CreateWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWirelessGatewayResponse> {
-        return self.client.execute(operation: "CreateWirelessGateway", path: "/wireless-gateways", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createWirelessGateway(_ input: CreateWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWirelessGatewayResponse {
+        return try await self.client.execute(operation: "CreateWirelessGateway", path: "/wireless-gateways", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a task for a wireless gateway.
-    public func createWirelessGatewayTask(_ input: CreateWirelessGatewayTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWirelessGatewayTaskResponse> {
-        return self.client.execute(operation: "CreateWirelessGatewayTask", path: "/wireless-gateways/{Id}/tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createWirelessGatewayTask(_ input: CreateWirelessGatewayTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWirelessGatewayTaskResponse {
+        return try await self.client.execute(operation: "CreateWirelessGatewayTask", path: "/wireless-gateways/{Id}/tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a gateway task definition.
-    public func createWirelessGatewayTaskDefinition(_ input: CreateWirelessGatewayTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWirelessGatewayTaskDefinitionResponse> {
-        return self.client.execute(operation: "CreateWirelessGatewayTaskDefinition", path: "/wireless-gateway-task-definitions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createWirelessGatewayTaskDefinition(_ input: CreateWirelessGatewayTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWirelessGatewayTaskDefinitionResponse {
+        return try await self.client.execute(operation: "CreateWirelessGatewayTaskDefinition", path: "/wireless-gateway-task-definitions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a destination.
-    public func deleteDestination(_ input: DeleteDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDestinationResponse> {
-        return self.client.execute(operation: "DeleteDestination", path: "/destinations/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDestination(_ input: DeleteDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDestinationResponse {
+        return try await self.client.execute(operation: "DeleteDestination", path: "/destinations/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a device profile.
-    public func deleteDeviceProfile(_ input: DeleteDeviceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDeviceProfileResponse> {
-        return self.client.execute(operation: "DeleteDeviceProfile", path: "/device-profiles/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDeviceProfile(_ input: DeleteDeviceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDeviceProfileResponse {
+        return try await self.client.execute(operation: "DeleteDeviceProfile", path: "/device-profiles/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a FUOTA task.
-    public func deleteFuotaTask(_ input: DeleteFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFuotaTaskResponse> {
-        return self.client.execute(operation: "DeleteFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteFuotaTask(_ input: DeleteFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFuotaTaskResponse {
+        return try await self.client.execute(operation: "DeleteFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a multicast group if it is not in use by a fuota task.
-    public func deleteMulticastGroup(_ input: DeleteMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMulticastGroupResponse> {
-        return self.client.execute(operation: "DeleteMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteMulticastGroup(_ input: DeleteMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMulticastGroupResponse {
+        return try await self.client.execute(operation: "DeleteMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a network analyzer configuration.
-    public func deleteNetworkAnalyzerConfiguration(_ input: DeleteNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNetworkAnalyzerConfigurationResponse> {
-        return self.client.execute(operation: "DeleteNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteNetworkAnalyzerConfiguration(_ input: DeleteNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkAnalyzerConfigurationResponse {
+        return try await self.client.execute(operation: "DeleteNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Remove queued messages from the downlink queue.
-    public func deleteQueuedMessages(_ input: DeleteQueuedMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteQueuedMessagesResponse> {
-        return self.client.execute(operation: "DeleteQueuedMessages", path: "/wireless-devices/{Id}/data", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteQueuedMessages(_ input: DeleteQueuedMessagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteQueuedMessagesResponse {
+        return try await self.client.execute(operation: "DeleteQueuedMessages", path: "/wireless-devices/{Id}/data", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a service profile.
-    public func deleteServiceProfile(_ input: DeleteServiceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteServiceProfileResponse> {
-        return self.client.execute(operation: "DeleteServiceProfile", path: "/service-profiles/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteServiceProfile(_ input: DeleteServiceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceProfileResponse {
+        return try await self.client.execute(operation: "DeleteServiceProfile", path: "/service-profiles/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a wireless device.
-    public func deleteWirelessDevice(_ input: DeleteWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWirelessDeviceResponse> {
-        return self.client.execute(operation: "DeleteWirelessDevice", path: "/wireless-devices/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteWirelessDevice(_ input: DeleteWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWirelessDeviceResponse {
+        return try await self.client.execute(operation: "DeleteWirelessDevice", path: "/wireless-devices/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete an import task.
-    public func deleteWirelessDeviceImportTask(_ input: DeleteWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWirelessDeviceImportTaskResponse> {
-        return self.client.execute(operation: "DeleteWirelessDeviceImportTask", path: "/wireless_device_import_task/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteWirelessDeviceImportTask(_ input: DeleteWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWirelessDeviceImportTaskResponse {
+        return try await self.client.execute(operation: "DeleteWirelessDeviceImportTask", path: "/wireless_device_import_task/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a wireless gateway.
-    public func deleteWirelessGateway(_ input: DeleteWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWirelessGatewayResponse> {
-        return self.client.execute(operation: "DeleteWirelessGateway", path: "/wireless-gateways/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteWirelessGateway(_ input: DeleteWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWirelessGatewayResponse {
+        return try await self.client.execute(operation: "DeleteWirelessGateway", path: "/wireless-gateways/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a wireless gateway task.
-    public func deleteWirelessGatewayTask(_ input: DeleteWirelessGatewayTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWirelessGatewayTaskResponse> {
-        return self.client.execute(operation: "DeleteWirelessGatewayTask", path: "/wireless-gateways/{Id}/tasks", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteWirelessGatewayTask(_ input: DeleteWirelessGatewayTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWirelessGatewayTaskResponse {
+        return try await self.client.execute(operation: "DeleteWirelessGatewayTask", path: "/wireless-gateways/{Id}/tasks", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress.
-    public func deleteWirelessGatewayTaskDefinition(_ input: DeleteWirelessGatewayTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWirelessGatewayTaskDefinitionResponse> {
-        return self.client.execute(operation: "DeleteWirelessGatewayTaskDefinition", path: "/wireless-gateway-task-definitions/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteWirelessGatewayTaskDefinition(_ input: DeleteWirelessGatewayTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWirelessGatewayTaskDefinitionResponse {
+        return try await self.client.execute(operation: "DeleteWirelessGatewayTaskDefinition", path: "/wireless-gateway-task-definitions/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deregister a wireless device from AWS IoT Wireless.
-    public func deregisterWirelessDevice(_ input: DeregisterWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterWirelessDeviceResponse> {
-        return self.client.execute(operation: "DeregisterWirelessDevice", path: "/wireless-devices/{Identifier}/deregister", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deregisterWirelessDevice(_ input: DeregisterWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterWirelessDeviceResponse {
+        return try await self.client.execute(operation: "DeregisterWirelessDevice", path: "/wireless-devices/{Identifier}/deregister", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType are null, disassociates your AWS account from all partner accounts.
-    public func disassociateAwsAccountFromPartnerAccount(_ input: DisassociateAwsAccountFromPartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateAwsAccountFromPartnerAccountResponse> {
-        return self.client.execute(operation: "DisassociateAwsAccountFromPartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateAwsAccountFromPartnerAccount(_ input: DisassociateAwsAccountFromPartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateAwsAccountFromPartnerAccountResponse {
+        return try await self.client.execute(operation: "DisassociateAwsAccountFromPartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates a multicast group from a fuota task.
-    public func disassociateMulticastGroupFromFuotaTask(_ input: DisassociateMulticastGroupFromFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateMulticastGroupFromFuotaTaskResponse> {
-        return self.client.execute(operation: "DisassociateMulticastGroupFromFuotaTask", path: "/fuota-tasks/{Id}/multicast-groups/{MulticastGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateMulticastGroupFromFuotaTask(_ input: DisassociateMulticastGroupFromFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateMulticastGroupFromFuotaTaskResponse {
+        return try await self.client.execute(operation: "DisassociateMulticastGroupFromFuotaTask", path: "/fuota-tasks/{Id}/multicast-groups/{MulticastGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates a wireless device from a FUOTA task.
-    public func disassociateWirelessDeviceFromFuotaTask(_ input: DisassociateWirelessDeviceFromFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateWirelessDeviceFromFuotaTaskResponse> {
-        return self.client.execute(operation: "DisassociateWirelessDeviceFromFuotaTask", path: "/fuota-tasks/{Id}/wireless-devices/{WirelessDeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateWirelessDeviceFromFuotaTask(_ input: DisassociateWirelessDeviceFromFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateWirelessDeviceFromFuotaTaskResponse {
+        return try await self.client.execute(operation: "DisassociateWirelessDeviceFromFuotaTask", path: "/fuota-tasks/{Id}/wireless-devices/{WirelessDeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates a wireless device from a multicast group.
-    public func disassociateWirelessDeviceFromMulticastGroup(_ input: DisassociateWirelessDeviceFromMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateWirelessDeviceFromMulticastGroupResponse> {
-        return self.client.execute(operation: "DisassociateWirelessDeviceFromMulticastGroup", path: "/multicast-groups/{Id}/wireless-devices/{WirelessDeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateWirelessDeviceFromMulticastGroup(_ input: DisassociateWirelessDeviceFromMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateWirelessDeviceFromMulticastGroupResponse {
+        return try await self.client.execute(operation: "DisassociateWirelessDeviceFromMulticastGroup", path: "/multicast-groups/{Id}/wireless-devices/{WirelessDeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates a wireless device from its currently associated thing.
-    public func disassociateWirelessDeviceFromThing(_ input: DisassociateWirelessDeviceFromThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateWirelessDeviceFromThingResponse> {
-        return self.client.execute(operation: "DisassociateWirelessDeviceFromThing", path: "/wireless-devices/{Id}/thing", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateWirelessDeviceFromThing(_ input: DisassociateWirelessDeviceFromThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateWirelessDeviceFromThingResponse {
+        return try await self.client.execute(operation: "DisassociateWirelessDeviceFromThing", path: "/wireless-devices/{Id}/thing", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates a wireless gateway from its currently associated certificate.
-    public func disassociateWirelessGatewayFromCertificate(_ input: DisassociateWirelessGatewayFromCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateWirelessGatewayFromCertificateResponse> {
-        return self.client.execute(operation: "DisassociateWirelessGatewayFromCertificate", path: "/wireless-gateways/{Id}/certificate", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateWirelessGatewayFromCertificate(_ input: DisassociateWirelessGatewayFromCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateWirelessGatewayFromCertificateResponse {
+        return try await self.client.execute(operation: "DisassociateWirelessGatewayFromCertificate", path: "/wireless-gateways/{Id}/certificate", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates a wireless gateway from its currently associated thing.
-    public func disassociateWirelessGatewayFromThing(_ input: DisassociateWirelessGatewayFromThingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateWirelessGatewayFromThingResponse> {
-        return self.client.execute(operation: "DisassociateWirelessGatewayFromThing", path: "/wireless-gateways/{Id}/thing", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateWirelessGatewayFromThing(_ input: DisassociateWirelessGatewayFromThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateWirelessGatewayFromThingResponse {
+        return try await self.client.execute(operation: "DisassociateWirelessGatewayFromThing", path: "/wireless-gateways/{Id}/thing", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a destination.
-    public func getDestination(_ input: GetDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDestinationResponse> {
-        return self.client.execute(operation: "GetDestination", path: "/destinations/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDestination(_ input: GetDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDestinationResponse {
+        return try await self.client.execute(operation: "GetDestination", path: "/destinations/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a device profile.
-    public func getDeviceProfile(_ input: GetDeviceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeviceProfileResponse> {
-        return self.client.execute(operation: "GetDeviceProfile", path: "/device-profiles/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDeviceProfile(_ input: GetDeviceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeviceProfileResponse {
+        return try await self.client.execute(operation: "GetDeviceProfile", path: "/device-profiles/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the event configuration based on resource types.
-    public func getEventConfigurationByResourceTypes(_ input: GetEventConfigurationByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEventConfigurationByResourceTypesResponse> {
-        return self.client.execute(operation: "GetEventConfigurationByResourceTypes", path: "/event-configurations-resource-types", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getEventConfigurationByResourceTypes(_ input: GetEventConfigurationByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEventConfigurationByResourceTypesResponse {
+        return try await self.client.execute(operation: "GetEventConfigurationByResourceTypes", path: "/event-configurations-resource-types", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a FUOTA task.
-    public func getFuotaTask(_ input: GetFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFuotaTaskResponse> {
-        return self.client.execute(operation: "GetFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFuotaTask(_ input: GetFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFuotaTaskResponse {
+        return try await self.client.execute(operation: "GetFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns current default log levels or log levels by resource types. Based on resource types, log levels can be for wireless device log options or wireless gateway log options.
-    public func getLogLevelsByResourceTypes(_ input: GetLogLevelsByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLogLevelsByResourceTypesResponse> {
-        return self.client.execute(operation: "GetLogLevelsByResourceTypes", path: "/log-levels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getLogLevelsByResourceTypes(_ input: GetLogLevelsByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLogLevelsByResourceTypesResponse {
+        return try await self.client.execute(operation: "GetLogLevelsByResourceTypes", path: "/log-levels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a multicast group.
-    public func getMulticastGroup(_ input: GetMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMulticastGroupResponse> {
-        return self.client.execute(operation: "GetMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMulticastGroup(_ input: GetMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMulticastGroupResponse {
+        return try await self.client.execute(operation: "GetMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a multicast group session.
-    public func getMulticastGroupSession(_ input: GetMulticastGroupSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMulticastGroupSessionResponse> {
-        return self.client.execute(operation: "GetMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMulticastGroupSession(_ input: GetMulticastGroupSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMulticastGroupSessionResponse {
+        return try await self.client.execute(operation: "GetMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get network analyzer configuration.
-    public func getNetworkAnalyzerConfiguration(_ input: GetNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkAnalyzerConfigurationResponse> {
-        return self.client.execute(operation: "GetNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getNetworkAnalyzerConfiguration(_ input: GetNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkAnalyzerConfigurationResponse {
+        return try await self.client.execute(operation: "GetNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
-    public func getPartnerAccount(_ input: GetPartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPartnerAccountResponse> {
-        return self.client.execute(operation: "GetPartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPartnerAccount(_ input: GetPartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPartnerAccountResponse {
+        return try await self.client.execute(operation: "GetPartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the position information for a given resource.  This action is no longer supported. Calls to retrieve the position information should use the GetResourcePosition API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
-    public func getPosition(_ input: GetPositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPositionResponse> {
-        return self.client.execute(operation: "GetPosition", path: "/positions/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPosition(_ input: GetPositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPositionResponse {
+        return try await self.client.execute(operation: "GetPosition", path: "/positions/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get position configuration for a given resource.  This action is no longer supported. Calls to retrieve the position configuration should use the GetResourcePosition API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
-    public func getPositionConfiguration(_ input: GetPositionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPositionConfigurationResponse> {
-        return self.client.execute(operation: "GetPositionConfiguration", path: "/position-configurations/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPositionConfiguration(_ input: GetPositionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPositionConfigurationResponse {
+        return try await self.client.execute(operation: "GetPositionConfiguration", path: "/position-configurations/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors.
-    public func getPositionEstimate(_ input: GetPositionEstimateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPositionEstimateResponse> {
-        return self.client.execute(operation: "GetPositionEstimate", path: "/position-estimate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPositionEstimate(_ input: GetPositionEstimateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPositionEstimateResponse {
+        return try await self.client.execute(operation: "GetPositionEstimate", path: "/position-estimate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the event configuration for a particular resource identifier.
-    public func getResourceEventConfiguration(_ input: GetResourceEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceEventConfigurationResponse> {
-        return self.client.execute(operation: "GetResourceEventConfiguration", path: "/event-configurations/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getResourceEventConfiguration(_ input: GetResourceEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceEventConfigurationResponse {
+        return try await self.client.execute(operation: "GetResourceEventConfiguration", path: "/event-configurations/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
-    public func getResourceLogLevel(_ input: GetResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceLogLevelResponse> {
-        return self.client.execute(operation: "GetResourceLogLevel", path: "/log-levels/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getResourceLogLevel(_ input: GetResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceLogLevelResponse {
+        return try await self.client.execute(operation: "GetResourceLogLevel", path: "/log-levels/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the  World Geodetic System (WGS84).
-    public func getResourcePosition(_ input: GetResourcePositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourcePositionResponse> {
-        return self.client.execute(operation: "GetResourcePosition", path: "/resource-positions/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getResourcePosition(_ input: GetResourcePositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePositionResponse {
+        return try await self.client.execute(operation: "GetResourcePosition", path: "/resource-positions/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
-    public func getServiceEndpoint(_ input: GetServiceEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceEndpointResponse> {
-        return self.client.execute(operation: "GetServiceEndpoint", path: "/service-endpoint", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getServiceEndpoint(_ input: GetServiceEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceEndpointResponse {
+        return try await self.client.execute(operation: "GetServiceEndpoint", path: "/service-endpoint", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a service profile.
-    public func getServiceProfile(_ input: GetServiceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceProfileResponse> {
-        return self.client.execute(operation: "GetServiceProfile", path: "/service-profiles/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getServiceProfile(_ input: GetServiceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceProfileResponse {
+        return try await self.client.execute(operation: "GetServiceProfile", path: "/service-profiles/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a wireless device.
-    public func getWirelessDevice(_ input: GetWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWirelessDeviceResponse> {
-        return self.client.execute(operation: "GetWirelessDevice", path: "/wireless-devices/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWirelessDevice(_ input: GetWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessDeviceResponse {
+        return try await self.client.execute(operation: "GetWirelessDevice", path: "/wireless-devices/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get information about an import task and count of device onboarding summary information for the import task.
-    public func getWirelessDeviceImportTask(_ input: GetWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWirelessDeviceImportTaskResponse> {
-        return self.client.execute(operation: "GetWirelessDeviceImportTask", path: "/wireless_device_import_task/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWirelessDeviceImportTask(_ input: GetWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessDeviceImportTaskResponse {
+        return try await self.client.execute(operation: "GetWirelessDeviceImportTask", path: "/wireless_device_import_task/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets operating information about a wireless device.
-    public func getWirelessDeviceStatistics(_ input: GetWirelessDeviceStatisticsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWirelessDeviceStatisticsResponse> {
-        return self.client.execute(operation: "GetWirelessDeviceStatistics", path: "/wireless-devices/{WirelessDeviceId}/statistics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWirelessDeviceStatistics(_ input: GetWirelessDeviceStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessDeviceStatisticsResponse {
+        return try await self.client.execute(operation: "GetWirelessDeviceStatistics", path: "/wireless-devices/{WirelessDeviceId}/statistics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a wireless gateway.
-    public func getWirelessGateway(_ input: GetWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWirelessGatewayResponse> {
-        return self.client.execute(operation: "GetWirelessGateway", path: "/wireless-gateways/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWirelessGateway(_ input: GetWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessGatewayResponse {
+        return try await self.client.execute(operation: "GetWirelessGateway", path: "/wireless-gateways/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the ID of the certificate that is currently associated with a wireless gateway.
-    public func getWirelessGatewayCertificate(_ input: GetWirelessGatewayCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWirelessGatewayCertificateResponse> {
-        return self.client.execute(operation: "GetWirelessGatewayCertificate", path: "/wireless-gateways/{Id}/certificate", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWirelessGatewayCertificate(_ input: GetWirelessGatewayCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessGatewayCertificateResponse {
+        return try await self.client.execute(operation: "GetWirelessGatewayCertificate", path: "/wireless-gateways/{Id}/certificate", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the firmware version and other information about a wireless gateway.
-    public func getWirelessGatewayFirmwareInformation(_ input: GetWirelessGatewayFirmwareInformationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWirelessGatewayFirmwareInformationResponse> {
-        return self.client.execute(operation: "GetWirelessGatewayFirmwareInformation", path: "/wireless-gateways/{Id}/firmware-information", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWirelessGatewayFirmwareInformation(_ input: GetWirelessGatewayFirmwareInformationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessGatewayFirmwareInformationResponse {
+        return try await self.client.execute(operation: "GetWirelessGatewayFirmwareInformation", path: "/wireless-gateways/{Id}/firmware-information", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets operating information about a wireless gateway.
-    public func getWirelessGatewayStatistics(_ input: GetWirelessGatewayStatisticsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWirelessGatewayStatisticsResponse> {
-        return self.client.execute(operation: "GetWirelessGatewayStatistics", path: "/wireless-gateways/{WirelessGatewayId}/statistics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWirelessGatewayStatistics(_ input: GetWirelessGatewayStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessGatewayStatisticsResponse {
+        return try await self.client.execute(operation: "GetWirelessGatewayStatistics", path: "/wireless-gateways/{WirelessGatewayId}/statistics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a wireless gateway task.
-    public func getWirelessGatewayTask(_ input: GetWirelessGatewayTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWirelessGatewayTaskResponse> {
-        return self.client.execute(operation: "GetWirelessGatewayTask", path: "/wireless-gateways/{Id}/tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWirelessGatewayTask(_ input: GetWirelessGatewayTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessGatewayTaskResponse {
+        return try await self.client.execute(operation: "GetWirelessGatewayTask", path: "/wireless-gateways/{Id}/tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a wireless gateway task definition.
-    public func getWirelessGatewayTaskDefinition(_ input: GetWirelessGatewayTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWirelessGatewayTaskDefinitionResponse> {
-        return self.client.execute(operation: "GetWirelessGatewayTaskDefinition", path: "/wireless-gateway-task-definitions/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWirelessGatewayTaskDefinition(_ input: GetWirelessGatewayTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessGatewayTaskDefinitionResponse {
+        return try await self.client.execute(operation: "GetWirelessGatewayTaskDefinition", path: "/wireless-gateway-task-definitions/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the destinations registered to your AWS account.
-    public func listDestinations(_ input: ListDestinationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDestinationsResponse> {
-        return self.client.execute(operation: "ListDestinations", path: "/destinations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDestinations(_ input: ListDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDestinationsResponse {
+        return try await self.client.execute(operation: "ListDestinations", path: "/destinations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the device profiles registered to your AWS account.
-    public func listDeviceProfiles(_ input: ListDeviceProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeviceProfilesResponse> {
-        return self.client.execute(operation: "ListDeviceProfiles", path: "/device-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDeviceProfiles(_ input: ListDeviceProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeviceProfilesResponse {
+        return try await self.client.execute(operation: "ListDeviceProfiles", path: "/device-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the Sidewalk devices in an import task and their onboarding status.
-    public func listDevicesForWirelessDeviceImportTask(_ input: ListDevicesForWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDevicesForWirelessDeviceImportTaskResponse> {
-        return self.client.execute(operation: "ListDevicesForWirelessDeviceImportTask", path: "/wireless_device_import_task", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDevicesForWirelessDeviceImportTask(_ input: ListDevicesForWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDevicesForWirelessDeviceImportTaskResponse {
+        return try await self.client.execute(operation: "ListDevicesForWirelessDeviceImportTask", path: "/wireless_device_import_task", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List event configurations where at least one event topic has been enabled.
-    public func listEventConfigurations(_ input: ListEventConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEventConfigurationsResponse> {
-        return self.client.execute(operation: "ListEventConfigurations", path: "/event-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listEventConfigurations(_ input: ListEventConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEventConfigurationsResponse {
+        return try await self.client.execute(operation: "ListEventConfigurations", path: "/event-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the FUOTA tasks registered to your AWS account.
-    public func listFuotaTasks(_ input: ListFuotaTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFuotaTasksResponse> {
-        return self.client.execute(operation: "ListFuotaTasks", path: "/fuota-tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listFuotaTasks(_ input: ListFuotaTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFuotaTasksResponse {
+        return try await self.client.execute(operation: "ListFuotaTasks", path: "/fuota-tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the multicast groups registered to your AWS account.
-    public func listMulticastGroups(_ input: ListMulticastGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMulticastGroupsResponse> {
-        return self.client.execute(operation: "ListMulticastGroups", path: "/multicast-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listMulticastGroups(_ input: ListMulticastGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMulticastGroupsResponse {
+        return try await self.client.execute(operation: "ListMulticastGroups", path: "/multicast-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List all multicast groups associated with a fuota task.
-    public func listMulticastGroupsByFuotaTask(_ input: ListMulticastGroupsByFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMulticastGroupsByFuotaTaskResponse> {
-        return self.client.execute(operation: "ListMulticastGroupsByFuotaTask", path: "/fuota-tasks/{Id}/multicast-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listMulticastGroupsByFuotaTask(_ input: ListMulticastGroupsByFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMulticastGroupsByFuotaTaskResponse {
+        return try await self.client.execute(operation: "ListMulticastGroupsByFuotaTask", path: "/fuota-tasks/{Id}/multicast-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the network analyzer configurations.
-    public func listNetworkAnalyzerConfigurations(_ input: ListNetworkAnalyzerConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListNetworkAnalyzerConfigurationsResponse> {
-        return self.client.execute(operation: "ListNetworkAnalyzerConfigurations", path: "/network-analyzer-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listNetworkAnalyzerConfigurations(_ input: ListNetworkAnalyzerConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkAnalyzerConfigurationsResponse {
+        return try await self.client.execute(operation: "ListNetworkAnalyzerConfigurations", path: "/network-analyzer-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the partner accounts associated with your AWS account.
-    public func listPartnerAccounts(_ input: ListPartnerAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPartnerAccountsResponse> {
-        return self.client.execute(operation: "ListPartnerAccounts", path: "/partner-accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPartnerAccounts(_ input: ListPartnerAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPartnerAccountsResponse {
+        return try await self.client.execute(operation: "ListPartnerAccounts", path: "/partner-accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List position configurations for a given resource, such as positioning solvers.  This action is no longer supported. Calls to retrieve position information should use the GetResourcePosition API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
-    public func listPositionConfigurations(_ input: ListPositionConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPositionConfigurationsResponse> {
-        return self.client.execute(operation: "ListPositionConfigurations", path: "/position-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPositionConfigurations(_ input: ListPositionConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPositionConfigurationsResponse {
+        return try await self.client.execute(operation: "ListPositionConfigurations", path: "/position-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List queued messages in the downlink queue.
-    public func listQueuedMessages(_ input: ListQueuedMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListQueuedMessagesResponse> {
-        return self.client.execute(operation: "ListQueuedMessages", path: "/wireless-devices/{Id}/data", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listQueuedMessages(_ input: ListQueuedMessagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueuedMessagesResponse {
+        return try await self.client.execute(operation: "ListQueuedMessages", path: "/wireless-devices/{Id}/data", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the service profiles registered to your AWS account.
-    public func listServiceProfiles(_ input: ListServiceProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServiceProfilesResponse> {
-        return self.client.execute(operation: "ListServiceProfiles", path: "/service-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listServiceProfiles(_ input: ListServiceProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceProfilesResponse {
+        return try await self.client.execute(operation: "ListServiceProfiles", path: "/service-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the tags (metadata) you have assigned to the resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List wireless devices that have been added to an import task.
-    public func listWirelessDeviceImportTasks(_ input: ListWirelessDeviceImportTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWirelessDeviceImportTasksResponse> {
-        return self.client.execute(operation: "ListWirelessDeviceImportTasks", path: "/wireless_device_import_tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listWirelessDeviceImportTasks(_ input: ListWirelessDeviceImportTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWirelessDeviceImportTasksResponse {
+        return try await self.client.execute(operation: "ListWirelessDeviceImportTasks", path: "/wireless_device_import_tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the wireless devices registered to your AWS account.
-    public func listWirelessDevices(_ input: ListWirelessDevicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWirelessDevicesResponse> {
-        return self.client.execute(operation: "ListWirelessDevices", path: "/wireless-devices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listWirelessDevices(_ input: ListWirelessDevicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWirelessDevicesResponse {
+        return try await self.client.execute(operation: "ListWirelessDevices", path: "/wireless-devices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the wireless gateway tasks definitions registered to your AWS account.
-    public func listWirelessGatewayTaskDefinitions(_ input: ListWirelessGatewayTaskDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWirelessGatewayTaskDefinitionsResponse> {
-        return self.client.execute(operation: "ListWirelessGatewayTaskDefinitions", path: "/wireless-gateway-task-definitions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listWirelessGatewayTaskDefinitions(_ input: ListWirelessGatewayTaskDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWirelessGatewayTaskDefinitionsResponse {
+        return try await self.client.execute(operation: "ListWirelessGatewayTaskDefinitions", path: "/wireless-gateway-task-definitions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the wireless gateways registered to your AWS account.
-    public func listWirelessGateways(_ input: ListWirelessGatewaysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWirelessGatewaysResponse> {
-        return self.client.execute(operation: "ListWirelessGateways", path: "/wireless-gateways", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listWirelessGateways(_ input: ListWirelessGatewaysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWirelessGatewaysResponse {
+        return try await self.client.execute(operation: "ListWirelessGateways", path: "/wireless-gateways", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Put position configuration for a given resource.  This action is no longer supported. Calls to update the position configuration should use the UpdateResourcePosition API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
-    public func putPositionConfiguration(_ input: PutPositionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutPositionConfigurationResponse> {
-        return self.client.execute(operation: "PutPositionConfiguration", path: "/position-configurations/{ResourceIdentifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putPositionConfiguration(_ input: PutPositionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPositionConfigurationResponse {
+        return try await self.client.execute(operation: "PutPositionConfiguration", path: "/position-configurations/{ResourceIdentifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway or a wireless device. A limit of 200 log level override can be set per account.
-    public func putResourceLogLevel(_ input: PutResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutResourceLogLevelResponse> {
-        return self.client.execute(operation: "PutResourceLogLevel", path: "/log-levels/{ResourceIdentifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putResourceLogLevel(_ input: PutResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourceLogLevelResponse {
+        return try await self.client.execute(operation: "PutResourceLogLevel", path: "/log-levels/{ResourceIdentifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes the log-level overrides for all resources; both wireless devices and wireless gateways.
-    public func resetAllResourceLogLevels(_ input: ResetAllResourceLogLevelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResetAllResourceLogLevelsResponse> {
-        return self.client.execute(operation: "ResetAllResourceLogLevels", path: "/log-levels", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func resetAllResourceLogLevels(_ input: ResetAllResourceLogLevelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetAllResourceLogLevelsResponse {
+        return try await self.client.execute(operation: "ResetAllResourceLogLevels", path: "/log-levels", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
-    public func resetResourceLogLevel(_ input: ResetResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResetResourceLogLevelResponse> {
-        return self.client.execute(operation: "ResetResourceLogLevel", path: "/log-levels/{ResourceIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func resetResourceLogLevel(_ input: ResetResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetResourceLogLevelResponse {
+        return try await self.client.execute(operation: "ResetResourceLogLevel", path: "/log-levels/{ResourceIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Sends the specified data to a multicast group.
-    public func sendDataToMulticastGroup(_ input: SendDataToMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendDataToMulticastGroupResponse> {
-        return self.client.execute(operation: "SendDataToMulticastGroup", path: "/multicast-groups/{Id}/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func sendDataToMulticastGroup(_ input: SendDataToMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendDataToMulticastGroupResponse {
+        return try await self.client.execute(operation: "SendDataToMulticastGroup", path: "/multicast-groups/{Id}/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Sends a decrypted application data frame to a device.
-    public func sendDataToWirelessDevice(_ input: SendDataToWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendDataToWirelessDeviceResponse> {
-        return self.client.execute(operation: "SendDataToWirelessDevice", path: "/wireless-devices/{Id}/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func sendDataToWirelessDevice(_ input: SendDataToWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendDataToWirelessDeviceResponse {
+        return try await self.client.execute(operation: "SendDataToWirelessDevice", path: "/wireless-devices/{Id}/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts a bulk association of all qualifying wireless devices with a multicast group.
-    public func startBulkAssociateWirelessDeviceWithMulticastGroup(_ input: StartBulkAssociateWirelessDeviceWithMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartBulkAssociateWirelessDeviceWithMulticastGroupResponse> {
-        return self.client.execute(operation: "StartBulkAssociateWirelessDeviceWithMulticastGroup", path: "/multicast-groups/{Id}/bulk", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startBulkAssociateWirelessDeviceWithMulticastGroup(_ input: StartBulkAssociateWirelessDeviceWithMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBulkAssociateWirelessDeviceWithMulticastGroupResponse {
+        return try await self.client.execute(operation: "StartBulkAssociateWirelessDeviceWithMulticastGroup", path: "/multicast-groups/{Id}/bulk", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts a bulk disassociatin of all qualifying wireless devices from a multicast group.
-    public func startBulkDisassociateWirelessDeviceFromMulticastGroup(_ input: StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse> {
-        return self.client.execute(operation: "StartBulkDisassociateWirelessDeviceFromMulticastGroup", path: "/multicast-groups/{Id}/bulk", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startBulkDisassociateWirelessDeviceFromMulticastGroup(_ input: StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse {
+        return try await self.client.execute(operation: "StartBulkDisassociateWirelessDeviceFromMulticastGroup", path: "/multicast-groups/{Id}/bulk", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts a FUOTA task.
-    public func startFuotaTask(_ input: StartFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartFuotaTaskResponse> {
-        return self.client.execute(operation: "StartFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startFuotaTask(_ input: StartFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFuotaTaskResponse {
+        return try await self.client.execute(operation: "StartFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts a multicast group session.
-    public func startMulticastGroupSession(_ input: StartMulticastGroupSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMulticastGroupSessionResponse> {
-        return self.client.execute(operation: "StartMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startMulticastGroupSession(_ input: StartMulticastGroupSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMulticastGroupSessionResponse {
+        return try await self.client.execute(operation: "StartMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Start import task for a single wireless device.
-    public func startSingleWirelessDeviceImportTask(_ input: StartSingleWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSingleWirelessDeviceImportTaskResponse> {
-        return self.client.execute(operation: "StartSingleWirelessDeviceImportTask", path: "/wireless_single_device_import_task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startSingleWirelessDeviceImportTask(_ input: StartSingleWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSingleWirelessDeviceImportTaskResponse {
+        return try await self.client.execute(operation: "StartSingleWirelessDeviceImportTask", path: "/wireless_single_device_import_task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file.
-    public func startWirelessDeviceImportTask(_ input: StartWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartWirelessDeviceImportTaskResponse> {
-        return self.client.execute(operation: "StartWirelessDeviceImportTask", path: "/wireless_device_import_task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startWirelessDeviceImportTask(_ input: StartWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartWirelessDeviceImportTaskResponse {
+        return try await self.client.execute(operation: "StartWirelessDeviceImportTask", path: "/wireless_device_import_task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds a tag to a resource.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Simulates a provisioned device by sending an uplink data payload of Hello.
-    public func testWirelessDevice(_ input: TestWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestWirelessDeviceResponse> {
-        return self.client.execute(operation: "TestWirelessDevice", path: "/wireless-devices/{Id}/test", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func testWirelessDevice(_ input: TestWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestWirelessDeviceResponse {
+        return try await self.client.execute(operation: "TestWirelessDevice", path: "/wireless-devices/{Id}/test", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes one or more tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates properties of a destination.
-    public func updateDestination(_ input: UpdateDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDestinationResponse> {
-        return self.client.execute(operation: "UpdateDestination", path: "/destinations/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDestination(_ input: UpdateDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDestinationResponse {
+        return try await self.client.execute(operation: "UpdateDestination", path: "/destinations/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update the event configuration based on resource types.
-    public func updateEventConfigurationByResourceTypes(_ input: UpdateEventConfigurationByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEventConfigurationByResourceTypesResponse> {
-        return self.client.execute(operation: "UpdateEventConfigurationByResourceTypes", path: "/event-configurations-resource-types", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateEventConfigurationByResourceTypes(_ input: UpdateEventConfigurationByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEventConfigurationByResourceTypesResponse {
+        return try await self.client.execute(operation: "UpdateEventConfigurationByResourceTypes", path: "/event-configurations-resource-types", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates properties of a FUOTA task.
-    public func updateFuotaTask(_ input: UpdateFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFuotaTaskResponse> {
-        return self.client.execute(operation: "UpdateFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateFuotaTask(_ input: UpdateFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFuotaTaskResponse {
+        return try await self.client.execute(operation: "UpdateFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Set default log level, or log levels by resource types. This can be for wireless device log options or wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
-    public func updateLogLevelsByResourceTypes(_ input: UpdateLogLevelsByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLogLevelsByResourceTypesResponse> {
-        return self.client.execute(operation: "UpdateLogLevelsByResourceTypes", path: "/log-levels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateLogLevelsByResourceTypes(_ input: UpdateLogLevelsByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLogLevelsByResourceTypesResponse {
+        return try await self.client.execute(operation: "UpdateLogLevelsByResourceTypes", path: "/log-levels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates properties of a multicast group session.
-    public func updateMulticastGroup(_ input: UpdateMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMulticastGroupResponse> {
-        return self.client.execute(operation: "UpdateMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateMulticastGroup(_ input: UpdateMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMulticastGroupResponse {
+        return try await self.client.execute(operation: "UpdateMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update network analyzer configuration.
-    public func updateNetworkAnalyzerConfiguration(_ input: UpdateNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNetworkAnalyzerConfigurationResponse> {
-        return self.client.execute(operation: "UpdateNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateNetworkAnalyzerConfiguration(_ input: UpdateNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNetworkAnalyzerConfigurationResponse {
+        return try await self.client.execute(operation: "UpdateNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates properties of a partner account.
-    public func updatePartnerAccount(_ input: UpdatePartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePartnerAccountResponse> {
-        return self.client.execute(operation: "UpdatePartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePartnerAccount(_ input: UpdatePartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePartnerAccountResponse {
+        return try await self.client.execute(operation: "UpdatePartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update the position information of a resource.  This action is no longer supported. Calls to update the position information should use the UpdateResourcePosition API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
-    public func updatePosition(_ input: UpdatePositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePositionResponse> {
-        return self.client.execute(operation: "UpdatePosition", path: "/positions/{ResourceIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePosition(_ input: UpdatePositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePositionResponse {
+        return try await self.client.execute(operation: "UpdatePosition", path: "/positions/{ResourceIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update the event configuration for a particular resource identifier.
-    public func updateResourceEventConfiguration(_ input: UpdateResourceEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResourceEventConfigurationResponse> {
-        return self.client.execute(operation: "UpdateResourceEventConfiguration", path: "/event-configurations/{Identifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateResourceEventConfiguration(_ input: UpdateResourceEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceEventConfigurationResponse {
+        return try await self.client.execute(operation: "UpdateResourceEventConfiguration", path: "/event-configurations/{Identifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the  World Geodetic System (WGS84).
-    public func updateResourcePosition(_ input: UpdateResourcePositionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResourcePositionResponse> {
-        return self.client.execute(operation: "UpdateResourcePosition", path: "/resource-positions/{ResourceIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateResourcePosition(_ input: UpdateResourcePositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourcePositionResponse {
+        return try await self.client.execute(operation: "UpdateResourcePosition", path: "/resource-positions/{ResourceIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates properties of a wireless device.
-    public func updateWirelessDevice(_ input: UpdateWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWirelessDeviceResponse> {
-        return self.client.execute(operation: "UpdateWirelessDevice", path: "/wireless-devices/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateWirelessDevice(_ input: UpdateWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWirelessDeviceResponse {
+        return try await self.client.execute(operation: "UpdateWirelessDevice", path: "/wireless-devices/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update an import task to add more devices to the task.
-    public func updateWirelessDeviceImportTask(_ input: UpdateWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWirelessDeviceImportTaskResponse> {
-        return self.client.execute(operation: "UpdateWirelessDeviceImportTask", path: "/wireless_device_import_task/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateWirelessDeviceImportTask(_ input: UpdateWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWirelessDeviceImportTaskResponse {
+        return try await self.client.execute(operation: "UpdateWirelessDeviceImportTask", path: "/wireless_device_import_task/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates properties of a wireless gateway.
-    public func updateWirelessGateway(_ input: UpdateWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWirelessGatewayResponse> {
-        return self.client.execute(operation: "UpdateWirelessGateway", path: "/wireless-gateways/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateWirelessGateway(_ input: UpdateWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWirelessGatewayResponse {
+        return try await self.client.execute(operation: "UpdateWirelessGateway", path: "/wireless-gateways/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -635,589 +744,215 @@ extension IoTWireless {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTWireless {
     /// Lists the destinations registered to your AWS account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDestinationsPaginator<Result>(
-        _ input: ListDestinationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDestinationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDestinations,
-            inputKey: \ListDestinationsRequest.nextToken,
-            outputKey: \ListDestinationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDestinationsPaginator(
         _ input: ListDestinationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDestinationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDestinationsRequest, ListDestinationsResponse> {
+        return .init(
             input: input,
             command: self.listDestinations,
             inputKey: \ListDestinationsRequest.nextToken,
             outputKey: \ListDestinationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the device profiles registered to your AWS account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDeviceProfilesPaginator<Result>(
-        _ input: ListDeviceProfilesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDeviceProfilesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDeviceProfiles,
-            inputKey: \ListDeviceProfilesRequest.nextToken,
-            outputKey: \ListDeviceProfilesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDeviceProfilesPaginator(
         _ input: ListDeviceProfilesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDeviceProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDeviceProfilesRequest, ListDeviceProfilesResponse> {
+        return .init(
             input: input,
             command: self.listDeviceProfiles,
             inputKey: \ListDeviceProfilesRequest.nextToken,
             outputKey: \ListDeviceProfilesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the FUOTA tasks registered to your AWS account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listFuotaTasksPaginator<Result>(
-        _ input: ListFuotaTasksRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListFuotaTasksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listFuotaTasks,
-            inputKey: \ListFuotaTasksRequest.nextToken,
-            outputKey: \ListFuotaTasksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listFuotaTasksPaginator(
         _ input: ListFuotaTasksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListFuotaTasksResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFuotaTasksRequest, ListFuotaTasksResponse> {
+        return .init(
             input: input,
             command: self.listFuotaTasks,
             inputKey: \ListFuotaTasksRequest.nextToken,
             outputKey: \ListFuotaTasksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the multicast groups registered to your AWS account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listMulticastGroupsPaginator<Result>(
-        _ input: ListMulticastGroupsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListMulticastGroupsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listMulticastGroups,
-            inputKey: \ListMulticastGroupsRequest.nextToken,
-            outputKey: \ListMulticastGroupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMulticastGroupsPaginator(
         _ input: ListMulticastGroupsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListMulticastGroupsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMulticastGroupsRequest, ListMulticastGroupsResponse> {
+        return .init(
             input: input,
             command: self.listMulticastGroups,
             inputKey: \ListMulticastGroupsRequest.nextToken,
             outputKey: \ListMulticastGroupsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List all multicast groups associated with a fuota task.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listMulticastGroupsByFuotaTaskPaginator<Result>(
-        _ input: ListMulticastGroupsByFuotaTaskRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListMulticastGroupsByFuotaTaskResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listMulticastGroupsByFuotaTask,
-            inputKey: \ListMulticastGroupsByFuotaTaskRequest.nextToken,
-            outputKey: \ListMulticastGroupsByFuotaTaskResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMulticastGroupsByFuotaTaskPaginator(
         _ input: ListMulticastGroupsByFuotaTaskRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListMulticastGroupsByFuotaTaskResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMulticastGroupsByFuotaTaskRequest, ListMulticastGroupsByFuotaTaskResponse> {
+        return .init(
             input: input,
             command: self.listMulticastGroupsByFuotaTask,
             inputKey: \ListMulticastGroupsByFuotaTaskRequest.nextToken,
             outputKey: \ListMulticastGroupsByFuotaTaskResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the network analyzer configurations.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listNetworkAnalyzerConfigurationsPaginator<Result>(
-        _ input: ListNetworkAnalyzerConfigurationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListNetworkAnalyzerConfigurationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listNetworkAnalyzerConfigurations,
-            inputKey: \ListNetworkAnalyzerConfigurationsRequest.nextToken,
-            outputKey: \ListNetworkAnalyzerConfigurationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listNetworkAnalyzerConfigurationsPaginator(
         _ input: ListNetworkAnalyzerConfigurationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListNetworkAnalyzerConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkAnalyzerConfigurationsRequest, ListNetworkAnalyzerConfigurationsResponse> {
+        return .init(
             input: input,
             command: self.listNetworkAnalyzerConfigurations,
             inputKey: \ListNetworkAnalyzerConfigurationsRequest.nextToken,
             outputKey: \ListNetworkAnalyzerConfigurationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List position configurations for a given resource, such as positioning solvers.  This action is no longer supported. Calls to retrieve position information should use the GetResourcePosition API operation instead.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message: "This operation is no longer supported.")
-    public func listPositionConfigurationsPaginator<Result>(
-        _ input: ListPositionConfigurationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPositionConfigurationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPositionConfigurations,
-            inputKey: \ListPositionConfigurationsRequest.nextToken,
-            outputKey: \ListPositionConfigurationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     @available(*, deprecated, message: "This operation is no longer supported.")
     public func listPositionConfigurationsPaginator(
         _ input: ListPositionConfigurationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPositionConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPositionConfigurationsRequest, ListPositionConfigurationsResponse> {
+        return .init(
             input: input,
             command: self.listPositionConfigurations,
             inputKey: \ListPositionConfigurationsRequest.nextToken,
             outputKey: \ListPositionConfigurationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List queued messages in the downlink queue.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listQueuedMessagesPaginator<Result>(
-        _ input: ListQueuedMessagesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListQueuedMessagesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listQueuedMessages,
-            inputKey: \ListQueuedMessagesRequest.nextToken,
-            outputKey: \ListQueuedMessagesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listQueuedMessagesPaginator(
         _ input: ListQueuedMessagesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListQueuedMessagesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListQueuedMessagesRequest, ListQueuedMessagesResponse> {
+        return .init(
             input: input,
             command: self.listQueuedMessages,
             inputKey: \ListQueuedMessagesRequest.nextToken,
             outputKey: \ListQueuedMessagesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the service profiles registered to your AWS account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listServiceProfilesPaginator<Result>(
-        _ input: ListServiceProfilesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListServiceProfilesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listServiceProfiles,
-            inputKey: \ListServiceProfilesRequest.nextToken,
-            outputKey: \ListServiceProfilesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listServiceProfilesPaginator(
         _ input: ListServiceProfilesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListServiceProfilesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServiceProfilesRequest, ListServiceProfilesResponse> {
+        return .init(
             input: input,
             command: self.listServiceProfiles,
             inputKey: \ListServiceProfilesRequest.nextToken,
             outputKey: \ListServiceProfilesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the wireless devices registered to your AWS account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listWirelessDevicesPaginator<Result>(
-        _ input: ListWirelessDevicesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListWirelessDevicesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listWirelessDevices,
-            inputKey: \ListWirelessDevicesRequest.nextToken,
-            outputKey: \ListWirelessDevicesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listWirelessDevicesPaginator(
         _ input: ListWirelessDevicesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListWirelessDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWirelessDevicesRequest, ListWirelessDevicesResponse> {
+        return .init(
             input: input,
             command: self.listWirelessDevices,
             inputKey: \ListWirelessDevicesRequest.nextToken,
             outputKey: \ListWirelessDevicesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the wireless gateways registered to your AWS account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listWirelessGatewaysPaginator<Result>(
-        _ input: ListWirelessGatewaysRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListWirelessGatewaysResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listWirelessGateways,
-            inputKey: \ListWirelessGatewaysRequest.nextToken,
-            outputKey: \ListWirelessGatewaysResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listWirelessGatewaysPaginator(
         _ input: ListWirelessGatewaysRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListWirelessGatewaysResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWirelessGatewaysRequest, ListWirelessGatewaysResponse> {
+        return .init(
             input: input,
             command: self.listWirelessGateways,
             inputKey: \ListWirelessGatewaysRequest.nextToken,
             outputKey: \ListWirelessGatewaysResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

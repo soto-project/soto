@@ -72,23 +72,27 @@ public struct LicenseManagerLinuxSubscriptions: AWSService {
     // MARK: API Calls
 
     /// Lists the Linux subscriptions service settings.
-    public func getServiceSettings(_ input: GetServiceSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceSettingsResponse> {
-        return self.client.execute(operation: "GetServiceSettings", path: "/subscription/GetServiceSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getServiceSettings(_ input: GetServiceSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceSettingsResponse {
+        return try await self.client.execute(operation: "GetServiceSettings", path: "/subscription/GetServiceSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
-    public func listLinuxSubscriptionInstances(_ input: ListLinuxSubscriptionInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLinuxSubscriptionInstancesResponse> {
-        return self.client.execute(operation: "ListLinuxSubscriptionInstances", path: "/subscription/ListLinuxSubscriptionInstances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listLinuxSubscriptionInstances(_ input: ListLinuxSubscriptionInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLinuxSubscriptionInstancesResponse {
+        return try await self.client.execute(operation: "ListLinuxSubscriptionInstances", path: "/subscription/ListLinuxSubscriptionInstances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
-    public func listLinuxSubscriptions(_ input: ListLinuxSubscriptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLinuxSubscriptionsResponse> {
-        return self.client.execute(operation: "ListLinuxSubscriptions", path: "/subscription/ListLinuxSubscriptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listLinuxSubscriptions(_ input: ListLinuxSubscriptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLinuxSubscriptionsResponse {
+        return try await self.client.execute(operation: "ListLinuxSubscriptions", path: "/subscription/ListLinuxSubscriptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the service settings for Linux subscriptions.
-    public func updateServiceSettings(_ input: UpdateServiceSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServiceSettingsResponse> {
-        return self.client.execute(operation: "UpdateServiceSettings", path: "/subscription/UpdateServiceSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateServiceSettings(_ input: UpdateServiceSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceSettingsResponse {
+        return try await self.client.execute(operation: "UpdateServiceSettings", path: "/subscription/UpdateServiceSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -103,110 +107,43 @@ extension LicenseManagerLinuxSubscriptions {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension LicenseManagerLinuxSubscriptions {
     /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listLinuxSubscriptionInstancesPaginator<Result>(
-        _ input: ListLinuxSubscriptionInstancesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListLinuxSubscriptionInstancesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listLinuxSubscriptionInstances,
-            inputKey: \ListLinuxSubscriptionInstancesRequest.nextToken,
-            outputKey: \ListLinuxSubscriptionInstancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listLinuxSubscriptionInstancesPaginator(
         _ input: ListLinuxSubscriptionInstancesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListLinuxSubscriptionInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLinuxSubscriptionInstancesRequest, ListLinuxSubscriptionInstancesResponse> {
+        return .init(
             input: input,
             command: self.listLinuxSubscriptionInstances,
             inputKey: \ListLinuxSubscriptionInstancesRequest.nextToken,
             outputKey: \ListLinuxSubscriptionInstancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listLinuxSubscriptionsPaginator<Result>(
-        _ input: ListLinuxSubscriptionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListLinuxSubscriptionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listLinuxSubscriptions,
-            inputKey: \ListLinuxSubscriptionsRequest.nextToken,
-            outputKey: \ListLinuxSubscriptionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listLinuxSubscriptionsPaginator(
         _ input: ListLinuxSubscriptionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListLinuxSubscriptionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLinuxSubscriptionsRequest, ListLinuxSubscriptionsResponse> {
+        return .init(
             input: input,
             command: self.listLinuxSubscriptions,
             inputKey: \ListLinuxSubscriptionsRequest.nextToken,
             outputKey: \ListLinuxSubscriptionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

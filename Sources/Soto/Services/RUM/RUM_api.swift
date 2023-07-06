@@ -65,93 +65,110 @@ public struct RUM: AWSService {
 
     /// Specifies the extended metrics and custom metrics that you want a CloudWatch RUM app monitor to send to a destination. Valid destinations include CloudWatch and Evidently. By default, RUM app monitors send some metrics to CloudWatch. These default metrics are listed in CloudWatch metrics that you can collect  with CloudWatch RUM. In addition to these default metrics, you can choose to send extended metrics or custom metrics or both.   Extended metrics enable you to send metrics with additional dimensions not included  in the default metrics. You can also send extended metrics to Evidently as well as CloudWatch.  The valid dimension names for the additional dimensions for extended metrics are BrowserName, CountryCode, DeviceType, FileType, OSName, and PageId. For more information, see   Extended metrics that you can send to CloudWatch and CloudWatch Evidently.   Custom metrics are metrics that you define. You can send custom metrics to CloudWatch or to CloudWatch Evidently or to both. With custom metrics,  you can use any metric name and namespace, and to derive the metrics you can use any custom events, built-in events,  custom attributes, or default attributes.  You can't send custom metrics to the AWS/RUM namespace. You must send custom metrics to a  custom namespace that you define. The namespace that you use can't start with AWS/.  CloudWatch RUM prepends RUM/CustomMetrics/ to the custom namespace that you define,  so the final namespace for your metrics in CloudWatch is  RUM/CustomMetrics/your-custom-namespace .   The maximum number of metric definitions that you can specify in one  BatchCreateRumMetricDefinitions operation is 200. The maximum number of metric definitions that one destination can contain is 2000. Extended metrics sent to CloudWatch and RUM custom metrics are charged as CloudWatch custom metrics. Each combination of additional dimension name and dimension value counts as a custom metric. For more information, see  Amazon CloudWatch Pricing. You must have already created a destination for the metrics before you send them. For more information, see  PutRumMetricsDestination. If some metric definitions specified in a BatchCreateRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definitions in the same operation still succeed.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchCreateRumMetricDefinitions.html
-    public func batchCreateRumMetricDefinitions(_ input: BatchCreateRumMetricDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCreateRumMetricDefinitionsResponse> {
-        return self.client.execute(operation: "BatchCreateRumMetricDefinitions", path: "/rummetrics/{AppMonitorName}/metrics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchCreateRumMetricDefinitions(_ input: BatchCreateRumMetricDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreateRumMetricDefinitionsResponse {
+        return try await self.client.execute(operation: "BatchCreateRumMetricDefinitions", path: "/rummetrics/{AppMonitorName}/metrics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes the specified metrics from being sent to an extended metrics destination. If some metric definition IDs specified in a BatchDeleteRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definition IDs in the same operation are still  deleted. The maximum number of metric definitions that you can specify in one  BatchDeleteRumMetricDefinitions operation is 200.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchDeleteRumMetricDefinitions.html
-    public func batchDeleteRumMetricDefinitions(_ input: BatchDeleteRumMetricDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteRumMetricDefinitionsResponse> {
-        return self.client.execute(operation: "BatchDeleteRumMetricDefinitions", path: "/rummetrics/{AppMonitorName}/metrics", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchDeleteRumMetricDefinitions(_ input: BatchDeleteRumMetricDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteRumMetricDefinitionsResponse {
+        return try await self.client.execute(operation: "BatchDeleteRumMetricDefinitions", path: "/rummetrics/{AppMonitorName}/metrics", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchGetRumMetricDefinitions.html
-    public func batchGetRumMetricDefinitions(_ input: BatchGetRumMetricDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetRumMetricDefinitionsResponse> {
-        return self.client.execute(operation: "BatchGetRumMetricDefinitions", path: "/rummetrics/{AppMonitorName}/metrics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchGetRumMetricDefinitions(_ input: BatchGetRumMetricDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetRumMetricDefinitionsResponse {
+        return try await self.client.execute(operation: "BatchGetRumMetricDefinitions", path: "/rummetrics/{AppMonitorName}/metrics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a Amazon CloudWatch RUM app monitor, which collects telemetry data from your application and sends that data to RUM. The data includes performance and reliability information such as page load time, client-side errors,  and user behavior. You use this operation only to create a new app monitor. To update an existing app monitor, use UpdateAppMonitor instead. After you create an app monitor, sign in to the CloudWatch RUM console to get  the JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/CreateAppMonitor.html
-    public func createAppMonitor(_ input: CreateAppMonitorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppMonitorResponse> {
-        return self.client.execute(operation: "CreateAppMonitor", path: "/appmonitor", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createAppMonitor(_ input: CreateAppMonitorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppMonitorResponse {
+        return try await self.client.execute(operation: "CreateAppMonitor", path: "/appmonitor", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an existing app monitor. This immediately stops the collection of data.
-    public func deleteAppMonitor(_ input: DeleteAppMonitorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppMonitorResponse> {
-        return self.client.execute(operation: "DeleteAppMonitor", path: "/appmonitor/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAppMonitor(_ input: DeleteAppMonitorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAppMonitorResponse {
+        return try await self.client.execute(operation: "DeleteAppMonitor", path: "/appmonitor/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
-    public func deleteRumMetricsDestination(_ input: DeleteRumMetricsDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRumMetricsDestinationResponse> {
-        return self.client.execute(operation: "DeleteRumMetricsDestination", path: "/rummetrics/{AppMonitorName}/metricsdestination", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRumMetricsDestination(_ input: DeleteRumMetricsDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRumMetricsDestinationResponse {
+        return try await self.client.execute(operation: "DeleteRumMetricsDestination", path: "/rummetrics/{AppMonitorName}/metricsdestination", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the complete configuration information for one app monitor.
-    public func getAppMonitor(_ input: GetAppMonitorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAppMonitorResponse> {
-        return self.client.execute(operation: "GetAppMonitor", path: "/appmonitor/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAppMonitor(_ input: GetAppMonitorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAppMonitorResponse {
+        return try await self.client.execute(operation: "GetAppMonitor", path: "/appmonitor/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
-    public func getAppMonitorData(_ input: GetAppMonitorDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAppMonitorDataResponse> {
-        return self.client.execute(operation: "GetAppMonitorData", path: "/appmonitor/{Name}/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAppMonitorData(_ input: GetAppMonitorDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAppMonitorDataResponse {
+        return try await self.client.execute(operation: "GetAppMonitorData", path: "/appmonitor/{Name}/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of the Amazon CloudWatch RUM app monitors in the account.
-    public func listAppMonitors(_ input: ListAppMonitorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppMonitorsResponse> {
-        return self.client.execute(operation: "ListAppMonitors", path: "/appmonitors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAppMonitors(_ input: ListAppMonitorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppMonitorsResponse {
+        return try await self.client.execute(operation: "ListAppMonitors", path: "/appmonitors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of destinations that you have created to receive RUM extended metrics,  for the specified app monitor. For more information about extended metrics, see AddRumMetrics.
-    public func listRumMetricsDestinations(_ input: ListRumMetricsDestinationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRumMetricsDestinationsResponse> {
-        return self.client.execute(operation: "ListRumMetricsDestinations", path: "/rummetrics/{AppMonitorName}/metricsdestination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRumMetricsDestinations(_ input: ListRumMetricsDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRumMetricsDestinationsResponse {
+        return try await self.client.execute(operation: "ListRumMetricsDestinations", path: "/rummetrics/{AppMonitorName}/metricsdestination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Displays the tags associated with a CloudWatch RUM resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code  snippet that RUM generates for you to add to your application includes PutRumEvents operations to  send this data to RUM. Each PutRumEvents operation can send a batch of events from one user session.
-    public func putRumEvents(_ input: PutRumEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRumEventsResponse> {
-        return self.client.execute(operation: "PutRumEvents", path: "/appmonitors/{Id}/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "dataplane.", logger: logger, on: eventLoop)
+    @Sendable
+    public func putRumEvents(_ input: PutRumEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRumEventsResponse {
+        return try await self.client.execute(operation: "PutRumEvents", path: "/appmonitors/{Id}/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "dataplane.", logger: logger)
     }
 
     /// Creates or updates a destination to receive extended metrics from CloudWatch RUM. You can send extended metrics to CloudWatch or to a CloudWatch Evidently experiment. For more information about extended metrics, see BatchCreateRumMetricDefinitions.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/PutRumMetricsDestination.html
-    public func putRumMetricsDestination(_ input: PutRumMetricsDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRumMetricsDestinationResponse> {
-        return self.client.execute(operation: "PutRumMetricsDestination", path: "/rummetrics/{AppMonitorName}/metricsdestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putRumMetricsDestination(_ input: PutRumMetricsDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRumMetricsDestinationResponse {
+        return try await self.client.execute(operation: "PutRumMetricsDestination", path: "/rummetrics/{AppMonitorName}/metricsdestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch RUM resource. Currently,  the only resources that  can be tagged app monitors. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags.  If you specify a new tag key for the resource,  this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. For more information, see Tagging Amazon Web Services resources.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes one or more tags from the specified resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the configuration of an existing app monitor. When you use this operation, only the parts of the app monitor configuration that you specify in this operation are changed. For any parameters that you omit, the existing values are kept. You can't use this operation to change the tags of an existing app monitor. To change the tags of an existing app monitor, use TagResource. To create a new app monitor, use CreateAppMonitor. After you update an app monitor, sign in to the CloudWatch RUM console to get  the updated JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
-    public func updateAppMonitor(_ input: UpdateAppMonitorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppMonitorResponse> {
-        return self.client.execute(operation: "UpdateAppMonitor", path: "/appmonitor/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateAppMonitor(_ input: UpdateAppMonitorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppMonitorResponse {
+        return try await self.client.execute(operation: "UpdateAppMonitor", path: "/appmonitor/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies one existing metric definition for CloudWatch RUM extended metrics. For  more information about extended metrics, see BatchCreateRumMetricsDefinitions.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/UpdateRumMetricDefinitions.html
-    public func updateRumMetricDefinition(_ input: UpdateRumMetricDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRumMetricDefinitionResponse> {
-        return self.client.execute(operation: "UpdateRumMetricDefinition", path: "/rummetrics/{AppMonitorName}/metrics", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateRumMetricDefinition(_ input: UpdateRumMetricDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRumMetricDefinitionResponse {
+        return try await self.client.execute(operation: "UpdateRumMetricDefinition", path: "/rummetrics/{AppMonitorName}/metrics", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -166,217 +183,82 @@ extension RUM {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension RUM {
     /// Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchGetRumMetricDefinitions.html
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func batchGetRumMetricDefinitionsPaginator<Result>(
-        _ input: BatchGetRumMetricDefinitionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, BatchGetRumMetricDefinitionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.batchGetRumMetricDefinitions,
-            inputKey: \BatchGetRumMetricDefinitionsRequest.nextToken,
-            outputKey: \BatchGetRumMetricDefinitionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func batchGetRumMetricDefinitionsPaginator(
         _ input: BatchGetRumMetricDefinitionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (BatchGetRumMetricDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<BatchGetRumMetricDefinitionsRequest, BatchGetRumMetricDefinitionsResponse> {
+        return .init(
             input: input,
             command: self.batchGetRumMetricDefinitions,
             inputKey: \BatchGetRumMetricDefinitionsRequest.nextToken,
             outputKey: \BatchGetRumMetricDefinitionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getAppMonitorDataPaginator<Result>(
-        _ input: GetAppMonitorDataRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetAppMonitorDataResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getAppMonitorData,
-            inputKey: \GetAppMonitorDataRequest.nextToken,
-            outputKey: \GetAppMonitorDataResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getAppMonitorDataPaginator(
         _ input: GetAppMonitorDataRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetAppMonitorDataResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetAppMonitorDataRequest, GetAppMonitorDataResponse> {
+        return .init(
             input: input,
             command: self.getAppMonitorData,
             inputKey: \GetAppMonitorDataRequest.nextToken,
             outputKey: \GetAppMonitorDataResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of the Amazon CloudWatch RUM app monitors in the account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAppMonitorsPaginator<Result>(
-        _ input: ListAppMonitorsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAppMonitorsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAppMonitors,
-            inputKey: \ListAppMonitorsRequest.nextToken,
-            outputKey: \ListAppMonitorsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAppMonitorsPaginator(
         _ input: ListAppMonitorsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAppMonitorsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppMonitorsRequest, ListAppMonitorsResponse> {
+        return .init(
             input: input,
             command: self.listAppMonitors,
             inputKey: \ListAppMonitorsRequest.nextToken,
             outputKey: \ListAppMonitorsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of destinations that you have created to receive RUM extended metrics,  for the specified app monitor. For more information about extended metrics, see AddRumMetrics.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRumMetricsDestinationsPaginator<Result>(
-        _ input: ListRumMetricsDestinationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRumMetricsDestinationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRumMetricsDestinations,
-            inputKey: \ListRumMetricsDestinationsRequest.nextToken,
-            outputKey: \ListRumMetricsDestinationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRumMetricsDestinationsPaginator(
         _ input: ListRumMetricsDestinationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRumMetricsDestinationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRumMetricsDestinationsRequest, ListRumMetricsDestinationsResponse> {
+        return .init(
             input: input,
             command: self.listRumMetricsDestinations,
             inputKey: \ListRumMetricsDestinationsRequest.nextToken,
             outputKey: \ListRumMetricsDestinationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

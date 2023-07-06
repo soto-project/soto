@@ -74,346 +74,414 @@ public struct GuardDuty: AWSService {
     // MARK: API Calls
 
     /// Accepts the invitation to be a member account and get monitored by a GuardDuty administrator account that sent the invitation.
-    public func acceptAdministratorInvitation(_ input: AcceptAdministratorInvitationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptAdministratorInvitationResponse> {
-        return self.client.execute(operation: "AcceptAdministratorInvitation", path: "/detector/{DetectorId}/administrator", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func acceptAdministratorInvitation(_ input: AcceptAdministratorInvitationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptAdministratorInvitationResponse {
+        return try await self.client.execute(operation: "AcceptAdministratorInvitation", path: "/detector/{DetectorId}/administrator", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Accepts the invitation to be monitored by a GuardDuty administrator account.
     @available(*, deprecated, message: "This operation is deprecated, use AcceptAdministratorInvitation instead")
-    public func acceptInvitation(_ input: AcceptInvitationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptInvitationResponse> {
-        return self.client.execute(operation: "AcceptInvitation", path: "/detector/{DetectorId}/master", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func acceptInvitation(_ input: AcceptInvitationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptInvitationResponse {
+        return try await self.client.execute(operation: "AcceptInvitation", path: "/detector/{DetectorId}/master", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Archives GuardDuty findings that are specified by the list of finding IDs.  Only the administrator account can archive findings. Member accounts don't have permission to archive findings from their accounts.
-    public func archiveFindings(_ input: ArchiveFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ArchiveFindingsResponse> {
-        return self.client.execute(operation: "ArchiveFindings", path: "/detector/{DetectorId}/findings/archive", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func archiveFindings(_ input: ArchiveFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ArchiveFindingsResponse {
+        return try await self.client.execute(operation: "ArchiveFindings", path: "/detector/{DetectorId}/findings/archive", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
-    public func createDetector(_ input: CreateDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDetectorResponse> {
-        return self.client.execute(operation: "CreateDetector", path: "/detector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDetector(_ input: CreateDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDetectorResponse {
+        return try await self.client.execute(operation: "CreateDetector", path: "/detector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a filter using the specified finding criteria. The maximum number of saved filters per Amazon Web Services account per Region is 100. For more information, see Quotas for GuardDuty.
-    public func createFilter(_ input: CreateFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFilterResponse> {
-        return self.client.execute(operation: "CreateFilter", path: "/detector/{DetectorId}/filter", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createFilter(_ input: CreateFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFilterResponse {
+        return try await self.client.execute(operation: "CreateFilter", path: "/detector/{DetectorId}/filter", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation.
-    public func createIPSet(_ input: CreateIPSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIPSetResponse> {
-        return self.client.execute(operation: "CreateIPSet", path: "/detector/{DetectorId}/ipset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createIPSet(_ input: CreateIPSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIPSetResponse {
+        return try await self.client.execute(operation: "CreateIPSet", path: "/detector/{DetectorId}/ipset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. When using Create Members as an organizations delegated administrator this action will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account, which must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation, use this action after GuardDuty has bee enabled in potential member accounts and before using InviteMembers.
-    public func createMembers(_ input: CreateMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMembersResponse> {
-        return self.client.execute(operation: "CreateMembers", path: "/detector/{DetectorId}/member", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createMembers(_ input: CreateMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMembersResponse {
+        return try await self.client.execute(operation: "CreateMembers", path: "/detector/{DetectorId}/member", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a publishing destination to export findings to. The resource to export findings to must exist before you use this operation.
-    public func createPublishingDestination(_ input: CreatePublishingDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePublishingDestinationResponse> {
-        return self.client.execute(operation: "CreatePublishingDestination", path: "/detector/{DetectorId}/publishingDestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createPublishingDestination(_ input: CreatePublishingDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePublishingDestinationResponse {
+        return try await self.client.execute(operation: "CreatePublishingDestination", path: "/detector/{DetectorId}/publishingDestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates sample findings of all supported finding types.
-    public func createSampleFindings(_ input: CreateSampleFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSampleFindingsResponse> {
-        return self.client.execute(operation: "CreateSampleFindings", path: "/detector/{DetectorId}/findings/create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSampleFindings(_ input: CreateSampleFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSampleFindingsResponse {
+        return try await self.client.execute(operation: "CreateSampleFindings", path: "/detector/{DetectorId}/findings/create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator account can use this operation.
-    public func createThreatIntelSet(_ input: CreateThreatIntelSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateThreatIntelSetResponse> {
-        return self.client.execute(operation: "CreateThreatIntelSet", path: "/detector/{DetectorId}/threatintelset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createThreatIntelSet(_ input: CreateThreatIntelSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThreatIntelSetResponse {
+        return try await self.client.execute(operation: "CreateThreatIntelSet", path: "/detector/{DetectorId}/threatintelset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Declines invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs.
-    public func declineInvitations(_ input: DeclineInvitationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeclineInvitationsResponse> {
-        return self.client.execute(operation: "DeclineInvitations", path: "/invitation/decline", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func declineInvitations(_ input: DeclineInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeclineInvitationsResponse {
+        return try await self.client.execute(operation: "DeclineInvitations", path: "/invitation/decline", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an Amazon GuardDuty detector that is specified by the detector ID.
-    public func deleteDetector(_ input: DeleteDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDetectorResponse> {
-        return self.client.execute(operation: "DeleteDetector", path: "/detector/{DetectorId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDetector(_ input: DeleteDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDetectorResponse {
+        return try await self.client.execute(operation: "DeleteDetector", path: "/detector/{DetectorId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the filter specified by the filter name.
-    public func deleteFilter(_ input: DeleteFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFilterResponse> {
-        return self.client.execute(operation: "DeleteFilter", path: "/detector/{DetectorId}/filter/{FilterName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteFilter(_ input: DeleteFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFilterResponse {
+        return try await self.client.execute(operation: "DeleteFilter", path: "/detector/{DetectorId}/filter/{FilterName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the IPSet specified by the ipSetId. IPSets are called trusted IP lists in the console user interface.
-    public func deleteIPSet(_ input: DeleteIPSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteIPSetResponse> {
-        return self.client.execute(operation: "DeleteIPSet", path: "/detector/{DetectorId}/ipset/{IpSetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteIPSet(_ input: DeleteIPSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIPSetResponse {
+        return try await self.client.execute(operation: "DeleteIPSet", path: "/detector/{DetectorId}/ipset/{IpSetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs.
-    public func deleteInvitations(_ input: DeleteInvitationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInvitationsResponse> {
-        return self.client.execute(operation: "DeleteInvitations", path: "/invitation/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteInvitations(_ input: DeleteInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInvitationsResponse {
+        return try await self.client.execute(operation: "DeleteInvitations", path: "/invitation/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty for a member account in your organization.
-    public func deleteMembers(_ input: DeleteMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMembersResponse> {
-        return self.client.execute(operation: "DeleteMembers", path: "/detector/{DetectorId}/member/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteMembers(_ input: DeleteMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMembersResponse {
+        return try await self.client.execute(operation: "DeleteMembers", path: "/detector/{DetectorId}/member/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the publishing definition with the specified destinationId.
-    public func deletePublishingDestination(_ input: DeletePublishingDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePublishingDestinationResponse> {
-        return self.client.execute(operation: "DeletePublishingDestination", path: "/detector/{DetectorId}/publishingDestination/{DestinationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePublishingDestination(_ input: DeletePublishingDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePublishingDestinationResponse {
+        return try await self.client.execute(operation: "DeletePublishingDestination", path: "/detector/{DetectorId}/publishingDestination/{DestinationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
-    public func deleteThreatIntelSet(_ input: DeleteThreatIntelSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteThreatIntelSetResponse> {
-        return self.client.execute(operation: "DeleteThreatIntelSet", path: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteThreatIntelSet(_ input: DeleteThreatIntelSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteThreatIntelSetResponse {
+        return try await self.client.execute(operation: "DeleteThreatIntelSet", path: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
-    public func describeMalwareScans(_ input: DescribeMalwareScansRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMalwareScansResponse> {
-        return self.client.execute(operation: "DescribeMalwareScans", path: "/detector/{DetectorId}/malware-scans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeMalwareScans(_ input: DescribeMalwareScansRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMalwareScansResponse {
+        return try await self.client.execute(operation: "DescribeMalwareScans", path: "/detector/{DetectorId}/malware-scans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about the account selected as the delegated administrator for GuardDuty. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
-    public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOrganizationConfigurationResponse> {
-        return self.client.execute(operation: "DescribeOrganizationConfiguration", path: "/detector/{DetectorId}/admin", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigurationResponse {
+        return try await self.client.execute(operation: "DescribeOrganizationConfiguration", path: "/detector/{DetectorId}/admin", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about the publishing destination specified by the provided destinationId.
-    public func describePublishingDestination(_ input: DescribePublishingDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePublishingDestinationResponse> {
-        return self.client.execute(operation: "DescribePublishingDestination", path: "/detector/{DetectorId}/publishingDestination/{DestinationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describePublishingDestination(_ input: DescribePublishingDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePublishingDestinationResponse {
+        return try await self.client.execute(operation: "DescribePublishingDestination", path: "/detector/{DetectorId}/publishingDestination/{DestinationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disables an Amazon Web Services account within the Organization as the GuardDuty delegated administrator.
-    public func disableOrganizationAdminAccount(_ input: DisableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableOrganizationAdminAccountResponse> {
-        return self.client.execute(operation: "DisableOrganizationAdminAccount", path: "/admin/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disableOrganizationAdminAccount(_ input: DisableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableOrganizationAdminAccountResponse {
+        return try await self.client.execute(operation: "DisableOrganizationAdminAccount", path: "/admin/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates the current GuardDuty member account from its administrator account. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty in a member account.
-    public func disassociateFromAdministratorAccount(_ input: DisassociateFromAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateFromAdministratorAccountResponse> {
-        return self.client.execute(operation: "DisassociateFromAdministratorAccount", path: "/detector/{DetectorId}/administrator/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateFromAdministratorAccount(_ input: DisassociateFromAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromAdministratorAccountResponse {
+        return try await self.client.execute(operation: "DisassociateFromAdministratorAccount", path: "/detector/{DetectorId}/administrator/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates the current GuardDuty member account from its administrator account.
     @available(*, deprecated, message: "This operation is deprecated, use DisassociateFromAdministratorAccount instead")
-    public func disassociateFromMasterAccount(_ input: DisassociateFromMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateFromMasterAccountResponse> {
-        return self.client.execute(operation: "DisassociateFromMasterAccount", path: "/detector/{DetectorId}/master/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateFromMasterAccount(_ input: DisassociateFromMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromMasterAccountResponse {
+        return try await self.client.execute(operation: "DisassociateFromMasterAccount", path: "/detector/{DetectorId}/master/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates GuardDuty member accounts (to the current administrator account) specified by the account IDs. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disassociate a member account before removing them from your Amazon Web Services organization.
-    public func disassociateMembers(_ input: DisassociateMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateMembersResponse> {
-        return self.client.execute(operation: "DisassociateMembers", path: "/detector/{DetectorId}/member/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateMembers(_ input: DisassociateMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateMembersResponse {
+        return try await self.client.execute(operation: "DisassociateMembers", path: "/detector/{DetectorId}/member/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enables an Amazon Web Services account within the organization as the GuardDuty delegated administrator.
-    public func enableOrganizationAdminAccount(_ input: EnableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableOrganizationAdminAccountResponse> {
-        return self.client.execute(operation: "EnableOrganizationAdminAccount", path: "/admin/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func enableOrganizationAdminAccount(_ input: EnableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableOrganizationAdminAccountResponse {
+        return try await self.client.execute(operation: "EnableOrganizationAdminAccount", path: "/admin/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
-    public func getAdministratorAccount(_ input: GetAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAdministratorAccountResponse> {
-        return self.client.execute(operation: "GetAdministratorAccount", path: "/detector/{DetectorId}/administrator", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAdministratorAccount(_ input: GetAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdministratorAccountResponse {
+        return try await self.client.execute(operation: "GetAdministratorAccount", path: "/detector/{DetectorId}/administrator", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled EKS Runtime Monitoring and have the GuardDuty agent running on their EKS nodes.
-    public func getCoverageStatistics(_ input: GetCoverageStatisticsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoverageStatisticsResponse> {
-        return self.client.execute(operation: "GetCoverageStatistics", path: "/detector/{DetectorId}/coverage/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCoverageStatistics(_ input: GetCoverageStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCoverageStatisticsResponse {
+        return try await self.client.execute(operation: "GetCoverageStatistics", path: "/detector/{DetectorId}/coverage/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves an Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
-    public func getDetector(_ input: GetDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDetectorResponse> {
-        return self.client.execute(operation: "GetDetector", path: "/detector/{DetectorId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDetector(_ input: GetDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDetectorResponse {
+        return try await self.client.execute(operation: "GetDetector", path: "/detector/{DetectorId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the details of the filter specified by the filter name.
-    public func getFilter(_ input: GetFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFilterResponse> {
-        return self.client.execute(operation: "GetFilter", path: "/detector/{DetectorId}/filter/{FilterName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFilter(_ input: GetFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFilterResponse {
+        return try await self.client.execute(operation: "GetFilter", path: "/detector/{DetectorId}/filter/{FilterName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes Amazon GuardDuty findings specified by finding IDs.
-    public func getFindings(_ input: GetFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFindingsResponse> {
-        return self.client.execute(operation: "GetFindings", path: "/detector/{DetectorId}/findings/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFindings(_ input: GetFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsResponse {
+        return try await self.client.execute(operation: "GetFindings", path: "/detector/{DetectorId}/findings/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists Amazon GuardDuty findings statistics for the specified detector ID.
-    public func getFindingsStatistics(_ input: GetFindingsStatisticsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFindingsStatisticsResponse> {
-        return self.client.execute(operation: "GetFindingsStatistics", path: "/detector/{DetectorId}/findings/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFindingsStatistics(_ input: GetFindingsStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsStatisticsResponse {
+        return try await self.client.execute(operation: "GetFindingsStatistics", path: "/detector/{DetectorId}/findings/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the IPSet specified by the ipSetId.
-    public func getIPSet(_ input: GetIPSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIPSetResponse> {
-        return self.client.execute(operation: "GetIPSet", path: "/detector/{DetectorId}/ipset/{IpSetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getIPSet(_ input: GetIPSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIPSetResponse {
+        return try await self.client.execute(operation: "GetIPSet", path: "/detector/{DetectorId}/ipset/{IpSetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation.
-    public func getInvitationsCount(_ input: GetInvitationsCountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInvitationsCountResponse> {
-        return self.client.execute(operation: "GetInvitationsCount", path: "/invitation/count", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getInvitationsCount(_ input: GetInvitationsCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvitationsCountResponse {
+        return try await self.client.execute(operation: "GetInvitationsCount", path: "/invitation/count", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the details of the malware scan settings. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
-    public func getMalwareScanSettings(_ input: GetMalwareScanSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMalwareScanSettingsResponse> {
-        return self.client.execute(operation: "GetMalwareScanSettings", path: "/detector/{DetectorId}/malware-scan-settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMalwareScanSettings(_ input: GetMalwareScanSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMalwareScanSettingsResponse {
+        return try await self.client.execute(operation: "GetMalwareScanSettings", path: "/detector/{DetectorId}/malware-scan-settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
     @available(*, deprecated, message: "This operation is deprecated, use GetAdministratorAccount instead")
-    public func getMasterAccount(_ input: GetMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMasterAccountResponse> {
-        return self.client.execute(operation: "GetMasterAccount", path: "/detector/{DetectorId}/master", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMasterAccount(_ input: GetMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMasterAccountResponse {
+        return try await self.client.execute(operation: "GetMasterAccount", path: "/detector/{DetectorId}/master", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes which data sources are enabled for the member account's detector. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
-    public func getMemberDetectors(_ input: GetMemberDetectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMemberDetectorsResponse> {
-        return self.client.execute(operation: "GetMemberDetectors", path: "/detector/{DetectorId}/member/detector/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMemberDetectors(_ input: GetMemberDetectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMemberDetectorsResponse {
+        return try await self.client.execute(operation: "GetMemberDetectors", path: "/detector/{DetectorId}/member/detector/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by the account IDs.
-    public func getMembers(_ input: GetMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMembersResponse> {
-        return self.client.execute(operation: "GetMembers", path: "/detector/{DetectorId}/member/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMembers(_ input: GetMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMembersResponse {
+        return try await self.client.execute(operation: "GetMembers", path: "/detector/{DetectorId}/member/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides the number of days left for each data source used in the free trial period.
-    public func getRemainingFreeTrialDays(_ input: GetRemainingFreeTrialDaysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRemainingFreeTrialDaysResponse> {
-        return self.client.execute(operation: "GetRemainingFreeTrialDays", path: "/detector/{DetectorId}/freeTrial/daysRemaining", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getRemainingFreeTrialDays(_ input: GetRemainingFreeTrialDaysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRemainingFreeTrialDaysResponse {
+        return try await self.client.execute(operation: "GetRemainingFreeTrialDays", path: "/detector/{DetectorId}/freeTrial/daysRemaining", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
-    public func getThreatIntelSet(_ input: GetThreatIntelSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetThreatIntelSetResponse> {
-        return self.client.execute(operation: "GetThreatIntelSet", path: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getThreatIntelSet(_ input: GetThreatIntelSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetThreatIntelSetResponse {
+        return try await self.client.execute(operation: "GetThreatIntelSet", path: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see Understanding How Usage Costs are Calculated.
-    public func getUsageStatistics(_ input: GetUsageStatisticsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUsageStatisticsResponse> {
-        return self.client.execute(operation: "GetUsageStatistics", path: "/detector/{DetectorId}/usage/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getUsageStatistics(_ input: GetUsageStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUsageStatisticsResponse {
+        return try await self.client.execute(operation: "GetUsageStatistics", path: "/detector/{DetectorId}/usage/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Invites other Amazon Web Services accounts (created as members of the current Amazon Web Services account by CreateMembers) to enable GuardDuty, and allow the current Amazon Web Services account to view and manage these accounts' findings on their behalf as the GuardDuty administrator account.
-    public func inviteMembers(_ input: InviteMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<InviteMembersResponse> {
-        return self.client.execute(operation: "InviteMembers", path: "/detector/{DetectorId}/member/invite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func inviteMembers(_ input: InviteMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InviteMembersResponse {
+        return try await self.client.execute(operation: "InviteMembers", path: "/detector/{DetectorId}/member/invite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have EKS Runtime Monitoring enabled and GuardDuty agent running on their EKS nodes.
-    public func listCoverage(_ input: ListCoverageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCoverageResponse> {
-        return self.client.execute(operation: "ListCoverage", path: "/detector/{DetectorId}/coverage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCoverage(_ input: ListCoverageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCoverageResponse {
+        return try await self.client.execute(operation: "ListCoverage", path: "/detector/{DetectorId}/coverage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists detectorIds of all the existing Amazon GuardDuty detector resources.
-    public func listDetectors(_ input: ListDetectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDetectorsResponse> {
-        return self.client.execute(operation: "ListDetectors", path: "/detector", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDetectors(_ input: ListDetectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDetectorsResponse {
+        return try await self.client.execute(operation: "ListDetectors", path: "/detector", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a paginated list of the current filters.
-    public func listFilters(_ input: ListFiltersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFiltersResponse> {
-        return self.client.execute(operation: "ListFilters", path: "/detector/{DetectorId}/filter", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listFilters(_ input: ListFiltersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFiltersResponse {
+        return try await self.client.execute(operation: "ListFilters", path: "/detector/{DetectorId}/filter", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists Amazon GuardDuty findings for the specified detector ID.
-    public func listFindings(_ input: ListFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFindingsResponse> {
-        return self.client.execute(operation: "ListFindings", path: "/detector/{DetectorId}/findings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listFindings(_ input: ListFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFindingsResponse {
+        return try await self.client.execute(operation: "ListFindings", path: "/detector/{DetectorId}/findings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account.
-    public func listIPSets(_ input: ListIPSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIPSetsResponse> {
-        return self.client.execute(operation: "ListIPSets", path: "/detector/{DetectorId}/ipset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listIPSets(_ input: ListIPSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIPSetsResponse {
+        return try await self.client.execute(operation: "ListIPSets", path: "/detector/{DetectorId}/ipset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services account.
-    public func listInvitations(_ input: ListInvitationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInvitationsResponse> {
-        return self.client.execute(operation: "ListInvitations", path: "/invitation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listInvitations(_ input: ListInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvitationsResponse {
+        return try await self.client.execute(operation: "ListInvitations", path: "/invitation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists details about all member accounts for the current GuardDuty administrator account.
-    public func listMembers(_ input: ListMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMembersResponse> {
-        return self.client.execute(operation: "ListMembers", path: "/detector/{DetectorId}/member", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listMembers(_ input: ListMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMembersResponse {
+        return try await self.client.execute(operation: "ListMembers", path: "/detector/{DetectorId}/member", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the accounts configured as GuardDuty delegated administrators.
-    public func listOrganizationAdminAccounts(_ input: ListOrganizationAdminAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOrganizationAdminAccountsResponse> {
-        return self.client.execute(operation: "ListOrganizationAdminAccounts", path: "/admin", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listOrganizationAdminAccounts(_ input: ListOrganizationAdminAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationAdminAccountsResponse {
+        return try await self.client.execute(operation: "ListOrganizationAdminAccounts", path: "/admin", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of publishing destinations associated with the specified detectorId.
-    public func listPublishingDestinations(_ input: ListPublishingDestinationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPublishingDestinationsResponse> {
-        return self.client.execute(operation: "ListPublishingDestinations", path: "/detector/{DetectorId}/publishingDestination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPublishingDestinations(_ input: ListPublishingDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPublishingDestinationsResponse {
+        return try await self.client.execute(operation: "ListPublishingDestinations", path: "/detector/{DetectorId}/publishingDestination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, and threat intel sets, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
-    public func listThreatIntelSets(_ input: ListThreatIntelSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThreatIntelSetsResponse> {
-        return self.client.execute(operation: "ListThreatIntelSets", path: "/detector/{DetectorId}/threatintelset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listThreatIntelSets(_ input: ListThreatIntelSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThreatIntelSetsResponse {
+        return try await self.client.execute(operation: "ListThreatIntelSets", path: "/detector/{DetectorId}/threatintelset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Initiates the malware scan. Invoking this API will automatically create the Service-linked role  in  the corresponding account.
-    public func startMalwareScan(_ input: StartMalwareScanRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMalwareScanResponse> {
-        return self.client.execute(operation: "StartMalwareScan", path: "/malware-scan/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startMalwareScan(_ input: StartMalwareScanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMalwareScanResponse {
+        return try await self.client.execute(operation: "StartMalwareScan", path: "/malware-scan/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the StopMonitoringMembers operation.
-    public func startMonitoringMembers(_ input: StartMonitoringMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartMonitoringMembersResponse> {
-        return self.client.execute(operation: "StartMonitoringMembers", path: "/detector/{DetectorId}/member/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startMonitoringMembers(_ input: StartMonitoringMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMonitoringMembersResponse {
+        return try await self.client.execute(operation: "StartMonitoringMembers", path: "/detector/{DetectorId}/member/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to stop monitoring the member accounts in your organization.
-    public func stopMonitoringMembers(_ input: StopMonitoringMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopMonitoringMembersResponse> {
-        return self.client.execute(operation: "StopMonitoringMembers", path: "/detector/{DetectorId}/member/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopMonitoringMembers(_ input: StopMonitoringMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopMonitoringMembersResponse {
+        return try await self.client.execute(operation: "StopMonitoringMembers", path: "/detector/{DetectorId}/member/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds tags to a resource.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Unarchives GuardDuty findings specified by the findingIds.
-    public func unarchiveFindings(_ input: UnarchiveFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UnarchiveFindingsResponse> {
-        return self.client.execute(operation: "UnarchiveFindings", path: "/detector/{DetectorId}/findings/unarchive", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func unarchiveFindings(_ input: UnarchiveFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UnarchiveFindingsResponse {
+        return try await self.client.execute(operation: "UnarchiveFindings", path: "/detector/{DetectorId}/findings/unarchive", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
-    public func updateDetector(_ input: UpdateDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDetectorResponse> {
-        return self.client.execute(operation: "UpdateDetector", path: "/detector/{DetectorId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDetector(_ input: UpdateDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDetectorResponse {
+        return try await self.client.execute(operation: "UpdateDetector", path: "/detector/{DetectorId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the filter specified by the filter name.
-    public func updateFilter(_ input: UpdateFilterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFilterResponse> {
-        return self.client.execute(operation: "UpdateFilter", path: "/detector/{DetectorId}/filter/{FilterName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateFilter(_ input: UpdateFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFilterResponse {
+        return try await self.client.execute(operation: "UpdateFilter", path: "/detector/{DetectorId}/filter/{FilterName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Marks the specified GuardDuty findings as useful or not useful.
-    public func updateFindingsFeedback(_ input: UpdateFindingsFeedbackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFindingsFeedbackResponse> {
-        return self.client.execute(operation: "UpdateFindingsFeedback", path: "/detector/{DetectorId}/findings/feedback", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateFindingsFeedback(_ input: UpdateFindingsFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFindingsFeedbackResponse {
+        return try await self.client.execute(operation: "UpdateFindingsFeedback", path: "/detector/{DetectorId}/findings/feedback", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the IPSet specified by the IPSet ID.
-    public func updateIPSet(_ input: UpdateIPSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateIPSetResponse> {
-        return self.client.execute(operation: "UpdateIPSet", path: "/detector/{DetectorId}/ipset/{IpSetId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateIPSet(_ input: UpdateIPSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIPSetResponse {
+        return try await self.client.execute(operation: "UpdateIPSet", path: "/detector/{DetectorId}/ipset/{IpSetId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the malware scan settings. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
-    public func updateMalwareScanSettings(_ input: UpdateMalwareScanSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMalwareScanSettingsResponse> {
-        return self.client.execute(operation: "UpdateMalwareScanSettings", path: "/detector/{DetectorId}/malware-scan-settings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateMalwareScanSettings(_ input: UpdateMalwareScanSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMalwareScanSettingsResponse {
+        return try await self.client.execute(operation: "UpdateMalwareScanSettings", path: "/detector/{DetectorId}/malware-scan-settings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Contains information on member accounts to be updated. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
-    public func updateMemberDetectors(_ input: UpdateMemberDetectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMemberDetectorsResponse> {
-        return self.client.execute(operation: "UpdateMemberDetectors", path: "/detector/{DetectorId}/member/detector/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateMemberDetectors(_ input: UpdateMemberDetectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMemberDetectorsResponse {
+        return try await self.client.execute(operation: "UpdateMemberDetectors", path: "/detector/{DetectorId}/member/detector/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Configures the delegated administrator account with the provided values. You must provide the value for either autoEnableOrganizationMembers or autoEnable.  There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
-    public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateOrganizationConfigurationResponse> {
-        return self.client.execute(operation: "UpdateOrganizationConfiguration", path: "/detector/{DetectorId}/admin", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOrganizationConfigurationResponse {
+        return try await self.client.execute(operation: "UpdateOrganizationConfiguration", path: "/detector/{DetectorId}/admin", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates information about the publishing destination specified by the destinationId.
-    public func updatePublishingDestination(_ input: UpdatePublishingDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePublishingDestinationResponse> {
-        return self.client.execute(operation: "UpdatePublishingDestination", path: "/detector/{DetectorId}/publishingDestination/{DestinationId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePublishingDestination(_ input: UpdatePublishingDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePublishingDestinationResponse {
+        return try await self.client.execute(operation: "UpdatePublishingDestination", path: "/detector/{DetectorId}/publishingDestination/{DestinationId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
-    public func updateThreatIntelSet(_ input: UpdateThreatIntelSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateThreatIntelSetResponse> {
-        return self.client.execute(operation: "UpdateThreatIntelSet", path: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateThreatIntelSet(_ input: UpdateThreatIntelSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThreatIntelSetResponse {
+        return try await self.client.execute(operation: "UpdateThreatIntelSet", path: "/detector/{DetectorId}/threatintelset/{ThreatIntelSetId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -428,693 +496,252 @@ extension GuardDuty {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension GuardDuty {
     /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeMalwareScansPaginator<Result>(
-        _ input: DescribeMalwareScansRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeMalwareScansResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeMalwareScans,
-            inputKey: \DescribeMalwareScansRequest.nextToken,
-            outputKey: \DescribeMalwareScansResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMalwareScansPaginator(
         _ input: DescribeMalwareScansRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeMalwareScansResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMalwareScansRequest, DescribeMalwareScansResponse> {
+        return .init(
             input: input,
             command: self.describeMalwareScans,
             inputKey: \DescribeMalwareScansRequest.nextToken,
             outputKey: \DescribeMalwareScansResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns information about the account selected as the delegated administrator for GuardDuty. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeOrganizationConfigurationPaginator<Result>(
-        _ input: DescribeOrganizationConfigurationRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeOrganizationConfigurationResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeOrganizationConfiguration,
-            inputKey: \DescribeOrganizationConfigurationRequest.nextToken,
-            outputKey: \DescribeOrganizationConfigurationResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeOrganizationConfigurationPaginator(
         _ input: DescribeOrganizationConfigurationRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeOrganizationConfigurationResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeOrganizationConfigurationRequest, DescribeOrganizationConfigurationResponse> {
+        return .init(
             input: input,
             command: self.describeOrganizationConfiguration,
             inputKey: \DescribeOrganizationConfigurationRequest.nextToken,
             outputKey: \DescribeOrganizationConfigurationResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see Understanding How Usage Costs are Calculated.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getUsageStatisticsPaginator<Result>(
-        _ input: GetUsageStatisticsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetUsageStatisticsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getUsageStatistics,
-            inputKey: \GetUsageStatisticsRequest.nextToken,
-            outputKey: \GetUsageStatisticsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getUsageStatisticsPaginator(
         _ input: GetUsageStatisticsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetUsageStatisticsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetUsageStatisticsRequest, GetUsageStatisticsResponse> {
+        return .init(
             input: input,
             command: self.getUsageStatistics,
             inputKey: \GetUsageStatisticsRequest.nextToken,
             outputKey: \GetUsageStatisticsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have EKS Runtime Monitoring enabled and GuardDuty agent running on their EKS nodes.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCoveragePaginator<Result>(
-        _ input: ListCoverageRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCoverageResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCoverage,
-            inputKey: \ListCoverageRequest.nextToken,
-            outputKey: \ListCoverageResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCoveragePaginator(
         _ input: ListCoverageRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCoverageResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCoverageRequest, ListCoverageResponse> {
+        return .init(
             input: input,
             command: self.listCoverage,
             inputKey: \ListCoverageRequest.nextToken,
             outputKey: \ListCoverageResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists detectorIds of all the existing Amazon GuardDuty detector resources.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDetectorsPaginator<Result>(
-        _ input: ListDetectorsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDetectorsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDetectors,
-            inputKey: \ListDetectorsRequest.nextToken,
-            outputKey: \ListDetectorsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDetectorsPaginator(
         _ input: ListDetectorsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDetectorsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDetectorsRequest, ListDetectorsResponse> {
+        return .init(
             input: input,
             command: self.listDetectors,
             inputKey: \ListDetectorsRequest.nextToken,
             outputKey: \ListDetectorsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a paginated list of the current filters.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listFiltersPaginator<Result>(
-        _ input: ListFiltersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListFiltersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listFilters,
-            inputKey: \ListFiltersRequest.nextToken,
-            outputKey: \ListFiltersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listFiltersPaginator(
         _ input: ListFiltersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFiltersRequest, ListFiltersResponse> {
+        return .init(
             input: input,
             command: self.listFilters,
             inputKey: \ListFiltersRequest.nextToken,
             outputKey: \ListFiltersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists Amazon GuardDuty findings for the specified detector ID.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listFindingsPaginator<Result>(
-        _ input: ListFindingsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListFindingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listFindings,
-            inputKey: \ListFindingsRequest.nextToken,
-            outputKey: \ListFindingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listFindingsPaginator(
         _ input: ListFindingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFindingsRequest, ListFindingsResponse> {
+        return .init(
             input: input,
             command: self.listFindings,
             inputKey: \ListFindingsRequest.nextToken,
             outputKey: \ListFindingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listIPSetsPaginator<Result>(
-        _ input: ListIPSetsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListIPSetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listIPSets,
-            inputKey: \ListIPSetsRequest.nextToken,
-            outputKey: \ListIPSetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listIPSetsPaginator(
         _ input: ListIPSetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListIPSetsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIPSetsRequest, ListIPSetsResponse> {
+        return .init(
             input: input,
             command: self.listIPSets,
             inputKey: \ListIPSetsRequest.nextToken,
             outputKey: \ListIPSetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listInvitationsPaginator<Result>(
-        _ input: ListInvitationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListInvitationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listInvitations,
-            inputKey: \ListInvitationsRequest.nextToken,
-            outputKey: \ListInvitationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listInvitationsPaginator(
         _ input: ListInvitationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListInvitationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInvitationsRequest, ListInvitationsResponse> {
+        return .init(
             input: input,
             command: self.listInvitations,
             inputKey: \ListInvitationsRequest.nextToken,
             outputKey: \ListInvitationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists details about all member accounts for the current GuardDuty administrator account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listMembersPaginator<Result>(
-        _ input: ListMembersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListMembersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listMembers,
-            inputKey: \ListMembersRequest.nextToken,
-            outputKey: \ListMembersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMembersPaginator(
         _ input: ListMembersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListMembersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMembersRequest, ListMembersResponse> {
+        return .init(
             input: input,
             command: self.listMembers,
             inputKey: \ListMembersRequest.nextToken,
             outputKey: \ListMembersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the accounts configured as GuardDuty delegated administrators.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listOrganizationAdminAccountsPaginator<Result>(
-        _ input: ListOrganizationAdminAccountsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListOrganizationAdminAccountsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listOrganizationAdminAccounts,
-            inputKey: \ListOrganizationAdminAccountsRequest.nextToken,
-            outputKey: \ListOrganizationAdminAccountsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listOrganizationAdminAccountsPaginator(
         _ input: ListOrganizationAdminAccountsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListOrganizationAdminAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOrganizationAdminAccountsRequest, ListOrganizationAdminAccountsResponse> {
+        return .init(
             input: input,
             command: self.listOrganizationAdminAccounts,
             inputKey: \ListOrganizationAdminAccountsRequest.nextToken,
             outputKey: \ListOrganizationAdminAccountsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of publishing destinations associated with the specified detectorId.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPublishingDestinationsPaginator<Result>(
-        _ input: ListPublishingDestinationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPublishingDestinationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPublishingDestinations,
-            inputKey: \ListPublishingDestinationsRequest.nextToken,
-            outputKey: \ListPublishingDestinationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPublishingDestinationsPaginator(
         _ input: ListPublishingDestinationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPublishingDestinationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPublishingDestinationsRequest, ListPublishingDestinationsResponse> {
+        return .init(
             input: input,
             command: self.listPublishingDestinations,
             inputKey: \ListPublishingDestinationsRequest.nextToken,
             outputKey: \ListPublishingDestinationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listThreatIntelSetsPaginator<Result>(
-        _ input: ListThreatIntelSetsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListThreatIntelSetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listThreatIntelSets,
-            inputKey: \ListThreatIntelSetsRequest.nextToken,
-            outputKey: \ListThreatIntelSetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listThreatIntelSetsPaginator(
         _ input: ListThreatIntelSetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListThreatIntelSetsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListThreatIntelSetsRequest, ListThreatIntelSetsResponse> {
+        return .init(
             input: input,
             command: self.listThreatIntelSets,
             inputKey: \ListThreatIntelSetsRequest.nextToken,
             outputKey: \ListThreatIntelSetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

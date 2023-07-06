@@ -673,9 +673,9 @@ extension Schemas {
             AWSMemberEncoding(label: "body", location: .body("Body"))
         ]
 
-        public let body: AWSPayload?
+        public let body: HTTPBody?
 
-        public init(body: AWSPayload? = nil) {
+        public init(body: HTTPBody? = nil) {
             self.body = body
         }
 

@@ -73,88 +73,105 @@ public struct SsmSap: AWSService {
     // MARK: API Calls
 
     /// Removes permissions associated with the target database.
-    public func deleteResourcePermission(_ input: DeleteResourcePermissionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourcePermissionOutput> {
-        return self.client.execute(operation: "DeleteResourcePermission", path: "/delete-resource-permission", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteResourcePermission(_ input: DeleteResourcePermissionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePermissionOutput {
+        return try await self.client.execute(operation: "DeleteResourcePermission", path: "/delete-resource-permission", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deregister an SAP application with AWS Systems Manager for SAP. This action does not aﬀect the existing setup of your SAP workloads on Amazon EC2.
-    public func deregisterApplication(_ input: DeregisterApplicationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterApplicationOutput> {
-        return self.client.execute(operation: "DeregisterApplication", path: "/deregister-application", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deregisterApplication(_ input: DeregisterApplicationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterApplicationOutput {
+        return try await self.client.execute(operation: "DeregisterApplication", path: "/deregister-application", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets an application registered with AWS Systems Manager for SAP. It also returns the components of the application.
-    public func getApplication(_ input: GetApplicationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApplicationOutput> {
-        return self.client.execute(operation: "GetApplication", path: "/get-application", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getApplication(_ input: GetApplicationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationOutput {
+        return try await self.client.execute(operation: "GetApplication", path: "/get-application", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the component of an application registered with AWS Systems Manager for SAP.
-    public func getComponent(_ input: GetComponentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetComponentOutput> {
-        return self.client.execute(operation: "GetComponent", path: "/get-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getComponent(_ input: GetComponentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComponentOutput {
+        return try await self.client.execute(operation: "GetComponent", path: "/get-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the SAP HANA database of an application registered with AWS Systems Manager for SAP.
-    public func getDatabase(_ input: GetDatabaseInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDatabaseOutput> {
-        return self.client.execute(operation: "GetDatabase", path: "/get-database", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDatabase(_ input: GetDatabaseInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDatabaseOutput {
+        return try await self.client.execute(operation: "GetDatabase", path: "/get-database", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the details of an operation by specifying the operation ID.
-    public func getOperation(_ input: GetOperationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOperationOutput> {
-        return self.client.execute(operation: "GetOperation", path: "/get-operation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getOperation(_ input: GetOperationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOperationOutput {
+        return try await self.client.execute(operation: "GetOperation", path: "/get-operation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets permissions associated with the target database.
-    public func getResourcePermission(_ input: GetResourcePermissionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourcePermissionOutput> {
-        return self.client.execute(operation: "GetResourcePermission", path: "/get-resource-permission", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getResourcePermission(_ input: GetResourcePermissionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePermissionOutput {
+        return try await self.client.execute(operation: "GetResourcePermission", path: "/get-resource-permission", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the applications registered with AWS Systems Manager for SAP.
-    public func listApplications(_ input: ListApplicationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationsOutput> {
-        return self.client.execute(operation: "ListApplications", path: "/list-applications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listApplications(_ input: ListApplicationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsOutput {
+        return try await self.client.execute(operation: "ListApplications", path: "/list-applications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the components registered with AWS Systems Manager for SAP.
-    public func listComponents(_ input: ListComponentsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListComponentsOutput> {
-        return self.client.execute(operation: "ListComponents", path: "/list-components", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listComponents(_ input: ListComponentsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentsOutput {
+        return try await self.client.execute(operation: "ListComponents", path: "/list-components", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP.
-    public func listDatabases(_ input: ListDatabasesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatabasesOutput> {
-        return self.client.execute(operation: "ListDatabases", path: "/list-databases", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDatabases(_ input: ListDatabasesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatabasesOutput {
+        return try await self.client.execute(operation: "ListDatabases", path: "/list-databases", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the operations performed by AWS Systems Manager for SAP.
-    public func listOperations(_ input: ListOperationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOperationsOutput> {
-        return self.client.execute(operation: "ListOperations", path: "/list-operations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listOperations(_ input: ListOperationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOperationsOutput {
+        return try await self.client.execute(operation: "ListOperations", path: "/list-operations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds permissions to the target database.
-    public func putResourcePermission(_ input: PutResourcePermissionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutResourcePermissionOutput> {
-        return self.client.execute(operation: "PutResourcePermission", path: "/put-resource-permission", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putResourcePermission(_ input: PutResourcePermissionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePermissionOutput {
+        return try await self.client.execute(operation: "PutResourcePermission", path: "/put-resource-permission", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Register an SAP application with AWS Systems Manager for SAP. You must meet the following requirements before registering.  The SAP application you want to register with AWS Systems Manager for SAP is running on Amazon EC2. AWS Systems Manager Agent must be setup on an Amazon EC2 instance along with the required IAM permissions. Amazon EC2 instance(s) must have access to the secrets created in AWS Secrets Manager to manage SAP applications and components.
-    public func registerApplication(_ input: RegisterApplicationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterApplicationOutput> {
-        return self.client.execute(operation: "RegisterApplication", path: "/register-application", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func registerApplication(_ input: RegisterApplicationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterApplicationOutput {
+        return try await self.client.execute(operation: "RegisterApplication", path: "/register-application", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates tag for a resource by specifying the ARN.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete the tags for a resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the settings of an application registered with AWS Systems Manager for SAP.
-    public func updateApplicationSettings(_ input: UpdateApplicationSettingsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApplicationSettingsOutput> {
-        return self.client.execute(operation: "UpdateApplicationSettings", path: "/update-application-settings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateApplicationSettings(_ input: UpdateApplicationSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationSettingsOutput {
+        return try await self.client.execute(operation: "UpdateApplicationSettings", path: "/update-application-settings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -169,216 +186,81 @@ extension SsmSap {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SsmSap {
     /// Lists all the applications registered with AWS Systems Manager for SAP.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listApplicationsPaginator<Result>(
-        _ input: ListApplicationsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListApplicationsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listApplications,
-            inputKey: \ListApplicationsInput.nextToken,
-            outputKey: \ListApplicationsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listApplicationsPaginator(
         _ input: ListApplicationsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListApplicationsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
+        return .init(
             input: input,
             command: self.listApplications,
             inputKey: \ListApplicationsInput.nextToken,
             outputKey: \ListApplicationsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the components registered with AWS Systems Manager for SAP.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listComponentsPaginator<Result>(
-        _ input: ListComponentsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListComponentsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listComponents,
-            inputKey: \ListComponentsInput.nextToken,
-            outputKey: \ListComponentsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listComponentsPaginator(
         _ input: ListComponentsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListComponentsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListComponentsInput, ListComponentsOutput> {
+        return .init(
             input: input,
             command: self.listComponents,
             inputKey: \ListComponentsInput.nextToken,
             outputKey: \ListComponentsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDatabasesPaginator<Result>(
-        _ input: ListDatabasesInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDatabasesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDatabases,
-            inputKey: \ListDatabasesInput.nextToken,
-            outputKey: \ListDatabasesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDatabasesPaginator(
         _ input: ListDatabasesInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDatabasesOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput> {
+        return .init(
             input: input,
             command: self.listDatabases,
             inputKey: \ListDatabasesInput.nextToken,
             outputKey: \ListDatabasesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the operations performed by AWS Systems Manager for SAP.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listOperationsPaginator<Result>(
-        _ input: ListOperationsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListOperationsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listOperations,
-            inputKey: \ListOperationsInput.nextToken,
-            outputKey: \ListOperationsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listOperationsPaginator(
         _ input: ListOperationsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListOperationsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOperationsInput, ListOperationsOutput> {
+        return .init(
             input: input,
             command: self.listOperations,
             inputKey: \ListOperationsInput.nextToken,
             outputKey: \ListOperationsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

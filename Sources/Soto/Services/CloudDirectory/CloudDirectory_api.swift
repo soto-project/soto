@@ -69,333 +69,399 @@ public struct CloudDirectory: AWSService {
     // MARK: API Calls
 
     /// Adds a new Facet to an object. An object can have more than one facet applied on it.
-    public func addFacetToObject(_ input: AddFacetToObjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddFacetToObjectResponse> {
-        return self.client.execute(operation: "AddFacetToObject", path: "/amazonclouddirectory/2017-01-11/object/facets", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func addFacetToObject(_ input: AddFacetToObjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddFacetToObjectResponse {
+        return try await self.client.execute(operation: "AddFacetToObject", path: "/amazonclouddirectory/2017-01-11/object/facets", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Copies the input published schema, at the specified version, into the Directory with the same name and version as that of the published schema.
-    public func applySchema(_ input: ApplySchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApplySchemaResponse> {
-        return self.client.execute(operation: "ApplySchema", path: "/amazonclouddirectory/2017-01-11/schema/apply", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func applySchema(_ input: ApplySchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ApplySchemaResponse {
+        return try await self.client.execute(operation: "ApplySchema", path: "/amazonclouddirectory/2017-01-11/schema/apply", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Attaches an existing object to another object. An object can be accessed in two ways:   Using the path   Using ObjectIdentifier
-    public func attachObject(_ input: AttachObjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AttachObjectResponse> {
-        return self.client.execute(operation: "AttachObject", path: "/amazonclouddirectory/2017-01-11/object/attach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func attachObject(_ input: AttachObjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachObjectResponse {
+        return try await self.client.execute(operation: "AttachObject", path: "/amazonclouddirectory/2017-01-11/object/attach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Attaches a policy object to a regular object. An object can have a limited number of attached policies.
-    public func attachPolicy(_ input: AttachPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AttachPolicyResponse> {
-        return self.client.execute(operation: "AttachPolicy", path: "/amazonclouddirectory/2017-01-11/policy/attach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func attachPolicy(_ input: AttachPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachPolicyResponse {
+        return try await self.client.execute(operation: "AttachPolicy", path: "/amazonclouddirectory/2017-01-11/policy/attach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Attaches the specified object to the specified index.
-    public func attachToIndex(_ input: AttachToIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AttachToIndexResponse> {
-        return self.client.execute(operation: "AttachToIndex", path: "/amazonclouddirectory/2017-01-11/index/attach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func attachToIndex(_ input: AttachToIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachToIndexResponse {
+        return try await self.client.execute(operation: "AttachToIndex", path: "/amazonclouddirectory/2017-01-11/index/attach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Attaches a typed link to a specified source and target object. For more information, see Typed Links.
-    public func attachTypedLink(_ input: AttachTypedLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AttachTypedLinkResponse> {
-        return self.client.execute(operation: "AttachTypedLink", path: "/amazonclouddirectory/2017-01-11/typedlink/attach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func attachTypedLink(_ input: AttachTypedLinkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachTypedLinkResponse {
+        return try await self.client.execute(operation: "AttachTypedLink", path: "/amazonclouddirectory/2017-01-11/typedlink/attach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Performs all the read operations in a batch.
-    public func batchRead(_ input: BatchReadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchReadResponse> {
-        return self.client.execute(operation: "BatchRead", path: "/amazonclouddirectory/2017-01-11/batchread", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchRead(_ input: BatchReadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchReadResponse {
+        return try await self.client.execute(operation: "BatchRead", path: "/amazonclouddirectory/2017-01-11/batchread", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Performs all the write operations in a batch. Either all the operations succeed or none.
-    public func batchWrite(_ input: BatchWriteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchWriteResponse> {
-        return self.client.execute(operation: "BatchWrite", path: "/amazonclouddirectory/2017-01-11/batchwrite", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchWrite(_ input: BatchWriteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchWriteResponse {
+        return try await self.client.execute(operation: "BatchWrite", path: "/amazonclouddirectory/2017-01-11/batchwrite", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a Directory by copying the published schema into the directory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema. For more information, see Managed Schema in the Amazon Cloud Directory Developer Guide.
-    public func createDirectory(_ input: CreateDirectoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDirectoryResponse> {
-        return self.client.execute(operation: "CreateDirectory", path: "/amazonclouddirectory/2017-01-11/directory/create", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDirectory(_ input: CreateDirectoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDirectoryResponse {
+        return try await self.client.execute(operation: "CreateDirectory", path: "/amazonclouddirectory/2017-01-11/directory/create", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new Facet in a schema. Facet creation is allowed only in development or applied schemas.
-    public func createFacet(_ input: CreateFacetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFacetResponse> {
-        return self.client.execute(operation: "CreateFacet", path: "/amazonclouddirectory/2017-01-11/facet/create", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createFacet(_ input: CreateFacetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFacetResponse {
+        return try await self.client.execute(operation: "CreateFacet", path: "/amazonclouddirectory/2017-01-11/facet/create", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an index object. See Indexing and search for more information.
-    public func createIndex(_ input: CreateIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIndexResponse> {
-        return self.client.execute(operation: "CreateIndex", path: "/amazonclouddirectory/2017-01-11/index", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createIndex(_ input: CreateIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIndexResponse {
+        return try await self.client.execute(operation: "CreateIndex", path: "/amazonclouddirectory/2017-01-11/index", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an object in a Directory. Additionally attaches the object to a parent, if a parent reference and LinkName is specified. An object is simply a collection of Facet attributes. You can also use this API call to create a policy object, if the facet from which you create the object is a policy facet.
-    public func createObject(_ input: CreateObjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateObjectResponse> {
-        return self.client.execute(operation: "CreateObject", path: "/amazonclouddirectory/2017-01-11/object", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createObject(_ input: CreateObjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateObjectResponse {
+        return try await self.client.execute(operation: "CreateObject", path: "/amazonclouddirectory/2017-01-11/object", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new schema in a development state. A schema can exist in three phases:    Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published.    Published: Published schemas are immutable and have a version associated with them.    Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only published schemas to directories.
-    public func createSchema(_ input: CreateSchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSchemaResponse> {
-        return self.client.execute(operation: "CreateSchema", path: "/amazonclouddirectory/2017-01-11/schema/create", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSchema(_ input: CreateSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSchemaResponse {
+        return try await self.client.execute(operation: "CreateSchema", path: "/amazonclouddirectory/2017-01-11/schema/create", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a TypedLinkFacet. For more information, see Typed Links.
-    public func createTypedLinkFacet(_ input: CreateTypedLinkFacetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTypedLinkFacetResponse> {
-        return self.client.execute(operation: "CreateTypedLinkFacet", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/create", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTypedLinkFacet(_ input: CreateTypedLinkFacetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTypedLinkFacetResponse {
+        return try await self.client.execute(operation: "CreateTypedLinkFacet", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/create", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot be undone. Exercise extreme caution when deleting directories.
-    public func deleteDirectory(_ input: DeleteDirectoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDirectoryResponse> {
-        return self.client.execute(operation: "DeleteDirectory", path: "/amazonclouddirectory/2017-01-11/directory", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDirectory(_ input: DeleteDirectoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDirectoryResponse {
+        return try await self.client.execute(operation: "DeleteDirectory", path: "/amazonclouddirectory/2017-01-11/directory", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a given Facet. All attributes and Rules that are associated with the facet will be deleted. Only development schema facets are allowed deletion.
-    public func deleteFacet(_ input: DeleteFacetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFacetResponse> {
-        return self.client.execute(operation: "DeleteFacet", path: "/amazonclouddirectory/2017-01-11/facet/delete", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteFacet(_ input: DeleteFacetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFacetResponse {
+        return try await self.client.execute(operation: "DeleteFacet", path: "/amazonclouddirectory/2017-01-11/facet/delete", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an object and its associated attributes. Only objects with no children and no parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see Amazon Cloud Directory Limits.
-    public func deleteObject(_ input: DeleteObjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteObjectResponse> {
-        return self.client.execute(operation: "DeleteObject", path: "/amazonclouddirectory/2017-01-11/object/delete", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteObject(_ input: DeleteObjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteObjectResponse {
+        return try await self.client.execute(operation: "DeleteObject", path: "/amazonclouddirectory/2017-01-11/object/delete", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a given schema. Schemas in a development and published state can only be deleted.
-    public func deleteSchema(_ input: DeleteSchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSchemaResponse> {
-        return self.client.execute(operation: "DeleteSchema", path: "/amazonclouddirectory/2017-01-11/schema", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSchema(_ input: DeleteSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSchemaResponse {
+        return try await self.client.execute(operation: "DeleteSchema", path: "/amazonclouddirectory/2017-01-11/schema", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a TypedLinkFacet. For more information, see Typed Links.
-    public func deleteTypedLinkFacet(_ input: DeleteTypedLinkFacetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTypedLinkFacetResponse> {
-        return self.client.execute(operation: "DeleteTypedLinkFacet", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/delete", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteTypedLinkFacet(_ input: DeleteTypedLinkFacetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTypedLinkFacetResponse {
+        return try await self.client.execute(operation: "DeleteTypedLinkFacet", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/delete", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Detaches the specified object from the specified index.
-    public func detachFromIndex(_ input: DetachFromIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetachFromIndexResponse> {
-        return self.client.execute(operation: "DetachFromIndex", path: "/amazonclouddirectory/2017-01-11/index/detach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func detachFromIndex(_ input: DetachFromIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetachFromIndexResponse {
+        return try await self.client.execute(operation: "DetachFromIndex", path: "/amazonclouddirectory/2017-01-11/index/detach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Detaches a given object from the parent object. The object that is to be detached from the parent is specified by the link name.
-    public func detachObject(_ input: DetachObjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetachObjectResponse> {
-        return self.client.execute(operation: "DetachObject", path: "/amazonclouddirectory/2017-01-11/object/detach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func detachObject(_ input: DetachObjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetachObjectResponse {
+        return try await self.client.execute(operation: "DetachObject", path: "/amazonclouddirectory/2017-01-11/object/detach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Detaches a policy from an object.
-    public func detachPolicy(_ input: DetachPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetachPolicyResponse> {
-        return self.client.execute(operation: "DetachPolicy", path: "/amazonclouddirectory/2017-01-11/policy/detach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func detachPolicy(_ input: DetachPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetachPolicyResponse {
+        return try await self.client.execute(operation: "DetachPolicy", path: "/amazonclouddirectory/2017-01-11/policy/detach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Detaches a typed link from a specified source and target object. For more information, see Typed Links.
-    @discardableResult public func detachTypedLink(_ input: DetachTypedLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DetachTypedLink", path: "/amazonclouddirectory/2017-01-11/typedlink/detach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func detachTypedLink(_ input: DetachTypedLinkRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DetachTypedLink", path: "/amazonclouddirectory/2017-01-11/typedlink/detach", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled directories may be reenabled.
-    public func disableDirectory(_ input: DisableDirectoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableDirectoryResponse> {
-        return self.client.execute(operation: "DisableDirectory", path: "/amazonclouddirectory/2017-01-11/directory/disable", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disableDirectory(_ input: DisableDirectoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableDirectoryResponse {
+        return try await self.client.execute(operation: "DisableDirectory", path: "/amazonclouddirectory/2017-01-11/directory/disable", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enables the specified directory. Only disabled directories can be enabled. Once enabled, the directory can then be read and written to.
-    public func enableDirectory(_ input: EnableDirectoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableDirectoryResponse> {
-        return self.client.execute(operation: "EnableDirectory", path: "/amazonclouddirectory/2017-01-11/directory/enable", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func enableDirectory(_ input: EnableDirectoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableDirectoryResponse {
+        return try await self.client.execute(operation: "EnableDirectory", path: "/amazonclouddirectory/2017-01-11/directory/enable", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns current applied schema version ARN, including the minor version in use.
-    public func getAppliedSchemaVersion(_ input: GetAppliedSchemaVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAppliedSchemaVersionResponse> {
-        return self.client.execute(operation: "GetAppliedSchemaVersion", path: "/amazonclouddirectory/2017-01-11/schema/getappliedschema", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAppliedSchemaVersion(_ input: GetAppliedSchemaVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAppliedSchemaVersionResponse {
+        return try await self.client.execute(operation: "GetAppliedSchemaVersion", path: "/amazonclouddirectory/2017-01-11/schema/getappliedschema", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves metadata about a directory.
-    public func getDirectory(_ input: GetDirectoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDirectoryResponse> {
-        return self.client.execute(operation: "GetDirectory", path: "/amazonclouddirectory/2017-01-11/directory/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDirectory(_ input: GetDirectoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDirectoryResponse {
+        return try await self.client.execute(operation: "GetDirectory", path: "/amazonclouddirectory/2017-01-11/directory/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets details of the Facet, such as facet name, attributes, Rules, or ObjectType. You can call this on all kinds of schema facets -- published, development, or applied.
-    public func getFacet(_ input: GetFacetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFacetResponse> {
-        return self.client.execute(operation: "GetFacet", path: "/amazonclouddirectory/2017-01-11/facet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFacet(_ input: GetFacetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFacetResponse {
+        return try await self.client.execute(operation: "GetFacet", path: "/amazonclouddirectory/2017-01-11/facet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves attributes that are associated with a typed link.
-    public func getLinkAttributes(_ input: GetLinkAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLinkAttributesResponse> {
-        return self.client.execute(operation: "GetLinkAttributes", path: "/amazonclouddirectory/2017-01-11/typedlink/attributes/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getLinkAttributes(_ input: GetLinkAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLinkAttributesResponse {
+        return try await self.client.execute(operation: "GetLinkAttributes", path: "/amazonclouddirectory/2017-01-11/typedlink/attributes/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves attributes within a facet that are associated with an object.
-    public func getObjectAttributes(_ input: GetObjectAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetObjectAttributesResponse> {
-        return self.client.execute(operation: "GetObjectAttributes", path: "/amazonclouddirectory/2017-01-11/object/attributes/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getObjectAttributes(_ input: GetObjectAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetObjectAttributesResponse {
+        return try await self.client.execute(operation: "GetObjectAttributes", path: "/amazonclouddirectory/2017-01-11/object/attributes/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves metadata about an object.
-    public func getObjectInformation(_ input: GetObjectInformationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetObjectInformationResponse> {
-        return self.client.execute(operation: "GetObjectInformation", path: "/amazonclouddirectory/2017-01-11/object/information", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getObjectInformation(_ input: GetObjectInformationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetObjectInformationResponse {
+        return try await self.client.execute(operation: "GetObjectInformation", path: "/amazonclouddirectory/2017-01-11/object/information", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a JSON representation of the schema. See JSON Schema Format for more information.
-    public func getSchemaAsJson(_ input: GetSchemaAsJsonRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSchemaAsJsonResponse> {
-        return self.client.execute(operation: "GetSchemaAsJson", path: "/amazonclouddirectory/2017-01-11/schema/json", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSchemaAsJson(_ input: GetSchemaAsJsonRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSchemaAsJsonResponse {
+        return try await self.client.execute(operation: "GetSchemaAsJson", path: "/amazonclouddirectory/2017-01-11/schema/json", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the identity attribute order for a specific TypedLinkFacet. For more information, see Typed Links.
-    public func getTypedLinkFacetInformation(_ input: GetTypedLinkFacetInformationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTypedLinkFacetInformationResponse> {
-        return self.client.execute(operation: "GetTypedLinkFacetInformation", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTypedLinkFacetInformation(_ input: GetTypedLinkFacetInformationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTypedLinkFacetInformationResponse {
+        return try await self.client.execute(operation: "GetTypedLinkFacetInformation", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version.
-    public func listAppliedSchemaArns(_ input: ListAppliedSchemaArnsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppliedSchemaArnsResponse> {
-        return self.client.execute(operation: "ListAppliedSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/applied", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAppliedSchemaArns(_ input: ListAppliedSchemaArnsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppliedSchemaArnsResponse {
+        return try await self.client.execute(operation: "ListAppliedSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/applied", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists indices attached to the specified object.
-    public func listAttachedIndices(_ input: ListAttachedIndicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAttachedIndicesResponse> {
-        return self.client.execute(operation: "ListAttachedIndices", path: "/amazonclouddirectory/2017-01-11/object/indices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAttachedIndices(_ input: ListAttachedIndicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAttachedIndicesResponse {
+        return try await self.client.execute(operation: "ListAttachedIndices", path: "/amazonclouddirectory/2017-01-11/object/indices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves each Amazon Resource Name (ARN) of schemas in the development state.
-    public func listDevelopmentSchemaArns(_ input: ListDevelopmentSchemaArnsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDevelopmentSchemaArnsResponse> {
-        return self.client.execute(operation: "ListDevelopmentSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/development", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDevelopmentSchemaArns(_ input: ListDevelopmentSchemaArnsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDevelopmentSchemaArnsResponse {
+        return try await self.client.execute(operation: "ListDevelopmentSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/development", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists directories created within an account.
-    public func listDirectories(_ input: ListDirectoriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDirectoriesResponse> {
-        return self.client.execute(operation: "ListDirectories", path: "/amazonclouddirectory/2017-01-11/directory/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDirectories(_ input: ListDirectoriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDirectoriesResponse {
+        return try await self.client.execute(operation: "ListDirectories", path: "/amazonclouddirectory/2017-01-11/directory/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves attributes attached to the facet.
-    public func listFacetAttributes(_ input: ListFacetAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFacetAttributesResponse> {
-        return self.client.execute(operation: "ListFacetAttributes", path: "/amazonclouddirectory/2017-01-11/facet/attributes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listFacetAttributes(_ input: ListFacetAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFacetAttributesResponse {
+        return try await self.client.execute(operation: "ListFacetAttributes", path: "/amazonclouddirectory/2017-01-11/facet/attributes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the names of facets that exist in a schema.
-    public func listFacetNames(_ input: ListFacetNamesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFacetNamesResponse> {
-        return self.client.execute(operation: "ListFacetNames", path: "/amazonclouddirectory/2017-01-11/facet/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listFacetNames(_ input: ListFacetNamesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFacetNamesResponse {
+        return try await self.client.execute(operation: "ListFacetNames", path: "/amazonclouddirectory/2017-01-11/facet/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a paginated list of all the incoming TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links.
-    public func listIncomingTypedLinks(_ input: ListIncomingTypedLinksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIncomingTypedLinksResponse> {
-        return self.client.execute(operation: "ListIncomingTypedLinks", path: "/amazonclouddirectory/2017-01-11/typedlink/incoming", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listIncomingTypedLinks(_ input: ListIncomingTypedLinksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIncomingTypedLinksResponse {
+        return try await self.client.execute(operation: "ListIncomingTypedLinks", path: "/amazonclouddirectory/2017-01-11/typedlink/incoming", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists objects attached to the specified index.
-    public func listIndex(_ input: ListIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIndexResponse> {
-        return self.client.execute(operation: "ListIndex", path: "/amazonclouddirectory/2017-01-11/index/targets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listIndex(_ input: ListIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIndexResponse {
+        return try await self.client.execute(operation: "ListIndex", path: "/amazonclouddirectory/2017-01-11/index/targets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
-    public func listManagedSchemaArns(_ input: ListManagedSchemaArnsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListManagedSchemaArnsResponse> {
-        return self.client.execute(operation: "ListManagedSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/managed", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listManagedSchemaArns(_ input: ListManagedSchemaArnsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedSchemaArnsResponse {
+        return try await self.client.execute(operation: "ListManagedSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/managed", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all attributes that are associated with an object.
-    public func listObjectAttributes(_ input: ListObjectAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListObjectAttributesResponse> {
-        return self.client.execute(operation: "ListObjectAttributes", path: "/amazonclouddirectory/2017-01-11/object/attributes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listObjectAttributes(_ input: ListObjectAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListObjectAttributesResponse {
+        return try await self.client.execute(operation: "ListObjectAttributes", path: "/amazonclouddirectory/2017-01-11/object/attributes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a paginated list of child objects that are associated with a given object.
-    public func listObjectChildren(_ input: ListObjectChildrenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListObjectChildrenResponse> {
-        return self.client.execute(operation: "ListObjectChildren", path: "/amazonclouddirectory/2017-01-11/object/children", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listObjectChildren(_ input: ListObjectChildrenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListObjectChildrenResponse {
+        return try await self.client.execute(operation: "ListObjectChildren", path: "/amazonclouddirectory/2017-01-11/object/children", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure. Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults, in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent among multiple API calls unless the objects are deleted or moved. Paths not leading to the directory root are ignored from the target object.
-    public func listObjectParentPaths(_ input: ListObjectParentPathsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListObjectParentPathsResponse> {
-        return self.client.execute(operation: "ListObjectParentPaths", path: "/amazonclouddirectory/2017-01-11/object/parentpaths", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listObjectParentPaths(_ input: ListObjectParentPathsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListObjectParentPathsResponse {
+        return try await self.client.execute(operation: "ListObjectParentPaths", path: "/amazonclouddirectory/2017-01-11/object/parentpaths", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists parent objects that are associated with a given object in pagination fashion.
-    public func listObjectParents(_ input: ListObjectParentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListObjectParentsResponse> {
-        return self.client.execute(operation: "ListObjectParents", path: "/amazonclouddirectory/2017-01-11/object/parent", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listObjectParents(_ input: ListObjectParentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListObjectParentsResponse {
+        return try await self.client.execute(operation: "ListObjectParents", path: "/amazonclouddirectory/2017-01-11/object/parent", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns policies attached to an object in pagination fashion.
-    public func listObjectPolicies(_ input: ListObjectPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListObjectPoliciesResponse> {
-        return self.client.execute(operation: "ListObjectPolicies", path: "/amazonclouddirectory/2017-01-11/object/policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listObjectPolicies(_ input: ListObjectPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListObjectPoliciesResponse {
+        return try await self.client.execute(operation: "ListObjectPolicies", path: "/amazonclouddirectory/2017-01-11/object/policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links.
-    public func listOutgoingTypedLinks(_ input: ListOutgoingTypedLinksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOutgoingTypedLinksResponse> {
-        return self.client.execute(operation: "ListOutgoingTypedLinks", path: "/amazonclouddirectory/2017-01-11/typedlink/outgoing", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listOutgoingTypedLinks(_ input: ListOutgoingTypedLinksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOutgoingTypedLinksResponse {
+        return try await self.client.execute(operation: "ListOutgoingTypedLinks", path: "/amazonclouddirectory/2017-01-11/typedlink/outgoing", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns all of the ObjectIdentifiers to which a given policy is attached.
-    public func listPolicyAttachments(_ input: ListPolicyAttachmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPolicyAttachmentsResponse> {
-        return self.client.execute(operation: "ListPolicyAttachments", path: "/amazonclouddirectory/2017-01-11/policy/attachment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPolicyAttachments(_ input: ListPolicyAttachmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPolicyAttachmentsResponse {
+        return try await self.client.execute(operation: "ListPolicyAttachments", path: "/amazonclouddirectory/2017-01-11/policy/attachment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the major version families of each published schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
-    public func listPublishedSchemaArns(_ input: ListPublishedSchemaArnsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPublishedSchemaArnsResponse> {
-        return self.client.execute(operation: "ListPublishedSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/published", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPublishedSchemaArns(_ input: ListPublishedSchemaArnsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPublishedSchemaArnsResponse {
+        return try await self.client.execute(operation: "ListPublishedSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/published", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are returned for a given directory with this API call.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/amazonclouddirectory/2017-01-11/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/amazonclouddirectory/2017-01-11/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For more information, see Typed Links.
-    public func listTypedLinkFacetAttributes(_ input: ListTypedLinkFacetAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTypedLinkFacetAttributesResponse> {
-        return self.client.execute(operation: "ListTypedLinkFacetAttributes", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTypedLinkFacetAttributes(_ input: ListTypedLinkFacetAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTypedLinkFacetAttributesResponse {
+        return try await self.client.execute(operation: "ListTypedLinkFacetAttributes", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a paginated list of TypedLink facet names for a particular schema. For more information, see Typed Links.
-    public func listTypedLinkFacetNames(_ input: ListTypedLinkFacetNamesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTypedLinkFacetNamesResponse> {
-        return self.client.execute(operation: "ListTypedLinkFacetNames", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTypedLinkFacetNames(_ input: ListTypedLinkFacetNamesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTypedLinkFacetNamesResponse {
+        return try await self.client.execute(operation: "ListTypedLinkFacetNames", path: "/amazonclouddirectory/2017-01-11/typedlink/facet/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see Policies.
-    public func lookupPolicy(_ input: LookupPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<LookupPolicyResponse> {
-        return self.client.execute(operation: "LookupPolicy", path: "/amazonclouddirectory/2017-01-11/policy/lookup", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func lookupPolicy(_ input: LookupPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LookupPolicyResponse {
+        return try await self.client.execute(operation: "LookupPolicy", path: "/amazonclouddirectory/2017-01-11/policy/lookup", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Publishes a development schema with a major version and a recommended minor version.
-    public func publishSchema(_ input: PublishSchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PublishSchemaResponse> {
-        return self.client.execute(operation: "PublishSchema", path: "/amazonclouddirectory/2017-01-11/schema/publish", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func publishSchema(_ input: PublishSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PublishSchemaResponse {
+        return try await self.client.execute(operation: "PublishSchema", path: "/amazonclouddirectory/2017-01-11/schema/publish", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Allows a schema to be updated using JSON upload. Only available for development schemas. See JSON Schema Format for more information.
-    public func putSchemaFromJson(_ input: PutSchemaFromJsonRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutSchemaFromJsonResponse> {
-        return self.client.execute(operation: "PutSchemaFromJson", path: "/amazonclouddirectory/2017-01-11/schema/json", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putSchemaFromJson(_ input: PutSchemaFromJsonRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutSchemaFromJsonResponse {
+        return try await self.client.execute(operation: "PutSchemaFromJson", path: "/amazonclouddirectory/2017-01-11/schema/json", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes the specified facet from the specified object.
-    public func removeFacetFromObject(_ input: RemoveFacetFromObjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveFacetFromObjectResponse> {
-        return self.client.execute(operation: "RemoveFacetFromObject", path: "/amazonclouddirectory/2017-01-11/object/facets/delete", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func removeFacetFromObject(_ input: RemoveFacetFromObjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveFacetFromObjectResponse {
+        return try await self.client.execute(operation: "RemoveFacetFromObject", path: "/amazonclouddirectory/2017-01-11/object/facets/delete", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// An API operation for adding tags to a resource.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/amazonclouddirectory/2017-01-11/tags/add", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/amazonclouddirectory/2017-01-11/tags/add", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// An API operation for removing tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/amazonclouddirectory/2017-01-11/tags/remove", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/amazonclouddirectory/2017-01-11/tags/remove", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Does the following:   Adds new Attributes, Rules, or ObjectTypes.   Updates existing Attributes, Rules, or ObjectTypes.   Deletes existing Attributes, Rules, or ObjectTypes.
-    public func updateFacet(_ input: UpdateFacetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFacetResponse> {
-        return self.client.execute(operation: "UpdateFacet", path: "/amazonclouddirectory/2017-01-11/facet", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateFacet(_ input: UpdateFacetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFacetResponse {
+        return try await self.client.execute(operation: "UpdateFacet", path: "/amazonclouddirectory/2017-01-11/facet", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a given typed link’s attributes. Attributes to be updated must not contribute to the typed link’s identity, as defined by its IdentityAttributeOrder.
-    public func updateLinkAttributes(_ input: UpdateLinkAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLinkAttributesResponse> {
-        return self.client.execute(operation: "UpdateLinkAttributes", path: "/amazonclouddirectory/2017-01-11/typedlink/attributes/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateLinkAttributes(_ input: UpdateLinkAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLinkAttributesResponse {
+        return try await self.client.execute(operation: "UpdateLinkAttributes", path: "/amazonclouddirectory/2017-01-11/typedlink/attributes/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a given object's attributes.
-    public func updateObjectAttributes(_ input: UpdateObjectAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateObjectAttributesResponse> {
-        return self.client.execute(operation: "UpdateObjectAttributes", path: "/amazonclouddirectory/2017-01-11/object/update", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateObjectAttributes(_ input: UpdateObjectAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateObjectAttributesResponse {
+        return try await self.client.execute(operation: "UpdateObjectAttributes", path: "/amazonclouddirectory/2017-01-11/object/update", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the schema name with a new name. Only development schema names can be updated.
-    public func updateSchema(_ input: UpdateSchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSchemaResponse> {
-        return self.client.execute(operation: "UpdateSchema", path: "/amazonclouddirectory/2017-01-11/schema/update", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateSchema(_ input: UpdateSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSchemaResponse {
+        return try await self.client.execute(operation: "UpdateSchema", path: "/amazonclouddirectory/2017-01-11/schema/update", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a TypedLinkFacet. For more information, see Typed Links.
-    public func updateTypedLinkFacet(_ input: UpdateTypedLinkFacetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTypedLinkFacetResponse> {
-        return self.client.execute(operation: "UpdateTypedLinkFacet", path: "/amazonclouddirectory/2017-01-11/typedlink/facet", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateTypedLinkFacet(_ input: UpdateTypedLinkFacetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTypedLinkFacetResponse {
+        return try await self.client.execute(operation: "UpdateTypedLinkFacet", path: "/amazonclouddirectory/2017-01-11/typedlink/facet", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
-    public func upgradeAppliedSchema(_ input: UpgradeAppliedSchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpgradeAppliedSchemaResponse> {
-        return self.client.execute(operation: "UpgradeAppliedSchema", path: "/amazonclouddirectory/2017-01-11/schema/upgradeapplied", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func upgradeAppliedSchema(_ input: UpgradeAppliedSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpgradeAppliedSchemaResponse {
+        return try await self.client.execute(operation: "UpgradeAppliedSchema", path: "/amazonclouddirectory/2017-01-11/schema/upgradeapplied", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Upgrades a published schema under a new minor version revision using the current contents of DevelopmentSchemaArn.
-    public func upgradePublishedSchema(_ input: UpgradePublishedSchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpgradePublishedSchemaResponse> {
-        return self.client.execute(operation: "UpgradePublishedSchema", path: "/amazonclouddirectory/2017-01-11/schema/upgradepublished", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func upgradePublishedSchema(_ input: UpgradePublishedSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpgradePublishedSchemaResponse {
+        return try await self.client.execute(operation: "UpgradePublishedSchema", path: "/amazonclouddirectory/2017-01-11/schema/upgradepublished", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -410,1011 +476,366 @@ extension CloudDirectory {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CloudDirectory {
     /// Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAppliedSchemaArnsPaginator<Result>(
-        _ input: ListAppliedSchemaArnsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAppliedSchemaArnsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAppliedSchemaArns,
-            inputKey: \ListAppliedSchemaArnsRequest.nextToken,
-            outputKey: \ListAppliedSchemaArnsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAppliedSchemaArnsPaginator(
         _ input: ListAppliedSchemaArnsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAppliedSchemaArnsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppliedSchemaArnsRequest, ListAppliedSchemaArnsResponse> {
+        return .init(
             input: input,
             command: self.listAppliedSchemaArns,
             inputKey: \ListAppliedSchemaArnsRequest.nextToken,
             outputKey: \ListAppliedSchemaArnsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists indices attached to the specified object.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAttachedIndicesPaginator<Result>(
-        _ input: ListAttachedIndicesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAttachedIndicesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAttachedIndices,
-            inputKey: \ListAttachedIndicesRequest.nextToken,
-            outputKey: \ListAttachedIndicesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAttachedIndicesPaginator(
         _ input: ListAttachedIndicesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAttachedIndicesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAttachedIndicesRequest, ListAttachedIndicesResponse> {
+        return .init(
             input: input,
             command: self.listAttachedIndices,
             inputKey: \ListAttachedIndicesRequest.nextToken,
             outputKey: \ListAttachedIndicesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves each Amazon Resource Name (ARN) of schemas in the development state.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDevelopmentSchemaArnsPaginator<Result>(
-        _ input: ListDevelopmentSchemaArnsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDevelopmentSchemaArnsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDevelopmentSchemaArns,
-            inputKey: \ListDevelopmentSchemaArnsRequest.nextToken,
-            outputKey: \ListDevelopmentSchemaArnsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDevelopmentSchemaArnsPaginator(
         _ input: ListDevelopmentSchemaArnsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDevelopmentSchemaArnsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDevelopmentSchemaArnsRequest, ListDevelopmentSchemaArnsResponse> {
+        return .init(
             input: input,
             command: self.listDevelopmentSchemaArns,
             inputKey: \ListDevelopmentSchemaArnsRequest.nextToken,
             outputKey: \ListDevelopmentSchemaArnsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists directories created within an account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDirectoriesPaginator<Result>(
-        _ input: ListDirectoriesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDirectoriesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDirectories,
-            inputKey: \ListDirectoriesRequest.nextToken,
-            outputKey: \ListDirectoriesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDirectoriesPaginator(
         _ input: ListDirectoriesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDirectoriesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDirectoriesRequest, ListDirectoriesResponse> {
+        return .init(
             input: input,
             command: self.listDirectories,
             inputKey: \ListDirectoriesRequest.nextToken,
             outputKey: \ListDirectoriesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves attributes attached to the facet.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listFacetAttributesPaginator<Result>(
-        _ input: ListFacetAttributesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListFacetAttributesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listFacetAttributes,
-            inputKey: \ListFacetAttributesRequest.nextToken,
-            outputKey: \ListFacetAttributesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listFacetAttributesPaginator(
         _ input: ListFacetAttributesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListFacetAttributesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFacetAttributesRequest, ListFacetAttributesResponse> {
+        return .init(
             input: input,
             command: self.listFacetAttributes,
             inputKey: \ListFacetAttributesRequest.nextToken,
             outputKey: \ListFacetAttributesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves the names of facets that exist in a schema.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listFacetNamesPaginator<Result>(
-        _ input: ListFacetNamesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListFacetNamesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listFacetNames,
-            inputKey: \ListFacetNamesRequest.nextToken,
-            outputKey: \ListFacetNamesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listFacetNamesPaginator(
         _ input: ListFacetNamesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListFacetNamesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFacetNamesRequest, ListFacetNamesResponse> {
+        return .init(
             input: input,
             command: self.listFacetNames,
             inputKey: \ListFacetNamesRequest.nextToken,
             outputKey: \ListFacetNamesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists objects attached to the specified index.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listIndexPaginator<Result>(
-        _ input: ListIndexRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListIndexResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listIndex,
-            inputKey: \ListIndexRequest.nextToken,
-            outputKey: \ListIndexResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listIndexPaginator(
         _ input: ListIndexRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListIndexResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIndexRequest, ListIndexResponse> {
+        return .init(
             input: input,
             command: self.listIndex,
             inputKey: \ListIndexRequest.nextToken,
             outputKey: \ListIndexResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listManagedSchemaArnsPaginator<Result>(
-        _ input: ListManagedSchemaArnsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListManagedSchemaArnsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listManagedSchemaArns,
-            inputKey: \ListManagedSchemaArnsRequest.nextToken,
-            outputKey: \ListManagedSchemaArnsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listManagedSchemaArnsPaginator(
         _ input: ListManagedSchemaArnsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListManagedSchemaArnsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListManagedSchemaArnsRequest, ListManagedSchemaArnsResponse> {
+        return .init(
             input: input,
             command: self.listManagedSchemaArns,
             inputKey: \ListManagedSchemaArnsRequest.nextToken,
             outputKey: \ListManagedSchemaArnsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all attributes that are associated with an object.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listObjectAttributesPaginator<Result>(
-        _ input: ListObjectAttributesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListObjectAttributesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listObjectAttributes,
-            inputKey: \ListObjectAttributesRequest.nextToken,
-            outputKey: \ListObjectAttributesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listObjectAttributesPaginator(
         _ input: ListObjectAttributesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListObjectAttributesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListObjectAttributesRequest, ListObjectAttributesResponse> {
+        return .init(
             input: input,
             command: self.listObjectAttributes,
             inputKey: \ListObjectAttributesRequest.nextToken,
             outputKey: \ListObjectAttributesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a paginated list of child objects that are associated with a given object.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listObjectChildrenPaginator<Result>(
-        _ input: ListObjectChildrenRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListObjectChildrenResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listObjectChildren,
-            inputKey: \ListObjectChildrenRequest.nextToken,
-            outputKey: \ListObjectChildrenResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listObjectChildrenPaginator(
         _ input: ListObjectChildrenRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListObjectChildrenResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListObjectChildrenRequest, ListObjectChildrenResponse> {
+        return .init(
             input: input,
             command: self.listObjectChildren,
             inputKey: \ListObjectChildrenRequest.nextToken,
             outputKey: \ListObjectChildrenResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure. Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults, in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent among multiple API calls unless the objects are deleted or moved. Paths not leading to the directory root are ignored from the target object.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listObjectParentPathsPaginator<Result>(
-        _ input: ListObjectParentPathsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListObjectParentPathsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listObjectParentPaths,
-            inputKey: \ListObjectParentPathsRequest.nextToken,
-            outputKey: \ListObjectParentPathsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listObjectParentPathsPaginator(
         _ input: ListObjectParentPathsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListObjectParentPathsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListObjectParentPathsRequest, ListObjectParentPathsResponse> {
+        return .init(
             input: input,
             command: self.listObjectParentPaths,
             inputKey: \ListObjectParentPathsRequest.nextToken,
             outputKey: \ListObjectParentPathsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists parent objects that are associated with a given object in pagination fashion.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listObjectParentsPaginator<Result>(
-        _ input: ListObjectParentsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListObjectParentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listObjectParents,
-            inputKey: \ListObjectParentsRequest.nextToken,
-            outputKey: \ListObjectParentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listObjectParentsPaginator(
         _ input: ListObjectParentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListObjectParentsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListObjectParentsRequest, ListObjectParentsResponse> {
+        return .init(
             input: input,
             command: self.listObjectParents,
             inputKey: \ListObjectParentsRequest.nextToken,
             outputKey: \ListObjectParentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns policies attached to an object in pagination fashion.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listObjectPoliciesPaginator<Result>(
-        _ input: ListObjectPoliciesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListObjectPoliciesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listObjectPolicies,
-            inputKey: \ListObjectPoliciesRequest.nextToken,
-            outputKey: \ListObjectPoliciesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listObjectPoliciesPaginator(
         _ input: ListObjectPoliciesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListObjectPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListObjectPoliciesRequest, ListObjectPoliciesResponse> {
+        return .init(
             input: input,
             command: self.listObjectPolicies,
             inputKey: \ListObjectPoliciesRequest.nextToken,
             outputKey: \ListObjectPoliciesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns all of the ObjectIdentifiers to which a given policy is attached.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPolicyAttachmentsPaginator<Result>(
-        _ input: ListPolicyAttachmentsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPolicyAttachmentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPolicyAttachments,
-            inputKey: \ListPolicyAttachmentsRequest.nextToken,
-            outputKey: \ListPolicyAttachmentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPolicyAttachmentsPaginator(
         _ input: ListPolicyAttachmentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPolicyAttachmentsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPolicyAttachmentsRequest, ListPolicyAttachmentsResponse> {
+        return .init(
             input: input,
             command: self.listPolicyAttachments,
             inputKey: \ListPolicyAttachmentsRequest.nextToken,
             outputKey: \ListPolicyAttachmentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the major version families of each published schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPublishedSchemaArnsPaginator<Result>(
-        _ input: ListPublishedSchemaArnsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPublishedSchemaArnsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPublishedSchemaArns,
-            inputKey: \ListPublishedSchemaArnsRequest.nextToken,
-            outputKey: \ListPublishedSchemaArnsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPublishedSchemaArnsPaginator(
         _ input: ListPublishedSchemaArnsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPublishedSchemaArnsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPublishedSchemaArnsRequest, ListPublishedSchemaArnsResponse> {
+        return .init(
             input: input,
             command: self.listPublishedSchemaArns,
             inputKey: \ListPublishedSchemaArnsRequest.nextToken,
             outputKey: \ListPublishedSchemaArnsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are returned for a given directory with this API call.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTagsForResourcePaginator<Result>(
-        _ input: ListTagsForResourceRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTagsForResource,
-            inputKey: \ListTagsForResourceRequest.nextToken,
-            outputKey: \ListTagsForResourceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTagsForResourceRequest, ListTagsForResourceResponse> {
+        return .init(
             input: input,
             command: self.listTagsForResource,
             inputKey: \ListTagsForResourceRequest.nextToken,
             outputKey: \ListTagsForResourceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For more information, see Typed Links.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTypedLinkFacetAttributesPaginator<Result>(
-        _ input: ListTypedLinkFacetAttributesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTypedLinkFacetAttributesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTypedLinkFacetAttributes,
-            inputKey: \ListTypedLinkFacetAttributesRequest.nextToken,
-            outputKey: \ListTypedLinkFacetAttributesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTypedLinkFacetAttributesPaginator(
         _ input: ListTypedLinkFacetAttributesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTypedLinkFacetAttributesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTypedLinkFacetAttributesRequest, ListTypedLinkFacetAttributesResponse> {
+        return .init(
             input: input,
             command: self.listTypedLinkFacetAttributes,
             inputKey: \ListTypedLinkFacetAttributesRequest.nextToken,
             outputKey: \ListTypedLinkFacetAttributesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a paginated list of TypedLink facet names for a particular schema. For more information, see Typed Links.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTypedLinkFacetNamesPaginator<Result>(
-        _ input: ListTypedLinkFacetNamesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTypedLinkFacetNamesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTypedLinkFacetNames,
-            inputKey: \ListTypedLinkFacetNamesRequest.nextToken,
-            outputKey: \ListTypedLinkFacetNamesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTypedLinkFacetNamesPaginator(
         _ input: ListTypedLinkFacetNamesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTypedLinkFacetNamesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTypedLinkFacetNamesRequest, ListTypedLinkFacetNamesResponse> {
+        return .init(
             input: input,
             command: self.listTypedLinkFacetNames,
             inputKey: \ListTypedLinkFacetNamesRequest.nextToken,
             outputKey: \ListTypedLinkFacetNamesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see Policies.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func lookupPolicyPaginator<Result>(
-        _ input: LookupPolicyRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, LookupPolicyResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.lookupPolicy,
-            inputKey: \LookupPolicyRequest.nextToken,
-            outputKey: \LookupPolicyResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func lookupPolicyPaginator(
         _ input: LookupPolicyRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (LookupPolicyResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<LookupPolicyRequest, LookupPolicyResponse> {
+        return .init(
             input: input,
             command: self.lookupPolicy,
             inputKey: \LookupPolicyRequest.nextToken,
             outputKey: \LookupPolicyResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

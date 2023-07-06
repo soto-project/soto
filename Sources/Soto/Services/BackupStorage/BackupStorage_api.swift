@@ -65,60 +65,57 @@ public struct BackupStorage: AWSService {
     // MARK: API Calls
 
     /// Delete Object from the incremental base Backup.
-    @discardableResult public func deleteObject(_ input: DeleteObjectInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteObject", path: "/backup-jobs/{BackupJobId}/object/{ObjectName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteObject(_ input: DeleteObjectInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteObject", path: "/backup-jobs/{BackupJobId}/object/{ObjectName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the specified object's chunk.
-    public func getChunk(_ input: GetChunkInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetChunkOutput> {
-        return self.client.execute(operation: "GetChunk", path: "/restore-jobs/{StorageJobId}/chunk/{ChunkToken}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getChunk(_ input: GetChunkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChunkOutput {
+        return try await self.client.execute(operation: "GetChunk", path: "/restore-jobs/{StorageJobId}/chunk/{ChunkToken}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get metadata associated with an Object.
-    public func getObjectMetadata(_ input: GetObjectMetadataInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetObjectMetadataOutput> {
-        return self.client.execute(operation: "GetObjectMetadata", path: "/restore-jobs/{StorageJobId}/object/{ObjectToken}/metadata", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getObjectMetadata(_ input: GetObjectMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetObjectMetadataOutput {
+        return try await self.client.execute(operation: "GetObjectMetadata", path: "/restore-jobs/{StorageJobId}/object/{ObjectToken}/metadata", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List chunks in a given Object
-    public func listChunks(_ input: ListChunksInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListChunksOutput> {
-        return self.client.execute(operation: "ListChunks", path: "/restore-jobs/{StorageJobId}/chunks/{ObjectToken}/list", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listChunks(_ input: ListChunksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChunksOutput {
+        return try await self.client.execute(operation: "ListChunks", path: "/restore-jobs/{StorageJobId}/chunks/{ObjectToken}/list", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List all Objects in a given Backup.
-    public func listObjects(_ input: ListObjectsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListObjectsOutput> {
-        return self.client.execute(operation: "ListObjects", path: "/restore-jobs/{StorageJobId}/objects/list", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listObjects(_ input: ListObjectsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListObjectsOutput {
+        return try await self.client.execute(operation: "ListObjects", path: "/restore-jobs/{StorageJobId}/objects/list", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Complete upload
-    public func notifyObjectComplete(_ input: NotifyObjectCompleteInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<NotifyObjectCompleteOutput> {
-        return self.client.execute(operation: "NotifyObjectComplete", path: "/backup-jobs/{BackupJobId}/object/{UploadId}/complete", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func notifyObjectComplete(_ input: NotifyObjectCompleteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> NotifyObjectCompleteOutput {
+        return try await self.client.execute(operation: "NotifyObjectComplete", path: "/backup-jobs/{BackupJobId}/object/{UploadId}/complete", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Upload chunk.
-    public func putChunk(_ input: PutChunkInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutChunkOutput> {
-        return self.client.execute(operation: "PutChunk", path: "/backup-jobs/{BackupJobId}/chunk/{UploadId}/{ChunkIndex}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putChunk(_ input: PutChunkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutChunkOutput {
+        return try await self.client.execute(operation: "PutChunk", path: "/backup-jobs/{BackupJobId}/chunk/{UploadId}/{ChunkIndex}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Upload object that can store object metadata String and data blob in single API call using inline chunk field.
-    public func putObject(_ input: PutObjectInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutObjectOutput> {
-        return self.client.execute(operation: "PutObject", path: "/backup-jobs/{BackupJobId}/object/{ObjectName}/put-object", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putObject(_ input: PutObjectInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutObjectOutput {
+        return try await self.client.execute(operation: "PutObject", path: "/backup-jobs/{BackupJobId}/object/{ObjectName}/put-object", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Start upload containing one or many chunks.
-    public func startObject(_ input: StartObjectInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartObjectOutput> {
-        return self.client.execute(operation: "StartObject", path: "/backup-jobs/{BackupJobId}/object/{ObjectName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
-    // MARK: Streaming API Calls
-
-    /// Gets the specified object's chunk.
-    public func getChunkStreaming(_ input: GetChunkInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil, _ stream: @escaping (ByteBuffer, EventLoop) -> EventLoopFuture<Void>) -> EventLoopFuture<GetChunkOutput> {
-        return self.client.execute(operation: "GetChunk", path: "/restore-jobs/{StorageJobId}/chunk/{ChunkToken}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop, stream: stream)
-    }
-
-    /// Get metadata associated with an Object.
-    public func getObjectMetadataStreaming(_ input: GetObjectMetadataInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil, _ stream: @escaping (ByteBuffer, EventLoop) -> EventLoopFuture<Void>) -> EventLoopFuture<GetObjectMetadataOutput> {
-        return self.client.execute(operation: "GetObjectMetadata", path: "/restore-jobs/{StorageJobId}/object/{ObjectToken}/metadata", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop, stream: stream)
+    @Sendable
+    public func startObject(_ input: StartObjectInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartObjectOutput {
+        return try await self.client.execute(operation: "StartObject", path: "/backup-jobs/{BackupJobId}/object/{ObjectName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -133,110 +130,43 @@ extension BackupStorage {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension BackupStorage {
     /// List chunks in a given Object
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listChunksPaginator<Result>(
-        _ input: ListChunksInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListChunksOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listChunks,
-            inputKey: \ListChunksInput.nextToken,
-            outputKey: \ListChunksOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listChunksPaginator(
         _ input: ListChunksInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListChunksOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListChunksInput, ListChunksOutput> {
+        return .init(
             input: input,
             command: self.listChunks,
             inputKey: \ListChunksInput.nextToken,
             outputKey: \ListChunksOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List all Objects in a given Backup.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listObjectsPaginator<Result>(
-        _ input: ListObjectsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListObjectsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listObjects,
-            inputKey: \ListObjectsInput.nextToken,
-            outputKey: \ListObjectsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listObjectsPaginator(
         _ input: ListObjectsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListObjectsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListObjectsInput, ListObjectsOutput> {
+        return .init(
             input: input,
             command: self.listObjects,
             inputKey: \ListObjectsInput.nextToken,
             outputKey: \ListObjectsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

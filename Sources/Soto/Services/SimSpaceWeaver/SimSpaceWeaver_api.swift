@@ -64,83 +64,99 @@ public struct SimSpaceWeaver: AWSService {
     // MARK: API Calls
 
     /// Creates a snapshot of the specified simulation.  A snapshot is a file that contains simulation state data at a specific time. The state data saved in a snapshot includes entity data from the State Fabric,  the simulation configuration specified in the schema, and the clock tick number.  You can use the snapshot to initialize a new simulation.  For more information about snapshots, see Snapshots in the SimSpace Weaver User Guide.  You specify a Destination when you create a snapshot. The Destination is the name of an Amazon S3 bucket and an optional ObjectKeyPrefix. The ObjectKeyPrefix is usually the name of a folder in the bucket. SimSpace Weaver creates a  snapshot folder inside the Destination and  places the snapshot file there. The snapshot file is an Amazon S3 object. It has an object key with the form:  object-key-prefix/snapshot/simulation-name-YYMMdd-HHmm-ss.zip, where:      YY is the 2-digit year     MM is the 2-digit month     dd is the 2-digit day of the month     HH is the 2-digit hour (24-hour clock)     mm is the 2-digit minutes     ss is the 2-digit seconds
-    public func createSnapshot(_ input: CreateSnapshotInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSnapshotOutput> {
-        return self.client.execute(operation: "CreateSnapshot", path: "/createsnapshot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSnapshot(_ input: CreateSnapshotInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSnapshotOutput {
+        return try await self.client.execute(operation: "CreateSnapshot", path: "/createsnapshot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the instance of the given custom app.
-    public func deleteApp(_ input: DeleteAppInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppOutput> {
-        return self.client.execute(operation: "DeleteApp", path: "/deleteapp", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteApp(_ input: DeleteAppInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAppOutput {
+        return try await self.client.execute(operation: "DeleteApp", path: "/deleteapp", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes all SimSpace Weaver resources assigned to the given simulation.  Your simulation uses resources in other Amazon Web Services. This API operation doesn't delete resources in other Amazon Web Services.
-    public func deleteSimulation(_ input: DeleteSimulationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSimulationOutput> {
-        return self.client.execute(operation: "DeleteSimulation", path: "/deletesimulation", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSimulation(_ input: DeleteSimulationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSimulationOutput {
+        return try await self.client.execute(operation: "DeleteSimulation", path: "/deletesimulation", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the state of the given custom app.
-    public func describeApp(_ input: DescribeAppInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppOutput> {
-        return self.client.execute(operation: "DescribeApp", path: "/describeapp", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeApp(_ input: DescribeAppInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppOutput {
+        return try await self.client.execute(operation: "DescribeApp", path: "/describeapp", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the current state of the given simulation.
-    public func describeSimulation(_ input: DescribeSimulationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSimulationOutput> {
-        return self.client.execute(operation: "DescribeSimulation", path: "/describesimulation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeSimulation(_ input: DescribeSimulationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSimulationOutput {
+        return try await self.client.execute(operation: "DescribeSimulation", path: "/describesimulation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all custom apps or service apps for the given simulation and domain.
-    public func listApps(_ input: ListAppsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppsOutput> {
-        return self.client.execute(operation: "ListApps", path: "/listapps", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listApps(_ input: ListAppsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppsOutput {
+        return try await self.client.execute(operation: "ListApps", path: "/listapps", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the SimSpace Weaver simulations in the Amazon Web Services account used to make the API call.
-    public func listSimulations(_ input: ListSimulationsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSimulationsOutput> {
-        return self.client.execute(operation: "ListSimulations", path: "/listsimulations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSimulations(_ input: ListSimulationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSimulationsOutput {
+        return try await self.client.execute(operation: "ListSimulations", path: "/listsimulations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all tags on a SimSpace Weaver resource.
-    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts a custom app with the configuration specified in the simulation schema.
-    public func startApp(_ input: StartAppInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartAppOutput> {
-        return self.client.execute(operation: "StartApp", path: "/startapp", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startApp(_ input: StartAppInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAppOutput {
+        return try await self.client.execute(operation: "StartApp", path: "/startapp", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts the simulation clock.
-    public func startClock(_ input: StartClockInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartClockOutput> {
-        return self.client.execute(operation: "StartClock", path: "/startclock", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startClock(_ input: StartClockInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartClockOutput {
+        return try await self.client.execute(operation: "StartClock", path: "/startclock", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts a simulation with the given name. You must choose to start your simulation from a schema or from a snapshot. For more information about the schema, see the schema reference  in the SimSpace Weaver User Guide. For more information about snapshots, see Snapshots in the SimSpace Weaver User Guide.
-    public func startSimulation(_ input: StartSimulationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSimulationOutput> {
-        return self.client.execute(operation: "StartSimulation", path: "/startsimulation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startSimulation(_ input: StartSimulationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSimulationOutput {
+        return try await self.client.execute(operation: "StartSimulation", path: "/startsimulation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops the given custom app and shuts down all of its allocated compute resources.
-    public func stopApp(_ input: StopAppInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopAppOutput> {
-        return self.client.execute(operation: "StopApp", path: "/stopapp", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopApp(_ input: StopAppInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopAppOutput {
+        return try await self.client.execute(operation: "StopApp", path: "/stopapp", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops the simulation clock.
-    public func stopClock(_ input: StopClockInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopClockOutput> {
-        return self.client.execute(operation: "StopClock", path: "/stopclock", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopClock(_ input: StopClockInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopClockOutput {
+        return try await self.client.execute(operation: "StopClock", path: "/stopclock", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops the given simulation.  You can't restart a simulation after you stop it. If you want to restart a simulation, then you must stop it, delete it, and start a new instance of it.
-    public func stopSimulation(_ input: StopSimulationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopSimulationOutput> {
-        return self.client.execute(operation: "StopSimulation", path: "/stopsimulation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopSimulation(_ input: StopSimulationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopSimulationOutput {
+        return try await self.client.execute(operation: "StopSimulation", path: "/stopsimulation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds tags to a SimSpace Weaver resource. For more information about tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference.
-    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes tags from a SimSpace Weaver resource. For more information about tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference.
-    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -155,110 +171,43 @@ extension SimSpaceWeaver {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SimSpaceWeaver {
     /// Lists all custom apps or service apps for the given simulation and domain.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAppsPaginator<Result>(
-        _ input: ListAppsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAppsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listApps,
-            inputKey: \ListAppsInput.nextToken,
-            outputKey: \ListAppsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAppsPaginator(
         _ input: ListAppsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAppsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppsInput, ListAppsOutput> {
+        return .init(
             input: input,
             command: self.listApps,
             inputKey: \ListAppsInput.nextToken,
             outputKey: \ListAppsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the SimSpace Weaver simulations in the Amazon Web Services account used to make the API call.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSimulationsPaginator<Result>(
-        _ input: ListSimulationsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSimulationsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSimulations,
-            inputKey: \ListSimulationsInput.nextToken,
-            outputKey: \ListSimulationsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSimulationsPaginator(
         _ input: ListSimulationsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSimulationsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSimulationsInput, ListSimulationsOutput> {
+        return .init(
             input: input,
             command: self.listSimulations,
             inputKey: \ListSimulationsInput.nextToken,
             outputKey: \ListSimulationsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

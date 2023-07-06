@@ -81,389 +81,466 @@ public struct CodeCommit: AWSService {
     // MARK: API Calls
 
     /// Creates an association between an approval rule template and a specified repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the template, an approval rule that matches the template contents is created for all pull requests in that repository.
-    @discardableResult public func associateApprovalRuleTemplateWithRepository(_ input: AssociateApprovalRuleTemplateWithRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "AssociateApprovalRuleTemplateWithRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateApprovalRuleTemplateWithRepository(_ input: AssociateApprovalRuleTemplateWithRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "AssociateApprovalRuleTemplateWithRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an association between an approval rule template and one or more specified repositories.
-    public func batchAssociateApprovalRuleTemplateWithRepositories(_ input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput> {
-        return self.client.execute(operation: "BatchAssociateApprovalRuleTemplateWithRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchAssociateApprovalRuleTemplateWithRepositories(_ input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
+        return try await self.client.execute(operation: "BatchAssociateApprovalRuleTemplateWithRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
-    public func batchDescribeMergeConflicts(_ input: BatchDescribeMergeConflictsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDescribeMergeConflictsOutput> {
-        return self.client.execute(operation: "BatchDescribeMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchDescribeMergeConflicts(_ input: BatchDescribeMergeConflictsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDescribeMergeConflictsOutput {
+        return try await self.client.execute(operation: "BatchDescribeMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes the association between an approval rule template and one or more specified repositories.
-    public func batchDisassociateApprovalRuleTemplateFromRepositories(_ input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput> {
-        return self.client.execute(operation: "BatchDisassociateApprovalRuleTemplateFromRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchDisassociateApprovalRuleTemplateFromRepositories(_ input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
+        return try await self.client.execute(operation: "BatchDisassociateApprovalRuleTemplateFromRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about the contents of one or more commits in a repository.
-    public func batchGetCommits(_ input: BatchGetCommitsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetCommitsOutput> {
-        return self.client.execute(operation: "BatchGetCommits", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchGetCommits(_ input: BatchGetCommitsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetCommitsOutput {
+        return try await self.client.execute(operation: "BatchGetCommits", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about one or more repositories.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
-    public func batchGetRepositories(_ input: BatchGetRepositoriesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetRepositoriesOutput> {
-        return self.client.execute(operation: "BatchGetRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchGetRepositories(_ input: BatchGetRepositoriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetRepositoriesOutput {
+        return try await self.client.execute(operation: "BatchGetRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a template for approval rules that can then be associated with one or more repositories in your AWS account. When you associate a template with a repository, AWS CodeCommit creates an approval rule that matches the conditions of the template for all pull requests that meet the conditions of the template. For more information, see AssociateApprovalRuleTemplateWithRepository.
-    public func createApprovalRuleTemplate(_ input: CreateApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateApprovalRuleTemplateOutput> {
-        return self.client.execute(operation: "CreateApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createApprovalRuleTemplate(_ input: CreateApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApprovalRuleTemplateOutput {
+        return try await self.client.execute(operation: "CreateApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a branch in a repository and points the branch to a commit.  Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
-    @discardableResult public func createBranch(_ input: CreateBranchInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "CreateBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createBranch(_ input: CreateBranchInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "CreateBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a commit for a repository on the tip of a specified branch.
-    public func createCommit(_ input: CreateCommitInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCommitOutput> {
-        return self.client.execute(operation: "CreateCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCommit(_ input: CreateCommitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCommitOutput {
+        return try await self.client.execute(operation: "CreateCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a pull request in the specified repository.
-    public func createPullRequest(_ input: CreatePullRequestInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePullRequestOutput> {
-        return self.client.execute(operation: "CreatePullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createPullRequest(_ input: CreatePullRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePullRequestOutput {
+        return try await self.client.execute(operation: "CreatePullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an approval rule for a pull request.
-    public func createPullRequestApprovalRule(_ input: CreatePullRequestApprovalRuleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePullRequestApprovalRuleOutput> {
-        return self.client.execute(operation: "CreatePullRequestApprovalRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createPullRequestApprovalRule(_ input: CreatePullRequestApprovalRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePullRequestApprovalRuleOutput {
+        return try await self.client.execute(operation: "CreatePullRequestApprovalRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new, empty repository.
-    public func createRepository(_ input: CreateRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRepositoryOutput> {
-        return self.client.execute(operation: "CreateRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createRepository(_ input: CreateRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRepositoryOutput {
+        return try await self.client.execute(operation: "CreateRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you determine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit.  This unreferenced merge commit  can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
-    public func createUnreferencedMergeCommit(_ input: CreateUnreferencedMergeCommitInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUnreferencedMergeCommitOutput> {
-        return self.client.execute(operation: "CreateUnreferencedMergeCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createUnreferencedMergeCommit(_ input: CreateUnreferencedMergeCommitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUnreferencedMergeCommitOutput {
+        return try await self.client.execute(operation: "CreateUnreferencedMergeCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a specified approval rule template. Deleting a template does not remove approval rules on pull requests already created with the template.
-    public func deleteApprovalRuleTemplate(_ input: DeleteApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteApprovalRuleTemplateOutput> {
-        return self.client.execute(operation: "DeleteApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteApprovalRuleTemplate(_ input: DeleteApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApprovalRuleTemplateOutput {
+        return try await self.client.execute(operation: "DeleteApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a branch from a repository, unless that branch is the default branch for the repository.
-    public func deleteBranch(_ input: DeleteBranchInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBranchOutput> {
-        return self.client.execute(operation: "DeleteBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteBranch(_ input: DeleteBranchInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBranchOutput {
+        return try await self.client.execute(operation: "DeleteBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the content of a comment made on a change, file, or commit in a repository.
-    public func deleteCommentContent(_ input: DeleteCommentContentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCommentContentOutput> {
-        return self.client.execute(operation: "DeleteCommentContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCommentContent(_ input: DeleteCommentContentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCommentContentOutput {
+        return try await self.client.execute(operation: "DeleteCommentContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a specified file from a specified branch. A commit is created on the branch that contains the revision. The file still exists in the commits earlier to the commit that contains the deletion.
-    public func deleteFile(_ input: DeleteFileInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFileOutput> {
-        return self.client.execute(operation: "DeleteFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteFile(_ input: DeleteFileInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFileOutput {
+        return try await self.client.execute(operation: "DeleteFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the  approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the  pull request was created. You cannot delete an approval rule from a merged or closed pull request.
-    public func deletePullRequestApprovalRule(_ input: DeletePullRequestApprovalRuleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePullRequestApprovalRuleOutput> {
-        return self.client.execute(operation: "DeletePullRequestApprovalRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePullRequestApprovalRule(_ input: DeletePullRequestApprovalRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePullRequestApprovalRuleOutput {
+        return try await self.client.execute(operation: "DeletePullRequestApprovalRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a repository. If a specified repository was already deleted, a null repository ID is returned.  Deleting a repository also deletes all associated objects and metadata. After a repository is deleted, all future push calls to the deleted repository fail.
-    public func deleteRepository(_ input: DeleteRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRepositoryOutput> {
-        return self.client.execute(operation: "DeleteRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRepository(_ input: DeleteRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRepositoryOutput {
+        return try await self.client.execute(operation: "DeleteRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
-    public func describeMergeConflicts(_ input: DescribeMergeConflictsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMergeConflictsOutput> {
-        return self.client.execute(operation: "DescribeMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeMergeConflicts(_ input: DescribeMergeConflictsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMergeConflictsOutput {
+        return try await self.client.execute(operation: "DescribeMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about one or more pull request events.
-    public func describePullRequestEvents(_ input: DescribePullRequestEventsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePullRequestEventsOutput> {
-        return self.client.execute(operation: "DescribePullRequestEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describePullRequestEvents(_ input: DescribePullRequestEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePullRequestEventsOutput {
+        return try await self.client.execute(operation: "DescribePullRequestEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes the association between a template and a repository so that approval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association.
-    @discardableResult public func disassociateApprovalRuleTemplateFromRepository(_ input: DisassociateApprovalRuleTemplateFromRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DisassociateApprovalRuleTemplateFromRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateApprovalRuleTemplateFromRepository(_ input: DisassociateApprovalRuleTemplateFromRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DisassociateApprovalRuleTemplateFromRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
-    public func evaluatePullRequestApprovalRules(_ input: EvaluatePullRequestApprovalRulesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EvaluatePullRequestApprovalRulesOutput> {
-        return self.client.execute(operation: "EvaluatePullRequestApprovalRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func evaluatePullRequestApprovalRules(_ input: EvaluatePullRequestApprovalRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EvaluatePullRequestApprovalRulesOutput {
+        return try await self.client.execute(operation: "EvaluatePullRequestApprovalRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a specified approval rule template.
-    public func getApprovalRuleTemplate(_ input: GetApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApprovalRuleTemplateOutput> {
-        return self.client.execute(operation: "GetApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getApprovalRuleTemplate(_ input: GetApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApprovalRuleTemplateOutput {
+        return try await self.client.execute(operation: "GetApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the base-64 encoded content of an individual blob in a repository.
-    public func getBlob(_ input: GetBlobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBlobOutput> {
-        return self.client.execute(operation: "GetBlob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getBlob(_ input: GetBlobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBlobOutput {
+        return try await self.client.execute(operation: "GetBlob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a repository branch, including its name and the last commit ID.
-    public func getBranch(_ input: GetBranchInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBranchOutput> {
-        return self.client.execute(operation: "GetBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getBranch(_ input: GetBranchInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBranchOutput {
+        return try await self.client.execute(operation: "GetBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the content of a comment made on a change, file, or commit in a repository.   Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of  reactions from active identities, use GetCommentReactions.
-    public func getComment(_ input: GetCommentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCommentOutput> {
-        return self.client.execute(operation: "GetComment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getComment(_ input: GetCommentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCommentOutput {
+        return try await self.client.execute(operation: "GetComment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
-    public func getCommentReactions(_ input: GetCommentReactionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCommentReactionsOutput> {
-        return self.client.execute(operation: "GetCommentReactions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCommentReactions(_ input: GetCommentReactionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCommentReactionsOutput {
+        return try await self.client.execute(operation: "GetCommentReactions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about comments made on the comparison between two commits.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of  reactions from active identities, use GetCommentReactions.
-    public func getCommentsForComparedCommit(_ input: GetCommentsForComparedCommitInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCommentsForComparedCommitOutput> {
-        return self.client.execute(operation: "GetCommentsForComparedCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCommentsForComparedCommit(_ input: GetCommentsForComparedCommitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCommentsForComparedCommitOutput {
+        return try await self.client.execute(operation: "GetCommentsForComparedCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns comments made on a pull request.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of  reactions from active identities, use GetCommentReactions.
-    public func getCommentsForPullRequest(_ input: GetCommentsForPullRequestInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCommentsForPullRequestOutput> {
-        return self.client.execute(operation: "GetCommentsForPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCommentsForPullRequest(_ input: GetCommentsForPullRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCommentsForPullRequestOutput {
+        return try await self.client.execute(operation: "GetCommentsForPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a commit, including commit message and committer information.
-    public func getCommit(_ input: GetCommitInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCommitOutput> {
-        return self.client.execute(operation: "GetCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCommit(_ input: GetCommitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCommitOutput {
+        return try await self.client.execute(operation: "GetCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
-    public func getDifferences(_ input: GetDifferencesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDifferencesOutput> {
-        return self.client.execute(operation: "GetDifferences", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDifferences(_ input: GetDifferencesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDifferencesOutput {
+        return try await self.client.execute(operation: "GetDifferences", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the base-64 encoded contents of a specified file and its metadata.
-    public func getFile(_ input: GetFileInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFileOutput> {
-        return self.client.execute(operation: "GetFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFile(_ input: GetFileInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFileOutput {
+        return try await self.client.execute(operation: "GetFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the contents of a specified folder in a repository.
-    public func getFolder(_ input: GetFolderInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFolderOutput> {
-        return self.client.execute(operation: "GetFolder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getFolder(_ input: GetFolderInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFolderOutput {
+        return try await self.client.execute(operation: "GetFolder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a specified merge commit.
-    public func getMergeCommit(_ input: GetMergeCommitInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMergeCommitOutput> {
-        return self.client.execute(operation: "GetMergeCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMergeCommit(_ input: GetMergeCommitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMergeCommitOutput {
+        return try await self.client.execute(operation: "GetMergeCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
-    public func getMergeConflicts(_ input: GetMergeConflictsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMergeConflictsOutput> {
-        return self.client.execute(operation: "GetMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMergeConflicts(_ input: GetMergeConflictsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMergeConflictsOutput {
+        return try await self.client.execute(operation: "GetMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about the merge options available for merging two specified branches. For details about why a merge option is not available, use GetMergeConflicts or DescribeMergeConflicts.
-    public func getMergeOptions(_ input: GetMergeOptionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMergeOptionsOutput> {
-        return self.client.execute(operation: "GetMergeOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getMergeOptions(_ input: GetMergeOptionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMergeOptionsOutput {
+        return try await self.client.execute(operation: "GetMergeOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about a pull request in a specified repository.
-    public func getPullRequest(_ input: GetPullRequestInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPullRequestOutput> {
-        return self.client.execute(operation: "GetPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPullRequest(_ input: GetPullRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPullRequestOutput {
+        return try await self.client.execute(operation: "GetPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more approval rules applied to them.
-    public func getPullRequestApprovalStates(_ input: GetPullRequestApprovalStatesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPullRequestApprovalStatesOutput> {
-        return self.client.execute(operation: "GetPullRequestApprovalStates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPullRequestApprovalStates(_ input: GetPullRequestApprovalStatesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPullRequestApprovalStatesOutput {
+        return try await self.client.execute(operation: "GetPullRequestApprovalStates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about whether approval rules have been set aside (overridden) for a  pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
-    public func getPullRequestOverrideState(_ input: GetPullRequestOverrideStateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPullRequestOverrideStateOutput> {
-        return self.client.execute(operation: "GetPullRequestOverrideState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPullRequestOverrideState(_ input: GetPullRequestOverrideStateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPullRequestOverrideStateOutput {
+        return try await self.client.execute(operation: "GetPullRequestOverrideState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a repository.
     ///   The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
-    public func getRepository(_ input: GetRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRepositoryOutput> {
-        return self.client.execute(operation: "GetRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getRepository(_ input: GetRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRepositoryOutput {
+        return try await self.client.execute(operation: "GetRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about triggers configured for a repository.
-    public func getRepositoryTriggers(_ input: GetRepositoryTriggersInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRepositoryTriggersOutput> {
-        return self.client.execute(operation: "GetRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getRepositoryTriggers(_ input: GetRepositoryTriggersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRepositoryTriggersOutput {
+        return try await self.client.execute(operation: "GetRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all approval rule templates in the specified AWS Region in your AWS account. If an AWS Region is not specified, the AWS Region where you are signed in is used.
-    public func listApprovalRuleTemplates(_ input: ListApprovalRuleTemplatesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApprovalRuleTemplatesOutput> {
-        return self.client.execute(operation: "ListApprovalRuleTemplates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listApprovalRuleTemplates(_ input: ListApprovalRuleTemplatesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApprovalRuleTemplatesOutput {
+        return try await self.client.execute(operation: "ListApprovalRuleTemplates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all approval rule templates that are associated with a specified repository.
-    public func listAssociatedApprovalRuleTemplatesForRepository(_ input: ListAssociatedApprovalRuleTemplatesForRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssociatedApprovalRuleTemplatesForRepositoryOutput> {
-        return self.client.execute(operation: "ListAssociatedApprovalRuleTemplatesForRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAssociatedApprovalRuleTemplatesForRepository(_ input: ListAssociatedApprovalRuleTemplatesForRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssociatedApprovalRuleTemplatesForRepositoryOutput {
+        return try await self.client.execute(operation: "ListAssociatedApprovalRuleTemplatesForRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about one or more branches in a repository.
-    public func listBranches(_ input: ListBranchesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBranchesOutput> {
-        return self.client.execute(operation: "ListBranches", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listBranches(_ input: ListBranchesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBranchesOutput {
+        return try await self.client.execute(operation: "ListBranches", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of pull requests for a specified repository. The return list can be refined by pull request  status or pull request author ARN.
-    public func listPullRequests(_ input: ListPullRequestsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPullRequestsOutput> {
-        return self.client.execute(operation: "ListPullRequests", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPullRequests(_ input: ListPullRequestsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPullRequestsOutput {
+        return try await self.client.execute(operation: "ListPullRequests", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about one or more repositories.
-    public func listRepositories(_ input: ListRepositoriesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRepositoriesOutput> {
-        return self.client.execute(operation: "ListRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRepositories(_ input: ListRepositoriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRepositoriesOutput {
+        return try await self.client.execute(operation: "ListRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all repositories associated with the specified approval rule template.
-    public func listRepositoriesForApprovalRuleTemplate(_ input: ListRepositoriesForApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRepositoriesForApprovalRuleTemplateOutput> {
-        return self.client.execute(operation: "ListRepositoriesForApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRepositoriesForApprovalRuleTemplate(_ input: ListRepositoriesForApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRepositoriesForApprovalRuleTemplateOutput {
+        return try await self.client.execute(operation: "ListRepositoriesForApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
-    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Merges two branches using the fast-forward merge strategy.
-    public func mergeBranchesByFastForward(_ input: MergeBranchesByFastForwardInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MergeBranchesByFastForwardOutput> {
-        return self.client.execute(operation: "MergeBranchesByFastForward", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func mergeBranchesByFastForward(_ input: MergeBranchesByFastForwardInput, logger: Logger = AWSClient.loggingDisabled) async throws -> MergeBranchesByFastForwardOutput {
+        return try await self.client.execute(operation: "MergeBranchesByFastForward", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Merges two branches using the squash merge strategy.
-    public func mergeBranchesBySquash(_ input: MergeBranchesBySquashInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MergeBranchesBySquashOutput> {
-        return self.client.execute(operation: "MergeBranchesBySquash", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func mergeBranchesBySquash(_ input: MergeBranchesBySquashInput, logger: Logger = AWSClient.loggingDisabled) async throws -> MergeBranchesBySquashOutput {
+        return try await self.client.execute(operation: "MergeBranchesBySquash", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Merges two specified branches using the three-way merge strategy.
-    public func mergeBranchesByThreeWay(_ input: MergeBranchesByThreeWayInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MergeBranchesByThreeWayOutput> {
-        return self.client.execute(operation: "MergeBranchesByThreeWay", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func mergeBranchesByThreeWay(_ input: MergeBranchesByThreeWayInput, logger: Logger = AWSClient.loggingDisabled) async throws -> MergeBranchesByThreeWayOutput {
+        return try await self.client.execute(operation: "MergeBranchesByThreeWay", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
-    public func mergePullRequestByFastForward(_ input: MergePullRequestByFastForwardInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MergePullRequestByFastForwardOutput> {
-        return self.client.execute(operation: "MergePullRequestByFastForward", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func mergePullRequestByFastForward(_ input: MergePullRequestByFastForwardInput, logger: Logger = AWSClient.loggingDisabled) async throws -> MergePullRequestByFastForwardOutput {
+        return try await self.client.execute(operation: "MergePullRequestByFastForward", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
-    public func mergePullRequestBySquash(_ input: MergePullRequestBySquashInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MergePullRequestBySquashOutput> {
-        return self.client.execute(operation: "MergePullRequestBySquash", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func mergePullRequestBySquash(_ input: MergePullRequestBySquashInput, logger: Logger = AWSClient.loggingDisabled) async throws -> MergePullRequestBySquashOutput {
+        return try await self.client.execute(operation: "MergePullRequestBySquash", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
-    public func mergePullRequestByThreeWay(_ input: MergePullRequestByThreeWayInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MergePullRequestByThreeWayOutput> {
-        return self.client.execute(operation: "MergePullRequestByThreeWay", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func mergePullRequestByThreeWay(_ input: MergePullRequestByThreeWayInput, logger: Logger = AWSClient.loggingDisabled) async throws -> MergePullRequestByThreeWayOutput {
+        return try await self.client.execute(operation: "MergePullRequestByThreeWay", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Sets aside (overrides) all approval rule requirements for a specified pull request.
-    @discardableResult public func overridePullRequestApprovalRules(_ input: OverridePullRequestApprovalRulesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "OverridePullRequestApprovalRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func overridePullRequestApprovalRules(_ input: OverridePullRequestApprovalRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "OverridePullRequestApprovalRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Posts a comment on the comparison between two commits.
-    public func postCommentForComparedCommit(_ input: PostCommentForComparedCommitInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PostCommentForComparedCommitOutput> {
-        return self.client.execute(operation: "PostCommentForComparedCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func postCommentForComparedCommit(_ input: PostCommentForComparedCommitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PostCommentForComparedCommitOutput {
+        return try await self.client.execute(operation: "PostCommentForComparedCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Posts a comment on a pull request.
-    public func postCommentForPullRequest(_ input: PostCommentForPullRequestInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PostCommentForPullRequestOutput> {
-        return self.client.execute(operation: "PostCommentForPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func postCommentForPullRequest(_ input: PostCommentForPullRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PostCommentForPullRequestOutput {
+        return try await self.client.execute(operation: "PostCommentForPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
-    public func postCommentReply(_ input: PostCommentReplyInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PostCommentReplyOutput> {
-        return self.client.execute(operation: "PostCommentReply", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func postCommentReply(_ input: PostCommentReplyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PostCommentReplyOutput {
+        return try await self.client.execute(operation: "PostCommentReply", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
-    @discardableResult public func putCommentReaction(_ input: PutCommentReactionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutCommentReaction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putCommentReaction(_ input: PutCommentReactionInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "PutCommentReaction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds or updates a file in a branch in an AWS CodeCommit repository, and generates a commit for the addition in the specified branch.
-    public func putFile(_ input: PutFileInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutFileOutput> {
-        return self.client.execute(operation: "PutFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putFile(_ input: PutFileInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutFileOutput {
+        return try await self.client.execute(operation: "PutFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Replaces all triggers for a repository. Used to create or delete triggers.
-    public func putRepositoryTriggers(_ input: PutRepositoryTriggersInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRepositoryTriggersOutput> {
-        return self.client.execute(operation: "PutRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putRepositoryTriggers(_ input: PutRepositoryTriggersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRepositoryTriggersOutput {
+        return try await self.client.execute(operation: "PutRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds or updates tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
-    @discardableResult public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Tests the functionality of repository triggers by sending information to the trigger target. If real data is available in the repository, the test sends data from the last commit. If no data is available, sample data is generated.
-    public func testRepositoryTriggers(_ input: TestRepositoryTriggersInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestRepositoryTriggersOutput> {
-        return self.client.execute(operation: "TestRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func testRepositoryTriggers(_ input: TestRepositoryTriggersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TestRepositoryTriggersOutput {
+        return try await self.client.execute(operation: "TestRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
-    @discardableResult public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the content of an approval rule template. You can change the number of required approvals, the membership of the approval rule, and whether an approval pool is defined.
-    public func updateApprovalRuleTemplateContent(_ input: UpdateApprovalRuleTemplateContentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApprovalRuleTemplateContentOutput> {
-        return self.client.execute(operation: "UpdateApprovalRuleTemplateContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateApprovalRuleTemplateContent(_ input: UpdateApprovalRuleTemplateContentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApprovalRuleTemplateContentOutput {
+        return try await self.client.execute(operation: "UpdateApprovalRuleTemplateContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the description for a specified approval rule template.
-    public func updateApprovalRuleTemplateDescription(_ input: UpdateApprovalRuleTemplateDescriptionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApprovalRuleTemplateDescriptionOutput> {
-        return self.client.execute(operation: "UpdateApprovalRuleTemplateDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateApprovalRuleTemplateDescription(_ input: UpdateApprovalRuleTemplateDescriptionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApprovalRuleTemplateDescriptionOutput {
+        return try await self.client.execute(operation: "UpdateApprovalRuleTemplateDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the name of a specified approval rule template.
-    public func updateApprovalRuleTemplateName(_ input: UpdateApprovalRuleTemplateNameInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApprovalRuleTemplateNameOutput> {
-        return self.client.execute(operation: "UpdateApprovalRuleTemplateName", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateApprovalRuleTemplateName(_ input: UpdateApprovalRuleTemplateNameInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApprovalRuleTemplateNameOutput {
+        return try await self.client.execute(operation: "UpdateApprovalRuleTemplateName", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Replaces the contents of a comment.
-    public func updateComment(_ input: UpdateCommentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCommentOutput> {
-        return self.client.execute(operation: "UpdateComment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateComment(_ input: UpdateCommentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCommentOutput {
+        return try await self.client.execute(operation: "UpdateComment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Sets or changes the default branch name for the specified repository.   If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
-    @discardableResult public func updateDefaultBranch(_ input: UpdateDefaultBranchInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateDefaultBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDefaultBranch(_ input: UpdateDefaultBranchInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UpdateDefaultBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and  the approval pool for approvers.
-    public func updatePullRequestApprovalRuleContent(_ input: UpdatePullRequestApprovalRuleContentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePullRequestApprovalRuleContentOutput> {
-        return self.client.execute(operation: "UpdatePullRequestApprovalRuleContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePullRequestApprovalRuleContent(_ input: UpdatePullRequestApprovalRuleContentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePullRequestApprovalRuleContentOutput {
+        return try await self.client.execute(operation: "UpdatePullRequestApprovalRuleContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
-    @discardableResult public func updatePullRequestApprovalState(_ input: UpdatePullRequestApprovalStateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdatePullRequestApprovalState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePullRequestApprovalState(_ input: UpdatePullRequestApprovalStateInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UpdatePullRequestApprovalState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Replaces the contents of the description of a pull request.
-    public func updatePullRequestDescription(_ input: UpdatePullRequestDescriptionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePullRequestDescriptionOutput> {
-        return self.client.execute(operation: "UpdatePullRequestDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePullRequestDescription(_ input: UpdatePullRequestDescriptionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePullRequestDescriptionOutput {
+        return try await self.client.execute(operation: "UpdatePullRequestDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the status of a pull request.
-    public func updatePullRequestStatus(_ input: UpdatePullRequestStatusInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePullRequestStatusOutput> {
-        return self.client.execute(operation: "UpdatePullRequestStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePullRequestStatus(_ input: UpdatePullRequestStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePullRequestStatusOutput {
+        return try await self.client.execute(operation: "UpdatePullRequestStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Replaces the title of a pull request.
-    public func updatePullRequestTitle(_ input: UpdatePullRequestTitleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePullRequestTitleOutput> {
-        return self.client.execute(operation: "UpdatePullRequestTitle", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePullRequestTitle(_ input: UpdatePullRequestTitleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePullRequestTitleOutput {
+        return try await self.client.execute(operation: "UpdatePullRequestTitle", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Sets or changes the comment or description for a repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
-    @discardableResult public func updateRepositoryDescription(_ input: UpdateRepositoryDescriptionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateRepositoryDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateRepositoryDescription(_ input: UpdateRepositoryDescriptionInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UpdateRepositoryDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Renames a repository. The repository name must be unique across the calling AWS account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see Limits in the AWS CodeCommit User Guide.
-    @discardableResult public func updateRepositoryName(_ input: UpdateRepositoryNameInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateRepositoryName", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateRepositoryName(_ input: UpdateRepositoryNameInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UpdateRepositoryName", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -478,693 +555,252 @@ extension CodeCommit {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CodeCommit {
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeMergeConflictsPaginator<Result>(
-        _ input: DescribeMergeConflictsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeMergeConflictsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeMergeConflicts,
-            inputKey: \DescribeMergeConflictsInput.nextToken,
-            outputKey: \DescribeMergeConflictsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeMergeConflictsPaginator(
         _ input: DescribeMergeConflictsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeMergeConflictsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMergeConflictsInput, DescribeMergeConflictsOutput> {
+        return .init(
             input: input,
             command: self.describeMergeConflicts,
             inputKey: \DescribeMergeConflictsInput.nextToken,
             outputKey: \DescribeMergeConflictsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns information about one or more pull request events.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describePullRequestEventsPaginator<Result>(
-        _ input: DescribePullRequestEventsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribePullRequestEventsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describePullRequestEvents,
-            inputKey: \DescribePullRequestEventsInput.nextToken,
-            outputKey: \DescribePullRequestEventsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describePullRequestEventsPaginator(
         _ input: DescribePullRequestEventsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribePullRequestEventsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribePullRequestEventsInput, DescribePullRequestEventsOutput> {
+        return .init(
             input: input,
             command: self.describePullRequestEvents,
             inputKey: \DescribePullRequestEventsInput.nextToken,
             outputKey: \DescribePullRequestEventsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getCommentReactionsPaginator<Result>(
-        _ input: GetCommentReactionsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetCommentReactionsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getCommentReactions,
-            inputKey: \GetCommentReactionsInput.nextToken,
-            outputKey: \GetCommentReactionsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getCommentReactionsPaginator(
         _ input: GetCommentReactionsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetCommentReactionsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCommentReactionsInput, GetCommentReactionsOutput> {
+        return .init(
             input: input,
             command: self.getCommentReactions,
             inputKey: \GetCommentReactionsInput.nextToken,
             outputKey: \GetCommentReactionsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns information about comments made on the comparison between two commits.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of  reactions from active identities, use GetCommentReactions.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getCommentsForComparedCommitPaginator<Result>(
-        _ input: GetCommentsForComparedCommitInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetCommentsForComparedCommitOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getCommentsForComparedCommit,
-            inputKey: \GetCommentsForComparedCommitInput.nextToken,
-            outputKey: \GetCommentsForComparedCommitOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getCommentsForComparedCommitPaginator(
         _ input: GetCommentsForComparedCommitInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetCommentsForComparedCommitOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput> {
+        return .init(
             input: input,
             command: self.getCommentsForComparedCommit,
             inputKey: \GetCommentsForComparedCommitInput.nextToken,
             outputKey: \GetCommentsForComparedCommitOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns comments made on a pull request.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of  reactions from active identities, use GetCommentReactions.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getCommentsForPullRequestPaginator<Result>(
-        _ input: GetCommentsForPullRequestInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetCommentsForPullRequestOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getCommentsForPullRequest,
-            inputKey: \GetCommentsForPullRequestInput.nextToken,
-            outputKey: \GetCommentsForPullRequestOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getCommentsForPullRequestPaginator(
         _ input: GetCommentsForPullRequestInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetCommentsForPullRequestOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput> {
+        return .init(
             input: input,
             command: self.getCommentsForPullRequest,
             inputKey: \GetCommentsForPullRequestInput.nextToken,
             outputKey: \GetCommentsForPullRequestOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getDifferencesPaginator<Result>(
-        _ input: GetDifferencesInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetDifferencesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getDifferences,
-            inputKey: \GetDifferencesInput.nextToken,
-            outputKey: \GetDifferencesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getDifferencesPaginator(
         _ input: GetDifferencesInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetDifferencesOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetDifferencesInput, GetDifferencesOutput> {
+        return .init(
             input: input,
             command: self.getDifferences,
             inputKey: \GetDifferencesInput.nextToken,
             outputKey: \GetDifferencesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getMergeConflictsPaginator<Result>(
-        _ input: GetMergeConflictsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetMergeConflictsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getMergeConflicts,
-            inputKey: \GetMergeConflictsInput.nextToken,
-            outputKey: \GetMergeConflictsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getMergeConflictsPaginator(
         _ input: GetMergeConflictsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetMergeConflictsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetMergeConflictsInput, GetMergeConflictsOutput> {
+        return .init(
             input: input,
             command: self.getMergeConflicts,
             inputKey: \GetMergeConflictsInput.nextToken,
             outputKey: \GetMergeConflictsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all approval rule templates in the specified AWS Region in your AWS account. If an AWS Region is not specified, the AWS Region where you are signed in is used.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listApprovalRuleTemplatesPaginator<Result>(
-        _ input: ListApprovalRuleTemplatesInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListApprovalRuleTemplatesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listApprovalRuleTemplates,
-            inputKey: \ListApprovalRuleTemplatesInput.nextToken,
-            outputKey: \ListApprovalRuleTemplatesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listApprovalRuleTemplatesPaginator(
         _ input: ListApprovalRuleTemplatesInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListApprovalRuleTemplatesOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput> {
+        return .init(
             input: input,
             command: self.listApprovalRuleTemplates,
             inputKey: \ListApprovalRuleTemplatesInput.nextToken,
             outputKey: \ListApprovalRuleTemplatesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all approval rule templates that are associated with a specified repository.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAssociatedApprovalRuleTemplatesForRepositoryPaginator<Result>(
-        _ input: ListAssociatedApprovalRuleTemplatesForRepositoryInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAssociatedApprovalRuleTemplatesForRepositoryOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAssociatedApprovalRuleTemplatesForRepository,
-            inputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryInput.nextToken,
-            outputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAssociatedApprovalRuleTemplatesForRepositoryPaginator(
         _ input: ListAssociatedApprovalRuleTemplatesForRepositoryInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAssociatedApprovalRuleTemplatesForRepositoryOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput> {
+        return .init(
             input: input,
             command: self.listAssociatedApprovalRuleTemplatesForRepository,
             inputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryInput.nextToken,
             outputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets information about one or more branches in a repository.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listBranchesPaginator<Result>(
-        _ input: ListBranchesInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListBranchesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listBranches,
-            inputKey: \ListBranchesInput.nextToken,
-            outputKey: \ListBranchesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listBranchesPaginator(
         _ input: ListBranchesInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListBranchesOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBranchesInput, ListBranchesOutput> {
+        return .init(
             input: input,
             command: self.listBranches,
             inputKey: \ListBranchesInput.nextToken,
             outputKey: \ListBranchesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of pull requests for a specified repository. The return list can be refined by pull request  status or pull request author ARN.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPullRequestsPaginator<Result>(
-        _ input: ListPullRequestsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPullRequestsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPullRequests,
-            inputKey: \ListPullRequestsInput.nextToken,
-            outputKey: \ListPullRequestsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPullRequestsPaginator(
         _ input: ListPullRequestsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPullRequestsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPullRequestsInput, ListPullRequestsOutput> {
+        return .init(
             input: input,
             command: self.listPullRequests,
             inputKey: \ListPullRequestsInput.nextToken,
             outputKey: \ListPullRequestsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets information about one or more repositories.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRepositoriesPaginator<Result>(
-        _ input: ListRepositoriesInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRepositoriesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRepositories,
-            inputKey: \ListRepositoriesInput.nextToken,
-            outputKey: \ListRepositoriesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRepositoriesPaginator(
         _ input: ListRepositoriesInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRepositoriesOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRepositoriesInput, ListRepositoriesOutput> {
+        return .init(
             input: input,
             command: self.listRepositories,
             inputKey: \ListRepositoriesInput.nextToken,
             outputKey: \ListRepositoriesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all repositories associated with the specified approval rule template.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRepositoriesForApprovalRuleTemplatePaginator<Result>(
-        _ input: ListRepositoriesForApprovalRuleTemplateInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRepositoriesForApprovalRuleTemplateOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRepositoriesForApprovalRuleTemplate,
-            inputKey: \ListRepositoriesForApprovalRuleTemplateInput.nextToken,
-            outputKey: \ListRepositoriesForApprovalRuleTemplateOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRepositoriesForApprovalRuleTemplatePaginator(
         _ input: ListRepositoriesForApprovalRuleTemplateInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRepositoriesForApprovalRuleTemplateOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput> {
+        return .init(
             input: input,
             command: self.listRepositoriesForApprovalRuleTemplate,
             inputKey: \ListRepositoriesForApprovalRuleTemplateInput.nextToken,
             outputKey: \ListRepositoriesForApprovalRuleTemplateOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

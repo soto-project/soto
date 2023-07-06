@@ -113,8 +113,9 @@ public struct Route53RecoveryCluster: AWSService {
     ///
     /// 					Viewing and updating routing control states     Working with
     /// 					routing controls in Route 53 ARC
-    public func getRoutingControlState(_ input: GetRoutingControlStateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRoutingControlStateResponse> {
-        return self.client.execute(operation: "GetRoutingControlState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getRoutingControlState(_ input: GetRoutingControlStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRoutingControlStateResponse {
+        return try await self.client.execute(operation: "GetRoutingControlState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List routing control names and Amazon Resource Names (ARNs), as well as the routing control
@@ -136,8 +137,9 @@ public struct Route53RecoveryCluster: AWSService {
     ///
     /// 				Viewing and updating routing control states     Working with
     /// 				routing controls in Route 53 ARC
-    public func listRoutingControls(_ input: ListRoutingControlsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRoutingControlsResponse> {
-        return self.client.execute(operation: "ListRoutingControls", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRoutingControls(_ input: ListRoutingControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRoutingControlsResponse {
+        return try await self.client.execute(operation: "ListRoutingControls", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Set the state of the routing control to reroute traffic. You can set the value to be On or
@@ -161,8 +163,9 @@ public struct Route53RecoveryCluster: AWSService {
     /// 				in the Amazon Route 53 Application Recovery Controller Developer Guide.
     ///
     /// 					Viewing and updating routing control states     Working with routing controls overall
-    public func updateRoutingControlState(_ input: UpdateRoutingControlStateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRoutingControlStateResponse> {
-        return self.client.execute(operation: "UpdateRoutingControlState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateRoutingControlState(_ input: UpdateRoutingControlStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRoutingControlStateResponse {
+        return try await self.client.execute(operation: "UpdateRoutingControlState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Set multiple routing control states. You can set the value for each state to be On or Off.
@@ -185,8 +188,9 @@ public struct Route53RecoveryCluster: AWSService {
     /// 				in the Amazon Route 53 Application Recovery Controller Developer Guide.
     ///
     /// 					Viewing and updating routing control states     Working with routing controls overall
-    public func updateRoutingControlStates(_ input: UpdateRoutingControlStatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRoutingControlStatesResponse> {
-        return self.client.execute(operation: "UpdateRoutingControlStates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateRoutingControlStates(_ input: UpdateRoutingControlStatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRoutingControlStatesResponse {
+        return try await self.client.execute(operation: "UpdateRoutingControlStates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -201,6 +205,7 @@ extension Route53RecoveryCluster {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Route53RecoveryCluster {
     /// List routing control names and Amazon Resource Names (ARNs), as well as the routing control
     /// 			state for each routing control, along with the control panel name and control panel ARN for the routing controls.
@@ -221,55 +226,21 @@ extension Route53RecoveryCluster {
     ///
     /// 				Viewing and updating routing control states     Working with
     /// 				routing controls in Route 53 ARC
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRoutingControlsPaginator<Result>(
-        _ input: ListRoutingControlsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRoutingControlsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRoutingControls,
-            inputKey: \ListRoutingControlsRequest.nextToken,
-            outputKey: \ListRoutingControlsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRoutingControlsPaginator(
         _ input: ListRoutingControlsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRoutingControlsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRoutingControlsRequest, ListRoutingControlsResponse> {
+        return .init(
             input: input,
             command: self.listRoutingControls,
             inputKey: \ListRoutingControlsRequest.nextToken,
             outputKey: \ListRoutingControlsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

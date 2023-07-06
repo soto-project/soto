@@ -64,143 +64,171 @@ public struct SecurityLake: AWSService {
     // MARK: API Calls
 
     /// Adds a natively supported Amazon Web Service as an Amazon Security Lake source. Enables source types for member accounts in required Amazon Web Services Regions, based on the parameters you specify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Service as a source, Security Lake starts collecting logs and events from it,  You can use this API only to enable natively supported Amazon Web Services as a source. Use CreateCustomLogSource to enable data collection from a custom source.
-    public func createAwsLogSource(_ input: CreateAwsLogSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAwsLogSourceResponse> {
-        return self.client.execute(operation: "CreateAwsLogSource", path: "/v1/datalake/logsources/aws", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createAwsLogSource(_ input: CreateAwsLogSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAwsLogSourceResponse {
+        return try await self.client.execute(operation: "CreateAwsLogSource", path: "/v1/datalake/logsources/aws", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds a third-party custom source in Amazon Security Lake, from the Amazon Web Services Region where you want to create a custom source. Security Lake can collect logs and events from third-party custom sources. After creating the appropriate IAM role to invoke Glue crawler, use this API to add a custom source name in Security Lake. This operation creates a partition in the Amazon S3 bucket for Security Lake as the target location for log files from the custom source. In addition, this operation also creates an associated Glue table and an Glue crawler.
-    public func createCustomLogSource(_ input: CreateCustomLogSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCustomLogSourceResponse> {
-        return self.client.execute(operation: "CreateCustomLogSource", path: "/v1/datalake/logsources/custom", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCustomLogSource(_ input: CreateCustomLogSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomLogSourceResponse {
+        return try await self.client.execute(operation: "CreateCustomLogSource", path: "/v1/datalake/logsources/custom", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Initializes an Amazon Security Lake instance with the provided (or default) configuration. You can enable Security Lake in Amazon Web Services Regions with customized settings before enabling log collection in Regions. By default, the CreateDataLake Security Lake in all Regions. To specify particular Regions, configure these Regions using the configurations parameter. If you have already enabled Security Lake in a Region when you call this command, the command will update the Region if you provide new configuration parameters. If you have not already enabled Security Lake in the Region when you call this API, it will set up the data lake in the Region with the specified configurations. When you enable Security Lake, it starts ingesting security data after the CreateAwsLogSource call. This includes ingesting security data from sources, storing data, and making data accessible to subscribers. Security Lake also enables all the existing settings and resources that it stores or maintains for your Amazon Web Services account in the current Region, including security log and event data. For more information, see the Amazon Security Lake User Guide.
-    public func createDataLake(_ input: CreateDataLakeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataLakeResponse> {
-        return self.client.execute(operation: "CreateDataLake", path: "/v1/datalake", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDataLake(_ input: CreateDataLakeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataLakeResponse {
+        return try await self.client.execute(operation: "CreateDataLake", path: "/v1/datalake", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates the specified notification subscription in Amazon Security Lake for the organization you specify.
-    public func createDataLakeExceptionSubscription(_ input: CreateDataLakeExceptionSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataLakeExceptionSubscriptionResponse> {
-        return self.client.execute(operation: "CreateDataLakeExceptionSubscription", path: "/v1/datalake/exceptions/subscription", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDataLakeExceptionSubscription(_ input: CreateDataLakeExceptionSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataLakeExceptionSubscriptionResponse {
+        return try await self.client.execute(operation: "CreateDataLakeExceptionSubscription", path: "/v1/datalake/exceptions/subscription", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Automatically enables Amazon Security Lake for new member accounts in your organization. Security Lake is not automatically enabled for any existing member accounts in your organization.
-    public func createDataLakeOrganizationConfiguration(_ input: CreateDataLakeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDataLakeOrganizationConfigurationResponse> {
-        return self.client.execute(operation: "CreateDataLakeOrganizationConfiguration", path: "/v1/datalake/organization/configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDataLakeOrganizationConfiguration(_ input: CreateDataLakeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataLakeOrganizationConfigurationResponse {
+        return try await self.client.execute(operation: "CreateDataLakeOrganizationConfiguration", path: "/v1/datalake/organization/configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a subscription permission for accounts that are already enabled in Amazon Security Lake. You can create a subscriber with access to data in the current Amazon Web Services Region.
-    public func createSubscriber(_ input: CreateSubscriberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSubscriberResponse> {
-        return self.client.execute(operation: "CreateSubscriber", path: "/v1/subscribers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSubscriber(_ input: CreateSubscriberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubscriberResponse {
+        return try await self.client.execute(operation: "CreateSubscriber", path: "/v1/subscribers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Notifies the subscriber when new data is written to the data lake for the sources that the subscriber consumes in Security Lake. You can create only one subscriber notification per subscriber.
-    public func createSubscriberNotification(_ input: CreateSubscriberNotificationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSubscriberNotificationResponse> {
-        return self.client.execute(operation: "CreateSubscriberNotification", path: "/v1/subscribers/{subscriberId}/notification", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSubscriberNotification(_ input: CreateSubscriberNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubscriberNotificationResponse {
+        return try await self.client.execute(operation: "CreateSubscriberNotification", path: "/v1/subscribers/{subscriberId}/notification", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes a natively supported Amazon Web Service as an Amazon Security Lake source. You can remove a source for one or more Regions. When you remove the source, Security Lake stops collecting data from that source in the specified Regions and accounts, and subscribers can no longer consume new data from the source. However, subscribers can still consume data that Security Lake collected from the source before removal. You can choose any source type in any Amazon Web Services Region for either accounts that are part of a trusted organization or standalone accounts.
-    public func deleteAwsLogSource(_ input: DeleteAwsLogSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAwsLogSourceResponse> {
-        return self.client.execute(operation: "DeleteAwsLogSource", path: "/v1/datalake/logsources/aws/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAwsLogSource(_ input: DeleteAwsLogSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAwsLogSourceResponse {
+        return try await self.client.execute(operation: "DeleteAwsLogSource", path: "/v1/datalake/logsources/aws/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes a custom log source from Amazon Security Lake, to stop sending data from the custom source to Security Lake.
-    public func deleteCustomLogSource(_ input: DeleteCustomLogSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCustomLogSourceResponse> {
-        return self.client.execute(operation: "DeleteCustomLogSource", path: "/v1/datalake/logsources/custom/{sourceName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCustomLogSource(_ input: DeleteCustomLogSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomLogSourceResponse {
+        return try await self.client.execute(operation: "DeleteCustomLogSource", path: "/v1/datalake/logsources/custom/{sourceName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// When you disable Amazon Security Lake from your account, Security Lake is disabled in all Amazon Web Services Regions and it stops collecting data from your sources. Also, this API automatically takes steps to remove the account from Security Lake. However, Security Lake retains all of your existing settings and the resources that it created in your Amazon Web Services account in the current Amazon Web Services Region. The DeleteDataLake operation does not delete the data that is stored in your Amazon S3 bucket, which is owned by your Amazon Web Services account. For more information, see the Amazon Security Lake User Guide.
-    public func deleteDataLake(_ input: DeleteDataLakeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDataLakeResponse> {
-        return self.client.execute(operation: "DeleteDataLake", path: "/v1/datalake/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDataLake(_ input: DeleteDataLakeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataLakeResponse {
+        return try await self.client.execute(operation: "DeleteDataLake", path: "/v1/datalake/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified notification subscription in Amazon Security Lake for the organization you specify.
-    public func deleteDataLakeExceptionSubscription(_ input: DeleteDataLakeExceptionSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDataLakeExceptionSubscriptionResponse> {
-        return self.client.execute(operation: "DeleteDataLakeExceptionSubscription", path: "/v1/datalake/exceptions/subscription", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDataLakeExceptionSubscription(_ input: DeleteDataLakeExceptionSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataLakeExceptionSubscriptionResponse {
+        return try await self.client.execute(operation: "DeleteDataLakeExceptionSubscription", path: "/v1/datalake/exceptions/subscription", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes automatic the enablement of configuration settings for new member accounts (but retains the settings for the delegated administrator) from Amazon Security Lake. You must run this API using the credentials of the delegated administrator. When you run this API, new member accounts that are added after the organization enables Security Lake won't contribute to the data lake.
-    public func deleteDataLakeOrganizationConfiguration(_ input: DeleteDataLakeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDataLakeOrganizationConfigurationResponse> {
-        return self.client.execute(operation: "DeleteDataLakeOrganizationConfiguration", path: "/v1/datalake/organization/configuration/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDataLakeOrganizationConfiguration(_ input: DeleteDataLakeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataLakeOrganizationConfigurationResponse {
+        return try await self.client.execute(operation: "DeleteDataLakeOrganizationConfiguration", path: "/v1/datalake/organization/configuration/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the subscription permission and all notification settings for accounts that are already enabled in Amazon Security Lake. When you run DeleteSubscriber, the subscriber will no longer consume data from Security Lake and the subscriber is removed. This operation deletes the subscriber and removes access to data in the current Amazon Web Services Region.
-    public func deleteSubscriber(_ input: DeleteSubscriberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSubscriberResponse> {
-        return self.client.execute(operation: "DeleteSubscriber", path: "/v1/subscribers/{subscriberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSubscriber(_ input: DeleteSubscriberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSubscriberResponse {
+        return try await self.client.execute(operation: "DeleteSubscriber", path: "/v1/subscribers/{subscriberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified notification subscription in Amazon Security Lake for the organization you specify.
-    public func deleteSubscriberNotification(_ input: DeleteSubscriberNotificationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSubscriberNotificationResponse> {
-        return self.client.execute(operation: "DeleteSubscriberNotification", path: "/v1/subscribers/{subscriberId}/notification", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSubscriberNotification(_ input: DeleteSubscriberNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSubscriberNotificationResponse {
+        return try await self.client.execute(operation: "DeleteSubscriberNotification", path: "/v1/subscribers/{subscriberId}/notification", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization management account. The organization management account cannot be the delegated administrator account.
-    public func deregisterDataLakeDelegatedAdministrator(_ input: DeregisterDataLakeDelegatedAdministratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterDataLakeDelegatedAdministratorResponse> {
-        return self.client.execute(operation: "DeregisterDataLakeDelegatedAdministrator", path: "/v1/datalake/delegate", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deregisterDataLakeDelegatedAdministrator(_ input: DeregisterDataLakeDelegatedAdministratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterDataLakeDelegatedAdministratorResponse {
+        return try await self.client.execute(operation: "DeregisterDataLakeDelegatedAdministrator", path: "/v1/datalake/delegate", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the details of exception notifications for the account in Amazon Security Lake.
-    public func getDataLakeExceptionSubscription(_ input: GetDataLakeExceptionSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDataLakeExceptionSubscriptionResponse> {
-        return self.client.execute(operation: "GetDataLakeExceptionSubscription", path: "/v1/datalake/exceptions/subscription", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDataLakeExceptionSubscription(_ input: GetDataLakeExceptionSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakeExceptionSubscriptionResponse {
+        return try await self.client.execute(operation: "GetDataLakeExceptionSubscription", path: "/v1/datalake/exceptions/subscription", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the configuration that will be automatically set up for accounts added to the organization after the organization has onboarded to Amazon Security Lake. This API does not take input parameters.
-    public func getDataLakeOrganizationConfiguration(_ input: GetDataLakeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDataLakeOrganizationConfigurationResponse> {
-        return self.client.execute(operation: "GetDataLakeOrganizationConfiguration", path: "/v1/datalake/organization/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDataLakeOrganizationConfiguration(_ input: GetDataLakeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakeOrganizationConfigurationResponse {
+        return try await self.client.execute(operation: "GetDataLakeOrganizationConfiguration", path: "/v1/datalake/organization/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a snapshot of the current Region, including whether Amazon Security Lake is enabled for those accounts and which sources Security Lake is collecting data from.
-    public func getDataLakeSources(_ input: GetDataLakeSourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDataLakeSourcesResponse> {
-        return self.client.execute(operation: "GetDataLakeSources", path: "/v1/datalake/sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDataLakeSources(_ input: GetDataLakeSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakeSourcesResponse {
+        return try await self.client.execute(operation: "GetDataLakeSources", path: "/v1/datalake/sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the subscription information for the specified subscription ID. You can get information about a specific subscriber.
-    public func getSubscriber(_ input: GetSubscriberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSubscriberResponse> {
-        return self.client.execute(operation: "GetSubscriber", path: "/v1/subscribers/{subscriberId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSubscriber(_ input: GetSubscriberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSubscriberResponse {
+        return try await self.client.execute(operation: "GetSubscriber", path: "/v1/subscribers/{subscriberId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the Amazon Security Lake exceptions that you can use to find the source of problems and fix them.
-    public func listDataLakeExceptions(_ input: ListDataLakeExceptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDataLakeExceptionsResponse> {
-        return self.client.execute(operation: "ListDataLakeExceptions", path: "/v1/datalake/exceptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDataLakeExceptions(_ input: ListDataLakeExceptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataLakeExceptionsResponse {
+        return try await self.client.execute(operation: "ListDataLakeExceptions", path: "/v1/datalake/exceptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the Amazon Security Lake configuration object for the specified Amazon Web Services account ID. You can use the ListDataLakes API to know whether Security Lake is enabled for any region.
-    public func listDataLakes(_ input: ListDataLakesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDataLakesResponse> {
-        return self.client.execute(operation: "ListDataLakes", path: "/v1/datalakes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDataLakes(_ input: ListDataLakesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataLakesResponse {
+        return try await self.client.execute(operation: "ListDataLakes", path: "/v1/datalakes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the log sources in the current Amazon Web Services Region.
-    public func listLogSources(_ input: ListLogSourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListLogSourcesResponse> {
-        return self.client.execute(operation: "ListLogSources", path: "/v1/datalake/logsources/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listLogSources(_ input: ListLogSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLogSourcesResponse {
+        return try await self.client.execute(operation: "ListLogSources", path: "/v1/datalake/logsources/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list of subscriptions associated with a specific organization or Amazon Web Services account.
-    public func listSubscribers(_ input: ListSubscribersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSubscribersResponse> {
-        return self.client.execute(operation: "ListSubscribers", path: "/v1/subscribers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSubscribers(_ input: ListSubscribersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSubscribersResponse {
+        return try await self.client.execute(operation: "ListSubscribers", path: "/v1/subscribers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Designates the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization management account. The organization management account cannot be the delegated administrator account.
-    public func registerDataLakeDelegatedAdministrator(_ input: RegisterDataLakeDelegatedAdministratorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterDataLakeDelegatedAdministratorResponse> {
-        return self.client.execute(operation: "RegisterDataLakeDelegatedAdministrator", path: "/v1/datalake/delegate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func registerDataLakeDelegatedAdministrator(_ input: RegisterDataLakeDelegatedAdministratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterDataLakeDelegatedAdministratorResponse {
+        return try await self.client.execute(operation: "RegisterDataLakeDelegatedAdministrator", path: "/v1/datalake/delegate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Specifies where to store your security data and for how long. You can add a rollup Region to consolidate data from multiple Amazon Web Services Regions.
-    public func updateDataLake(_ input: UpdateDataLakeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDataLakeResponse> {
-        return self.client.execute(operation: "UpdateDataLake", path: "/v1/datalake", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDataLake(_ input: UpdateDataLakeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataLakeResponse {
+        return try await self.client.execute(operation: "UpdateDataLake", path: "/v1/datalake", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the specified notification subscription in Amazon Security Lake for the organization you specify.
-    public func updateDataLakeExceptionSubscription(_ input: UpdateDataLakeExceptionSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDataLakeExceptionSubscriptionResponse> {
-        return self.client.execute(operation: "UpdateDataLakeExceptionSubscription", path: "/v1/datalake/exceptions/subscription", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDataLakeExceptionSubscription(_ input: UpdateDataLakeExceptionSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataLakeExceptionSubscriptionResponse {
+        return try await self.client.execute(operation: "UpdateDataLakeExceptionSubscription", path: "/v1/datalake/exceptions/subscription", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an existing subscription for the given Amazon Security Lake account ID. You can update a subscriber by changing the sources that the subscriber consumes data from.
-    public func updateSubscriber(_ input: UpdateSubscriberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSubscriberResponse> {
-        return self.client.execute(operation: "UpdateSubscriber", path: "/v1/subscribers/{subscriberId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateSubscriber(_ input: UpdateSubscriberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSubscriberResponse {
+        return try await self.client.execute(operation: "UpdateSubscriber", path: "/v1/subscribers/{subscriberId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an existing notification method for the subscription (SQS or HTTPs endpoint) or switches the notification subscription endpoint for a subscriber.
-    public func updateSubscriberNotification(_ input: UpdateSubscriberNotificationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSubscriberNotificationResponse> {
-        return self.client.execute(operation: "UpdateSubscriberNotification", path: "/v1/subscribers/{subscriberId}/notification", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateSubscriberNotification(_ input: UpdateSubscriberNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSubscriberNotificationResponse {
+        return try await self.client.execute(operation: "UpdateSubscriberNotification", path: "/v1/subscribers/{subscriberId}/notification", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -215,216 +243,81 @@ extension SecurityLake {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SecurityLake {
     /// Retrieves a snapshot of the current Region, including whether Amazon Security Lake is enabled for those accounts and which sources Security Lake is collecting data from.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getDataLakeSourcesPaginator<Result>(
-        _ input: GetDataLakeSourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetDataLakeSourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getDataLakeSources,
-            inputKey: \GetDataLakeSourcesRequest.nextToken,
-            outputKey: \GetDataLakeSourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getDataLakeSourcesPaginator(
         _ input: GetDataLakeSourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetDataLakeSourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetDataLakeSourcesRequest, GetDataLakeSourcesResponse> {
+        return .init(
             input: input,
             command: self.getDataLakeSources,
             inputKey: \GetDataLakeSourcesRequest.nextToken,
             outputKey: \GetDataLakeSourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the Amazon Security Lake exceptions that you can use to find the source of problems and fix them.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDataLakeExceptionsPaginator<Result>(
-        _ input: ListDataLakeExceptionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDataLakeExceptionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDataLakeExceptions,
-            inputKey: \ListDataLakeExceptionsRequest.nextToken,
-            outputKey: \ListDataLakeExceptionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDataLakeExceptionsPaginator(
         _ input: ListDataLakeExceptionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDataLakeExceptionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataLakeExceptionsRequest, ListDataLakeExceptionsResponse> {
+        return .init(
             input: input,
             command: self.listDataLakeExceptions,
             inputKey: \ListDataLakeExceptionsRequest.nextToken,
             outputKey: \ListDataLakeExceptionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves the log sources in the current Amazon Web Services Region.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listLogSourcesPaginator<Result>(
-        _ input: ListLogSourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListLogSourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listLogSources,
-            inputKey: \ListLogSourcesRequest.nextToken,
-            outputKey: \ListLogSourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listLogSourcesPaginator(
         _ input: ListLogSourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListLogSourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLogSourcesRequest, ListLogSourcesResponse> {
+        return .init(
             input: input,
             command: self.listLogSources,
             inputKey: \ListLogSourcesRequest.nextToken,
             outputKey: \ListLogSourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list of subscriptions associated with a specific organization or Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSubscribersPaginator<Result>(
-        _ input: ListSubscribersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSubscribersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSubscribers,
-            inputKey: \ListSubscribersRequest.nextToken,
-            outputKey: \ListSubscribersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSubscribersPaginator(
         _ input: ListSubscribersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSubscribersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSubscribersRequest, ListSubscribersResponse> {
+        return .init(
             input: input,
             command: self.listSubscribers,
             inputKey: \ListSubscribersRequest.nextToken,
             outputKey: \ListSubscribersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

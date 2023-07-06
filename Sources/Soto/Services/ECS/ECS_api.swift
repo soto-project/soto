@@ -90,8 +90,9 @@ public struct ECS: AWSService {
     /// 			Fargate use the FARGATE and FARGATE_SPOT capacity providers.
     /// 			These providers are available to all accounts in the Amazon Web Services Regions that Fargate
     /// 			supports.
-    public func createCapacityProvider(_ input: CreateCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCapacityProviderResponse> {
-        return self.client.execute(operation: "CreateCapacityProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCapacityProvider(_ input: CreateCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCapacityProviderResponse {
+        return try await self.client.execute(operation: "CreateCapacityProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new Amazon ECS cluster. By default, your account receives a default
@@ -102,8 +103,9 @@ public struct ECS: AWSService {
     /// 				that makes the call doesn't have permissions to create the service-linked role, it
     /// 				isn't created. For more information, see Using
     /// 					service-linked roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
-    public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateClusterResponse> {
-        return self.client.execute(operation: "CreateCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterResponse {
+        return try await self.client.execute(operation: "CreateCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Runs and maintains your desired number of tasks from a specified task definition. If
@@ -164,27 +166,31 @@ public struct ECS: AWSService {
     /// 			required parameter is the service name. You control your services using the CreateTaskSet operation. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide. When the service scheduler launches new tasks, it determines task placement. For
     /// 			information about task placement and task placement strategies, see Amazon ECS
     /// 				task placement in the Amazon Elastic Container Service Developer Guide.
-    public func createService(_ input: CreateServiceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateServiceResponse> {
-        return self.client.execute(operation: "CreateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createService(_ input: CreateServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceResponse {
+        return try await self.client.execute(operation: "CreateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a task set in the specified cluster and service. This is used when a service
     /// 			uses the EXTERNAL deployment controller type. For more information, see
     /// 				Amazon ECS deployment
     /// 				types in the Amazon Elastic Container Service Developer Guide.
-    public func createTaskSet(_ input: CreateTaskSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTaskSetResponse> {
-        return self.client.execute(operation: "CreateTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTaskSet(_ input: CreateTaskSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTaskSetResponse {
+        return try await self.client.execute(operation: "CreateTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disables an account setting for a specified  user, role, or the root user for
     /// 			an account.
-    public func deleteAccountSetting(_ input: DeleteAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAccountSettingResponse> {
-        return self.client.execute(operation: "DeleteAccountSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAccountSetting(_ input: DeleteAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountSettingResponse {
+        return try await self.client.execute(operation: "DeleteAccountSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes one or more custom attributes from an Amazon ECS resource.
-    public func deleteAttributes(_ input: DeleteAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAttributesResponse> {
-        return self.client.execute(operation: "DeleteAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAttributes(_ input: DeleteAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAttributesResponse {
+        return try await self.client.execute(operation: "DeleteAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified capacity provider.  The FARGATE and FARGATE_SPOT capacity providers are
@@ -198,8 +204,9 @@ public struct ECS: AWSService {
     /// 			provider are transitioned to use the capacity from the remaining capacity providers.
     /// 			Only capacity providers that aren't associated with a cluster can be deleted. To remove
     /// 			a capacity provider from a cluster, you can either use PutClusterCapacityProviders or delete the cluster.
-    public func deleteCapacityProvider(_ input: DeleteCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCapacityProviderResponse> {
-        return self.client.execute(operation: "DeleteCapacityProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCapacityProvider(_ input: DeleteCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCapacityProviderResponse {
+        return try await self.client.execute(operation: "DeleteCapacityProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified cluster. The cluster transitions to the INACTIVE
@@ -207,8 +214,9 @@ public struct ECS: AWSService {
     /// 			account for a period of time. However, this behavior is subject to change in the future.
     /// 			We don't recommend that you rely on INACTIVE clusters persisting. You must deregister all container instances from this cluster before you may delete
     /// 			it. You can list the container instances in a cluster with ListContainerInstances and deregister them with DeregisterContainerInstance.
-    public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteClusterResponse> {
-        return self.client.execute(operation: "DeleteCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterResponse {
+        return try await self.client.execute(operation: "DeleteCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a specified service within a cluster. You can delete a service if you have no
@@ -226,8 +234,9 @@ public struct ECS: AWSService {
     /// 					ServiceNotFoundException error.   If you attempt to create a new service with the same name as an existing service
     /// 				in either ACTIVE or DRAINING status, you receive an
     /// 				error.
-    public func deleteService(_ input: DeleteServiceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteServiceResponse> {
-        return self.client.execute(operation: "DeleteService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteService(_ input: DeleteServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceResponse {
+        return try await self.client.execute(operation: "DeleteService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes one or more task definitions. You must deregister a task definition revision before you delete it. For more information,
@@ -240,14 +249,16 @@ public struct ECS: AWSService {
     /// 			or create new services. You also can't update an existing service to reference a
     /// 			DELETE_IN_PROGRESS task definition revision. A task definition revision will stay in DELETE_IN_PROGRESS status until
     /// 			all the associated tasks and services have been terminated.
-    public func deleteTaskDefinitions(_ input: DeleteTaskDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTaskDefinitionsResponse> {
-        return self.client.execute(operation: "DeleteTaskDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteTaskDefinitions(_ input: DeleteTaskDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTaskDefinitionsResponse {
+        return try await self.client.execute(operation: "DeleteTaskDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a specified task set within a service. This is used when a service uses the
     /// 				EXTERNAL deployment controller type. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide.
-    public func deleteTaskSet(_ input: DeleteTaskSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteTaskSetResponse> {
-        return self.client.execute(operation: "DeleteTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteTaskSet(_ input: DeleteTaskSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTaskSetResponse {
+        return try await self.client.execute(operation: "DeleteTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deregisters an Amazon ECS container instance from the specified cluster. This instance is
@@ -259,8 +270,9 @@ public struct ECS: AWSService {
     /// 			it in the Amazon EC2 console to stop billing.  If you terminate a running container instance, Amazon ECS automatically deregisters the
     /// 				instance from your cluster (stopped container instances or instances with
     /// 				disconnected agents aren't automatically deregistered when terminated).
-    public func deregisterContainerInstance(_ input: DeregisterContainerInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterContainerInstanceResponse> {
-        return self.client.execute(operation: "DeregisterContainerInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deregisterContainerInstance(_ input: DeregisterContainerInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterContainerInstanceResponse {
+        return try await self.client.execute(operation: "DeregisterContainerInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deregisters the specified task definition by family and revision. Upon deregistration, the
@@ -276,29 +288,34 @@ public struct ECS: AWSService {
     /// 				don't recommend that you rely on INACTIVE task definitions persisting
     /// 				beyond the lifecycle of any associated tasks and services.  You must deregister a task definition revision before you delete it. For more information,
     /// 			see DeleteTaskDefinitions.
-    public func deregisterTaskDefinition(_ input: DeregisterTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterTaskDefinitionResponse> {
-        return self.client.execute(operation: "DeregisterTaskDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deregisterTaskDefinition(_ input: DeregisterTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterTaskDefinitionResponse {
+        return try await self.client.execute(operation: "DeregisterTaskDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes one or more of your capacity providers.
-    public func describeCapacityProviders(_ input: DescribeCapacityProvidersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCapacityProvidersResponse> {
-        return self.client.execute(operation: "DescribeCapacityProviders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeCapacityProviders(_ input: DescribeCapacityProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityProvidersResponse {
+        return try await self.client.execute(operation: "DescribeCapacityProviders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes one or more of your clusters.
-    public func describeClusters(_ input: DescribeClustersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeClustersResponse> {
-        return self.client.execute(operation: "DescribeClusters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeClusters(_ input: DescribeClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClustersResponse {
+        return try await self.client.execute(operation: "DescribeClusters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes one or more container instances. Returns metadata about each container
     /// 			instance requested.
-    public func describeContainerInstances(_ input: DescribeContainerInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeContainerInstancesResponse> {
-        return self.client.execute(operation: "DescribeContainerInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeContainerInstances(_ input: DescribeContainerInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContainerInstancesResponse {
+        return try await self.client.execute(operation: "DescribeContainerInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the specified services running in your cluster.
-    public func describeServices(_ input: DescribeServicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeServicesResponse> {
-        return self.client.execute(operation: "DescribeServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeServices(_ input: DescribeServicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServicesResponse {
+        return try await self.client.execute(operation: "DescribeServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes a task definition. You can specify a family and
@@ -306,26 +323,30 @@ public struct ECS: AWSService {
     /// 			can simply specify the family to find the latest ACTIVE revision in that
     /// 			family.  You can only describe INACTIVE task definitions while an active task
     /// 				or service references them.
-    public func describeTaskDefinition(_ input: DescribeTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTaskDefinitionResponse> {
-        return self.client.execute(operation: "DescribeTaskDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTaskDefinition(_ input: DescribeTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTaskDefinitionResponse {
+        return try await self.client.execute(operation: "DescribeTaskDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the task sets in the specified cluster and service. This is used when a
     /// 			service uses the EXTERNAL deployment controller type. For more information,
     /// 			see Amazon ECS Deployment
     /// 				Types in the Amazon Elastic Container Service Developer Guide.
-    public func describeTaskSets(_ input: DescribeTaskSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTaskSetsResponse> {
-        return self.client.execute(operation: "DescribeTaskSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTaskSets(_ input: DescribeTaskSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTaskSetsResponse {
+        return try await self.client.execute(operation: "DescribeTaskSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes a specified task or tasks. Currently, stopped tasks appear in the returned results for at least one hour.
-    public func describeTasks(_ input: DescribeTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTasksResponse> {
-        return self.client.execute(operation: "DescribeTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeTasks(_ input: DescribeTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTasksResponse {
+        return try await self.client.execute(operation: "DescribeTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Returns an endpoint for the Amazon ECS agent to poll for updates.
-    public func discoverPollEndpoint(_ input: DiscoverPollEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DiscoverPollEndpointResponse> {
-        return self.client.execute(operation: "DiscoverPollEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func discoverPollEndpoint(_ input: DiscoverPollEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DiscoverPollEndpointResponse {
+        return try await self.client.execute(operation: "DiscoverPollEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Runs a command remotely on a container within a task. If you use a condition key in your IAM policy to refine the conditions for the policy
@@ -333,18 +354,21 @@ public struct ECS: AWSService {
     /// 				AccessDeniedException when there is a mismatch between the condition
     /// 			key value and the corresponding parameter value. For information about required permissions and considerations, see Using Amazon ECS Exec for
     /// 			debugging in the Amazon ECS Developer Guide.
-    public func executeCommand(_ input: ExecuteCommandRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExecuteCommandResponse> {
-        return self.client.execute(operation: "ExecuteCommand", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func executeCommand(_ input: ExecuteCommandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteCommandResponse {
+        return try await self.client.execute(operation: "ExecuteCommand", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the protection status of tasks in an Amazon ECS service.
-    public func getTaskProtection(_ input: GetTaskProtectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTaskProtectionResponse> {
-        return self.client.execute(operation: "GetTaskProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTaskProtection(_ input: GetTaskProtectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTaskProtectionResponse {
+        return try await self.client.execute(operation: "GetTaskProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the account settings for a specified principal.
-    public func listAccountSettings(_ input: ListAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccountSettingsResponse> {
-        return self.client.execute(operation: "ListAccountSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAccountSettings(_ input: ListAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountSettingsResponse {
+        return try await self.client.execute(operation: "ListAccountSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the attributes for Amazon ECS resources within a specified target type and cluster.
@@ -354,26 +378,30 @@ public struct ECS: AWSService {
     /// 			can also filter the results by attribute name and value. You can do this, for example,
     /// 			to see which container instances in a cluster are running a Linux AMI
     /// 				(ecs.os-type=linux).
-    public func listAttributes(_ input: ListAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAttributesResponse> {
-        return self.client.execute(operation: "ListAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAttributes(_ input: ListAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAttributesResponse {
+        return try await self.client.execute(operation: "ListAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of existing clusters.
-    public func listClusters(_ input: ListClustersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListClustersResponse> {
-        return self.client.execute(operation: "ListClusters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listClusters(_ input: ListClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClustersResponse {
+        return try await self.client.execute(operation: "ListClusters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of container instances in a specified cluster. You can filter the
     /// 			results of a ListContainerInstances operation with cluster query language
     /// 			statements inside the filter parameter. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
-    public func listContainerInstances(_ input: ListContainerInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContainerInstancesResponse> {
-        return self.client.execute(operation: "ListContainerInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listContainerInstances(_ input: ListContainerInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContainerInstancesResponse {
+        return try await self.client.execute(operation: "ListContainerInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of services. You can filter the results by cluster, launch type, and
     /// 			scheduling strategy.
-    public func listServices(_ input: ListServicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServicesResponse> {
-        return self.client.execute(operation: "ListServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listServices(_ input: ListServicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServicesResponse {
+        return try await self.client.execute(operation: "ListServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// This operation lists all of the services that are associated with a Cloud Map
@@ -381,13 +409,15 @@ public struct ECS: AWSService {
     /// 				ListServices can only list services in one cluster at a time. If you
     /// 			need to filter the list of services in a single cluster by various parameters, use
     /// 				ListServices. For more information, see Service Connect in the Amazon Elastic Container Service Developer Guide.
-    public func listServicesByNamespace(_ input: ListServicesByNamespaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListServicesByNamespaceResponse> {
-        return self.client.execute(operation: "ListServicesByNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listServicesByNamespace(_ input: ListServicesByNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServicesByNamespaceResponse {
+        return try await self.client.execute(operation: "ListServicesByNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the tags for an Amazon ECS resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of task definition families that are registered to your account. This
@@ -396,23 +426,26 @@ public struct ECS: AWSService {
     /// 			task definition revisions by setting the status parameter to
     /// 				ACTIVE. You can also filter the results with the
     /// 				familyPrefix parameter.
-    public func listTaskDefinitionFamilies(_ input: ListTaskDefinitionFamiliesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTaskDefinitionFamiliesResponse> {
-        return self.client.execute(operation: "ListTaskDefinitionFamilies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTaskDefinitionFamilies(_ input: ListTaskDefinitionFamiliesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTaskDefinitionFamiliesResponse {
+        return try await self.client.execute(operation: "ListTaskDefinitionFamilies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of task definitions that are registered to your account. You can filter
     /// 			the results by family name with the familyPrefix parameter or by status
     /// 			with the status parameter.
-    public func listTaskDefinitions(_ input: ListTaskDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTaskDefinitionsResponse> {
-        return self.client.execute(operation: "ListTaskDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTaskDefinitions(_ input: ListTaskDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTaskDefinitionsResponse {
+        return try await self.client.execute(operation: "ListTaskDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of tasks. You can filter the results by cluster, task definition
     /// 			family, container instance, launch type, what IAM principal started the task, or by the
     /// 			desired status of the task. Recently stopped tasks might appear in the returned results. Currently, stopped tasks
     /// 			appear in the returned results for at least one hour.
-    public func listTasks(_ input: ListTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTasksResponse> {
-        return self.client.execute(operation: "ListTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTasks(_ input: ListTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTasksResponse {
+        return try await self.client.execute(operation: "ListTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies an account setting. Account settings are set on a per-Region basis. If you change the root user account setting, the default settings are reset for  users
@@ -442,23 +475,26 @@ public struct ECS: AWSService {
     /// 			more information, see Grant
     /// 				permission to tag resources on creation in the Amazon ECS Developer
     /// 					Guide.
-    public func putAccountSetting(_ input: PutAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAccountSettingResponse> {
-        return self.client.execute(operation: "PutAccountSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putAccountSetting(_ input: PutAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountSettingResponse {
+        return try await self.client.execute(operation: "PutAccountSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies an account setting for all users on an account for whom no individual
     /// 			account setting has been specified. Account settings are set on a per-Region
     /// 			basis.
-    public func putAccountSettingDefault(_ input: PutAccountSettingDefaultRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAccountSettingDefaultResponse> {
-        return self.client.execute(operation: "PutAccountSettingDefault", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putAccountSettingDefault(_ input: PutAccountSettingDefaultRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountSettingDefaultResponse {
+        return try await self.client.execute(operation: "PutAccountSettingDefault", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist,
     /// 			it's created. If the attribute exists, its value is replaced with the specified value.
     /// 			To delete an attribute, use DeleteAttributes. For more information,
     /// 			see Attributes in the Amazon Elastic Container Service Developer Guide.
-    public func putAttributes(_ input: PutAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAttributesResponse> {
-        return self.client.execute(operation: "PutAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putAttributes(_ input: PutAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAttributesResponse {
+        return try await self.client.execute(operation: "PutAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies the available capacity providers and the default capacity provider strategy
@@ -473,14 +509,16 @@ public struct ECS: AWSService {
     /// 			We recommend that you define a default capacity provider strategy for your cluster.
     /// 			However, you must specify an empty array ([]) to bypass defining a default
     /// 			strategy.
-    public func putClusterCapacityProviders(_ input: PutClusterCapacityProvidersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutClusterCapacityProvidersResponse> {
-        return self.client.execute(operation: "PutClusterCapacityProviders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putClusterCapacityProviders(_ input: PutClusterCapacityProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutClusterCapacityProvidersResponse {
+        return try await self.client.execute(operation: "PutClusterCapacityProviders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Registers an EC2 instance into the specified cluster. This instance becomes available
     /// 			to place containers on.
-    public func registerContainerInstance(_ input: RegisterContainerInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterContainerInstanceResponse> {
-        return self.client.execute(operation: "RegisterContainerInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func registerContainerInstance(_ input: RegisterContainerInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterContainerInstanceResponse {
+        return try await self.client.execute(operation: "RegisterContainerInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Registers a new task definition from the supplied family and
@@ -499,8 +537,9 @@ public struct ECS: AWSService {
     /// 				NetworkConfiguration when you create a service or run a task with
     /// 			the task definition. For more information, see Task Networking
     /// 			in the Amazon Elastic Container Service Developer Guide.
-    public func registerTaskDefinition(_ input: RegisterTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterTaskDefinitionResponse> {
-        return self.client.execute(operation: "RegisterTaskDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func registerTaskDefinition(_ input: RegisterTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterTaskDefinitionResponse {
+        return try await self.client.execute(operation: "RegisterTaskDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts a new task using the specified task definition. You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places
@@ -519,15 +558,17 @@ public struct ECS: AWSService {
     /// 					returns an accurate response. Apply an exponential backoff algorithm starting
     /// 					with a couple of seconds of wait time, and increase gradually up to about five
     /// 					minutes of wait time.
-    public func runTask(_ input: RunTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RunTaskResponse> {
-        return self.client.execute(operation: "RunTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func runTask(_ input: RunTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RunTaskResponse {
+        return try await self.client.execute(operation: "RunTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts a new task from the specified task definition on the specified container
     /// 			instance or instances.  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.   Alternatively, you can use RunTask to place tasks for you. For more
     /// 			information, see Scheduling Tasks in the Amazon Elastic Container Service Developer Guide.
-    public func startTask(_ input: StartTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTaskResponse> {
-        return self.client.execute(operation: "StartTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startTask(_ input: StartTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTaskResponse {
+        return try await self.client.execute(operation: "StartTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops a running task. Any tags associated with the task will be deleted. When StopTask is called on a task, the equivalent of docker
@@ -539,51 +580,60 @@ public struct ECS: AWSService {
     /// 				the ECS_CONTAINER_STOP_TIMEOUT variable. For more information, see
     /// 					Amazon ECS Container Agent Configuration in the
     /// 				Amazon Elastic Container Service Developer Guide.
-    public func stopTask(_ input: StopTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopTaskResponse> {
-        return self.client.execute(operation: "StopTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopTask(_ input: StopTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopTaskResponse {
+        return try await self.client.execute(operation: "StopTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Sent to acknowledge that an attachment changed states.
-    public func submitAttachmentStateChanges(_ input: SubmitAttachmentStateChangesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SubmitAttachmentStateChangesResponse> {
-        return self.client.execute(operation: "SubmitAttachmentStateChanges", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func submitAttachmentStateChanges(_ input: SubmitAttachmentStateChangesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubmitAttachmentStateChangesResponse {
+        return try await self.client.execute(operation: "SubmitAttachmentStateChanges", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Sent to acknowledge that a container changed states.
-    public func submitContainerStateChange(_ input: SubmitContainerStateChangeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SubmitContainerStateChangeResponse> {
-        return self.client.execute(operation: "SubmitContainerStateChange", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func submitContainerStateChange(_ input: SubmitContainerStateChangeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubmitContainerStateChangeResponse {
+        return try await self.client.execute(operation: "SubmitContainerStateChange", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Sent to acknowledge that a task changed states.
-    public func submitTaskStateChange(_ input: SubmitTaskStateChangeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SubmitTaskStateChangeResponse> {
-        return self.client.execute(operation: "SubmitTaskStateChange", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func submitTaskStateChange(_ input: SubmitTaskStateChangeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubmitTaskStateChangeResponse {
+        return try await self.client.execute(operation: "SubmitTaskStateChange", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates the specified tags to a resource with the specified
     /// 				resourceArn. If existing tags on a resource aren't specified in the
     /// 			request parameters, they aren't changed. When a resource is deleted, the tags that are
     /// 			associated with that resource are deleted as well.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes specified tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies the parameters for a capacity provider.
-    public func updateCapacityProvider(_ input: UpdateCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCapacityProviderResponse> {
-        return self.client.execute(operation: "UpdateCapacityProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateCapacityProvider(_ input: UpdateCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCapacityProviderResponse {
+        return try await self.client.execute(operation: "UpdateCapacityProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the cluster.
-    public func updateCluster(_ input: UpdateClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateClusterResponse> {
-        return self.client.execute(operation: "UpdateCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateCluster(_ input: UpdateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterResponse {
+        return try await self.client.execute(operation: "UpdateCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies the settings to use for a cluster.
-    public func updateClusterSettings(_ input: UpdateClusterSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateClusterSettingsResponse> {
-        return self.client.execute(operation: "UpdateClusterSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateClusterSettings(_ input: UpdateClusterSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterSettingsResponse {
+        return try await self.client.execute(operation: "UpdateClusterSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the Amazon ECS container agent on a specified container instance. Updating the
@@ -598,8 +648,9 @@ public struct ECS: AWSService {
     /// 				instances to update the agent version in your Windows clusters.  The UpdateContainerAgent API requires an Amazon ECS-optimized AMI or Amazon
     /// 			Linux AMI with the ecs-init service installed and running. For help
     /// 			updating the Amazon ECS container agent on other operating systems, see Manually updating the Amazon ECS container agent in the Amazon Elastic Container Service Developer Guide.
-    public func updateContainerAgent(_ input: UpdateContainerAgentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContainerAgentResponse> {
-        return self.client.execute(operation: "UpdateContainerAgent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateContainerAgent(_ input: UpdateContainerAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContainerAgentResponse {
+        return try await self.client.execute(operation: "UpdateContainerAgent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies the status of an Amazon ECS container instance. Once a container instance has reached an ACTIVE state, you can change the
@@ -634,8 +685,9 @@ public struct ECS: AWSService {
     /// 			tasks. You can verify this using ListTasks. When a container instance has been drained, you can set a container instance to
     /// 				ACTIVE status and once it has reached that status the Amazon ECS scheduler
     /// 			can begin scheduling tasks on the instance again.
-    public func updateContainerInstancesState(_ input: UpdateContainerInstancesStateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContainerInstancesStateResponse> {
-        return self.client.execute(operation: "UpdateContainerInstancesState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateContainerInstancesState(_ input: UpdateContainerInstancesStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContainerInstancesStateResponse {
+        return try await self.client.execute(operation: "UpdateContainerInstancesState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies the parameters of a service. For services using the rolling update (ECS) you can update the desired
@@ -702,8 +754,9 @@ public struct ECS: AWSService {
     /// 				properties. If you specified a custom role when you created the service, Amazon ECS
     /// 				automatically replaces the roleARN associated with the service with the ARN of your
     /// 				service-linked role. For more information, see Service-linked roles in the Amazon Elastic Container Service Developer Guide.    loadBalancers,     serviceRegistries
-    public func updateService(_ input: UpdateServiceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServiceResponse> {
-        return self.client.execute(operation: "UpdateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateService(_ input: UpdateServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceResponse {
+        return try await self.client.execute(operation: "UpdateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies which task set in a service is the primary task set. Any parameters that are
@@ -711,8 +764,9 @@ public struct ECS: AWSService {
     /// 			used when a service uses the EXTERNAL deployment controller type. For more
     /// 			information, see Amazon ECS Deployment
     /// 				Types in the Amazon Elastic Container Service Developer Guide.
-    public func updateServicePrimaryTaskSet(_ input: UpdateServicePrimaryTaskSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServicePrimaryTaskSetResponse> {
-        return self.client.execute(operation: "UpdateServicePrimaryTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateServicePrimaryTaskSet(_ input: UpdateServicePrimaryTaskSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServicePrimaryTaskSetResponse {
+        return try await self.client.execute(operation: "UpdateServicePrimaryTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the protection status of a task. You can set protectionEnabled to
@@ -731,15 +785,17 @@ public struct ECS: AWSService {
     /// 				failure. For more information, see API failure
     /// 					reasons.   If you prefer to set task protection from within the container, we recommend using
     /// 				the Task scale-in protection endpoint.
-    public func updateTaskProtection(_ input: UpdateTaskProtectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTaskProtectionResponse> {
-        return self.client.execute(operation: "UpdateTaskProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateTaskProtection(_ input: UpdateTaskProtectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTaskProtectionResponse {
+        return try await self.client.execute(operation: "UpdateTaskProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Modifies a task set. This is used when a service uses the EXTERNAL
     /// 			deployment controller type. For more information, see Amazon ECS Deployment
     /// 				Types in the Amazon Elastic Container Service Developer Guide.
-    public func updateTaskSet(_ input: UpdateTaskSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateTaskSetResponse> {
-        return self.client.execute(operation: "UpdateTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateTaskSet(_ input: UpdateTaskSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTaskSetResponse {
+        return try await self.client.execute(operation: "UpdateTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -754,57 +810,24 @@ extension ECS {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ECS {
     /// Lists the account settings for a specified principal.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAccountSettingsPaginator<Result>(
-        _ input: ListAccountSettingsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAccountSettingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAccountSettings,
-            inputKey: \ListAccountSettingsRequest.nextToken,
-            outputKey: \ListAccountSettingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAccountSettingsPaginator(
         _ input: ListAccountSettingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAccountSettingsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAccountSettingsRequest, ListAccountSettingsResponse> {
+        return .init(
             input: input,
             command: self.listAccountSettings,
             inputKey: \ListAccountSettingsRequest.nextToken,
             outputKey: \ListAccountSettingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -815,217 +838,81 @@ extension ECS {
     /// 			can also filter the results by attribute name and value. You can do this, for example,
     /// 			to see which container instances in a cluster are running a Linux AMI
     /// 				(ecs.os-type=linux).
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAttributesPaginator<Result>(
-        _ input: ListAttributesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAttributesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAttributes,
-            inputKey: \ListAttributesRequest.nextToken,
-            outputKey: \ListAttributesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAttributesPaginator(
         _ input: ListAttributesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAttributesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAttributesRequest, ListAttributesResponse> {
+        return .init(
             input: input,
             command: self.listAttributes,
             inputKey: \ListAttributesRequest.nextToken,
             outputKey: \ListAttributesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of existing clusters.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listClustersPaginator<Result>(
-        _ input: ListClustersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListClustersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listClusters,
-            inputKey: \ListClustersRequest.nextToken,
-            outputKey: \ListClustersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listClustersPaginator(
         _ input: ListClustersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListClustersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListClustersRequest, ListClustersResponse> {
+        return .init(
             input: input,
             command: self.listClusters,
             inputKey: \ListClustersRequest.nextToken,
             outputKey: \ListClustersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of container instances in a specified cluster. You can filter the
     /// 			results of a ListContainerInstances operation with cluster query language
     /// 			statements inside the filter parameter. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listContainerInstancesPaginator<Result>(
-        _ input: ListContainerInstancesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListContainerInstancesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listContainerInstances,
-            inputKey: \ListContainerInstancesRequest.nextToken,
-            outputKey: \ListContainerInstancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listContainerInstancesPaginator(
         _ input: ListContainerInstancesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListContainerInstancesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListContainerInstancesRequest, ListContainerInstancesResponse> {
+        return .init(
             input: input,
             command: self.listContainerInstances,
             inputKey: \ListContainerInstancesRequest.nextToken,
             outputKey: \ListContainerInstancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of services. You can filter the results by cluster, launch type, and
     /// 			scheduling strategy.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listServicesPaginator<Result>(
-        _ input: ListServicesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListServicesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listServices,
-            inputKey: \ListServicesRequest.nextToken,
-            outputKey: \ListServicesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listServicesPaginator(
         _ input: ListServicesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListServicesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServicesRequest, ListServicesResponse> {
+        return .init(
             input: input,
             command: self.listServices,
             inputKey: \ListServicesRequest.nextToken,
             outputKey: \ListServicesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1034,55 +921,21 @@ extension ECS {
     /// 				ListServices can only list services in one cluster at a time. If you
     /// 			need to filter the list of services in a single cluster by various parameters, use
     /// 				ListServices. For more information, see Service Connect in the Amazon Elastic Container Service Developer Guide.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listServicesByNamespacePaginator<Result>(
-        _ input: ListServicesByNamespaceRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListServicesByNamespaceResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listServicesByNamespace,
-            inputKey: \ListServicesByNamespaceRequest.nextToken,
-            outputKey: \ListServicesByNamespaceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listServicesByNamespacePaginator(
         _ input: ListServicesByNamespaceRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListServicesByNamespaceResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServicesByNamespaceRequest, ListServicesByNamespaceResponse> {
+        return .init(
             input: input,
             command: self.listServicesByNamespace,
             inputKey: \ListServicesByNamespaceRequest.nextToken,
             outputKey: \ListServicesByNamespaceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1092,110 +945,42 @@ extension ECS {
     /// 			task definition revisions by setting the status parameter to
     /// 				ACTIVE. You can also filter the results with the
     /// 				familyPrefix parameter.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTaskDefinitionFamiliesPaginator<Result>(
-        _ input: ListTaskDefinitionFamiliesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTaskDefinitionFamiliesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTaskDefinitionFamilies,
-            inputKey: \ListTaskDefinitionFamiliesRequest.nextToken,
-            outputKey: \ListTaskDefinitionFamiliesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTaskDefinitionFamiliesPaginator(
         _ input: ListTaskDefinitionFamiliesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTaskDefinitionFamiliesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTaskDefinitionFamiliesRequest, ListTaskDefinitionFamiliesResponse> {
+        return .init(
             input: input,
             command: self.listTaskDefinitionFamilies,
             inputKey: \ListTaskDefinitionFamiliesRequest.nextToken,
             outputKey: \ListTaskDefinitionFamiliesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of task definitions that are registered to your account. You can filter
     /// 			the results by family name with the familyPrefix parameter or by status
     /// 			with the status parameter.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTaskDefinitionsPaginator<Result>(
-        _ input: ListTaskDefinitionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTaskDefinitionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTaskDefinitions,
-            inputKey: \ListTaskDefinitionsRequest.nextToken,
-            outputKey: \ListTaskDefinitionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTaskDefinitionsPaginator(
         _ input: ListTaskDefinitionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTaskDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTaskDefinitionsRequest, ListTaskDefinitionsResponse> {
+        return .init(
             input: input,
             command: self.listTaskDefinitions,
             inputKey: \ListTaskDefinitionsRequest.nextToken,
             outputKey: \ListTaskDefinitionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1203,55 +988,21 @@ extension ECS {
     /// 			family, container instance, launch type, what IAM principal started the task, or by the
     /// 			desired status of the task. Recently stopped tasks might appear in the returned results. Currently, stopped tasks
     /// 			appear in the returned results for at least one hour.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTasksPaginator<Result>(
-        _ input: ListTasksRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTasksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTasks,
-            inputKey: \ListTasksRequest.nextToken,
-            outputKey: \ListTasksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTasksPaginator(
         _ input: ListTasksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTasksResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTasksRequest, ListTasksResponse> {
+        return .init(
             input: input,
             command: self.listTasks,
             inputKey: \ListTasksRequest.nextToken,
             outputKey: \ListTasksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }
@@ -1366,13 +1117,13 @@ extension ECS.ListTasksRequest: AWSPaginateToken {
 
 // MARK: Waiters
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ECS {
     public func waitUntilServicesInactive(
         _ input: DescribeServicesRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .failure, matcher: try! JMESAnyPathMatcher("failures[].reason", expected: "MISSING")),
@@ -1381,15 +1132,14 @@ extension ECS {
             minDelayTime: .seconds(15),
             command: self.describeServices
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
     public func waitUntilServicesStable(
         _ input: DescribeServicesRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .failure, matcher: try! JMESAnyPathMatcher("failures[].reason", expected: "MISSING")),
@@ -1400,15 +1150,14 @@ extension ECS {
             minDelayTime: .seconds(15),
             command: self.describeServices
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
     public func waitUntilTasksRunning(
         _ input: DescribeTasksRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .failure, matcher: try! JMESAnyPathMatcher("tasks[].lastStatus", expected: "STOPPED")),
@@ -1418,15 +1167,14 @@ extension ECS {
             minDelayTime: .seconds(6),
             command: self.describeTasks
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 
     public func waitUntilTasksStopped(
         _ input: DescribeTasksRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESAllPathMatcher("tasks[].lastStatus", expected: "STOPPED")),
@@ -1434,6 +1182,6 @@ extension ECS {
             minDelayTime: .seconds(6),
             command: self.describeTasks
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 }

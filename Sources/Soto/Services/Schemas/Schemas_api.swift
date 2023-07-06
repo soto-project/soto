@@ -64,157 +64,188 @@ public struct Schemas: AWSService {
     // MARK: API Calls
 
     /// Creates a discoverer.
-    public func createDiscoverer(_ input: CreateDiscovererRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDiscovererResponse> {
-        return self.client.execute(operation: "CreateDiscoverer", path: "/v1/discoverers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDiscoverer(_ input: CreateDiscovererRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDiscovererResponse {
+        return try await self.client.execute(operation: "CreateDiscoverer", path: "/v1/discoverers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a registry.
-    public func createRegistry(_ input: CreateRegistryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRegistryResponse> {
-        return self.client.execute(operation: "CreateRegistry", path: "/v1/registries/name/{RegistryName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createRegistry(_ input: CreateRegistryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRegistryResponse {
+        return try await self.client.execute(operation: "CreateRegistry", path: "/v1/registries/name/{RegistryName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a schema definition. Inactive schemas will be deleted after two years.
-    public func createSchema(_ input: CreateSchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSchemaResponse> {
-        return self.client.execute(operation: "CreateSchema", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSchema(_ input: CreateSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSchemaResponse {
+        return try await self.client.execute(operation: "CreateSchema", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a discoverer.
-    @discardableResult public func deleteDiscoverer(_ input: DeleteDiscovererRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDiscoverer", path: "/v1/discoverers/id/{DiscovererId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDiscoverer(_ input: DeleteDiscovererRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteDiscoverer", path: "/v1/discoverers/id/{DiscovererId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a Registry.
-    @discardableResult public func deleteRegistry(_ input: DeleteRegistryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteRegistry", path: "/v1/registries/name/{RegistryName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRegistry(_ input: DeleteRegistryRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteRegistry", path: "/v1/registries/name/{RegistryName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete the resource-based policy attached to the specified registry.
-    @discardableResult public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteResourcePolicy", path: "/v1/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteResourcePolicy", path: "/v1/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete a schema definition.
-    @discardableResult public func deleteSchema(_ input: DeleteSchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteSchema", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSchema(_ input: DeleteSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteSchema", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete the schema version definition
-    @discardableResult public func deleteSchemaVersion(_ input: DeleteSchemaVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteSchemaVersion", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}/version/{SchemaVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSchemaVersion(_ input: DeleteSchemaVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteSchemaVersion", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}/version/{SchemaVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describe the code binding URI.
-    public func describeCodeBinding(_ input: DescribeCodeBindingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCodeBindingResponse> {
-        return self.client.execute(operation: "DescribeCodeBinding", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}/language/{Language}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeCodeBinding(_ input: DescribeCodeBindingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCodeBindingResponse {
+        return try await self.client.execute(operation: "DescribeCodeBinding", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}/language/{Language}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the discoverer.
-    public func describeDiscoverer(_ input: DescribeDiscovererRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDiscovererResponse> {
-        return self.client.execute(operation: "DescribeDiscoverer", path: "/v1/discoverers/id/{DiscovererId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDiscoverer(_ input: DescribeDiscovererRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDiscovererResponse {
+        return try await self.client.execute(operation: "DescribeDiscoverer", path: "/v1/discoverers/id/{DiscovererId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the registry.
-    public func describeRegistry(_ input: DescribeRegistryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRegistryResponse> {
-        return self.client.execute(operation: "DescribeRegistry", path: "/v1/registries/name/{RegistryName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeRegistry(_ input: DescribeRegistryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRegistryResponse {
+        return try await self.client.execute(operation: "DescribeRegistry", path: "/v1/registries/name/{RegistryName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieve the schema definition.
-    public func describeSchema(_ input: DescribeSchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSchemaResponse> {
-        return self.client.execute(operation: "DescribeSchema", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeSchema(_ input: DescribeSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSchemaResponse {
+        return try await self.client.execute(operation: "DescribeSchema", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
-    public func exportSchema(_ input: ExportSchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExportSchemaResponse> {
-        return self.client.execute(operation: "ExportSchema", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}/export", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func exportSchema(_ input: ExportSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportSchemaResponse {
+        return try await self.client.execute(operation: "ExportSchema", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}/export", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the code binding source URI.
-    public func getCodeBindingSource(_ input: GetCodeBindingSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCodeBindingSourceResponse> {
-        return self.client.execute(operation: "GetCodeBindingSource", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}/language/{Language}/source", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCodeBindingSource(_ input: GetCodeBindingSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCodeBindingSourceResponse {
+        return try await self.client.execute(operation: "GetCodeBindingSource", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}/language/{Language}/source", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the discovered schema that was generated based on sampled events.
-    public func getDiscoveredSchema(_ input: GetDiscoveredSchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDiscoveredSchemaResponse> {
-        return self.client.execute(operation: "GetDiscoveredSchema", path: "/v1/discover", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDiscoveredSchema(_ input: GetDiscoveredSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDiscoveredSchemaResponse {
+        return try await self.client.execute(operation: "GetDiscoveredSchema", path: "/v1/discover", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the resource-based policy attached to a given registry.
-    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourcePolicyResponse> {
-        return self.client.execute(operation: "GetResourcePolicy", path: "/v1/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
+        return try await self.client.execute(operation: "GetResourcePolicy", path: "/v1/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the discoverers.
-    public func listDiscoverers(_ input: ListDiscoverersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDiscoverersResponse> {
-        return self.client.execute(operation: "ListDiscoverers", path: "/v1/discoverers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDiscoverers(_ input: ListDiscoverersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDiscoverersResponse {
+        return try await self.client.execute(operation: "ListDiscoverers", path: "/v1/discoverers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the registries.
-    public func listRegistries(_ input: ListRegistriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRegistriesResponse> {
-        return self.client.execute(operation: "ListRegistries", path: "/v1/registries", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRegistries(_ input: ListRegistriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRegistriesResponse {
+        return try await self.client.execute(operation: "ListRegistries", path: "/v1/registries", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides a list of the schema versions and related information.
-    public func listSchemaVersions(_ input: ListSchemaVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSchemaVersionsResponse> {
-        return self.client.execute(operation: "ListSchemaVersions", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSchemaVersions(_ input: ListSchemaVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSchemaVersionsResponse {
+        return try await self.client.execute(operation: "ListSchemaVersions", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the schemas.
-    public func listSchemas(_ input: ListSchemasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSchemasResponse> {
-        return self.client.execute(operation: "ListSchemas", path: "/v1/registries/name/{RegistryName}/schemas", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSchemas(_ input: ListSchemasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSchemasResponse {
+        return try await self.client.execute(operation: "ListSchemas", path: "/v1/registries/name/{RegistryName}/schemas", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get tags for resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Put code binding URI
-    public func putCodeBinding(_ input: PutCodeBindingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutCodeBindingResponse> {
-        return self.client.execute(operation: "PutCodeBinding", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}/language/{Language}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putCodeBinding(_ input: PutCodeBindingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutCodeBindingResponse {
+        return try await self.client.execute(operation: "PutCodeBinding", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}/language/{Language}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// The name of the policy.
-    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutResourcePolicyResponse> {
-        return self.client.execute(operation: "PutResourcePolicy", path: "/v1/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
+        return try await self.client.execute(operation: "PutResourcePolicy", path: "/v1/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Search the schemas
-    public func searchSchemas(_ input: SearchSchemasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchSchemasResponse> {
-        return self.client.execute(operation: "SearchSchemas", path: "/v1/registries/name/{RegistryName}/schemas/search", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchSchemas(_ input: SearchSchemasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchSchemasResponse {
+        return try await self.client.execute(operation: "SearchSchemas", path: "/v1/registries/name/{RegistryName}/schemas/search", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts the discoverer
-    public func startDiscoverer(_ input: StartDiscovererRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartDiscovererResponse> {
-        return self.client.execute(operation: "StartDiscoverer", path: "/v1/discoverers/id/{DiscovererId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startDiscoverer(_ input: StartDiscovererRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDiscovererResponse {
+        return try await self.client.execute(operation: "StartDiscoverer", path: "/v1/discoverers/id/{DiscovererId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops the discoverer
-    public func stopDiscoverer(_ input: StopDiscovererRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopDiscovererResponse> {
-        return self.client.execute(operation: "StopDiscoverer", path: "/v1/discoverers/id/{DiscovererId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopDiscoverer(_ input: StopDiscovererRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopDiscovererResponse {
+        return try await self.client.execute(operation: "StopDiscoverer", path: "/v1/discoverers/id/{DiscovererId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Add tags to a resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes tags from a resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the discoverer
-    public func updateDiscoverer(_ input: UpdateDiscovererRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDiscovererResponse> {
-        return self.client.execute(operation: "UpdateDiscoverer", path: "/v1/discoverers/id/{DiscovererId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDiscoverer(_ input: UpdateDiscovererRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDiscovererResponse {
+        return try await self.client.execute(operation: "UpdateDiscoverer", path: "/v1/discoverers/id/{DiscovererId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a registry.
-    public func updateRegistry(_ input: UpdateRegistryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRegistryResponse> {
-        return self.client.execute(operation: "UpdateRegistry", path: "/v1/registries/name/{RegistryName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateRegistry(_ input: UpdateRegistryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRegistryResponse {
+        return try await self.client.execute(operation: "UpdateRegistry", path: "/v1/registries/name/{RegistryName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the schema definition Inactive schemas will be deleted after two years.
-    public func updateSchema(_ input: UpdateSchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSchemaResponse> {
-        return self.client.execute(operation: "UpdateSchema", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateSchema(_ input: UpdateSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSchemaResponse {
+        return try await self.client.execute(operation: "UpdateSchema", path: "/v1/registries/name/{RegistryName}/schemas/name/{SchemaName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -229,269 +260,100 @@ extension Schemas {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Schemas {
     /// List the discoverers.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDiscoverersPaginator<Result>(
-        _ input: ListDiscoverersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDiscoverersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDiscoverers,
-            inputKey: \ListDiscoverersRequest.nextToken,
-            outputKey: \ListDiscoverersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDiscoverersPaginator(
         _ input: ListDiscoverersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDiscoverersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDiscoverersRequest, ListDiscoverersResponse> {
+        return .init(
             input: input,
             command: self.listDiscoverers,
             inputKey: \ListDiscoverersRequest.nextToken,
             outputKey: \ListDiscoverersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List the registries.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRegistriesPaginator<Result>(
-        _ input: ListRegistriesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRegistriesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRegistries,
-            inputKey: \ListRegistriesRequest.nextToken,
-            outputKey: \ListRegistriesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRegistriesPaginator(
         _ input: ListRegistriesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRegistriesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRegistriesRequest, ListRegistriesResponse> {
+        return .init(
             input: input,
             command: self.listRegistries,
             inputKey: \ListRegistriesRequest.nextToken,
             outputKey: \ListRegistriesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Provides a list of the schema versions and related information.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSchemaVersionsPaginator<Result>(
-        _ input: ListSchemaVersionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSchemaVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSchemaVersions,
-            inputKey: \ListSchemaVersionsRequest.nextToken,
-            outputKey: \ListSchemaVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSchemaVersionsPaginator(
         _ input: ListSchemaVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSchemaVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSchemaVersionsRequest, ListSchemaVersionsResponse> {
+        return .init(
             input: input,
             command: self.listSchemaVersions,
             inputKey: \ListSchemaVersionsRequest.nextToken,
             outputKey: \ListSchemaVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List the schemas.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSchemasPaginator<Result>(
-        _ input: ListSchemasRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSchemasResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSchemas,
-            inputKey: \ListSchemasRequest.nextToken,
-            outputKey: \ListSchemasResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSchemasPaginator(
         _ input: ListSchemasRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSchemasResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSchemasRequest, ListSchemasResponse> {
+        return .init(
             input: input,
             command: self.listSchemas,
             inputKey: \ListSchemasRequest.nextToken,
             outputKey: \ListSchemasResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Search the schemas
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func searchSchemasPaginator<Result>(
-        _ input: SearchSchemasRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchSchemasResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchSchemas,
-            inputKey: \SearchSchemasRequest.nextToken,
-            outputKey: \SearchSchemasResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func searchSchemasPaginator(
         _ input: SearchSchemasRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchSchemasResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchSchemasRequest, SearchSchemasResponse> {
+        return .init(
             input: input,
             command: self.searchSchemas,
             inputKey: \SearchSchemasRequest.nextToken,
             outputKey: \SearchSchemasResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }
@@ -553,14 +415,13 @@ extension Schemas.SearchSchemasRequest: AWSPaginateToken {
 
 // MARK: Waiters
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Schemas {
-    /// Wait until code binding is generated
     public func waitUntilCodeBindingExists(
         _ input: DescribeCodeBindingRequest,
         maxWaitTime: TimeAmount? = nil,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> EventLoopFuture<Void> {
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "CREATE_COMPLETE")),
@@ -570,6 +431,6 @@ extension Schemas {
             ],
             command: self.describeCodeBinding
         )
-        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
     }
 }

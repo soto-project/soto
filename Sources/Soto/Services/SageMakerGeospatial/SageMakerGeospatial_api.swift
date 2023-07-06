@@ -64,105 +64,117 @@ public struct SageMakerGeospatial: AWSService {
     // MARK: API Calls
 
     /// Use this operation to delete an Earth Observation job.
-    public func deleteEarthObservationJob(_ input: DeleteEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEarthObservationJobOutput> {
-        return self.client.execute(operation: "DeleteEarthObservationJob", path: "/earth-observation-jobs/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteEarthObservationJob(_ input: DeleteEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEarthObservationJobOutput {
+        return try await self.client.execute(operation: "DeleteEarthObservationJob", path: "/earth-observation-jobs/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use this operation to delete a Vector Enrichment job.
-    public func deleteVectorEnrichmentJob(_ input: DeleteVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVectorEnrichmentJobOutput> {
-        return self.client.execute(operation: "DeleteVectorEnrichmentJob", path: "/vector-enrichment-jobs/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteVectorEnrichmentJob(_ input: DeleteVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVectorEnrichmentJobOutput {
+        return try await self.client.execute(operation: "DeleteVectorEnrichmentJob", path: "/vector-enrichment-jobs/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
-    public func exportEarthObservationJob(_ input: ExportEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExportEarthObservationJobOutput> {
-        return self.client.execute(operation: "ExportEarthObservationJob", path: "/export-earth-observation-job", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func exportEarthObservationJob(_ input: ExportEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportEarthObservationJobOutput {
+        return try await self.client.execute(operation: "ExportEarthObservationJob", path: "/export-earth-observation-job", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
-    public func exportVectorEnrichmentJob(_ input: ExportVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExportVectorEnrichmentJobOutput> {
-        return self.client.execute(operation: "ExportVectorEnrichmentJob", path: "/export-vector-enrichment-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func exportVectorEnrichmentJob(_ input: ExportVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportVectorEnrichmentJobOutput {
+        return try await self.client.execute(operation: "ExportVectorEnrichmentJob", path: "/export-vector-enrichment-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get the details for a previously initiated Earth Observation job.
-    public func getEarthObservationJob(_ input: GetEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEarthObservationJobOutput> {
-        return self.client.execute(operation: "GetEarthObservationJob", path: "/earth-observation-jobs/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getEarthObservationJob(_ input: GetEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEarthObservationJobOutput {
+        return try await self.client.execute(operation: "GetEarthObservationJob", path: "/earth-observation-jobs/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use this operation to get details of a specific raster data collection.
-    public func getRasterDataCollection(_ input: GetRasterDataCollectionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRasterDataCollectionOutput> {
-        return self.client.execute(operation: "GetRasterDataCollection", path: "/raster-data-collection/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getRasterDataCollection(_ input: GetRasterDataCollectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRasterDataCollectionOutput {
+        return try await self.client.execute(operation: "GetRasterDataCollection", path: "/raster-data-collection/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets a web mercator tile for the given Earth Observation job.
-    public func getTile(_ input: GetTileInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTileOutput> {
-        return self.client.execute(operation: "GetTile", path: "/tile/{z}/{x}/{y}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTile(_ input: GetTileInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTileOutput {
+        return try await self.client.execute(operation: "GetTile", path: "/tile/{z}/{x}/{y}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Name (ARN).
-    public func getVectorEnrichmentJob(_ input: GetVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVectorEnrichmentJobOutput> {
-        return self.client.execute(operation: "GetVectorEnrichmentJob", path: "/vector-enrichment-jobs/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getVectorEnrichmentJob(_ input: GetVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVectorEnrichmentJobOutput {
+        return try await self.client.execute(operation: "GetVectorEnrichmentJob", path: "/vector-enrichment-jobs/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
-    public func listEarthObservationJobs(_ input: ListEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEarthObservationJobOutput> {
-        return self.client.execute(operation: "ListEarthObservationJobs", path: "/list-earth-observation-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listEarthObservationJobs(_ input: ListEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEarthObservationJobOutput {
+        return try await self.client.execute(operation: "ListEarthObservationJobs", path: "/list-earth-observation-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use this operation to get raster data collections.
-    public func listRasterDataCollections(_ input: ListRasterDataCollectionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRasterDataCollectionsOutput> {
-        return self.client.execute(operation: "ListRasterDataCollections", path: "/raster-data-collections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRasterDataCollections(_ input: ListRasterDataCollectionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRasterDataCollectionsOutput {
+        return try await self.client.execute(operation: "ListRasterDataCollections", path: "/raster-data-collections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the tags attached to the resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of vector enrichment jobs.
-    public func listVectorEnrichmentJobs(_ input: ListVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVectorEnrichmentJobOutput> {
-        return self.client.execute(operation: "ListVectorEnrichmentJobs", path: "/list-vector-enrichment-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listVectorEnrichmentJobs(_ input: ListVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVectorEnrichmentJobOutput {
+        return try await self.client.execute(operation: "ListVectorEnrichmentJobs", path: "/list-vector-enrichment-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
-    public func searchRasterDataCollection(_ input: SearchRasterDataCollectionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchRasterDataCollectionOutput> {
-        return self.client.execute(operation: "SearchRasterDataCollection", path: "/search-raster-data-collection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func searchRasterDataCollection(_ input: SearchRasterDataCollectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchRasterDataCollectionOutput {
+        return try await self.client.execute(operation: "SearchRasterDataCollection", path: "/search-raster-data-collection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use this operation to create an Earth observation job.
-    public func startEarthObservationJob(_ input: StartEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartEarthObservationJobOutput> {
-        return self.client.execute(operation: "StartEarthObservationJob", path: "/earth-observation-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startEarthObservationJob(_ input: StartEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartEarthObservationJobOutput {
+        return try await self.client.execute(operation: "StartEarthObservationJob", path: "/earth-observation-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a Vector Enrichment job for the supplied job type.  Currently, there are two supported job types: reverse geocoding and map matching.
-    public func startVectorEnrichmentJob(_ input: StartVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartVectorEnrichmentJobOutput> {
-        return self.client.execute(operation: "StartVectorEnrichmentJob", path: "/vector-enrichment-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startVectorEnrichmentJob(_ input: StartVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartVectorEnrichmentJobOutput {
+        return try await self.client.execute(operation: "StartVectorEnrichmentJob", path: "/vector-enrichment-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Use this operation to stop an existing earth observation job.
-    public func stopEarthObservationJob(_ input: StopEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopEarthObservationJobOutput> {
-        return self.client.execute(operation: "StopEarthObservationJob", path: "/earth-observation-jobs/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopEarthObservationJob(_ input: StopEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopEarthObservationJobOutput {
+        return try await self.client.execute(operation: "StopEarthObservationJob", path: "/earth-observation-jobs/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops the  Vector Enrichment job for a given job ARN.
-    public func stopVectorEnrichmentJob(_ input: StopVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopVectorEnrichmentJobOutput> {
-        return self.client.execute(operation: "StopVectorEnrichmentJob", path: "/vector-enrichment-jobs/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopVectorEnrichmentJob(_ input: StopVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopVectorEnrichmentJobOutput {
+        return try await self.client.execute(operation: "StopVectorEnrichmentJob", path: "/vector-enrichment-jobs/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// The resource you want to tag.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// The resource you want to untag.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
-    // MARK: Streaming API Calls
-
-    /// Gets a web mercator tile for the given Earth Observation job.
-    public func getTileStreaming(_ input: GetTileInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil, _ stream: @escaping (ByteBuffer, EventLoop) -> EventLoopFuture<Void>) -> EventLoopFuture<GetTileOutput> {
-        return self.client.execute(operation: "GetTile", path: "/tile/{z}/{x}/{y}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop, stream: stream)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -177,216 +189,81 @@ extension SageMakerGeospatial {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SageMakerGeospatial {
     /// Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listEarthObservationJobsPaginator<Result>(
-        _ input: ListEarthObservationJobInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListEarthObservationJobOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listEarthObservationJobs,
-            inputKey: \ListEarthObservationJobInput.nextToken,
-            outputKey: \ListEarthObservationJobOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listEarthObservationJobsPaginator(
         _ input: ListEarthObservationJobInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListEarthObservationJobOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEarthObservationJobInput, ListEarthObservationJobOutput> {
+        return .init(
             input: input,
             command: self.listEarthObservationJobs,
             inputKey: \ListEarthObservationJobInput.nextToken,
             outputKey: \ListEarthObservationJobOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Use this operation to get raster data collections.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRasterDataCollectionsPaginator<Result>(
-        _ input: ListRasterDataCollectionsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRasterDataCollectionsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRasterDataCollections,
-            inputKey: \ListRasterDataCollectionsInput.nextToken,
-            outputKey: \ListRasterDataCollectionsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRasterDataCollectionsPaginator(
         _ input: ListRasterDataCollectionsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRasterDataCollectionsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRasterDataCollectionsInput, ListRasterDataCollectionsOutput> {
+        return .init(
             input: input,
             command: self.listRasterDataCollections,
             inputKey: \ListRasterDataCollectionsInput.nextToken,
             outputKey: \ListRasterDataCollectionsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves a list of vector enrichment jobs.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listVectorEnrichmentJobsPaginator<Result>(
-        _ input: ListVectorEnrichmentJobInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListVectorEnrichmentJobOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listVectorEnrichmentJobs,
-            inputKey: \ListVectorEnrichmentJobInput.nextToken,
-            outputKey: \ListVectorEnrichmentJobOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listVectorEnrichmentJobsPaginator(
         _ input: ListVectorEnrichmentJobInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListVectorEnrichmentJobOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListVectorEnrichmentJobInput, ListVectorEnrichmentJobOutput> {
+        return .init(
             input: input,
             command: self.listVectorEnrichmentJobs,
             inputKey: \ListVectorEnrichmentJobInput.nextToken,
             outputKey: \ListVectorEnrichmentJobOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func searchRasterDataCollectionPaginator<Result>(
-        _ input: SearchRasterDataCollectionInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SearchRasterDataCollectionOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.searchRasterDataCollection,
-            inputKey: \SearchRasterDataCollectionInput.nextToken,
-            outputKey: \SearchRasterDataCollectionOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func searchRasterDataCollectionPaginator(
         _ input: SearchRasterDataCollectionInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SearchRasterDataCollectionOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchRasterDataCollectionInput, SearchRasterDataCollectionOutput> {
+        return .init(
             input: input,
             command: self.searchRasterDataCollection,
             inputKey: \SearchRasterDataCollectionInput.nextToken,
             outputKey: \SearchRasterDataCollectionOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

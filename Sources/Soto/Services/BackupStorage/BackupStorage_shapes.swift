@@ -154,11 +154,11 @@ extension BackupStorage {
         /// Checksum algorithm
         public let checksumAlgorithm: DataChecksumAlgorithm
         /// Chunk data
-        public let data: AWSPayload
+        public let data: HTTPBody
         /// Data length
         public let length: Int64
 
-        public init(checksum: String, checksumAlgorithm: DataChecksumAlgorithm, data: AWSPayload, length: Int64) {
+        public init(checksum: String, checksumAlgorithm: DataChecksumAlgorithm, data: HTTPBody, length: Int64) {
             self.checksum = checksum
             self.checksumAlgorithm = checksumAlgorithm
             self.data = data
@@ -205,7 +205,7 @@ extension BackupStorage {
         ]
 
         /// Metadata blob.
-        public let metadataBlob: AWSPayload?
+        public let metadataBlob: HTTPBody?
         /// MetadataBlob checksum.
         public let metadataBlobChecksum: String?
         /// Checksum algorithm.
@@ -215,7 +215,7 @@ extension BackupStorage {
         /// Metadata string.
         public let metadataString: String?
 
-        public init(metadataBlob: AWSPayload? = nil, metadataBlobChecksum: String? = nil, metadataBlobChecksumAlgorithm: DataChecksumAlgorithm? = nil, metadataBlobLength: Int64? = nil, metadataString: String? = nil) {
+        public init(metadataBlob: HTTPBody? = nil, metadataBlobChecksum: String? = nil, metadataBlobChecksumAlgorithm: DataChecksumAlgorithm? = nil, metadataBlobLength: Int64? = nil, metadataString: String? = nil) {
             self.metadataBlob = metadataBlob
             self.metadataBlobChecksum = metadataBlobChecksum
             self.metadataBlobChecksumAlgorithm = metadataBlobChecksumAlgorithm
@@ -360,7 +360,7 @@ extension BackupStorage {
         /// Backup job Id for the in-progress backup
         public let backupJobId: String
         /// Optional metadata associated with an Object. Maximum length is 4MB.
-        public let metadataBlob: AWSPayload?
+        public let metadataBlob: HTTPBody?
         /// Checksum of MetadataBlob.
         public let metadataBlobChecksum: String?
         /// Checksum algorithm.
@@ -376,7 +376,7 @@ extension BackupStorage {
         /// Upload Id for the in-progress upload
         public let uploadId: String
 
-        public init(backupJobId: String, metadataBlob: AWSPayload? = nil, metadataBlobChecksum: String? = nil, metadataBlobChecksumAlgorithm: DataChecksumAlgorithm? = nil, metadataBlobLength: Int64? = nil, metadataString: String? = nil, objectChecksum: String, objectChecksumAlgorithm: SummaryChecksumAlgorithm, uploadId: String) {
+        public init(backupJobId: String, metadataBlob: HTTPBody? = nil, metadataBlobChecksum: String? = nil, metadataBlobChecksumAlgorithm: DataChecksumAlgorithm? = nil, metadataBlobLength: Int64? = nil, metadataString: String? = nil, objectChecksum: String, objectChecksumAlgorithm: SummaryChecksumAlgorithm, uploadId: String) {
             self.backupJobId = backupJobId
             self.metadataBlob = metadataBlob
             self.metadataBlobChecksum = metadataBlobChecksum
@@ -434,13 +434,13 @@ extension BackupStorage {
         /// Describes this chunk's position relative to the other chunks
         public let chunkIndex: Int64
         /// Data to be uploaded
-        public let data: AWSPayload
+        public let data: HTTPBody
         /// Data length
         public let length: Int64
         /// Upload Id for the in-progress upload.
         public let uploadId: String
 
-        public init(backupJobId: String, checksum: String, checksumAlgorithm: DataChecksumAlgorithm, chunkIndex: Int64 = 0, data: AWSPayload, length: Int64 = 0, uploadId: String) {
+        public init(backupJobId: String, checksum: String, checksumAlgorithm: DataChecksumAlgorithm, chunkIndex: Int64 = 0, data: HTTPBody, length: Int64 = 0, uploadId: String) {
             self.backupJobId = backupJobId
             self.checksum = checksum
             self.checksumAlgorithm = checksumAlgorithm
@@ -489,7 +489,7 @@ extension BackupStorage {
         /// Backup job Id for the in-progress backup.
         public let backupJobId: String
         /// Inline chunk data to be uploaded.
-        public let inlineChunk: AWSPayload?
+        public let inlineChunk: HTTPBody?
         /// Inline chunk checksum
         public let inlineChunkChecksum: String?
         /// Inline chunk checksum algorithm
@@ -507,7 +507,7 @@ extension BackupStorage {
         /// Throw an exception if Object name is already exist.
         public let throwOnDuplicate: Bool?
 
-        public init(backupJobId: String, inlineChunk: AWSPayload? = nil, inlineChunkChecksum: String? = nil, inlineChunkChecksumAlgorithm: String? = nil, inlineChunkLength: Int64? = nil, metadataString: String? = nil, objectChecksum: String? = nil, objectChecksumAlgorithm: SummaryChecksumAlgorithm? = nil, objectName: String, throwOnDuplicate: Bool? = nil) {
+        public init(backupJobId: String, inlineChunk: HTTPBody? = nil, inlineChunkChecksum: String? = nil, inlineChunkChecksumAlgorithm: String? = nil, inlineChunkLength: Int64? = nil, metadataString: String? = nil, objectChecksum: String? = nil, objectChecksumAlgorithm: SummaryChecksumAlgorithm? = nil, objectName: String, throwOnDuplicate: Bool? = nil) {
             self.backupJobId = backupJobId
             self.inlineChunk = inlineChunk
             self.inlineChunkChecksum = inlineChunkChecksum

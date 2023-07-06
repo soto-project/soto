@@ -70,428 +70,513 @@ public struct NetworkManager: AWSService {
     // MARK: API Calls
 
     /// Accepts a core network attachment request.  Once the attachment request is accepted by a core network owner, the attachment is created and connected to a core network.
-    public func acceptAttachment(_ input: AcceptAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AcceptAttachmentResponse> {
-        return self.client.execute(operation: "AcceptAttachment", path: "/attachments/{AttachmentId}/accept", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func acceptAttachment(_ input: AcceptAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptAttachmentResponse {
+        return try await self.client.execute(operation: "AcceptAttachment", path: "/attachments/{AttachmentId}/accept", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates a core network Connect peer with a device and optionally, with a link.  If you specify a link, it must be associated with the specified device. You can only associate core network Connect peers that have been created on a core network Connect attachment on a core network.
-    public func associateConnectPeer(_ input: AssociateConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateConnectPeerResponse> {
-        return self.client.execute(operation: "AssociateConnectPeer", path: "/global-networks/{GlobalNetworkId}/connect-peer-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateConnectPeer(_ input: AssociateConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateConnectPeerResponse {
+        return try await self.client.execute(operation: "AssociateConnectPeer", path: "/global-networks/{GlobalNetworkId}/connect-peer-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device.  You can only associate customer gateways that are connected to a VPN attachment on a transit gateway or core network registered in your global network. When you register a transit gateway or core network, customer gateways that are connected to the transit gateway are automatically included in the global network. To list customer gateways that are connected to a transit gateway, use the DescribeVpnConnections EC2 API and filter by transit-gateway-id. You cannot associate a customer gateway with more than one device and link.
-    public func associateCustomerGateway(_ input: AssociateCustomerGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateCustomerGatewayResponse> {
-        return self.client.execute(operation: "AssociateCustomerGateway", path: "/global-networks/{GlobalNetworkId}/customer-gateway-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateCustomerGateway(_ input: AssociateCustomerGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateCustomerGatewayResponse {
+        return try await self.client.execute(operation: "AssociateCustomerGateway", path: "/global-networks/{GlobalNetworkId}/customer-gateway-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates a link to a device. A device can be associated to multiple links and a link can be associated to multiple devices. The device and link must be in the same global network and the same site.
-    public func associateLink(_ input: AssociateLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateLinkResponse> {
-        return self.client.execute(operation: "AssociateLink", path: "/global-networks/{GlobalNetworkId}/link-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateLink(_ input: AssociateLinkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateLinkResponse {
+        return try await self.client.execute(operation: "AssociateLink", path: "/global-networks/{GlobalNetworkId}/link-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates a transit gateway Connect peer with a device, and optionally, with a link. If you specify a link, it must be associated with the specified device.  You can only associate transit gateway Connect peers that have been created on a transit gateway that's registered in your global network. You cannot associate a transit gateway Connect peer with more than one device and link.
-    public func associateTransitGatewayConnectPeer(_ input: AssociateTransitGatewayConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateTransitGatewayConnectPeerResponse> {
-        return self.client.execute(operation: "AssociateTransitGatewayConnectPeer", path: "/global-networks/{GlobalNetworkId}/transit-gateway-connect-peer-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateTransitGatewayConnectPeer(_ input: AssociateTransitGatewayConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateTransitGatewayConnectPeerResponse {
+        return try await self.client.execute(operation: "AssociateTransitGatewayConnectPeer", path: "/global-networks/{GlobalNetworkId}/transit-gateway-connect-peer-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a core network Connect attachment from a specified core network attachment.  A core network Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a core network and an appliance. A core network Connect attachment uses an existing VPC attachment as the underlying transport mechanism.
-    public func createConnectAttachment(_ input: CreateConnectAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectAttachmentResponse> {
-        return self.client.execute(operation: "CreateConnectAttachment", path: "/connect-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createConnectAttachment(_ input: CreateConnectAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectAttachmentResponse {
+        return try await self.client.execute(operation: "CreateConnectAttachment", path: "/connect-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a core network Connect peer for a specified core network connect attachment between a core network and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6).
-    public func createConnectPeer(_ input: CreateConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectPeerResponse> {
-        return self.client.execute(operation: "CreateConnectPeer", path: "/connect-peers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createConnectPeer(_ input: CreateConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectPeerResponse {
+        return try await self.client.execute(operation: "CreateConnectPeer", path: "/connect-peers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network.
-    public func createConnection(_ input: CreateConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConnectionResponse> {
-        return self.client.execute(operation: "CreateConnection", path: "/global-networks/{GlobalNetworkId}/connections", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createConnection(_ input: CreateConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectionResponse {
+        return try await self.client.execute(operation: "CreateConnection", path: "/global-networks/{GlobalNetworkId}/connections", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a core network as part of your global network, and optionally, with a core network policy.
-    public func createCoreNetwork(_ input: CreateCoreNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCoreNetworkResponse> {
-        return self.client.execute(operation: "CreateCoreNetwork", path: "/core-networks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCoreNetwork(_ input: CreateCoreNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCoreNetworkResponse {
+        return try await self.client.execute(operation: "CreateCoreNetwork", path: "/core-networks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new device in a global network. If you specify both a site ID and a location, the location of the site is used for visualization in the Network Manager console.
-    public func createDevice(_ input: CreateDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeviceResponse> {
-        return self.client.execute(operation: "CreateDevice", path: "/global-networks/{GlobalNetworkId}/devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDevice(_ input: CreateDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDeviceResponse {
+        return try await self.client.execute(operation: "CreateDevice", path: "/global-networks/{GlobalNetworkId}/devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new, empty global network.
-    public func createGlobalNetwork(_ input: CreateGlobalNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateGlobalNetworkResponse> {
-        return self.client.execute(operation: "CreateGlobalNetwork", path: "/global-networks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createGlobalNetwork(_ input: CreateGlobalNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGlobalNetworkResponse {
+        return try await self.client.execute(operation: "CreateGlobalNetwork", path: "/global-networks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new link for a specified site.
-    public func createLink(_ input: CreateLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLinkResponse> {
-        return self.client.execute(operation: "CreateLink", path: "/global-networks/{GlobalNetworkId}/links", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createLink(_ input: CreateLinkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLinkResponse {
+        return try await self.client.execute(operation: "CreateLink", path: "/global-networks/{GlobalNetworkId}/links", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new site in a global network.
-    public func createSite(_ input: CreateSiteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSiteResponse> {
-        return self.client.execute(operation: "CreateSite", path: "/global-networks/{GlobalNetworkId}/sites", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSite(_ input: CreateSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSiteResponse {
+        return try await self.client.execute(operation: "CreateSite", path: "/global-networks/{GlobalNetworkId}/sites", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an Amazon Web Services site-to-site VPN attachment on an edge location of a core network.
-    public func createSiteToSiteVpnAttachment(_ input: CreateSiteToSiteVpnAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSiteToSiteVpnAttachmentResponse> {
-        return self.client.execute(operation: "CreateSiteToSiteVpnAttachment", path: "/site-to-site-vpn-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSiteToSiteVpnAttachment(_ input: CreateSiteToSiteVpnAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSiteToSiteVpnAttachmentResponse {
+        return try await self.client.execute(operation: "CreateSiteToSiteVpnAttachment", path: "/site-to-site-vpn-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a transit gateway peering connection.
-    public func createTransitGatewayPeering(_ input: CreateTransitGatewayPeeringRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTransitGatewayPeeringResponse> {
-        return self.client.execute(operation: "CreateTransitGatewayPeering", path: "/transit-gateway-peerings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTransitGatewayPeering(_ input: CreateTransitGatewayPeeringRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTransitGatewayPeeringResponse {
+        return try await self.client.execute(operation: "CreateTransitGatewayPeering", path: "/transit-gateway-peerings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a transit gateway route table attachment.
-    public func createTransitGatewayRouteTableAttachment(_ input: CreateTransitGatewayRouteTableAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateTransitGatewayRouteTableAttachmentResponse> {
-        return self.client.execute(operation: "CreateTransitGatewayRouteTableAttachment", path: "/transit-gateway-route-table-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createTransitGatewayRouteTableAttachment(_ input: CreateTransitGatewayRouteTableAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTransitGatewayRouteTableAttachmentResponse {
+        return try await self.client.execute(operation: "CreateTransitGatewayRouteTableAttachment", path: "/transit-gateway-route-table-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a VPC attachment on an edge location of a core network.
-    public func createVpcAttachment(_ input: CreateVpcAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVpcAttachmentResponse> {
-        return self.client.execute(operation: "CreateVpcAttachment", path: "/vpc-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createVpcAttachment(_ input: CreateVpcAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVpcAttachmentResponse {
+        return try await self.client.execute(operation: "CreateVpcAttachment", path: "/vpc-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an attachment. Supports all attachment types.
-    public func deleteAttachment(_ input: DeleteAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAttachmentResponse> {
-        return self.client.execute(operation: "DeleteAttachment", path: "/attachments/{AttachmentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAttachment(_ input: DeleteAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAttachmentResponse {
+        return try await self.client.execute(operation: "DeleteAttachment", path: "/attachments/{AttachmentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a Connect peer.
-    public func deleteConnectPeer(_ input: DeleteConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConnectPeerResponse> {
-        return self.client.execute(operation: "DeleteConnectPeer", path: "/connect-peers/{ConnectPeerId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteConnectPeer(_ input: DeleteConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConnectPeerResponse {
+        return try await self.client.execute(operation: "DeleteConnectPeer", path: "/connect-peers/{ConnectPeerId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified connection in your global network.
-    public func deleteConnection(_ input: DeleteConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConnectionResponse> {
-        return self.client.execute(operation: "DeleteConnection", path: "/global-networks/{GlobalNetworkId}/connections/{ConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteConnection(_ input: DeleteConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConnectionResponse {
+        return try await self.client.execute(operation: "DeleteConnection", path: "/global-networks/{GlobalNetworkId}/connections/{ConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a core network along with all core network policies. This can only be done if there are no attachments on a core network.
-    public func deleteCoreNetwork(_ input: DeleteCoreNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCoreNetworkResponse> {
-        return self.client.execute(operation: "DeleteCoreNetwork", path: "/core-networks/{CoreNetworkId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCoreNetwork(_ input: DeleteCoreNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCoreNetworkResponse {
+        return try await self.client.execute(operation: "DeleteCoreNetwork", path: "/core-networks/{CoreNetworkId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a policy version from a core network. You can't delete the current LIVE policy.
-    public func deleteCoreNetworkPolicyVersion(_ input: DeleteCoreNetworkPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCoreNetworkPolicyVersionResponse> {
-        return self.client.execute(operation: "DeleteCoreNetworkPolicyVersion", path: "/core-networks/{CoreNetworkId}/core-network-policy-versions/{PolicyVersionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCoreNetworkPolicyVersion(_ input: DeleteCoreNetworkPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCoreNetworkPolicyVersionResponse {
+        return try await self.client.execute(operation: "DeleteCoreNetworkPolicyVersion", path: "/core-networks/{CoreNetworkId}/core-network-policy-versions/{PolicyVersionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an existing device. You must first disassociate the device from any links and customer gateways.
-    public func deleteDevice(_ input: DeleteDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDeviceResponse> {
-        return self.client.execute(operation: "DeleteDevice", path: "/global-networks/{GlobalNetworkId}/devices/{DeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDevice(_ input: DeleteDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDeviceResponse {
+        return try await self.client.execute(operation: "DeleteDevice", path: "/global-networks/{GlobalNetworkId}/devices/{DeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an existing global network. You must first delete all global network objects (devices, links, and sites), deregister all transit gateways, and delete any core networks.
-    public func deleteGlobalNetwork(_ input: DeleteGlobalNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteGlobalNetworkResponse> {
-        return self.client.execute(operation: "DeleteGlobalNetwork", path: "/global-networks/{GlobalNetworkId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteGlobalNetwork(_ input: DeleteGlobalNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGlobalNetworkResponse {
+        return try await self.client.execute(operation: "DeleteGlobalNetwork", path: "/global-networks/{GlobalNetworkId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an existing link. You must first disassociate the link from any devices and customer gateways.
-    public func deleteLink(_ input: DeleteLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLinkResponse> {
-        return self.client.execute(operation: "DeleteLink", path: "/global-networks/{GlobalNetworkId}/links/{LinkId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteLink(_ input: DeleteLinkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLinkResponse {
+        return try await self.client.execute(operation: "DeleteLink", path: "/global-networks/{GlobalNetworkId}/links/{LinkId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an existing peering connection.
-    public func deletePeering(_ input: DeletePeeringRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePeeringResponse> {
-        return self.client.execute(operation: "DeletePeering", path: "/peerings/{PeeringId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePeering(_ input: DeletePeeringRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePeeringResponse {
+        return try await self.client.execute(operation: "DeletePeering", path: "/peerings/{PeeringId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a resource policy for the specified resource. This revokes the access of the principals specified in the resource policy.
-    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourcePolicyResponse> {
-        return self.client.execute(operation: "DeleteResourcePolicy", path: "/resource-policy/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
+        return try await self.client.execute(operation: "DeleteResourcePolicy", path: "/resource-policy/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an existing site. The site cannot be associated with any device or link.
-    public func deleteSite(_ input: DeleteSiteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSiteResponse> {
-        return self.client.execute(operation: "DeleteSite", path: "/global-networks/{GlobalNetworkId}/sites/{SiteId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSite(_ input: DeleteSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSiteResponse {
+        return try await self.client.execute(operation: "DeleteSite", path: "/global-networks/{GlobalNetworkId}/sites/{SiteId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deregisters a transit gateway from your global network. This action does not delete your transit gateway, or modify any of its attachments. This action removes any customer gateway associations.
-    public func deregisterTransitGateway(_ input: DeregisterTransitGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterTransitGatewayResponse> {
-        return self.client.execute(operation: "DeregisterTransitGateway", path: "/global-networks/{GlobalNetworkId}/transit-gateway-registrations/{TransitGatewayArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deregisterTransitGateway(_ input: DeregisterTransitGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterTransitGatewayResponse {
+        return try await self.client.execute(operation: "DeregisterTransitGateway", path: "/global-networks/{GlobalNetworkId}/transit-gateway-registrations/{TransitGatewayArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get* action. For example, to list the transit gateways in your global network, use GetTransitGatewayRegistrations.
-    public func describeGlobalNetworks(_ input: DescribeGlobalNetworksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeGlobalNetworksResponse> {
-        return self.client.execute(operation: "DescribeGlobalNetworks", path: "/global-networks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeGlobalNetworks(_ input: DescribeGlobalNetworksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGlobalNetworksResponse {
+        return try await self.client.execute(operation: "DescribeGlobalNetworks", path: "/global-networks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates a core network Connect peer from a device and a link.
-    public func disassociateConnectPeer(_ input: DisassociateConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateConnectPeerResponse> {
-        return self.client.execute(operation: "DisassociateConnectPeer", path: "/global-networks/{GlobalNetworkId}/connect-peer-associations/{ConnectPeerId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateConnectPeer(_ input: DisassociateConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateConnectPeerResponse {
+        return try await self.client.execute(operation: "DisassociateConnectPeer", path: "/global-networks/{GlobalNetworkId}/connect-peer-associations/{ConnectPeerId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates a customer gateway from a device and a link.
-    public func disassociateCustomerGateway(_ input: DisassociateCustomerGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateCustomerGatewayResponse> {
-        return self.client.execute(operation: "DisassociateCustomerGateway", path: "/global-networks/{GlobalNetworkId}/customer-gateway-associations/{CustomerGatewayArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateCustomerGateway(_ input: DisassociateCustomerGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateCustomerGatewayResponse {
+        return try await self.client.execute(operation: "DisassociateCustomerGateway", path: "/global-networks/{GlobalNetworkId}/customer-gateway-associations/{CustomerGatewayArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates an existing device from a link. You must first disassociate any customer gateways that are associated with the link.
-    public func disassociateLink(_ input: DisassociateLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateLinkResponse> {
-        return self.client.execute(operation: "DisassociateLink", path: "/global-networks/{GlobalNetworkId}/link-associations", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateLink(_ input: DisassociateLinkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateLinkResponse {
+        return try await self.client.execute(operation: "DisassociateLink", path: "/global-networks/{GlobalNetworkId}/link-associations", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disassociates a transit gateway Connect peer from a device and link.
-    public func disassociateTransitGatewayConnectPeer(_ input: DisassociateTransitGatewayConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateTransitGatewayConnectPeerResponse> {
-        return self.client.execute(operation: "DisassociateTransitGatewayConnectPeer", path: "/global-networks/{GlobalNetworkId}/transit-gateway-connect-peer-associations/{TransitGatewayConnectPeerArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateTransitGatewayConnectPeer(_ input: DisassociateTransitGatewayConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateTransitGatewayConnectPeerResponse {
+        return try await self.client.execute(operation: "DisassociateTransitGatewayConnectPeer", path: "/global-networks/{GlobalNetworkId}/transit-gateway-connect-peer-associations/{TransitGatewayConnectPeerArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Executes a change set on your core network. Deploys changes globally based on the policy submitted..
-    public func executeCoreNetworkChangeSet(_ input: ExecuteCoreNetworkChangeSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExecuteCoreNetworkChangeSetResponse> {
-        return self.client.execute(operation: "ExecuteCoreNetworkChangeSet", path: "/core-networks/{CoreNetworkId}/core-network-change-sets/{PolicyVersionId}/execute", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func executeCoreNetworkChangeSet(_ input: ExecuteCoreNetworkChangeSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteCoreNetworkChangeSetResponse {
+        return try await self.client.execute(operation: "ExecuteCoreNetworkChangeSet", path: "/core-networks/{CoreNetworkId}/core-network-change-sets/{PolicyVersionId}/execute", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a core network Connect attachment.
-    public func getConnectAttachment(_ input: GetConnectAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectAttachmentResponse> {
-        return self.client.execute(operation: "GetConnectAttachment", path: "/connect-attachments/{AttachmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getConnectAttachment(_ input: GetConnectAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectAttachmentResponse {
+        return try await self.client.execute(operation: "GetConnectAttachment", path: "/connect-attachments/{AttachmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a core network Connect peer.
-    public func getConnectPeer(_ input: GetConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectPeerResponse> {
-        return self.client.execute(operation: "GetConnectPeer", path: "/connect-peers/{ConnectPeerId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getConnectPeer(_ input: GetConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectPeerResponse {
+        return try await self.client.execute(operation: "GetConnectPeer", path: "/connect-peers/{ConnectPeerId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a core network Connect peer associations.
-    public func getConnectPeerAssociations(_ input: GetConnectPeerAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectPeerAssociationsResponse> {
-        return self.client.execute(operation: "GetConnectPeerAssociations", path: "/global-networks/{GlobalNetworkId}/connect-peer-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getConnectPeerAssociations(_ input: GetConnectPeerAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectPeerAssociationsResponse {
+        return try await self.client.execute(operation: "GetConnectPeerAssociations", path: "/global-networks/{GlobalNetworkId}/connect-peer-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about one or more of your connections in a global network.
-    public func getConnections(_ input: GetConnectionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectionsResponse> {
-        return self.client.execute(operation: "GetConnections", path: "/global-networks/{GlobalNetworkId}/connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getConnections(_ input: GetConnectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionsResponse {
+        return try await self.client.execute(operation: "GetConnections", path: "/global-networks/{GlobalNetworkId}/connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about the LIVE policy for a core network.
-    public func getCoreNetwork(_ input: GetCoreNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoreNetworkResponse> {
-        return self.client.execute(operation: "GetCoreNetwork", path: "/core-networks/{CoreNetworkId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCoreNetwork(_ input: GetCoreNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCoreNetworkResponse {
+        return try await self.client.execute(operation: "GetCoreNetwork", path: "/core-networks/{CoreNetworkId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a core network change event.
-    public func getCoreNetworkChangeEvents(_ input: GetCoreNetworkChangeEventsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoreNetworkChangeEventsResponse> {
-        return self.client.execute(operation: "GetCoreNetworkChangeEvents", path: "/core-networks/{CoreNetworkId}/core-network-change-events/{PolicyVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCoreNetworkChangeEvents(_ input: GetCoreNetworkChangeEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCoreNetworkChangeEventsResponse {
+        return try await self.client.execute(operation: "GetCoreNetworkChangeEvents", path: "/core-networks/{CoreNetworkId}/core-network-change-events/{PolicyVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a change set between the LIVE core network policy and a submitted policy.
-    public func getCoreNetworkChangeSet(_ input: GetCoreNetworkChangeSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoreNetworkChangeSetResponse> {
-        return self.client.execute(operation: "GetCoreNetworkChangeSet", path: "/core-networks/{CoreNetworkId}/core-network-change-sets/{PolicyVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCoreNetworkChangeSet(_ input: GetCoreNetworkChangeSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCoreNetworkChangeSetResponse {
+        return try await self.client.execute(operation: "GetCoreNetworkChangeSet", path: "/core-networks/{CoreNetworkId}/core-network-change-sets/{PolicyVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns details about a core network policy. You can get details about your current live policy or any previous policy version.
-    public func getCoreNetworkPolicy(_ input: GetCoreNetworkPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCoreNetworkPolicyResponse> {
-        return self.client.execute(operation: "GetCoreNetworkPolicy", path: "/core-networks/{CoreNetworkId}/core-network-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCoreNetworkPolicy(_ input: GetCoreNetworkPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCoreNetworkPolicyResponse {
+        return try await self.client.execute(operation: "GetCoreNetworkPolicy", path: "/core-networks/{CoreNetworkId}/core-network-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the association information for customer gateways that are associated with devices and links in your global network.
-    public func getCustomerGatewayAssociations(_ input: GetCustomerGatewayAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCustomerGatewayAssociationsResponse> {
-        return self.client.execute(operation: "GetCustomerGatewayAssociations", path: "/global-networks/{GlobalNetworkId}/customer-gateway-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCustomerGatewayAssociations(_ input: GetCustomerGatewayAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomerGatewayAssociationsResponse {
+        return try await self.client.execute(operation: "GetCustomerGatewayAssociations", path: "/global-networks/{GlobalNetworkId}/customer-gateway-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about one or more of your devices in a global network.
-    public func getDevices(_ input: GetDevicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDevicesResponse> {
-        return self.client.execute(operation: "GetDevices", path: "/global-networks/{GlobalNetworkId}/devices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDevices(_ input: GetDevicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDevicesResponse {
+        return try await self.client.execute(operation: "GetDevices", path: "/global-networks/{GlobalNetworkId}/devices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the link associations for a device or a link. Either the device ID or the link ID must be specified.
-    public func getLinkAssociations(_ input: GetLinkAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLinkAssociationsResponse> {
-        return self.client.execute(operation: "GetLinkAssociations", path: "/global-networks/{GlobalNetworkId}/link-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getLinkAssociations(_ input: GetLinkAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLinkAssociationsResponse {
+        return try await self.client.execute(operation: "GetLinkAssociations", path: "/global-networks/{GlobalNetworkId}/link-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about one or more links in a specified global network. If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
-    public func getLinks(_ input: GetLinksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLinksResponse> {
-        return self.client.execute(operation: "GetLinks", path: "/global-networks/{GlobalNetworkId}/links", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getLinks(_ input: GetLinksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLinksResponse {
+        return try await self.client.execute(operation: "GetLinks", path: "/global-networks/{GlobalNetworkId}/links", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the count of network resources, by resource type, for the specified global network.
-    public func getNetworkResourceCounts(_ input: GetNetworkResourceCountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkResourceCountsResponse> {
-        return self.client.execute(operation: "GetNetworkResourceCounts", path: "/global-networks/{GlobalNetworkId}/network-resource-count", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getNetworkResourceCounts(_ input: GetNetworkResourceCountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkResourceCountsResponse {
+        return try await self.client.execute(operation: "GetNetworkResourceCounts", path: "/global-networks/{GlobalNetworkId}/network-resource-count", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the network resource relationships for the specified global network.
-    public func getNetworkResourceRelationships(_ input: GetNetworkResourceRelationshipsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkResourceRelationshipsResponse> {
-        return self.client.execute(operation: "GetNetworkResourceRelationships", path: "/global-networks/{GlobalNetworkId}/network-resource-relationships", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getNetworkResourceRelationships(_ input: GetNetworkResourceRelationshipsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkResourceRelationshipsResponse {
+        return try await self.client.execute(operation: "GetNetworkResourceRelationships", path: "/global-networks/{GlobalNetworkId}/network-resource-relationships", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the network resources for the specified global network. The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
-    public func getNetworkResources(_ input: GetNetworkResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkResourcesResponse> {
-        return self.client.execute(operation: "GetNetworkResources", path: "/global-networks/{GlobalNetworkId}/network-resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getNetworkResources(_ input: GetNetworkResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkResourcesResponse {
+        return try await self.client.execute(operation: "GetNetworkResources", path: "/global-networks/{GlobalNetworkId}/network-resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the network routes of the specified global network.
-    public func getNetworkRoutes(_ input: GetNetworkRoutesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkRoutesResponse> {
-        return self.client.execute(operation: "GetNetworkRoutes", path: "/global-networks/{GlobalNetworkId}/network-routes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getNetworkRoutes(_ input: GetNetworkRoutesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkRoutesResponse {
+        return try await self.client.execute(operation: "GetNetworkRoutes", path: "/global-networks/{GlobalNetworkId}/network-routes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the network telemetry of the specified global network.
-    public func getNetworkTelemetry(_ input: GetNetworkTelemetryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkTelemetryResponse> {
-        return self.client.execute(operation: "GetNetworkTelemetry", path: "/global-networks/{GlobalNetworkId}/network-telemetry", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getNetworkTelemetry(_ input: GetNetworkTelemetryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkTelemetryResponse {
+        return try await self.client.execute(operation: "GetNetworkTelemetry", path: "/global-networks/{GlobalNetworkId}/network-telemetry", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a resource policy.
-    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourcePolicyResponse> {
-        return self.client.execute(operation: "GetResourcePolicy", path: "/resource-policy/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
+        return try await self.client.execute(operation: "GetResourcePolicy", path: "/resource-policy/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about the specified route analysis.
-    public func getRouteAnalysis(_ input: GetRouteAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRouteAnalysisResponse> {
-        return self.client.execute(operation: "GetRouteAnalysis", path: "/global-networks/{GlobalNetworkId}/route-analyses/{RouteAnalysisId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getRouteAnalysis(_ input: GetRouteAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRouteAnalysisResponse {
+        return try await self.client.execute(operation: "GetRouteAnalysis", path: "/global-networks/{GlobalNetworkId}/route-analyses/{RouteAnalysisId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a site-to-site VPN attachment.
-    public func getSiteToSiteVpnAttachment(_ input: GetSiteToSiteVpnAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSiteToSiteVpnAttachmentResponse> {
-        return self.client.execute(operation: "GetSiteToSiteVpnAttachment", path: "/site-to-site-vpn-attachments/{AttachmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSiteToSiteVpnAttachment(_ input: GetSiteToSiteVpnAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSiteToSiteVpnAttachmentResponse {
+        return try await self.client.execute(operation: "GetSiteToSiteVpnAttachment", path: "/site-to-site-vpn-attachments/{AttachmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about one or more of your sites in a global network.
-    public func getSites(_ input: GetSitesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSitesResponse> {
-        return self.client.execute(operation: "GetSites", path: "/global-networks/{GlobalNetworkId}/sites", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSites(_ input: GetSitesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSitesResponse {
+        return try await self.client.execute(operation: "GetSites", path: "/global-networks/{GlobalNetworkId}/sites", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about one or more of your transit gateway Connect peer associations in a global network.
-    public func getTransitGatewayConnectPeerAssociations(_ input: GetTransitGatewayConnectPeerAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTransitGatewayConnectPeerAssociationsResponse> {
-        return self.client.execute(operation: "GetTransitGatewayConnectPeerAssociations", path: "/global-networks/{GlobalNetworkId}/transit-gateway-connect-peer-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTransitGatewayConnectPeerAssociations(_ input: GetTransitGatewayConnectPeerAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTransitGatewayConnectPeerAssociationsResponse {
+        return try await self.client.execute(operation: "GetTransitGatewayConnectPeerAssociations", path: "/global-networks/{GlobalNetworkId}/transit-gateway-connect-peer-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a transit gateway peer.
-    public func getTransitGatewayPeering(_ input: GetTransitGatewayPeeringRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTransitGatewayPeeringResponse> {
-        return self.client.execute(operation: "GetTransitGatewayPeering", path: "/transit-gateway-peerings/{PeeringId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTransitGatewayPeering(_ input: GetTransitGatewayPeeringRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTransitGatewayPeeringResponse {
+        return try await self.client.execute(operation: "GetTransitGatewayPeering", path: "/transit-gateway-peerings/{PeeringId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about the transit gateway registrations in a specified global network.
-    public func getTransitGatewayRegistrations(_ input: GetTransitGatewayRegistrationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTransitGatewayRegistrationsResponse> {
-        return self.client.execute(operation: "GetTransitGatewayRegistrations", path: "/global-networks/{GlobalNetworkId}/transit-gateway-registrations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTransitGatewayRegistrations(_ input: GetTransitGatewayRegistrationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTransitGatewayRegistrationsResponse {
+        return try await self.client.execute(operation: "GetTransitGatewayRegistrations", path: "/global-networks/{GlobalNetworkId}/transit-gateway-registrations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a transit gateway route table attachment.
-    public func getTransitGatewayRouteTableAttachment(_ input: GetTransitGatewayRouteTableAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTransitGatewayRouteTableAttachmentResponse> {
-        return self.client.execute(operation: "GetTransitGatewayRouteTableAttachment", path: "/transit-gateway-route-table-attachments/{AttachmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getTransitGatewayRouteTableAttachment(_ input: GetTransitGatewayRouteTableAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTransitGatewayRouteTableAttachmentResponse {
+        return try await self.client.execute(operation: "GetTransitGatewayRouteTableAttachment", path: "/transit-gateway-route-table-attachments/{AttachmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about a VPC attachment.
-    public func getVpcAttachment(_ input: GetVpcAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVpcAttachmentResponse> {
-        return self.client.execute(operation: "GetVpcAttachment", path: "/vpc-attachments/{AttachmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getVpcAttachment(_ input: GetVpcAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVpcAttachmentResponse {
+        return try await self.client.execute(operation: "GetVpcAttachment", path: "/vpc-attachments/{AttachmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of core network attachments.
-    public func listAttachments(_ input: ListAttachmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAttachmentsResponse> {
-        return self.client.execute(operation: "ListAttachments", path: "/attachments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAttachments(_ input: ListAttachmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAttachmentsResponse {
+        return try await self.client.execute(operation: "ListAttachments", path: "/attachments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of core network Connect peers.
-    public func listConnectPeers(_ input: ListConnectPeersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConnectPeersResponse> {
-        return self.client.execute(operation: "ListConnectPeers", path: "/connect-peers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listConnectPeers(_ input: ListConnectPeersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectPeersResponse {
+        return try await self.client.execute(operation: "ListConnectPeers", path: "/connect-peers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of core network policy versions.
-    public func listCoreNetworkPolicyVersions(_ input: ListCoreNetworkPolicyVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCoreNetworkPolicyVersionsResponse> {
-        return self.client.execute(operation: "ListCoreNetworkPolicyVersions", path: "/core-networks/{CoreNetworkId}/core-network-policy-versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCoreNetworkPolicyVersions(_ input: ListCoreNetworkPolicyVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCoreNetworkPolicyVersionsResponse {
+        return try await self.client.execute(operation: "ListCoreNetworkPolicyVersions", path: "/core-networks/{CoreNetworkId}/core-network-policy-versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of owned and shared core networks.
-    public func listCoreNetworks(_ input: ListCoreNetworksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCoreNetworksResponse> {
-        return self.client.execute(operation: "ListCoreNetworks", path: "/core-networks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCoreNetworks(_ input: ListCoreNetworksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCoreNetworksResponse {
+        return try await self.client.execute(operation: "ListCoreNetworks", path: "/core-networks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given Amazon Web Services Organization.
-    public func listOrganizationServiceAccessStatus(_ input: ListOrganizationServiceAccessStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOrganizationServiceAccessStatusResponse> {
-        return self.client.execute(operation: "ListOrganizationServiceAccessStatus", path: "/organizations/service-access", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listOrganizationServiceAccessStatus(_ input: ListOrganizationServiceAccessStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationServiceAccessStatusResponse {
+        return try await self.client.execute(operation: "ListOrganizationServiceAccessStatus", path: "/organizations/service-access", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the peerings for a core network.
-    public func listPeerings(_ input: ListPeeringsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPeeringsResponse> {
-        return self.client.execute(operation: "ListPeerings", path: "/peerings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPeerings(_ input: ListPeeringsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPeeringsResponse {
+        return try await self.client.execute(operation: "ListPeerings", path: "/peerings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the tags for a specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and the submitted policy.
-    public func putCoreNetworkPolicy(_ input: PutCoreNetworkPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutCoreNetworkPolicyResponse> {
-        return self.client.execute(operation: "PutCoreNetworkPolicy", path: "/core-networks/{CoreNetworkId}/core-network-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putCoreNetworkPolicy(_ input: PutCoreNetworkPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutCoreNetworkPolicyResponse {
+        return try await self.client.execute(operation: "PutCoreNetworkPolicy", path: "/core-networks/{CoreNetworkId}/core-network-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates or updates a resource policy.
-    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutResourcePolicyResponse> {
-        return self.client.execute(operation: "PutResourcePolicy", path: "/resource-policy/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
+        return try await self.client.execute(operation: "PutResourcePolicy", path: "/resource-policy/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Registers a transit gateway in your global network. Not all Regions support transit gateways for global networks. For a list of the supported Regions, see Region Availability in the Amazon Web Services Transit Gateways for Global Networks User Guide. The transit gateway can be in any of the supported Amazon Web Services Regions, but it must be owned by the same Amazon Web Services account that owns the global network. You cannot register a transit gateway in more than one global network.
-    public func registerTransitGateway(_ input: RegisterTransitGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterTransitGatewayResponse> {
-        return self.client.execute(operation: "RegisterTransitGateway", path: "/global-networks/{GlobalNetworkId}/transit-gateway-registrations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func registerTransitGateway(_ input: RegisterTransitGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterTransitGatewayResponse {
+        return try await self.client.execute(operation: "RegisterTransitGateway", path: "/global-networks/{GlobalNetworkId}/transit-gateway-registrations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Rejects a core network attachment request.
-    public func rejectAttachment(_ input: RejectAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RejectAttachmentResponse> {
-        return self.client.execute(operation: "RejectAttachment", path: "/attachments/{AttachmentId}/reject", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func rejectAttachment(_ input: RejectAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectAttachmentResponse {
+        return try await self.client.execute(operation: "RejectAttachment", path: "/attachments/{AttachmentId}/reject", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Restores a previous policy version as a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and restored policy.
-    public func restoreCoreNetworkPolicyVersion(_ input: RestoreCoreNetworkPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestoreCoreNetworkPolicyVersionResponse> {
-        return self.client.execute(operation: "RestoreCoreNetworkPolicyVersion", path: "/core-networks/{CoreNetworkId}/core-network-policy-versions/{PolicyVersionId}/restore", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func restoreCoreNetworkPolicyVersion(_ input: RestoreCoreNetworkPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreCoreNetworkPolicyVersionResponse {
+        return try await self.client.execute(operation: "RestoreCoreNetworkPolicyVersion", path: "/core-networks/{CoreNetworkId}/core-network-policy-versions/{PolicyVersionId}/restore", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
-    public func startOrganizationServiceAccessUpdate(_ input: StartOrganizationServiceAccessUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartOrganizationServiceAccessUpdateResponse> {
-        return self.client.execute(operation: "StartOrganizationServiceAccessUpdate", path: "/organizations/service-access", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startOrganizationServiceAccessUpdate(_ input: StartOrganizationServiceAccessUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartOrganizationServiceAccessUpdateResponse {
+        return try await self.client.execute(operation: "StartOrganizationServiceAccessUpdate", path: "/organizations/service-access", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts analyzing the routing path between the specified source and destination. For more information,  see Route Analyzer.
-    public func startRouteAnalysis(_ input: StartRouteAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartRouteAnalysisResponse> {
-        return self.client.execute(operation: "StartRouteAnalysis", path: "/global-networks/{GlobalNetworkId}/route-analyses", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startRouteAnalysis(_ input: StartRouteAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRouteAnalysisResponse {
+        return try await self.client.execute(operation: "StartRouteAnalysis", path: "/global-networks/{GlobalNetworkId}/route-analyses", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Tags a specified resource.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes tags from a specified resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the information for an existing connection. To remove information for any of the parameters, specify an empty string.
-    public func updateConnection(_ input: UpdateConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConnectionResponse> {
-        return self.client.execute(operation: "UpdateConnection", path: "/global-networks/{GlobalNetworkId}/connections/{ConnectionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateConnection(_ input: UpdateConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectionResponse {
+        return try await self.client.execute(operation: "UpdateConnection", path: "/global-networks/{GlobalNetworkId}/connections/{ConnectionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the description of a core network.
-    public func updateCoreNetwork(_ input: UpdateCoreNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCoreNetworkResponse> {
-        return self.client.execute(operation: "UpdateCoreNetwork", path: "/core-networks/{CoreNetworkId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateCoreNetwork(_ input: UpdateCoreNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCoreNetworkResponse {
+        return try await self.client.execute(operation: "UpdateCoreNetwork", path: "/core-networks/{CoreNetworkId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the details for an existing device. To remove information for any of the parameters, specify an empty string.
-    public func updateDevice(_ input: UpdateDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDeviceResponse> {
-        return self.client.execute(operation: "UpdateDevice", path: "/global-networks/{GlobalNetworkId}/devices/{DeviceId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDevice(_ input: UpdateDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDeviceResponse {
+        return try await self.client.execute(operation: "UpdateDevice", path: "/global-networks/{GlobalNetworkId}/devices/{DeviceId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an existing global network. To remove information for any of the parameters, specify an empty string.
-    public func updateGlobalNetwork(_ input: UpdateGlobalNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateGlobalNetworkResponse> {
-        return self.client.execute(operation: "UpdateGlobalNetwork", path: "/global-networks/{GlobalNetworkId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateGlobalNetwork(_ input: UpdateGlobalNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGlobalNetworkResponse {
+        return try await self.client.execute(operation: "UpdateGlobalNetwork", path: "/global-networks/{GlobalNetworkId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the details for an existing link. To remove information for any of the parameters, specify an empty string.
-    public func updateLink(_ input: UpdateLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateLinkResponse> {
-        return self.client.execute(operation: "UpdateLink", path: "/global-networks/{GlobalNetworkId}/links/{LinkId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateLink(_ input: UpdateLinkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLinkResponse {
+        return try await self.client.execute(operation: "UpdateLink", path: "/global-networks/{GlobalNetworkId}/links/{LinkId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the resource metadata for the specified global network.
-    public func updateNetworkResourceMetadata(_ input: UpdateNetworkResourceMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNetworkResourceMetadataResponse> {
-        return self.client.execute(operation: "UpdateNetworkResourceMetadata", path: "/global-networks/{GlobalNetworkId}/network-resources/{ResourceArn}/metadata", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateNetworkResourceMetadata(_ input: UpdateNetworkResourceMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNetworkResourceMetadataResponse {
+        return try await self.client.execute(operation: "UpdateNetworkResourceMetadata", path: "/global-networks/{GlobalNetworkId}/network-resources/{ResourceArn}/metadata", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the information for an existing site. To remove information for any of the parameters, specify an empty string.
-    public func updateSite(_ input: UpdateSiteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSiteResponse> {
-        return self.client.execute(operation: "UpdateSite", path: "/global-networks/{GlobalNetworkId}/sites/{SiteId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateSite(_ input: UpdateSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSiteResponse {
+        return try await self.client.execute(operation: "UpdateSite", path: "/global-networks/{GlobalNetworkId}/sites/{SiteId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a VPC attachment.
-    public func updateVpcAttachment(_ input: UpdateVpcAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVpcAttachmentResponse> {
-        return self.client.execute(operation: "UpdateVpcAttachment", path: "/vpc-attachments/{AttachmentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateVpcAttachment(_ input: UpdateVpcAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVpcAttachmentResponse {
+        return try await self.client.execute(operation: "UpdateVpcAttachment", path: "/vpc-attachments/{AttachmentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -506,1117 +591,404 @@ extension NetworkManager {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension NetworkManager {
     /// Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get* action. For example, to list the transit gateways in your global network, use GetTransitGatewayRegistrations.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeGlobalNetworksPaginator<Result>(
-        _ input: DescribeGlobalNetworksRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeGlobalNetworksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeGlobalNetworks,
-            inputKey: \DescribeGlobalNetworksRequest.nextToken,
-            outputKey: \DescribeGlobalNetworksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeGlobalNetworksPaginator(
         _ input: DescribeGlobalNetworksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeGlobalNetworksResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeGlobalNetworksRequest, DescribeGlobalNetworksResponse> {
+        return .init(
             input: input,
             command: self.describeGlobalNetworks,
             inputKey: \DescribeGlobalNetworksRequest.nextToken,
             outputKey: \DescribeGlobalNetworksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns information about a core network Connect peer associations.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getConnectPeerAssociationsPaginator<Result>(
-        _ input: GetConnectPeerAssociationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetConnectPeerAssociationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getConnectPeerAssociations,
-            inputKey: \GetConnectPeerAssociationsRequest.nextToken,
-            outputKey: \GetConnectPeerAssociationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getConnectPeerAssociationsPaginator(
         _ input: GetConnectPeerAssociationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetConnectPeerAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetConnectPeerAssociationsRequest, GetConnectPeerAssociationsResponse> {
+        return .init(
             input: input,
             command: self.getConnectPeerAssociations,
             inputKey: \GetConnectPeerAssociationsRequest.nextToken,
             outputKey: \GetConnectPeerAssociationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets information about one or more of your connections in a global network.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getConnectionsPaginator<Result>(
-        _ input: GetConnectionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetConnectionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getConnections,
-            inputKey: \GetConnectionsRequest.nextToken,
-            outputKey: \GetConnectionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getConnectionsPaginator(
         _ input: GetConnectionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetConnectionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetConnectionsRequest, GetConnectionsResponse> {
+        return .init(
             input: input,
             command: self.getConnections,
             inputKey: \GetConnectionsRequest.nextToken,
             outputKey: \GetConnectionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns information about a core network change event.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getCoreNetworkChangeEventsPaginator<Result>(
-        _ input: GetCoreNetworkChangeEventsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetCoreNetworkChangeEventsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getCoreNetworkChangeEvents,
-            inputKey: \GetCoreNetworkChangeEventsRequest.nextToken,
-            outputKey: \GetCoreNetworkChangeEventsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getCoreNetworkChangeEventsPaginator(
         _ input: GetCoreNetworkChangeEventsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetCoreNetworkChangeEventsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCoreNetworkChangeEventsRequest, GetCoreNetworkChangeEventsResponse> {
+        return .init(
             input: input,
             command: self.getCoreNetworkChangeEvents,
             inputKey: \GetCoreNetworkChangeEventsRequest.nextToken,
             outputKey: \GetCoreNetworkChangeEventsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a change set between the LIVE core network policy and a submitted policy.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getCoreNetworkChangeSetPaginator<Result>(
-        _ input: GetCoreNetworkChangeSetRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetCoreNetworkChangeSetResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getCoreNetworkChangeSet,
-            inputKey: \GetCoreNetworkChangeSetRequest.nextToken,
-            outputKey: \GetCoreNetworkChangeSetResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getCoreNetworkChangeSetPaginator(
         _ input: GetCoreNetworkChangeSetRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetCoreNetworkChangeSetResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCoreNetworkChangeSetRequest, GetCoreNetworkChangeSetResponse> {
+        return .init(
             input: input,
             command: self.getCoreNetworkChangeSet,
             inputKey: \GetCoreNetworkChangeSetRequest.nextToken,
             outputKey: \GetCoreNetworkChangeSetResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets the association information for customer gateways that are associated with devices and links in your global network.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getCustomerGatewayAssociationsPaginator<Result>(
-        _ input: GetCustomerGatewayAssociationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetCustomerGatewayAssociationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getCustomerGatewayAssociations,
-            inputKey: \GetCustomerGatewayAssociationsRequest.nextToken,
-            outputKey: \GetCustomerGatewayAssociationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getCustomerGatewayAssociationsPaginator(
         _ input: GetCustomerGatewayAssociationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetCustomerGatewayAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCustomerGatewayAssociationsRequest, GetCustomerGatewayAssociationsResponse> {
+        return .init(
             input: input,
             command: self.getCustomerGatewayAssociations,
             inputKey: \GetCustomerGatewayAssociationsRequest.nextToken,
             outputKey: \GetCustomerGatewayAssociationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets information about one or more of your devices in a global network.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getDevicesPaginator<Result>(
-        _ input: GetDevicesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetDevicesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getDevices,
-            inputKey: \GetDevicesRequest.nextToken,
-            outputKey: \GetDevicesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getDevicesPaginator(
         _ input: GetDevicesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetDevicesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetDevicesRequest, GetDevicesResponse> {
+        return .init(
             input: input,
             command: self.getDevices,
             inputKey: \GetDevicesRequest.nextToken,
             outputKey: \GetDevicesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets the link associations for a device or a link. Either the device ID or the link ID must be specified.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getLinkAssociationsPaginator<Result>(
-        _ input: GetLinkAssociationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetLinkAssociationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getLinkAssociations,
-            inputKey: \GetLinkAssociationsRequest.nextToken,
-            outputKey: \GetLinkAssociationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getLinkAssociationsPaginator(
         _ input: GetLinkAssociationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetLinkAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetLinkAssociationsRequest, GetLinkAssociationsResponse> {
+        return .init(
             input: input,
             command: self.getLinkAssociations,
             inputKey: \GetLinkAssociationsRequest.nextToken,
             outputKey: \GetLinkAssociationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets information about one or more links in a specified global network. If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getLinksPaginator<Result>(
-        _ input: GetLinksRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetLinksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getLinks,
-            inputKey: \GetLinksRequest.nextToken,
-            outputKey: \GetLinksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getLinksPaginator(
         _ input: GetLinksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetLinksResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetLinksRequest, GetLinksResponse> {
+        return .init(
             input: input,
             command: self.getLinks,
             inputKey: \GetLinksRequest.nextToken,
             outputKey: \GetLinksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets the count of network resources, by resource type, for the specified global network.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getNetworkResourceCountsPaginator<Result>(
-        _ input: GetNetworkResourceCountsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetNetworkResourceCountsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getNetworkResourceCounts,
-            inputKey: \GetNetworkResourceCountsRequest.nextToken,
-            outputKey: \GetNetworkResourceCountsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getNetworkResourceCountsPaginator(
         _ input: GetNetworkResourceCountsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetNetworkResourceCountsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetNetworkResourceCountsRequest, GetNetworkResourceCountsResponse> {
+        return .init(
             input: input,
             command: self.getNetworkResourceCounts,
             inputKey: \GetNetworkResourceCountsRequest.nextToken,
             outputKey: \GetNetworkResourceCountsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets the network resource relationships for the specified global network.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getNetworkResourceRelationshipsPaginator<Result>(
-        _ input: GetNetworkResourceRelationshipsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetNetworkResourceRelationshipsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getNetworkResourceRelationships,
-            inputKey: \GetNetworkResourceRelationshipsRequest.nextToken,
-            outputKey: \GetNetworkResourceRelationshipsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getNetworkResourceRelationshipsPaginator(
         _ input: GetNetworkResourceRelationshipsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetNetworkResourceRelationshipsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetNetworkResourceRelationshipsRequest, GetNetworkResourceRelationshipsResponse> {
+        return .init(
             input: input,
             command: self.getNetworkResourceRelationships,
             inputKey: \GetNetworkResourceRelationshipsRequest.nextToken,
             outputKey: \GetNetworkResourceRelationshipsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Describes the network resources for the specified global network. The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getNetworkResourcesPaginator<Result>(
-        _ input: GetNetworkResourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetNetworkResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getNetworkResources,
-            inputKey: \GetNetworkResourcesRequest.nextToken,
-            outputKey: \GetNetworkResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getNetworkResourcesPaginator(
         _ input: GetNetworkResourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetNetworkResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetNetworkResourcesRequest, GetNetworkResourcesResponse> {
+        return .init(
             input: input,
             command: self.getNetworkResources,
             inputKey: \GetNetworkResourcesRequest.nextToken,
             outputKey: \GetNetworkResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets the network telemetry of the specified global network.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getNetworkTelemetryPaginator<Result>(
-        _ input: GetNetworkTelemetryRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetNetworkTelemetryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getNetworkTelemetry,
-            inputKey: \GetNetworkTelemetryRequest.nextToken,
-            outputKey: \GetNetworkTelemetryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getNetworkTelemetryPaginator(
         _ input: GetNetworkTelemetryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetNetworkTelemetryResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetNetworkTelemetryRequest, GetNetworkTelemetryResponse> {
+        return .init(
             input: input,
             command: self.getNetworkTelemetry,
             inputKey: \GetNetworkTelemetryRequest.nextToken,
             outputKey: \GetNetworkTelemetryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets information about one or more of your sites in a global network.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getSitesPaginator<Result>(
-        _ input: GetSitesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetSitesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getSites,
-            inputKey: \GetSitesRequest.nextToken,
-            outputKey: \GetSitesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getSitesPaginator(
         _ input: GetSitesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetSitesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetSitesRequest, GetSitesResponse> {
+        return .init(
             input: input,
             command: self.getSites,
             inputKey: \GetSitesRequest.nextToken,
             outputKey: \GetSitesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets information about one or more of your transit gateway Connect peer associations in a global network.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getTransitGatewayConnectPeerAssociationsPaginator<Result>(
-        _ input: GetTransitGatewayConnectPeerAssociationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetTransitGatewayConnectPeerAssociationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getTransitGatewayConnectPeerAssociations,
-            inputKey: \GetTransitGatewayConnectPeerAssociationsRequest.nextToken,
-            outputKey: \GetTransitGatewayConnectPeerAssociationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getTransitGatewayConnectPeerAssociationsPaginator(
         _ input: GetTransitGatewayConnectPeerAssociationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetTransitGatewayConnectPeerAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetTransitGatewayConnectPeerAssociationsRequest, GetTransitGatewayConnectPeerAssociationsResponse> {
+        return .init(
             input: input,
             command: self.getTransitGatewayConnectPeerAssociations,
             inputKey: \GetTransitGatewayConnectPeerAssociationsRequest.nextToken,
             outputKey: \GetTransitGatewayConnectPeerAssociationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Gets information about the transit gateway registrations in a specified global network.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getTransitGatewayRegistrationsPaginator<Result>(
-        _ input: GetTransitGatewayRegistrationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetTransitGatewayRegistrationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getTransitGatewayRegistrations,
-            inputKey: \GetTransitGatewayRegistrationsRequest.nextToken,
-            outputKey: \GetTransitGatewayRegistrationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getTransitGatewayRegistrationsPaginator(
         _ input: GetTransitGatewayRegistrationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetTransitGatewayRegistrationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetTransitGatewayRegistrationsRequest, GetTransitGatewayRegistrationsResponse> {
+        return .init(
             input: input,
             command: self.getTransitGatewayRegistrations,
             inputKey: \GetTransitGatewayRegistrationsRequest.nextToken,
             outputKey: \GetTransitGatewayRegistrationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of core network attachments.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAttachmentsPaginator<Result>(
-        _ input: ListAttachmentsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAttachmentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAttachments,
-            inputKey: \ListAttachmentsRequest.nextToken,
-            outputKey: \ListAttachmentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAttachmentsPaginator(
         _ input: ListAttachmentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAttachmentsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAttachmentsRequest, ListAttachmentsResponse> {
+        return .init(
             input: input,
             command: self.listAttachments,
             inputKey: \ListAttachmentsRequest.nextToken,
             outputKey: \ListAttachmentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of core network Connect peers.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listConnectPeersPaginator<Result>(
-        _ input: ListConnectPeersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListConnectPeersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listConnectPeers,
-            inputKey: \ListConnectPeersRequest.nextToken,
-            outputKey: \ListConnectPeersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listConnectPeersPaginator(
         _ input: ListConnectPeersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListConnectPeersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConnectPeersRequest, ListConnectPeersResponse> {
+        return .init(
             input: input,
             command: self.listConnectPeers,
             inputKey: \ListConnectPeersRequest.nextToken,
             outputKey: \ListConnectPeersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of core network policy versions.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCoreNetworkPolicyVersionsPaginator<Result>(
-        _ input: ListCoreNetworkPolicyVersionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCoreNetworkPolicyVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCoreNetworkPolicyVersions,
-            inputKey: \ListCoreNetworkPolicyVersionsRequest.nextToken,
-            outputKey: \ListCoreNetworkPolicyVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCoreNetworkPolicyVersionsPaginator(
         _ input: ListCoreNetworkPolicyVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCoreNetworkPolicyVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCoreNetworkPolicyVersionsRequest, ListCoreNetworkPolicyVersionsResponse> {
+        return .init(
             input: input,
             command: self.listCoreNetworkPolicyVersions,
             inputKey: \ListCoreNetworkPolicyVersionsRequest.nextToken,
             outputKey: \ListCoreNetworkPolicyVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of owned and shared core networks.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCoreNetworksPaginator<Result>(
-        _ input: ListCoreNetworksRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCoreNetworksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCoreNetworks,
-            inputKey: \ListCoreNetworksRequest.nextToken,
-            outputKey: \ListCoreNetworksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCoreNetworksPaginator(
         _ input: ListCoreNetworksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCoreNetworksResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCoreNetworksRequest, ListCoreNetworksResponse> {
+        return .init(
             input: input,
             command: self.listCoreNetworks,
             inputKey: \ListCoreNetworksRequest.nextToken,
             outputKey: \ListCoreNetworksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the peerings for a core network.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPeeringsPaginator<Result>(
-        _ input: ListPeeringsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPeeringsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPeerings,
-            inputKey: \ListPeeringsRequest.nextToken,
-            outputKey: \ListPeeringsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPeeringsPaginator(
         _ input: ListPeeringsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPeeringsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPeeringsRequest, ListPeeringsResponse> {
+        return .init(
             input: input,
             command: self.listPeerings,
             inputKey: \ListPeeringsRequest.nextToken,
             outputKey: \ListPeeringsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

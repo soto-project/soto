@@ -65,103 +65,123 @@ public struct IoTRoboRunner: AWSService {
     // MARK: API Calls
 
     /// Grants permission to create a destination
-    public func createDestination(_ input: CreateDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDestinationResponse> {
-        return self.client.execute(operation: "CreateDestination", path: "/createDestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDestination(_ input: CreateDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDestinationResponse {
+        return try await self.client.execute(operation: "CreateDestination", path: "/createDestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to create a site
-    public func createSite(_ input: CreateSiteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSiteResponse> {
-        return self.client.execute(operation: "CreateSite", path: "/createSite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSite(_ input: CreateSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSiteResponse {
+        return try await self.client.execute(operation: "CreateSite", path: "/createSite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to create a worker
-    public func createWorker(_ input: CreateWorkerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkerResponse> {
-        return self.client.execute(operation: "CreateWorker", path: "/createWorker", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createWorker(_ input: CreateWorkerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkerResponse {
+        return try await self.client.execute(operation: "CreateWorker", path: "/createWorker", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to create a worker fleet
-    public func createWorkerFleet(_ input: CreateWorkerFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWorkerFleetResponse> {
-        return self.client.execute(operation: "CreateWorkerFleet", path: "/createWorkerFleet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createWorkerFleet(_ input: CreateWorkerFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkerFleetResponse {
+        return try await self.client.execute(operation: "CreateWorkerFleet", path: "/createWorkerFleet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to delete a destination
-    public func deleteDestination(_ input: DeleteDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDestinationResponse> {
-        return self.client.execute(operation: "DeleteDestination", path: "/deleteDestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDestination(_ input: DeleteDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDestinationResponse {
+        return try await self.client.execute(operation: "DeleteDestination", path: "/deleteDestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to delete a site
-    public func deleteSite(_ input: DeleteSiteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSiteResponse> {
-        return self.client.execute(operation: "DeleteSite", path: "/deleteSite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSite(_ input: DeleteSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSiteResponse {
+        return try await self.client.execute(operation: "DeleteSite", path: "/deleteSite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to delete a worker
-    public func deleteWorker(_ input: DeleteWorkerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWorkerResponse> {
-        return self.client.execute(operation: "DeleteWorker", path: "/deleteWorker", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteWorker(_ input: DeleteWorkerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkerResponse {
+        return try await self.client.execute(operation: "DeleteWorker", path: "/deleteWorker", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to delete a worker fleet
-    public func deleteWorkerFleet(_ input: DeleteWorkerFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteWorkerFleetResponse> {
-        return self.client.execute(operation: "DeleteWorkerFleet", path: "/deleteWorkerFleet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteWorkerFleet(_ input: DeleteWorkerFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkerFleetResponse {
+        return try await self.client.execute(operation: "DeleteWorkerFleet", path: "/deleteWorkerFleet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to get a destination
-    public func getDestination(_ input: GetDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDestinationResponse> {
-        return self.client.execute(operation: "GetDestination", path: "/getDestination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDestination(_ input: GetDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDestinationResponse {
+        return try await self.client.execute(operation: "GetDestination", path: "/getDestination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to get a site
-    public func getSite(_ input: GetSiteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSiteResponse> {
-        return self.client.execute(operation: "GetSite", path: "/getSite", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSite(_ input: GetSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSiteResponse {
+        return try await self.client.execute(operation: "GetSite", path: "/getSite", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to get a worker
-    public func getWorker(_ input: GetWorkerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWorkerResponse> {
-        return self.client.execute(operation: "GetWorker", path: "/getWorker", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWorker(_ input: GetWorkerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkerResponse {
+        return try await self.client.execute(operation: "GetWorker", path: "/getWorker", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to get a worker fleet
-    public func getWorkerFleet(_ input: GetWorkerFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWorkerFleetResponse> {
-        return self.client.execute(operation: "GetWorkerFleet", path: "/getWorkerFleet", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getWorkerFleet(_ input: GetWorkerFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkerFleetResponse {
+        return try await self.client.execute(operation: "GetWorkerFleet", path: "/getWorkerFleet", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to list destinations
-    public func listDestinations(_ input: ListDestinationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDestinationsResponse> {
-        return self.client.execute(operation: "ListDestinations", path: "/listDestinations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDestinations(_ input: ListDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDestinationsResponse {
+        return try await self.client.execute(operation: "ListDestinations", path: "/listDestinations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to list sites
-    public func listSites(_ input: ListSitesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSitesResponse> {
-        return self.client.execute(operation: "ListSites", path: "/listSites", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSites(_ input: ListSitesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSitesResponse {
+        return try await self.client.execute(operation: "ListSites", path: "/listSites", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to list worker fleets
-    public func listWorkerFleets(_ input: ListWorkerFleetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWorkerFleetsResponse> {
-        return self.client.execute(operation: "ListWorkerFleets", path: "/listWorkerFleets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listWorkerFleets(_ input: ListWorkerFleetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkerFleetsResponse {
+        return try await self.client.execute(operation: "ListWorkerFleets", path: "/listWorkerFleets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to list workers
-    public func listWorkers(_ input: ListWorkersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListWorkersResponse> {
-        return self.client.execute(operation: "ListWorkers", path: "/listWorkers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listWorkers(_ input: ListWorkersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkersResponse {
+        return try await self.client.execute(operation: "ListWorkers", path: "/listWorkers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to update a destination
-    public func updateDestination(_ input: UpdateDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDestinationResponse> {
-        return self.client.execute(operation: "UpdateDestination", path: "/updateDestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateDestination(_ input: UpdateDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDestinationResponse {
+        return try await self.client.execute(operation: "UpdateDestination", path: "/updateDestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to update a site
-    public func updateSite(_ input: UpdateSiteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateSiteResponse> {
-        return self.client.execute(operation: "UpdateSite", path: "/updateSite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateSite(_ input: UpdateSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSiteResponse {
+        return try await self.client.execute(operation: "UpdateSite", path: "/updateSite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to update a worker
-    public func updateWorker(_ input: UpdateWorkerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWorkerResponse> {
-        return self.client.execute(operation: "UpdateWorker", path: "/updateWorker", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateWorker(_ input: UpdateWorkerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkerResponse {
+        return try await self.client.execute(operation: "UpdateWorker", path: "/updateWorker", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Grants permission to update a worker fleet
-    public func updateWorkerFleet(_ input: UpdateWorkerFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateWorkerFleetResponse> {
-        return self.client.execute(operation: "UpdateWorkerFleet", path: "/updateWorkerFleet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateWorkerFleet(_ input: UpdateWorkerFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkerFleetResponse {
+        return try await self.client.execute(operation: "UpdateWorkerFleet", path: "/updateWorkerFleet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -176,216 +196,81 @@ extension IoTRoboRunner {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTRoboRunner {
     /// Grants permission to list destinations
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDestinationsPaginator<Result>(
-        _ input: ListDestinationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDestinationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDestinations,
-            inputKey: \ListDestinationsRequest.nextToken,
-            outputKey: \ListDestinationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDestinationsPaginator(
         _ input: ListDestinationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDestinationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDestinationsRequest, ListDestinationsResponse> {
+        return .init(
             input: input,
             command: self.listDestinations,
             inputKey: \ListDestinationsRequest.nextToken,
             outputKey: \ListDestinationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Grants permission to list sites
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSitesPaginator<Result>(
-        _ input: ListSitesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSitesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSites,
-            inputKey: \ListSitesRequest.nextToken,
-            outputKey: \ListSitesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSitesPaginator(
         _ input: ListSitesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSitesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSitesRequest, ListSitesResponse> {
+        return .init(
             input: input,
             command: self.listSites,
             inputKey: \ListSitesRequest.nextToken,
             outputKey: \ListSitesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Grants permission to list worker fleets
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listWorkerFleetsPaginator<Result>(
-        _ input: ListWorkerFleetsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListWorkerFleetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listWorkerFleets,
-            inputKey: \ListWorkerFleetsRequest.nextToken,
-            outputKey: \ListWorkerFleetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listWorkerFleetsPaginator(
         _ input: ListWorkerFleetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListWorkerFleetsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWorkerFleetsRequest, ListWorkerFleetsResponse> {
+        return .init(
             input: input,
             command: self.listWorkerFleets,
             inputKey: \ListWorkerFleetsRequest.nextToken,
             outputKey: \ListWorkerFleetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Grants permission to list workers
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listWorkersPaginator<Result>(
-        _ input: ListWorkersRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListWorkersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listWorkers,
-            inputKey: \ListWorkersRequest.nextToken,
-            outputKey: \ListWorkersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listWorkersPaginator(
         _ input: ListWorkersRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListWorkersResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWorkersRequest, ListWorkersResponse> {
+        return .init(
             input: input,
             command: self.listWorkers,
             inputKey: \ListWorkersRequest.nextToken,
             outputKey: \ListWorkersResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

@@ -64,263 +64,315 @@ public struct Resiliencehub: AWSService {
     // MARK: API Calls
 
     /// Adds the resource mapping for the draft application version. You can also update an existing resource mapping to a new physical resource.
-    public func addDraftAppVersionResourceMappings(_ input: AddDraftAppVersionResourceMappingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddDraftAppVersionResourceMappingsResponse> {
-        return self.client.execute(operation: "AddDraftAppVersionResourceMappings", path: "/add-draft-app-version-resource-mappings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func addDraftAppVersionResourceMappings(_ input: AddDraftAppVersionResourceMappingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddDraftAppVersionResourceMappingsResponse {
+        return try await self.client.execute(operation: "AddDraftAppVersionResourceMappings", path: "/add-draft-app-version-resource-mappings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe an Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. For more information about the number of resources supported per application, see Service Quotas. After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
-    public func createApp(_ input: CreateAppRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppResponse> {
-        return self.client.execute(operation: "CreateApp", path: "/create-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createApp(_ input: CreateAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppResponse {
+        return try await self.client.execute(operation: "CreateApp", path: "/create-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new Application Component in the Resilience Hub application.  This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
-    public func createAppVersionAppComponent(_ input: CreateAppVersionAppComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppVersionAppComponentResponse> {
-        return self.client.execute(operation: "CreateAppVersionAppComponent", path: "/create-app-version-app-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createAppVersionAppComponent(_ input: CreateAppVersionAppComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppVersionAppComponentResponse {
+        return try await self.client.execute(operation: "CreateAppVersionAppComponent", path: "/create-app-version-app-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds a resource to the Resilience Hub application and assigns it to the specified Application Components. If you specify a new Application Component, Resilience Hub will automatically create the Application Component.    This action has no effect outside Resilience Hub.   This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.   To update application version with new physicalResourceID, you must call ResolveAppVersionResources API.
-    public func createAppVersionResource(_ input: CreateAppVersionResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAppVersionResourceResponse> {
-        return self.client.execute(operation: "CreateAppVersionResource", path: "/create-app-version-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createAppVersionResource(_ input: CreateAppVersionResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppVersionResourceResponse {
+        return try await self.client.execute(operation: "CreateAppVersionResource", path: "/create-app-version-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new recommendation template for the Resilience Hub application.
-    public func createRecommendationTemplate(_ input: CreateRecommendationTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRecommendationTemplateResponse> {
-        return self.client.execute(operation: "CreateRecommendationTemplate", path: "/create-recommendation-template", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createRecommendationTemplate(_ input: CreateRecommendationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRecommendationTemplateResponse {
+        return try await self.client.execute(operation: "CreateRecommendationTemplate", path: "/create-recommendation-template", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a resiliency policy for an application.
-    public func createResiliencyPolicy(_ input: CreateResiliencyPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResiliencyPolicyResponse> {
-        return self.client.execute(operation: "CreateResiliencyPolicy", path: "/create-resiliency-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createResiliencyPolicy(_ input: CreateResiliencyPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResiliencyPolicyResponse {
+        return try await self.client.execute(operation: "CreateResiliencyPolicy", path: "/create-resiliency-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an Resilience Hub application. This is a destructive action that can't be undone.
-    public func deleteApp(_ input: DeleteAppRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppResponse> {
-        return self.client.execute(operation: "DeleteApp", path: "/delete-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteApp(_ input: DeleteAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAppResponse {
+        return try await self.client.execute(operation: "DeleteApp", path: "/delete-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an Resilience Hub application assessment. This is a destructive action that can't be undone.
-    public func deleteAppAssessment(_ input: DeleteAppAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppAssessmentResponse> {
-        return self.client.execute(operation: "DeleteAppAssessment", path: "/delete-app-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAppAssessment(_ input: DeleteAppAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAppAssessmentResponse {
+        return try await self.client.execute(operation: "DeleteAppAssessment", path: "/delete-app-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the input source and all of its imported resources from the Resilience Hub application.
-    public func deleteAppInputSource(_ input: DeleteAppInputSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppInputSourceResponse> {
-        return self.client.execute(operation: "DeleteAppInputSource", path: "/delete-app-input-source", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAppInputSource(_ input: DeleteAppInputSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAppInputSourceResponse {
+        return try await self.client.execute(operation: "DeleteAppInputSource", path: "/delete-app-input-source", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an Application Component from the Resilience Hub application.    This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.   You will not be able to delete an Application Component if it has resources associated with it.
-    public func deleteAppVersionAppComponent(_ input: DeleteAppVersionAppComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppVersionAppComponentResponse> {
-        return self.client.execute(operation: "DeleteAppVersionAppComponent", path: "/delete-app-version-app-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAppVersionAppComponent(_ input: DeleteAppVersionAppComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAppVersionAppComponentResponse {
+        return try await self.client.execute(operation: "DeleteAppVersionAppComponent", path: "/delete-app-version-app-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a resource from the Resilience Hub application.    You can only delete a manually added resource. To exclude non-manually added resources, use the UpdateAppVersionResource API.   This action has no effect outside Resilience Hub.   This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
-    public func deleteAppVersionResource(_ input: DeleteAppVersionResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppVersionResourceResponse> {
-        return self.client.execute(operation: "DeleteAppVersionResource", path: "/delete-app-version-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAppVersionResource(_ input: DeleteAppVersionResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAppVersionResourceResponse {
+        return try await self.client.execute(operation: "DeleteAppVersionResource", path: "/delete-app-version-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a recommendation template. This is a destructive action that can't be undone.
-    public func deleteRecommendationTemplate(_ input: DeleteRecommendationTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRecommendationTemplateResponse> {
-        return self.client.execute(operation: "DeleteRecommendationTemplate", path: "/delete-recommendation-template", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRecommendationTemplate(_ input: DeleteRecommendationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRecommendationTemplateResponse {
+        return try await self.client.execute(operation: "DeleteRecommendationTemplate", path: "/delete-recommendation-template", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a resiliency policy. This is a destructive action that can't be undone.
-    public func deleteResiliencyPolicy(_ input: DeleteResiliencyPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResiliencyPolicyResponse> {
-        return self.client.execute(operation: "DeleteResiliencyPolicy", path: "/delete-resiliency-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteResiliencyPolicy(_ input: DeleteResiliencyPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResiliencyPolicyResponse {
+        return try await self.client.execute(operation: "DeleteResiliencyPolicy", path: "/delete-resiliency-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes an Resilience Hub application.
-    public func describeApp(_ input: DescribeAppRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppResponse> {
-        return self.client.execute(operation: "DescribeApp", path: "/describe-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeApp(_ input: DescribeAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppResponse {
+        return try await self.client.execute(operation: "DescribeApp", path: "/describe-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes an assessment for an Resilience Hub application.
-    public func describeAppAssessment(_ input: DescribeAppAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppAssessmentResponse> {
-        return self.client.execute(operation: "DescribeAppAssessment", path: "/describe-app-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAppAssessment(_ input: DescribeAppAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppAssessmentResponse {
+        return try await self.client.execute(operation: "DescribeAppAssessment", path: "/describe-app-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the Resilience Hub application version.
-    public func describeAppVersion(_ input: DescribeAppVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppVersionResponse> {
-        return self.client.execute(operation: "DescribeAppVersion", path: "/describe-app-version", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAppVersion(_ input: DescribeAppVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppVersionResponse {
+        return try await self.client.execute(operation: "DescribeAppVersion", path: "/describe-app-version", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes an Application Component in the Resilience Hub application.
-    public func describeAppVersionAppComponent(_ input: DescribeAppVersionAppComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppVersionAppComponentResponse> {
-        return self.client.execute(operation: "DescribeAppVersionAppComponent", path: "/describe-app-version-app-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAppVersionAppComponent(_ input: DescribeAppVersionAppComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppVersionAppComponentResponse {
+        return try await self.client.execute(operation: "DescribeAppVersionAppComponent", path: "/describe-app-version-app-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes a resource of the Resilience Hub application.  This API accepts only one of the following parameters to descibe the resource:    resourceName     logicalResourceId     physicalResourceId (Along with physicalResourceId, you can also provide awsAccountId, and awsRegion)
-    public func describeAppVersionResource(_ input: DescribeAppVersionResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppVersionResourceResponse> {
-        return self.client.execute(operation: "DescribeAppVersionResource", path: "/describe-app-version-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAppVersionResource(_ input: DescribeAppVersionResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppVersionResourceResponse {
+        return try await self.client.execute(operation: "DescribeAppVersionResource", path: "/describe-app-version-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the resolution status for the specified resolution identifier for an application version. If resolutionId is not specified, the current resolution status is returned.
-    public func describeAppVersionResourcesResolutionStatus(_ input: DescribeAppVersionResourcesResolutionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppVersionResourcesResolutionStatusResponse> {
-        return self.client.execute(operation: "DescribeAppVersionResourcesResolutionStatus", path: "/describe-app-version-resources-resolution-status", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAppVersionResourcesResolutionStatus(_ input: DescribeAppVersionResourcesResolutionStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppVersionResourcesResolutionStatusResponse {
+        return try await self.client.execute(operation: "DescribeAppVersionResourcesResolutionStatus", path: "/describe-app-version-resources-resolution-status", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes details about an Resilience Hub application.
-    public func describeAppVersionTemplate(_ input: DescribeAppVersionTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAppVersionTemplateResponse> {
-        return self.client.execute(operation: "DescribeAppVersionTemplate", path: "/describe-app-version-template", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAppVersionTemplate(_ input: DescribeAppVersionTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppVersionTemplateResponse {
+        return try await self.client.execute(operation: "DescribeAppVersionTemplate", path: "/describe-app-version-template", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes the status of importing resources to an application version.  If you get a 404 error with ResourceImportStatusNotFoundAppMetadataException, you must call importResourcesToDraftAppVersion  after creating the application and before calling describeDraftAppVersionResourcesImportStatus to obtain the status.
-    public func describeDraftAppVersionResourcesImportStatus(_ input: DescribeDraftAppVersionResourcesImportStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDraftAppVersionResourcesImportStatusResponse> {
-        return self.client.execute(operation: "DescribeDraftAppVersionResourcesImportStatus", path: "/describe-draft-app-version-resources-import-status", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDraftAppVersionResourcesImportStatus(_ input: DescribeDraftAppVersionResourcesImportStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDraftAppVersionResourcesImportStatusResponse {
+        return try await self.client.execute(operation: "DescribeDraftAppVersionResourcesImportStatus", path: "/describe-draft-app-version-resources-import-status", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Describes a specified resiliency policy for an Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more.
-    public func describeResiliencyPolicy(_ input: DescribeResiliencyPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeResiliencyPolicyResponse> {
-        return self.client.execute(operation: "DescribeResiliencyPolicy", path: "/describe-resiliency-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeResiliencyPolicy(_ input: DescribeResiliencyPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeResiliencyPolicyResponse {
+        return try await self.client.execute(operation: "DescribeResiliencyPolicy", path: "/describe-resiliency-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Imports resources to Resilience Hub application draft version from different input sources. For more information about the input sources supported by Resilience Hub, see Discover the structure and describe your Resilience Hub application.
-    public func importResourcesToDraftAppVersion(_ input: ImportResourcesToDraftAppVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportResourcesToDraftAppVersionResponse> {
-        return self.client.execute(operation: "ImportResourcesToDraftAppVersion", path: "/import-resources-to-draft-app-version", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func importResourcesToDraftAppVersion(_ input: ImportResourcesToDraftAppVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportResourcesToDraftAppVersionResponse {
+        return try await self.client.execute(operation: "ImportResourcesToDraftAppVersion", path: "/import-resources-to-draft-app-version", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the alarm recommendations for an Resilience Hub application.
-    public func listAlarmRecommendations(_ input: ListAlarmRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAlarmRecommendationsResponse> {
-        return self.client.execute(operation: "ListAlarmRecommendations", path: "/list-alarm-recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAlarmRecommendations(_ input: ListAlarmRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAlarmRecommendationsResponse {
+        return try await self.client.execute(operation: "ListAlarmRecommendations", path: "/list-alarm-recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
-    public func listAppAssessments(_ input: ListAppAssessmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppAssessmentsResponse> {
-        return self.client.execute(operation: "ListAppAssessments", path: "/list-app-assessments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAppAssessments(_ input: ListAppAssessmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppAssessmentsResponse {
+        return try await self.client.execute(operation: "ListAppAssessments", path: "/list-app-assessments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the compliances for an Resilience Hub Application Component.
-    public func listAppComponentCompliances(_ input: ListAppComponentCompliancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppComponentCompliancesResponse> {
-        return self.client.execute(operation: "ListAppComponentCompliances", path: "/list-app-component-compliances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAppComponentCompliances(_ input: ListAppComponentCompliancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppComponentCompliancesResponse {
+        return try await self.client.execute(operation: "ListAppComponentCompliances", path: "/list-app-component-compliances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the recommendations for an Resilience Hub Application Component.
-    public func listAppComponentRecommendations(_ input: ListAppComponentRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppComponentRecommendationsResponse> {
-        return self.client.execute(operation: "ListAppComponentRecommendations", path: "/list-app-component-recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAppComponentRecommendations(_ input: ListAppComponentRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppComponentRecommendationsResponse {
+        return try await self.client.execute(operation: "ListAppComponentRecommendations", path: "/list-app-component-recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the input sources of the Resilience Hub application. For more information about the input sources supported by Resilience Hub, see Discover the structure and describe your Resilience Hub application.
-    public func listAppInputSources(_ input: ListAppInputSourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppInputSourcesResponse> {
-        return self.client.execute(operation: "ListAppInputSources", path: "/list-app-input-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAppInputSources(_ input: ListAppInputSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppInputSourcesResponse {
+        return try await self.client.execute(operation: "ListAppInputSources", path: "/list-app-input-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the Application Components in the Resilience Hub application.
-    public func listAppVersionAppComponents(_ input: ListAppVersionAppComponentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppVersionAppComponentsResponse> {
-        return self.client.execute(operation: "ListAppVersionAppComponents", path: "/list-app-version-app-components", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAppVersionAppComponents(_ input: ListAppVersionAppComponentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppVersionAppComponentsResponse {
+        return try await self.client.execute(operation: "ListAppVersionAppComponents", path: "/list-app-version-app-components", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists how the resources in an application version are mapped/sourced from. Mappings can be physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry app.
-    public func listAppVersionResourceMappings(_ input: ListAppVersionResourceMappingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppVersionResourceMappingsResponse> {
-        return self.client.execute(operation: "ListAppVersionResourceMappings", path: "/list-app-version-resource-mappings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAppVersionResourceMappings(_ input: ListAppVersionResourceMappingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppVersionResourceMappingsResponse {
+        return try await self.client.execute(operation: "ListAppVersionResourceMappings", path: "/list-app-version-resource-mappings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all the resources in an Resilience Hub application.
-    public func listAppVersionResources(_ input: ListAppVersionResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppVersionResourcesResponse> {
-        return self.client.execute(operation: "ListAppVersionResources", path: "/list-app-version-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAppVersionResources(_ input: ListAppVersionResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppVersionResourcesResponse {
+        return try await self.client.execute(operation: "ListAppVersionResources", path: "/list-app-version-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the different versions for the Resilience Hub applications.
-    public func listAppVersions(_ input: ListAppVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppVersionsResponse> {
-        return self.client.execute(operation: "ListAppVersions", path: "/list-app-versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAppVersions(_ input: ListAppVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppVersionsResponse {
+        return try await self.client.execute(operation: "ListAppVersions", path: "/list-app-versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists your Resilience Hub applications.  You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error:  An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.
-    public func listApps(_ input: ListAppsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAppsResponse> {
-        return self.client.execute(operation: "ListApps", path: "/list-apps", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listApps(_ input: ListAppsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppsResponse {
+        return try await self.client.execute(operation: "ListApps", path: "/list-apps", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the recommendation templates for the Resilience Hub applications.
-    public func listRecommendationTemplates(_ input: ListRecommendationTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecommendationTemplatesResponse> {
-        return self.client.execute(operation: "ListRecommendationTemplates", path: "/list-recommendation-templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRecommendationTemplates(_ input: ListRecommendationTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecommendationTemplatesResponse {
+        return try await self.client.execute(operation: "ListRecommendationTemplates", path: "/list-recommendation-templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the resiliency policies for the Resilience Hub applications.
-    public func listResiliencyPolicies(_ input: ListResiliencyPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResiliencyPoliciesResponse> {
-        return self.client.execute(operation: "ListResiliencyPolicies", path: "/list-resiliency-policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listResiliencyPolicies(_ input: ListResiliencyPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResiliencyPoliciesResponse {
+        return try await self.client.execute(operation: "ListResiliencyPolicies", path: "/list-resiliency-policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
-    public func listSopRecommendations(_ input: ListSopRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSopRecommendationsResponse> {
-        return self.client.execute(operation: "ListSopRecommendations", path: "/list-sop-recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSopRecommendations(_ input: ListSopRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSopRecommendationsResponse {
+        return try await self.client.execute(operation: "ListSopRecommendations", path: "/list-sop-recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the suggested resiliency policies for the Resilience Hub applications.
-    public func listSuggestedResiliencyPolicies(_ input: ListSuggestedResiliencyPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSuggestedResiliencyPoliciesResponse> {
-        return self.client.execute(operation: "ListSuggestedResiliencyPolicies", path: "/list-suggested-resiliency-policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSuggestedResiliencyPolicies(_ input: ListSuggestedResiliencyPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSuggestedResiliencyPoliciesResponse {
+        return try await self.client.execute(operation: "ListSuggestedResiliencyPolicies", path: "/list-suggested-resiliency-policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the tags for your resources in your Resilience Hub applications.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the test recommendations for the Resilience Hub application.
-    public func listTestRecommendations(_ input: ListTestRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTestRecommendationsResponse> {
-        return self.client.execute(operation: "ListTestRecommendations", path: "/list-test-recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTestRecommendations(_ input: ListTestRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTestRecommendationsResponse {
+        return try await self.client.execute(operation: "ListTestRecommendations", path: "/list-test-recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the resources that are not currently supported in Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
-    public func listUnsupportedAppVersionResources(_ input: ListUnsupportedAppVersionResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUnsupportedAppVersionResourcesResponse> {
-        return self.client.execute(operation: "ListUnsupportedAppVersionResources", path: "/list-unsupported-app-version-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listUnsupportedAppVersionResources(_ input: ListUnsupportedAppVersionResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUnsupportedAppVersionResourcesResponse {
+        return try await self.client.execute(operation: "ListUnsupportedAppVersionResources", path: "/list-unsupported-app-version-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Publishes a new version of a specific Resilience Hub application.
-    public func publishAppVersion(_ input: PublishAppVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PublishAppVersionResponse> {
-        return self.client.execute(operation: "PublishAppVersion", path: "/publish-app-version", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func publishAppVersion(_ input: PublishAppVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PublishAppVersionResponse {
+        return try await self.client.execute(operation: "PublishAppVersion", path: "/publish-app-version", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds or updates the app template for an Resilience Hub application draft version.
-    public func putDraftAppVersionTemplate(_ input: PutDraftAppVersionTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDraftAppVersionTemplateResponse> {
-        return self.client.execute(operation: "PutDraftAppVersionTemplate", path: "/put-draft-app-version-template", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putDraftAppVersionTemplate(_ input: PutDraftAppVersionTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDraftAppVersionTemplateResponse {
+        return try await self.client.execute(operation: "PutDraftAppVersionTemplate", path: "/put-draft-app-version-template", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes resource mappings from a draft application version.
-    public func removeDraftAppVersionResourceMappings(_ input: RemoveDraftAppVersionResourceMappingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveDraftAppVersionResourceMappingsResponse> {
-        return self.client.execute(operation: "RemoveDraftAppVersionResourceMappings", path: "/remove-draft-app-version-resource-mappings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func removeDraftAppVersionResourceMappings(_ input: RemoveDraftAppVersionResourceMappingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveDraftAppVersionResourceMappingsResponse {
+        return try await self.client.execute(operation: "RemoveDraftAppVersionResourceMappings", path: "/remove-draft-app-version-resource-mappings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Resolves the resources for an application version.
-    public func resolveAppVersionResources(_ input: ResolveAppVersionResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResolveAppVersionResourcesResponse> {
-        return self.client.execute(operation: "ResolveAppVersionResources", path: "/resolve-app-version-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func resolveAppVersionResources(_ input: ResolveAppVersionResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResolveAppVersionResourcesResponse {
+        return try await self.client.execute(operation: "ResolveAppVersionResources", path: "/resolve-app-version-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new application assessment for an application.
-    public func startAppAssessment(_ input: StartAppAssessmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartAppAssessmentResponse> {
-        return self.client.execute(operation: "StartAppAssessment", path: "/start-app-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startAppAssessment(_ input: StartAppAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAppAssessmentResponse {
+        return try await self.client.execute(operation: "StartAppAssessment", path: "/start-app-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Applies one or more tags to a resource.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes one or more tags from a resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an application.
-    public func updateApp(_ input: UpdateAppRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppResponse> {
-        return self.client.execute(operation: "UpdateApp", path: "/update-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateApp(_ input: UpdateAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppResponse {
+        return try await self.client.execute(operation: "UpdateApp", path: "/update-app", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the Resilience Hub application version.  This API updates the Resilience Hub application draft version. To use this information for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
-    public func updateAppVersion(_ input: UpdateAppVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppVersionResponse> {
-        return self.client.execute(operation: "UpdateAppVersion", path: "/update-app-version", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateAppVersion(_ input: UpdateAppVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppVersionResponse {
+        return try await self.client.execute(operation: "UpdateAppVersion", path: "/update-app-version", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an existing Application Component in the Resilience Hub application.  This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
-    public func updateAppVersionAppComponent(_ input: UpdateAppVersionAppComponentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppVersionAppComponentResponse> {
-        return self.client.execute(operation: "UpdateAppVersionAppComponent", path: "/update-app-version-app-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateAppVersionAppComponent(_ input: UpdateAppVersionAppComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppVersionAppComponentResponse {
+        return try await self.client.execute(operation: "UpdateAppVersionAppComponent", path: "/update-app-version-app-component", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the resource details in the Resilience Hub application.    This action has no effect outside Resilience Hub.   This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.   To update application version with new physicalResourceID, you must call ResolveAppVersionResources API.
-    public func updateAppVersionResource(_ input: UpdateAppVersionResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAppVersionResourceResponse> {
-        return self.client.execute(operation: "UpdateAppVersionResource", path: "/update-app-version-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateAppVersionResource(_ input: UpdateAppVersionResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppVersionResourceResponse {
+        return try await self.client.execute(operation: "UpdateAppVersionResource", path: "/update-app-version-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a resiliency policy.
-    public func updateResiliencyPolicy(_ input: UpdateResiliencyPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResiliencyPolicyResponse> {
-        return self.client.execute(operation: "UpdateResiliencyPolicy", path: "/update-resiliency-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateResiliencyPolicy(_ input: UpdateResiliencyPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResiliencyPolicyResponse {
+        return try await self.client.execute(operation: "UpdateResiliencyPolicy", path: "/update-resiliency-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -335,852 +387,309 @@ extension Resiliencehub {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Resiliencehub {
     /// Lists the alarm recommendations for an Resilience Hub application.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAlarmRecommendationsPaginator<Result>(
-        _ input: ListAlarmRecommendationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAlarmRecommendationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAlarmRecommendations,
-            inputKey: \ListAlarmRecommendationsRequest.nextToken,
-            outputKey: \ListAlarmRecommendationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAlarmRecommendationsPaginator(
         _ input: ListAlarmRecommendationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAlarmRecommendationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAlarmRecommendationsRequest, ListAlarmRecommendationsResponse> {
+        return .init(
             input: input,
             command: self.listAlarmRecommendations,
             inputKey: \ListAlarmRecommendationsRequest.nextToken,
             outputKey: \ListAlarmRecommendationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAppAssessmentsPaginator<Result>(
-        _ input: ListAppAssessmentsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAppAssessmentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAppAssessments,
-            inputKey: \ListAppAssessmentsRequest.nextToken,
-            outputKey: \ListAppAssessmentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAppAssessmentsPaginator(
         _ input: ListAppAssessmentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAppAssessmentsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppAssessmentsRequest, ListAppAssessmentsResponse> {
+        return .init(
             input: input,
             command: self.listAppAssessments,
             inputKey: \ListAppAssessmentsRequest.nextToken,
             outputKey: \ListAppAssessmentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the compliances for an Resilience Hub Application Component.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAppComponentCompliancesPaginator<Result>(
-        _ input: ListAppComponentCompliancesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAppComponentCompliancesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAppComponentCompliances,
-            inputKey: \ListAppComponentCompliancesRequest.nextToken,
-            outputKey: \ListAppComponentCompliancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAppComponentCompliancesPaginator(
         _ input: ListAppComponentCompliancesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAppComponentCompliancesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppComponentCompliancesRequest, ListAppComponentCompliancesResponse> {
+        return .init(
             input: input,
             command: self.listAppComponentCompliances,
             inputKey: \ListAppComponentCompliancesRequest.nextToken,
             outputKey: \ListAppComponentCompliancesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the recommendations for an Resilience Hub Application Component.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAppComponentRecommendationsPaginator<Result>(
-        _ input: ListAppComponentRecommendationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAppComponentRecommendationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAppComponentRecommendations,
-            inputKey: \ListAppComponentRecommendationsRequest.nextToken,
-            outputKey: \ListAppComponentRecommendationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAppComponentRecommendationsPaginator(
         _ input: ListAppComponentRecommendationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAppComponentRecommendationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppComponentRecommendationsRequest, ListAppComponentRecommendationsResponse> {
+        return .init(
             input: input,
             command: self.listAppComponentRecommendations,
             inputKey: \ListAppComponentRecommendationsRequest.nextToken,
             outputKey: \ListAppComponentRecommendationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the input sources of the Resilience Hub application. For more information about the input sources supported by Resilience Hub, see Discover the structure and describe your Resilience Hub application.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAppInputSourcesPaginator<Result>(
-        _ input: ListAppInputSourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAppInputSourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAppInputSources,
-            inputKey: \ListAppInputSourcesRequest.nextToken,
-            outputKey: \ListAppInputSourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAppInputSourcesPaginator(
         _ input: ListAppInputSourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAppInputSourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppInputSourcesRequest, ListAppInputSourcesResponse> {
+        return .init(
             input: input,
             command: self.listAppInputSources,
             inputKey: \ListAppInputSourcesRequest.nextToken,
             outputKey: \ListAppInputSourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the Application Components in the Resilience Hub application.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAppVersionAppComponentsPaginator<Result>(
-        _ input: ListAppVersionAppComponentsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAppVersionAppComponentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAppVersionAppComponents,
-            inputKey: \ListAppVersionAppComponentsRequest.nextToken,
-            outputKey: \ListAppVersionAppComponentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAppVersionAppComponentsPaginator(
         _ input: ListAppVersionAppComponentsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAppVersionAppComponentsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppVersionAppComponentsRequest, ListAppVersionAppComponentsResponse> {
+        return .init(
             input: input,
             command: self.listAppVersionAppComponents,
             inputKey: \ListAppVersionAppComponentsRequest.nextToken,
             outputKey: \ListAppVersionAppComponentsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists how the resources in an application version are mapped/sourced from. Mappings can be physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry app.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAppVersionResourceMappingsPaginator<Result>(
-        _ input: ListAppVersionResourceMappingsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAppVersionResourceMappingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAppVersionResourceMappings,
-            inputKey: \ListAppVersionResourceMappingsRequest.nextToken,
-            outputKey: \ListAppVersionResourceMappingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAppVersionResourceMappingsPaginator(
         _ input: ListAppVersionResourceMappingsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAppVersionResourceMappingsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppVersionResourceMappingsRequest, ListAppVersionResourceMappingsResponse> {
+        return .init(
             input: input,
             command: self.listAppVersionResourceMappings,
             inputKey: \ListAppVersionResourceMappingsRequest.nextToken,
             outputKey: \ListAppVersionResourceMappingsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all the resources in an Resilience Hub application.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAppVersionResourcesPaginator<Result>(
-        _ input: ListAppVersionResourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAppVersionResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAppVersionResources,
-            inputKey: \ListAppVersionResourcesRequest.nextToken,
-            outputKey: \ListAppVersionResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAppVersionResourcesPaginator(
         _ input: ListAppVersionResourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAppVersionResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppVersionResourcesRequest, ListAppVersionResourcesResponse> {
+        return .init(
             input: input,
             command: self.listAppVersionResources,
             inputKey: \ListAppVersionResourcesRequest.nextToken,
             outputKey: \ListAppVersionResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the different versions for the Resilience Hub applications.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAppVersionsPaginator<Result>(
-        _ input: ListAppVersionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAppVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAppVersions,
-            inputKey: \ListAppVersionsRequest.nextToken,
-            outputKey: \ListAppVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAppVersionsPaginator(
         _ input: ListAppVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAppVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppVersionsRequest, ListAppVersionsResponse> {
+        return .init(
             input: input,
             command: self.listAppVersions,
             inputKey: \ListAppVersionsRequest.nextToken,
             outputKey: \ListAppVersionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists your Resilience Hub applications.  You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error:  An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAppsPaginator<Result>(
-        _ input: ListAppsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAppsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listApps,
-            inputKey: \ListAppsRequest.nextToken,
-            outputKey: \ListAppsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAppsPaginator(
         _ input: ListAppsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAppsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppsRequest, ListAppsResponse> {
+        return .init(
             input: input,
             command: self.listApps,
             inputKey: \ListAppsRequest.nextToken,
             outputKey: \ListAppsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the recommendation templates for the Resilience Hub applications.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRecommendationTemplatesPaginator<Result>(
-        _ input: ListRecommendationTemplatesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRecommendationTemplatesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRecommendationTemplates,
-            inputKey: \ListRecommendationTemplatesRequest.nextToken,
-            outputKey: \ListRecommendationTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRecommendationTemplatesPaginator(
         _ input: ListRecommendationTemplatesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRecommendationTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecommendationTemplatesRequest, ListRecommendationTemplatesResponse> {
+        return .init(
             input: input,
             command: self.listRecommendationTemplates,
             inputKey: \ListRecommendationTemplatesRequest.nextToken,
             outputKey: \ListRecommendationTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the resiliency policies for the Resilience Hub applications.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listResiliencyPoliciesPaginator<Result>(
-        _ input: ListResiliencyPoliciesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListResiliencyPoliciesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listResiliencyPolicies,
-            inputKey: \ListResiliencyPoliciesRequest.nextToken,
-            outputKey: \ListResiliencyPoliciesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listResiliencyPoliciesPaginator(
         _ input: ListResiliencyPoliciesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListResiliencyPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResiliencyPoliciesRequest, ListResiliencyPoliciesResponse> {
+        return .init(
             input: input,
             command: self.listResiliencyPolicies,
             inputKey: \ListResiliencyPoliciesRequest.nextToken,
             outputKey: \ListResiliencyPoliciesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSopRecommendationsPaginator<Result>(
-        _ input: ListSopRecommendationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSopRecommendationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSopRecommendations,
-            inputKey: \ListSopRecommendationsRequest.nextToken,
-            outputKey: \ListSopRecommendationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSopRecommendationsPaginator(
         _ input: ListSopRecommendationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSopRecommendationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSopRecommendationsRequest, ListSopRecommendationsResponse> {
+        return .init(
             input: input,
             command: self.listSopRecommendations,
             inputKey: \ListSopRecommendationsRequest.nextToken,
             outputKey: \ListSopRecommendationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the suggested resiliency policies for the Resilience Hub applications.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSuggestedResiliencyPoliciesPaginator<Result>(
-        _ input: ListSuggestedResiliencyPoliciesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSuggestedResiliencyPoliciesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSuggestedResiliencyPolicies,
-            inputKey: \ListSuggestedResiliencyPoliciesRequest.nextToken,
-            outputKey: \ListSuggestedResiliencyPoliciesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSuggestedResiliencyPoliciesPaginator(
         _ input: ListSuggestedResiliencyPoliciesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSuggestedResiliencyPoliciesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSuggestedResiliencyPoliciesRequest, ListSuggestedResiliencyPoliciesResponse> {
+        return .init(
             input: input,
             command: self.listSuggestedResiliencyPolicies,
             inputKey: \ListSuggestedResiliencyPoliciesRequest.nextToken,
             outputKey: \ListSuggestedResiliencyPoliciesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the test recommendations for the Resilience Hub application.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTestRecommendationsPaginator<Result>(
-        _ input: ListTestRecommendationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTestRecommendationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTestRecommendations,
-            inputKey: \ListTestRecommendationsRequest.nextToken,
-            outputKey: \ListTestRecommendationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTestRecommendationsPaginator(
         _ input: ListTestRecommendationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTestRecommendationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTestRecommendationsRequest, ListTestRecommendationsResponse> {
+        return .init(
             input: input,
             command: self.listTestRecommendations,
             inputKey: \ListTestRecommendationsRequest.nextToken,
             outputKey: \ListTestRecommendationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the resources that are not currently supported in Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listUnsupportedAppVersionResourcesPaginator<Result>(
-        _ input: ListUnsupportedAppVersionResourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListUnsupportedAppVersionResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listUnsupportedAppVersionResources,
-            inputKey: \ListUnsupportedAppVersionResourcesRequest.nextToken,
-            outputKey: \ListUnsupportedAppVersionResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listUnsupportedAppVersionResourcesPaginator(
         _ input: ListUnsupportedAppVersionResourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListUnsupportedAppVersionResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListUnsupportedAppVersionResourcesRequest, ListUnsupportedAppVersionResourcesResponse> {
+        return .init(
             input: input,
             command: self.listUnsupportedAppVersionResources,
             inputKey: \ListUnsupportedAppVersionResourcesRequest.nextToken,
             outputKey: \ListUnsupportedAppVersionResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

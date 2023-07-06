@@ -1036,7 +1036,7 @@ extension LexRuntimeV2 {
         ]
 
         /// If the requested content type was audio, the audio version of the message to convey to the user.
-        public let audioStream: AWSPayload?
+        public let audioStream: HTTPBody?
         /// The type of response. Same as the type specified in the responseContentType field in the request.
         public let contentType: String?
         /// A list of messages that were last sent to the user. The messages are ordered based on how you return the messages from you Lambda function or the order that the messages are defined in the bot.
@@ -1048,7 +1048,7 @@ extension LexRuntimeV2 {
         /// Represents the current state of the dialog between the user and the bot. Use this to determine the progress of the conversation and what the next action may be.
         public let sessionState: String?
 
-        public init(audioStream: AWSPayload? = nil, contentType: String? = nil, messages: String? = nil, requestAttributes: String? = nil, sessionId: String? = nil, sessionState: String? = nil) {
+        public init(audioStream: HTTPBody? = nil, contentType: String? = nil, messages: String? = nil, requestAttributes: String? = nil, sessionId: String? = nil, sessionState: String? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
             self.messages = messages
@@ -1176,7 +1176,7 @@ extension LexRuntimeV2 {
         /// The identifier of the bot that should receive the request.
         public let botId: String
         /// User input in PCM or Opus audio format or text format as described in the requestContentType parameter.
-        public let inputStream: AWSPayload?
+        public let inputStream: HTTPBody?
         /// The locale where the session is in use.
         public let localeId: String
         /// Request-specific information passed between the client application and Amazon Lex V2  The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes for prefix x-amz-lex:. The requestAttributes field must be compressed using gzip and then base64 encoded before sending to Amazon Lex V2.
@@ -1190,7 +1190,7 @@ extension LexRuntimeV2 {
         /// Sets the state of the session with the user. You can use this to set the current intent, attributes, context, and dialog action. Use the dialog action to determine the next step that Amazon Lex V2 should use in the conversation with the user. The sessionState field must be compressed using gzip and then base64 encoded before sending to Amazon Lex V2.
         public let sessionState: String?
 
-        public init(botAliasId: String, botId: String, inputStream: AWSPayload? = nil, localeId: String, requestAttributes: String? = nil, requestContentType: String, responseContentType: String? = nil, sessionId: String, sessionState: String? = nil) {
+        public init(botAliasId: String, botId: String, inputStream: HTTPBody? = nil, localeId: String, requestAttributes: String? = nil, requestContentType: String, responseContentType: String? = nil, sessionId: String, sessionState: String? = nil) {
             self.botAliasId = botAliasId
             self.botId = botId
             self.inputStream = inputStream
@@ -1234,7 +1234,7 @@ extension LexRuntimeV2 {
         ]
 
         /// The prompt or statement to send to the user. This is based on the bot configuration and context. For example, if Amazon Lex V2 did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex V2 sends that message in the response.
-        public let audioStream: AWSPayload?
+        public let audioStream: HTTPBody?
         /// Content type as specified in the responseContentType in the request.
         public let contentType: String?
         /// Indicates whether the input mode to the operation was text or speech.
@@ -1254,7 +1254,7 @@ extension LexRuntimeV2 {
         /// Represents the current state of the dialog between the user and the bot. Use this to determine the progress of the conversation and what the next action might be. The sessionState field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents. See the example for a simple function to decode and decompress the contents.
         public let sessionState: String?
 
-        public init(audioStream: AWSPayload? = nil, contentType: String? = nil, inputMode: String? = nil, inputTranscript: String? = nil, interpretations: String? = nil, messages: String? = nil, recognizedBotMember: String? = nil, requestAttributes: String? = nil, sessionId: String? = nil, sessionState: String? = nil) {
+        public init(audioStream: HTTPBody? = nil, contentType: String? = nil, inputMode: String? = nil, inputTranscript: String? = nil, interpretations: String? = nil, messages: String? = nil, recognizedBotMember: String? = nil, requestAttributes: String? = nil, sessionId: String? = nil, sessionState: String? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
             self.inputMode = inputMode

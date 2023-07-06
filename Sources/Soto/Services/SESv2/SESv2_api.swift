@@ -72,437 +72,524 @@ public struct SESv2: AWSService {
     // MARK: API Calls
 
     /// Retrieves batches of metric data collected based on your sending activity. You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative).
-    public func batchGetMetricData(_ input: BatchGetMetricDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetMetricDataResponse> {
-        return self.client.execute(operation: "BatchGetMetricData", path: "/v2/email/metrics/batch", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchGetMetricData(_ input: BatchGetMetricDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetMetricDataResponse {
+        return try await self.client.execute(operation: "BatchGetMetricData", path: "/v2/email/metrics/batch", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails that you send. You apply a configuration set to an email by specifying the name of the configuration set when you call the Amazon SES API v2. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
-    public func createConfigurationSet(_ input: CreateConfigurationSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConfigurationSetResponse> {
-        return self.client.execute(operation: "CreateConfigurationSet", path: "/v2/email/configuration-sets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createConfigurationSet(_ input: CreateConfigurationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfigurationSetResponse {
+        return try await self.client.execute(operation: "CreateConfigurationSet", path: "/v2/email/configuration-sets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. A single configuration set can include more than one event destination.
-    public func createConfigurationSetEventDestination(_ input: CreateConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateConfigurationSetEventDestinationResponse> {
-        return self.client.execute(operation: "CreateConfigurationSetEventDestination", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createConfigurationSetEventDestination(_ input: CreateConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfigurationSetEventDestinationResponse {
+        return try await self.client.execute(operation: "CreateConfigurationSetEventDestination", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a contact, which is an end-user who is receiving the email, and adds them to a contact list.
-    public func createContact(_ input: CreateContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateContactResponse> {
-        return self.client.execute(operation: "CreateContact", path: "/v2/email/contact-lists/{ContactListName}/contacts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createContact(_ input: CreateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContactResponse {
+        return try await self.client.execute(operation: "CreateContact", path: "/v2/email/contact-lists/{ContactListName}/contacts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a contact list.
-    public func createContactList(_ input: CreateContactListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateContactListResponse> {
-        return self.client.execute(operation: "CreateContactList", path: "/v2/email/contact-lists", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createContactList(_ input: CreateContactListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContactListResponse {
+        return try await self.client.execute(operation: "CreateContactList", path: "/v2/email/contact-lists", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new custom verification email template. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func createCustomVerificationEmailTemplate(_ input: CreateCustomVerificationEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCustomVerificationEmailTemplateResponse> {
-        return self.client.execute(operation: "CreateCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createCustomVerificationEmailTemplate(_ input: CreateCustomVerificationEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomVerificationEmailTemplateResponse {
+        return try await self.client.execute(operation: "CreateCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Web Services account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, the message is sent from one of the addresses in the associated pool.
-    public func createDedicatedIpPool(_ input: CreateDedicatedIpPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDedicatedIpPoolResponse> {
-        return self.client.execute(operation: "CreateDedicatedIpPool", path: "/v2/email/dedicated-ip-pools", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDedicatedIpPool(_ input: CreateDedicatedIpPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDedicatedIpPoolResponse {
+        return try await self.client.execute(operation: "CreateDedicatedIpPool", path: "/v2/email/dedicated-ip-pools", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon SES then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
-    public func createDeliverabilityTestReport(_ input: CreateDeliverabilityTestReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDeliverabilityTestReportResponse> {
-        return self.client.execute(operation: "CreateDeliverabilityTestReport", path: "/v2/email/deliverability-dashboard/test", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDeliverabilityTestReport(_ input: CreateDeliverabilityTestReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDeliverabilityTestReportResponse {
+        return try await self.client.execute(operation: "CreateDeliverabilityTestReport", path: "/v2/email/deliverability-dashboard/test", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts the process of verifying an email identity. An identity is an email address or domain that you use when you send email. Before you can use an identity to send email, you first have to verify it. By verifying an identity, you demonstrate that you're the owner of the identity, and that you've given Amazon SES API v2 permission to send email from the identity. When you verify an email address, Amazon SES sends an email to the address. Your email address is verified as soon as you follow the link in the verification email.   When you verify a domain without specifying the DkimSigningAttributes object, this operation provides a set of DKIM tokens. You can convert these tokens into CNAME records, which you then add to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. This verification method is known as Easy DKIM. Alternatively, you can perform the verification process by providing your own public-private key pair. This verification method is known as Bring Your Own DKIM (BYODKIM). To use BYODKIM, your call to the CreateEmailIdentity operation has to include the DkimSigningAttributes object. When you specify this object, you provide a selector (a component of the DNS record name that identifies the public key to use for DKIM authentication) and a private key. When you verify a domain, this operation provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. For some DNS providers, it can take 72 hours or more to complete the domain verification process. Additionally, you can associate an existing configuration set with the email identity that you're verifying.
-    public func createEmailIdentity(_ input: CreateEmailIdentityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEmailIdentityResponse> {
-        return self.client.execute(operation: "CreateEmailIdentity", path: "/v2/email/identities", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createEmailIdentity(_ input: CreateEmailIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEmailIdentityResponse {
+        return try await self.client.execute(operation: "CreateEmailIdentity", path: "/v2/email/identities", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates the specified sending authorization policy for the given identity (an email address or a domain).  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func createEmailIdentityPolicy(_ input: CreateEmailIdentityPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEmailIdentityPolicyResponse> {
-        return self.client.execute(operation: "CreateEmailIdentityPolicy", path: "/v2/email/identities/{EmailIdentity}/policies/{PolicyName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createEmailIdentityPolicy(_ input: CreateEmailIdentityPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEmailIdentityPolicyResponse {
+        return try await self.client.execute(operation: "CreateEmailIdentityPolicy", path: "/v2/email/identities/{EmailIdentity}/policies/{PolicyName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func createEmailTemplate(_ input: CreateEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEmailTemplateResponse> {
-        return self.client.execute(operation: "CreateEmailTemplate", path: "/v2/email/templates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createEmailTemplate(_ input: CreateEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEmailTemplateResponse {
+        return try await self.client.execute(operation: "CreateEmailTemplate", path: "/v2/email/templates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates an import job for a data destination.
-    public func createImportJob(_ input: CreateImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateImportJobResponse> {
-        return self.client.execute(operation: "CreateImportJob", path: "/v2/email/import-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createImportJob(_ input: CreateImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImportJobResponse {
+        return try await self.client.execute(operation: "CreateImportJob", path: "/v2/email/import-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete an existing configuration set.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
-    public func deleteConfigurationSet(_ input: DeleteConfigurationSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConfigurationSetResponse> {
-        return self.client.execute(operation: "DeleteConfigurationSet", path: "/v2/email/configuration-sets/{ConfigurationSetName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteConfigurationSet(_ input: DeleteConfigurationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfigurationSetResponse {
+        return try await self.client.execute(operation: "DeleteConfigurationSet", path: "/v2/email/configuration-sets/{ConfigurationSetName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete an event destination.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
-    public func deleteConfigurationSetEventDestination(_ input: DeleteConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteConfigurationSetEventDestinationResponse> {
-        return self.client.execute(operation: "DeleteConfigurationSetEventDestination", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteConfigurationSetEventDestination(_ input: DeleteConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfigurationSetEventDestinationResponse {
+        return try await self.client.execute(operation: "DeleteConfigurationSetEventDestination", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes a contact from a contact list.
-    public func deleteContact(_ input: DeleteContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteContactResponse> {
-        return self.client.execute(operation: "DeleteContact", path: "/v2/email/contact-lists/{ContactListName}/contacts/{EmailAddress}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteContact(_ input: DeleteContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContactResponse {
+        return try await self.client.execute(operation: "DeleteContact", path: "/v2/email/contact-lists/{ContactListName}/contacts/{EmailAddress}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a contact list and all of the contacts on that list.
-    public func deleteContactList(_ input: DeleteContactListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteContactListResponse> {
-        return self.client.execute(operation: "DeleteContactList", path: "/v2/email/contact-lists/{ContactListName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteContactList(_ input: DeleteContactListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContactListResponse {
+        return try await self.client.execute(operation: "DeleteContactList", path: "/v2/email/contact-lists/{ContactListName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an existing custom verification email template. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func deleteCustomVerificationEmailTemplate(_ input: DeleteCustomVerificationEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCustomVerificationEmailTemplateResponse> {
-        return self.client.execute(operation: "DeleteCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates/{TemplateName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteCustomVerificationEmailTemplate(_ input: DeleteCustomVerificationEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomVerificationEmailTemplateResponse {
+        return try await self.client.execute(operation: "DeleteCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates/{TemplateName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Delete a dedicated IP pool.
-    public func deleteDedicatedIpPool(_ input: DeleteDedicatedIpPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDedicatedIpPoolResponse> {
-        return self.client.execute(operation: "DeleteDedicatedIpPool", path: "/v2/email/dedicated-ip-pools/{PoolName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDedicatedIpPool(_ input: DeleteDedicatedIpPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDedicatedIpPoolResponse {
+        return try await self.client.execute(operation: "DeleteDedicatedIpPool", path: "/v2/email/dedicated-ip-pools/{PoolName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an email identity. An identity can be either an email address or a domain name.
-    public func deleteEmailIdentity(_ input: DeleteEmailIdentityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEmailIdentityResponse> {
-        return self.client.execute(operation: "DeleteEmailIdentity", path: "/v2/email/identities/{EmailIdentity}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteEmailIdentity(_ input: DeleteEmailIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEmailIdentityResponse {
+        return try await self.client.execute(operation: "DeleteEmailIdentity", path: "/v2/email/identities/{EmailIdentity}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func deleteEmailIdentityPolicy(_ input: DeleteEmailIdentityPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEmailIdentityPolicyResponse> {
-        return self.client.execute(operation: "DeleteEmailIdentityPolicy", path: "/v2/email/identities/{EmailIdentity}/policies/{PolicyName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteEmailIdentityPolicy(_ input: DeleteEmailIdentityPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEmailIdentityPolicyResponse {
+        return try await self.client.execute(operation: "DeleteEmailIdentityPolicy", path: "/v2/email/identities/{EmailIdentity}/policies/{PolicyName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an email template. You can execute this operation no more than once per second.
-    public func deleteEmailTemplate(_ input: DeleteEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEmailTemplateResponse> {
-        return self.client.execute(operation: "DeleteEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteEmailTemplate(_ input: DeleteEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEmailTemplateResponse {
+        return try await self.client.execute(operation: "DeleteEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes an email address from the suppression list for your account.
-    public func deleteSuppressedDestination(_ input: DeleteSuppressedDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSuppressedDestinationResponse> {
-        return self.client.execute(operation: "DeleteSuppressedDestination", path: "/v2/email/suppression/addresses/{EmailAddress}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSuppressedDestination(_ input: DeleteSuppressedDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSuppressedDestinationResponse {
+        return try await self.client.execute(operation: "DeleteSuppressedDestination", path: "/v2/email/suppression/addresses/{EmailAddress}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Obtain information about the email-sending status and capabilities of your Amazon SES account in the current Amazon Web Services Region.
-    public func getAccount(_ input: GetAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAccountResponse> {
-        return self.client.execute(operation: "GetAccount", path: "/v2/email/account", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAccount(_ input: GetAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountResponse {
+        return try await self.client.execute(operation: "GetAccount", path: "/v2/email/account", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieve a list of the blacklists that your dedicated IP addresses appear on.
-    public func getBlacklistReports(_ input: GetBlacklistReportsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBlacklistReportsResponse> {
-        return self.client.execute(operation: "GetBlacklistReports", path: "/v2/email/deliverability-dashboard/blacklist-report", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getBlacklistReports(_ input: GetBlacklistReportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBlacklistReportsResponse {
+        return try await self.client.execute(operation: "GetBlacklistReports", path: "/v2/email/deliverability-dashboard/blacklist-report", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get information about an existing configuration set, including the dedicated IP pool that it's associated with, whether or not it's enabled for sending email, and more.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
-    public func getConfigurationSet(_ input: GetConfigurationSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConfigurationSetResponse> {
-        return self.client.execute(operation: "GetConfigurationSet", path: "/v2/email/configuration-sets/{ConfigurationSetName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getConfigurationSet(_ input: GetConfigurationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationSetResponse {
+        return try await self.client.execute(operation: "GetConfigurationSet", path: "/v2/email/configuration-sets/{ConfigurationSetName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieve a list of event destinations that are associated with a configuration set.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
-    public func getConfigurationSetEventDestinations(_ input: GetConfigurationSetEventDestinationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConfigurationSetEventDestinationsResponse> {
-        return self.client.execute(operation: "GetConfigurationSetEventDestinations", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getConfigurationSetEventDestinations(_ input: GetConfigurationSetEventDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationSetEventDestinationsResponse {
+        return try await self.client.execute(operation: "GetConfigurationSetEventDestinations", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a contact from a contact list.
-    public func getContact(_ input: GetContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetContactResponse> {
-        return self.client.execute(operation: "GetContact", path: "/v2/email/contact-lists/{ContactListName}/contacts/{EmailAddress}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getContact(_ input: GetContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContactResponse {
+        return try await self.client.execute(operation: "GetContact", path: "/v2/email/contact-lists/{ContactListName}/contacts/{EmailAddress}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns contact list metadata. It does not return any information about the contacts present in the list.
-    public func getContactList(_ input: GetContactListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetContactListResponse> {
-        return self.client.execute(operation: "GetContactList", path: "/v2/email/contact-lists/{ContactListName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getContactList(_ input: GetContactListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContactListResponse {
+        return try await self.client.execute(operation: "GetContactList", path: "/v2/email/contact-lists/{ContactListName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func getCustomVerificationEmailTemplate(_ input: GetCustomVerificationEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCustomVerificationEmailTemplateResponse> {
-        return self.client.execute(operation: "GetCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates/{TemplateName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCustomVerificationEmailTemplate(_ input: GetCustomVerificationEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomVerificationEmailTemplateResponse {
+        return try await self.client.execute(operation: "GetCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates/{TemplateName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Get information about a dedicated IP address, including the name of the dedicated IP pool that it's associated with, as well information about the automatic warm-up process for the address.
-    public func getDedicatedIp(_ input: GetDedicatedIpRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDedicatedIpResponse> {
-        return self.client.execute(operation: "GetDedicatedIp", path: "/v2/email/dedicated-ips/{Ip}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDedicatedIp(_ input: GetDedicatedIpRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDedicatedIpResponse {
+        return try await self.client.execute(operation: "GetDedicatedIp", path: "/v2/email/dedicated-ips/{Ip}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieve information about the dedicated pool.
-    public func getDedicatedIpPool(_ input: GetDedicatedIpPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDedicatedIpPoolResponse> {
-        return self.client.execute(operation: "GetDedicatedIpPool", path: "/v2/email/dedicated-ip-pools/{PoolName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDedicatedIpPool(_ input: GetDedicatedIpPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDedicatedIpPoolResponse {
+        return try await self.client.execute(operation: "GetDedicatedIpPool", path: "/v2/email/dedicated-ip-pools/{PoolName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the dedicated IP addresses that are associated with your Amazon Web Services account.
-    public func getDedicatedIps(_ input: GetDedicatedIpsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDedicatedIpsResponse> {
-        return self.client.execute(operation: "GetDedicatedIps", path: "/v2/email/dedicated-ips", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDedicatedIps(_ input: GetDedicatedIpsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDedicatedIpsResponse {
+        return try await self.client.execute(operation: "GetDedicatedIps", path: "/v2/email/dedicated-ips", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
-    public func getDeliverabilityDashboardOptions(_ input: GetDeliverabilityDashboardOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeliverabilityDashboardOptionsResponse> {
-        return self.client.execute(operation: "GetDeliverabilityDashboardOptions", path: "/v2/email/deliverability-dashboard", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDeliverabilityDashboardOptions(_ input: GetDeliverabilityDashboardOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeliverabilityDashboardOptionsResponse {
+        return try await self.client.execute(operation: "GetDeliverabilityDashboardOptions", path: "/v2/email/deliverability-dashboard", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieve the results of a predictive inbox placement test.
-    public func getDeliverabilityTestReport(_ input: GetDeliverabilityTestReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeliverabilityTestReportResponse> {
-        return self.client.execute(operation: "GetDeliverabilityTestReport", path: "/v2/email/deliverability-dashboard/test-reports/{ReportId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDeliverabilityTestReport(_ input: GetDeliverabilityTestReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeliverabilityTestReportResponse {
+        return try await self.client.execute(operation: "GetDeliverabilityTestReport", path: "/v2/email/deliverability-dashboard/test-reports/{ReportId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for.
-    public func getDomainDeliverabilityCampaign(_ input: GetDomainDeliverabilityCampaignRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDomainDeliverabilityCampaignResponse> {
-        return self.client.execute(operation: "GetDomainDeliverabilityCampaign", path: "/v2/email/deliverability-dashboard/campaigns/{CampaignId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDomainDeliverabilityCampaign(_ input: GetDomainDeliverabilityCampaignRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainDeliverabilityCampaignResponse {
+        return try await self.client.execute(operation: "GetDomainDeliverabilityCampaign", path: "/v2/email/deliverability-dashboard/campaigns/{CampaignId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieve inbox placement and engagement rates for the domains that you use to send email.
-    public func getDomainStatisticsReport(_ input: GetDomainStatisticsReportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDomainStatisticsReportResponse> {
-        return self.client.execute(operation: "GetDomainStatisticsReport", path: "/v2/email/deliverability-dashboard/statistics-report/{Domain}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDomainStatisticsReport(_ input: GetDomainStatisticsReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainStatisticsReportResponse {
+        return try await self.client.execute(operation: "GetDomainStatisticsReport", path: "/v2/email/deliverability-dashboard/statistics-report/{Domain}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides information about a specific identity, including the identity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings.
-    public func getEmailIdentity(_ input: GetEmailIdentityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEmailIdentityResponse> {
-        return self.client.execute(operation: "GetEmailIdentity", path: "/v2/email/identities/{EmailIdentity}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getEmailIdentity(_ input: GetEmailIdentityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEmailIdentityResponse {
+        return try await self.client.execute(operation: "GetEmailIdentity", path: "/v2/email/identities/{EmailIdentity}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func getEmailIdentityPolicies(_ input: GetEmailIdentityPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEmailIdentityPoliciesResponse> {
-        return self.client.execute(operation: "GetEmailIdentityPolicies", path: "/v2/email/identities/{EmailIdentity}/policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getEmailIdentityPolicies(_ input: GetEmailIdentityPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEmailIdentityPoliciesResponse {
+        return try await self.client.execute(operation: "GetEmailIdentityPolicies", path: "/v2/email/identities/{EmailIdentity}/policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
-    public func getEmailTemplate(_ input: GetEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEmailTemplateResponse> {
-        return self.client.execute(operation: "GetEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getEmailTemplate(_ input: GetEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEmailTemplateResponse {
+        return try await self.client.execute(operation: "GetEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides information about an import job.
-    public func getImportJob(_ input: GetImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImportJobResponse> {
-        return self.client.execute(operation: "GetImportJob", path: "/v2/email/import-jobs/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getImportJob(_ input: GetImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImportJobResponse {
+        return try await self.client.execute(operation: "GetImportJob", path: "/v2/email/import-jobs/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about a specific email address that's on the suppression list for your account.
-    public func getSuppressedDestination(_ input: GetSuppressedDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSuppressedDestinationResponse> {
-        return self.client.execute(operation: "GetSuppressedDestination", path: "/v2/email/suppression/addresses/{EmailAddress}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSuppressedDestination(_ input: GetSuppressedDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSuppressedDestinationResponse {
+        return try await self.client.execute(operation: "GetSuppressedDestination", path: "/v2/email/suppression/addresses/{EmailAddress}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List all of the configuration sets associated with your account in the current region.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
-    public func listConfigurationSets(_ input: ListConfigurationSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConfigurationSetsResponse> {
-        return self.client.execute(operation: "ListConfigurationSets", path: "/v2/email/configuration-sets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listConfigurationSets(_ input: ListConfigurationSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationSetsResponse {
+        return try await self.client.execute(operation: "ListConfigurationSets", path: "/v2/email/configuration-sets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all of the contact lists available.
-    public func listContactLists(_ input: ListContactListsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContactListsResponse> {
-        return self.client.execute(operation: "ListContactLists", path: "/v2/email/contact-lists", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listContactLists(_ input: ListContactListsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactListsResponse {
+        return try await self.client.execute(operation: "ListContactLists", path: "/v2/email/contact-lists", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the contacts present in a specific contact list.
-    public func listContacts(_ input: ListContactsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContactsResponse> {
-        return self.client.execute(operation: "ListContacts", path: "/v2/email/contact-lists/{ContactListName}/contacts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listContacts(_ input: ListContactsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactsResponse {
+        return try await self.client.execute(operation: "ListContacts", path: "/v2/email/contact-lists/{ContactListName}/contacts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func listCustomVerificationEmailTemplates(_ input: ListCustomVerificationEmailTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCustomVerificationEmailTemplatesResponse> {
-        return self.client.execute(operation: "ListCustomVerificationEmailTemplates", path: "/v2/email/custom-verification-email-templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listCustomVerificationEmailTemplates(_ input: ListCustomVerificationEmailTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomVerificationEmailTemplatesResponse {
+        return try await self.client.execute(operation: "ListCustomVerificationEmailTemplates", path: "/v2/email/custom-verification-email-templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List all of the dedicated IP pools that exist in your Amazon Web Services account in the current Region.
-    public func listDedicatedIpPools(_ input: ListDedicatedIpPoolsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDedicatedIpPoolsResponse> {
-        return self.client.execute(operation: "ListDedicatedIpPools", path: "/v2/email/dedicated-ip-pools", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDedicatedIpPools(_ input: ListDedicatedIpPoolsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDedicatedIpPoolsResponse {
+        return try await self.client.execute(operation: "ListDedicatedIpPools", path: "/v2/email/dedicated-ip-pools", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
-    public func listDeliverabilityTestReports(_ input: ListDeliverabilityTestReportsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDeliverabilityTestReportsResponse> {
-        return self.client.execute(operation: "ListDeliverabilityTestReports", path: "/v2/email/deliverability-dashboard/test-reports", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDeliverabilityTestReports(_ input: ListDeliverabilityTestReportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeliverabilityTestReportsResponse {
+        return try await self.client.execute(operation: "ListDeliverabilityTestReports", path: "/v2/email/deliverability-dashboard/test-reports", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain.
-    public func listDomainDeliverabilityCampaigns(_ input: ListDomainDeliverabilityCampaignsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainDeliverabilityCampaignsResponse> {
-        return self.client.execute(operation: "ListDomainDeliverabilityCampaigns", path: "/v2/email/deliverability-dashboard/domains/{SubscribedDomain}/campaigns", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDomainDeliverabilityCampaigns(_ input: ListDomainDeliverabilityCampaignsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainDeliverabilityCampaignsResponse {
+        return try await self.client.execute(operation: "ListDomainDeliverabilityCampaigns", path: "/v2/email/deliverability-dashboard/domains/{SubscribedDomain}/campaigns", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.
-    public func listEmailIdentities(_ input: ListEmailIdentitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEmailIdentitiesResponse> {
-        return self.client.execute(operation: "ListEmailIdentities", path: "/v2/email/identities", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listEmailIdentities(_ input: ListEmailIdentitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEmailIdentitiesResponse {
+        return try await self.client.execute(operation: "ListEmailIdentities", path: "/v2/email/identities", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
-    public func listEmailTemplates(_ input: ListEmailTemplatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEmailTemplatesResponse> {
-        return self.client.execute(operation: "ListEmailTemplates", path: "/v2/email/templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listEmailTemplates(_ input: ListEmailTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEmailTemplatesResponse {
+        return try await self.client.execute(operation: "ListEmailTemplates", path: "/v2/email/templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all of the import jobs.
-    public func listImportJobs(_ input: ListImportJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImportJobsResponse> {
-        return self.client.execute(operation: "ListImportJobs", path: "/v2/email/import-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listImportJobs(_ input: ListImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportJobsResponse {
+        return try await self.client.execute(operation: "ListImportJobs", path: "/v2/email/import-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the recommendations present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
-    public func listRecommendations(_ input: ListRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRecommendationsResponse> {
-        return self.client.execute(operation: "ListRecommendations", path: "/v2/email/vdm/recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRecommendations(_ input: ListRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecommendationsResponse {
+        return try await self.client.execute(operation: "ListRecommendations", path: "/v2/email/vdm/recommendations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of email addresses that are on the suppression list for your account.
-    public func listSuppressedDestinations(_ input: ListSuppressedDestinationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSuppressedDestinationsResponse> {
-        return self.client.execute(operation: "ListSuppressedDestinations", path: "/v2/email/suppression/addresses", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSuppressedDestinations(_ input: ListSuppressedDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSuppressedDestinationsResponse {
+        return try await self.client.execute(operation: "ListSuppressedDestinations", path: "/v2/email/suppression/addresses", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieve a list of the tags (keys and values) that are associated with a specified resource. A tag is a label that you optionally define and associate with a resource. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/v2/email/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/v2/email/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enable or disable the automatic warm-up feature for dedicated IP addresses.
-    public func putAccountDedicatedIpWarmupAttributes(_ input: PutAccountDedicatedIpWarmupAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAccountDedicatedIpWarmupAttributesResponse> {
-        return self.client.execute(operation: "PutAccountDedicatedIpWarmupAttributes", path: "/v2/email/account/dedicated-ips/warmup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putAccountDedicatedIpWarmupAttributes(_ input: PutAccountDedicatedIpWarmupAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountDedicatedIpWarmupAttributesResponse {
+        return try await self.client.execute(operation: "PutAccountDedicatedIpWarmupAttributes", path: "/v2/email/account/dedicated-ips/warmup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update your Amazon SES account details.
-    public func putAccountDetails(_ input: PutAccountDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAccountDetailsResponse> {
-        return self.client.execute(operation: "PutAccountDetails", path: "/v2/email/account/details", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putAccountDetails(_ input: PutAccountDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountDetailsResponse {
+        return try await self.client.execute(operation: "PutAccountDetails", path: "/v2/email/account/details", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enable or disable the ability of your account to send email.
-    public func putAccountSendingAttributes(_ input: PutAccountSendingAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAccountSendingAttributesResponse> {
-        return self.client.execute(operation: "PutAccountSendingAttributes", path: "/v2/email/account/sending", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putAccountSendingAttributes(_ input: PutAccountSendingAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountSendingAttributesResponse {
+        return try await self.client.execute(operation: "PutAccountSendingAttributes", path: "/v2/email/account/sending", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Change the settings for the account-level suppression list.
-    public func putAccountSuppressionAttributes(_ input: PutAccountSuppressionAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAccountSuppressionAttributesResponse> {
-        return self.client.execute(operation: "PutAccountSuppressionAttributes", path: "/v2/email/account/suppression", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putAccountSuppressionAttributes(_ input: PutAccountSuppressionAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountSuppressionAttributesResponse {
+        return try await self.client.execute(operation: "PutAccountSuppressionAttributes", path: "/v2/email/account/suppression", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update your Amazon SES account VDM attributes. You can execute this operation no more than once per second.
-    public func putAccountVdmAttributes(_ input: PutAccountVdmAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAccountVdmAttributesResponse> {
-        return self.client.execute(operation: "PutAccountVdmAttributes", path: "/v2/email/account/vdm", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putAccountVdmAttributes(_ input: PutAccountVdmAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountVdmAttributesResponse {
+        return try await self.client.execute(operation: "PutAccountVdmAttributes", path: "/v2/email/account/vdm", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email.
-    public func putConfigurationSetDeliveryOptions(_ input: PutConfigurationSetDeliveryOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutConfigurationSetDeliveryOptionsResponse> {
-        return self.client.execute(operation: "PutConfigurationSetDeliveryOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/delivery-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putConfigurationSetDeliveryOptions(_ input: PutConfigurationSetDeliveryOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConfigurationSetDeliveryOptionsResponse {
+        return try await self.client.execute(operation: "PutConfigurationSetDeliveryOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/delivery-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Services Region.
-    public func putConfigurationSetReputationOptions(_ input: PutConfigurationSetReputationOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutConfigurationSetReputationOptionsResponse> {
-        return self.client.execute(operation: "PutConfigurationSetReputationOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/reputation-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putConfigurationSetReputationOptions(_ input: PutConfigurationSetReputationOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConfigurationSetReputationOptionsResponse {
+        return try await self.client.execute(operation: "PutConfigurationSetReputationOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/reputation-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enable or disable email sending for messages that use a particular configuration set in a specific Amazon Web Services Region.
-    public func putConfigurationSetSendingOptions(_ input: PutConfigurationSetSendingOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutConfigurationSetSendingOptionsResponse> {
-        return self.client.execute(operation: "PutConfigurationSetSendingOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/sending", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putConfigurationSetSendingOptions(_ input: PutConfigurationSetSendingOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConfigurationSetSendingOptionsResponse {
+        return try await self.client.execute(operation: "PutConfigurationSetSendingOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/sending", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Specify the account suppression list preferences for a configuration set.
-    public func putConfigurationSetSuppressionOptions(_ input: PutConfigurationSetSuppressionOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutConfigurationSetSuppressionOptionsResponse> {
-        return self.client.execute(operation: "PutConfigurationSetSuppressionOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/suppression-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putConfigurationSetSuppressionOptions(_ input: PutConfigurationSetSuppressionOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConfigurationSetSuppressionOptionsResponse {
+        return try await self.client.execute(operation: "PutConfigurationSetSuppressionOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/suppression-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Specify a custom domain to use for open and click tracking elements in email that you send.
-    public func putConfigurationSetTrackingOptions(_ input: PutConfigurationSetTrackingOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutConfigurationSetTrackingOptionsResponse> {
-        return self.client.execute(operation: "PutConfigurationSetTrackingOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/tracking-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putConfigurationSetTrackingOptions(_ input: PutConfigurationSetTrackingOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConfigurationSetTrackingOptionsResponse {
+        return try await self.client.execute(operation: "PutConfigurationSetTrackingOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/tracking-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Specify VDM preferences for email that you send using the configuration set. You can execute this operation no more than once per second.
-    public func putConfigurationSetVdmOptions(_ input: PutConfigurationSetVdmOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutConfigurationSetVdmOptionsResponse> {
-        return self.client.execute(operation: "PutConfigurationSetVdmOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/vdm-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putConfigurationSetVdmOptions(_ input: PutConfigurationSetVdmOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConfigurationSetVdmOptionsResponse {
+        return try await self.client.execute(operation: "PutConfigurationSetVdmOptions", path: "/v2/email/configuration-sets/{ConfigurationSetName}/vdm-options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Move a dedicated IP address to an existing dedicated IP pool.  The dedicated IP address that you specify must already exist, and must be associated with your Amazon Web Services account.   The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation.
-    public func putDedicatedIpInPool(_ input: PutDedicatedIpInPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDedicatedIpInPoolResponse> {
-        return self.client.execute(operation: "PutDedicatedIpInPool", path: "/v2/email/dedicated-ips/{Ip}/pool", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putDedicatedIpInPool(_ input: PutDedicatedIpInPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDedicatedIpInPoolResponse {
+        return try await self.client.execute(operation: "PutDedicatedIpInPool", path: "/v2/email/dedicated-ips/{Ip}/pool", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Used to convert a dedicated IP pool to a different scaling mode.   MANAGED pools cannot be converted to STANDARD scaling mode.
-    public func putDedicatedIpPoolScalingAttributes(_ input: PutDedicatedIpPoolScalingAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDedicatedIpPoolScalingAttributesResponse> {
-        return self.client.execute(operation: "PutDedicatedIpPoolScalingAttributes", path: "/v2/email/dedicated-ip-pools/{PoolName}/scaling", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putDedicatedIpPoolScalingAttributes(_ input: PutDedicatedIpPoolScalingAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDedicatedIpPoolScalingAttributesResponse {
+        return try await self.client.execute(operation: "PutDedicatedIpPoolScalingAttributes", path: "/v2/email/dedicated-ip-pools/{PoolName}/scaling", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
-    public func putDedicatedIpWarmupAttributes(_ input: PutDedicatedIpWarmupAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDedicatedIpWarmupAttributesResponse> {
-        return self.client.execute(operation: "PutDedicatedIpWarmupAttributes", path: "/v2/email/dedicated-ips/{Ip}/warmup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putDedicatedIpWarmupAttributes(_ input: PutDedicatedIpWarmupAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDedicatedIpWarmupAttributesResponse {
+        return try await self.client.execute(operation: "PutDedicatedIpWarmupAttributes", path: "/v2/email/dedicated-ips/{Ip}/warmup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
-    public func putDeliverabilityDashboardOption(_ input: PutDeliverabilityDashboardOptionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDeliverabilityDashboardOptionResponse> {
-        return self.client.execute(operation: "PutDeliverabilityDashboardOption", path: "/v2/email/deliverability-dashboard", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putDeliverabilityDashboardOption(_ input: PutDeliverabilityDashboardOptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDeliverabilityDashboardOptionResponse {
+        return try await self.client.execute(operation: "PutDeliverabilityDashboardOption", path: "/v2/email/deliverability-dashboard", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Used to associate a configuration set with an email identity.
-    public func putEmailIdentityConfigurationSetAttributes(_ input: PutEmailIdentityConfigurationSetAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutEmailIdentityConfigurationSetAttributesResponse> {
-        return self.client.execute(operation: "PutEmailIdentityConfigurationSetAttributes", path: "/v2/email/identities/{EmailIdentity}/configuration-set", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putEmailIdentityConfigurationSetAttributes(_ input: PutEmailIdentityConfigurationSetAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEmailIdentityConfigurationSetAttributesResponse {
+        return try await self.client.execute(operation: "PutEmailIdentityConfigurationSetAttributes", path: "/v2/email/identities/{EmailIdentity}/configuration-set", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Used to enable or disable DKIM authentication for an email identity.
-    public func putEmailIdentityDkimAttributes(_ input: PutEmailIdentityDkimAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutEmailIdentityDkimAttributesResponse> {
-        return self.client.execute(operation: "PutEmailIdentityDkimAttributes", path: "/v2/email/identities/{EmailIdentity}/dkim", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putEmailIdentityDkimAttributes(_ input: PutEmailIdentityDkimAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEmailIdentityDkimAttributesResponse {
+        return try await self.client.execute(operation: "PutEmailIdentityDkimAttributes", path: "/v2/email/identities/{EmailIdentity}/dkim", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Used to configure or change the DKIM authentication settings for an email domain identity. You can use this operation to do any of the following:   Update the signing attributes for an identity that uses Bring Your Own DKIM (BYODKIM).   Update the key length that should be used for Easy DKIM.   Change from using no DKIM authentication to using Easy DKIM.   Change from using no DKIM authentication to using BYODKIM.   Change from using Easy DKIM to using BYODKIM.   Change from using BYODKIM to using Easy DKIM.
-    public func putEmailIdentityDkimSigningAttributes(_ input: PutEmailIdentityDkimSigningAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutEmailIdentityDkimSigningAttributesResponse> {
-        return self.client.execute(operation: "PutEmailIdentityDkimSigningAttributes", path: "/v1/email/identities/{EmailIdentity}/dkim/signing", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putEmailIdentityDkimSigningAttributes(_ input: PutEmailIdentityDkimSigningAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEmailIdentityDkimSigningAttributesResponse {
+        return try await self.client.execute(operation: "PutEmailIdentityDkimSigningAttributes", path: "/v1/email/identities/{EmailIdentity}/dkim/signing", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
-    public func putEmailIdentityFeedbackAttributes(_ input: PutEmailIdentityFeedbackAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutEmailIdentityFeedbackAttributesResponse> {
-        return self.client.execute(operation: "PutEmailIdentityFeedbackAttributes", path: "/v2/email/identities/{EmailIdentity}/feedback", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putEmailIdentityFeedbackAttributes(_ input: PutEmailIdentityFeedbackAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEmailIdentityFeedbackAttributesResponse {
+        return try await self.client.execute(operation: "PutEmailIdentityFeedbackAttributes", path: "/v2/email/identities/{EmailIdentity}/feedback", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Used to enable or disable the custom Mail-From domain configuration for an email identity.
-    public func putEmailIdentityMailFromAttributes(_ input: PutEmailIdentityMailFromAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutEmailIdentityMailFromAttributesResponse> {
-        return self.client.execute(operation: "PutEmailIdentityMailFromAttributes", path: "/v2/email/identities/{EmailIdentity}/mail-from", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putEmailIdentityMailFromAttributes(_ input: PutEmailIdentityMailFromAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEmailIdentityMailFromAttributesResponse {
+        return try await self.client.execute(operation: "PutEmailIdentityMailFromAttributes", path: "/v2/email/identities/{EmailIdentity}/mail-from", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds an email address to the suppression list for your account.
-    public func putSuppressedDestination(_ input: PutSuppressedDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutSuppressedDestinationResponse> {
-        return self.client.execute(operation: "PutSuppressedDestination", path: "/v2/email/suppression/addresses", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putSuppressedDestination(_ input: PutSuppressedDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutSuppressedDestinationResponse {
+        return try await self.client.execute(operation: "PutSuppressedDestination", path: "/v2/email/suppression/addresses", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Composes an email message to multiple destinations.
-    public func sendBulkEmail(_ input: SendBulkEmailRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendBulkEmailResponse> {
-        return self.client.execute(operation: "SendBulkEmail", path: "/v2/email/outbound-bulk-emails", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func sendBulkEmail(_ input: SendBulkEmailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendBulkEmailResponse {
+        return try await self.client.execute(operation: "SendBulkEmail", path: "/v2/email/outbound-bulk-emails", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func sendCustomVerificationEmail(_ input: SendCustomVerificationEmailRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendCustomVerificationEmailResponse> {
-        return self.client.execute(operation: "SendCustomVerificationEmail", path: "/v2/email/outbound-custom-verification-emails", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func sendCustomVerificationEmail(_ input: SendCustomVerificationEmailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendCustomVerificationEmailResponse {
+        return try await self.client.execute(operation: "SendCustomVerificationEmail", path: "/v2/email/outbound-custom-verification-emails", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Sends an email message. You can use the Amazon SES API v2 to send the following types of messages:    Simple – A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you.    Raw – A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain attachments. The message that you specify has to be a valid MIME message.    Templated – A message that contains personalization tags. When you send this type of email, Amazon SES API v2 automatically replaces the tags with values that you specify.
-    public func sendEmail(_ input: SendEmailRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendEmailResponse> {
-        return self.client.execute(operation: "SendEmail", path: "/v2/email/outbound-emails", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func sendEmail(_ input: SendEmailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendEmailResponse {
+        return try await self.client.execute(operation: "SendEmail", path: "/v2/email/outbound-emails", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Add one or more tags (keys and values) to a specified resource. A tag is a label that you optionally define and associate with a resource. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/v2/email/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/v2/email/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second.
-    public func testRenderEmailTemplate(_ input: TestRenderEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestRenderEmailTemplateResponse> {
-        return self.client.execute(operation: "TestRenderEmailTemplate", path: "/v2/email/templates/{TemplateName}/render", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func testRenderEmailTemplate(_ input: TestRenderEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestRenderEmailTemplateResponse {
+        return try await self.client.execute(operation: "TestRenderEmailTemplate", path: "/v2/email/templates/{TemplateName}/render", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Remove one or more tags (keys and values) from a specified resource.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/v2/email/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/v2/email/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Update the configuration of an event destination for a configuration set.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
-    public func updateConfigurationSetEventDestination(_ input: UpdateConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateConfigurationSetEventDestinationResponse> {
-        return self.client.execute(operation: "UpdateConfigurationSetEventDestination", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateConfigurationSetEventDestination(_ input: UpdateConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfigurationSetEventDestinationResponse {
+        return try await self.client.execute(operation: "UpdateConfigurationSetEventDestination", path: "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates a contact's preferences for a list. It is not necessary to specify all existing topic preferences in the TopicPreferences object, just the ones that need updating.
-    public func updateContact(_ input: UpdateContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactResponse> {
-        return self.client.execute(operation: "UpdateContact", path: "/v2/email/contact-lists/{ContactListName}/contacts/{EmailAddress}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateContact(_ input: UpdateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactResponse {
+        return try await self.client.execute(operation: "UpdateContact", path: "/v2/email/contact-lists/{ContactListName}/contacts/{EmailAddress}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates contact list metadata. This operation does a complete replacement.
-    public func updateContactList(_ input: UpdateContactListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactListResponse> {
-        return self.client.execute(operation: "UpdateContactList", path: "/v2/email/contact-lists/{ContactListName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateContactList(_ input: UpdateContactListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactListResponse {
+        return try await self.client.execute(operation: "UpdateContactList", path: "/v2/email/contact-lists/{ContactListName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an existing custom verification email template. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func updateCustomVerificationEmailTemplate(_ input: UpdateCustomVerificationEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCustomVerificationEmailTemplateResponse> {
-        return self.client.execute(operation: "UpdateCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates/{TemplateName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateCustomVerificationEmailTemplate(_ input: UpdateCustomVerificationEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCustomVerificationEmailTemplateResponse {
+        return try await self.client.execute(operation: "UpdateCustomVerificationEmailTemplate", path: "/v2/email/custom-verification-email-templates/{TemplateName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func updateEmailIdentityPolicy(_ input: UpdateEmailIdentityPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEmailIdentityPolicyResponse> {
-        return self.client.execute(operation: "UpdateEmailIdentityPolicy", path: "/v2/email/identities/{EmailIdentity}/policies/{PolicyName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateEmailIdentityPolicy(_ input: UpdateEmailIdentityPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEmailIdentityPolicyResponse {
+        return try await self.client.execute(operation: "UpdateEmailIdentityPolicy", path: "/v2/email/identities/{EmailIdentity}/policies/{PolicyName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    public func updateEmailTemplate(_ input: UpdateEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEmailTemplateResponse> {
-        return self.client.execute(operation: "UpdateEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateEmailTemplate(_ input: UpdateEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEmailTemplateResponse {
+        return try await self.client.execute(operation: "UpdateEmailTemplate", path: "/v2/email/templates/{TemplateName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -517,693 +604,252 @@ extension SESv2 {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SESv2 {
     /// List the dedicated IP addresses that are associated with your Amazon Web Services account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getDedicatedIpsPaginator<Result>(
-        _ input: GetDedicatedIpsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetDedicatedIpsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getDedicatedIps,
-            inputKey: \GetDedicatedIpsRequest.nextToken,
-            outputKey: \GetDedicatedIpsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getDedicatedIpsPaginator(
         _ input: GetDedicatedIpsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetDedicatedIpsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetDedicatedIpsRequest, GetDedicatedIpsResponse> {
+        return .init(
             input: input,
             command: self.getDedicatedIps,
             inputKey: \GetDedicatedIpsRequest.nextToken,
             outputKey: \GetDedicatedIpsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List all of the configuration sets associated with your account in the current region.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listConfigurationSetsPaginator<Result>(
-        _ input: ListConfigurationSetsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListConfigurationSetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listConfigurationSets,
-            inputKey: \ListConfigurationSetsRequest.nextToken,
-            outputKey: \ListConfigurationSetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listConfigurationSetsPaginator(
         _ input: ListConfigurationSetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListConfigurationSetsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfigurationSetsRequest, ListConfigurationSetsResponse> {
+        return .init(
             input: input,
             command: self.listConfigurationSets,
             inputKey: \ListConfigurationSetsRequest.nextToken,
             outputKey: \ListConfigurationSetsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all of the contact lists available.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listContactListsPaginator<Result>(
-        _ input: ListContactListsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListContactListsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listContactLists,
-            inputKey: \ListContactListsRequest.nextToken,
-            outputKey: \ListContactListsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listContactListsPaginator(
         _ input: ListContactListsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListContactListsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListContactListsRequest, ListContactListsResponse> {
+        return .init(
             input: input,
             command: self.listContactLists,
             inputKey: \ListContactListsRequest.nextToken,
             outputKey: \ListContactListsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the contacts present in a specific contact list.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listContactsPaginator<Result>(
-        _ input: ListContactsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListContactsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listContacts,
-            inputKey: \ListContactsRequest.nextToken,
-            outputKey: \ListContactsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listContactsPaginator(
         _ input: ListContactsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListContactsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListContactsRequest, ListContactsResponse> {
+        return .init(
             input: input,
             command: self.listContacts,
             inputKey: \ListContactsRequest.nextToken,
             outputKey: \ListContactsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see Using custom verification email templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listCustomVerificationEmailTemplatesPaginator<Result>(
-        _ input: ListCustomVerificationEmailTemplatesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListCustomVerificationEmailTemplatesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listCustomVerificationEmailTemplates,
-            inputKey: \ListCustomVerificationEmailTemplatesRequest.nextToken,
-            outputKey: \ListCustomVerificationEmailTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCustomVerificationEmailTemplatesPaginator(
         _ input: ListCustomVerificationEmailTemplatesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListCustomVerificationEmailTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCustomVerificationEmailTemplatesRequest, ListCustomVerificationEmailTemplatesResponse> {
+        return .init(
             input: input,
             command: self.listCustomVerificationEmailTemplates,
             inputKey: \ListCustomVerificationEmailTemplatesRequest.nextToken,
             outputKey: \ListCustomVerificationEmailTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List all of the dedicated IP pools that exist in your Amazon Web Services account in the current Region.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDedicatedIpPoolsPaginator<Result>(
-        _ input: ListDedicatedIpPoolsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDedicatedIpPoolsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDedicatedIpPools,
-            inputKey: \ListDedicatedIpPoolsRequest.nextToken,
-            outputKey: \ListDedicatedIpPoolsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDedicatedIpPoolsPaginator(
         _ input: ListDedicatedIpPoolsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDedicatedIpPoolsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDedicatedIpPoolsRequest, ListDedicatedIpPoolsResponse> {
+        return .init(
             input: input,
             command: self.listDedicatedIpPools,
             inputKey: \ListDedicatedIpPoolsRequest.nextToken,
             outputKey: \ListDedicatedIpPoolsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDeliverabilityTestReportsPaginator<Result>(
-        _ input: ListDeliverabilityTestReportsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDeliverabilityTestReportsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDeliverabilityTestReports,
-            inputKey: \ListDeliverabilityTestReportsRequest.nextToken,
-            outputKey: \ListDeliverabilityTestReportsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDeliverabilityTestReportsPaginator(
         _ input: ListDeliverabilityTestReportsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDeliverabilityTestReportsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDeliverabilityTestReportsRequest, ListDeliverabilityTestReportsResponse> {
+        return .init(
             input: input,
             command: self.listDeliverabilityTestReports,
             inputKey: \ListDeliverabilityTestReportsRequest.nextToken,
             outputKey: \ListDeliverabilityTestReportsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDomainDeliverabilityCampaignsPaginator<Result>(
-        _ input: ListDomainDeliverabilityCampaignsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDomainDeliverabilityCampaignsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDomainDeliverabilityCampaigns,
-            inputKey: \ListDomainDeliverabilityCampaignsRequest.nextToken,
-            outputKey: \ListDomainDeliverabilityCampaignsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDomainDeliverabilityCampaignsPaginator(
         _ input: ListDomainDeliverabilityCampaignsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDomainDeliverabilityCampaignsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDomainDeliverabilityCampaignsRequest, ListDomainDeliverabilityCampaignsResponse> {
+        return .init(
             input: input,
             command: self.listDomainDeliverabilityCampaigns,
             inputKey: \ListDomainDeliverabilityCampaignsRequest.nextToken,
             outputKey: \ListDomainDeliverabilityCampaignsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listEmailIdentitiesPaginator<Result>(
-        _ input: ListEmailIdentitiesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListEmailIdentitiesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listEmailIdentities,
-            inputKey: \ListEmailIdentitiesRequest.nextToken,
-            outputKey: \ListEmailIdentitiesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listEmailIdentitiesPaginator(
         _ input: ListEmailIdentitiesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListEmailIdentitiesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEmailIdentitiesRequest, ListEmailIdentitiesResponse> {
+        return .init(
             input: input,
             command: self.listEmailIdentities,
             inputKey: \ListEmailIdentitiesRequest.nextToken,
             outputKey: \ListEmailIdentitiesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listEmailTemplatesPaginator<Result>(
-        _ input: ListEmailTemplatesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListEmailTemplatesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listEmailTemplates,
-            inputKey: \ListEmailTemplatesRequest.nextToken,
-            outputKey: \ListEmailTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listEmailTemplatesPaginator(
         _ input: ListEmailTemplatesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListEmailTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEmailTemplatesRequest, ListEmailTemplatesResponse> {
+        return .init(
             input: input,
             command: self.listEmailTemplates,
             inputKey: \ListEmailTemplatesRequest.nextToken,
             outputKey: \ListEmailTemplatesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists all of the import jobs.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listImportJobsPaginator<Result>(
-        _ input: ListImportJobsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListImportJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listImportJobs,
-            inputKey: \ListImportJobsRequest.nextToken,
-            outputKey: \ListImportJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listImportJobsPaginator(
         _ input: ListImportJobsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListImportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListImportJobsRequest, ListImportJobsResponse> {
+        return .init(
             input: input,
             command: self.listImportJobs,
             inputKey: \ListImportJobsRequest.nextToken,
             outputKey: \ListImportJobsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the recommendations present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRecommendationsPaginator<Result>(
-        _ input: ListRecommendationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRecommendationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRecommendations,
-            inputKey: \ListRecommendationsRequest.nextToken,
-            outputKey: \ListRecommendationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRecommendationsPaginator(
         _ input: ListRecommendationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRecommendationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecommendationsRequest, ListRecommendationsResponse> {
+        return .init(
             input: input,
             command: self.listRecommendations,
             inputKey: \ListRecommendationsRequest.nextToken,
             outputKey: \ListRecommendationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Retrieves a list of email addresses that are on the suppression list for your account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSuppressedDestinationsPaginator<Result>(
-        _ input: ListSuppressedDestinationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSuppressedDestinationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSuppressedDestinations,
-            inputKey: \ListSuppressedDestinationsRequest.nextToken,
-            outputKey: \ListSuppressedDestinationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSuppressedDestinationsPaginator(
         _ input: ListSuppressedDestinationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSuppressedDestinationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSuppressedDestinationsRequest, ListSuppressedDestinationsResponse> {
+        return .init(
             input: input,
             command: self.listSuppressedDestinations,
             inputKey: \ListSuppressedDestinationsRequest.nextToken,
             outputKey: \ListSuppressedDestinationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

@@ -65,63 +65,75 @@ public struct IoTEventsData: AWSService {
     // MARK: API Calls
 
     /// Acknowledges one or more alarms. The alarms change to the ACKNOWLEDGED state after you acknowledge them.
-    public func batchAcknowledgeAlarm(_ input: BatchAcknowledgeAlarmRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchAcknowledgeAlarmResponse> {
-        return self.client.execute(operation: "BatchAcknowledgeAlarm", path: "/alarms/acknowledge", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchAcknowledgeAlarm(_ input: BatchAcknowledgeAlarmRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAcknowledgeAlarmResponse {
+        return try await self.client.execute(operation: "BatchAcknowledgeAlarm", path: "/alarms/acknowledge", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes one or more detectors that were created. When a detector is deleted, its state will be cleared and the detector will be removed from the list of detectors. The deleted detector will no longer appear if referenced in the ListDetectors API call.
-    public func batchDeleteDetector(_ input: BatchDeleteDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeleteDetectorResponse> {
-        return self.client.execute(operation: "BatchDeleteDetector", path: "/detectors/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchDeleteDetector(_ input: BatchDeleteDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteDetectorResponse {
+        return try await self.client.execute(operation: "BatchDeleteDetector", path: "/detectors/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Disables one or more alarms. The alarms change to the DISABLED state after you disable them.
-    public func batchDisableAlarm(_ input: BatchDisableAlarmRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDisableAlarmResponse> {
-        return self.client.execute(operation: "BatchDisableAlarm", path: "/alarms/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchDisableAlarm(_ input: BatchDisableAlarmRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisableAlarmResponse {
+        return try await self.client.execute(operation: "BatchDisableAlarm", path: "/alarms/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Enables one or more alarms. The alarms change to the NORMAL state after you enable them.
-    public func batchEnableAlarm(_ input: BatchEnableAlarmRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchEnableAlarmResponse> {
-        return self.client.execute(operation: "BatchEnableAlarm", path: "/alarms/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchEnableAlarm(_ input: BatchEnableAlarmRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchEnableAlarmResponse {
+        return try await self.client.execute(operation: "BatchEnableAlarm", path: "/alarms/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Sends a set of messages to the IoT Events system. Each message payload is transformed into the input you specify ("inputName") and ingested into any detectors that monitor that input. If multiple messages are sent, the order in which the messages are processed isn't guaranteed. To guarantee ordering, you must send messages one at a time and wait for a successful response.
-    public func batchPutMessage(_ input: BatchPutMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchPutMessageResponse> {
-        return self.client.execute(operation: "BatchPutMessage", path: "/inputs/messages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchPutMessage(_ input: BatchPutMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutMessageResponse {
+        return try await self.client.execute(operation: "BatchPutMessage", path: "/inputs/messages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Resets one or more alarms. The alarms return to the NORMAL state after you reset them.
-    public func batchResetAlarm(_ input: BatchResetAlarmRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchResetAlarmResponse> {
-        return self.client.execute(operation: "BatchResetAlarm", path: "/alarms/reset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchResetAlarm(_ input: BatchResetAlarmRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchResetAlarmResponse {
+        return try await self.client.execute(operation: "BatchResetAlarm", path: "/alarms/reset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Changes one or more alarms to the snooze mode. The alarms change to the SNOOZE_DISABLED state after you set them to the snooze mode.
-    public func batchSnoozeAlarm(_ input: BatchSnoozeAlarmRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchSnoozeAlarmResponse> {
-        return self.client.execute(operation: "BatchSnoozeAlarm", path: "/alarms/snooze", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchSnoozeAlarm(_ input: BatchSnoozeAlarmRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchSnoozeAlarmResponse {
+        return try await self.client.execute(operation: "BatchSnoozeAlarm", path: "/alarms/snooze", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates the state, variable values, and timer settings of one or more detectors (instances) of a specified detector model.
-    public func batchUpdateDetector(_ input: BatchUpdateDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdateDetectorResponse> {
-        return self.client.execute(operation: "BatchUpdateDetector", path: "/detectors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchUpdateDetector(_ input: BatchUpdateDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateDetectorResponse {
+        return try await self.client.execute(operation: "BatchUpdateDetector", path: "/detectors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about an alarm.
-    public func describeAlarm(_ input: DescribeAlarmRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAlarmResponse> {
-        return self.client.execute(operation: "DescribeAlarm", path: "/alarms/{alarmModelName}/keyValues", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAlarm(_ input: DescribeAlarmRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAlarmResponse {
+        return try await self.client.execute(operation: "DescribeAlarm", path: "/alarms/{alarmModelName}/keyValues", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns information about the specified detector (instance).
-    public func describeDetector(_ input: DescribeDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDetectorResponse> {
-        return self.client.execute(operation: "DescribeDetector", path: "/detectors/{detectorModelName}/keyValues", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDetector(_ input: DescribeDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDetectorResponse {
+        return try await self.client.execute(operation: "DescribeDetector", path: "/detectors/{detectorModelName}/keyValues", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists one or more alarms. The operation returns only the metadata associated with each alarm.
-    public func listAlarms(_ input: ListAlarmsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAlarmsResponse> {
-        return self.client.execute(operation: "ListAlarms", path: "/alarms/{alarmModelName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAlarms(_ input: ListAlarmsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAlarmsResponse {
+        return try await self.client.execute(operation: "ListAlarms", path: "/alarms/{alarmModelName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists detectors (the instances of a detector model).
-    public func listDetectors(_ input: ListDetectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDetectorsResponse> {
-        return self.client.execute(operation: "ListDetectors", path: "/detectors/{detectorModelName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDetectors(_ input: ListDetectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDetectorsResponse {
+        return try await self.client.execute(operation: "ListDetectors", path: "/detectors/{detectorModelName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 

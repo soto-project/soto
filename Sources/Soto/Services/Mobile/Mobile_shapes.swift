@@ -84,7 +84,7 @@ extension Mobile {
         ]
 
         ///  ZIP or YAML file which contains configuration settings to be used when creating the project. This may be the contents of the file downloaded from the URL provided in an export project operation.
-        public let contents: AWSPayload?
+        public let contents: HTTPBody?
         ///  Name of the project.
         public let name: String?
         ///  Default region where project resources should be created.
@@ -92,7 +92,7 @@ extension Mobile {
         ///  Unique identifier for an exported snapshot of project configuration. This snapshot identifier is included in the share URL when a project is exported.
         public let snapshotId: String?
 
-        public init(contents: AWSPayload? = nil, name: String? = nil, region: String? = nil, snapshotId: String? = nil) {
+        public init(contents: HTTPBody? = nil, name: String? = nil, region: String? = nil, snapshotId: String? = nil) {
             self.contents = contents
             self.name = name
             self.region = region
@@ -434,11 +434,11 @@ extension Mobile {
         ]
 
         ///  ZIP or YAML file which contains project configuration to be updated. This should be the contents of the file downloaded from the URL provided in an export project operation.
-        public let contents: AWSPayload?
+        public let contents: HTTPBody?
         ///  Unique project identifier.
         public let projectId: String
 
-        public init(contents: AWSPayload? = nil, projectId: String) {
+        public init(contents: HTTPBody? = nil, projectId: String) {
             self.contents = contents
             self.projectId = projectId
         }

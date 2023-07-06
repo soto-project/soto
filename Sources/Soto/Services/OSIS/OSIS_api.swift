@@ -65,73 +65,87 @@ public struct OSIS: AWSService {
     // MARK: API Calls
 
     /// Creates an OpenSearch Ingestion pipeline. For more information, see Creating Amazon OpenSearch Ingestion pipelines.
-    public func createPipeline(_ input: CreatePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePipelineResponse> {
-        return self.client.execute(operation: "CreatePipeline", path: "/2022-01-01/osis/createPipeline", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createPipeline(_ input: CreatePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePipelineResponse {
+        return try await self.client.execute(operation: "CreatePipeline", path: "/2022-01-01/osis/createPipeline", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes an OpenSearch Ingestion pipeline. For more information, see Deleting Amazon OpenSearch Ingestion pipelines.
-    public func deletePipeline(_ input: DeletePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePipelineResponse> {
-        return self.client.execute(operation: "DeletePipeline", path: "/2022-01-01/osis/deletePipeline/{PipelineName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePipeline(_ input: DeletePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePipelineResponse {
+        return try await self.client.execute(operation: "DeletePipeline", path: "/2022-01-01/osis/deletePipeline/{PipelineName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about an OpenSearch Ingestion pipeline.
-    public func getPipeline(_ input: GetPipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPipelineResponse> {
-        return self.client.execute(operation: "GetPipeline", path: "/2022-01-01/osis/getPipeline/{PipelineName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPipeline(_ input: GetPipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPipelineResponse {
+        return try await self.client.execute(operation: "GetPipeline", path: "/2022-01-01/osis/getPipeline/{PipelineName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are templates for the configuration needed for a CreatePipeline request. For more information, see Using blueprints to create a pipeline.
-    public func getPipelineBlueprint(_ input: GetPipelineBlueprintRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPipelineBlueprintResponse> {
-        return self.client.execute(operation: "GetPipelineBlueprint", path: "/2022-01-01/osis/getPipelineBlueprint/{BlueprintName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPipelineBlueprint(_ input: GetPipelineBlueprintRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPipelineBlueprintResponse {
+        return try await self.client.execute(operation: "GetPipelineBlueprint", path: "/2022-01-01/osis/getPipelineBlueprint/{BlueprintName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns progress information for the current change happening on an OpenSearch Ingestion pipeline. Currently, this operation only returns information when a pipeline is being created. For more information, see Tracking the status of pipeline creation.
-    public func getPipelineChangeProgress(_ input: GetPipelineChangeProgressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPipelineChangeProgressResponse> {
-        return self.client.execute(operation: "GetPipelineChangeProgress", path: "/2022-01-01/osis/getPipelineChangeProgress/{PipelineName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPipelineChangeProgress(_ input: GetPipelineChangeProgressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPipelineChangeProgressResponse {
+        return try await self.client.execute(operation: "GetPipelineChangeProgress", path: "/2022-01-01/osis/getPipelineChangeProgress/{PipelineName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of all available blueprints for Data Prepper. For more information, see Using blueprints to create a pipeline.
-    public func listPipelineBlueprints(_ input: ListPipelineBlueprintsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPipelineBlueprintsResponse> {
-        return self.client.execute(operation: "ListPipelineBlueprints", path: "/2022-01-01/osis/listPipelineBlueprints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPipelineBlueprints(_ input: ListPipelineBlueprintsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipelineBlueprintsResponse {
+        return try await self.client.execute(operation: "ListPipelineBlueprints", path: "/2022-01-01/osis/listPipelineBlueprints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all OpenSearch Ingestion pipelines in the current Amazon Web Services account and Region. For more information, see Viewing Amazon OpenSearch Ingestion pipelines.
-    public func listPipelines(_ input: ListPipelinesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPipelinesResponse> {
-        return self.client.execute(operation: "ListPipelines", path: "/2022-01-01/osis/listPipelines", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPipelines(_ input: ListPipelinesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipelinesResponse {
+        return try await self.client.execute(operation: "ListPipelines", path: "/2022-01-01/osis/listPipelines", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists all resource tags associated with an OpenSearch Ingestion pipeline. For more information, see Tagging Amazon OpenSearch Ingestion pipelines.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/2022-01-01/osis/listTagsForResource", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/2022-01-01/osis/listTagsForResource", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts an OpenSearch Ingestion pipeline. For more information, see Starting an OpenSearch Ingestion pipeline.
-    public func startPipeline(_ input: StartPipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartPipelineResponse> {
-        return self.client.execute(operation: "StartPipeline", path: "/2022-01-01/osis/startPipeline/{PipelineName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startPipeline(_ input: StartPipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartPipelineResponse {
+        return try await self.client.execute(operation: "StartPipeline", path: "/2022-01-01/osis/startPipeline/{PipelineName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops an OpenSearch Ingestion pipeline. For more information, see Stopping an OpenSearch Ingestion pipeline.
-    public func stopPipeline(_ input: StopPipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopPipelineResponse> {
-        return self.client.execute(operation: "StopPipeline", path: "/2022-01-01/osis/stopPipeline/{PipelineName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopPipeline(_ input: StopPipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopPipelineResponse {
+        return try await self.client.execute(operation: "StopPipeline", path: "/2022-01-01/osis/stopPipeline/{PipelineName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Tags an OpenSearch Ingestion pipeline. For more information, see Tagging Amazon OpenSearch Ingestion pipelines.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
-        return self.client.execute(operation: "TagResource", path: "/2022-01-01/osis/tagResource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        return try await self.client.execute(operation: "TagResource", path: "/2022-01-01/osis/tagResource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see Tagging Amazon OpenSearch Ingestion pipelines.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResponse> {
-        return self.client.execute(operation: "UntagResource", path: "/2022-01-01/osis/untagResource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        return try await self.client.execute(operation: "UntagResource", path: "/2022-01-01/osis/untagResource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates an OpenSearch Ingestion pipeline. For more information, see Updating Amazon OpenSearch Ingestion pipelines.
-    public func updatePipeline(_ input: UpdatePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePipelineResponse> {
-        return self.client.execute(operation: "UpdatePipeline", path: "/2022-01-01/osis/updatePipeline/{PipelineName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePipeline(_ input: UpdatePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePipelineResponse {
+        return try await self.client.execute(operation: "UpdatePipeline", path: "/2022-01-01/osis/updatePipeline/{PipelineName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Checks whether an OpenSearch Ingestion pipeline configuration is valid prior to creation. For more information, see Creating Amazon OpenSearch Ingestion pipelines.
-    public func validatePipeline(_ input: ValidatePipelineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ValidatePipelineResponse> {
-        return self.client.execute(operation: "ValidatePipeline", path: "/2022-01-01/osis/validatePipeline", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func validatePipeline(_ input: ValidatePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ValidatePipelineResponse {
+        return try await self.client.execute(operation: "ValidatePipeline", path: "/2022-01-01/osis/validatePipeline", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -146,57 +160,24 @@ extension OSIS {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension OSIS {
     /// Lists all OpenSearch Ingestion pipelines in the current Amazon Web Services account and Region. For more information, see Viewing Amazon OpenSearch Ingestion pipelines.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPipelinesPaginator<Result>(
-        _ input: ListPipelinesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPipelinesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPipelines,
-            inputKey: \ListPipelinesRequest.nextToken,
-            outputKey: \ListPipelinesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPipelinesPaginator(
         _ input: ListPipelinesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPipelinesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPipelinesRequest, ListPipelinesResponse> {
+        return .init(
             input: input,
             command: self.listPipelines,
             inputKey: \ListPipelinesRequest.nextToken,
             outputKey: \ListPipelinesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

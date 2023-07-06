@@ -242,11 +242,11 @@ extension AppConfig {
         /// The configuration version.
         public let configurationVersion: String?
         /// The content of the configuration or the configuration data.  The Content attribute only contains data if the system finds new or updated configuration data. If there is no new or updated data and ClientConfigurationVersion matches the version of the current configuration, AppConfig returns a 204 No Content HTTP response code and the Content value will be empty.
-        public let content: AWSPayload?
+        public let content: HTTPBody?
         /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
         public let contentType: String?
 
-        public init(configurationVersion: String? = nil, content: AWSPayload? = nil, contentType: String? = nil) {
+        public init(configurationVersion: String? = nil, content: HTTPBody? = nil, contentType: String? = nil) {
             self.configurationVersion = configurationVersion
             self.content = content
             self.contentType = contentType
@@ -686,7 +686,7 @@ extension AppConfig {
         /// The configuration profile ID.
         public let configurationProfileId: String
         /// The content of the configuration or the configuration data.
-        public let content: AWSPayload
+        public let content: HTTPBody
         /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
         public let contentType: String
         /// A description of the configuration.
@@ -696,7 +696,7 @@ extension AppConfig {
         /// An optional, user-defined label for the AppConfig hosted configuration version. This value must contain at least one non-numeric character. For example, "v2.2.0".
         public let versionLabel: String?
 
-        public init(applicationId: String, configurationProfileId: String, content: AWSPayload, contentType: String, description: String? = nil, latestVersionNumber: Int? = nil, versionLabel: String? = nil) {
+        public init(applicationId: String, configurationProfileId: String, content: HTTPBody, contentType: String, description: String? = nil, latestVersionNumber: Int? = nil, versionLabel: String? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.content = content
@@ -1584,7 +1584,7 @@ extension AppConfig {
         /// The configuration profile ID.
         public let configurationProfileId: String?
         /// The content of the configuration or the configuration data.
-        public let content: AWSPayload?
+        public let content: HTTPBody?
         /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
         public let contentType: String?
         /// A description of the configuration.
@@ -1594,7 +1594,7 @@ extension AppConfig {
         /// The configuration version.
         public let versionNumber: Int?
 
-        public init(applicationId: String? = nil, configurationProfileId: String? = nil, content: AWSPayload? = nil, contentType: String? = nil, description: String? = nil, versionLabel: String? = nil, versionNumber: Int? = nil) {
+        public init(applicationId: String? = nil, configurationProfileId: String? = nil, content: HTTPBody? = nil, contentType: String? = nil, description: String? = nil, versionLabel: String? = nil, versionNumber: Int? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.content = content

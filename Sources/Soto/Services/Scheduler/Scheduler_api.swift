@@ -64,63 +64,75 @@ public struct Scheduler: AWSService {
     // MARK: API Calls
 
     /// Creates the specified schedule.
-    public func createSchedule(_ input: CreateScheduleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateScheduleOutput> {
-        return self.client.execute(operation: "CreateSchedule", path: "/schedules/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createSchedule(_ input: CreateScheduleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScheduleOutput {
+        return try await self.client.execute(operation: "CreateSchedule", path: "/schedules/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates the specified schedule group.
-    public func createScheduleGroup(_ input: CreateScheduleGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateScheduleGroupOutput> {
-        return self.client.execute(operation: "CreateScheduleGroup", path: "/schedule-groups/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createScheduleGroup(_ input: CreateScheduleGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScheduleGroupOutput {
+        return try await self.client.execute(operation: "CreateScheduleGroup", path: "/schedule-groups/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified schedule.
-    public func deleteSchedule(_ input: DeleteScheduleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteScheduleOutput> {
-        return self.client.execute(operation: "DeleteSchedule", path: "/schedules/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteSchedule(_ input: DeleteScheduleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteScheduleOutput {
+        return try await self.client.execute(operation: "DeleteSchedule", path: "/schedules/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified schedule group. Deleting a schedule group results in EventBridge Scheduler deleting all schedules associated with the group. When you delete a group, it remains in a DELETING state until all of its associated schedules are deleted. Schedules associated with the group that are set to run while the schedule group is in the process of being deleted might continue to invoke their targets until the schedule group and its associated schedules are deleted.   This operation is eventually consistent.
-    public func deleteScheduleGroup(_ input: DeleteScheduleGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteScheduleGroupOutput> {
-        return self.client.execute(operation: "DeleteScheduleGroup", path: "/schedule-groups/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteScheduleGroup(_ input: DeleteScheduleGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteScheduleGroupOutput {
+        return try await self.client.execute(operation: "DeleteScheduleGroup", path: "/schedule-groups/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the specified schedule.
-    public func getSchedule(_ input: GetScheduleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetScheduleOutput> {
-        return self.client.execute(operation: "GetSchedule", path: "/schedules/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getSchedule(_ input: GetScheduleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetScheduleOutput {
+        return try await self.client.execute(operation: "GetSchedule", path: "/schedules/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the specified schedule group.
-    public func getScheduleGroup(_ input: GetScheduleGroupInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetScheduleGroupOutput> {
-        return self.client.execute(operation: "GetScheduleGroup", path: "/schedule-groups/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getScheduleGroup(_ input: GetScheduleGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetScheduleGroupOutput {
+        return try await self.client.execute(operation: "GetScheduleGroup", path: "/schedule-groups/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a paginated list of your schedule groups.
-    public func listScheduleGroups(_ input: ListScheduleGroupsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListScheduleGroupsOutput> {
-        return self.client.execute(operation: "ListScheduleGroups", path: "/schedule-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listScheduleGroups(_ input: ListScheduleGroupsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScheduleGroupsOutput {
+        return try await self.client.execute(operation: "ListScheduleGroups", path: "/schedule-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a paginated list of your EventBridge Scheduler schedules.
-    public func listSchedules(_ input: ListSchedulesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSchedulesOutput> {
-        return self.client.execute(operation: "ListSchedules", path: "/schedules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listSchedules(_ input: ListSchedulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSchedulesOutput {
+        return try await self.client.execute(operation: "ListSchedules", path: "/schedules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the tags associated with the Scheduler resource.
-    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified EventBridge Scheduler resource. You can only assign tags to schedule groups.
-    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceOutput> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
+        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes one or more tags from the specified EventBridge Scheduler schedule group.
-    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceOutput> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
+        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Updates the specified schedule. When you call UpdateSchedule, EventBridge Scheduler uses all values, including empty values, specified in the request and overrides the existing schedule. This is by design. This means that if you do not set an optional field in your request, that field will be set to its system-default value after the update.   Before calling this operation, we recommend that you call the GetSchedule API operation and make a note of all optional parameters for your UpdateSchedule call.
-    public func updateSchedule(_ input: UpdateScheduleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateScheduleOutput> {
-        return self.client.execute(operation: "UpdateSchedule", path: "/schedules/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateSchedule(_ input: UpdateScheduleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateScheduleOutput {
+        return try await self.client.execute(operation: "UpdateSchedule", path: "/schedules/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -135,110 +147,43 @@ extension Scheduler {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Scheduler {
     /// Returns a paginated list of your schedule groups.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listScheduleGroupsPaginator<Result>(
-        _ input: ListScheduleGroupsInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListScheduleGroupsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listScheduleGroups,
-            inputKey: \ListScheduleGroupsInput.nextToken,
-            outputKey: \ListScheduleGroupsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listScheduleGroupsPaginator(
         _ input: ListScheduleGroupsInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListScheduleGroupsOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListScheduleGroupsInput, ListScheduleGroupsOutput> {
+        return .init(
             input: input,
             command: self.listScheduleGroups,
             inputKey: \ListScheduleGroupsInput.nextToken,
             outputKey: \ListScheduleGroupsOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a paginated list of your EventBridge Scheduler schedules.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listSchedulesPaginator<Result>(
-        _ input: ListSchedulesInput,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListSchedulesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listSchedules,
-            inputKey: \ListSchedulesInput.nextToken,
-            outputKey: \ListSchedulesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSchedulesPaginator(
         _ input: ListSchedulesInput,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListSchedulesOutput, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSchedulesInput, ListSchedulesOutput> {
+        return .init(
             input: input,
             command: self.listSchedules,
             inputKey: \ListSchedulesInput.nextToken,
             outputKey: \ListSchedulesOutput.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

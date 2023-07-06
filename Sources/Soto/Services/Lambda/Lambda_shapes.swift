@@ -2712,11 +2712,11 @@ extension Lambda {
         /// Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
         public let logType: LogType?
         /// The JSON that you want to provide to your Lambda function as input. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
-        public let payload: AWSPayload?
+        public let payload: HTTPBody?
         /// Specify a version or alias to invoke a published version of the function.
         public let qualifier: String?
 
-        public init(clientContext: String? = nil, functionName: String, invocationType: InvocationType? = nil, logType: LogType? = nil, payload: AWSPayload? = nil, qualifier: String? = nil) {
+        public init(clientContext: String? = nil, functionName: String, invocationType: InvocationType? = nil, logType: LogType? = nil, payload: HTTPBody? = nil, qualifier: String? = nil) {
             self.clientContext = clientContext
             self.functionName = functionName
             self.invocationType = invocationType
@@ -2756,11 +2756,11 @@ extension Lambda {
         /// The last 4 KB of the execution log, which is base64-encoded.
         public let logResult: String?
         /// The response from the function, or an error object.
-        public let payload: AWSPayload?
+        public let payload: HTTPBody?
         /// The HTTP status code is in the 200 range for a successful request. For the RequestResponse invocation type, this status code is 200. For the Event invocation type, this status code is 202. For the DryRun invocation type, the status code is 204.
         public let statusCode: Int?
 
-        public init(executedVersion: String? = nil, functionError: String? = nil, logResult: String? = nil, payload: AWSPayload? = nil, statusCode: Int? = nil) {
+        public init(executedVersion: String? = nil, functionError: String? = nil, logResult: String? = nil, payload: HTTPBody? = nil, statusCode: Int? = nil) {
             self.executedVersion = executedVersion
             self.functionError = functionError
             self.logResult = logResult
@@ -2788,9 +2788,9 @@ extension Lambda {
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The JSON that you want to provide to your Lambda function as input.
-        public let invokeArgs: AWSPayload
+        public let invokeArgs: HTTPBody
 
-        public init(functionName: String, invokeArgs: AWSPayload) {
+        public init(functionName: String, invokeArgs: HTTPBody) {
             self.functionName = functionName
             self.invokeArgs = invokeArgs
         }
@@ -2876,11 +2876,11 @@ extension Lambda {
         /// Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
         public let logType: LogType?
         /// The JSON that you want to provide to your Lambda function as input. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
-        public let payload: AWSPayload?
+        public let payload: HTTPBody?
         /// The alias name.
         public let qualifier: String?
 
-        public init(clientContext: String? = nil, functionName: String, invocationType: ResponseStreamingInvocationType? = nil, logType: LogType? = nil, payload: AWSPayload? = nil, qualifier: String? = nil) {
+        public init(clientContext: String? = nil, functionName: String, invocationType: ResponseStreamingInvocationType? = nil, logType: LogType? = nil, payload: HTTPBody? = nil, qualifier: String? = nil) {
             self.clientContext = clientContext
             self.functionName = functionName
             self.invocationType = invocationType

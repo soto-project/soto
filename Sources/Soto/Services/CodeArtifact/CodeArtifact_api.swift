@@ -64,200 +64,231 @@ public struct CodeArtifact: AWSService {
     // MARK: API Calls
 
     /// Adds an existing external connection to a repository. One external connection is allowed per repository.  A repository can have one or more upstream repositories, or an external connection.
-    public func associateExternalConnection(_ input: AssociateExternalConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateExternalConnectionResult> {
-        return self.client.execute(operation: "AssociateExternalConnection", path: "/v1/repository/external-connection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func associateExternalConnection(_ input: AssociateExternalConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateExternalConnectionResult {
+        return try await self.client.execute(operation: "AssociateExternalConnection", path: "/v1/repository/external-connection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Copies package versions from one repository to another repository in the same domain.    You must specify versions or versionRevisions. You cannot specify both.
-    public func copyPackageVersions(_ input: CopyPackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CopyPackageVersionsResult> {
-        return self.client.execute(operation: "CopyPackageVersions", path: "/v1/package/versions/copy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func copyPackageVersions(_ input: CopyPackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyPackageVersionsResult {
+        return try await self.client.execute(operation: "CopyPackageVersions", path: "/v1/package/versions/copy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Creates a domain. CodeArtifact domains make it easier to manage multiple repositories across an organization. You can use a domain to apply permissions across many repositories owned by different Amazon Web Services accounts. An asset is stored only once in a domain, even if it's in multiple repositories.   Although you can have multiple domains, we recommend a single production domain that contains all published artifacts so that your development teams can find and share packages. You can use a second pre-production domain to test changes to the production domain configuration.
-    public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDomainResult> {
-        return self.client.execute(operation: "CreateDomain", path: "/v1/domain", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainResult {
+        return try await self.client.execute(operation: "CreateDomain", path: "/v1/domain", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Creates a repository.
-    public func createRepository(_ input: CreateRepositoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRepositoryResult> {
-        return self.client.execute(operation: "CreateRepository", path: "/v1/repository", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func createRepository(_ input: CreateRepositoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRepositoryResult {
+        return try await self.client.execute(operation: "CreateRepository", path: "/v1/repository", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Deletes a domain. You cannot delete a domain that contains repositories. If you want to delete a domain with repositories, first delete its repositories.
-    public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDomainResult> {
-        return self.client.execute(operation: "DeleteDomain", path: "/v1/domain", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainResult {
+        return try await self.client.execute(operation: "DeleteDomain", path: "/v1/domain", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Deletes the resource policy set on a domain.
-    public func deleteDomainPermissionsPolicy(_ input: DeleteDomainPermissionsPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDomainPermissionsPolicyResult> {
-        return self.client.execute(operation: "DeleteDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDomainPermissionsPolicy(_ input: DeleteDomainPermissionsPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainPermissionsPolicyResult {
+        return try await self.client.execute(operation: "DeleteDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes a package and all associated package versions. A deleted package cannot be restored. To delete one or more package versions, use the DeletePackageVersions API.
-    public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePackageResult> {
-        return self.client.execute(operation: "DeletePackage", path: "/v1/package", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePackageResult {
+        return try await self.client.execute(operation: "DeletePackage", path: "/v1/package", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived. Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example, ListPackageVersions), but you can restore them using UpdatePackageVersionsStatus.
-    public func deletePackageVersions(_ input: DeletePackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePackageVersionsResult> {
-        return self.client.execute(operation: "DeletePackageVersions", path: "/v1/package/versions/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePackageVersions(_ input: DeletePackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePackageVersionsResult {
+        return try await self.client.execute(operation: "DeletePackageVersions", path: "/v1/package/versions/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Deletes a repository.
-    public func deleteRepository(_ input: DeleteRepositoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRepositoryResult> {
-        return self.client.execute(operation: "DeleteRepository", path: "/v1/repository", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRepository(_ input: DeleteRepositoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRepositoryResult {
+        return try await self.client.execute(operation: "DeleteRepository", path: "/v1/repository", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Deletes the resource policy that is set on a repository. After a resource policy is deleted, the permissions allowed and denied by the deleted policy are removed. The effect of deleting a resource policy might not be immediate.    Use DeleteRepositoryPermissionsPolicy with caution. After a policy is deleted, Amazon Web Services users, roles, and accounts lose permissions to perform the repository actions granted by the deleted policy.
-    public func deleteRepositoryPermissionsPolicy(_ input: DeleteRepositoryPermissionsPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRepositoryPermissionsPolicyResult> {
-        return self.client.execute(operation: "DeleteRepositoryPermissionsPolicy", path: "/v1/repository/permissions/policies", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRepositoryPermissionsPolicy(_ input: DeleteRepositoryPermissionsPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRepositoryPermissionsPolicyResult {
+        return try await self.client.execute(operation: "DeleteRepositoryPermissionsPolicy", path: "/v1/repository/permissions/policies", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a  DomainDescription  object that contains information about the requested domain.
-    public func describeDomain(_ input: DescribeDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDomainResult> {
-        return self.client.execute(operation: "DescribeDomain", path: "/v1/domain", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDomain(_ input: DescribeDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDomainResult {
+        return try await self.client.execute(operation: "DescribeDomain", path: "/v1/domain", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a  PackageDescription  object that contains information about the requested package.
-    public func describePackage(_ input: DescribePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePackageResult> {
-        return self.client.execute(operation: "DescribePackage", path: "/v1/package", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describePackage(_ input: DescribePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackageResult {
+        return try await self.client.execute(operation: "DescribePackage", path: "/v1/package", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a  PackageVersionDescription  object that contains information about the requested package version.
-    public func describePackageVersion(_ input: DescribePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePackageVersionResult> {
-        return self.client.execute(operation: "DescribePackageVersion", path: "/v1/package/version", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describePackageVersion(_ input: DescribePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackageVersionResult {
+        return try await self.client.execute(operation: "DescribePackageVersion", path: "/v1/package/version", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a RepositoryDescription object that contains detailed information  about the requested repository.
-    public func describeRepository(_ input: DescribeRepositoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRepositoryResult> {
-        return self.client.execute(operation: "DescribeRepository", path: "/v1/repository", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeRepository(_ input: DescribeRepositoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRepositoryResult {
+        return try await self.client.execute(operation: "DescribeRepository", path: "/v1/repository", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Removes an existing external connection from a repository.
-    public func disassociateExternalConnection(_ input: DisassociateExternalConnectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateExternalConnectionResult> {
-        return self.client.execute(operation: "DisassociateExternalConnection", path: "/v1/repository/external-connection", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disassociateExternalConnection(_ input: DisassociateExternalConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateExternalConnectionResult {
+        return try await self.client.execute(operation: "DisassociateExternalConnection", path: "/v1/repository/external-connection", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Deletes the assets in package versions and sets the package versions' status to Disposed. A disposed package version cannot be restored in your repository because its assets are deleted.   To view all disposed package versions in a repository, use ListPackageVersions and set the  status parameter  to Disposed.   To view information about a disposed package version, use DescribePackageVersion.
-    public func disposePackageVersions(_ input: DisposePackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisposePackageVersionsResult> {
-        return self.client.execute(operation: "DisposePackageVersions", path: "/v1/package/versions/dispose", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func disposePackageVersions(_ input: DisposePackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisposePackageVersionsResult {
+        return try await self.client.execute(operation: "DisposePackageVersions", path: "/v1/package/versions/dispose", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Generates a temporary authorization token for accessing repositories in the domain.  This API requires the codeartifact:GetAuthorizationToken and sts:GetServiceBearerToken permissions.  For more information about authorization tokens, see  CodeArtifact authentication and tokens.   CodeArtifact authorization tokens are valid for a period of 12 hours when created with the login command.  You can call login periodically to refresh the token. When  you create an authorization token with the GetAuthorizationToken API, you can set a custom authorization period,  up to a maximum of 12 hours, with the durationSeconds parameter. The authorization period begins after login  or GetAuthorizationToken is called. If login or GetAuthorizationToken is called while  assuming a role, the token lifetime is independent of the maximum session duration  of the role. For example, if you call sts assume-role and specify a session duration of 15 minutes, then  generate a CodeArtifact authorization token, the token will be valid for the full authorization period  even though this is longer than the 15-minute session duration. See  Using IAM Roles  for more information on controlling session duration.
-    public func getAuthorizationToken(_ input: GetAuthorizationTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAuthorizationTokenResult> {
-        return self.client.execute(operation: "GetAuthorizationToken", path: "/v1/authorization-token", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAuthorizationToken(_ input: GetAuthorizationTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAuthorizationTokenResult {
+        return try await self.client.execute(operation: "GetAuthorizationToken", path: "/v1/authorization-token", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns the resource policy attached to the specified domain.    The policy is a resource-based policy, not an identity-based policy. For more information, see Identity-based policies and resource-based policies  in the IAM User Guide.
-    public func getDomainPermissionsPolicy(_ input: GetDomainPermissionsPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDomainPermissionsPolicyResult> {
-        return self.client.execute(operation: "GetDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDomainPermissionsPolicy(_ input: GetDomainPermissionsPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainPermissionsPolicyResult {
+        return try await self.client.execute(operation: "GetDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns an asset (or file) that is in a package. For example, for a Maven package version, use  GetPackageVersionAsset to download a JAR file, a POM file,  or any other assets in the package version.
-    public func getPackageVersionAsset(_ input: GetPackageVersionAssetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPackageVersionAssetResult> {
-        return self.client.execute(operation: "GetPackageVersionAsset", path: "/v1/package/version/asset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPackageVersionAsset(_ input: GetPackageVersionAssetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPackageVersionAssetResult {
+        return try await self.client.execute(operation: "GetPackageVersionAsset", path: "/v1/package/version/asset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Gets the readme file or descriptive text for a package version.   The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
-    public func getPackageVersionReadme(_ input: GetPackageVersionReadmeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPackageVersionReadmeResult> {
-        return self.client.execute(operation: "GetPackageVersionReadme", path: "/v1/package/version/readme", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getPackageVersionReadme(_ input: GetPackageVersionReadmeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPackageVersionReadmeResult {
+        return try await self.client.execute(operation: "GetPackageVersionReadme", path: "/v1/package/version/readme", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each  package format:     maven     npm     nuget     pypi
-    public func getRepositoryEndpoint(_ input: GetRepositoryEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRepositoryEndpointResult> {
-        return self.client.execute(operation: "GetRepositoryEndpoint", path: "/v1/repository/endpoint", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getRepositoryEndpoint(_ input: GetRepositoryEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRepositoryEndpointResult {
+        return try await self.client.execute(operation: "GetRepositoryEndpoint", path: "/v1/repository/endpoint", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns the resource policy that is set on a repository.
-    public func getRepositoryPermissionsPolicy(_ input: GetRepositoryPermissionsPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRepositoryPermissionsPolicyResult> {
-        return self.client.execute(operation: "GetRepositoryPermissionsPolicy", path: "/v1/repository/permissions/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getRepositoryPermissionsPolicy(_ input: GetRepositoryPermissionsPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRepositoryPermissionsPolicyResult {
+        return try await self.client.execute(operation: "GetRepositoryPermissionsPolicy", path: "/v1/repository/permissions/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain.
-    public func listDomains(_ input: ListDomainsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDomainsResult> {
-        return self.client.execute(operation: "ListDomains", path: "/v1/domains", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDomains(_ input: ListDomainsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainsResult {
+        return try await self.client.execute(operation: "ListDomains", path: "/v1/domains", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of  AssetSummary  objects for assets in a package version.
-    public func listPackageVersionAssets(_ input: ListPackageVersionAssetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackageVersionAssetsResult> {
-        return self.client.execute(operation: "ListPackageVersionAssets", path: "/v1/package/version/assets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPackageVersionAssets(_ input: ListPackageVersionAssetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackageVersionAssetsResult {
+        return try await self.client.execute(operation: "ListPackageVersionAssets", path: "/v1/package/version/assets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns the direct dependencies for a package version. The dependencies are returned as  PackageDependency  objects. CodeArtifact extracts the dependencies for a package version from the metadata file for the package  format (for example, the package.json file for npm packages and the pom.xml file  for Maven). Any package version dependencies that are not listed in the configuration file are not returned.
-    public func listPackageVersionDependencies(_ input: ListPackageVersionDependenciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackageVersionDependenciesResult> {
-        return self.client.execute(operation: "ListPackageVersionDependencies", path: "/v1/package/version/dependencies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPackageVersionDependencies(_ input: ListPackageVersionDependenciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackageVersionDependenciesResult {
+        return try await self.client.execute(operation: "ListPackageVersionDependencies", path: "/v1/package/version/dependencies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling list-package-versions with no  --status parameter.
-    public func listPackageVersions(_ input: ListPackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackageVersionsResult> {
-        return self.client.execute(operation: "ListPackageVersions", path: "/v1/package/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPackageVersions(_ input: ListPackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackageVersionsResult {
+        return try await self.client.execute(operation: "ListPackageVersions", path: "/v1/package/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of  PackageSummary  objects for packages in a repository that match the request parameters.
-    public func listPackages(_ input: ListPackagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPackagesResult> {
-        return self.client.execute(operation: "ListPackages", path: "/v1/packages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listPackages(_ input: ListPackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackagesResult {
+        return try await self.client.execute(operation: "ListPackages", path: "/v1/packages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified Amazon Web Services account and that matches the input  parameters.
-    public func listRepositories(_ input: ListRepositoriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRepositoriesResult> {
-        return self.client.execute(operation: "ListRepositories", path: "/v1/repositories", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRepositories(_ input: ListRepositoriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRepositoriesResult {
+        return try await self.client.execute(operation: "ListRepositories", path: "/v1/repositories", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input  parameters.
-    public func listRepositoriesInDomain(_ input: ListRepositoriesInDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRepositoriesInDomainResult> {
-        return self.client.execute(operation: "ListRepositoriesInDomain", path: "/v1/domain/repositories", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listRepositoriesInDomain(_ input: ListRepositoriesInDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRepositoriesInDomainResult {
+        return try await self.client.execute(operation: "ListRepositoriesInDomain", path: "/v1/domain/repositories", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in CodeArtifact.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResult> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/v1/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResult {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/v1/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new package version containing one or more assets (or files). The unfinished flag can be used to keep the package version in the Unfinished state until all of its assets have been uploaded (see Package version status in the CodeArtifact user guide). To set the package version’s status to Published, omit the unfinished flag when uploading the final asset, or set the status using UpdatePackageVersionStatus. Once a package version’s status is set to Published, it cannot change back to Unfinished.  Only generic packages can be published using this API. For more information, see Using generic packages in the CodeArtifact User Guide.
-    public func publishPackageVersion(_ input: PublishPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PublishPackageVersionResult> {
-        return self.client.execute(operation: "PublishPackageVersion", path: "/v1/package/version/publish", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func publishPackageVersion(_ input: PublishPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PublishPackageVersionResult {
+        return try await self.client.execute(operation: "PublishPackageVersion", path: "/v1/package/version/publish", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Sets a resource policy on a domain that specifies permissions to access it.   When you call PutDomainPermissionsPolicy, the resource policy on the domain is ignored when evaluting permissions.  This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being  able to update the resource policy.
-    public func putDomainPermissionsPolicy(_ input: PutDomainPermissionsPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutDomainPermissionsPolicyResult> {
-        return self.client.execute(operation: "PutDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putDomainPermissionsPolicy(_ input: PutDomainPermissionsPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDomainPermissionsPolicyResult {
+        return try await self.client.execute(operation: "PutDomainPermissionsPolicy", path: "/v1/domain/permissions/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Sets the package origin configuration for a package. The package origin configuration determines how new versions of a package can be added to a repository. You can allow or block direct  publishing of new package versions, or ingestion and retaining of new package versions from an external connection or upstream source.  For more information about package origin controls and configuration, see Editing package origin controls in the CodeArtifact User Guide.  PutPackageOriginConfiguration can be called on a package that doesn't yet exist in the repository. When called  on a package that does not exist, a package is created in the repository with no versions and the requested restrictions are set on the package.  This can be used to preemptively block ingesting or retaining any versions from external connections or upstream repositories, or to block  publishing any versions of the package into the repository before connecting any package managers or publishers to the repository.
-    public func putPackageOriginConfiguration(_ input: PutPackageOriginConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutPackageOriginConfigurationResult> {
-        return self.client.execute(operation: "PutPackageOriginConfiguration", path: "/v1/package", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putPackageOriginConfiguration(_ input: PutPackageOriginConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPackageOriginConfigurationResult {
+        return try await self.client.execute(operation: "PutPackageOriginConfiguration", path: "/v1/package", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Sets the resource policy on a repository that specifies permissions to access it.   When you call PutRepositoryPermissionsPolicy, the resource policy on the repository is ignored when evaluting permissions.  This ensures that the owner of a repository cannot lock themselves out of the repository, which would prevent them from being  able to update the resource policy.
-    public func putRepositoryPermissionsPolicy(_ input: PutRepositoryPermissionsPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRepositoryPermissionsPolicyResult> {
-        return self.client.execute(operation: "PutRepositoryPermissionsPolicy", path: "/v1/repository/permissions/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putRepositoryPermissionsPolicy(_ input: PutRepositoryPermissionsPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRepositoryPermissionsPolicyResult {
+        return try await self.client.execute(operation: "PutRepositoryPermissionsPolicy", path: "/v1/repository/permissions/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds or updates tags for a resource in CodeArtifact.
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResult> {
-        return self.client.execute(operation: "TagResource", path: "/v1/tag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResult {
+        return try await self.client.execute(operation: "TagResource", path: "/v1/tag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Removes tags from a resource in CodeArtifact.
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UntagResourceResult> {
-        return self.client.execute(operation: "UntagResource", path: "/v1/untag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResult {
+        return try await self.client.execute(operation: "UntagResource", path: "/v1/untag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Updates the status of one or more versions of a package. Using UpdatePackageVersionsStatus,  you can update the status of package versions to Archived, Published, or Unlisted.  To set the status of a package version to Disposed, use  DisposePackageVersions.
-    public func updatePackageVersionsStatus(_ input: UpdatePackageVersionsStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePackageVersionsStatusResult> {
-        return self.client.execute(operation: "UpdatePackageVersionsStatus", path: "/v1/package/versions/update_status", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updatePackageVersionsStatus(_ input: UpdatePackageVersionsStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePackageVersionsStatusResult {
+        return try await self.client.execute(operation: "UpdatePackageVersionsStatus", path: "/v1/package/versions/update_status", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     ///  Update the properties of a repository.
-    public func updateRepository(_ input: UpdateRepositoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRepositoryResult> {
-        return self.client.execute(operation: "UpdateRepository", path: "/v1/repository", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
-    // MARK: Streaming API Calls
-
-    ///  Returns an asset (or file) that is in a package. For example, for a Maven package version, use  GetPackageVersionAsset to download a JAR file, a POM file,  or any other assets in the package version.
-    public func getPackageVersionAssetStreaming(_ input: GetPackageVersionAssetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil, _ stream: @escaping (ByteBuffer, EventLoop) -> EventLoopFuture<Void>) -> EventLoopFuture<GetPackageVersionAssetResult> {
-        return self.client.execute(operation: "GetPackageVersionAsset", path: "/v1/package/version/asset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop, stream: stream)
+    @Sendable
+    public func updateRepository(_ input: UpdateRepositoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRepositoryResult {
+        return try await self.client.execute(operation: "UpdateRepository", path: "/v1/repository", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -272,322 +303,119 @@ extension CodeArtifact {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CodeArtifact {
     ///  Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDomainsPaginator<Result>(
-        _ input: ListDomainsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDomainsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDomains,
-            inputKey: \ListDomainsRequest.nextToken,
-            outputKey: \ListDomainsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDomainsPaginator(
         _ input: ListDomainsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDomainsResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDomainsRequest, ListDomainsResult> {
+        return .init(
             input: input,
             command: self.listDomains,
             inputKey: \ListDomainsRequest.nextToken,
             outputKey: \ListDomainsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Returns a list of  AssetSummary  objects for assets in a package version.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPackageVersionAssetsPaginator<Result>(
-        _ input: ListPackageVersionAssetsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPackageVersionAssetsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPackageVersionAssets,
-            inputKey: \ListPackageVersionAssetsRequest.nextToken,
-            outputKey: \ListPackageVersionAssetsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPackageVersionAssetsPaginator(
         _ input: ListPackageVersionAssetsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPackageVersionAssetsResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPackageVersionAssetsRequest, ListPackageVersionAssetsResult> {
+        return .init(
             input: input,
             command: self.listPackageVersionAssets,
             inputKey: \ListPackageVersionAssetsRequest.nextToken,
             outputKey: \ListPackageVersionAssetsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Returns a list of  PackageVersionSummary  objects for package versions in a repository that match the request parameters. Package versions of all statuses will be returned by default when calling list-package-versions with no  --status parameter.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPackageVersionsPaginator<Result>(
-        _ input: ListPackageVersionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPackageVersionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPackageVersions,
-            inputKey: \ListPackageVersionsRequest.nextToken,
-            outputKey: \ListPackageVersionsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPackageVersionsPaginator(
         _ input: ListPackageVersionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPackageVersionsResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPackageVersionsRequest, ListPackageVersionsResult> {
+        return .init(
             input: input,
             command: self.listPackageVersions,
             inputKey: \ListPackageVersionsRequest.nextToken,
             outputKey: \ListPackageVersionsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Returns a list of  PackageSummary  objects for packages in a repository that match the request parameters.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listPackagesPaginator<Result>(
-        _ input: ListPackagesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListPackagesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listPackages,
-            inputKey: \ListPackagesRequest.nextToken,
-            outputKey: \ListPackagesResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPackagesPaginator(
         _ input: ListPackagesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListPackagesResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPackagesRequest, ListPackagesResult> {
+        return .init(
             input: input,
             command: self.listPackages,
             inputKey: \ListPackagesRequest.nextToken,
             outputKey: \ListPackagesResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified Amazon Web Services account and that matches the input  parameters.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRepositoriesPaginator<Result>(
-        _ input: ListRepositoriesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRepositoriesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRepositories,
-            inputKey: \ListRepositoriesRequest.nextToken,
-            outputKey: \ListRepositoriesResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRepositoriesPaginator(
         _ input: ListRepositoriesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRepositoriesResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRepositoriesRequest, ListRepositoriesResult> {
+        return .init(
             input: input,
             command: self.listRepositories,
             inputKey: \ListRepositoriesRequest.nextToken,
             outputKey: \ListRepositoriesResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     ///  Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified domain and that matches the input  parameters.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listRepositoriesInDomainPaginator<Result>(
-        _ input: ListRepositoriesInDomainRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListRepositoriesInDomainResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listRepositoriesInDomain,
-            inputKey: \ListRepositoriesInDomainRequest.nextToken,
-            outputKey: \ListRepositoriesInDomainResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRepositoriesInDomainPaginator(
         _ input: ListRepositoriesInDomainRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListRepositoriesInDomainResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRepositoriesInDomainRequest, ListRepositoriesInDomainResult> {
+        return .init(
             input: input,
             command: self.listRepositoriesInDomain,
             inputKey: \ListRepositoriesInDomainRequest.nextToken,
             outputKey: \ListRepositoriesInDomainResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

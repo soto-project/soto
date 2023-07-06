@@ -60,7 +60,7 @@ extension AppConfigData {
         ]
 
         /// The data of the configuration. This may be empty if the client already has the latest version of configuration.
-        public let configuration: AWSPayload?
+        public let configuration: HTTPBody?
         /// A standard MIME type describing the format of the configuration content.
         public let contentType: String?
         /// The latest token describing the current state of the configuration session. This must be provided to the next call to GetLatestConfiguration.   This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
@@ -70,7 +70,7 @@ extension AppConfigData {
         /// The user-defined label for the AppConfig hosted configuration version. This attribute doesn't apply if the configuration is not from an AppConfig hosted configuration version. If the client already has the latest version of the configuration data, this value is empty.
         public let versionLabel: String?
 
-        public init(configuration: AWSPayload? = nil, contentType: String? = nil, nextPollConfigurationToken: String? = nil, nextPollIntervalInSeconds: Int? = nil, versionLabel: String? = nil) {
+        public init(configuration: HTTPBody? = nil, contentType: String? = nil, nextPollConfigurationToken: String? = nil, nextPollIntervalInSeconds: Int? = nil, versionLabel: String? = nil) {
             self.configuration = configuration
             self.contentType = contentType
             self.nextPollConfigurationToken = nextPollConfigurationToken

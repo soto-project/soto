@@ -95,8 +95,9 @@ public struct ConfigService: AWSService {
 
     /// Returns the current configuration items for resources that are present in your Config aggregator. The operation also returns a list of resources that are not processed in the current request.
     /// 			If there are no unprocessed resources, the operation returns an empty unprocessedResourceIdentifiers list.     The API does not return results for deleted resources.   The API does not return tags and relationships.
-    public func batchGetAggregateResourceConfig(_ input: BatchGetAggregateResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetAggregateResourceConfigResponse> {
-        return self.client.execute(operation: "BatchGetAggregateResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchGetAggregateResourceConfig(_ input: BatchGetAggregateResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetAggregateResourceConfigResponse {
+        return try await self.client.execute(operation: "BatchGetAggregateResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the BaseConfigurationItem for one or more requested resources.
@@ -108,14 +109,16 @@ public struct ConfigService: AWSService {
     /// 						resources. This information is filtered out of the
     /// 						supplementaryConfiguration section of the API
     /// 						response.
-    public func batchGetResourceConfig(_ input: BatchGetResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetResourceConfigResponse> {
-        return self.client.execute(operation: "BatchGetResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func batchGetResourceConfig(_ input: BatchGetResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetResourceConfigResponse {
+        return try await self.client.execute(operation: "BatchGetResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the authorization granted to the specified
     /// 			configuration aggregator account in a specified region.
-    @discardableResult public func deleteAggregationAuthorization(_ input: DeleteAggregationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteAggregationAuthorization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteAggregationAuthorization(_ input: DeleteAggregationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteAggregationAuthorization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified Config rule and all of its evaluation
@@ -125,14 +128,16 @@ public struct ConfigService: AWSService {
     /// 				DeleteConfigRule request for the rule, you will
     /// 			receive a ResourceInUseException. You can check the state of a rule by using the
     /// 				DescribeConfigRules request.
-    @discardableResult public func deleteConfigRule(_ input: DeleteConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteConfigRule(_ input: DeleteConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified configuration aggregator and the
     /// 			aggregated data associated with the aggregator.
-    @discardableResult public func deleteConfigurationAggregator(_ input: DeleteConfigurationAggregatorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteConfigurationAggregator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteConfigurationAggregator(_ input: DeleteConfigurationAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteConfigurationAggregator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the configuration recorder. After the configuration recorder is deleted, Config will
@@ -143,37 +148,42 @@ public struct ConfigService: AWSService {
     /// 				GetResourceConfigHistory action, but you will not
     /// 			be able to access this information in the Config console until
     /// 			you create a new configuration recorder.
-    @discardableResult public func deleteConfigurationRecorder(_ input: DeleteConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteConfigurationRecorder(_ input: DeleteConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that
     /// 			conformance pack. Config sets the conformance pack to DELETE_IN_PROGRESS until the deletion is complete.
     /// 			You cannot update a conformance pack while it is in this state.
-    @discardableResult public func deleteConformancePack(_ input: DeleteConformancePackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteConformancePack(_ input: DeleteConformancePackRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the
     /// 			configuration recorder by using the StopConfigurationRecorder action.
-    @discardableResult public func deleteDeliveryChannel(_ input: DeleteDeliveryChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDeliveryChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteDeliveryChannel(_ input: DeleteDeliveryChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteDeliveryChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the evaluation results for the specified Config
     /// 			rule. You can specify one Config rule per request. After you
     /// 			delete the evaluation results, you can call the StartConfigRulesEvaluation API to start evaluating
     /// 			your Amazon Web Services resources against the rule.
-    public func deleteEvaluationResults(_ input: DeleteEvaluationResultsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEvaluationResultsResponse> {
-        return self.client.execute(operation: "DeleteEvaluationResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteEvaluationResults(_ input: DeleteEvaluationResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEvaluationResultsResponse {
+        return try await self.client.execute(operation: "DeleteEvaluationResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization.  Only a management account and a delegated administrator account can delete an organization Config rule.
     /// 		When calling this API with a delegated administrator, you must ensure Organizations
     /// 			ListDelegatedAdministrator permissions are added. Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete.
     /// 			You cannot update a rule while it is in this state.
-    @discardableResult public func deleteOrganizationConfigRule(_ input: DeleteOrganizationConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteOrganizationConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteOrganizationConfigRule(_ input: DeleteOrganizationConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteOrganizationConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the specified organization conformance pack and all of the Config rules and remediation actions from
@@ -181,41 +191,48 @@ public struct ConfigService: AWSService {
     /// 	When calling this API with a delegated administrator, you must ensure Organizations
     /// 		ListDelegatedAdministrator permissions are added. Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete.
     /// 				You cannot update a conformance pack while it is in this state.
-    @discardableResult public func deleteOrganizationConformancePack(_ input: DeleteOrganizationConformancePackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteOrganizationConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteOrganizationConformancePack(_ input: DeleteOrganizationConformancePackRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteOrganizationConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes pending authorization requests for a specified
     /// 			aggregator account in a specified region.
-    @discardableResult public func deletePendingAggregationRequest(_ input: DeletePendingAggregationRequestRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeletePendingAggregationRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deletePendingAggregationRequest(_ input: DeletePendingAggregationRequestRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeletePendingAggregationRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the remediation configuration.
-    public func deleteRemediationConfiguration(_ input: DeleteRemediationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRemediationConfigurationResponse> {
-        return self.client.execute(operation: "DeleteRemediationConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRemediationConfiguration(_ input: DeleteRemediationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRemediationConfigurationResponse {
+        return try await self.client.execute(operation: "DeleteRemediationConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes one or more remediation exceptions mentioned in the resource keys.  Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource.
     /// 			Remediation exceptions blocks auto-remediation until the exception is cleared.
-    public func deleteRemediationExceptions(_ input: DeleteRemediationExceptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRemediationExceptionsResponse> {
-        return self.client.execute(operation: "DeleteRemediationExceptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRemediationExceptions(_ input: DeleteRemediationExceptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRemediationExceptionsResponse {
+        return try await self.client.execute(operation: "DeleteRemediationExceptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Records the configuration state for a custom resource that has been deleted.  This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History.
     ///
-    @discardableResult public func deleteResourceConfig(_ input: DeleteResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteResourceConfig(_ input: DeleteResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the retention configuration.
-    @discardableResult public func deleteRetentionConfiguration(_ input: DeleteRetentionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteRetentionConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteRetentionConfiguration(_ input: DeleteRetentionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "DeleteRetentionConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
-    public func deleteStoredQuery(_ input: DeleteStoredQueryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteStoredQueryResponse> {
-        return self.client.execute(operation: "DeleteStoredQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteStoredQuery(_ input: DeleteStoredQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStoredQueryResponse {
+        return try await self.client.execute(operation: "DeleteStoredQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Schedules delivery of a configuration snapshot to the Amazon S3
@@ -224,8 +241,9 @@ public struct ConfigService: AWSService {
     /// 			Amazon SNS topic that you have specified.   Notification of the start of the delivery.   Notification of the completion of the delivery, if the
     /// 					delivery was successfully completed.   Notification of delivery failure, if the delivery
     /// 					failed.
-    public func deliverConfigSnapshot(_ input: DeliverConfigSnapshotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeliverConfigSnapshotResponse> {
-        return self.client.execute(operation: "DeliverConfigSnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deliverConfigSnapshot(_ input: DeliverConfigSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeliverConfigSnapshotResponse {
+        return try await self.client.execute(operation: "DeliverConfigSnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of compliant and noncompliant rules with the
@@ -233,20 +251,23 @@ public struct ConfigService: AWSService {
     /// 			  The results can return an empty result page, but if you
     /// 				have a nextToken, the results are displayed on the next
     /// 				page.
-    public func describeAggregateComplianceByConfigRules(_ input: DescribeAggregateComplianceByConfigRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAggregateComplianceByConfigRulesResponse> {
-        return self.client.execute(operation: "DescribeAggregateComplianceByConfigRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAggregateComplianceByConfigRules(_ input: DescribeAggregateComplianceByConfigRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAggregateComplianceByConfigRulesResponse {
+        return try await self.client.execute(operation: "DescribeAggregateComplianceByConfigRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of the conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each
     /// 			conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data.  The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
-    public func describeAggregateComplianceByConformancePacks(_ input: DescribeAggregateComplianceByConformancePacksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAggregateComplianceByConformancePacksResponse> {
-        return self.client.execute(operation: "DescribeAggregateComplianceByConformancePacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAggregateComplianceByConformancePacks(_ input: DescribeAggregateComplianceByConformancePacksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAggregateComplianceByConformancePacksResponse {
+        return try await self.client.execute(operation: "DescribeAggregateComplianceByConformancePacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of authorizations granted to various aggregator
     /// 			accounts and regions.
-    public func describeAggregationAuthorizations(_ input: DescribeAggregationAuthorizationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAggregationAuthorizationsResponse> {
-        return self.client.execute(operation: "DescribeAggregationAuthorizations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeAggregationAuthorizations(_ input: DescribeAggregationAuthorizationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAggregationAuthorizationsResponse {
+        return try await self.client.execute(operation: "DescribeAggregationAuthorizations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Indicates whether the specified Config rules are compliant.
@@ -269,8 +290,9 @@ public struct ConfigService: AWSService {
     /// 						NOT_APPLICABLE for all evaluation results.
     /// 					This can occur if the resources were deleted or removed from
     /// 					the rule's scope.
-    public func describeComplianceByConfigRule(_ input: DescribeComplianceByConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeComplianceByConfigRuleResponse> {
-        return self.client.execute(operation: "DescribeComplianceByConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeComplianceByConfigRule(_ input: DescribeComplianceByConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeComplianceByConfigRuleResponse {
+        return try await self.client.execute(operation: "DescribeComplianceByConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Indicates whether the specified Amazon Web Services resources are compliant. If
@@ -293,33 +315,38 @@ public struct ConfigService: AWSService {
     /// 						NOT_APPLICABLE for all evaluation results.
     /// 					This can occur if the resources were deleted or removed from
     /// 					the rule's scope.
-    public func describeComplianceByResource(_ input: DescribeComplianceByResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeComplianceByResourceResponse> {
-        return self.client.execute(operation: "DescribeComplianceByResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeComplianceByResource(_ input: DescribeComplianceByResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeComplianceByResourceResponse {
+        return try await self.client.execute(operation: "DescribeComplianceByResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns status information for each of your Config managed rules. The status includes information such as the last time Config invoked the rule, the last time Config failed to invoke
     /// 			the rule, and the related error for the last failure.
-    public func describeConfigRuleEvaluationStatus(_ input: DescribeConfigRuleEvaluationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConfigRuleEvaluationStatusResponse> {
-        return self.client.execute(operation: "DescribeConfigRuleEvaluationStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeConfigRuleEvaluationStatus(_ input: DescribeConfigRuleEvaluationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigRuleEvaluationStatusResponse {
+        return try await self.client.execute(operation: "DescribeConfigRuleEvaluationStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns details about your Config rules.
-    public func describeConfigRules(_ input: DescribeConfigRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConfigRulesResponse> {
-        return self.client.execute(operation: "DescribeConfigRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeConfigRules(_ input: DescribeConfigRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigRulesResponse {
+        return try await self.client.execute(operation: "DescribeConfigRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns status information for sources within an aggregator.
     /// 			The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
-    public func describeConfigurationAggregatorSourcesStatus(_ input: DescribeConfigurationAggregatorSourcesStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConfigurationAggregatorSourcesStatusResponse> {
-        return self.client.execute(operation: "DescribeConfigurationAggregatorSourcesStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeConfigurationAggregatorSourcesStatus(_ input: DescribeConfigurationAggregatorSourcesStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationAggregatorSourcesStatusResponse {
+        return try await self.client.execute(operation: "DescribeConfigurationAggregatorSourcesStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the details of one or more configuration aggregators.
     /// 			If the configuration aggregator is not specified, this action
     /// 			returns the details for all the configuration aggregators associated
     /// 			with the account.
-    public func describeConfigurationAggregators(_ input: DescribeConfigurationAggregatorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConfigurationAggregatorsResponse> {
-        return self.client.execute(operation: "DescribeConfigurationAggregators", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeConfigurationAggregators(_ input: DescribeConfigurationAggregatorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationAggregatorsResponse {
+        return try await self.client.execute(operation: "DescribeConfigurationAggregators", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the current status of the specified configuration
@@ -327,31 +354,36 @@ public struct ConfigService: AWSService {
     /// 			returns the status of all configuration recorders associated with
     /// 			the account.  >You can specify only one configuration recorder for each Amazon Web Services Region for each account.
     /// 				For a detailed status of recording events over time, add your Config events to Amazon CloudWatch metrics and use CloudWatch metrics.
-    public func describeConfigurationRecorderStatus(_ input: DescribeConfigurationRecorderStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConfigurationRecorderStatusResponse> {
-        return self.client.execute(operation: "DescribeConfigurationRecorderStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeConfigurationRecorderStatus(_ input: DescribeConfigurationRecorderStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationRecorderStatusResponse {
+        return try await self.client.execute(operation: "DescribeConfigurationRecorderStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the details for the specified configuration recorders.
     /// 			If the configuration recorder is not specified, this action returns
     /// 			the details for all configuration recorders associated with the
     /// 			account.  You can specify only one configuration recorder for each Amazon Web Services Region for each account.
-    public func describeConfigurationRecorders(_ input: DescribeConfigurationRecordersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConfigurationRecordersResponse> {
-        return self.client.execute(operation: "DescribeConfigurationRecorders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeConfigurationRecorders(_ input: DescribeConfigurationRecordersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationRecordersResponse {
+        return try await self.client.execute(operation: "DescribeConfigurationRecorders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns compliance details for each rule in that conformance pack.  You must provide exact rule names.
-    public func describeConformancePackCompliance(_ input: DescribeConformancePackComplianceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConformancePackComplianceResponse> {
-        return self.client.execute(operation: "DescribeConformancePackCompliance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeConformancePackCompliance(_ input: DescribeConformancePackComplianceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConformancePackComplianceResponse {
+        return try await self.client.execute(operation: "DescribeConformancePackCompliance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides one or more conformance packs deployment status.  If there are no conformance packs then you will see an empty result.
-    public func describeConformancePackStatus(_ input: DescribeConformancePackStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConformancePackStatusResponse> {
-        return self.client.execute(operation: "DescribeConformancePackStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeConformancePackStatus(_ input: DescribeConformancePackStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConformancePackStatusResponse {
+        return try await self.client.execute(operation: "DescribeConformancePackStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of one or more conformance packs.
-    public func describeConformancePacks(_ input: DescribeConformancePacksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConformancePacksResponse> {
-        return self.client.execute(operation: "DescribeConformancePacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeConformancePacks(_ input: DescribeConformancePacksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConformancePacksResponse {
+        return try await self.client.execute(operation: "DescribeConformancePacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the current status of the specified delivery channel.
@@ -359,24 +391,27 @@ public struct ConfigService: AWSService {
     /// 			current status of all delivery channels associated with the
     /// 			account.  Currently, you can specify only one delivery channel per
     /// 				region in your account.
-    public func describeDeliveryChannelStatus(_ input: DescribeDeliveryChannelStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDeliveryChannelStatusResponse> {
-        return self.client.execute(operation: "DescribeDeliveryChannelStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDeliveryChannelStatus(_ input: DescribeDeliveryChannelStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeliveryChannelStatusResponse {
+        return try await self.client.execute(operation: "DescribeDeliveryChannelStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns details about the specified delivery channel. If a
     /// 			delivery channel is not specified, this action returns the details
     /// 			of all delivery channels associated with the account.  Currently, you can specify only one delivery channel per
     /// 				region in your account.
-    public func describeDeliveryChannels(_ input: DescribeDeliveryChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDeliveryChannelsResponse> {
-        return self.client.execute(operation: "DescribeDeliveryChannels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeDeliveryChannels(_ input: DescribeDeliveryChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeliveryChannelsResponse {
+        return try await self.client.execute(operation: "DescribeDeliveryChannels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides organization Config rule deployment status for an organization.  The status is not considered successful until organization Config rule is successfully deployed in all the member
     /// 			accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response.
     /// 			Limit and next token are not applicable if you specify organization Config rule names.
     /// 			It is only applicable, when you request all the organization Config rules.
-    public func describeOrganizationConfigRuleStatuses(_ input: DescribeOrganizationConfigRuleStatusesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOrganizationConfigRuleStatusesResponse> {
-        return self.client.execute(operation: "DescribeOrganizationConfigRuleStatuses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeOrganizationConfigRuleStatuses(_ input: DescribeOrganizationConfigRuleStatusesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigRuleStatusesResponse {
+        return try await self.client.execute(operation: "DescribeOrganizationConfigRuleStatuses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of organization Config rules.   When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization Config rule names.
@@ -390,16 +425,18 @@ public struct ConfigService: AWSService {
     /// 				DescribeOrganizationConformancePacks APIs can only see and interact with
     /// 				the organization-related resource that were deployed from within the account calling
     /// 				those APIs.
-    public func describeOrganizationConfigRules(_ input: DescribeOrganizationConfigRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOrganizationConfigRulesResponse> {
-        return self.client.execute(operation: "DescribeOrganizationConfigRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeOrganizationConfigRules(_ input: DescribeOrganizationConfigRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigRulesResponse {
+        return try await self.client.execute(operation: "DescribeOrganizationConfigRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides organization conformance pack deployment status for an organization.   The status is not considered successful until organization conformance pack is successfully
     /// 				deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response.
     /// 				Limit and next token are not applicable if you specify organization conformance pack names.
     /// 				They are only applicable, when you request all the organization conformance packs.
-    public func describeOrganizationConformancePackStatuses(_ input: DescribeOrganizationConformancePackStatusesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOrganizationConformancePackStatusesResponse> {
-        return self.client.execute(operation: "DescribeOrganizationConformancePackStatuses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeOrganizationConformancePackStatuses(_ input: DescribeOrganizationConformancePackStatusesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConformancePackStatusesResponse {
+        return try await self.client.execute(operation: "DescribeOrganizationConformancePackStatuses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of organization conformance packs.   When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable,
@@ -413,31 +450,36 @@ public struct ConfigService: AWSService {
     /// 				DescribeOrganizationConformancePacks APIs can only see and interact with
     /// 				the organization-related resource that were deployed from within the account calling
     /// 				those APIs.
-    public func describeOrganizationConformancePacks(_ input: DescribeOrganizationConformancePacksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOrganizationConformancePacksResponse> {
-        return self.client.execute(operation: "DescribeOrganizationConformancePacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeOrganizationConformancePacks(_ input: DescribeOrganizationConformancePacksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConformancePacksResponse {
+        return try await self.client.execute(operation: "DescribeOrganizationConformancePacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of all pending aggregation requests.
-    public func describePendingAggregationRequests(_ input: DescribePendingAggregationRequestsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePendingAggregationRequestsResponse> {
-        return self.client.execute(operation: "DescribePendingAggregationRequests", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describePendingAggregationRequests(_ input: DescribePendingAggregationRequestsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePendingAggregationRequestsResponse {
+        return try await self.client.execute(operation: "DescribePendingAggregationRequests", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the details of one or more remediation configurations.
-    public func describeRemediationConfigurations(_ input: DescribeRemediationConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRemediationConfigurationsResponse> {
-        return self.client.execute(operation: "DescribeRemediationConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeRemediationConfigurations(_ input: DescribeRemediationConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRemediationConfigurationsResponse {
+        return try await self.client.execute(operation: "DescribeRemediationConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted.
     /// 			When you specify the limit and the next token, you receive a paginated response.   Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource.
     /// 				Remediation exceptions blocks auto-remediation until the exception is cleared. When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
-    public func describeRemediationExceptions(_ input: DescribeRemediationExceptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRemediationExceptionsResponse> {
-        return self.client.execute(operation: "DescribeRemediationExceptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeRemediationExceptions(_ input: DescribeRemediationExceptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRemediationExceptionsResponse {
+        return try await self.client.execute(operation: "DescribeRemediationExceptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Provides a detailed view of a Remediation Execution for a set of resources including state, timestamps for when steps for the remediation execution occur, and any error messages for steps that have failed.
     /// 			When you specify the limit and the next token, you receive a paginated response.
-    public func describeRemediationExecutionStatus(_ input: DescribeRemediationExecutionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRemediationExecutionStatusResponse> {
-        return self.client.execute(operation: "DescribeRemediationExecutionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeRemediationExecutionStatus(_ input: DescribeRemediationExecutionStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRemediationExecutionStatusResponse {
+        return try await self.client.execute(operation: "DescribeRemediationExecutionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the details of one or more retention configurations. If
@@ -445,8 +487,9 @@ public struct ConfigService: AWSService {
     /// 			returns the details for all the retention configurations for that
     /// 			account.  Currently, Config supports only one retention
     /// 				configuration per region in your account.
-    public func describeRetentionConfigurations(_ input: DescribeRetentionConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRetentionConfigurationsResponse> {
-        return self.client.execute(operation: "DescribeRetentionConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func describeRetentionConfigurations(_ input: DescribeRetentionConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRetentionConfigurationsResponse {
+        return try await self.client.execute(operation: "DescribeRetentionConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the evaluation results for the specified Config
@@ -455,77 +498,89 @@ public struct ConfigService: AWSService {
     /// 			last evaluated, and whether each resource complies with the rule.   The results can return an empty result page. But if you
     /// 				have a nextToken, the results are displayed on the next
     /// 				page.
-    public func getAggregateComplianceDetailsByConfigRule(_ input: GetAggregateComplianceDetailsByConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAggregateComplianceDetailsByConfigRuleResponse> {
-        return self.client.execute(operation: "GetAggregateComplianceDetailsByConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAggregateComplianceDetailsByConfigRule(_ input: GetAggregateComplianceDetailsByConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAggregateComplianceDetailsByConfigRuleResponse {
+        return try await self.client.execute(operation: "GetAggregateComplianceDetailsByConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the number of compliant and noncompliant rules for one
     /// 			or more accounts and regions in an aggregator.  The results can return an empty result page, but if you
     /// 				have a nextToken, the results are displayed on the next
     /// 				page.
-    public func getAggregateConfigRuleComplianceSummary(_ input: GetAggregateConfigRuleComplianceSummaryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAggregateConfigRuleComplianceSummaryResponse> {
-        return self.client.execute(operation: "GetAggregateConfigRuleComplianceSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAggregateConfigRuleComplianceSummary(_ input: GetAggregateConfigRuleComplianceSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAggregateConfigRuleComplianceSummaryResponse {
+        return try await self.client.execute(operation: "GetAggregateConfigRuleComplianceSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region.  The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
-    public func getAggregateConformancePackComplianceSummary(_ input: GetAggregateConformancePackComplianceSummaryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAggregateConformancePackComplianceSummaryResponse> {
-        return self.client.execute(operation: "GetAggregateConformancePackComplianceSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAggregateConformancePackComplianceSummary(_ input: GetAggregateConformancePackComplianceSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAggregateConformancePackComplianceSummaryResponse {
+        return try await self.client.execute(operation: "GetAggregateConformancePackComplianceSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the resource counts across accounts and regions that are present in your Config aggregator. You can request the resource counts by providing filters and GroupByKey. For example, if the input contains accountID 12345678910 and region us-east-1 in filters, the API returns the count of resources in account ID 12345678910 and region us-east-1.
     /// 			If the input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts for all source accounts that are present in your aggregator.
-    public func getAggregateDiscoveredResourceCounts(_ input: GetAggregateDiscoveredResourceCountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAggregateDiscoveredResourceCountsResponse> {
-        return self.client.execute(operation: "GetAggregateDiscoveredResourceCounts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAggregateDiscoveredResourceCounts(_ input: GetAggregateDiscoveredResourceCountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAggregateDiscoveredResourceCountsResponse {
+        return try await self.client.execute(operation: "GetAggregateDiscoveredResourceCounts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns configuration item that is aggregated for your specific resource in a specific source account and region.
-    public func getAggregateResourceConfig(_ input: GetAggregateResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAggregateResourceConfigResponse> {
-        return self.client.execute(operation: "GetAggregateResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getAggregateResourceConfig(_ input: GetAggregateResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAggregateResourceConfigResponse {
+        return try await self.client.execute(operation: "GetAggregateResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the evaluation results for the specified Config
     /// 			rule. The results indicate which Amazon Web Services resources were evaluated by the
     /// 			rule, when each resource was last evaluated, and whether each
     /// 			resource complies with the rule.
-    public func getComplianceDetailsByConfigRule(_ input: GetComplianceDetailsByConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetComplianceDetailsByConfigRuleResponse> {
-        return self.client.execute(operation: "GetComplianceDetailsByConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getComplianceDetailsByConfigRule(_ input: GetComplianceDetailsByConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComplianceDetailsByConfigRuleResponse {
+        return try await self.client.execute(operation: "GetComplianceDetailsByConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the evaluation results for the specified Amazon Web Services resource.
     /// 			The results indicate which Config rules were used to evaluate
     /// 			the resource, when each rule was last invoked, and whether the resource
     /// 			complies with each rule.
-    public func getComplianceDetailsByResource(_ input: GetComplianceDetailsByResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetComplianceDetailsByResourceResponse> {
-        return self.client.execute(operation: "GetComplianceDetailsByResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getComplianceDetailsByResource(_ input: GetComplianceDetailsByResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComplianceDetailsByResourceResponse {
+        return try await self.client.execute(operation: "GetComplianceDetailsByResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the number of Config rules that are compliant and
     /// 			noncompliant, up to a maximum of 25 for each.
-    public func getComplianceSummaryByConfigRule(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetComplianceSummaryByConfigRuleResponse> {
-        return self.client.execute(operation: "GetComplianceSummaryByConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger, on: eventLoop)
+    @Sendable
+    public func getComplianceSummaryByConfigRule(logger: Logger = AWSClient.loggingDisabled) async throws -> GetComplianceSummaryByConfigRuleResponse {
+        return try await self.client.execute(operation: "GetComplianceSummaryByConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger)
     }
 
     /// Returns the number of resources that are compliant and the
     /// 			number that are noncompliant. You can specify one or more resource
     /// 			types to get these numbers for each resource type. The maximum
     /// 			number returned is 100.
-    public func getComplianceSummaryByResourceType(_ input: GetComplianceSummaryByResourceTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetComplianceSummaryByResourceTypeResponse> {
-        return self.client.execute(operation: "GetComplianceSummaryByResourceType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getComplianceSummaryByResourceType(_ input: GetComplianceSummaryByResourceTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComplianceSummaryByResourceTypeResponse {
+        return try await self.client.execute(operation: "GetComplianceSummaryByResourceType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
-    public func getConformancePackComplianceDetails(_ input: GetConformancePackComplianceDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConformancePackComplianceDetailsResponse> {
-        return self.client.execute(operation: "GetConformancePackComplianceDetails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getConformancePackComplianceDetails(_ input: GetConformancePackComplianceDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConformancePackComplianceDetailsResponse {
+        return try await self.client.execute(operation: "GetConformancePackComplianceDetails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
-    public func getConformancePackComplianceSummary(_ input: GetConformancePackComplianceSummaryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConformancePackComplianceSummaryResponse> {
-        return self.client.execute(operation: "GetConformancePackComplianceSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getConformancePackComplianceSummary(_ input: GetConformancePackComplianceSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConformancePackComplianceSummaryResponse {
+        return try await self.client.execute(operation: "GetConformancePackComplianceSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the policy definition containing the logic for your Config Custom Policy rule.
-    public func getCustomRulePolicy(_ input: GetCustomRulePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCustomRulePolicyResponse> {
-        return self.client.execute(operation: "GetCustomRulePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getCustomRulePolicy(_ input: GetCustomRulePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomRulePolicyResponse {
+        return try await self.client.execute(operation: "GetCustomRulePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the resource types, the number of each resource type,
@@ -548,23 +603,27 @@ public struct ConfigService: AWSService {
     /// 				count your resources. Wait a few minutes and then retry the
     /// 					GetDiscoveredResourceCounts action.
     ///
-    public func getDiscoveredResourceCounts(_ input: GetDiscoveredResourceCountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDiscoveredResourceCountsResponse> {
-        return self.client.execute(operation: "GetDiscoveredResourceCounts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getDiscoveredResourceCounts(_ input: GetDiscoveredResourceCountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDiscoveredResourceCountsResponse {
+        return try await self.client.execute(operation: "GetDiscoveredResourceCounts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns detailed status for each member account within an organization for a given organization Config rule.
-    public func getOrganizationConfigRuleDetailedStatus(_ input: GetOrganizationConfigRuleDetailedStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOrganizationConfigRuleDetailedStatusResponse> {
-        return self.client.execute(operation: "GetOrganizationConfigRuleDetailedStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getOrganizationConfigRuleDetailedStatus(_ input: GetOrganizationConfigRuleDetailedStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrganizationConfigRuleDetailedStatusResponse {
+        return try await self.client.execute(operation: "GetOrganizationConfigRuleDetailedStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns detailed status for each member account within an organization for a given organization conformance pack.
-    public func getOrganizationConformancePackDetailedStatus(_ input: GetOrganizationConformancePackDetailedStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOrganizationConformancePackDetailedStatusResponse> {
-        return self.client.execute(operation: "GetOrganizationConformancePackDetailedStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getOrganizationConformancePackDetailedStatus(_ input: GetOrganizationConformancePackDetailedStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrganizationConformancePackDetailedStatusResponse {
+        return try await self.client.execute(operation: "GetOrganizationConformancePackDetailedStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the policy definition containing the logic for your organization Config Custom Policy rule.
-    public func getOrganizationCustomRulePolicy(_ input: GetOrganizationCustomRulePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOrganizationCustomRulePolicyResponse> {
-        return self.client.execute(operation: "GetOrganizationCustomRulePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getOrganizationCustomRulePolicy(_ input: GetOrganizationCustomRulePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrganizationCustomRulePolicyResponse {
+        return try await self.client.execute(operation: "GetOrganizationCustomRulePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of ConfigurationItems for the specified resource.
@@ -583,36 +642,41 @@ public struct ConfigService: AWSService {
     /// 				smaller than the specified limit. In such cases,
     /// 				you can make another call, using the
     /// 				nextToken.
-    public func getResourceConfigHistory(_ input: GetResourceConfigHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceConfigHistoryResponse> {
-        return self.client.execute(operation: "GetResourceConfigHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getResourceConfigHistory(_ input: GetResourceConfigHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceConfigHistoryResponse {
+        return try await self.client.execute(operation: "GetResourceConfigHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run.
     /// 			The results indicate which evaluation context was used to evaluate the rules, which resource details were evaluated,
     /// 			the evaluation mode that was run, and whether the resource details comply with the configuration of the proactive rules.   To see additional information about the evaluation result, such as which rule flagged a resource as NON_COMPLIANT, use the GetComplianceDetailsByResource API.
     /// 			For more information, see the  Examples section.
-    public func getResourceEvaluationSummary(_ input: GetResourceEvaluationSummaryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetResourceEvaluationSummaryResponse> {
-        return self.client.execute(operation: "GetResourceEvaluationSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getResourceEvaluationSummary(_ input: GetResourceEvaluationSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceEvaluationSummaryResponse {
+        return try await self.client.execute(operation: "GetResourceEvaluationSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns the details of a specific stored query.
-    public func getStoredQuery(_ input: GetStoredQueryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStoredQueryResponse> {
-        return self.client.execute(operation: "GetStoredQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getStoredQuery(_ input: GetStoredQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStoredQueryResponse {
+        return try await self.client.execute(operation: "GetStoredQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Accepts a resource type and returns a list of resource identifiers that are aggregated for a specific resource type across accounts and regions.
     /// 			A resource identifier includes the resource type, ID, (if available) the custom resource name, source account, and source region.
     /// 			You can narrow the results to include only resources that have specific resource IDs, or a resource name, or source account ID, or source region. For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type AWS::EC2::Instance then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
-    public func listAggregateDiscoveredResources(_ input: ListAggregateDiscoveredResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAggregateDiscoveredResourcesResponse> {
-        return self.client.execute(operation: "ListAggregateDiscoveredResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listAggregateDiscoveredResources(_ input: ListAggregateDiscoveredResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAggregateDiscoveredResourcesResponse {
+        return try await self.client.execute(operation: "ListAggregateDiscoveredResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of conformance pack compliance scores.
     /// 			A compliance score is the percentage of the number of compliant rule-resource combinations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack.
     /// 			This metric provides you with a high-level view of the compliance state of your conformance packs. You can use it to identify, investigate, and understand
     /// 			the level of compliance in your conformance packs.  Conformance packs with no evaluation results will have a compliance score of INSUFFICIENT_DATA.
-    public func listConformancePackComplianceScores(_ input: ListConformancePackComplianceScoresRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConformancePackComplianceScoresResponse> {
-        return self.client.execute(operation: "ListConformancePackComplianceScores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listConformancePackComplianceScores(_ input: ListConformancePackComplianceScoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConformancePackComplianceScoresResponse {
+        return try await self.client.execute(operation: "ListConformancePackComplianceScores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Accepts a resource type and returns a list of resource
@@ -628,30 +692,35 @@ public struct ConfigService: AWSService {
     /// 				nextToken string. To get the next page of results,
     /// 			run the request again and specify the string for the
     /// 				nextToken parameter.
-    public func listDiscoveredResources(_ input: ListDiscoveredResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDiscoveredResourcesResponse> {
-        return self.client.execute(operation: "ListDiscoveredResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listDiscoveredResources(_ input: ListDiscoveredResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDiscoveredResourcesResponse {
+        return try await self.client.execute(operation: "ListDiscoveredResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Returns a list of proactive resource evaluations.
-    public func listResourceEvaluations(_ input: ListResourceEvaluationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourceEvaluationsResponse> {
-        return self.client.execute(operation: "ListResourceEvaluations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listResourceEvaluations(_ input: ListResourceEvaluationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceEvaluationsResponse {
+        return try await self.client.execute(operation: "ListResourceEvaluations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
-    public func listStoredQueries(_ input: ListStoredQueriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStoredQueriesResponse> {
-        return self.client.execute(operation: "ListStoredQueries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listStoredQueries(_ input: ListStoredQueriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStoredQueriesResponse {
+        return try await self.client.execute(operation: "ListStoredQueries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// List the tags for Config resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Authorizes the aggregator account and region to collect data
     /// 			from the source account and region.    PutAggregationAuthorization is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
     /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
-    public func putAggregationAuthorization(_ input: PutAggregationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutAggregationAuthorizationResponse> {
-        return self.client.execute(operation: "PutAggregationAuthorization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putAggregationAuthorization(_ input: PutAggregationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAggregationAuthorizationResponse {
+        return try await self.client.execute(operation: "PutAggregationAuthorization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds or updates an Config rule to evaluate if your
@@ -684,8 +753,9 @@ public struct ConfigService: AWSService {
     /// 			rules, see Evaluating Resources with Config Rules
     /// 			in the Config Developer Guide.   PutConfigRule is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
     /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
-    @discardableResult public func putConfigRule(_ input: PutConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putConfigRule(_ input: PutConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "PutConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates and updates the configuration aggregator with the
@@ -696,8 +766,9 @@ public struct ConfigService: AWSService {
     /// 				If the caller is a management account, Config calls EnableAwsServiceAccess API to enable integration between Config and Organizations.
     /// 				If the caller is a registered delegated administrator, Config calls ListDelegatedAdministrators API to verify whether the caller is a valid delegated administrator. To register a delegated administrator, see Register a Delegated Administrator in the Config developer guide.     PutConfigurationAggregator is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
     /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
-    public func putConfigurationAggregator(_ input: PutConfigurationAggregatorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutConfigurationAggregatorResponse> {
-        return self.client.execute(operation: "PutConfigurationAggregator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putConfigurationAggregator(_ input: PutConfigurationAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConfigurationAggregatorResponse {
+        return try await self.client.execute(operation: "PutConfigurationAggregator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a new configuration recorder to record configuration changes for specified resource types. You can also use this action to change the roleARN
@@ -706,16 +777,18 @@ public struct ConfigService: AWSService {
     /// 					recordingGroup field
     /// 				specified, the default is to record all supported resource
     /// 				types.
-    @discardableResult public func putConfigurationRecorder(_ input: PutConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putConfigurationRecorder(_ input: PutConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "PutConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across an organization.
     /// 			For information on how many conformance packs you can have per account,
     /// 			see  Service Limits in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfigConforms in your account.
     /// 		The service-linked role is created only when the role does not exist in your account.   You must specify only one of the follow parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.
-    public func putConformancePack(_ input: PutConformancePackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutConformancePackResponse> {
-        return self.client.execute(operation: "PutConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putConformancePack(_ input: PutConformancePackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConformancePackResponse {
+        return try await self.client.execute(operation: "PutConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates a delivery channel object to deliver configuration
@@ -728,21 +801,24 @@ public struct ConfigService: AWSService {
     /// 			topic, this action will keep the existing value for the parameter
     /// 			that is not changed.  You can have only one delivery channel per region in your
     /// 				account.
-    @discardableResult public func putDeliveryChannel(_ input: PutDeliveryChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutDeliveryChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putDeliveryChannel(_ input: PutDeliveryChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "PutDeliveryChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Used by an Lambda function to deliver evaluation results to
     /// 			Config. This action is required in every Lambda function
     /// 			that is invoked by an Config rule.
-    public func putEvaluations(_ input: PutEvaluationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutEvaluationsResponse> {
-        return self.client.execute(operation: "PutEvaluations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putEvaluations(_ input: PutEvaluationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEvaluationsResponse {
+        return try await self.client.execute(operation: "PutEvaluations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Add or updates the evaluations for process checks.
     /// 			This API checks if the rule is a process check when the name of the Config rule is provided.
-    public func putExternalEvaluation(_ input: PutExternalEvaluationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutExternalEvaluationResponse> {
-        return self.client.execute(operation: "PutExternalEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putExternalEvaluation(_ input: PutExternalEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutExternalEvaluationResponse {
+        return try await self.client.execute(operation: "PutExternalEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web Services resources comply with your
@@ -767,8 +843,9 @@ public struct ConfigService: AWSService {
     /// 		administrator that the rule invokes to evaluate your resources. You also need to create an IAM role in the managed account that can be assumed by the Lambda function.
     /// 		When you use PutOrganizationConfigRule to add a Custom Lambda rule to Config, you must
     /// 			specify the Amazon Resource Name (ARN) that Lambda assigns to the function.  Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization. Make sure to specify one of either OrganizationCustomPolicyRuleMetadata for Custom Policy rules, OrganizationCustomRuleMetadata for Custom Lambda rules, or OrganizationManagedRuleMetadata for managed rules.
-    public func putOrganizationConfigRule(_ input: PutOrganizationConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutOrganizationConfigRuleResponse> {
-        return self.client.execute(operation: "PutOrganizationConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putOrganizationConfigRule(_ input: PutOrganizationConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutOrganizationConfigRuleResponse {
+        return try await self.client.execute(operation: "PutOrganizationConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account,
@@ -782,8 +859,9 @@ public struct ConfigService: AWSService {
     /// 			register-delegate-admin for config-multiaccountsetup.amazonaws.com.  Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization. You must specify either the TemplateS3Uri or the TemplateBody parameter, but not both.
     /// 			If you provide both Config uses the TemplateS3Uri parameter and ignores the TemplateBody parameter. Config sets the state of a conformance pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS until the conformance pack is created or updated.
     /// 				You cannot update a conformance pack while it is in this state.
-    public func putOrganizationConformancePack(_ input: PutOrganizationConformancePackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutOrganizationConformancePackResponse> {
-        return self.client.execute(operation: "PutOrganizationConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putOrganizationConformancePack(_ input: PutOrganizationConformancePackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutOrganizationConformancePackResponse {
+        return try await self.client.execute(operation: "PutOrganizationConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Adds or updates the remediation configuration with a specific Config rule with the
@@ -793,8 +871,9 @@ public struct ConfigService: AWSService {
     /// 		The target (SSM document) must exist and have permissions to use the target.   If you make backward incompatible changes to the SSM document,
     /// 			you must call this again to ensure the remediations can run. This API does not support adding remediation configurations for service-linked Config Rules such as Organization Config rules,
     /// 				the rules deployed by conformance packs, and rules deployed by Amazon Web Services Security Hub.   For manual remediation configuration, you need to provide a value for automationAssumeRole or use a value in the assumeRolefield  to remediate your resources. The SSM automation document can use either as long as it maps to a valid parameter. However, for automatic remediation configuration, the only valid assumeRole field value is AutomationAssumeRole and you need to provide a value for AutomationAssumeRole to remediate your resources.
-    public func putRemediationConfigurations(_ input: PutRemediationConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRemediationConfigurationsResponse> {
-        return self.client.execute(operation: "PutRemediationConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putRemediationConfigurations(_ input: PutRemediationConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRemediationConfigurationsResponse {
+        return try await self.client.execute(operation: "PutRemediationConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// A remediation exception is when a specified resource is no longer considered for auto-remediation.
@@ -806,8 +885,9 @@ public struct ConfigService: AWSService {
     /// 			If you use this API for COMPLIANT resources or resources that are NOT_APPLICABLE, a remediation exception will not be generated.
     /// 			For more information on the conditions that initiate the possible Config evaluation results,
     /// 			see Concepts | Config  Rules in the Config Developer Guide.
-    public func putRemediationExceptions(_ input: PutRemediationExceptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRemediationExceptionsResponse> {
-        return self.client.execute(operation: "PutRemediationExceptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putRemediationExceptions(_ input: PutRemediationExceptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRemediationExceptionsResponse {
+        return try await self.client.execute(operation: "PutRemediationExceptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Records the configuration state for the resource provided in the request.
@@ -815,8 +895,9 @@ public struct ConfigService: AWSService {
     /// 			The configuration state of a resource is represented in Config as Configuration Items.
     /// 			Once this API records the configuration item, you can retrieve the list of configuration items for the custom resource type using existing Config APIs.   The custom resource type must be registered with CloudFormation. This API accepts the configuration item registered with CloudFormation. When you call this API, Config only stores configuration state of the resource provided in the request. This API does not change or remediate the configuration of the resource.
     /// 				 Write-only schema properites are not recorded as part of the published configuration item.
-    @discardableResult public func putResourceConfig(_ input: PutResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putResourceConfig(_ input: PutResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "PutResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates and updates the retention configuration with details
@@ -827,15 +908,17 @@ public struct ConfigService: AWSService {
     /// 				RetentionConfiguration object named default, calling the API modifies the
     /// 			default object.   Currently, Config supports only one retention
     /// 				configuration per region in your account.
-    public func putRetentionConfiguration(_ input: PutRetentionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRetentionConfigurationResponse> {
-        return self.client.execute(operation: "PutRetentionConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putRetentionConfiguration(_ input: PutRetentionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRetentionConfigurationResponse {
+        return try await self.client.execute(operation: "PutRetentionConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Saves a new query or updates an existing saved query. The QueryName must be unique for a single Amazon Web Services account and a single Amazon Web Services Region.
     /// 			You can create upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services Region.   PutStoredQuery is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values,
     /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
-    public func putStoredQuery(_ input: PutStoredQueryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutStoredQueryResponse> {
-        return self.client.execute(operation: "PutStoredQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putStoredQuery(_ input: PutStoredQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutStoredQueryResponse {
+        return try await self.client.execute(operation: "PutStoredQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Accepts a structured query language (SQL) SELECT command and an aggregator to query configuration state of Amazon Web Services resources across multiple accounts and regions,
@@ -843,14 +926,16 @@ public struct ConfigService: AWSService {
     /// 			 Query Components section in the Config Developer Guide.  If you run an aggregation query (i.e., using GROUP BY or using aggregate functions such as COUNT; e.g., SELECT resourceId, COUNT(*) WHERE resourceType = 'AWS::IAM::Role' GROUP BY resourceId)
     /// 				and do not specify the MaxResults or the Limit query parameters, the default page size is set to 500. If you run a non-aggregation query (i.e., not using GROUP BY or aggregate function; e.g., SELECT * WHERE resourceType = 'AWS::IAM::Role')
     /// 				and do not specify the MaxResults or the Limit query parameters, the default page size is set to 25.
-    public func selectAggregateResourceConfig(_ input: SelectAggregateResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SelectAggregateResourceConfigResponse> {
-        return self.client.execute(operation: "SelectAggregateResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func selectAggregateResourceConfig(_ input: SelectAggregateResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SelectAggregateResourceConfigResponse {
+        return try await self.client.execute(operation: "SelectAggregateResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Accepts a structured query language (SQL) SELECT command, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the
     /// 			 Query Components section in the Config Developer Guide.
-    public func selectResourceConfig(_ input: SelectResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SelectResourceConfigResponse> {
-        return self.client.execute(operation: "SelectResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func selectResourceConfig(_ input: SelectResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SelectResourceConfigResponse {
+        return try await self.client.execute(operation: "SelectResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Runs an on-demand evaluation for the specified Config rules
@@ -876,20 +961,23 @@ public struct ConfigService: AWSService {
     /// 					API.   Config invokes your Lambda function and evaluates
     /// 					your IAM resources.   Your custom rule will still run periodic evaluations
     /// 					every 24 hours.
-    public func startConfigRulesEvaluation(_ input: StartConfigRulesEvaluationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartConfigRulesEvaluationResponse> {
-        return self.client.execute(operation: "StartConfigRulesEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startConfigRulesEvaluation(_ input: StartConfigRulesEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartConfigRulesEvaluationResponse {
+        return try await self.client.execute(operation: "StartConfigRulesEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Starts recording configurations of the Amazon Web Services resources you have
     /// 			selected to record in your Amazon Web Services account. You must have created at least one delivery channel to
     /// 			successfully start the configuration recorder.
-    @discardableResult public func startConfigurationRecorder(_ input: StartConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "StartConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startConfigurationRecorder(_ input: StartConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "StartConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Runs an on-demand remediation for the specified Config rules against the last known remediation configuration. It runs an execution against the current state of your resources. Remediation execution is asynchronous. You can specify up to 100 resource keys per request. An existing StartRemediationExecution call for the specified resource keys must complete before you can call the API again.
-    public func startRemediationExecution(_ input: StartRemediationExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartRemediationExecutionResponse> {
-        return self.client.execute(operation: "StartRemediationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startRemediationExecution(_ input: StartRemediationExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRemediationExecutionResponse {
+        return try await self.client.execute(operation: "StartRemediationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules.
@@ -898,24 +986,28 @@ public struct ConfigService: AWSService {
     /// 				Resource type schema in "Amazon Web Services public extensions" within the CloudFormation registry or with the following CLI commmand:
     /// 			aws cloudformation describe-type --type-name "AWS::S3::Bucket" --type RESOURCE. For more information, see Managing extensions through the CloudFormation registry
     /// 			and Amazon Web Services resource and property types reference in the CloudFormation User Guide.
-    public func startResourceEvaluation(_ input: StartResourceEvaluationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartResourceEvaluationResponse> {
-        return self.client.execute(operation: "StartResourceEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func startResourceEvaluation(_ input: StartResourceEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartResourceEvaluationResponse {
+        return try await self.client.execute(operation: "StartResourceEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Stops recording configurations of the Amazon Web Services resources you have selected to record in your Amazon Web Services account.
-    @discardableResult public func stopConfigurationRecorder(_ input: StopConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "StopConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func stopConfigurationRecorder(_ input: StopConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "StopConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed.
     /// 			If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
-    @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Deletes specified tags from a resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -930,169 +1022,68 @@ extension ConfigService {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ConfigService {
     /// Returns a list of compliant and noncompliant rules with the
     /// 			number of resources for compliant and noncompliant rules. Does not display rules that do not have compliance results.
     /// 			  The results can return an empty result page, but if you
     /// 				have a nextToken, the results are displayed on the next
     /// 				page.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeAggregateComplianceByConfigRulesPaginator<Result>(
-        _ input: DescribeAggregateComplianceByConfigRulesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeAggregateComplianceByConfigRulesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeAggregateComplianceByConfigRules,
-            inputKey: \DescribeAggregateComplianceByConfigRulesRequest.nextToken,
-            outputKey: \DescribeAggregateComplianceByConfigRulesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeAggregateComplianceByConfigRulesPaginator(
         _ input: DescribeAggregateComplianceByConfigRulesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeAggregateComplianceByConfigRulesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeAggregateComplianceByConfigRulesRequest, DescribeAggregateComplianceByConfigRulesResponse> {
+        return .init(
             input: input,
             command: self.describeAggregateComplianceByConfigRules,
             inputKey: \DescribeAggregateComplianceByConfigRulesRequest.nextToken,
             outputKey: \DescribeAggregateComplianceByConfigRulesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of the conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each
     /// 			conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data.  The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeAggregateComplianceByConformancePacksPaginator<Result>(
-        _ input: DescribeAggregateComplianceByConformancePacksRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeAggregateComplianceByConformancePacksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeAggregateComplianceByConformancePacks,
-            inputKey: \DescribeAggregateComplianceByConformancePacksRequest.nextToken,
-            outputKey: \DescribeAggregateComplianceByConformancePacksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeAggregateComplianceByConformancePacksPaginator(
         _ input: DescribeAggregateComplianceByConformancePacksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeAggregateComplianceByConformancePacksResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeAggregateComplianceByConformancePacksRequest, DescribeAggregateComplianceByConformancePacksResponse> {
+        return .init(
             input: input,
             command: self.describeAggregateComplianceByConformancePacks,
             inputKey: \DescribeAggregateComplianceByConformancePacksRequest.nextToken,
             outputKey: \DescribeAggregateComplianceByConformancePacksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of authorizations granted to various aggregator
     /// 			accounts and regions.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeAggregationAuthorizationsPaginator<Result>(
-        _ input: DescribeAggregationAuthorizationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeAggregationAuthorizationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeAggregationAuthorizations,
-            inputKey: \DescribeAggregationAuthorizationsRequest.nextToken,
-            outputKey: \DescribeAggregationAuthorizationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeAggregationAuthorizationsPaginator(
         _ input: DescribeAggregationAuthorizationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeAggregationAuthorizationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeAggregationAuthorizationsRequest, DescribeAggregationAuthorizationsResponse> {
+        return .init(
             input: input,
             command: self.describeAggregationAuthorizations,
             inputKey: \DescribeAggregationAuthorizationsRequest.nextToken,
             outputKey: \DescribeAggregationAuthorizationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1116,55 +1107,21 @@ extension ConfigService {
     /// 						NOT_APPLICABLE for all evaluation results.
     /// 					This can occur if the resources were deleted or removed from
     /// 					the rule's scope.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeComplianceByConfigRulePaginator<Result>(
-        _ input: DescribeComplianceByConfigRuleRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeComplianceByConfigRuleResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeComplianceByConfigRule,
-            inputKey: \DescribeComplianceByConfigRuleRequest.nextToken,
-            outputKey: \DescribeComplianceByConfigRuleResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeComplianceByConfigRulePaginator(
         _ input: DescribeComplianceByConfigRuleRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeComplianceByConfigRuleResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeComplianceByConfigRuleRequest, DescribeComplianceByConfigRuleResponse> {
+        return .init(
             input: input,
             command: self.describeComplianceByConfigRule,
             inputKey: \DescribeComplianceByConfigRuleRequest.nextToken,
             outputKey: \DescribeComplianceByConfigRuleResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1188,216 +1145,80 @@ extension ConfigService {
     /// 						NOT_APPLICABLE for all evaluation results.
     /// 					This can occur if the resources were deleted or removed from
     /// 					the rule's scope.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeComplianceByResourcePaginator<Result>(
-        _ input: DescribeComplianceByResourceRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeComplianceByResourceResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeComplianceByResource,
-            inputKey: \DescribeComplianceByResourceRequest.nextToken,
-            outputKey: \DescribeComplianceByResourceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeComplianceByResourcePaginator(
         _ input: DescribeComplianceByResourceRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeComplianceByResourceResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeComplianceByResourceRequest, DescribeComplianceByResourceResponse> {
+        return .init(
             input: input,
             command: self.describeComplianceByResource,
             inputKey: \DescribeComplianceByResourceRequest.nextToken,
             outputKey: \DescribeComplianceByResourceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns status information for each of your Config managed rules. The status includes information such as the last time Config invoked the rule, the last time Config failed to invoke
     /// 			the rule, and the related error for the last failure.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeConfigRuleEvaluationStatusPaginator<Result>(
-        _ input: DescribeConfigRuleEvaluationStatusRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeConfigRuleEvaluationStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeConfigRuleEvaluationStatus,
-            inputKey: \DescribeConfigRuleEvaluationStatusRequest.nextToken,
-            outputKey: \DescribeConfigRuleEvaluationStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeConfigRuleEvaluationStatusPaginator(
         _ input: DescribeConfigRuleEvaluationStatusRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeConfigRuleEvaluationStatusResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeConfigRuleEvaluationStatusRequest, DescribeConfigRuleEvaluationStatusResponse> {
+        return .init(
             input: input,
             command: self.describeConfigRuleEvaluationStatus,
             inputKey: \DescribeConfigRuleEvaluationStatusRequest.nextToken,
             outputKey: \DescribeConfigRuleEvaluationStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns details about your Config rules.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeConfigRulesPaginator<Result>(
-        _ input: DescribeConfigRulesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeConfigRulesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeConfigRules,
-            inputKey: \DescribeConfigRulesRequest.nextToken,
-            outputKey: \DescribeConfigRulesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeConfigRulesPaginator(
         _ input: DescribeConfigRulesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeConfigRulesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeConfigRulesRequest, DescribeConfigRulesResponse> {
+        return .init(
             input: input,
             command: self.describeConfigRules,
             inputKey: \DescribeConfigRulesRequest.nextToken,
             outputKey: \DescribeConfigRulesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns status information for sources within an aggregator.
     /// 			The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeConfigurationAggregatorSourcesStatusPaginator<Result>(
-        _ input: DescribeConfigurationAggregatorSourcesStatusRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeConfigurationAggregatorSourcesStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeConfigurationAggregatorSourcesStatus,
-            inputKey: \DescribeConfigurationAggregatorSourcesStatusRequest.nextToken,
-            outputKey: \DescribeConfigurationAggregatorSourcesStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeConfigurationAggregatorSourcesStatusPaginator(
         _ input: DescribeConfigurationAggregatorSourcesStatusRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeConfigurationAggregatorSourcesStatusResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeConfigurationAggregatorSourcesStatusRequest, DescribeConfigurationAggregatorSourcesStatusResponse> {
+        return .init(
             input: input,
             command: self.describeConfigurationAggregatorSourcesStatus,
             inputKey: \DescribeConfigurationAggregatorSourcesStatusRequest.nextToken,
             outputKey: \DescribeConfigurationAggregatorSourcesStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1405,214 +1226,78 @@ extension ConfigService {
     /// 			If the configuration aggregator is not specified, this action
     /// 			returns the details for all the configuration aggregators associated
     /// 			with the account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeConfigurationAggregatorsPaginator<Result>(
-        _ input: DescribeConfigurationAggregatorsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeConfigurationAggregatorsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeConfigurationAggregators,
-            inputKey: \DescribeConfigurationAggregatorsRequest.nextToken,
-            outputKey: \DescribeConfigurationAggregatorsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeConfigurationAggregatorsPaginator(
         _ input: DescribeConfigurationAggregatorsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeConfigurationAggregatorsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeConfigurationAggregatorsRequest, DescribeConfigurationAggregatorsResponse> {
+        return .init(
             input: input,
             command: self.describeConfigurationAggregators,
             inputKey: \DescribeConfigurationAggregatorsRequest.nextToken,
             outputKey: \DescribeConfigurationAggregatorsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns compliance details for each rule in that conformance pack.  You must provide exact rule names.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeConformancePackCompliancePaginator<Result>(
-        _ input: DescribeConformancePackComplianceRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeConformancePackComplianceResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeConformancePackCompliance,
-            inputKey: \DescribeConformancePackComplianceRequest.nextToken,
-            outputKey: \DescribeConformancePackComplianceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeConformancePackCompliancePaginator(
         _ input: DescribeConformancePackComplianceRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeConformancePackComplianceResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeConformancePackComplianceRequest, DescribeConformancePackComplianceResponse> {
+        return .init(
             input: input,
             command: self.describeConformancePackCompliance,
             inputKey: \DescribeConformancePackComplianceRequest.nextToken,
             outputKey: \DescribeConformancePackComplianceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Provides one or more conformance packs deployment status.  If there are no conformance packs then you will see an empty result.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeConformancePackStatusPaginator<Result>(
-        _ input: DescribeConformancePackStatusRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeConformancePackStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeConformancePackStatus,
-            inputKey: \DescribeConformancePackStatusRequest.nextToken,
-            outputKey: \DescribeConformancePackStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeConformancePackStatusPaginator(
         _ input: DescribeConformancePackStatusRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeConformancePackStatusResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeConformancePackStatusRequest, DescribeConformancePackStatusResponse> {
+        return .init(
             input: input,
             command: self.describeConformancePackStatus,
             inputKey: \DescribeConformancePackStatusRequest.nextToken,
             outputKey: \DescribeConformancePackStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of one or more conformance packs.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeConformancePacksPaginator<Result>(
-        _ input: DescribeConformancePacksRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeConformancePacksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeConformancePacks,
-            inputKey: \DescribeConformancePacksRequest.nextToken,
-            outputKey: \DescribeConformancePacksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeConformancePacksPaginator(
         _ input: DescribeConformancePacksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeConformancePacksResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeConformancePacksRequest, DescribeConformancePacksResponse> {
+        return .init(
             input: input,
             command: self.describeConformancePacks,
             inputKey: \DescribeConformancePacksRequest.nextToken,
             outputKey: \DescribeConformancePacksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1620,55 +1305,21 @@ extension ConfigService {
     /// 			accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response.
     /// 			Limit and next token are not applicable if you specify organization Config rule names.
     /// 			It is only applicable, when you request all the organization Config rules.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeOrganizationConfigRuleStatusesPaginator<Result>(
-        _ input: DescribeOrganizationConfigRuleStatusesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeOrganizationConfigRuleStatusesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeOrganizationConfigRuleStatuses,
-            inputKey: \DescribeOrganizationConfigRuleStatusesRequest.nextToken,
-            outputKey: \DescribeOrganizationConfigRuleStatusesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeOrganizationConfigRuleStatusesPaginator(
         _ input: DescribeOrganizationConfigRuleStatusesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeOrganizationConfigRuleStatusesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeOrganizationConfigRuleStatusesRequest, DescribeOrganizationConfigRuleStatusesResponse> {
+        return .init(
             input: input,
             command: self.describeOrganizationConfigRuleStatuses,
             inputKey: \DescribeOrganizationConfigRuleStatusesRequest.nextToken,
             outputKey: \DescribeOrganizationConfigRuleStatusesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1683,55 +1334,21 @@ extension ConfigService {
     /// 				DescribeOrganizationConformancePacks APIs can only see and interact with
     /// 				the organization-related resource that were deployed from within the account calling
     /// 				those APIs.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeOrganizationConfigRulesPaginator<Result>(
-        _ input: DescribeOrganizationConfigRulesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeOrganizationConfigRulesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeOrganizationConfigRules,
-            inputKey: \DescribeOrganizationConfigRulesRequest.nextToken,
-            outputKey: \DescribeOrganizationConfigRulesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeOrganizationConfigRulesPaginator(
         _ input: DescribeOrganizationConfigRulesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeOrganizationConfigRulesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeOrganizationConfigRulesRequest, DescribeOrganizationConfigRulesResponse> {
+        return .init(
             input: input,
             command: self.describeOrganizationConfigRules,
             inputKey: \DescribeOrganizationConfigRulesRequest.nextToken,
             outputKey: \DescribeOrganizationConfigRulesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1739,55 +1356,21 @@ extension ConfigService {
     /// 				deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response.
     /// 				Limit and next token are not applicable if you specify organization conformance pack names.
     /// 				They are only applicable, when you request all the organization conformance packs.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeOrganizationConformancePackStatusesPaginator<Result>(
-        _ input: DescribeOrganizationConformancePackStatusesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeOrganizationConformancePackStatusesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeOrganizationConformancePackStatuses,
-            inputKey: \DescribeOrganizationConformancePackStatusesRequest.nextToken,
-            outputKey: \DescribeOrganizationConformancePackStatusesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeOrganizationConformancePackStatusesPaginator(
         _ input: DescribeOrganizationConformancePackStatusesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeOrganizationConformancePackStatusesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeOrganizationConformancePackStatusesRequest, DescribeOrganizationConformancePackStatusesResponse> {
+        return .init(
             input: input,
             command: self.describeOrganizationConformancePackStatuses,
             inputKey: \DescribeOrganizationConformancePackStatusesRequest.nextToken,
             outputKey: \DescribeOrganizationConformancePackStatusesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -1802,217 +1385,81 @@ extension ConfigService {
     /// 				DescribeOrganizationConformancePacks APIs can only see and interact with
     /// 				the organization-related resource that were deployed from within the account calling
     /// 				those APIs.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeOrganizationConformancePacksPaginator<Result>(
-        _ input: DescribeOrganizationConformancePacksRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeOrganizationConformancePacksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeOrganizationConformancePacks,
-            inputKey: \DescribeOrganizationConformancePacksRequest.nextToken,
-            outputKey: \DescribeOrganizationConformancePacksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeOrganizationConformancePacksPaginator(
         _ input: DescribeOrganizationConformancePacksRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeOrganizationConformancePacksResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeOrganizationConformancePacksRequest, DescribeOrganizationConformancePacksResponse> {
+        return .init(
             input: input,
             command: self.describeOrganizationConformancePacks,
             inputKey: \DescribeOrganizationConformancePacksRequest.nextToken,
             outputKey: \DescribeOrganizationConformancePacksResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of all pending aggregation requests.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describePendingAggregationRequestsPaginator<Result>(
-        _ input: DescribePendingAggregationRequestsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribePendingAggregationRequestsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describePendingAggregationRequests,
-            inputKey: \DescribePendingAggregationRequestsRequest.nextToken,
-            outputKey: \DescribePendingAggregationRequestsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describePendingAggregationRequestsPaginator(
         _ input: DescribePendingAggregationRequestsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribePendingAggregationRequestsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribePendingAggregationRequestsRequest, DescribePendingAggregationRequestsResponse> {
+        return .init(
             input: input,
             command: self.describePendingAggregationRequests,
             inputKey: \DescribePendingAggregationRequestsRequest.nextToken,
             outputKey: \DescribePendingAggregationRequestsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted.
     /// 			When you specify the limit and the next token, you receive a paginated response.   Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource.
     /// 				Remediation exceptions blocks auto-remediation until the exception is cleared. When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeRemediationExceptionsPaginator<Result>(
-        _ input: DescribeRemediationExceptionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeRemediationExceptionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeRemediationExceptions,
-            inputKey: \DescribeRemediationExceptionsRequest.nextToken,
-            outputKey: \DescribeRemediationExceptionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeRemediationExceptionsPaginator(
         _ input: DescribeRemediationExceptionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeRemediationExceptionsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeRemediationExceptionsRequest, DescribeRemediationExceptionsResponse> {
+        return .init(
             input: input,
             command: self.describeRemediationExceptions,
             inputKey: \DescribeRemediationExceptionsRequest.nextToken,
             outputKey: \DescribeRemediationExceptionsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Provides a detailed view of a Remediation Execution for a set of resources including state, timestamps for when steps for the remediation execution occur, and any error messages for steps that have failed.
     /// 			When you specify the limit and the next token, you receive a paginated response.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeRemediationExecutionStatusPaginator<Result>(
-        _ input: DescribeRemediationExecutionStatusRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeRemediationExecutionStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeRemediationExecutionStatus,
-            inputKey: \DescribeRemediationExecutionStatusRequest.nextToken,
-            outputKey: \DescribeRemediationExecutionStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeRemediationExecutionStatusPaginator(
         _ input: DescribeRemediationExecutionStatusRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeRemediationExecutionStatusResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeRemediationExecutionStatusRequest, DescribeRemediationExecutionStatusResponse> {
+        return .init(
             input: input,
             command: self.describeRemediationExecutionStatus,
             inputKey: \DescribeRemediationExecutionStatusRequest.nextToken,
             outputKey: \DescribeRemediationExecutionStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -2021,55 +1468,21 @@ extension ConfigService {
     /// 			returns the details for all the retention configurations for that
     /// 			account.  Currently, Config supports only one retention
     /// 				configuration per region in your account.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeRetentionConfigurationsPaginator<Result>(
-        _ input: DescribeRetentionConfigurationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, DescribeRetentionConfigurationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.describeRetentionConfigurations,
-            inputKey: \DescribeRetentionConfigurationsRequest.nextToken,
-            outputKey: \DescribeRetentionConfigurationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeRetentionConfigurationsPaginator(
         _ input: DescribeRetentionConfigurationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (DescribeRetentionConfigurationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeRetentionConfigurationsRequest, DescribeRetentionConfigurationsResponse> {
+        return .init(
             input: input,
             command: self.describeRetentionConfigurations,
             inputKey: \DescribeRetentionConfigurationsRequest.nextToken,
             outputKey: \DescribeRetentionConfigurationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -2079,55 +1492,21 @@ extension ConfigService {
     /// 			last evaluated, and whether each resource complies with the rule.   The results can return an empty result page. But if you
     /// 				have a nextToken, the results are displayed on the next
     /// 				page.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getAggregateComplianceDetailsByConfigRulePaginator<Result>(
-        _ input: GetAggregateComplianceDetailsByConfigRuleRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetAggregateComplianceDetailsByConfigRuleResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getAggregateComplianceDetailsByConfigRule,
-            inputKey: \GetAggregateComplianceDetailsByConfigRuleRequest.nextToken,
-            outputKey: \GetAggregateComplianceDetailsByConfigRuleResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getAggregateComplianceDetailsByConfigRulePaginator(
         _ input: GetAggregateComplianceDetailsByConfigRuleRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetAggregateComplianceDetailsByConfigRuleResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetAggregateComplianceDetailsByConfigRuleRequest, GetAggregateComplianceDetailsByConfigRuleResponse> {
+        return .init(
             input: input,
             command: self.getAggregateComplianceDetailsByConfigRule,
             inputKey: \GetAggregateComplianceDetailsByConfigRuleRequest.nextToken,
             outputKey: \GetAggregateComplianceDetailsByConfigRuleResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -2135,162 +1514,60 @@ extension ConfigService {
     /// 			or more accounts and regions in an aggregator.  The results can return an empty result page, but if you
     /// 				have a nextToken, the results are displayed on the next
     /// 				page.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getAggregateConfigRuleComplianceSummaryPaginator<Result>(
-        _ input: GetAggregateConfigRuleComplianceSummaryRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetAggregateConfigRuleComplianceSummaryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getAggregateConfigRuleComplianceSummary,
-            inputKey: \GetAggregateConfigRuleComplianceSummaryRequest.nextToken,
-            outputKey: \GetAggregateConfigRuleComplianceSummaryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getAggregateConfigRuleComplianceSummaryPaginator(
         _ input: GetAggregateConfigRuleComplianceSummaryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetAggregateConfigRuleComplianceSummaryResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetAggregateConfigRuleComplianceSummaryRequest, GetAggregateConfigRuleComplianceSummaryResponse> {
+        return .init(
             input: input,
             command: self.getAggregateConfigRuleComplianceSummary,
             inputKey: \GetAggregateConfigRuleComplianceSummaryRequest.nextToken,
             outputKey: \GetAggregateConfigRuleComplianceSummaryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region.  The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getAggregateConformancePackComplianceSummaryPaginator<Result>(
-        _ input: GetAggregateConformancePackComplianceSummaryRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetAggregateConformancePackComplianceSummaryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getAggregateConformancePackComplianceSummary,
-            inputKey: \GetAggregateConformancePackComplianceSummaryRequest.nextToken,
-            outputKey: \GetAggregateConformancePackComplianceSummaryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getAggregateConformancePackComplianceSummaryPaginator(
         _ input: GetAggregateConformancePackComplianceSummaryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetAggregateConformancePackComplianceSummaryResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetAggregateConformancePackComplianceSummaryRequest, GetAggregateConformancePackComplianceSummaryResponse> {
+        return .init(
             input: input,
             command: self.getAggregateConformancePackComplianceSummary,
             inputKey: \GetAggregateConformancePackComplianceSummaryRequest.nextToken,
             outputKey: \GetAggregateConformancePackComplianceSummaryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns the resource counts across accounts and regions that are present in your Config aggregator. You can request the resource counts by providing filters and GroupByKey. For example, if the input contains accountID 12345678910 and region us-east-1 in filters, the API returns the count of resources in account ID 12345678910 and region us-east-1.
     /// 			If the input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts for all source accounts that are present in your aggregator.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getAggregateDiscoveredResourceCountsPaginator<Result>(
-        _ input: GetAggregateDiscoveredResourceCountsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetAggregateDiscoveredResourceCountsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getAggregateDiscoveredResourceCounts,
-            inputKey: \GetAggregateDiscoveredResourceCountsRequest.nextToken,
-            outputKey: \GetAggregateDiscoveredResourceCountsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getAggregateDiscoveredResourceCountsPaginator(
         _ input: GetAggregateDiscoveredResourceCountsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetAggregateDiscoveredResourceCountsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetAggregateDiscoveredResourceCountsRequest, GetAggregateDiscoveredResourceCountsResponse> {
+        return .init(
             input: input,
             command: self.getAggregateDiscoveredResourceCounts,
             inputKey: \GetAggregateDiscoveredResourceCountsRequest.nextToken,
             outputKey: \GetAggregateDiscoveredResourceCountsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -2298,55 +1575,21 @@ extension ConfigService {
     /// 			rule. The results indicate which Amazon Web Services resources were evaluated by the
     /// 			rule, when each resource was last evaluated, and whether each
     /// 			resource complies with the rule.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getComplianceDetailsByConfigRulePaginator<Result>(
-        _ input: GetComplianceDetailsByConfigRuleRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetComplianceDetailsByConfigRuleResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getComplianceDetailsByConfigRule,
-            inputKey: \GetComplianceDetailsByConfigRuleRequest.nextToken,
-            outputKey: \GetComplianceDetailsByConfigRuleResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getComplianceDetailsByConfigRulePaginator(
         _ input: GetComplianceDetailsByConfigRuleRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetComplianceDetailsByConfigRuleResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetComplianceDetailsByConfigRuleRequest, GetComplianceDetailsByConfigRuleResponse> {
+        return .init(
             input: input,
             command: self.getComplianceDetailsByConfigRule,
             inputKey: \GetComplianceDetailsByConfigRuleRequest.nextToken,
             outputKey: \GetComplianceDetailsByConfigRuleResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -2354,161 +1597,59 @@ extension ConfigService {
     /// 			The results indicate which Config rules were used to evaluate
     /// 			the resource, when each rule was last invoked, and whether the resource
     /// 			complies with each rule.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getComplianceDetailsByResourcePaginator<Result>(
-        _ input: GetComplianceDetailsByResourceRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetComplianceDetailsByResourceResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getComplianceDetailsByResource,
-            inputKey: \GetComplianceDetailsByResourceRequest.nextToken,
-            outputKey: \GetComplianceDetailsByResourceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getComplianceDetailsByResourcePaginator(
         _ input: GetComplianceDetailsByResourceRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetComplianceDetailsByResourceResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetComplianceDetailsByResourceRequest, GetComplianceDetailsByResourceResponse> {
+        return .init(
             input: input,
             command: self.getComplianceDetailsByResource,
             inputKey: \GetComplianceDetailsByResourceRequest.nextToken,
             outputKey: \GetComplianceDetailsByResourceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getConformancePackComplianceDetailsPaginator<Result>(
-        _ input: GetConformancePackComplianceDetailsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetConformancePackComplianceDetailsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getConformancePackComplianceDetails,
-            inputKey: \GetConformancePackComplianceDetailsRequest.nextToken,
-            outputKey: \GetConformancePackComplianceDetailsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getConformancePackComplianceDetailsPaginator(
         _ input: GetConformancePackComplianceDetailsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetConformancePackComplianceDetailsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetConformancePackComplianceDetailsRequest, GetConformancePackComplianceDetailsResponse> {
+        return .init(
             input: input,
             command: self.getConformancePackComplianceDetails,
             inputKey: \GetConformancePackComplianceDetailsRequest.nextToken,
             outputKey: \GetConformancePackComplianceDetailsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getConformancePackComplianceSummaryPaginator<Result>(
-        _ input: GetConformancePackComplianceSummaryRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetConformancePackComplianceSummaryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getConformancePackComplianceSummary,
-            inputKey: \GetConformancePackComplianceSummaryRequest.nextToken,
-            outputKey: \GetConformancePackComplianceSummaryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getConformancePackComplianceSummaryPaginator(
         _ input: GetConformancePackComplianceSummaryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetConformancePackComplianceSummaryResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetConformancePackComplianceSummaryRequest, GetConformancePackComplianceSummaryResponse> {
+        return .init(
             input: input,
             command: self.getConformancePackComplianceSummary,
             inputKey: \GetConformancePackComplianceSummaryRequest.nextToken,
             outputKey: \GetConformancePackComplianceSummaryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -2532,161 +1673,59 @@ extension ConfigService {
     /// 				count your resources. Wait a few minutes and then retry the
     /// 					GetDiscoveredResourceCounts action.
     ///
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getDiscoveredResourceCountsPaginator<Result>(
-        _ input: GetDiscoveredResourceCountsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetDiscoveredResourceCountsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getDiscoveredResourceCounts,
-            inputKey: \GetDiscoveredResourceCountsRequest.nextToken,
-            outputKey: \GetDiscoveredResourceCountsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getDiscoveredResourceCountsPaginator(
         _ input: GetDiscoveredResourceCountsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetDiscoveredResourceCountsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetDiscoveredResourceCountsRequest, GetDiscoveredResourceCountsResponse> {
+        return .init(
             input: input,
             command: self.getDiscoveredResourceCounts,
             inputKey: \GetDiscoveredResourceCountsRequest.nextToken,
             outputKey: \GetDiscoveredResourceCountsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns detailed status for each member account within an organization for a given organization Config rule.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getOrganizationConfigRuleDetailedStatusPaginator<Result>(
-        _ input: GetOrganizationConfigRuleDetailedStatusRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetOrganizationConfigRuleDetailedStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getOrganizationConfigRuleDetailedStatus,
-            inputKey: \GetOrganizationConfigRuleDetailedStatusRequest.nextToken,
-            outputKey: \GetOrganizationConfigRuleDetailedStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getOrganizationConfigRuleDetailedStatusPaginator(
         _ input: GetOrganizationConfigRuleDetailedStatusRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetOrganizationConfigRuleDetailedStatusResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetOrganizationConfigRuleDetailedStatusRequest, GetOrganizationConfigRuleDetailedStatusResponse> {
+        return .init(
             input: input,
             command: self.getOrganizationConfigRuleDetailedStatus,
             inputKey: \GetOrganizationConfigRuleDetailedStatusRequest.nextToken,
             outputKey: \GetOrganizationConfigRuleDetailedStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns detailed status for each member account within an organization for a given organization conformance pack.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getOrganizationConformancePackDetailedStatusPaginator<Result>(
-        _ input: GetOrganizationConformancePackDetailedStatusRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetOrganizationConformancePackDetailedStatusResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getOrganizationConformancePackDetailedStatus,
-            inputKey: \GetOrganizationConformancePackDetailedStatusRequest.nextToken,
-            outputKey: \GetOrganizationConformancePackDetailedStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getOrganizationConformancePackDetailedStatusPaginator(
         _ input: GetOrganizationConformancePackDetailedStatusRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetOrganizationConformancePackDetailedStatusResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetOrganizationConformancePackDetailedStatusRequest, GetOrganizationConformancePackDetailedStatusResponse> {
+        return .init(
             input: input,
             command: self.getOrganizationConformancePackDetailedStatus,
             inputKey: \GetOrganizationConformancePackDetailedStatusRequest.nextToken,
             outputKey: \GetOrganizationConformancePackDetailedStatusResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -2706,110 +1745,42 @@ extension ConfigService {
     /// 				smaller than the specified limit. In such cases,
     /// 				you can make another call, using the
     /// 				nextToken.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func getResourceConfigHistoryPaginator<Result>(
-        _ input: GetResourceConfigHistoryRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, GetResourceConfigHistoryResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.getResourceConfigHistory,
-            inputKey: \GetResourceConfigHistoryRequest.nextToken,
-            outputKey: \GetResourceConfigHistoryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getResourceConfigHistoryPaginator(
         _ input: GetResourceConfigHistoryRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (GetResourceConfigHistoryResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetResourceConfigHistoryRequest, GetResourceConfigHistoryResponse> {
+        return .init(
             input: input,
             command: self.getResourceConfigHistory,
             inputKey: \GetResourceConfigHistoryRequest.nextToken,
             outputKey: \GetResourceConfigHistoryResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Accepts a resource type and returns a list of resource identifiers that are aggregated for a specific resource type across accounts and regions.
     /// 			A resource identifier includes the resource type, ID, (if available) the custom resource name, source account, and source region.
     /// 			You can narrow the results to include only resources that have specific resource IDs, or a resource name, or source account ID, or source region. For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type AWS::EC2::Instance then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listAggregateDiscoveredResourcesPaginator<Result>(
-        _ input: ListAggregateDiscoveredResourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListAggregateDiscoveredResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listAggregateDiscoveredResources,
-            inputKey: \ListAggregateDiscoveredResourcesRequest.nextToken,
-            outputKey: \ListAggregateDiscoveredResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAggregateDiscoveredResourcesPaginator(
         _ input: ListAggregateDiscoveredResourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListAggregateDiscoveredResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAggregateDiscoveredResourcesRequest, ListAggregateDiscoveredResourcesResponse> {
+        return .init(
             input: input,
             command: self.listAggregateDiscoveredResources,
             inputKey: \ListAggregateDiscoveredResourcesRequest.nextToken,
             outputKey: \ListAggregateDiscoveredResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -2817,55 +1788,21 @@ extension ConfigService {
     /// 			A compliance score is the percentage of the number of compliant rule-resource combinations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack.
     /// 			This metric provides you with a high-level view of the compliance state of your conformance packs. You can use it to identify, investigate, and understand
     /// 			the level of compliance in your conformance packs.  Conformance packs with no evaluation results will have a compliance score of INSUFFICIENT_DATA.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listConformancePackComplianceScoresPaginator<Result>(
-        _ input: ListConformancePackComplianceScoresRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListConformancePackComplianceScoresResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listConformancePackComplianceScores,
-            inputKey: \ListConformancePackComplianceScoresRequest.nextToken,
-            outputKey: \ListConformancePackComplianceScoresResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listConformancePackComplianceScoresPaginator(
         _ input: ListConformancePackComplianceScoresRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListConformancePackComplianceScoresResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConformancePackComplianceScoresRequest, ListConformancePackComplianceScoresResponse> {
+        return .init(
             input: input,
             command: self.listConformancePackComplianceScores,
             inputKey: \ListConformancePackComplianceScoresRequest.nextToken,
             outputKey: \ListConformancePackComplianceScoresResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -2882,214 +1819,78 @@ extension ConfigService {
     /// 				nextToken string. To get the next page of results,
     /// 			run the request again and specify the string for the
     /// 				nextToken parameter.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listDiscoveredResourcesPaginator<Result>(
-        _ input: ListDiscoveredResourcesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListDiscoveredResourcesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listDiscoveredResources,
-            inputKey: \ListDiscoveredResourcesRequest.nextToken,
-            outputKey: \ListDiscoveredResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDiscoveredResourcesPaginator(
         _ input: ListDiscoveredResourcesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListDiscoveredResourcesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDiscoveredResourcesRequest, ListDiscoveredResourcesResponse> {
+        return .init(
             input: input,
             command: self.listDiscoveredResources,
             inputKey: \ListDiscoveredResourcesRequest.nextToken,
             outputKey: \ListDiscoveredResourcesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Returns a list of proactive resource evaluations.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listResourceEvaluationsPaginator<Result>(
-        _ input: ListResourceEvaluationsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListResourceEvaluationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listResourceEvaluations,
-            inputKey: \ListResourceEvaluationsRequest.nextToken,
-            outputKey: \ListResourceEvaluationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listResourceEvaluationsPaginator(
         _ input: ListResourceEvaluationsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListResourceEvaluationsResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourceEvaluationsRequest, ListResourceEvaluationsResponse> {
+        return .init(
             input: input,
             command: self.listResourceEvaluations,
             inputKey: \ListResourceEvaluationsRequest.nextToken,
             outputKey: \ListResourceEvaluationsResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listStoredQueriesPaginator<Result>(
-        _ input: ListStoredQueriesRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListStoredQueriesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listStoredQueries,
-            inputKey: \ListStoredQueriesRequest.nextToken,
-            outputKey: \ListStoredQueriesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listStoredQueriesPaginator(
         _ input: ListStoredQueriesRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListStoredQueriesResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStoredQueriesRequest, ListStoredQueriesResponse> {
+        return .init(
             input: input,
             command: self.listStoredQueries,
             inputKey: \ListStoredQueriesRequest.nextToken,
             outputKey: \ListStoredQueriesResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// List the tags for Config resource.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listTagsForResourcePaginator<Result>(
-        _ input: ListTagsForResourceRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listTagsForResource,
-            inputKey: \ListTagsForResourceRequest.nextToken,
-            outputKey: \ListTagsForResourceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listTagsForResourcePaginator(
         _ input: ListTagsForResourceRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListTagsForResourceResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTagsForResourceRequest, ListTagsForResourceResponse> {
+        return .init(
             input: input,
             command: self.listTagsForResource,
             inputKey: \ListTagsForResourceRequest.nextToken,
             outputKey: \ListTagsForResourceResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
@@ -3098,109 +1899,41 @@ extension ConfigService {
     /// 			 Query Components section in the Config Developer Guide.  If you run an aggregation query (i.e., using GROUP BY or using aggregate functions such as COUNT; e.g., SELECT resourceId, COUNT(*) WHERE resourceType = 'AWS::IAM::Role' GROUP BY resourceId)
     /// 				and do not specify the MaxResults or the Limit query parameters, the default page size is set to 500. If you run a non-aggregation query (i.e., not using GROUP BY or aggregate function; e.g., SELECT * WHERE resourceType = 'AWS::IAM::Role')
     /// 				and do not specify the MaxResults or the Limit query parameters, the default page size is set to 25.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func selectAggregateResourceConfigPaginator<Result>(
-        _ input: SelectAggregateResourceConfigRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SelectAggregateResourceConfigResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.selectAggregateResourceConfig,
-            inputKey: \SelectAggregateResourceConfigRequest.nextToken,
-            outputKey: \SelectAggregateResourceConfigResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func selectAggregateResourceConfigPaginator(
         _ input: SelectAggregateResourceConfigRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SelectAggregateResourceConfigResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SelectAggregateResourceConfigRequest, SelectAggregateResourceConfigResponse> {
+        return .init(
             input: input,
             command: self.selectAggregateResourceConfig,
             inputKey: \SelectAggregateResourceConfigRequest.nextToken,
             outputKey: \SelectAggregateResourceConfigResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 
     /// Accepts a structured query language (SQL) SELECT command, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the
     /// 			 Query Components section in the Config Developer Guide.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func selectResourceConfigPaginator<Result>(
-        _ input: SelectResourceConfigRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, SelectResourceConfigResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.selectResourceConfig,
-            inputKey: \SelectResourceConfigRequest.nextToken,
-            outputKey: \SelectResourceConfigResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func selectResourceConfigPaginator(
         _ input: SelectResourceConfigRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (SelectResourceConfigResponse, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SelectResourceConfigRequest, SelectResourceConfigResponse> {
+        return .init(
             input: input,
             command: self.selectResourceConfig,
             inputKey: \SelectResourceConfigRequest.nextToken,
             outputKey: \SelectResourceConfigResponse.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }

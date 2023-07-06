@@ -1978,9 +1978,9 @@ extension AppSync {
         public static let _payloadPath: String = "schema"
         public static let _options: AWSShapeOptions = [.rawPayload]
         /// The schema, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
-        public let schema: AWSPayload?
+        public let schema: HTTPBody?
 
-        public init(schema: AWSPayload? = nil) {
+        public init(schema: HTTPBody? = nil) {
             self.schema = schema
         }
 

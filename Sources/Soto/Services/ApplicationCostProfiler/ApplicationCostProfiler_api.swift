@@ -64,33 +64,39 @@ public struct ApplicationCostProfiler: AWSService {
     // MARK: API Calls
 
     /// Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being generated.
-    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteReportDefinitionResult> {
-        return self.client.execute(operation: "DeleteReportDefinition", path: "/reportDefinition/{reportId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReportDefinitionResult {
+        return try await self.client.execute(operation: "DeleteReportDefinition", path: "/reportDefinition/{reportId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves the definition of a report already configured in AWS Application Cost Profiler.
-    public func getReportDefinition(_ input: GetReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetReportDefinitionResult> {
-        return self.client.execute(operation: "GetReportDefinition", path: "/reportDefinition/{reportId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func getReportDefinition(_ input: GetReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReportDefinitionResult {
+        return try await self.client.execute(operation: "GetReportDefinition", path: "/reportDefinition/{reportId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Ingests application usage data from Amazon Simple Storage Service (Amazon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously.
-    public func importApplicationUsage(_ input: ImportApplicationUsageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportApplicationUsageResult> {
-        return self.client.execute(operation: "ImportApplicationUsage", path: "/importApplicationUsage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func importApplicationUsage(_ input: ImportApplicationUsageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportApplicationUsageResult {
+        return try await self.client.execute(operation: "ImportApplicationUsage", path: "/importApplicationUsage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Retrieves a list of all reports and their configurations for your AWS account. The maximum number of reports is one.
-    public func listReportDefinitions(_ input: ListReportDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListReportDefinitionsResult> {
-        return self.client.execute(operation: "ListReportDefinitions", path: "/reportDefinition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func listReportDefinitions(_ input: ListReportDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReportDefinitionsResult {
+        return try await self.client.execute(operation: "ListReportDefinitions", path: "/reportDefinition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Creates the report definition for a report in Application Cost Profiler.
-    public func putReportDefinition(_ input: PutReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutReportDefinitionResult> {
-        return self.client.execute(operation: "PutReportDefinition", path: "/reportDefinition", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func putReportDefinition(_ input: PutReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutReportDefinitionResult {
+        return try await self.client.execute(operation: "PutReportDefinition", path: "/reportDefinition", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
     }
 
     /// Updates existing report in AWS Application Cost Profiler.
-    public func updateReportDefinition(_ input: UpdateReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateReportDefinitionResult> {
-        return self.client.execute(operation: "UpdateReportDefinition", path: "/reportDefinition/{reportId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    @Sendable
+    public func updateReportDefinition(_ input: UpdateReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateReportDefinitionResult {
+        return try await self.client.execute(operation: "UpdateReportDefinition", path: "/reportDefinition/{reportId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
     }
 }
 
@@ -105,57 +111,24 @@ extension ApplicationCostProfiler {
 
 // MARK: Paginators
 
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ApplicationCostProfiler {
     /// Retrieves a list of all reports and their configurations for your AWS account. The maximum number of reports is one.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func listReportDefinitionsPaginator<Result>(
-        _ input: ListReportDefinitionsRequest,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, ListReportDefinitionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return self.client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: self.listReportDefinitions,
-            inputKey: \ListReportDefinitionsRequest.nextToken,
-            outputKey: \ListReportDefinitionsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
+    /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listReportDefinitionsPaginator(
         _ input: ListReportDefinitionsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (ListReportDefinitionsResult, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return self.client.paginate(
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListReportDefinitionsRequest, ListReportDefinitionsResult> {
+        return .init(
             input: input,
             command: self.listReportDefinitions,
             inputKey: \ListReportDefinitionsRequest.nextToken,
             outputKey: \ListReportDefinitionsResult.nextToken,
-            on: eventLoop,
-            onPage: onPage
+            logger: logger
         )
     }
 }
