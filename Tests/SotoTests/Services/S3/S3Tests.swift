@@ -70,25 +70,6 @@ class S3Tests: XCTestCase {
             _ = try await s3.createBucket(bucketRequest, logger: TestEnvironment.logger)
             try await s3.waitUntilBucketExists(.init(bucket: name), logger: TestEnvironment.logger)
         } catch let error as S3ErrorType where error == .bucketAlreadyOwnedByYou {}
-
-        /*        .flatMapErrorThrowing { error in
-             switch error {
-             case let error as S3ErrorType:
-                 switch error {
-                 case .bucketAlreadyOwnedByYou:
-                     return
-                 case .bucketAlreadyExists:
-                     // local stack returns bucketAlreadyExists instead of bucketAlreadyOwnedByYou
-                     if !TestEnvironment.isUsingLocalstack {
-                         throw error
-                     }
-                 default:
-                     throw error
-                 }
-             default:
-                 throw error
-             }
-         }*/
     }
 
     static func deleteBucket(name: String, s3: S3) async throws {
