@@ -25,15 +25,15 @@ let package = Package(
 {{/targets}}
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", branch: "main")
+        .package(url: "https://github.com/soto-project/soto-core.git", branch: "7.x.x")
     ],
     targets: [
 {{#targets}}
 {{#hasExtension}}
-        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/", sources: ["Services/{{name}}", "Extensions/{{name}}"]){{^last()}},{{/last()}}
+        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/", sources: ["Services/{{name}}", "Extensions/{{name}}"], swiftSettings: [.unsafeFlags(["-Xfrontend", "-warn-concurrency"])]){{^last()}},{{/last()}}
 {{/hasExtension}}
 {{^hasExtension}}
-        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/Services/{{name}}"),
+        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/Services/{{name}}", swiftSettings: [.unsafeFlags(["-Xfrontend", "-warn-concurrency"])]),
 {{/hasExtension}}
 {{/targets}}
 

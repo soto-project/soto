@@ -169,7 +169,7 @@ extension IdentityProviderFactory {
     /// )
     /// ```
     public static func externalIdentityProvider(
-        tokenProvider: @escaping (CognitoIdentity.ExternalIdentityProvider.Context) async throws -> [String: String]
+        tokenProvider: @escaping @Sendable (CognitoIdentity.ExternalIdentityProvider.Context) async throws -> [String: String]
     ) -> Self {
         return Self { context in
             return CognitoIdentity.ExternalIdentityProvider(context: context) { context in
