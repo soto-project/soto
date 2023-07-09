@@ -18,7 +18,12 @@ import PackageDescription
 
 let package = Package(
     name: "soto",
-    platforms: [.iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
+    platforms: [
+        .macOS(.v10_15),
+        .iOS(.v13),
+        .tvOS(.v13),
+        .watchOS(.v6),
+    ],
     products: [
 {{#targets}}
         .library(name: "Soto{{name}}", targets: ["Soto{{name}}"]){{^last()}},{{/last()}}
@@ -30,10 +35,10 @@ let package = Package(
     targets: [
 {{#targets}}
 {{#hasExtension}}
-        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/", sources: ["Services/{{name}}", "Extensions/{{name}}"], swiftSettings: [.unsafeFlags(["-Xfrontend", "-warn-concurrency"])]){{^last()}},{{/last()}}
+        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/", sources: ["Services/{{name}}", "Extensions/{{name}}"]){{^last()}},{{/last()}}
 {{/hasExtension}}
 {{^hasExtension}}
-        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/Services/{{name}}", swiftSettings: [.unsafeFlags(["-Xfrontend", "-warn-concurrency"])]),
+        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/Services/{{name}}"),
 {{/hasExtension}}
 {{/targets}}
 
@@ -47,3 +52,11 @@ let package = Package(
         )
     ]
 )
+
+if ProcessInfo.processInfo.environment["STRICT_CONCURRENCY"] == "true" {
+    for target in package.targets {
+        if !target.isTest {
+            target.swiftSettings = [.unsafeFlags(["-Xfrontend", "-warn-concurrency"])]
+        }
+    }
+}
