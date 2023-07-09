@@ -179,13 +179,14 @@ extension STS {
         static func loadFile(path: String, on eventLoop: EventLoop, using fileIO: NonBlockingFileIO) -> EventLoopFuture<ByteBuffer> {
             return fileIO.openFile(path: path, eventLoop: eventLoop)
                 .flatMap { handle, region in
-                    fileIO.read(fileRegion: region, allocator: ByteBufferAllocator(), eventLoop: eventLoop)
+                    let handleTransfer = NIOLoopBound(handle, eventLoop: eventLoop)
+                    return fileIO.read(fileRegion: region, allocator: ByteBufferAllocator(), eventLoop: eventLoop)
                         .flatMapErrorThrowing { error in
-                            try? handle.close()
+                            try? handleTransfer.value.close()
                             throw error
                         }
                         .flatMapThrowing { byteBuffer in
-                            try handle.close()
+                            try handleTransfer.value.close()
                             return byteBuffer
                         }
                 }

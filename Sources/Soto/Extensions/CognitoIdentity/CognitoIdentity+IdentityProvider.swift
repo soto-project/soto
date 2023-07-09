@@ -27,7 +27,7 @@ extension IdentityProvider {
 }
 
 /// A helper struct to defer the creation of an `IdentityProvider` until after the `IdentityCredentialProvider` has been created.
-public struct IdentityProviderFactory {
+public struct IdentityProviderFactory: Sendable {
     /// The initialization context for a `IdentityProvider`
     public struct Context: Sendable {
         public let cognitoIdentity: CognitoIdentity
@@ -35,9 +35,9 @@ public struct IdentityProviderFactory {
         public let logger: Logger
     }
 
-    private let cb: (Context) -> IdentityProvider
+    private let cb: @Sendable (Context) -> IdentityProvider
 
-    private init(cb: @escaping (Context) -> IdentityProvider) {
+    private init(cb: @escaping @Sendable (Context) -> IdentityProvider) {
         self.cb = cb
     }
 
@@ -129,7 +129,7 @@ extension CognitoIdentity {
 
 extension IdentityProviderFactory {
     /// Create your owncustom `IdentityProvider` given the IdentityProvider Context
-    public static func custom(_ factory: @escaping (Context) -> IdentityProvider) -> Self {
+    public static func custom(_ factory: @escaping @Sendable (Context) -> IdentityProvider) -> Self {
         Self(cb: factory)
     }
 
