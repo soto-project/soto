@@ -27,7 +27,7 @@ import XCTest
 @testable import SotoSNS
 import SotoXML
 
-extension HTTPBody {
+extension AWSHTTPBody {
     func asString() -> String? {
         switch self.storage {
         case .byteBuffer(let buffer):

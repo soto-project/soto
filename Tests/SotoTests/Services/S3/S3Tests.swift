@@ -98,7 +98,7 @@ class S3Tests: XCTestCase {
     }
 
     /// Test putObject to S3 and that getObject returns the same object
-    func testPutGetObject(bucket: String, filename: String, contents: HTTPBody, s3: S3? = nil) async throws {
+    func testPutGetObject(bucket: String, filename: String, contents: AWSHTTPBody, s3: S3? = nil) async throws {
         let s3 = s3 ?? Self.s3!
         try await self.testBucket(bucket, s3: s3) { name in
             let putRequest = S3.PutObjectRequest(
