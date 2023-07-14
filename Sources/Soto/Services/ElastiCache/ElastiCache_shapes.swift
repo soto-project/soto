@@ -241,10 +241,10 @@ extension ElastiCache {
 
     public struct AllowedNodeTypeModificationsMessage: AWSDecodableShape {
         /// A string list, each element of which specifies a cache node type which you can use to scale your cluster or replication group.  When scaling down a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup, use a value from this list for the CacheNodeType parameter.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var scaleDownModifications: [String]?
         /// A string list, each element of which specifies a cache node type which you can use  to scale your cluster or replication group. When scaling up a Redis cluster or replication group using ModifyCacheCluster or ModifyReplicationGroup,  use a value from this list for the CacheNodeType parameter.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var scaleUpModifications: [String]?
 
         public init(scaleDownModifications: [String]? = nil, scaleUpModifications: [String]? = nil) {
@@ -277,7 +277,7 @@ extension ElastiCache {
 
     public struct AuthenticationMode: AWSEncodableShape {
         /// Specifies the passwords to use for authentication if Type is set to password.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var passwords: [String]?
         /// Specifies the authentication type. Possible options are IAM authentication, password and no password.
         public let type: InputAuthenticationType?
@@ -345,10 +345,10 @@ extension ElastiCache {
 
     public struct BatchApplyUpdateActionMessage: AWSEncodableShape {
         /// The cache cluster IDs
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var cacheClusterIds: [String]?
         /// The replication group IDs
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String
@@ -373,10 +373,10 @@ extension ElastiCache {
 
     public struct BatchStopUpdateActionMessage: AWSEncodableShape {
         /// The cache cluster IDs
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var cacheClusterIds: [String]?
         /// The replication group IDs
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String
@@ -486,7 +486,7 @@ extension ElastiCache {
         /// A boolean value indicating whether log delivery is enabled for the replication group.
         public let replicationGroupLogDeliveryEnabled: Bool?
         /// A list of VPC Security Groups associated with the cluster.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<SecurityGroupMembership>>
         public var securityGroups: [SecurityGroupMembership]?
         /// The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5,  a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int?
@@ -980,7 +980,7 @@ extension ElastiCache {
         @OptionalCustomCoding<ArrayCoder<_SubnetsEncoding, Subnet>>
         public var subnets: [Subnet]?
         /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<NetworkType>>
         public var supportedNetworkTypes: [NetworkType]?
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group.
         public let vpcId: String?
@@ -1590,7 +1590,7 @@ extension ElastiCache {
         /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. When setting TransitEncryptionEnabled to true, you can set your TransitEncryptionMode to preferred in the same request, to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can modify the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred,  after that you can set TransitEncryptionMode to required. This process will not trigger the replacement of the replication group.
         public let transitEncryptionMode: TransitEncryptionMode?
         /// The user group to associate with the replication group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userGroupIds: [String]?
 
         public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, clusterMode: ClusterMode? = nil, dataTieringEnabled: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalReplicationGroupId: String? = nil, ipDiscovery: IpDiscovery? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, networkType: NetworkType? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIds: [String]? = nil) {
@@ -1754,7 +1754,7 @@ extension ElastiCache {
         /// The ID of the user group.
         public let userGroupId: String
         /// The list of user IDs that belong to the user group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userIds: [String]?
 
         public init(engine: String, tags: [Tag]? = nil, userGroupId: String, userIds: [String]? = nil) {
@@ -1793,7 +1793,7 @@ extension ElastiCache {
         /// Indicates a password is not required for this user.
         public let noPasswordRequired: Bool?
         /// Passwords used for this user. You can create up to two passwords for each user.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var passwords: [String]?
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -1912,7 +1912,7 @@ extension ElastiCache {
         @OptionalCustomCoding<ArrayCoder<_ReplicaConfigurationEncoding, ConfigureShard>>
         public var replicaConfiguration: [ConfigureShard]?
         /// A list of the node ids to remove from the replication group or node group (shard).
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var replicasToRemove: [String]?
         /// The id of the replication group from which you want to remove replica nodes.
         public let replicationGroupId: String
@@ -2556,7 +2556,7 @@ extension ElastiCache {
         /// The unique ID of the service update
         public let serviceUpdateName: String?
         /// The status of the service update
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ServiceUpdateStatus>>
         public var serviceUpdateStatus: [ServiceUpdateStatus]?
 
         public init(marker: String? = nil, maxRecords: Int? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil) {
@@ -2637,7 +2637,7 @@ extension ElastiCache {
 
     public struct DescribeUpdateActionsMessage: AWSEncodableShape {
         /// The cache cluster IDs
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var cacheClusterIds: [String]?
         /// The Elasticache engine to which the update applies. Either Redis or Memcached
         public let engine: String?
@@ -2646,19 +2646,19 @@ extension ElastiCache {
         /// The maximum number of records to include in the response
         public let maxRecords: Int?
         /// The replication group IDs
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var replicationGroupIds: [String]?
         /// The unique ID of the service update
         public let serviceUpdateName: String?
         /// The status of the service update
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ServiceUpdateStatus>>
         public var serviceUpdateStatus: [ServiceUpdateStatus]?
         /// The range of time specified to search for service updates that are in available status
         public let serviceUpdateTimeRange: TimeRangeFilter?
         /// Dictates whether to include node level update status in the response
         public let showNodeLevelUpdateStatus: Bool?
         /// The status of the update action.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<UpdateActionStatus>>
         public var updateActionStatus: [UpdateActionStatus]?
 
         public init(cacheClusterIds: [String]? = nil, engine: String? = nil, marker: String? = nil, maxRecords: Int? = nil, replicationGroupIds: [String]? = nil, serviceUpdateName: String? = nil, serviceUpdateStatus: [ServiceUpdateStatus]? = nil, serviceUpdateTimeRange: TimeRangeFilter? = nil, showNodeLevelUpdateStatus: Bool? = nil, updateActionStatus: [UpdateActionStatus]? = nil) {
@@ -2720,7 +2720,7 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
         public let marker: String?
         /// Returns a list of user groups.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<UserGroup>>
         public var userGroups: [UserGroup]?
 
         public init(marker: String? = nil, userGroups: [UserGroup]? = nil) {
@@ -2738,7 +2738,7 @@ extension ElastiCache {
         /// The Redis engine.
         public let engine: String?
         /// Filter to determine the list of User IDs to return.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Filter>>
         public var filters: [Filter]?
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
         public let marker: String?
@@ -2777,7 +2777,7 @@ extension ElastiCache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
         public let marker: String?
         /// A list of users.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<User>>
         public var users: [User]?
 
         public init(marker: String? = nil, users: [User]? = nil) {
@@ -2991,7 +2991,7 @@ extension ElastiCache {
         /// The property being filtered. For example, UserId.
         public let name: String
         /// The property values to filter on. For example, "user-123".
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var values: [String]
 
         public init(name: String, values: [String]) {
@@ -3625,10 +3625,10 @@ extension ElastiCache {
         /// unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can set the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to  preferred, after that you can set  TransitEncryptionMode to required.
         public let transitEncryptionMode: TransitEncryptionMode?
         /// The ID of the user group you are associating with the replication group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userGroupIdsToAdd: [String]?
         /// The ID of the user group to disassociate from the replication group, meaning the users in the group no longer can access the replication group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userGroupIdsToRemove: [String]?
 
         public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, clusterMode: ClusterMode? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, removeUserGroups: Bool? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {
@@ -3824,10 +3824,10 @@ extension ElastiCache {
         /// The ID of the user group.
         public let userGroupId: String
         /// The list of user IDs to add to the user group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userIdsToAdd: [String]?
         /// The list of user IDs to remove from the user group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userIdsToRemove: [String]?
 
         public init(userGroupId: String, userIdsToAdd: [String]? = nil, userIdsToRemove: [String]? = nil) {
@@ -3866,7 +3866,7 @@ extension ElastiCache {
         /// Indicates no password is required for the user.
         public let noPasswordRequired: Bool?
         /// The passwords belonging to the user. You are allowed up to two.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var passwords: [String]?
         /// The ID of the user.
         public let userId: String
@@ -4235,7 +4235,7 @@ extension ElastiCache {
         /// The new cache engine version that the cluster  runs.
         public let engineVersion: String?
         /// The log delivery configurations being modified
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<PendingLogDeliveryConfiguration>>
         public var logDeliveryConfigurations: [PendingLogDeliveryConfiguration]?
         /// The new number of cache nodes for the cluster. For clusters running Redis, this value must be 1.  For clusters running Memcached, this value must be between 1 and 40.
         public let numCacheNodes: Int?
@@ -4444,7 +4444,7 @@ extension ElastiCache {
         /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed,  for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster  or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces.
         public let resourceName: String
         /// A list of TagKeys identifying the tags you want removed from the named resource.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
         public init(resourceName: String, tagKeys: [String]) {
@@ -4529,7 +4529,7 @@ extension ElastiCache {
         /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime.
         public let transitEncryptionMode: TransitEncryptionMode?
         /// The ID of the user group associated to the replication group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userGroupIds: [String]?
 
         public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, clusterMode: ClusterMode? = nil, configurationEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, ipDiscovery: IpDiscovery? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfiguration]? = nil, memberClusters: [String]? = nil, memberClustersOutpostArns: [String]? = nil, multiAZ: MultiAZStatus? = nil, networkType: NetworkType? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupCreateTime: Date? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIds: [String]? = nil) {
@@ -4629,7 +4629,7 @@ extension ElastiCache {
         /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible.  Compatible mode allows your Redis clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
         public let clusterMode: ClusterMode?
         /// The log delivery configurations being modified
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<PendingLogDeliveryConfiguration>>
         public var logDeliveryConfigurations: [PendingLogDeliveryConfiguration]?
         /// The primary cluster ID that is applied immediately (if --apply-immediately  was specified), or during the next maintenance window.
         public let primaryClusterId: String?
@@ -5213,7 +5213,7 @@ extension ElastiCache {
 
     public struct StartMigrationMessage: AWSEncodableShape {
         /// List of endpoints from which data should be migrated. For Redis (cluster mode disabled), list should have only one element.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<CustomerNodeEndpoint>>
         public var customerNodeEndpointList: [CustomerNodeEndpoint]
         /// The ID of the replication group to which data should be migrated.
         public let replicationGroupId: String
@@ -5249,7 +5249,7 @@ extension ElastiCache {
         /// The outpost ARN of the subnet.
         public let subnetOutpost: SubnetOutpost?
         /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the  Nitro system.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<NetworkType>>
         public var supportedNetworkTypes: [NetworkType]?
 
         public init(subnetAvailabilityZone: AvailabilityZone? = nil, subnetIdentifier: String? = nil, subnetOutpost: SubnetOutpost? = nil, supportedNetworkTypes: [NetworkType]? = nil) {
@@ -5532,7 +5532,7 @@ extension ElastiCache {
         /// Indicates the user status. Can be "active", "modifying" or "deleting".
         public let status: String?
         /// Returns a list of the user group IDs the user belongs to.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userGroupIds: [String]?
         /// The ID of the user.
         public let userId: String?
@@ -5574,14 +5574,14 @@ extension ElastiCache {
         /// A list of updates being applied to the user group.
         public let pendingChanges: UserGroupPendingChanges?
         /// A list of replication groups that the user group can access.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var replicationGroups: [String]?
         /// Indicates user group status. Can be "creating", "active", "modifying", "deleting".
         public let status: String?
         /// The ID of the user group.
         public let userGroupId: String?
         /// The list of user IDs that belong to the user group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userIds: [String]?
 
         public init(arn: String? = nil, engine: String? = nil, minimumEngineVersion: String? = nil, pendingChanges: UserGroupPendingChanges? = nil, replicationGroups: [String]? = nil, status: String? = nil, userGroupId: String? = nil, userIds: [String]? = nil) {
@@ -5609,10 +5609,10 @@ extension ElastiCache {
 
     public struct UserGroupPendingChanges: AWSDecodableShape {
         /// The list of user IDs to add.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userIdsToAdd: [String]?
         /// The list of user IDs to remove.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userIdsToRemove: [String]?
 
         public init(userIdsToAdd: [String]? = nil, userIdsToRemove: [String]? = nil) {
@@ -5628,10 +5628,10 @@ extension ElastiCache {
 
     public struct UserGroupsUpdateStatus: AWSDecodableShape {
         /// The ID of the user group to add.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userGroupIdsToAdd: [String]?
         /// The ID of the user group to remove.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var userGroupIdsToRemove: [String]?
 
         public init(userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {

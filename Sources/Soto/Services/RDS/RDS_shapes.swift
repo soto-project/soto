@@ -481,14 +481,14 @@ extension RDS {
         /// Additional information about the status of the blue/green deployment.
         public let statusDetails: String?
         /// The details about each source and target resource in the blue/green deployment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<SwitchoverDetail>>
         public var switchoverDetails: [SwitchoverDetail]?
         @OptionalCustomCoding<ArrayCoder<_TagListEncoding, Tag>>
         public var tagList: [Tag]?
         /// The target database for the blue/green deployment. Before switchover, the target database is the clone database in the green environment.
         public let target: String?
         /// Either tasks to be performed or tasks that have been completed on the target database before switchover.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<BlueGreenDeploymentTask>>
         public var tasks: [BlueGreenDeploymentTask]?
 
         public init(blueGreenDeploymentIdentifier: String? = nil, blueGreenDeploymentName: String? = nil, createTime: Date? = nil, deleteTime: Date? = nil, source: String? = nil, status: String? = nil, statusDetails: String? = nil, switchoverDetails: [SwitchoverDetail]? = nil, tagList: [Tag]? = nil, target: String? = nil, tasks: [BlueGreenDeploymentTask]? = nil) {
@@ -647,10 +647,10 @@ extension RDS {
 
     public struct CloudwatchLogsExportConfiguration: AWSEncodableShape {
         /// The list of log types to disable.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var disableLogTypes: [String]?
         /// The list of log types to enable.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableLogTypes: [String]?
 
         public init(disableLogTypes: [String]? = nil, enableLogTypes: [String]? = nil) {
@@ -718,7 +718,7 @@ extension RDS {
         /// Controls how actively the proxy closes idle database connections in the connection pool. The value is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group. With a high value, the proxy leaves a high percentage of idle database connections open. A low value causes the proxy to close more idle connections and return them to the database. If you specify this parameter, then you must also include a value for MaxConnectionsPercent. Default: The default value is half of the value of MaxConnectionsPercent. For example, if MaxConnectionsPercent is 80, then the default value of  MaxIdleConnectionsPercent is 40. If the value of MaxConnectionsPercent isn't specified, then for SQL Server, MaxIdleConnectionsPercent is 5, and  for all other engines, the default is 50. Constraints: Must be between 0 and the value of MaxConnectionsPercent.
         public let maxIdleConnectionsPercent: Int?
         /// Each item in the list represents a class of SQL operations that normally cause all later statements in a session using a proxy to be pinned to the same underlying database connection. Including an item in the list exempts that class of SQL operations from the pinning behavior. Default: no session pinning filters
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var sessionPinningFilters: [String]?
 
         public init(connectionBorrowTimeout: Int? = nil, initQuery: String? = nil, maxConnectionsPercent: Int? = nil, maxIdleConnectionsPercent: Int? = nil, sessionPinningFilters: [String]? = nil) {
@@ -748,7 +748,7 @@ extension RDS {
         /// Controls how actively the proxy closes idle database connections in the connection pool. The value is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group. With a high value, the proxy leaves a high percentage of idle database connections open. A low value causes the proxy to close more idle connections and return them to the database.
         public let maxIdleConnectionsPercent: Int?
         /// Each item in the list represents a class of SQL operations that normally cause all later statements in a session using a proxy to be pinned to the same underlying database connection. Including an item in the list exempts that class of SQL operations from the pinning behavior. This setting is only supported for MySQL engine family databases.  Currently, the only allowed value is EXCLUDE_VARIABLE_SETS.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var sessionPinningFilters: [String]?
 
         public init(connectionBorrowTimeout: Int? = nil, initQuery: String? = nil, maxConnectionsPercent: Int? = nil, maxIdleConnectionsPercent: Int? = nil, sessionPinningFilters: [String]? = nil) {
@@ -1141,10 +1141,10 @@ extension RDS {
         /// The type of the endpoint, one of: READER, WRITER, ANY.
         public let endpointType: String
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. This parameter is relevant only if the list of static members is empty.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var staticMembers: [String]?
         /// The tags to be assigned to the Amazon RDS resource.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -1208,7 +1208,7 @@ extension RDS {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service. Valid for: Aurora DB clusters only
         public let domainIAMRoleName: String?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used.  RDS for MySQL  Possible values are error, general, and slowquery.  RDS for PostgreSQL  Possible values are postgresql and upgrade.  Aurora MySQL  Possible values are audit, error, general, and slowquery.  Aurora PostgreSQL  Possible value is postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable this DB cluster to forward write operations to the primary cluster of an Aurora global database (GlobalCluster). By default, write operations are not allowed on Aurora DB clusters that are secondary clusters in an Aurora global database. You can set this value only on Aurora DB clusters that are members of an Aurora global database. With this parameter enabled, a secondary cluster can forward writes to the current primary cluster and the resulting changes are replicated back to this cluster. For the primary DB cluster of an Aurora global database, this value is used immediately if the primary is demoted by the FailoverGlobalCluster API operation, but it does nothing until then. Valid for: Aurora DB clusters only
         public let enableGlobalWriteForwarding: Bool?
@@ -1515,7 +1515,7 @@ extension RDS {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service. This setting doesn't apply to RDS Custom.  Amazon Aurora  Not applicable. The domain is managed by the DB cluster.
         public let domainIAMRoleName: String?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine. For more information, see   Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide.  Amazon Aurora  Not applicable. CloudWatch Logs exports are managed by the DB cluster.  RDS Custom  Not applicable.  MariaDB  Possible values are audit, error, general, and slowquery.  Microsoft SQL Server  Possible values are agent and error.  MySQL  Possible values are audit, error, general, and slowquery.  Oracle  Possible values are alert, audit, listener, trace, and oemagent.  PostgreSQL  Possible values are postgresql and upgrade.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts  in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses  in the Amazon Web Services Outposts User Guide.
         public let enableCustomerOwnedIp: Bool?
@@ -1738,7 +1738,7 @@ extension RDS {
         /// The name of the IAM role to be used when making API calls to the Directory Service. This setting doesn't apply to RDS Custom.
         public let domainIAMRoleName: String?
         /// The list of logs that the new DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see  Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts read replica. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the read replica from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts  in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses  in the Amazon Web Services Outposts User Guide.
         public let enableCustomerOwnedIp: Bool?
@@ -1952,10 +1952,10 @@ extension RDS {
         /// A value that indicates whether the DB proxy endpoint can be used for read/write or read-only operations. The default is READ_WRITE. The only role that proxies for RDS for Microsoft SQL Server  support is READ_WRITE.
         public let targetRole: DBProxyEndpointTargetRole?
         /// The VPC security group IDs for the DB proxy endpoint that you create. You can specify a different set of security group IDs than for the original DB proxy. The default is the default security group for the VPC.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var vpcSecurityGroupIds: [String]?
         /// The VPC subnet IDs for the DB proxy endpoint that you create. You can specify a different set of subnet IDs than for the original DB proxy.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var vpcSubnetIds: [String]
 
         public init(dbProxyEndpointName: String, dbProxyName: String, tags: [Tag]? = nil, targetRole: DBProxyEndpointTargetRole? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
@@ -2003,7 +2003,7 @@ extension RDS {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The authorization mechanism that the proxy uses.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<UserAuthConfig>>
         public var auth: [UserAuthConfig]
         /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
         public let dbProxyName: String
@@ -2021,10 +2021,10 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// One or more VPC security group IDs to associate with the new proxy.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var vpcSecurityGroupIds: [String]?
         /// One or more VPC subnet IDs to associate with the new proxy.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var vpcSubnetIds: [String]
 
         public init(auth: [UserAuthConfig], dbProxyName: String, debugLogging: Bool? = nil, engineFamily: EngineFamily, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
@@ -2394,7 +2394,7 @@ extension RDS {
         /// Specifies whether the DB cluster is a clone of a DB cluster owned by a different Amazon Web Services account.
         public let crossAccountClone: Bool?
         /// Identifies all custom endpoints associated with the cluster.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var customEndpoints: [String]?
         /// Contains the name of the initial database of this DB cluster that was provided at create time, if one was specified when the DB cluster was created. This same name is returned for the life of the DB cluster.
         public let databaseName: String?
@@ -2428,7 +2428,7 @@ extension RDS {
         /// The earliest time to which a database can be restored with point-in-time restore.
         public let earliestRestorableTime: Date?
         /// A list of log types that this DB cluster is configured to export to CloudWatch Logs. Log types vary by DB engine. For information about the log types for each DB engine, see Amazon RDS Database Log Files in the Amazon Aurora User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint for the primary instance of the DB cluster.
         public let endpoint: String?
@@ -2756,10 +2756,10 @@ extension RDS {
         /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
         public let endpointType: String?
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var staticMembers: [String]?
         /// The current status of the endpoint. One of: creating, available, deleting, inactive, modifying. The inactive state applies to an endpoint that can't be used for a certain kind of cluster, such as a writer endpoint for a read-only secondary cluster in a global database.
         public let status: String?
@@ -3173,7 +3173,7 @@ extension RDS {
         /// The version number of the database engine.
         public let engineVersion: String?
         /// The types of logs that the database engine has available for export to CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var exportableLogTypes: [String]?
         /// The EC2 image
         public let image: CustomDBEngineVersionAMI?
@@ -3184,16 +3184,16 @@ extension RDS {
         /// The status of the DB engine version, either available or deprecated.
         public let status: String?
         /// A list of the supported CA certificate identifiers. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide and   Using SSL/TLS to encrypt a connection to a DB cluster in the Amazon Aurora  User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedCACertificateIdentifiers: [String]?
         /// A list of the character sets supported by this engine for the CharacterSetName parameter of the CreateDBInstance operation.
         @OptionalCustomCoding<ArrayCoder<_SupportedCharacterSetsEncoding, CharacterSet>>
         public var supportedCharacterSets: [CharacterSet]?
         /// A list of the supported DB engine modes.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedEngineModes: [String]?
         /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI,  use the following command:  aws rds describe-db-engine-versions --engine  --engine-version   For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI,  use the following command:  aws rds describe-db-engine-versions --engine postgres --engine-version 13.3  The supported features are listed under SupportedFeatureNames in the output.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedFeatureNames: [String]?
         /// A list of the character sets supported by the Oracle DB engine for the NcharCharacterSetName parameter of the CreateDBInstance operation.
         @OptionalCustomCoding<ArrayCoder<_SupportedNcharCharacterSetsEncoding, CharacterSet>>
@@ -3400,7 +3400,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_DomainMembershipsEncoding, DomainMembership>>
         public var domainMemberships: [DomainMembership]?
         /// A list of log types that this DB instance is configured to export to CloudWatch Logs. Log types vary by DB engine. For information about the log types for each DB engine, see Amazon RDS Database Log Files in the Amazon RDS User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint.  The endpoint might not be shown for instances whose status is creating.
         public let endpoint: Endpoint?
@@ -3986,7 +3986,7 @@ extension RDS {
 
     public struct DBProxy: AWSDecodableShape {
         /// One or more data structures specifying the authorization mechanism to connect to the associated RDS DB instance or Aurora DB cluster.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<UserAuthConfigInfo>>
         public var auth: [UserAuthConfigInfo]?
         /// The date and time when the proxy was first created.
         public let createdDate: Date?
@@ -4013,10 +4013,10 @@ extension RDS {
         /// Provides the VPC ID of the DB proxy.
         public let vpcId: String?
         /// Provides a list of VPC security groups that the proxy belongs to.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var vpcSecurityGroupIds: [String]?
         /// The EC2 subnet IDs for the proxy.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var vpcSubnetIds: [String]?
 
         public init(auth: [UserAuthConfigInfo]? = nil, createdDate: Date? = nil, dbProxyArn: String? = nil, dbProxyName: String? = nil, debugLogging: Bool? = nil, endpoint: String? = nil, engineFamily: String? = nil, idleClientTimeout: Int? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, status: DBProxyStatus? = nil, updatedDate: Date? = nil, vpcId: String? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
@@ -4076,10 +4076,10 @@ extension RDS {
         /// Provides the VPC ID of the DB proxy endpoint.
         public let vpcId: String?
         /// Provides a list of VPC security groups that the DB proxy endpoint belongs to.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var vpcSecurityGroupIds: [String]?
         /// The EC2 subnet IDs for the DB proxy endpoint.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var vpcSubnetIds: [String]?
 
         public init(createdDate: Date? = nil, dbProxyEndpointArn: String? = nil, dbProxyEndpointName: String? = nil, dbProxyName: String? = nil, endpoint: String? = nil, isDefault: Bool? = nil, status: DBProxyEndpointStatus? = nil, targetRole: DBProxyEndpointTargetRole? = nil, vpcId: String? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
@@ -4492,7 +4492,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_SubnetsEncoding, Subnet>>
         public var subnets: [Subnet]?
         /// The network type of the DB subnet group. Valid values:    IPV4     DUAL    A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6  protocols (DUAL). For more information, see  Working with a DB instance in a VPC in the  Amazon RDS User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedNetworkTypes: [String]?
         /// Provides the VpcId of the DB subnet group.
         public let vpcId: String?
@@ -4936,10 +4936,10 @@ extension RDS {
 
     public struct DeregisterDBProxyTargetsRequest: AWSEncodableShape {
         /// One or more DB cluster identifiers.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var dbClusterIdentifiers: [String]?
         /// One or more DB instance identifiers.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var dbInstanceIdentifiers: [String]?
         /// The identifier of the DBProxy that is associated with the DBProxyTargetGroup.
         public let dbProxyName: String
@@ -5007,7 +5007,7 @@ extension RDS {
 
     public struct DescribeBlueGreenDeploymentsResponse: AWSDecodableShape {
         /// Contains a list of blue/green deployments for the user.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<BlueGreenDeployment>>
         public var blueGreenDeployments: [BlueGreenDeployment]?
         /// A pagination token that can be used in a later DescribeBlueGreenDeployments request.
         public let marker: String?
@@ -5568,7 +5568,7 @@ extension RDS {
 
     public struct DescribeDBProxiesResponse: AWSDecodableShape {
         /// A return value representing an arbitrary number of DBProxy data structures.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<DBProxy>>
         public var dbProxies: [DBProxy]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -5629,7 +5629,7 @@ extension RDS {
 
     public struct DescribeDBProxyEndpointsResponse: AWSDecodableShape {
         /// The list of ProxyEndpoint objects returned by the API operation.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<DBProxyEndpoint>>
         public var dbProxyEndpoints: [DBProxyEndpoint]?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -5686,7 +5686,7 @@ extension RDS {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// An arbitrary number of DBProxyTargetGroup objects, containing details of the corresponding target groups.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<DBProxyTargetGroup>>
         public var targetGroups: [DBProxyTargetGroup]?
 
         public init(marker: String? = nil, targetGroups: [DBProxyTargetGroup]? = nil) {
@@ -5741,7 +5741,7 @@ extension RDS {
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// An arbitrary number of DBProxyTarget objects, containing details of the corresponding targets.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<DBProxyTarget>>
         public var targets: [DBProxyTarget]?
 
         public init(marker: String? = nil, targets: [DBProxyTarget]? = nil) {
@@ -6758,7 +6758,7 @@ extension RDS {
 
     public struct ExportTask: AWSDecodableShape {
         /// The data exported from the snapshot or cluster. Valid values are the following:    database - Export all the data from a specified database.    database.table table-name -  Export a table of the snapshot or cluster. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.    database.schema schema-name - Export a database schema of the snapshot or cluster.  This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.    database.schema.table table-name - Export a table of the database schema.  This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var exportOnly: [String]?
         /// A unique identifier for the snapshot or cluster export task. This ID isn't an identifier for the Amazon S3 bucket where the data is exported.
         public let exportTaskIdentifier: String?
@@ -7022,7 +7022,7 @@ extension RDS {
         /// Specifies whether the Aurora cluster is the primary cluster (that is, has read-write capability) for the Aurora global database with which it is associated.
         public let isWriter: Bool?
         /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global database.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var readers: [String]?
 
         public init(dbClusterArn: String? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, isWriter: Bool? = nil, readers: [String]? = nil) {
@@ -7282,10 +7282,10 @@ extension RDS {
         /// The type of the endpoint. One of: READER, WRITER, ANY.
         public let endpointType: String?
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var staticMembers: [String]?
 
         public init(dbClusterEndpointIdentifier: String, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil) {
@@ -7824,7 +7824,7 @@ extension RDS {
         /// The new identifier for the DBProxyEndpoint. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
         public let newDBProxyEndpointName: String?
         /// The VPC security group IDs for the DB proxy endpoint. When the DB proxy endpoint uses a different VPC than the original proxy, you also specify a different set of security group IDs than for the original proxy.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var vpcSecurityGroupIds: [String]?
 
         public init(dbProxyEndpointName: String, newDBProxyEndpointName: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
@@ -7864,7 +7864,7 @@ extension RDS {
 
     public struct ModifyDBProxyRequest: AWSEncodableShape {
         /// The new authentication settings for the DBProxy.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<UserAuthConfig>>
         public var auth: [UserAuthConfig]?
         /// The identifier for the DBProxy to modify.
         public let dbProxyName: String
@@ -7879,7 +7879,7 @@ extension RDS {
         /// The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in Amazon Web Services Secrets Manager.
         public let roleArn: String?
         /// The new list of security groups for the DBProxy.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var securityGroups: [String]?
 
         public init(auth: [UserAuthConfig]? = nil, dbProxyName: String, debugLogging: Bool? = nil, idleClientTimeout: Int? = nil, newDBProxyName: String? = nil, requireTLS: Bool? = nil, roleArn: String? = nil, securityGroups: [String]? = nil) {
@@ -8163,7 +8163,7 @@ extension RDS {
         @OptionalCustomCoding<ArrayCoder<_OptionsToIncludeEncoding, OptionConfiguration>>
         public var optionsToInclude: [OptionConfiguration]?
         /// Options in this list are removed from the option group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var optionsToRemove: [String]?
 
         public init(applyImmediately: Bool? = nil, optionGroupName: String, optionsToInclude: [OptionConfiguration]? = nil, optionsToRemove: [String]? = nil) {
@@ -8638,13 +8638,13 @@ extension RDS {
         /// Indicates the storage type for a DB instance.
         public let storageType: String?
         /// The list of supported modes for Database Activity Streams. Aurora PostgreSQL returns the value [sync, async]. Aurora MySQL and RDS for Oracle return [async] only. If Database Activity Streams  isn't supported, the return value is an empty list.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedActivityStreamModes: [String]?
         /// A list of the supported DB engine modes.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedEngineModes: [String]?
         /// The network types supported by the DB instance (IPV4 or DUAL). A DB instance can support only the IPv4 protocol or the IPv4 and the IPv6  protocols (DUAL). For more information, see  Working with a DB instance in a VPC in the  Amazon RDS User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedNetworkTypes: [String]?
         /// Whether DB instances can be configured as a Multi-AZ DB cluster. For more information on Multi-AZ DB clusters, see   Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
         public let supportsClusters: Bool?
@@ -8801,7 +8801,7 @@ extension RDS {
         /// Indicates the source of the parameter value.
         public let source: String?
         /// The valid DB engine modes.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedEngineModes: [String]?
 
         public init(allowedValues: String? = nil, applyMethod: ApplyMethod? = nil, applyType: String? = nil, dataType: String? = nil, description: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, parameterName: String? = nil, parameterValue: String? = nil, source: String? = nil, supportedEngineModes: [String]? = nil) {
@@ -8835,10 +8835,10 @@ extension RDS {
 
     public struct PendingCloudwatchLogsExports: AWSDecodableShape {
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var logTypesToDisable: [String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var logTypesToEnable: [String]?
 
         public init(logTypesToDisable: [String]? = nil, logTypesToEnable: [String]? = nil) {
@@ -9204,10 +9204,10 @@ extension RDS {
 
     public struct RegisterDBProxyTargetsRequest: AWSEncodableShape {
         /// One or more DB cluster identifiers.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var dbClusterIdentifiers: [String]?
         /// One or more DB instance identifiers.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var dbInstanceIdentifiers: [String]?
         /// The identifier of the DBProxy that is associated with the DBProxyTargetGroup.
         public let dbProxyName: String
@@ -9231,7 +9231,7 @@ extension RDS {
 
     public struct RegisterDBProxyTargetsResponse: AWSDecodableShape {
         /// One or more DBProxyTarget objects that are created when you register targets with a target group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<DBProxyTarget>>
         public var dbProxyTargets: [DBProxyTarget]?
 
         public init(dbProxyTargets: [DBProxyTarget]? = nil) {
@@ -9347,7 +9347,7 @@ extension RDS {
         /// The Amazon RDS resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about   creating an ARN,  see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
         public init(resourceName: String, tagKeys: [String]) {
@@ -9628,7 +9628,7 @@ extension RDS {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used.  Aurora MySQL  Possible values are audit, error, general, and slowquery. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see   IAM Database Authentication in the Amazon Aurora User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
@@ -9797,7 +9797,7 @@ extension RDS {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service. Valid for: Aurora DB clusters only
         public let domainIAMRoleName: String?
         /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs. The values in the list depend on the DB engine being used.  RDS for MySQL  Possible values are error, general, and slowquery.  RDS for PostgreSQL  Possible values are postgresql and upgrade.  Aurora MySQL  Possible values are audit, error, general, and slowquery.  Aurora PostgreSQL  Possible value is postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see   IAM Database Authentication in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
         public let enableIAMDatabaseAuthentication: Bool?
@@ -9931,7 +9931,7 @@ extension RDS {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service. Valid for: Aurora DB clusters only
         public let domainIAMRoleName: String?
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used.  RDS for MySQL  Possible values are error, general, and slowquery.  RDS for PostgreSQL  Possible values are postgresql and upgrade.  Aurora MySQL  Possible values are audit, error, general, and slowquery.  Aurora PostgreSQL  Possible value is postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see   IAM Database Authentication in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
         public let enableIAMDatabaseAuthentication: Bool?
@@ -10079,7 +10079,7 @@ extension RDS {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service. This setting doesn't apply to RDS Custom.
         public let domainIAMRoleName: String?
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see  Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. This setting doesn't apply to RDS Custom. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts  in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses  in the Amazon Web Services Outposts User Guide.
         public let enableCustomerOwnedIp: Bool?
@@ -10241,7 +10241,7 @@ extension RDS {
         /// A value that indicates whether the DB instance has deletion protection enabled.  The database can't be deleted when deletion protection is enabled. By default,  deletion protection isn't enabled. For more information, see   Deleting a DB Instance.
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see  Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information about IAM database authentication, see   IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
@@ -10464,7 +10464,7 @@ extension RDS {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service. This setting doesn't apply to RDS Custom.
         public let domainIAMRoleName: String?
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see  Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. This setting doesn't apply to RDS Custom. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts  in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses  in the Amazon Web Services Outposts User Guide.
         public let enableCustomerOwnedIp: Bool?
@@ -10970,7 +10970,7 @@ extension RDS {
 
     public struct StartExportTaskMessage: AWSEncodableShape {
         /// The data to be exported from the snapshot or cluster.  If this parameter is not provided, all of the data is exported. Valid values are the following:    database - Export all the data from a specified database.    database.table table-name -  Export a table of the snapshot or cluster. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.    database.schema schema-name - Export a database schema of the snapshot or cluster.  This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.    database.schema.table table-name - Export a table of the database schema.  This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var exportOnly: [String]?
         /// A unique identifier for the export task. This ID isn't an identifier for the Amazon S3 bucket where the data is to be exported.
         public let exportTaskIdentifier: String
@@ -11308,7 +11308,7 @@ extension RDS {
         /// A value that indicates whether upgrading to the target version requires upgrading the major version of the database engine.
         public let isMajorVersionUpgrade: Bool?
         /// A list of the supported DB engine modes for the target engine version.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedEngineModes: [String]?
         /// A value that indicates whether you can use Babelfish for Aurora PostgreSQL with the target engine version.
         public let supportsBabelfish: Bool?

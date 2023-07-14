@@ -1216,24 +1216,22 @@ extension SageMakerGeospatial {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetTileOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "binaryFile"
+    public struct GetTileOutput: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "binaryFile", location: .body("BinaryFile"))
-        ]
-
         /// The output binary file.
-        public let binaryFile: HTTPBody?
+        public let binaryFile: AWSHTTPBody
 
-        public init(binaryFile: HTTPBody? = nil) {
+        public init(binaryFile: AWSHTTPBody) {
             self.binaryFile = binaryFile
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case binaryFile = "BinaryFile"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.binaryFile = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVectorEnrichmentJobInput: AWSEncodableShape {

@@ -422,7 +422,7 @@ extension LexRuntimeService {
         ///  You pass this value as the Content-Type HTTP header.  Indicates the audio format or text. The header value must start with one of the following prefixes:    PCM format, audio data must be in little-endian byte order.   audio/l16; rate=16000; channels=1   audio/x-l16; sample-rate=16000; channel-count=1   audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-endian=false      Opus format   audio/x-cbr-opus-with-preamble; preamble-size=0; bit-rate=256000; frame-size-milliseconds=4     Text format   text/plain; charset=utf-8
         public let contentType: String
         ///  User input in PCM or Opus audio format or text format as described in the Content-Type HTTP header.  You can stream audio data to Amazon Lex or you can create a local buffer that captures all of the audio data before sending. In general, you get better performance if you stream audio data rather than buffering the data locally.
-        public let inputStream: HTTPBody
+        public let inputStream: AWSHTTPBody
         /// You pass this value as the x-amz-lex-request-attributes HTTP header. Request-specific information passed between Amazon Lex and a client application. The value must be a JSON serialized and base64 encoded map with string keys and values. The total size of the requestAttributes and sessionAttributes headers is limited to 12 KB. The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes with the prefix x-amz-lex:. For more information, see Setting Request Attributes.
         public let requestAttributes: String?
         /// You pass this value as the x-amz-lex-session-attributes HTTP header. Application-specific information passed between Amazon Lex and a client application. The value must be a JSON serialized and base64 encoded map with string keys and values. The total size of the sessionAttributes and requestAttributes headers is limited to 12 KB. For more information, see Setting Session Attributes.
@@ -430,7 +430,7 @@ extension LexRuntimeService {
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the following factors.   The userID field must not contain any personally identifiable information of the user, for example, name, personal identification numbers, or other end user personal information.   If you want a user to start a conversation on one device and continue on another device, use a user-specific identifier.   If you want the same user to be able to have two independent conversations on two different devices, choose a device-specific identifier.   A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conversation with the PROD and BETA versions of the same bot. If you anticipate that a user will need to have conversation with two different versions, for example, while testing, include the bot alias in the user ID to separate the two conversations.
         public let userId: String
 
-        public init(accept: String? = nil, activeContexts: String? = nil, botAlias: String, botName: String, contentType: String, inputStream: HTTPBody, requestAttributes: String? = nil, sessionAttributes: String? = nil, userId: String) {
+        public init(accept: String? = nil, activeContexts: String? = nil, botAlias: String, botName: String, contentType: String, inputStream: AWSHTTPBody, requestAttributes: String? = nil, sessionAttributes: String? = nil, userId: String) {
             self.accept = accept
             self.activeContexts = activeContexts
             self.botAlias = botAlias
@@ -451,36 +451,14 @@ extension LexRuntimeService {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PostContentResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "audioStream"
+    public struct PostContentResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "activeContexts", location: .header("x-amz-lex-active-contexts")),
-            AWSMemberEncoding(label: "alternativeIntents", location: .header("x-amz-lex-alternative-intents")),
-            AWSMemberEncoding(label: "botVersion", location: .header("x-amz-lex-bot-version")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "dialogState", location: .header("x-amz-lex-dialog-state")),
-            AWSMemberEncoding(label: "encodedInputTranscript", location: .header("x-amz-lex-encoded-input-transcript")),
-            AWSMemberEncoding(label: "encodedMessage", location: .header("x-amz-lex-encoded-message")),
-            AWSMemberEncoding(label: "inputTranscript", location: .header("x-amz-lex-input-transcript")),
-            AWSMemberEncoding(label: "intentName", location: .header("x-amz-lex-intent-name")),
-            AWSMemberEncoding(label: "message", location: .header("x-amz-lex-message")),
-            AWSMemberEncoding(label: "messageFormat", location: .header("x-amz-lex-message-format")),
-            AWSMemberEncoding(label: "nluIntentConfidence", location: .header("x-amz-lex-nlu-intent-confidence")),
-            AWSMemberEncoding(label: "sentimentResponse", location: .header("x-amz-lex-sentiment")),
-            AWSMemberEncoding(label: "sessionAttributes", location: .header("x-amz-lex-session-attributes")),
-            AWSMemberEncoding(label: "sessionId", location: .header("x-amz-lex-session-id")),
-            AWSMemberEncoding(label: "slots", location: .header("x-amz-lex-slots")),
-            AWSMemberEncoding(label: "slotToElicit", location: .header("x-amz-lex-slot-to-elicit"))
-        ]
-
         /// A list of active contexts for the session. A context can be set when an intent is fulfilled or by calling the PostContent, PostText, or PutSession operation. You can use a context to control the intents that can follow up an intent, or to modify the operation of your application.
         public let activeContexts: String?
         /// One to four alternative intents that may be applicable to the user's intent. Each alternative includes a score that indicates how confident Amazon Lex is that the intent matches the user's intent. The intents are sorted by the confidence score.
         public let alternativeIntents: String?
         /// The prompt (or statement) to convey to the user. This is based on the bot configuration and context. For example, if Amazon Lex did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex sends that message in the response.
-        public let audioStream: HTTPBody?
+        public let audioStream: AWSHTTPBody
         /// The version of the bot that responded to the conversation. You can use this information to help determine if one version of a bot is performing better than another version.
         public let botVersion: String?
         /// Content type as specified in the Accept HTTP header in the request.
@@ -512,7 +490,7 @@ extension LexRuntimeService {
         ///  If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
         public let slotToElicit: String?
 
-        public init(activeContexts: String? = nil, alternativeIntents: String? = nil, audioStream: HTTPBody? = nil, botVersion: String? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedInputTranscript: String? = nil, encodedMessage: String? = nil, intentName: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: String? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+        public init(activeContexts: String? = nil, alternativeIntents: String? = nil, audioStream: AWSHTTPBody, botVersion: String? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedInputTranscript: String? = nil, encodedMessage: String? = nil, intentName: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: String? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.activeContexts = activeContexts
             self.alternativeIntents = alternativeIntents
             self.audioStream = audioStream
@@ -534,7 +512,7 @@ extension LexRuntimeService {
         }
 
         @available(*, deprecated, message: "Members inputTranscript, message have been deprecated")
-        public init(activeContexts: String? = nil, alternativeIntents: String? = nil, audioStream: HTTPBody? = nil, botVersion: String? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedInputTranscript: String? = nil, encodedMessage: String? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: String? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+        public init(activeContexts: String? = nil, alternativeIntents: String? = nil, audioStream: AWSHTTPBody, botVersion: String? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedInputTranscript: String? = nil, encodedMessage: String? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: String? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.activeContexts = activeContexts
             self.alternativeIntents = alternativeIntents
             self.audioStream = audioStream
@@ -555,26 +533,30 @@ extension LexRuntimeService {
             self.slotToElicit = slotToElicit
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case activeContexts = "x-amz-lex-active-contexts"
-            case alternativeIntents = "x-amz-lex-alternative-intents"
-            case audioStream = "audioStream"
-            case botVersion = "x-amz-lex-bot-version"
-            case contentType = "Content-Type"
-            case dialogState = "x-amz-lex-dialog-state"
-            case encodedInputTranscript = "x-amz-lex-encoded-input-transcript"
-            case encodedMessage = "x-amz-lex-encoded-message"
-            case inputTranscript = "x-amz-lex-input-transcript"
-            case intentName = "x-amz-lex-intent-name"
-            case message = "x-amz-lex-message"
-            case messageFormat = "x-amz-lex-message-format"
-            case nluIntentConfidence = "x-amz-lex-nlu-intent-confidence"
-            case sentimentResponse = "x-amz-lex-sentiment"
-            case sessionAttributes = "x-amz-lex-session-attributes"
-            case sessionId = "x-amz-lex-session-id"
-            case slots = "x-amz-lex-slots"
-            case slotToElicit = "x-amz-lex-slot-to-elicit"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.activeContexts = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-active-contexts")
+            self.alternativeIntents = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-alternative-intents")
+            self.audioStream = response.decodePayload()
+            self.botVersion = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-bot-version")
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+            self.dialogState = try response.decodeIfPresent(DialogState.self, forHeader: "x-amz-lex-dialog-state")
+            self.encodedInputTranscript = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-encoded-input-transcript")
+            self.encodedMessage = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-encoded-message")
+            self.inputTranscript = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-input-transcript")
+            self.intentName = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-intent-name")
+            self.message = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-message")
+            self.messageFormat = try response.decodeIfPresent(MessageFormatType.self, forHeader: "x-amz-lex-message-format")
+            self.nluIntentConfidence = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-nlu-intent-confidence")
+            self.sentimentResponse = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-sentiment")
+            self.sessionAttributes = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-session-attributes")
+            self.sessionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-session-id")
+            self.slots = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-slots")
+            self.slotToElicit = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-slot-to-elicit")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PostTextRequest: AWSEncodableShape {
@@ -775,28 +757,12 @@ extension LexRuntimeService {
         }
     }
 
-    public struct PutSessionResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "audioStream"
+    public struct PutSessionResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "activeContexts", location: .header("x-amz-lex-active-contexts")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "dialogState", location: .header("x-amz-lex-dialog-state")),
-            AWSMemberEncoding(label: "encodedMessage", location: .header("x-amz-lex-encoded-message")),
-            AWSMemberEncoding(label: "intentName", location: .header("x-amz-lex-intent-name")),
-            AWSMemberEncoding(label: "message", location: .header("x-amz-lex-message")),
-            AWSMemberEncoding(label: "messageFormat", location: .header("x-amz-lex-message-format")),
-            AWSMemberEncoding(label: "sessionAttributes", location: .header("x-amz-lex-session-attributes")),
-            AWSMemberEncoding(label: "sessionId", location: .header("x-amz-lex-session-id")),
-            AWSMemberEncoding(label: "slots", location: .header("x-amz-lex-slots")),
-            AWSMemberEncoding(label: "slotToElicit", location: .header("x-amz-lex-slot-to-elicit"))
-        ]
-
         /// A list of active contexts for the session.
         public let activeContexts: String?
         /// The audio version of the message to convey to the user.
-        public let audioStream: HTTPBody?
+        public let audioStream: AWSHTTPBody
         /// Content type as specified in the Accept HTTP header in the request.
         public let contentType: String?
         ///     ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response to confirm the intent before fulfilling an intent.    ElicitIntent - Amazon Lex wants to elicit the user's intent.    ElicitSlot - Amazon Lex is expecting the value of a slot for the current intent.    Failed - Conveys that the conversation with the user has failed. This can happen for various reasons, including the user does not provide an appropriate response to prompts from the service, or if the Lambda function fails to fulfill the intent.    Fulfilled - Conveys that the Lambda function has sucessfully fulfilled the intent.    ReadyForFulfillment - Conveys that the client has to fulfill the intent.
@@ -818,7 +784,7 @@ extension LexRuntimeService {
         /// If the dialogState is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
         public let slotToElicit: String?
 
-        public init(activeContexts: String? = nil, audioStream: HTTPBody? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedMessage: String? = nil, intentName: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+        public init(activeContexts: String? = nil, audioStream: AWSHTTPBody, contentType: String? = nil, dialogState: DialogState? = nil, encodedMessage: String? = nil, intentName: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.activeContexts = activeContexts
             self.audioStream = audioStream
             self.contentType = contentType
@@ -834,7 +800,7 @@ extension LexRuntimeService {
         }
 
         @available(*, deprecated, message: "Members message have been deprecated")
-        public init(activeContexts: String? = nil, audioStream: HTTPBody? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedMessage: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
+        public init(activeContexts: String? = nil, audioStream: AWSHTTPBody, contentType: String? = nil, dialogState: DialogState? = nil, encodedMessage: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.activeContexts = activeContexts
             self.audioStream = audioStream
             self.contentType = contentType
@@ -849,20 +815,24 @@ extension LexRuntimeService {
             self.slotToElicit = slotToElicit
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case activeContexts = "x-amz-lex-active-contexts"
-            case audioStream = "audioStream"
-            case contentType = "Content-Type"
-            case dialogState = "x-amz-lex-dialog-state"
-            case encodedMessage = "x-amz-lex-encoded-message"
-            case intentName = "x-amz-lex-intent-name"
-            case message = "x-amz-lex-message"
-            case messageFormat = "x-amz-lex-message-format"
-            case sessionAttributes = "x-amz-lex-session-attributes"
-            case sessionId = "x-amz-lex-session-id"
-            case slots = "x-amz-lex-slots"
-            case slotToElicit = "x-amz-lex-slot-to-elicit"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.activeContexts = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-active-contexts")
+            self.audioStream = response.decodePayload()
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+            self.dialogState = try response.decodeIfPresent(DialogState.self, forHeader: "x-amz-lex-dialog-state")
+            self.encodedMessage = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-encoded-message")
+            self.intentName = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-intent-name")
+            self.message = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-message")
+            self.messageFormat = try response.decodeIfPresent(MessageFormatType.self, forHeader: "x-amz-lex-message-format")
+            self.sessionAttributes = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-session-attributes")
+            self.sessionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-session-id")
+            self.slots = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-slots")
+            self.slotToElicit = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-slot-to-elicit")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ResponseCard: AWSDecodableShape {

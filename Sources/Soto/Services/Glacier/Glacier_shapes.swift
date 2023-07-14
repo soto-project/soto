@@ -167,12 +167,6 @@ extension Glacier {
     }
 
     public struct ArchiveCreationOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "archiveId", location: .header("x-amz-archive-id")),
-            AWSMemberEncoding(label: "checksum", location: .header("x-amz-sha256-tree-hash")),
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         /// The ID of the archive. This value is also included as part of the location.
         public let archiveId: String?
         /// The checksum of the archive computed by Amazon S3 Glacier.
@@ -186,11 +180,15 @@ extension Glacier {
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case archiveId = "x-amz-archive-id"
-            case checksum = "x-amz-sha256-tree-hash"
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.archiveId = try response.decodeIfPresent(String.self, forHeader: "x-amz-archive-id")
+            self.checksum = try response.decodeIfPresent(String.self, forHeader: "x-amz-sha256-tree-hash")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CSVInput: AWSEncodableShape & AWSDecodableShape {
@@ -329,10 +327,6 @@ extension Glacier {
     }
 
     public struct CreateVaultOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         /// The URI of the vault that was created.
         public let location: String?
 
@@ -340,9 +334,13 @@ extension Glacier {
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DataRetrievalPolicy: AWSEncodableShape & AWSDecodableShape {
@@ -606,25 +604,14 @@ extension Glacier {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetJobOutputOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct GetJobOutputOutput: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "acceptRanges", location: .header("Accept-Ranges")),
-            AWSMemberEncoding(label: "archiveDescription", location: .header("x-amz-archive-description")),
-            AWSMemberEncoding(label: "checksum", location: .header("x-amz-sha256-tree-hash")),
-            AWSMemberEncoding(label: "contentRange", location: .header("Content-Range")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// Indicates the range units accepted. For more information, see RFC2616.
         public let acceptRanges: String?
         /// The description of an archive.
         public let archiveDescription: String?
         /// The job data, either archive data or inventory data.
-        public let body: HTTPBody?
+        public let body: AWSHTTPBody
         /// The checksum of the data in the response. This header is returned only when retrieving the output for an archive retrieval job. Furthermore, this header appears only under the following conditions:   You get the entire range of the archive.   You request a range to return of the archive that starts and ends on a multiple of 1 MB. For example, if you have an 3.1 MB archive and you specify a range to return that starts at 1 MB and ends at 2 MB, then the x-amz-sha256-tree-hash is returned as a response header.   You request a range of the archive to return that starts on a multiple of 1 MB and goes to the end of the archive. For example, if you have a 3.1 MB archive and you specify a range that starts at 2 MB and ends at 3.1 MB (the end of the archive), then the x-amz-sha256-tree-hash is returned as a response header.
         public let checksum: String?
         /// The range of bytes returned by Amazon S3 Glacier. If only partial output is downloaded, the response provides the range of bytes Amazon S3 Glacier returned. For example, bytes 0-1048575/8388608 returns the first 1 MB from 8 MB.
@@ -634,7 +621,7 @@ extension Glacier {
         /// The HTTP response code for a job output request. The value depends on whether a range was specified in the request.
         public let status: Int?
 
-        public init(acceptRanges: String? = nil, archiveDescription: String? = nil, body: HTTPBody? = nil, checksum: String? = nil, contentRange: String? = nil, contentType: String? = nil, status: Int? = nil) {
+        public init(acceptRanges: String? = nil, archiveDescription: String? = nil, body: AWSHTTPBody, checksum: String? = nil, contentRange: String? = nil, contentType: String? = nil, status: Int? = nil) {
             self.acceptRanges = acceptRanges
             self.archiveDescription = archiveDescription
             self.body = body
@@ -644,15 +631,19 @@ extension Glacier {
             self.status = status
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case acceptRanges = "Accept-Ranges"
-            case archiveDescription = "x-amz-archive-description"
-            case body = "body"
-            case checksum = "x-amz-sha256-tree-hash"
-            case contentRange = "Content-Range"
-            case contentType = "Content-Type"
-            case status = "status"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.acceptRanges = try response.decodeIfPresent(String.self, forHeader: "Accept-Ranges")
+            self.archiveDescription = try response.decodeIfPresent(String.self, forHeader: "x-amz-archive-description")
+            self.body = response.decodePayload()
+            self.checksum = try response.decodeIfPresent(String.self, forHeader: "x-amz-sha256-tree-hash")
+            self.contentRange = try response.decodeIfPresent(String.self, forHeader: "Content-Range")
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+            self.status = response.decodeStatus()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVaultAccessPolicyInput: AWSEncodableShape {
@@ -674,19 +665,20 @@ extension Glacier {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVaultAccessPolicyOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "policy"
+    public struct GetVaultAccessPolicyOutput: AWSDecodableShape {
         /// Contains the returned vault access policy as a JSON string.
-        public let policy: VaultAccessPolicy?
+        public let policy: VaultAccessPolicy
 
-        public init(policy: VaultAccessPolicy? = nil) {
+        public init(policy: VaultAccessPolicy) {
             self.policy = policy
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policy = "policy"
+        public init(from decoder: Decoder) throws {
+            self.policy = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVaultLockInput: AWSEncodableShape {
@@ -752,19 +744,20 @@ extension Glacier {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVaultNotificationsOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "vaultNotificationConfig"
+    public struct GetVaultNotificationsOutput: AWSDecodableShape {
         /// Returns the notification configuration set on the vault.
-        public let vaultNotificationConfig: VaultNotificationConfig?
+        public let vaultNotificationConfig: VaultNotificationConfig
 
-        public init(vaultNotificationConfig: VaultNotificationConfig? = nil) {
+        public init(vaultNotificationConfig: VaultNotificationConfig) {
             self.vaultNotificationConfig = vaultNotificationConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case vaultNotificationConfig = "vaultNotificationConfig"
+        public init(from decoder: Decoder) throws {
+            self.vaultNotificationConfig = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GlacierJobDescription: AWSDecodableShape {
@@ -927,18 +920,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case jobParameters = "jobParameters"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InitiateJobOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .header("x-amz-job-id")),
-            AWSMemberEncoding(label: "jobOutputPath", location: .header("x-amz-job-output-path")),
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         /// The ID of the job.
         public let jobId: String?
         /// The path to the location of where the select results are stored.
@@ -952,11 +937,15 @@ extension Glacier {
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case jobId = "x-amz-job-id"
-            case jobOutputPath = "x-amz-job-output-path"
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.jobId = try response.decodeIfPresent(String.self, forHeader: "x-amz-job-id")
+            self.jobOutputPath = try response.decodeIfPresent(String.self, forHeader: "x-amz-job-output-path")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InitiateMultipartUploadInput: AWSEncodableShape {
@@ -987,11 +976,6 @@ extension Glacier {
     }
 
     public struct InitiateMultipartUploadOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header("Location")),
-            AWSMemberEncoding(label: "uploadId", location: .header("x-amz-multipart-upload-id"))
-        ]
-
         /// The relative URI path of the multipart upload ID Amazon S3 Glacier created.
         public let location: String?
         /// The ID of the multipart upload. This value is also included as part of the location.
@@ -1002,10 +986,14 @@ extension Glacier {
             self.uploadId = uploadId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case location = "Location"
-            case uploadId = "x-amz-multipart-upload-id"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+            self.uploadId = try response.decodeIfPresent(String.self, forHeader: "x-amz-multipart-upload-id")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InitiateVaultLockInput: AWSEncodableShape & AWSShapeWithPayload {
@@ -1029,16 +1017,10 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policy = "policy"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InitiateVaultLockOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "lockId", location: .header("x-amz-lock-id"))
-        ]
-
         /// The lock ID, which is used to complete the vault locking process.
         public let lockId: String?
 
@@ -1046,9 +1028,13 @@ extension Glacier {
             self.lockId = lockId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case lockId = "x-amz-lock-id"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.lockId = try response.decodeIfPresent(String.self, forHeader: "x-amz-lock-id")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InputSerialization: AWSEncodableShape & AWSDecodableShape {
@@ -1511,10 +1497,6 @@ extension Glacier {
     }
 
     public struct PurchaseProvisionedCapacityOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "capacityId", location: .header("x-amz-capacity-id"))
-        ]
-
         /// The ID that identifies the provisioned capacity unit.
         public let capacityId: String?
 
@@ -1522,9 +1504,13 @@ extension Glacier {
             self.capacityId = capacityId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case capacityId = "x-amz-capacity-id"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.capacityId = try response.decodeIfPresent(String.self, forHeader: "x-amz-capacity-id")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RemoveTagsFromVaultInput: AWSEncodableShape {
@@ -1658,9 +1644,7 @@ extension Glacier {
             self.vaultName = vaultName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policy = "policy"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SetVaultNotificationsInput: AWSEncodableShape & AWSShapeWithPayload {
@@ -1684,9 +1668,7 @@ extension Glacier {
             self.vaultNotificationConfig = vaultNotificationConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case vaultNotificationConfig = "vaultNotificationConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UploadArchiveInput: AWSEncodableShape & AWSShapeWithPayload {
@@ -1705,13 +1687,13 @@ extension Glacier {
         /// The optional description of the archive you are uploading.
         public let archiveDescription: String?
         /// The data to upload.
-        public let body: HTTPBody?
+        public let body: AWSHTTPBody?
         /// The SHA256 tree hash of the data being uploaded.
         public let checksum: String?
         /// The name of the vault.
         public let vaultName: String
 
-        public init(accountId: String, archiveDescription: String? = nil, body: HTTPBody? = nil, checksum: String? = nil, vaultName: String) {
+        public init(accountId: String, archiveDescription: String? = nil, body: AWSHTTPBody? = nil, checksum: String? = nil, vaultName: String) {
             self.accountId = accountId
             self.archiveDescription = archiveDescription
             self.body = body
@@ -1766,7 +1748,7 @@ extension Glacier {
         /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The data to upload.
-        public let body: HTTPBody?
+        public let body: AWSHTTPBody?
         /// The SHA256 tree hash of the data being uploaded.
         public let checksum: String?
         /// Identifies the range of bytes in the assembled archive that will be uploaded in this part. Amazon S3 Glacier uses this information to assemble the archive in the proper sequence. The format of this header follows RFC 2616. An example header is Content-Range:bytes 0-4194303/*.
@@ -1776,7 +1758,7 @@ extension Glacier {
         /// The name of the vault.
         public let vaultName: String
 
-        public init(accountId: String, body: HTTPBody? = nil, checksum: String? = nil, range: String? = nil, uploadId: String, vaultName: String) {
+        public init(accountId: String, body: AWSHTTPBody? = nil, checksum: String? = nil, range: String? = nil, uploadId: String, vaultName: String) {
             self.accountId = accountId
             self.body = body
             self.checksum = checksum
@@ -1789,10 +1771,6 @@ extension Glacier {
     }
 
     public struct UploadMultipartPartOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "checksum", location: .header("x-amz-sha256-tree-hash"))
-        ]
-
         /// The SHA256 tree hash that Amazon S3 Glacier computed for the uploaded part.
         public let checksum: String?
 
@@ -1800,9 +1778,13 @@ extension Glacier {
             self.checksum = checksum
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case checksum = "x-amz-sha256-tree-hash"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.checksum = try response.decodeIfPresent(String.self, forHeader: "x-amz-sha256-tree-hash")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct VaultAccessPolicy: AWSEncodableShape & AWSDecodableShape {

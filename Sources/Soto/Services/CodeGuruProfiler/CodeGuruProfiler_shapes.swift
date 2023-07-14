@@ -400,9 +400,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct ConfigureAgentResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "configuration"
+    public struct ConfigureAgentResponse: AWSDecodableShape {
         ///  An  AgentConfiguration  object that specifies if an agent profiles or not and for how long to return profiling data.
         public let configuration: AgentConfiguration
 
@@ -410,9 +408,12 @@ extension CodeGuruProfiler {
             self.configuration = configuration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configuration = "configuration"
+        public init(from decoder: Decoder) throws {
+            self.configuration = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateProfilingGroupRequest: AWSEncodableShape {
@@ -456,9 +457,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct CreateProfilingGroupResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "profilingGroup"
+    public struct CreateProfilingGroupResponse: AWSDecodableShape {
         ///  The returned  ProfilingGroupDescription object that contains information about the created profiling group.
         public let profilingGroup: ProfilingGroupDescription
 
@@ -466,9 +465,12 @@ extension CodeGuruProfiler {
             self.profilingGroup = profilingGroup
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case profilingGroup = "profilingGroup"
+        public init(from decoder: Decoder) throws {
+            self.profilingGroup = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteProfilingGroupRequest: AWSEncodableShape {
@@ -517,9 +519,7 @@ extension CodeGuruProfiler {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeProfilingGroupResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "profilingGroup"
+    public struct DescribeProfilingGroupResponse: AWSDecodableShape {
         ///  The returned  ProfilingGroupDescription  object that contains information about the requested profiling group.
         public let profilingGroup: ProfilingGroupDescription
 
@@ -527,9 +527,12 @@ extension CodeGuruProfiler {
             self.profilingGroup = profilingGroup
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case profilingGroup = "profilingGroup"
+        public init(from decoder: Decoder) throws {
+            self.profilingGroup = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct FindingsReportSummary: AWSDecodableShape {
@@ -767,33 +770,30 @@ extension CodeGuruProfiler {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetProfileResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "profile"
+    public struct GetProfileResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentEncoding", location: .header("Content-Encoding")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
-        ]
-
         /// The content encoding of the profile.
         public let contentEncoding: String?
         /// The content type of the profile in the payload. It is either application/json or the default  application/x-amzn-ion.
         public let contentType: String
         /// Information about the profile.
-        public let profile: HTTPBody
+        public let profile: AWSHTTPBody
 
-        public init(contentEncoding: String? = nil, contentType: String, profile: HTTPBody) {
+        public init(contentEncoding: String? = nil, contentType: String, profile: AWSHTTPBody) {
             self.contentEncoding = contentEncoding
             self.contentType = contentType
             self.profile = profile
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contentEncoding = "Content-Encoding"
-            case contentType = "Content-Type"
-            case profile = "profile"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.contentEncoding = try response.decodeIfPresent(String.self, forHeader: "Content-Encoding")
+            self.contentType = try response.decode(String.self, forHeader: "Content-Type")
+            self.profile = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRecommendationsRequest: AWSEncodableShape {
@@ -1179,7 +1179,7 @@ extension CodeGuruProfiler {
         ]
 
         ///  The submitted profiling data.
-        public let agentProfile: HTTPBody
+        public let agentProfile: AWSHTTPBody
         ///  The format of the submitted profiling data. The format maps to the  Accept and Content-Type headers of the  HTTP request. You can specify one of the following:  or the default .      application/json — standard JSON format      application/x-amzn-ion — the Amazon Ion data format. For more information,  see Amazon Ion.
         public let contentType: String
         ///  Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the accidental submission of duplicate profiling data if there are failures and retries.
@@ -1187,7 +1187,7 @@ extension CodeGuruProfiler {
         ///  The name of the profiling group with the aggregated profile that receives the  submitted profiling data.
         public let profilingGroupName: String
 
-        public init(agentProfile: HTTPBody, contentType: String, profileToken: String? = PostAgentProfileRequest.idempotencyToken(), profilingGroupName: String) {
+        public init(agentProfile: AWSHTTPBody, contentType: String, profileToken: String? = PostAgentProfileRequest.idempotencyToken(), profilingGroupName: String) {
             self.agentProfile = agentProfile
             self.contentType = contentType
             self.profileToken = profileToken
@@ -1591,9 +1591,7 @@ extension CodeGuruProfiler {
         }
     }
 
-    public struct UpdateProfilingGroupResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "profilingGroup"
+    public struct UpdateProfilingGroupResponse: AWSDecodableShape {
         ///  A  ProfilingGroupDescription  that contains information about the returned updated profiling group.
         public let profilingGroup: ProfilingGroupDescription
 
@@ -1601,9 +1599,12 @@ extension CodeGuruProfiler {
             self.profilingGroup = profilingGroup
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case profilingGroup = "profilingGroup"
+        public init(from decoder: Decoder) throws {
+            self.profilingGroup = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UserFeedback: AWSDecodableShape {

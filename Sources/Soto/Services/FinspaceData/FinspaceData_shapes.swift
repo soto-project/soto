@@ -184,10 +184,6 @@ extension FinspaceData {
     }
 
     public struct AssociateUserToPermissionGroupResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "statusCode", location: .statusCode)
-        ]
-
         /// The returned status code of the response.
         public let statusCode: Int?
 
@@ -195,9 +191,13 @@ extension FinspaceData {
             self.statusCode = statusCode
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case statusCode = "statusCode"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.statusCode = response.decodeStatus()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct AwsCredentials: AWSDecodableShape {
@@ -1031,10 +1031,6 @@ extension FinspaceData {
     }
 
     public struct DisassociateUserFromPermissionGroupResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "statusCode", location: .statusCode)
-        ]
-
         /// The returned status code of the response.
         public let statusCode: Int?
 
@@ -1042,9 +1038,13 @@ extension FinspaceData {
             self.statusCode = statusCode
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case statusCode = "statusCode"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.statusCode = response.decodeStatus()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct EnableUserRequest: AWSEncodableShape {

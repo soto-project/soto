@@ -304,10 +304,6 @@ extension APIGateway {
     }
 
     public struct ApiKeys: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [ApiKey]?
         /// The current pagination position in the paged result set.
@@ -399,10 +395,6 @@ extension APIGateway {
     }
 
     public struct Authorizers: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [Authorizer]?
         /// The current pagination position in the paged result set.
@@ -441,10 +433,6 @@ extension APIGateway {
     }
 
     public struct BasePathMappings: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [BasePathMapping]?
         /// The current pagination position in the paged result set.
@@ -520,10 +508,6 @@ extension APIGateway {
     }
 
     public struct ClientCertificates: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [ClientCertificate]?
         /// The current pagination position in the paged result set.
@@ -1554,10 +1538,6 @@ extension APIGateway {
     }
 
     public struct Deployments: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [Deployment]?
         /// The current pagination position in the paged result set.
@@ -1646,10 +1626,6 @@ extension APIGateway {
     }
 
     public struct DocumentationParts: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [DocumentationPart]?
         /// The current pagination position in the paged result set.
@@ -1688,10 +1664,6 @@ extension APIGateway {
     }
 
     public struct DocumentationVersions: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [DocumentationVersion]?
         /// The current pagination position in the paged result set.
@@ -1786,10 +1758,6 @@ extension APIGateway {
     }
 
     public struct DomainNames: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [DomainName]?
         /// The current pagination position in the paged result set.
@@ -1823,33 +1791,30 @@ extension APIGateway {
         }
     }
 
-    public struct ExportResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct ExportResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentDisposition", location: .header("Content-Disposition")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
-        ]
-
         /// The binary blob response to GetExport, which contains the export.
-        public let body: HTTPBody?
+        public let body: AWSHTTPBody
         /// The content-disposition header value in the HTTP response.
         public let contentDisposition: String?
         /// The content-type header value in the HTTP response. This will correspond to a valid 'accept' type in the request.
         public let contentType: String?
 
-        public init(body: HTTPBody? = nil, contentDisposition: String? = nil, contentType: String? = nil) {
+        public init(body: AWSHTTPBody, contentDisposition: String? = nil, contentType: String? = nil) {
             self.body = body
             self.contentDisposition = contentDisposition
             self.contentType = contentType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-            case contentDisposition = "Content-Disposition"
-            case contentType = "Content-Type"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.body = response.decodePayload()
+            self.contentDisposition = try response.decodeIfPresent(String.self, forHeader: "Content-Disposition")
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct FlushStageAuthorizersCacheRequest: AWSEncodableShape {
@@ -1920,10 +1885,6 @@ extension APIGateway {
     }
 
     public struct GatewayResponses: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// Returns the entire collection, because of no pagination support.
         public let items: [GatewayResponse]?
         /// The current pagination position in the paged result set. The GatewayResponse collection does not support pagination and the position does not apply here.
@@ -2968,13 +2929,13 @@ extension APIGateway {
         ]
 
         /// The payload of the POST request to import API keys. For the payload format, see API Key File Format.
-        public let body: HTTPBody
+        public let body: AWSHTTPBody
         /// A query parameter to indicate whether to rollback ApiKey importation (true) or not (false) when error is encountered.
         public let failOnWarnings: Bool?
         /// A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported.
         public let format: ApiKeysFormat
 
-        public init(body: HTTPBody, failOnWarnings: Bool? = nil, format: ApiKeysFormat) {
+        public init(body: AWSHTTPBody, failOnWarnings: Bool? = nil, format: ApiKeysFormat) {
             self.body = body
             self.failOnWarnings = failOnWarnings
             self.format = format
@@ -2994,7 +2955,7 @@ extension APIGateway {
         ]
 
         /// Raw byte array representing the to-be-imported documentation parts. To import from an OpenAPI file, this is a JSON object.
-        public let body: HTTPBody
+        public let body: AWSHTTPBody
         /// A query parameter to specify whether to rollback the documentation importation (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
         /// A query parameter to indicate whether to overwrite (OVERWRITE) any existing DocumentationParts definition or to merge (MERGE) the new definition into the existing one. The default value is MERGE.
@@ -3002,7 +2963,7 @@ extension APIGateway {
         /// The string identifier of the associated RestApi.
         public let restApiId: String
 
-        public init(body: HTTPBody, failOnWarnings: Bool? = nil, mode: PutMode? = nil, restApiId: String) {
+        public init(body: AWSHTTPBody, failOnWarnings: Bool? = nil, mode: PutMode? = nil, restApiId: String) {
             self.body = body
             self.failOnWarnings = failOnWarnings
             self.mode = mode
@@ -3021,13 +2982,13 @@ extension APIGateway {
         ]
 
         /// The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.
-        public let body: HTTPBody
+        public let body: AWSHTTPBody
         /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
         /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values. To exclude DocumentationParts from the import, set parameters as ignore=documentation. To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE. To handle imported basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split. For example, the AWS CLI command to exclude documentation from the imported API is: The AWS CLI command to set the regional endpoint on the imported API is:
         public let parameters: [String: String]?
 
-        public init(body: HTTPBody, failOnWarnings: Bool? = nil, parameters: [String: String]? = nil) {
+        public init(body: AWSHTTPBody, failOnWarnings: Bool? = nil, parameters: [String: String]? = nil) {
             self.body = body
             self.failOnWarnings = failOnWarnings
             self.parameters = parameters
@@ -3306,10 +3267,6 @@ extension APIGateway {
     }
 
     public struct Models: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [Model]?
         /// The current pagination position in the paged result set.
@@ -3659,7 +3616,7 @@ extension APIGateway {
         ]
 
         /// The PUT request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.
-        public let body: HTTPBody
+        public let body: AWSHTTPBody
         /// A query parameter to indicate whether to rollback the API update (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
         /// The mode query parameter to specify the update mode. Valid values are "merge" and "overwrite". By default, the update mode is "merge".
@@ -3669,7 +3626,7 @@ extension APIGateway {
         /// The string identifier of the associated RestApi.
         public let restApiId: String
 
-        public init(body: HTTPBody, failOnWarnings: Bool? = nil, mode: PutMode? = nil, parameters: [String: String]? = nil, restApiId: String) {
+        public init(body: AWSHTTPBody, failOnWarnings: Bool? = nil, mode: PutMode? = nil, parameters: [String: String]? = nil, restApiId: String) {
             self.body = body
             self.failOnWarnings = failOnWarnings
             self.mode = mode
@@ -3729,10 +3686,6 @@ extension APIGateway {
     }
 
     public struct RequestValidators: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [RequestValidator]?
         /// The current pagination position in the paged result set.
@@ -3779,10 +3732,6 @@ extension APIGateway {
     }
 
     public struct Resources: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [Resource]?
         /// The current pagination position in the paged result set.
@@ -3861,10 +3810,6 @@ extension APIGateway {
     }
 
     public struct RestApis: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [RestApi]?
         /// The current pagination position in the paged result set.
@@ -3910,33 +3855,30 @@ extension APIGateway {
         }
     }
 
-    public struct SdkResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct SdkResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentDisposition", location: .header("Content-Disposition")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
-        ]
-
         /// The binary blob response to GetSdk, which contains the generated SDK.
-        public let body: HTTPBody?
+        public let body: AWSHTTPBody
         /// The content-disposition header value in the HTTP response.
         public let contentDisposition: String?
         /// The content-type header value in the HTTP response.
         public let contentType: String?
 
-        public init(body: HTTPBody? = nil, contentDisposition: String? = nil, contentType: String? = nil) {
+        public init(body: AWSHTTPBody, contentDisposition: String? = nil, contentType: String? = nil) {
             self.body = body
             self.contentDisposition = contentDisposition
             self.contentType = contentType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-            case contentDisposition = "Content-Disposition"
-            case contentType = "Content-Type"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.body = response.decodePayload()
+            self.contentDisposition = try response.decodeIfPresent(String.self, forHeader: "Content-Disposition")
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SdkType: AWSDecodableShape {
@@ -4867,10 +4809,6 @@ extension APIGateway {
     }
 
     public struct Usage: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The ending date of the usage data.
         public let endDate: String?
         /// The usage data, as daily logs of used and remaining quotas, over the specified time interval indexed over the API keys in a usage plan. For example, {..., "values" : { "{api_key}" : [ [0, 100], [10, 90], [100, 10]]}, where {api_key} stands for an API key value and the daily log entry is of the format [used quota, remaining quota].
@@ -4966,10 +4904,6 @@ extension APIGateway {
     }
 
     public struct UsagePlanKeys: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [UsagePlanKey]?
         /// The current pagination position in the paged result set.
@@ -4987,10 +4921,6 @@ extension APIGateway {
     }
 
     public struct UsagePlans: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [UsagePlan]?
         /// The current pagination position in the paged result set.
@@ -5045,10 +4975,6 @@ extension APIGateway {
     }
 
     public struct VpcLinks: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "position", location: .querystring("position"))
-        ]
-
         /// The current page of elements from this collection.
         public let items: [VpcLink]?
         /// The current pagination position in the paged result set.

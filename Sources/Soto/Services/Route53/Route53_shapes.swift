@@ -639,7 +639,7 @@ extension Route53 {
         ]
 
         ///  Information about changes to a CIDR collection.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<CidrCollectionChange>>
         public var changes: [CidrCollectionChange]
         /// A sequential counter that Amazon Route 53 sets to 1 when you create a
         /// 			collection and increments it by 1 each time you update the collection. We recommend that you use ListCidrCollection to get the current value of
@@ -1037,10 +1037,6 @@ extension Route53 {
     }
 
     public struct CreateCidrCollectionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         /// A complex type that contains information about the CIDR collection.
         public let collection: CidrCollection?
         /// A unique URL that represents the location for the CIDR collection.
@@ -1051,9 +1047,16 @@ extension Route53 {
             self.location = location
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.collection = try container.decodeIfPresent(CidrCollection.self, forKey: .collection)
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case collection = "Collection"
-            case location = "Location"
         }
     }
 
@@ -1093,10 +1096,6 @@ extension Route53 {
     }
 
     public struct CreateHealthCheckResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         /// A complex type that contains identifying information about the health check.
         public let healthCheck: HealthCheck
         /// The unique URL representing the new health check.
@@ -1107,9 +1106,16 @@ extension Route53 {
             self.location = location
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.healthCheck = try container.decode(HealthCheck.self, forKey: .healthCheck)
+            self.location = try response.decode(String.self, forHeader: "Location")
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case healthCheck = "HealthCheck"
-            case location = "Location"
         }
     }
 
@@ -1170,10 +1176,6 @@ extension Route53 {
     }
 
     public struct CreateHostedZoneResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         /// A complex type that contains information about the CreateHostedZone
         /// 			request.
         public let changeInfo: ChangeInfo
@@ -1195,11 +1197,21 @@ extension Route53 {
             self.vpc = vpc
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.changeInfo = try container.decode(ChangeInfo.self, forKey: .changeInfo)
+            self.delegationSet = try container.decode(DelegationSet.self, forKey: .delegationSet)
+            self.hostedZone = try container.decode(HostedZone.self, forKey: .hostedZone)
+            self.location = try response.decode(String.self, forHeader: "Location")
+            self.vpc = try container.decodeIfPresent(VPC.self, forKey: .vpc)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeInfo = "ChangeInfo"
             case delegationSet = "DelegationSet"
             case hostedZone = "HostedZone"
-            case location = "Location"
             case vpc = "VPC"
         }
     }
@@ -1252,10 +1264,6 @@ extension Route53 {
     }
 
     public struct CreateKeySigningKeyResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         public let changeInfo: ChangeInfo
         /// The key-signing key (KSK) that the request creates.
         public let keySigningKey: KeySigningKey
@@ -1268,10 +1276,18 @@ extension Route53 {
             self.location = location
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.changeInfo = try container.decode(ChangeInfo.self, forKey: .changeInfo)
+            self.keySigningKey = try container.decode(KeySigningKey.self, forKey: .keySigningKey)
+            self.location = try response.decode(String.self, forHeader: "Location")
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case changeInfo = "ChangeInfo"
             case keySigningKey = "KeySigningKey"
-            case location = "Location"
         }
     }
 
@@ -1300,10 +1316,6 @@ extension Route53 {
     }
 
     public struct CreateQueryLoggingConfigResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         /// The unique URL representing the new query logging configuration.
         public let location: String
         /// A complex type that contains the ID for a query logging configuration, the ID of the
@@ -1316,8 +1328,15 @@ extension Route53 {
             self.queryLoggingConfig = queryLoggingConfig
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.location = try response.decode(String.self, forHeader: "Location")
+            self.queryLoggingConfig = try container.decode(QueryLoggingConfig.self, forKey: .queryLoggingConfig)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
-            case location = "Location"
             case queryLoggingConfig = "QueryLoggingConfig"
         }
     }
@@ -1352,10 +1371,6 @@ extension Route53 {
     }
 
     public struct CreateReusableDelegationSetResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         /// A complex type that contains name server information.
         public let delegationSet: DelegationSet
         /// The unique URL representing the new reusable delegation set.
@@ -1366,9 +1381,16 @@ extension Route53 {
             self.location = location
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.delegationSet = try container.decode(DelegationSet.self, forKey: .delegationSet)
+            self.location = try response.decode(String.self, forHeader: "Location")
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case delegationSet = "DelegationSet"
-            case location = "Location"
         }
     }
 
@@ -1419,10 +1441,6 @@ extension Route53 {
     }
 
     public struct CreateTrafficPolicyInstanceResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         /// A unique URL that represents a new traffic policy instance.
         public let location: String
         /// A complex type that contains settings for the new traffic policy instance.
@@ -1433,8 +1451,15 @@ extension Route53 {
             self.trafficPolicyInstance = trafficPolicyInstance
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.location = try response.decode(String.self, forHeader: "Location")
+            self.trafficPolicyInstance = try container.decode(TrafficPolicyInstance.self, forKey: .trafficPolicyInstance)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
-            case location = "Location"
             case trafficPolicyInstance = "TrafficPolicyInstance"
         }
     }
@@ -1467,10 +1492,6 @@ extension Route53 {
     }
 
     public struct CreateTrafficPolicyResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         /// A unique URL that represents a new traffic policy.
         public let location: String
         /// A complex type that contains settings for the new traffic policy.
@@ -1481,8 +1502,15 @@ extension Route53 {
             self.trafficPolicy = trafficPolicy
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.location = try response.decode(String.self, forHeader: "Location")
+            self.trafficPolicy = try container.decode(TrafficPolicy.self, forKey: .trafficPolicy)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
-            case location = "Location"
             case trafficPolicy = "TrafficPolicy"
         }
     }
@@ -1522,10 +1550,6 @@ extension Route53 {
     }
 
     public struct CreateTrafficPolicyVersionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         /// A unique URL that represents a new traffic policy version.
         public let location: String
         /// A complex type that contains settings for the new version of the traffic
@@ -1537,8 +1561,15 @@ extension Route53 {
             self.trafficPolicy = trafficPolicy
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.location = try response.decode(String.self, forHeader: "Location")
+            self.trafficPolicy = try container.decode(TrafficPolicy.self, forKey: .trafficPolicy)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
-            case location = "Location"
             case trafficPolicy = "TrafficPolicy"
         }
     }
@@ -2211,7 +2242,7 @@ extension Route53 {
     public struct GetCheckerIpRangesResponse: AWSDecodableShape {
         /// A complex type that contains sorted list of IP ranges in CIDR format for Amazon Route
         /// 			53 health checkers.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var checkerIpRanges: [String]
 
         public init(checkerIpRanges: [String]) {
@@ -2244,7 +2275,7 @@ extension Route53 {
 
     public struct GetDNSSECResponse: AWSDecodableShape {
         /// The key-signing keys (KSKs) in your account.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<KeySigningKey>>
         public var keySigningKeys: [KeySigningKey]
         /// A string repesenting the status of DNSSEC.
         public let status: DNSSECStatus
@@ -3383,7 +3414,7 @@ extension Route53 {
 
     public struct ListCidrBlocksResponse: AWSDecodableShape {
         /// A complex type that contains information about the CIDR blocks.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<CidrBlockSummary>>
         public var cidrBlocks: [CidrBlockSummary]?
         /// An opaque pagination token to indicate where the service is to begin enumerating
         /// 			results.  If no value is provided, the listing of results starts from the beginning.
@@ -3426,7 +3457,7 @@ extension Route53 {
 
     public struct ListCidrCollectionsResponse: AWSDecodableShape {
         /// A complex type with information about the CIDR collection.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<CollectionSummary>>
         public var cidrCollections: [CollectionSummary]?
         /// An opaque pagination token to indicate where the service is to begin enumerating
         /// 			results. If no value is provided, the listing of results starts from the beginning.
@@ -3474,7 +3505,7 @@ extension Route53 {
 
     public struct ListCidrLocationsResponse: AWSDecodableShape {
         /// A complex type that contains information about the list of CIDR locations.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LocationSummary>>
         public var cidrLocations: [LocationSummary]?
         /// An opaque pagination token to indicate where the service is to begin enumerating
         /// 			results. If no value is provided, the listing of results starts from the beginning.

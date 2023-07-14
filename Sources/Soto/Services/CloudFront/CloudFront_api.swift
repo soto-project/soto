@@ -1072,7 +1072,7 @@ extension CloudFront {
             input: input,
             command: self.listCloudFrontOriginAccessIdentities,
             inputKey: \ListCloudFrontOriginAccessIdentitiesRequest.marker,
-            outputKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList?.nextMarker,
+            outputKey: \ListCloudFrontOriginAccessIdentitiesResult.cloudFrontOriginAccessIdentityList.nextMarker,
             logger: logger
         )
     }
@@ -1091,7 +1091,7 @@ extension CloudFront {
             input: input,
             command: self.listDistributions,
             inputKey: \ListDistributionsRequest.marker,
-            outputKey: \ListDistributionsResult.distributionList?.nextMarker,
+            outputKey: \ListDistributionsResult.distributionList.nextMarker,
             logger: logger
         )
     }
@@ -1110,7 +1110,7 @@ extension CloudFront {
             input: input,
             command: self.listInvalidations,
             inputKey: \ListInvalidationsRequest.marker,
-            outputKey: \ListInvalidationsResult.invalidationList?.nextMarker,
+            outputKey: \ListInvalidationsResult.invalidationList.nextMarker,
             logger: logger
         )
     }
@@ -1129,7 +1129,7 @@ extension CloudFront {
             input: input,
             command: self.listStreamingDistributions,
             inputKey: \ListStreamingDistributionsRequest.marker,
-            outputKey: \ListStreamingDistributionsResult.streamingDistributionList?.nextMarker,
+            outputKey: \ListStreamingDistributionsResult.streamingDistributionList.nextMarker,
             logger: logger
         )
     }

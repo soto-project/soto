@@ -1973,20 +1973,22 @@ extension AppSync {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetIntrospectionSchemaResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "schema"
+    public struct GetIntrospectionSchemaResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
         /// The schema, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
-        public let schema: HTTPBody?
+        public let schema: AWSHTTPBody
 
-        public init(schema: HTTPBody? = nil) {
+        public init(schema: AWSHTTPBody) {
             self.schema = schema
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case schema = "schema"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.schema = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetResolverRequest: AWSEncodableShape {

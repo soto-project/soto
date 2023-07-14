@@ -62,20 +62,22 @@ extension IoTDataPlane {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "payload"
+    public struct DeleteThingShadowResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
         /// The state information, in JSON format.
-        public let payload: HTTPBody
+        public let payload: AWSHTTPBody
 
-        public init(payload: HTTPBody) {
+        public init(payload: AWSHTTPBody) {
             self.payload = payload
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.payload = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRetainedMessageRequest: AWSEncodableShape {
@@ -150,20 +152,22 @@ extension IoTDataPlane {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "payload"
+    public struct GetThingShadowResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
         /// The state information, in JSON format.
-        public let payload: HTTPBody?
+        public let payload: AWSHTTPBody
 
-        public init(payload: HTTPBody? = nil) {
+        public init(payload: AWSHTTPBody) {
             self.payload = payload
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.payload = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListNamedShadowsForThingRequest: AWSEncodableShape {
@@ -282,7 +286,7 @@ extension IoTDataPlane {
         /// A user-defined integer value that represents the message expiry interval in seconds. If absent, the message doesn't expire. For more information about the limits of messageExpiry, see Amazon Web Services IoT Core message broker and protocol limits and quotas  from the Amazon Web Services Reference Guide.
         public let messageExpiry: Int64?
         /// The message body. MQTT accepts text, binary, and empty (null) message payloads. Publishing an empty (null) payload with retain = true deletes the retained message identified by topic from Amazon Web Services IoT Core.
-        public let payload: HTTPBody?
+        public let payload: AWSHTTPBody?
         /// An Enum string value that indicates whether the payload is formatted as UTF-8. payloadFormatIndicator is an HTTP header value in the API.
         public let payloadFormatIndicator: PayloadFormatIndicator?
         /// The Quality of Service (QoS) level. The default QoS level is 0.
@@ -296,7 +300,7 @@ extension IoTDataPlane {
         /// A JSON string that contains an array of JSON objects. If you don’t use Amazon Web Services SDK or CLI, you must encode the JSON string to base64 format before adding it to the HTTP header. userProperties is an HTTP header value in the API. The following example userProperties parameter is a JSON string which represents two User Properties. Note that it needs to be base64-encoded:  [{"deviceName": "alpha"}, {"deviceCnt": "45"}]
         public let userProperties: String?
 
-        public init(contentType: String? = nil, correlationData: String? = nil, messageExpiry: Int64? = nil, payload: HTTPBody? = nil, payloadFormatIndicator: PayloadFormatIndicator? = nil, qos: Int? = nil, responseTopic: String? = nil, retain: Bool? = nil, topic: String, userProperties: String? = nil) {
+        public init(contentType: String? = nil, correlationData: String? = nil, messageExpiry: Int64? = nil, payload: AWSHTTPBody? = nil, payloadFormatIndicator: PayloadFormatIndicator? = nil, qos: Int? = nil, responseTopic: String? = nil, retain: Bool? = nil, topic: String, userProperties: String? = nil) {
             self.contentType = contentType
             self.correlationData = correlationData
             self.messageExpiry = messageExpiry
@@ -352,13 +356,13 @@ extension IoTDataPlane {
         ]
 
         /// The state information, in JSON format.
-        public let payload: HTTPBody
+        public let payload: AWSHTTPBody
         /// The name of the shadow.
         public let shadowName: String?
         /// The name of the thing.
         public let thingName: String
 
-        public init(payload: HTTPBody, shadowName: String? = nil, thingName: String) {
+        public init(payload: AWSHTTPBody, shadowName: String? = nil, thingName: String) {
             self.payload = payload
             self.shadowName = shadowName
             self.thingName = thingName
@@ -376,20 +380,22 @@ extension IoTDataPlane {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateThingShadowResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "payload"
+    public struct UpdateThingShadowResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
         /// The state information, in JSON format.
-        public let payload: HTTPBody?
+        public let payload: AWSHTTPBody
 
-        public init(payload: HTTPBody? = nil) {
+        public init(payload: AWSHTTPBody) {
             self.payload = payload
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.payload = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 }
 

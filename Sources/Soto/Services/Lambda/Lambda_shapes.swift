@@ -2712,11 +2712,11 @@ extension Lambda {
         /// Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
         public let logType: LogType?
         /// The JSON that you want to provide to your Lambda function as input. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
-        public let payload: HTTPBody?
+        public let payload: AWSHTTPBody?
         /// Specify a version or alias to invoke a published version of the function.
         public let qualifier: String?
 
-        public init(clientContext: String? = nil, functionName: String, invocationType: InvocationType? = nil, logType: LogType? = nil, payload: HTTPBody? = nil, qualifier: String? = nil) {
+        public init(clientContext: String? = nil, functionName: String, invocationType: InvocationType? = nil, logType: LogType? = nil, payload: AWSHTTPBody? = nil, qualifier: String? = nil) {
             self.clientContext = clientContext
             self.functionName = functionName
             self.invocationType = invocationType
@@ -2737,18 +2737,8 @@ extension Lambda {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct InvocationResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "payload"
+    public struct InvocationResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "executedVersion", location: .header("X-Amz-Executed-Version")),
-            AWSMemberEncoding(label: "functionError", location: .header("X-Amz-Function-Error")),
-            AWSMemberEncoding(label: "logResult", location: .header("X-Amz-Log-Result")),
-            AWSMemberEncoding(label: "payload", location: .body("Payload")),
-            AWSMemberEncoding(label: "statusCode", location: .statusCode)
-        ]
-
         /// The version of the function that executed. When you invoke a function with an alias, this indicates which version the alias resolved to.
         public let executedVersion: String?
         /// If present, indicates that an error occurred during function execution. Details about the error are included in the response payload.
@@ -2756,11 +2746,11 @@ extension Lambda {
         /// The last 4 KB of the execution log, which is base64-encoded.
         public let logResult: String?
         /// The response from the function, or an error object.
-        public let payload: HTTPBody?
+        public let payload: AWSHTTPBody
         /// The HTTP status code is in the 200 range for a successful request. For the RequestResponse invocation type, this status code is 200. For the Event invocation type, this status code is 202. For the DryRun invocation type, the status code is 204.
         public let statusCode: Int?
 
-        public init(executedVersion: String? = nil, functionError: String? = nil, logResult: String? = nil, payload: HTTPBody? = nil, statusCode: Int? = nil) {
+        public init(executedVersion: String? = nil, functionError: String? = nil, logResult: String? = nil, payload: AWSHTTPBody, statusCode: Int? = nil) {
             self.executedVersion = executedVersion
             self.functionError = functionError
             self.logResult = logResult
@@ -2768,13 +2758,17 @@ extension Lambda {
             self.statusCode = statusCode
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case executedVersion = "X-Amz-Executed-Version"
-            case functionError = "X-Amz-Function-Error"
-            case logResult = "X-Amz-Log-Result"
-            case payload = "Payload"
-            case statusCode = "StatusCode"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.executedVersion = try response.decodeIfPresent(String.self, forHeader: "X-Amz-Executed-Version")
+            self.functionError = try response.decodeIfPresent(String.self, forHeader: "X-Amz-Function-Error")
+            self.logResult = try response.decodeIfPresent(String.self, forHeader: "X-Amz-Log-Result")
+            self.payload = response.decodePayload()
+            self.statusCode = response.decodeStatus()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InvokeAsyncRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2788,9 +2782,9 @@ extension Lambda {
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The JSON that you want to provide to your Lambda function as input.
-        public let invokeArgs: HTTPBody
+        public let invokeArgs: AWSHTTPBody
 
-        public init(functionName: String, invokeArgs: HTTPBody) {
+        public init(functionName: String, invokeArgs: AWSHTTPBody) {
             self.functionName = functionName
             self.invokeArgs = invokeArgs
         }
@@ -2805,10 +2799,6 @@ extension Lambda {
     }
 
     public struct InvokeAsyncResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The status code.
         public let status: Int?
 
@@ -2816,9 +2806,13 @@ extension Lambda {
             self.status = status
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case status = "Status"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.status = response.decodeStatus()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InvokeResponseStreamUpdate: AWSDecodableShape {
@@ -2876,11 +2870,11 @@ extension Lambda {
         /// Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
         public let logType: LogType?
         /// The JSON that you want to provide to your Lambda function as input. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
-        public let payload: HTTPBody?
+        public let payload: AWSHTTPBody?
         /// The alias name.
         public let qualifier: String?
 
-        public init(clientContext: String? = nil, functionName: String, invocationType: ResponseStreamingInvocationType? = nil, logType: LogType? = nil, payload: HTTPBody? = nil, qualifier: String? = nil) {
+        public init(clientContext: String? = nil, functionName: String, invocationType: ResponseStreamingInvocationType? = nil, logType: LogType? = nil, payload: AWSHTTPBody? = nil, qualifier: String? = nil) {
             self.clientContext = clientContext
             self.functionName = functionName
             self.invocationType = invocationType
@@ -2901,18 +2895,9 @@ extension Lambda {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct InvokeWithResponseStreamResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "eventStream"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventStream", location: .body("EventStream")),
-            AWSMemberEncoding(label: "executedVersion", location: .header("X-Amz-Executed-Version")),
-            AWSMemberEncoding(label: "responseStreamContentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "statusCode", location: .statusCode)
-        ]
-
+    public struct InvokeWithResponseStreamResponse: AWSDecodableShape {
         /// The stream of response payloads.
-        public let eventStream: InvokeWithResponseStreamResponseEvent?
+        public let eventStream: InvokeWithResponseStreamResponseEvent
         /// The version of the function that executed. When you invoke a function with an alias, this indicates which version the alias resolved to.
         public let executedVersion: String?
         /// The type of data the stream is returning.
@@ -2920,19 +2905,23 @@ extension Lambda {
         /// For a successful request, the HTTP status code is in the 200 range. For the RequestResponse invocation type, this status code is 200. For the DryRun invocation type, this status code is 204.
         public let statusCode: Int?
 
-        public init(eventStream: InvokeWithResponseStreamResponseEvent? = nil, executedVersion: String? = nil, responseStreamContentType: String? = nil, statusCode: Int? = nil) {
+        public init(eventStream: InvokeWithResponseStreamResponseEvent, executedVersion: String? = nil, responseStreamContentType: String? = nil, statusCode: Int? = nil) {
             self.eventStream = eventStream
             self.executedVersion = executedVersion
             self.responseStreamContentType = responseStreamContentType
             self.statusCode = statusCode
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eventStream = "EventStream"
-            case executedVersion = "X-Amz-Executed-Version"
-            case responseStreamContentType = "Content-Type"
-            case statusCode = "StatusCode"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eventStream = try .init(from: decoder)
+            self.executedVersion = try response.decodeIfPresent(String.self, forHeader: "X-Amz-Executed-Version")
+            self.responseStreamContentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+            self.statusCode = response.decodeStatus()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Layer: AWSDecodableShape {

@@ -724,34 +724,30 @@ extension Polly {
         }
     }
 
-    public struct SynthesizeSpeechOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "audioStream"
+    public struct SynthesizeSpeechOutput: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "audioStream", location: .body("AudioStream")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "requestCharacters", location: .header("x-amzn-RequestCharacters"))
-        ]
-
         ///  Stream containing the synthesized speech.
-        public let audioStream: HTTPBody?
+        public let audioStream: AWSHTTPBody
         ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.    If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.    If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.    If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.    If you request json as the OutputFormat, the ContentType returned is application/x-json-stream.
         public let contentType: String?
         /// Number of characters synthesized.
         public let requestCharacters: Int?
 
-        public init(audioStream: HTTPBody? = nil, contentType: String? = nil, requestCharacters: Int? = nil) {
+        public init(audioStream: AWSHTTPBody, contentType: String? = nil, requestCharacters: Int? = nil) {
             self.audioStream = audioStream
             self.contentType = contentType
             self.requestCharacters = requestCharacters
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case audioStream = "AudioStream"
-            case contentType = "Content-Type"
-            case requestCharacters = "x-amzn-RequestCharacters"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.audioStream = response.decodePayload()
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+            self.requestCharacters = try response.decodeIfPresent(Int.self, forHeader: "x-amzn-RequestCharacters")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Voice: AWSDecodableShape {

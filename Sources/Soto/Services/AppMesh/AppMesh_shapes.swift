@@ -1395,9 +1395,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateGatewayRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "gatewayRoute"
+    public struct CreateGatewayRouteOutput: AWSDecodableShape {
         /// The full description of your gateway route following the create call.
         public let gatewayRoute: GatewayRouteData
 
@@ -1405,9 +1403,12 @@ extension AppMesh {
             self.gatewayRoute = gatewayRoute
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case gatewayRoute = "gatewayRoute"
+        public init(from decoder: Decoder) throws {
+            self.gatewayRoute = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateMeshInput: AWSEncodableShape {
@@ -1445,9 +1446,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "mesh"
+    public struct CreateMeshOutput: AWSDecodableShape {
         /// The full description of your service mesh following the create call.
         public let mesh: MeshData
 
@@ -1455,9 +1454,12 @@ extension AppMesh {
             self.mesh = mesh
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case mesh = "mesh"
+        public init(from decoder: Decoder) throws {
+            self.mesh = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateRouteInput: AWSEncodableShape {
@@ -1517,9 +1519,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "route"
+    public struct CreateRouteOutput: AWSDecodableShape {
         /// The full description of your mesh following the create call.
         public let route: RouteData
 
@@ -1527,9 +1527,12 @@ extension AppMesh {
             self.route = route
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case route = "route"
+        public init(from decoder: Decoder) throws {
+            self.route = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateVirtualGatewayInput: AWSEncodableShape {
@@ -1583,9 +1586,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateVirtualGatewayOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualGateway"
+    public struct CreateVirtualGatewayOutput: AWSDecodableShape {
         /// The full description of your virtual gateway following the create call.
         public let virtualGateway: VirtualGatewayData
 
@@ -1593,9 +1594,12 @@ extension AppMesh {
             self.virtualGateway = virtualGateway
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualGateway = "virtualGateway"
+        public init(from decoder: Decoder) throws {
+            self.virtualGateway = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateVirtualNodeInput: AWSEncodableShape {
@@ -1649,9 +1653,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualNode"
+    public struct CreateVirtualNodeOutput: AWSDecodableShape {
         /// The full description of your virtual node following the create call.
         public let virtualNode: VirtualNodeData
 
@@ -1659,9 +1661,12 @@ extension AppMesh {
             self.virtualNode = virtualNode
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualNode = "virtualNode"
+        public init(from decoder: Decoder) throws {
+            self.virtualNode = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateVirtualRouterInput: AWSEncodableShape {
@@ -1715,9 +1720,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualRouter"
+    public struct CreateVirtualRouterOutput: AWSDecodableShape {
         /// The full description of your virtual router following the create call.
         public let virtualRouter: VirtualRouterData
 
@@ -1725,9 +1728,12 @@ extension AppMesh {
             self.virtualRouter = virtualRouter
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualRouter = "virtualRouter"
+        public init(from decoder: Decoder) throws {
+            self.virtualRouter = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateVirtualServiceInput: AWSEncodableShape {
@@ -1779,9 +1785,7 @@ extension AppMesh {
         }
     }
 
-    public struct CreateVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualService"
+    public struct CreateVirtualServiceOutput: AWSDecodableShape {
         /// The full description of your virtual service following the create call.
         public let virtualService: VirtualServiceData
 
@@ -1789,9 +1793,12 @@ extension AppMesh {
             self.virtualService = virtualService
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualService = "virtualService"
+        public init(from decoder: Decoder) throws {
+            self.virtualService = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteGatewayRouteInput: AWSEncodableShape {
@@ -1832,9 +1839,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteGatewayRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "gatewayRoute"
+    public struct DeleteGatewayRouteOutput: AWSDecodableShape {
         /// The gateway route that was deleted.
         public let gatewayRoute: GatewayRouteData
 
@@ -1842,9 +1847,12 @@ extension AppMesh {
             self.gatewayRoute = gatewayRoute
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case gatewayRoute = "gatewayRoute"
+        public init(from decoder: Decoder) throws {
+            self.gatewayRoute = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMeshInput: AWSEncodableShape {
@@ -1867,9 +1875,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "mesh"
+    public struct DeleteMeshOutput: AWSDecodableShape {
         /// The service mesh that was deleted.
         public let mesh: MeshData
 
@@ -1877,9 +1883,12 @@ extension AppMesh {
             self.mesh = mesh
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case mesh = "mesh"
+        public init(from decoder: Decoder) throws {
+            self.mesh = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRouteInput: AWSEncodableShape {
@@ -1920,9 +1929,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "route"
+    public struct DeleteRouteOutput: AWSDecodableShape {
         /// The route that was deleted.
         public let route: RouteData
 
@@ -1930,9 +1937,12 @@ extension AppMesh {
             self.route = route
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case route = "route"
+        public init(from decoder: Decoder) throws {
+            self.route = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVirtualGatewayInput: AWSEncodableShape {
@@ -1967,9 +1977,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVirtualGatewayOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualGateway"
+    public struct DeleteVirtualGatewayOutput: AWSDecodableShape {
         /// The virtual gateway that was deleted.
         public let virtualGateway: VirtualGatewayData
 
@@ -1977,9 +1985,12 @@ extension AppMesh {
             self.virtualGateway = virtualGateway
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualGateway = "virtualGateway"
+        public init(from decoder: Decoder) throws {
+            self.virtualGateway = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVirtualNodeInput: AWSEncodableShape {
@@ -2014,9 +2025,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualNode"
+    public struct DeleteVirtualNodeOutput: AWSDecodableShape {
         /// The virtual node that was deleted.
         public let virtualNode: VirtualNodeData
 
@@ -2024,9 +2033,12 @@ extension AppMesh {
             self.virtualNode = virtualNode
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualNode = "virtualNode"
+        public init(from decoder: Decoder) throws {
+            self.virtualNode = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVirtualRouterInput: AWSEncodableShape {
@@ -2061,9 +2073,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualRouter"
+    public struct DeleteVirtualRouterOutput: AWSDecodableShape {
         /// The virtual router that was deleted.
         public let virtualRouter: VirtualRouterData
 
@@ -2071,9 +2081,12 @@ extension AppMesh {
             self.virtualRouter = virtualRouter
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualRouter = "virtualRouter"
+        public init(from decoder: Decoder) throws {
+            self.virtualRouter = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVirtualServiceInput: AWSEncodableShape {
@@ -2106,9 +2119,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualService"
+    public struct DeleteVirtualServiceOutput: AWSDecodableShape {
         /// The virtual service that was deleted.
         public let virtualService: VirtualServiceData
 
@@ -2116,9 +2127,12 @@ extension AppMesh {
             self.virtualService = virtualService
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualService = "virtualService"
+        public init(from decoder: Decoder) throws {
+            self.virtualService = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeGatewayRouteInput: AWSEncodableShape {
@@ -2159,9 +2173,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeGatewayRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "gatewayRoute"
+    public struct DescribeGatewayRouteOutput: AWSDecodableShape {
         /// The full description of your gateway route.
         public let gatewayRoute: GatewayRouteData
 
@@ -2169,9 +2181,12 @@ extension AppMesh {
             self.gatewayRoute = gatewayRoute
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case gatewayRoute = "gatewayRoute"
+        public init(from decoder: Decoder) throws {
+            self.gatewayRoute = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeMeshInput: AWSEncodableShape {
@@ -2200,9 +2215,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "mesh"
+    public struct DescribeMeshOutput: AWSDecodableShape {
         /// The full description of your service mesh.
         public let mesh: MeshData
 
@@ -2210,9 +2223,12 @@ extension AppMesh {
             self.mesh = mesh
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case mesh = "mesh"
+        public init(from decoder: Decoder) throws {
+            self.mesh = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeRouteInput: AWSEncodableShape {
@@ -2253,9 +2269,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "route"
+    public struct DescribeRouteOutput: AWSDecodableShape {
         /// The full description of your route.
         public let route: RouteData
 
@@ -2263,9 +2277,12 @@ extension AppMesh {
             self.route = route
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case route = "route"
+        public init(from decoder: Decoder) throws {
+            self.route = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVirtualGatewayInput: AWSEncodableShape {
@@ -2300,9 +2317,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeVirtualGatewayOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualGateway"
+    public struct DescribeVirtualGatewayOutput: AWSDecodableShape {
         /// The full description of your virtual gateway.
         public let virtualGateway: VirtualGatewayData
 
@@ -2310,9 +2325,12 @@ extension AppMesh {
             self.virtualGateway = virtualGateway
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualGateway = "virtualGateway"
+        public init(from decoder: Decoder) throws {
+            self.virtualGateway = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVirtualNodeInput: AWSEncodableShape {
@@ -2347,9 +2365,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualNode"
+    public struct DescribeVirtualNodeOutput: AWSDecodableShape {
         /// The full description of your virtual node.
         public let virtualNode: VirtualNodeData
 
@@ -2357,9 +2373,12 @@ extension AppMesh {
             self.virtualNode = virtualNode
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualNode = "virtualNode"
+        public init(from decoder: Decoder) throws {
+            self.virtualNode = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVirtualRouterInput: AWSEncodableShape {
@@ -2394,9 +2413,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualRouter"
+    public struct DescribeVirtualRouterOutput: AWSDecodableShape {
         /// The full description of your virtual router.
         public let virtualRouter: VirtualRouterData
 
@@ -2404,9 +2421,12 @@ extension AppMesh {
             self.virtualRouter = virtualRouter
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualRouter = "virtualRouter"
+        public init(from decoder: Decoder) throws {
+            self.virtualRouter = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeVirtualServiceInput: AWSEncodableShape {
@@ -2439,9 +2459,7 @@ extension AppMesh {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualService"
+    public struct DescribeVirtualServiceOutput: AWSDecodableShape {
         /// The full description of your virtual service.
         public let virtualService: VirtualServiceData
 
@@ -2449,9 +2467,12 @@ extension AppMesh {
             self.virtualService = virtualService
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualService = "virtualService"
+        public init(from decoder: Decoder) throws {
+            self.virtualService = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DnsServiceDiscovery: AWSEncodableShape & AWSDecodableShape {
@@ -4782,9 +4803,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateGatewayRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "gatewayRoute"
+    public struct UpdateGatewayRouteOutput: AWSDecodableShape {
         /// A full description of the gateway route that was updated.
         public let gatewayRoute: GatewayRouteData
 
@@ -4792,9 +4811,12 @@ extension AppMesh {
             self.gatewayRoute = gatewayRoute
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case gatewayRoute = "gatewayRoute"
+        public init(from decoder: Decoder) throws {
+            self.gatewayRoute = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateMeshInput: AWSEncodableShape {
@@ -4827,18 +4849,19 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateMeshOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "mesh"
+    public struct UpdateMeshOutput: AWSDecodableShape {
         public let mesh: MeshData
 
         public init(mesh: MeshData) {
             self.mesh = mesh
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case mesh = "mesh"
+        public init(from decoder: Decoder) throws {
+            self.mesh = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateRouteInput: AWSEncodableShape {
@@ -4890,9 +4913,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateRouteOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "route"
+    public struct UpdateRouteOutput: AWSDecodableShape {
         /// A full description of the route that was updated.
         public let route: RouteData
 
@@ -4900,9 +4921,12 @@ extension AppMesh {
             self.route = route
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case route = "route"
+        public init(from decoder: Decoder) throws {
+            self.route = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateVirtualGatewayInput: AWSEncodableShape {
@@ -4948,9 +4972,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateVirtualGatewayOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualGateway"
+    public struct UpdateVirtualGatewayOutput: AWSDecodableShape {
         /// A full description of the virtual gateway that was updated.
         public let virtualGateway: VirtualGatewayData
 
@@ -4958,9 +4980,12 @@ extension AppMesh {
             self.virtualGateway = virtualGateway
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualGateway = "virtualGateway"
+        public init(from decoder: Decoder) throws {
+            self.virtualGateway = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateVirtualNodeInput: AWSEncodableShape {
@@ -5006,9 +5031,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateVirtualNodeOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualNode"
+    public struct UpdateVirtualNodeOutput: AWSDecodableShape {
         /// A full description of the virtual node that was updated.
         public let virtualNode: VirtualNodeData
 
@@ -5016,9 +5039,12 @@ extension AppMesh {
             self.virtualNode = virtualNode
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualNode = "virtualNode"
+        public init(from decoder: Decoder) throws {
+            self.virtualNode = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateVirtualRouterInput: AWSEncodableShape {
@@ -5064,9 +5090,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateVirtualRouterOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualRouter"
+    public struct UpdateVirtualRouterOutput: AWSDecodableShape {
         /// A full description of the virtual router that was updated.
         public let virtualRouter: VirtualRouterData
 
@@ -5074,9 +5098,12 @@ extension AppMesh {
             self.virtualRouter = virtualRouter
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualRouter = "virtualRouter"
+        public init(from decoder: Decoder) throws {
+            self.virtualRouter = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateVirtualServiceInput: AWSEncodableShape {
@@ -5120,9 +5147,7 @@ extension AppMesh {
         }
     }
 
-    public struct UpdateVirtualServiceOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "virtualService"
+    public struct UpdateVirtualServiceOutput: AWSDecodableShape {
         /// A full description of the virtual service that was updated.
         public let virtualService: VirtualServiceData
 
@@ -5130,9 +5155,12 @@ extension AppMesh {
             self.virtualService = virtualService
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case virtualService = "virtualService"
+        public init(from decoder: Decoder) throws {
+            self.virtualService = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct VirtualGatewayBackendDefaults: AWSEncodableShape & AWSDecodableShape {

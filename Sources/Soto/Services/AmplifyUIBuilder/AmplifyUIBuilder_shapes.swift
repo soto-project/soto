@@ -722,24 +722,23 @@ extension AmplifyUIBuilder {
             try self.componentToCreate.validate(name: "\(name).componentToCreate")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case componentToCreate = "componentToCreate"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateComponentResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "entity"
+    public struct CreateComponentResponse: AWSDecodableShape {
         /// Describes the configuration of the new component.
-        public let entity: Component?
+        public let entity: Component
 
-        public init(entity: Component? = nil) {
+        public init(entity: Component) {
             self.entity = entity
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case entity = "entity"
+        public init(from decoder: Decoder) throws {
+            self.entity = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateFormData: AWSEncodableShape {
@@ -832,24 +831,23 @@ extension AmplifyUIBuilder {
             try self.formToCreate.validate(name: "\(name).formToCreate")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case formToCreate = "formToCreate"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateFormResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "entity"
+    public struct CreateFormResponse: AWSDecodableShape {
         /// Describes the configuration of the new form.
-        public let entity: Form?
+        public let entity: Form
 
-        public init(entity: Form? = nil) {
+        public init(entity: Form) {
             self.entity = entity
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case entity = "entity"
+        public init(from decoder: Decoder) throws {
+            self.entity = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateThemeData: AWSEncodableShape {
@@ -918,24 +916,23 @@ extension AmplifyUIBuilder {
             try self.themeToCreate.validate(name: "\(name).themeToCreate")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case themeToCreate = "themeToCreate"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateThemeResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "entity"
+    public struct CreateThemeResponse: AWSDecodableShape {
         /// Describes the configuration of the new theme.
-        public let entity: Theme?
+        public let entity: Theme
 
-        public init(entity: Theme? = nil) {
+        public init(entity: Theme) {
             self.entity = entity
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case entity = "entity"
+        public init(from decoder: Decoder) throws {
+            self.entity = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteComponentRequest: AWSEncodableShape {
@@ -1024,9 +1021,7 @@ extension AmplifyUIBuilder {
             self.request = request
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case request = "request"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ExchangeCodeForTokenRequestBody: AWSEncodableShape {
@@ -1637,19 +1632,20 @@ extension AmplifyUIBuilder {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetComponentResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "component"
+    public struct GetComponentResponse: AWSDecodableShape {
         /// Represents the configuration settings for the component.
-        public let component: Component?
+        public let component: Component
 
-        public init(component: Component? = nil) {
+        public init(component: Component) {
             self.component = component
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case component = "component"
+        public init(from decoder: Decoder) throws {
+            self.component = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFormRequest: AWSEncodableShape {
@@ -1675,19 +1671,20 @@ extension AmplifyUIBuilder {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFormResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "form"
+    public struct GetFormResponse: AWSDecodableShape {
         /// Represents the configuration settings for the form.
-        public let form: Form?
+        public let form: Form
 
-        public init(form: Form? = nil) {
+        public init(form: Form) {
             self.form = form
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case form = "form"
+        public init(from decoder: Decoder) throws {
+            self.form = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMetadataRequest: AWSEncodableShape {
@@ -1745,19 +1742,20 @@ extension AmplifyUIBuilder {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetThemeResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "theme"
+    public struct GetThemeResponse: AWSDecodableShape {
         /// Represents the configuration settings for the theme.
-        public let theme: Theme?
+        public let theme: Theme
 
-        public init(theme: Theme? = nil) {
+        public init(theme: Theme) {
             self.theme = theme
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case theme = "theme"
+        public init(from decoder: Decoder) throws {
+            self.theme = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListComponentsRequest: AWSEncodableShape {
@@ -2009,9 +2007,7 @@ extension AmplifyUIBuilder {
             self.featureName = featureName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RefreshTokenRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2031,9 +2027,7 @@ extension AmplifyUIBuilder {
             self.refreshTokenBody = refreshTokenBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case refreshTokenBody = "refreshTokenBody"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RefreshTokenRequestBody: AWSEncodableShape {
@@ -2327,24 +2321,23 @@ extension AmplifyUIBuilder {
             try self.updatedComponent.validate(name: "\(name).updatedComponent")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case updatedComponent = "updatedComponent"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateComponentResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "entity"
+    public struct UpdateComponentResponse: AWSDecodableShape {
         /// Describes the configuration of the updated component.
-        public let entity: Component?
+        public let entity: Component
 
-        public init(entity: Component? = nil) {
+        public init(entity: Component) {
             self.entity = entity
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case entity = "entity"
+        public init(from decoder: Decoder) throws {
+            self.entity = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateFormData: AWSEncodableShape {
@@ -2430,24 +2423,23 @@ extension AmplifyUIBuilder {
             try self.updatedForm.validate(name: "\(name).updatedForm")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case updatedForm = "updatedForm"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateFormResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "entity"
+    public struct UpdateFormResponse: AWSDecodableShape {
         /// Describes the configuration of the updated form.
-        public let entity: Form?
+        public let entity: Form
 
-        public init(entity: Form? = nil) {
+        public init(entity: Form) {
             self.entity = entity
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case entity = "entity"
+        public init(from decoder: Decoder) throws {
+            self.entity = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateThemeData: AWSEncodableShape {
@@ -2513,24 +2505,23 @@ extension AmplifyUIBuilder {
             try self.updatedTheme.validate(name: "\(name).updatedTheme")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case updatedTheme = "updatedTheme"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateThemeResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "entity"
+    public struct UpdateThemeResponse: AWSDecodableShape {
         /// Describes the configuration of the updated theme.
-        public let entity: Theme?
+        public let entity: Theme
 
-        public init(entity: Theme? = nil) {
+        public init(entity: Theme) {
             self.entity = entity
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case entity = "entity"
+        public init(from decoder: Decoder) throws {
+            self.entity = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ValueMapping: AWSEncodableShape & AWSDecodableShape {

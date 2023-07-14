@@ -4321,19 +4321,10 @@ extension MediaLive {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeInputDeviceThumbnailResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct DescribeInputDeviceThumbnailResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentLength", location: .header("Content-Length")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "lastModified", location: .header("Last-Modified"))
-        ]
-
         /// The binary data for the thumbnail that the Link device has most recently sent to MediaLive.
-        public let body: HTTPBody?
+        public let body: AWSHTTPBody
         /// The length of the content.
         public let contentLength: Int64?
         /// Specifies the media type of the thumbnail.
@@ -4344,7 +4335,7 @@ extension MediaLive {
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var lastModified: Date?
 
-        public init(body: HTTPBody? = nil, contentLength: Int64? = nil, contentType: ContentType? = nil, eTag: String? = nil, lastModified: Date? = nil) {
+        public init(body: AWSHTTPBody, contentLength: Int64? = nil, contentType: ContentType? = nil, eTag: String? = nil, lastModified: Date? = nil) {
             self.body = body
             self.contentLength = contentLength
             self.contentType = contentType
@@ -4352,13 +4343,17 @@ extension MediaLive {
             self.lastModified = lastModified
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
-            case contentLength = "Content-Length"
-            case contentType = "Content-Type"
-            case eTag = "ETag"
-            case lastModified = "Last-Modified"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.body = response.decodePayload()
+            self.contentLength = try response.decodeIfPresent(Int64.self, forHeader: "Content-Length")
+            self.contentType = try response.decodeIfPresent(ContentType.self, forHeader: "Content-Type")
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.lastModified = try response.decodeIfPresent(Date.self, forHeader: "Last-Modified")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeInputRequest: AWSEncodableShape {

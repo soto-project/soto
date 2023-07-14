@@ -221,7 +221,7 @@ extension ElasticBeanstalk {
         /// The name of the application.
         public let applicationName: String?
         /// The names of the configuration templates associated with this application.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var configurationTemplates: [String]?
         /// The date when the application was created.
         public let dateCreated: Date?
@@ -232,7 +232,7 @@ extension ElasticBeanstalk {
         /// The lifecycle settings for the application.
         public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
         /// The names of the versions for this application.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var versions: [String]?
 
         public init(applicationArn: String? = nil, applicationName: String? = nil, configurationTemplates: [String]? = nil, dateCreated: Date? = nil, dateUpdated: Date? = nil, description: String? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, versions: [String]? = nil) {
@@ -273,7 +273,7 @@ extension ElasticBeanstalk {
 
     public struct ApplicationDescriptionsMessage: AWSDecodableShape {
         /// This parameter contains a list of ApplicationDescription.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ApplicationDescription>>
         public var applications: [ApplicationDescription]?
 
         public init(applications: [ApplicationDescription]? = nil) {
@@ -408,7 +408,7 @@ extension ElasticBeanstalk {
 
     public struct ApplicationVersionDescriptionsMessage: AWSDecodableShape {
         /// List of ApplicationVersionDescription objects sorted in order of creation.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ApplicationVersionDescription>>
         public var applicationVersions: [ApplicationVersionDescription]?
         /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
         public let nextToken: String?
@@ -653,7 +653,7 @@ extension ElasticBeanstalk {
         /// The name of the group to which the target environments belong. Specify a group name only if the environment name defined in each target environment's manifest ends with a + (plus) character. See Environment Manifest (env.yaml) for details.
         public let groupName: String?
         /// A list of version labels, specifying one or more application source bundles that belong to the target application. Each source bundle must include an environment manifest that specifies the name of the environment and the name of the solution stack to use, and optionally can specify environment links to create.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var versionLabels: [String]?
 
         public init(applicationName: String? = nil, groupName: String? = nil, versionLabels: [String]? = nil) {
@@ -700,7 +700,7 @@ extension ElasticBeanstalk {
         /// An indication of whether the user defined this configuration option:    true : This configuration option was defined by the user. It is a valid choice for specifying if this as an Option to Remove when updating configuration settings.     false : This configuration was not defined by the user.   Constraint: You can remove only UserDefined options from a configuration.  Valid Values: true | false
         public let userDefined: Bool?
         /// If specified, values for the configuration option are selected from this list.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var valueOptions: [String]?
         /// An indication of which type of values this option has and whether it is allowable to select one or more than one of the possible values:    Scalar : Values for this option are a single selection from the possible values, or an unformatted string, or numeric value governed by the MIN/MAX/Regex constraints.    List : Values for this option are multiple selections from the possible values.    Boolean : Values for this option are either true or false .    Json : Values for this option are a JSON representation of a ConfigDocument.
         public let valueType: ConfigurationOptionValueType?
@@ -766,7 +766,7 @@ extension ElasticBeanstalk {
 
     public struct ConfigurationOptionsDescription: AWSDecodableShape {
         ///  A list of ConfigurationOptionDescription.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ConfigurationOptionDescription>>
         public var options: [ConfigurationOptionDescription]?
         /// The ARN of the platform version.
         public let platformArn: String?
@@ -800,7 +800,7 @@ extension ElasticBeanstalk {
         ///  If not null, the name of the environment for this configuration set.
         public let environmentName: String?
         /// A list of the configuration options and their values in this configuration set.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ConfigurationOptionSetting>>
         public var optionSettings: [ConfigurationOptionSetting]?
         /// The ARN of the platform version.
         public let platformArn: String?
@@ -838,7 +838,7 @@ extension ElasticBeanstalk {
 
     public struct ConfigurationSettingsDescriptions: AWSDecodableShape {
         ///  A list of ConfigurationSettingsDescription.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ConfigurationSettingsDescription>>
         public var configurationSettings: [ConfigurationSettingsDescription]?
 
         public init(configurationSettings: [ConfigurationSettingsDescription]? = nil) {
@@ -852,7 +852,7 @@ extension ElasticBeanstalk {
 
     public struct ConfigurationSettingsValidationMessages: AWSDecodableShape {
         ///  A list of ValidationMessage.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ValidationMessage>>
         public var messages: [ValidationMessage]?
 
         public init(messages: [ValidationMessage]? = nil) {
@@ -872,7 +872,7 @@ extension ElasticBeanstalk {
         /// Specifies an application resource lifecycle configuration to prevent your application from accumulating too many versions.
         public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
         /// Specifies the tags applied to the application. Elastic Beanstalk applies these tags only to the application. Environments that you create in the application don't inherit the tags.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
         public init(applicationName: String, description: String? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, tags: [Tag]? = nil) {
@@ -915,7 +915,7 @@ extension ElasticBeanstalk {
         /// The Amazon S3 bucket and key that identify the location of the source bundle for this version.  The Amazon S3 bucket must be in the same region as the environment.  Specify a source bundle in S3 or a commit in an AWS CodeCommit repository (with SourceBuildInformation), but not both. If neither SourceBundle nor SourceBuildInformation are provided, Elastic Beanstalk uses a sample application.
         public let sourceBundle: S3Location?
         /// Specifies the tags applied to the application version. Elastic Beanstalk applies these tags only to the application version. Environments that use the application version don't inherit the tags.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
         /// A label identifying this version. Constraint: Must be unique per application. If an application version already exists with this label for the specified application, AWS Elastic Beanstalk returns an InvalidParameterValue error.
         public let versionLabel: String
@@ -967,7 +967,7 @@ extension ElasticBeanstalk {
         /// The ID of an environment whose settings you want to use to create the configuration template. You must specify EnvironmentId if you don't specify PlatformArn, SolutionStackName, or SourceConfiguration.
         public let environmentId: String?
         /// Option values for the Elastic Beanstalk configuration, such as the instance type. If specified, these values override the values obtained from the solution stack or the source configuration template. For a complete list of Elastic Beanstalk configuration options, see Option Values in the AWS Elastic Beanstalk Developer Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ConfigurationOptionSetting>>
         public var optionSettings: [ConfigurationOptionSetting]?
         /// The Amazon Resource Name (ARN) of the custom platform. For more information, see  Custom Platforms in the AWS Elastic Beanstalk Developer Guide.  If you specify PlatformArn, then don't specify SolutionStackName.
         public let platformArn: String?
@@ -976,7 +976,7 @@ extension ElasticBeanstalk {
         /// An Elastic Beanstalk configuration template to base this one on. If specified, Elastic Beanstalk uses the configuration values from the specified configuration template to create a new configuration. Values specified in OptionSettings override any values obtained from the SourceConfiguration. You must specify SourceConfiguration if you don't specify PlatformArn, EnvironmentId, or SolutionStackName. Constraint: If both solution stack name and source configuration are specified, the solution stack of the source configuration template must match the specified solution stack name.
         public let sourceConfiguration: SourceConfiguration?
         /// Specifies the tags applied to the configuration template.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
         /// The name of the configuration template. Constraint: This name must be unique per application.
         public let templateName: String
@@ -1035,17 +1035,17 @@ extension ElasticBeanstalk {
         /// The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. If specified, Elastic Beanstalk uses the operations role for permissions to downstream services during this call and during subsequent calls acting on this environment. To specify an operations role, you must have the iam:PassRole permission for the role. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide.
         public let operationsRole: String?
         /// If specified, AWS Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ConfigurationOptionSetting>>
         public var optionSettings: [ConfigurationOptionSetting]?
         /// A list of custom user-defined configuration options to remove from the configuration set for this new environment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<OptionSpecification>>
         public var optionsToRemove: [OptionSpecification]?
         /// The Amazon Resource Name (ARN) of the custom platform to use with the environment. For more information, see Custom Platforms in the AWS Elastic Beanstalk Developer Guide.  If you specify PlatformArn, don't specify SolutionStackName.
         public let platformArn: String?
         /// The name of an Elastic Beanstalk solution stack (platform version) to use with the environment. If specified, Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms in the AWS Elastic Beanstalk Platforms guide.  If you specify SolutionStackName, don't specify PlatformArn or TemplateName.
         public let solutionStackName: String?
         /// Specifies the tags applied to resources in the environment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
         /// The name of the Elastic Beanstalk configuration template to use with the environment.  If you specify TemplateName, then don't specify  SolutionStackName.
         public let templateName: String?
@@ -1120,7 +1120,7 @@ extension ElasticBeanstalk {
         /// The name of the builder environment.
         public let environmentName: String?
         /// The configuration option settings to apply to the builder environment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ConfigurationOptionSetting>>
         public var optionSettings: [ConfigurationOptionSetting]?
         /// The location of the platform definition archive in Amazon S3.
         public let platformDefinitionBundle: S3Location
@@ -1129,7 +1129,7 @@ extension ElasticBeanstalk {
         /// The number, such as 1.0.2, for the new platform version.
         public let platformVersion: String
         /// Specifies the tags applied to the new platform version. Elastic Beanstalk applies these tags only to the platform version. Environments that you create using the platform version don't inherit the tags.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
         public init(environmentName: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, platformDefinitionBundle: S3Location, platformName: String, platformVersion: String, tags: [Tag]? = nil) {
@@ -1380,7 +1380,7 @@ extension ElasticBeanstalk {
         /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
         public let nextToken: String?
         /// Specify a version label to show a specific application version.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var versionLabels: [String]?
 
         public init(applicationName: String? = nil, maxRecords: Int? = nil, nextToken: String? = nil, versionLabels: [String]? = nil) {
@@ -1411,7 +1411,7 @@ extension ElasticBeanstalk {
 
     public struct DescribeApplicationsMessage: AWSEncodableShape {
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var applicationNames: [String]?
 
         public init(applicationNames: [String]? = nil) {
@@ -1436,7 +1436,7 @@ extension ElasticBeanstalk {
         /// The name of the environment whose configuration options you want to describe.
         public let environmentName: String?
         /// If specified, restricts the descriptions to only the specified options.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<OptionSpecification>>
         public var options: [OptionSpecification]?
         /// The ARN of the custom platform.
         public let platformArn: String?
@@ -1508,7 +1508,7 @@ extension ElasticBeanstalk {
 
     public struct DescribeEnvironmentHealthRequest: AWSEncodableShape {
         /// Specify the response elements to return. To retrieve all attributes, set to All. If no attribute names are specified, returns the name of the environment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<EnvironmentHealthAttribute>>
         public var attributeNames: [EnvironmentHealthAttribute]?
         /// Specify the environment by ID. You must specify either this or an EnvironmentName, or both.
         public let environmentId: String?
@@ -1537,7 +1537,7 @@ extension ElasticBeanstalk {
         /// Application request metrics for the environment.
         public let applicationMetrics: ApplicationMetrics?
         /// Descriptions of the data that contributed to the environment's current health status.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var causes: [String]?
         /// The health color of the environment.
         public let color: String?
@@ -1609,7 +1609,7 @@ extension ElasticBeanstalk {
 
     public struct DescribeEnvironmentManagedActionHistoryResult: AWSDecodableShape {
         /// A list of completed and failed managed actions.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ManagedActionHistoryItem>>
         public var managedActionHistoryItems: [ManagedActionHistoryItem]?
         /// A pagination token that you pass to DescribeEnvironmentManagedActionHistory to get the next page of results.
         public let nextToken: String?
@@ -1648,7 +1648,7 @@ extension ElasticBeanstalk {
 
     public struct DescribeEnvironmentManagedActionsResult: AWSDecodableShape {
         /// A list of upcoming and in-progress managed actions.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ManagedAction>>
         public var managedActions: [ManagedAction]?
 
         public init(managedActions: [ManagedAction]? = nil) {
@@ -1686,10 +1686,10 @@ extension ElasticBeanstalk {
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
         public let applicationName: String?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var environmentIds: [String]?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var environmentNames: [String]?
         ///  If specified when IncludeDeleted is set to true, then environments deleted after this date are displayed.
         public let includedDeletedBackTo: Date?
@@ -1810,7 +1810,7 @@ extension ElasticBeanstalk {
 
     public struct DescribeInstancesHealthRequest: AWSEncodableShape {
         /// Specifies the response elements you wish to receive. To retrieve all attributes, set to All. If no attribute names are specified, returns a list of instances.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<InstancesHealthAttribute>>
         public var attributeNames: [InstancesHealthAttribute]?
         /// Specify the AWS Elastic Beanstalk environment by ID.
         public let environmentId: String?
@@ -1843,7 +1843,7 @@ extension ElasticBeanstalk {
 
     public struct DescribeInstancesHealthResult: AWSDecodableShape {
         /// Detailed health information about each instance. The output differs slightly between Linux and Windows environments. There is a difference in the members that are supported under the  type.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<SingleInstanceHealth>>
         public var instanceHealthList: [SingleInstanceHealth]?
         /// Pagination token for the next page of results, if available.
         public let nextToken: String?
@@ -1927,7 +1927,7 @@ extension ElasticBeanstalk {
         /// The ID of this environment.
         public let environmentId: String?
         /// A list of links to other environments in the same group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<EnvironmentLink>>
         public var environmentLinks: [EnvironmentLink]?
         /// The name of this environment.
         public let environmentName: String?
@@ -2003,7 +2003,7 @@ extension ElasticBeanstalk {
 
     public struct EnvironmentDescriptionsMessage: AWSDecodableShape {
         ///  Returns an EnvironmentDescription list.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<EnvironmentDescription>>
         public var environments: [EnvironmentDescription]?
         /// In a paginated request, the token that you can pass in a subsequent request to get the next response page.
         public let nextToken: String?
@@ -2063,27 +2063,27 @@ extension ElasticBeanstalk {
 
     public struct EnvironmentResourceDescription: AWSDecodableShape {
         ///  The AutoScalingGroups used by this environment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AutoScalingGroup>>
         public var autoScalingGroups: [AutoScalingGroup]?
         /// The name of the environment.
         public let environmentName: String?
         /// The Amazon EC2 instances used by this environment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Instance>>
         public var instances: [Instance]?
         /// The Auto Scaling launch configurations in use by this environment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LaunchConfiguration>>
         public var launchConfigurations: [LaunchConfiguration]?
         /// The Amazon EC2 launch templates in use by this environment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LaunchTemplate>>
         public var launchTemplates: [LaunchTemplate]?
         /// The LoadBalancers in use by this environment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LoadBalancer>>
         public var loadBalancers: [LoadBalancer]?
         /// The queues used by this environment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Queue>>
         public var queues: [Queue]?
         /// The AutoScaling triggers in use by this environment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Trigger>>
         public var triggers: [Trigger]?
 
         public init(autoScalingGroups: [AutoScalingGroup]? = nil, environmentName: String? = nil, instances: [Instance]? = nil, launchConfigurations: [LaunchConfiguration]? = nil, launchTemplates: [LaunchTemplate]? = nil, loadBalancers: [LoadBalancer]? = nil, queues: [Queue]? = nil, triggers: [Trigger]? = nil) {
@@ -2203,7 +2203,7 @@ extension ElasticBeanstalk {
 
     public struct EventDescriptionsMessage: AWSDecodableShape {
         ///  A list of EventDescription.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<EventDescription>>
         public var events: [EventDescription]?
         ///  If returned, this indicates that there are more results to obtain. Use this token in the next DescribeEvents call to get the next batch of events.
         public let nextToken: String?
@@ -2342,10 +2342,10 @@ extension ElasticBeanstalk {
 
     public struct ListAvailableSolutionStacksResultMessage: AWSDecodableShape {
         ///  A list of available solution stacks and their SolutionStackDescription.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<SolutionStackDescription>>
         public var solutionStackDetails: [SolutionStackDescription]?
         /// A list of available solution stacks.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var solutionStacks: [String]?
 
         public init(solutionStackDetails: [SolutionStackDescription]? = nil, solutionStacks: [String]? = nil) {
@@ -2361,7 +2361,7 @@ extension ElasticBeanstalk {
 
     public struct ListPlatformBranchesRequest: AWSEncodableShape {
         /// Criteria for restricting the resulting list of platform branches. The filter is evaluated as a logical conjunction (AND) of the separate SearchFilter terms. The following list shows valid attribute values for each of the SearchFilter terms. Most operators take a single value. The in and not_in operators can take multiple values.    Attribute = BranchName:    Operator: = | != | begins_with | ends_with | contains | in | not_in       Attribute = LifecycleState:    Operator: = | != | in | not_in     Values: beta | supported | deprecated | retired       Attribute = PlatformName:    Operator: = | != | begins_with | ends_with | contains | in | not_in       Attribute = TierType:    Operator: = | !=     Values: WebServer/Standard | Worker/SQS/HTTP      Array size: limited to 10 SearchFilter objects. Within each SearchFilter item, the Values array is limited to 10 items.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<SearchFilter>>
         public var filters: [SearchFilter]?
         /// The maximum number of platform branch values returned in one call.
         public let maxRecords: Int?
@@ -2389,7 +2389,7 @@ extension ElasticBeanstalk {
         /// In a paginated request, if this value isn't null, it's the token that you can pass in a subsequent request to get the next response page.
         public let nextToken: String?
         /// Summary information about the platform branches.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<PlatformBranchSummary>>
         public var platformBranchSummaryList: [PlatformBranchSummary]?
 
         public init(nextToken: String? = nil, platformBranchSummaryList: [PlatformBranchSummary]? = nil) {
@@ -2405,7 +2405,7 @@ extension ElasticBeanstalk {
 
     public struct ListPlatformVersionsRequest: AWSEncodableShape {
         /// Criteria for restricting the resulting list of platform versions. The filter is interpreted as a logical conjunction (AND) of the separate PlatformFilter terms.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<PlatformFilter>>
         public var filters: [PlatformFilter]?
         /// The maximum number of platform version values returned in one call.
         public let maxRecords: Int?
@@ -2433,7 +2433,7 @@ extension ElasticBeanstalk {
         /// In a paginated request, if this value isn't null, it's the token that you can pass in a subsequent request to get the next response page.
         public let nextToken: String?
         /// Summary information about the platform versions.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<PlatformSummary>>
         public var platformSummaryList: [PlatformSummary]?
 
         public init(nextToken: String? = nil, platformSummaryList: [PlatformSummary]? = nil) {
@@ -2494,7 +2494,7 @@ extension ElasticBeanstalk {
         /// The domain name of the LoadBalancer.
         public let domain: String?
         /// A list of Listeners used by the LoadBalancer.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Listener>>
         public var listeners: [Listener]?
         /// The name of the LoadBalancer.
         public let loadBalancerName: String?
@@ -2677,7 +2677,7 @@ extension ElasticBeanstalk {
         /// The name of the platform to which this platform branch belongs.
         public let platformName: String?
         /// The environment tiers that platform versions in this branch support. Possible values: WebServer/Standard | Worker/SQS/HTTP
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedTierList: [String]?
 
         public init(branchName: String? = nil, branchOrder: Int? = nil, lifecycleState: String? = nil, platformName: String? = nil, supportedTierList: [String]? = nil) {
@@ -2699,7 +2699,7 @@ extension ElasticBeanstalk {
 
     public struct PlatformDescription: AWSDecodableShape {
         /// The custom AMIs supported by the platform version.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<CustomAmi>>
         public var customAmiList: [CustomAmi]?
         /// The date when the platform version was created.
         public let dateCreated: Date?
@@ -2708,7 +2708,7 @@ extension ElasticBeanstalk {
         /// The description of the platform version.
         public let description: String?
         /// The frameworks supported by the platform version.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<PlatformFramework>>
         public var frameworks: [PlatformFramework]?
         /// Information about the maintainer of the platform version.
         public let maintainer: String?
@@ -2735,15 +2735,15 @@ extension ElasticBeanstalk {
         /// The version of the platform version.
         public let platformVersion: String?
         /// The programming languages supported by the platform version.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<PlatformProgrammingLanguage>>
         public var programmingLanguages: [PlatformProgrammingLanguage]?
         /// The name of the solution stack used by the platform version.
         public let solutionStackName: String?
         /// The additions supported by the platform version.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedAddonList: [String]?
         /// The tiers supported by the platform version.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedTierList: [String]?
 
         public init(customAmiList: [CustomAmi]? = nil, dateCreated: Date? = nil, dateUpdated: Date? = nil, description: String? = nil, frameworks: [PlatformFramework]? = nil, maintainer: String? = nil, operatingSystemName: String? = nil, operatingSystemVersion: String? = nil, platformArn: String? = nil, platformBranchLifecycleState: String? = nil, platformBranchName: String? = nil, platformCategory: String? = nil, platformLifecycleState: String? = nil, platformName: String? = nil, platformOwner: String? = nil, platformStatus: PlatformStatus? = nil, platformVersion: String? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil, solutionStackName: String? = nil, supportedAddonList: [String]? = nil, supportedTierList: [String]? = nil) {
@@ -2801,7 +2801,7 @@ extension ElasticBeanstalk {
         /// The platform version attribute to which the filter values are applied. Valid values: PlatformName | PlatformVersion | PlatformStatus | PlatformBranchName | PlatformLifecycleState | PlatformOwner | SupportedTier | SupportedAddon | ProgrammingLanguageName | OperatingSystemName
         public let type: String?
         /// The list of values applied to the filtering platform version attribute. Only one value is supported for all current operators. The following list shows valid filter values for some filter attributes.    PlatformStatus: Creating | Failed | Ready | Deleting | Deleted     PlatformLifecycleState: recommended     SupportedTier: WebServer/Standard | Worker/SQS/HTTP     SupportedAddon: Log/S3 | Monitoring/Healthd | WorkerDaemon/SQSD
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
         public init(operator: String? = nil, type: String? = nil, values: [String]? = nil) {
@@ -2873,10 +2873,10 @@ extension ElasticBeanstalk {
         /// The version string of the platform version.
         public let platformVersion: String?
         /// The additions associated with the platform version.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedAddonList: [String]?
         /// The tiers in which the platform version runs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedTierList: [String]?
 
         public init(operatingSystemName: String? = nil, operatingSystemVersion: String? = nil, platformArn: String? = nil, platformBranchLifecycleState: String? = nil, platformBranchName: String? = nil, platformCategory: String? = nil, platformLifecycleState: String? = nil, platformOwner: String? = nil, platformStatus: PlatformStatus? = nil, platformVersion: String? = nil, supportedAddonList: [String]? = nil, supportedTierList: [String]? = nil) {
@@ -3021,7 +3021,7 @@ extension ElasticBeanstalk {
         /// The Amazon Resource Name (ARN) of the resource for which a tag list was requested.
         public let resourceArn: String?
         /// A list of tag key-value pairs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var resourceTags: [Tag]?
 
         public init(resourceArn: String? = nil, resourceTags: [Tag]? = nil) {
@@ -3085,7 +3085,7 @@ extension ElasticBeanstalk {
 
     public struct RetrieveEnvironmentInfoResultMessage: AWSDecodableShape {
         ///  The EnvironmentInfoDescription of the environment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<EnvironmentInfoDescription>>
         public var environmentInfo: [EnvironmentInfoDescription]?
 
         public init(environmentInfo: [EnvironmentInfoDescription]? = nil) {
@@ -3125,7 +3125,7 @@ extension ElasticBeanstalk {
         /// The operator to apply to the Attribute with each of the Values. Valid values vary by Attribute.
         public let `operator`: String?
         /// The list of values applied to the Attribute and Operator attributes. Number of values and valid values vary by Attribute.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
         public init(attribute: String? = nil, operator: String? = nil, values: [String]? = nil) {
@@ -3147,7 +3147,7 @@ extension ElasticBeanstalk {
         /// The availability zone in which the instance runs.
         public let availabilityZone: String?
         /// Represents the causes, which provide more information about the current health status.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var causes: [String]?
         /// Represents the color indicator that gives you information about the health of the EC2 instance. For more information, see Health Colors and Statuses.
         public let color: String?
@@ -3193,7 +3193,7 @@ extension ElasticBeanstalk {
 
     public struct SolutionStackDescription: AWSDecodableShape {
         /// The permitted file types allowed for a solution stack.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var permittedFileTypes: [String]?
         /// The name of the solution stack.
         public let solutionStackName: String?
@@ -3327,7 +3327,7 @@ extension ElasticBeanstalk {
         /// CPU utilization metrics for the instance.
         public let cpuUtilization: CPUUtilization?
         /// Load average in the last 1-minute, 5-minute, and 15-minute periods.  For more information, see Operating System Metrics.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Double>>
         public var loadAverage: [Double]?
 
         public init(cpuUtilization: CPUUtilization? = nil, loadAverage: [Double]? = nil) {
@@ -3488,10 +3488,10 @@ extension ElasticBeanstalk {
         /// A new description for the configuration.
         public let description: String?
         /// A list of configuration option settings to update with the new specified option value.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ConfigurationOptionSetting>>
         public var optionSettings: [ConfigurationOptionSetting]?
         /// A list of configuration options to remove from the configuration set. Constraint: You can remove only UserDefined configuration options.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<OptionSpecification>>
         public var optionsToRemove: [OptionSpecification]?
         /// The name of the configuration template to update. If no configuration template is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error.
         public let templateName: String
@@ -3539,10 +3539,10 @@ extension ElasticBeanstalk {
         /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name or environment ID parameters. See Environment Manifest (env.yaml) for details.
         public let groupName: String?
         /// If specified, AWS Elastic Beanstalk updates the configuration set associated with the running environment and sets the specified configuration options to the requested value.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ConfigurationOptionSetting>>
         public var optionSettings: [ConfigurationOptionSetting]?
         /// A list of custom user-defined configuration options to remove from the configuration set for this environment.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<OptionSpecification>>
         public var optionsToRemove: [OptionSpecification]?
         /// The ARN of the platform, if used.
         public let platformArn: String?
@@ -3610,10 +3610,10 @@ extension ElasticBeanstalk {
         /// The Amazon Resource Name (ARN) of the resouce to be updated. Must be the ARN of an Elastic Beanstalk resource.
         public let resourceArn: String
         /// A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated. Specify at least one of these parameters: TagsToAdd, TagsToRemove.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tagsToAdd: [Tag]?
         /// A list of tag keys to remove. If a tag key doesn't exist, it is silently ignored. Specify at least one of these parameters: TagsToAdd, TagsToRemove.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var tagsToRemove: [String]?
 
         public init(resourceArn: String, tagsToAdd: [Tag]? = nil, tagsToRemove: [String]? = nil) {
@@ -3645,7 +3645,7 @@ extension ElasticBeanstalk {
         /// The name of the environment to validate the settings against. Condition: You cannot specify both this and a configuration template name.
         public let environmentName: String?
         /// A list of the options and desired values to evaluate.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<ConfigurationOptionSetting>>
         public var optionSettings: [ConfigurationOptionSetting]
         /// The name of the configuration template to validate the settings against. Condition: You cannot specify both this and an environment name.
         public let templateName: String?

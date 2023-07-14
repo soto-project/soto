@@ -179,10 +179,10 @@ extension Neptune {
 
     public struct CloudwatchLogsExportConfiguration: AWSEncodableShape {
         /// The list of log types to disable.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var disableLogTypes: [String]?
         /// The list of log types to enable.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableLogTypes: [String]?
 
         public init(disableLogTypes: [String]? = nil, enableLogTypes: [String]? = nil) {
@@ -371,10 +371,10 @@ extension Neptune {
         /// The type of the endpoint. One of: READER, WRITER, ANY.
         public let endpointType: String
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var staticMembers: [String]?
         /// The tags to be assigned to the Amazon Neptune resource.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -415,10 +415,10 @@ extension Neptune {
         /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
         public let endpointType: String?
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var staticMembers: [String]?
         /// The current status of the endpoint. One of: creating, available, deleting, inactive, modifying. The inactive state applies to an endpoint that cannot be used for a certain kind of cluster, such as a writer endpoint for a read-only secondary cluster in a global database.
         public let status: String?
@@ -475,7 +475,7 @@ extension Neptune {
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is enabled.
         public let deletionProtection: Bool?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// If set to true, enables Amazon Identity and Access Management (IAM) authentication for the entire DB cluster (this cannot be set at an instance level). Default: false.
         public let enableIAMDatabaseAuthentication: Bool?
@@ -707,7 +707,7 @@ extension Neptune {
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// Not supported by Neptune (ignored).
         public let enableIAMDatabaseAuthentication: Bool?
@@ -1158,7 +1158,7 @@ extension Neptune {
         /// Specifies the earliest time to which a database can be restored with point-in-time restore.
         public let earliestRestorableTime: Date?
         /// A list of log types that this DB cluster is configured to export to CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint for the primary instance of the DB cluster.
         public let endpoint: String?
@@ -1315,10 +1315,10 @@ extension Neptune {
         /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
         public let endpointType: String?
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var staticMembers: [String]?
         /// The current status of the endpoint. One of: creating, available, deleting, inactive, modifying. The inactive state applies to an endpoint that cannot be used for a certain kind of cluster, such as a writer endpoint for a read-only secondary cluster in a global database.
         public let status: String?
@@ -1701,7 +1701,7 @@ extension Neptune {
         /// The version number of the database engine.
         public let engineVersion: String?
         /// The types of logs that the database engine has available for export to CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var exportableLogTypes: [String]?
         ///  (Not supported by Neptune)
         @OptionalCustomCoding<ArrayCoder<_SupportedCharacterSetsEncoding, CharacterSet>>
@@ -1826,7 +1826,7 @@ extension Neptune {
         @OptionalCustomCoding<ArrayCoder<_DomainMembershipsEncoding, DomainMembership>>
         public var domainMemberships: [DomainMembership]?
         /// A list of log types that this DB instance is configured to export to CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint.
         public let endpoint: Endpoint?
@@ -2310,10 +2310,10 @@ extension Neptune {
         /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
         public let endpointType: String?
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var staticMembers: [String]?
         /// The current status of the endpoint. One of: creating, available, deleting, inactive, modifying. The inactive state applies to an endpoint that cannot be used for a certain kind of cluster, such as a writer endpoint for a read-only secondary cluster in a global database.
         public let status: String?
@@ -3577,7 +3577,7 @@ extension Neptune {
         ///  Specifies whether the Neptune cluster is the primary cluster (that is, has read-write capability) for the Neptune global database with which it is associated.
         public let isWriter: Bool?
         ///  The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Neptune global database.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var readers: [String]?
 
         public init(dbClusterArn: String? = nil, isWriter: Bool? = nil, readers: [String]? = nil) {
@@ -3639,10 +3639,10 @@ extension Neptune {
         /// The type of the endpoint. One of: READER, WRITER, ANY.
         public let endpointType: String?
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var staticMembers: [String]?
 
         public init(dbClusterEndpointIdentifier: String, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil) {
@@ -3676,10 +3676,10 @@ extension Neptune {
         /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
         public let endpointType: String?
         /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var excludedMembers: [String]?
         /// List of DB instance identifiers that are part of the custom endpoint group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var staticMembers: [String]?
         /// The current status of the endpoint. One of: creating, available, deleting, inactive, modifying. The inactive state applies to an endpoint that cannot be used for a certain kind of cluster, such as a writer endpoint for a read-only secondary cluster in a global database.
         public let status: String?
@@ -4421,10 +4421,10 @@ extension Neptune {
 
     public struct PendingCloudwatchLogsExports: AWSDecodableShape {
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var logTypesToDisable: [String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var logTypesToEnable: [String]?
 
         public init(logTypesToDisable: [String]? = nil, logTypesToEnable: [String]? = nil) {
@@ -4720,7 +4720,7 @@ extension Neptune {
         /// The Amazon Neptune resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
         public init(resourceName: String, tagKeys: [String]) {
@@ -4823,7 +4823,7 @@ extension Neptune {
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
         public let enableIAMDatabaseAuthentication: Bool?
@@ -4915,7 +4915,7 @@ extension Neptune {
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false
         public let enableIAMDatabaseAuthentication: Bool?

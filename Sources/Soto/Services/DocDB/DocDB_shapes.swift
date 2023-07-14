@@ -194,10 +194,10 @@ extension DocDB {
 
     public struct CloudwatchLogsExportConfiguration: AWSEncodableShape {
         /// The list of log types to disable.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var disableLogTypes: [String]?
         /// The list of log types to enable.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableLogTypes: [String]?
 
         public init(disableLogTypes: [String]? = nil, enableLogTypes: [String]? = nil) {
@@ -318,7 +318,7 @@ extension DocDB {
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
         /// A list of log types that need to be enabled for exporting to Amazon CloudWatch Logs. You can enable audit logs or profiler logs. For more information, see  Auditing Amazon DocumentDB Events and  Profiling Amazon DocumentDB Operations.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// The name of the database engine to be used for this cluster. Valid values: docdb
         public let engine: String
@@ -752,7 +752,7 @@ extension DocDB {
         /// The earliest time to which a database can be restored with point-in-time restore.
         public let earliestRestorableTime: Date?
         /// A list of log types that this cluster is configured to export to Amazon CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint for the primary instance of the cluster.
         public let endpoint: String?
@@ -1158,7 +1158,7 @@ extension DocDB {
         /// The version number of the database engine.
         public let engineVersion: String?
         /// The types of logs that the database engine has available for export to Amazon CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var exportableLogTypes: [String]?
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
         public let supportsLogExportsToCloudwatchLogs: Bool?
@@ -1238,7 +1238,7 @@ extension DocDB {
         /// Specifies information on the subnet group that is associated with the instance, including the name, description, and subnets in the subnet group.
         public let dbSubnetGroup: DBSubnetGroup?
         /// A list of log types that this instance is configured to export to CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint.
         public let endpoint: Endpoint?
@@ -2449,7 +2449,7 @@ extension DocDB {
         ///  Specifies whether the Amazon DocumentDB cluster is the primary cluster (that is, has read-write capability) for the Amazon DocumentDB global cluster with which it is associated.
         public let isWriter: Bool?
         /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global cluster.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var readers: [String]?
 
         public init(dbClusterArn: String? = nil, isWriter: Bool? = nil, readers: [String]? = nil) {
@@ -2935,10 +2935,10 @@ extension DocDB {
 
     public struct PendingCloudwatchLogsExports: AWSDecodableShape {
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to Amazon CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var logTypesToDisable: [String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var logTypesToEnable: [String]?
 
         public init(logTypesToDisable: [String]? = nil, logTypesToEnable: [String]? = nil) {
@@ -3167,7 +3167,7 @@ extension DocDB {
         /// The Amazon DocumentDB resource that the tags are removed from. This value is an Amazon Resource Name (ARN).
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
         public init(resourceName: String, tagKeys: [String]) {
@@ -3242,7 +3242,7 @@ extension DocDB {
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
         /// A list of log types that must be enabled for exporting to Amazon CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// The database engine to use for the new cluster. Default: The same as source. Constraint: Must be compatible with the engine of the source.
         public let engine: String
@@ -3317,7 +3317,7 @@ extension DocDB {
         /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
         public let deletionProtection: Bool?
         /// A list of log types that must be enabled for exporting to Amazon CloudWatch Logs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// The KMS key identifier to use when restoring an encrypted cluster from an encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a cluster with the same Amazon Web Services account that owns the KMS encryption key used to encrypt the new cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new cluster and encrypt the new cluster with an KMS key that is different from the KMS key used to encrypt the source cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following occurs:   If the cluster is encrypted, then the restored cluster is encrypted using the KMS key that was used to encrypt the source cluster.   If the cluster is not encrypted, then the restored cluster is not encrypted.   If DBClusterIdentifier refers to a cluster that is not encrypted, then the restore request is rejected.
         public let kmsKeyId: String?

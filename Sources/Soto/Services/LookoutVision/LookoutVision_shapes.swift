@@ -692,7 +692,7 @@ extension LookoutVision {
         ]
 
         /// The unencrypted image bytes that you want to analyze.
-        public let body: HTTPBody
+        public let body: AWSHTTPBody
         /// The type of the image passed in Body. Valid values are image/png (PNG format images) and image/jpeg (JPG format images).
         public let contentType: String
         /// The version of the model that you want to use.
@@ -700,7 +700,7 @@ extension LookoutVision {
         /// The name of the project that contains the model version that you want to use.
         public let projectName: String
 
-        public init(body: HTTPBody, contentType: String, modelVersion: String, projectName: String) {
+        public init(body: AWSHTTPBody, contentType: String, modelVersion: String, projectName: String) {
             self.body = body
             self.contentType = contentType
             self.modelVersion = modelVersion

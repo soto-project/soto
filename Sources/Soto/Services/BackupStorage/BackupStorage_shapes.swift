@@ -138,39 +138,34 @@ extension BackupStorage {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetChunkOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "data"
+    public struct GetChunkOutput: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "checksum", location: .header("x-amz-checksum")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-checksum-algorithm")),
-            AWSMemberEncoding(label: "data", location: .body("Data")),
-            AWSMemberEncoding(label: "length", location: .header("x-amz-data-length"))
-        ]
-
         /// Data checksum
         public let checksum: String
         /// Checksum algorithm
         public let checksumAlgorithm: DataChecksumAlgorithm
         /// Chunk data
-        public let data: HTTPBody
+        public let data: AWSHTTPBody
         /// Data length
         public let length: Int64
 
-        public init(checksum: String, checksumAlgorithm: DataChecksumAlgorithm, data: HTTPBody, length: Int64) {
+        public init(checksum: String, checksumAlgorithm: DataChecksumAlgorithm, data: AWSHTTPBody, length: Int64) {
             self.checksum = checksum
             self.checksumAlgorithm = checksumAlgorithm
             self.data = data
             self.length = length
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case checksum = "x-amz-checksum"
-            case checksumAlgorithm = "x-amz-checksum-algorithm"
-            case data = "Data"
-            case length = "x-amz-data-length"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.checksum = try response.decode(String.self, forHeader: "x-amz-checksum")
+            self.checksumAlgorithm = try response.decode(DataChecksumAlgorithm.self, forHeader: "x-amz-checksum-algorithm")
+            self.data = response.decodePayload()
+            self.length = try response.decode(Int64.self, forHeader: "x-amz-data-length")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectMetadataInput: AWSEncodableShape {
@@ -192,20 +187,10 @@ extension BackupStorage {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectMetadataOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "metadataBlob"
+    public struct GetObjectMetadataOutput: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "metadataBlob", location: .body("MetadataBlob")),
-            AWSMemberEncoding(label: "metadataBlobChecksum", location: .header("x-amz-checksum")),
-            AWSMemberEncoding(label: "metadataBlobChecksumAlgorithm", location: .header("x-amz-checksum-algorithm")),
-            AWSMemberEncoding(label: "metadataBlobLength", location: .header("x-amz-data-length")),
-            AWSMemberEncoding(label: "metadataString", location: .header("x-amz-metadata-string"))
-        ]
-
         /// Metadata blob.
-        public let metadataBlob: HTTPBody?
+        public let metadataBlob: AWSHTTPBody
         /// MetadataBlob checksum.
         public let metadataBlobChecksum: String?
         /// Checksum algorithm.
@@ -215,7 +200,7 @@ extension BackupStorage {
         /// Metadata string.
         public let metadataString: String?
 
-        public init(metadataBlob: HTTPBody? = nil, metadataBlobChecksum: String? = nil, metadataBlobChecksumAlgorithm: DataChecksumAlgorithm? = nil, metadataBlobLength: Int64? = nil, metadataString: String? = nil) {
+        public init(metadataBlob: AWSHTTPBody, metadataBlobChecksum: String? = nil, metadataBlobChecksumAlgorithm: DataChecksumAlgorithm? = nil, metadataBlobLength: Int64? = nil, metadataString: String? = nil) {
             self.metadataBlob = metadataBlob
             self.metadataBlobChecksum = metadataBlobChecksum
             self.metadataBlobChecksumAlgorithm = metadataBlobChecksumAlgorithm
@@ -223,13 +208,17 @@ extension BackupStorage {
             self.metadataString = metadataString
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case metadataBlob = "MetadataBlob"
-            case metadataBlobChecksum = "x-amz-checksum"
-            case metadataBlobChecksumAlgorithm = "x-amz-checksum-algorithm"
-            case metadataBlobLength = "x-amz-data-length"
-            case metadataString = "x-amz-metadata-string"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.metadataBlob = response.decodePayload()
+            self.metadataBlobChecksum = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum")
+            self.metadataBlobChecksumAlgorithm = try response.decodeIfPresent(DataChecksumAlgorithm.self, forHeader: "x-amz-checksum-algorithm")
+            self.metadataBlobLength = try response.decodeIfPresent(Int64.self, forHeader: "x-amz-data-length")
+            self.metadataString = try response.decodeIfPresent(String.self, forHeader: "x-amz-metadata-string")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListChunksInput: AWSEncodableShape {
@@ -360,7 +349,7 @@ extension BackupStorage {
         /// Backup job Id for the in-progress backup
         public let backupJobId: String
         /// Optional metadata associated with an Object. Maximum length is 4MB.
-        public let metadataBlob: HTTPBody?
+        public let metadataBlob: AWSHTTPBody?
         /// Checksum of MetadataBlob.
         public let metadataBlobChecksum: String?
         /// Checksum algorithm.
@@ -376,7 +365,7 @@ extension BackupStorage {
         /// Upload Id for the in-progress upload
         public let uploadId: String
 
-        public init(backupJobId: String, metadataBlob: HTTPBody? = nil, metadataBlobChecksum: String? = nil, metadataBlobChecksumAlgorithm: DataChecksumAlgorithm? = nil, metadataBlobLength: Int64? = nil, metadataString: String? = nil, objectChecksum: String, objectChecksumAlgorithm: SummaryChecksumAlgorithm, uploadId: String) {
+        public init(backupJobId: String, metadataBlob: AWSHTTPBody? = nil, metadataBlobChecksum: String? = nil, metadataBlobChecksumAlgorithm: DataChecksumAlgorithm? = nil, metadataBlobLength: Int64? = nil, metadataString: String? = nil, objectChecksum: String, objectChecksumAlgorithm: SummaryChecksumAlgorithm, uploadId: String) {
             self.backupJobId = backupJobId
             self.metadataBlob = metadataBlob
             self.metadataBlobChecksum = metadataBlobChecksum
@@ -434,13 +423,13 @@ extension BackupStorage {
         /// Describes this chunk's position relative to the other chunks
         public let chunkIndex: Int64
         /// Data to be uploaded
-        public let data: HTTPBody
+        public let data: AWSHTTPBody
         /// Data length
         public let length: Int64
         /// Upload Id for the in-progress upload.
         public let uploadId: String
 
-        public init(backupJobId: String, checksum: String, checksumAlgorithm: DataChecksumAlgorithm, chunkIndex: Int64 = 0, data: HTTPBody, length: Int64 = 0, uploadId: String) {
+        public init(backupJobId: String, checksum: String, checksumAlgorithm: DataChecksumAlgorithm, chunkIndex: Int64 = 0, data: AWSHTTPBody, length: Int64 = 0, uploadId: String) {
             self.backupJobId = backupJobId
             self.checksum = checksum
             self.checksumAlgorithm = checksumAlgorithm
@@ -489,7 +478,7 @@ extension BackupStorage {
         /// Backup job Id for the in-progress backup.
         public let backupJobId: String
         /// Inline chunk data to be uploaded.
-        public let inlineChunk: HTTPBody?
+        public let inlineChunk: AWSHTTPBody?
         /// Inline chunk checksum
         public let inlineChunkChecksum: String?
         /// Inline chunk checksum algorithm
@@ -507,7 +496,7 @@ extension BackupStorage {
         /// Throw an exception if Object name is already exist.
         public let throwOnDuplicate: Bool?
 
-        public init(backupJobId: String, inlineChunk: HTTPBody? = nil, inlineChunkChecksum: String? = nil, inlineChunkChecksumAlgorithm: String? = nil, inlineChunkLength: Int64? = nil, metadataString: String? = nil, objectChecksum: String? = nil, objectChecksumAlgorithm: SummaryChecksumAlgorithm? = nil, objectName: String, throwOnDuplicate: Bool? = nil) {
+        public init(backupJobId: String, inlineChunk: AWSHTTPBody? = nil, inlineChunkChecksum: String? = nil, inlineChunkChecksumAlgorithm: String? = nil, inlineChunkLength: Int64? = nil, metadataString: String? = nil, objectChecksum: String? = nil, objectChecksumAlgorithm: SummaryChecksumAlgorithm? = nil, objectName: String, throwOnDuplicate: Bool? = nil) {
             self.backupJobId = backupJobId
             self.inlineChunk = inlineChunk
             self.inlineChunkChecksum = inlineChunkChecksum

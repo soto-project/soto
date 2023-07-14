@@ -189,7 +189,7 @@ extension CloudWatch {
         /// 		the metric.
         public let configuration: AnomalyDetectorConfiguration?
         /// The metric dimensions associated with the anomaly detection model.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Dimension>>
         public var dimensions: [Dimension]?
         /// The CloudWatch metric math expression for this anomaly detector.
         public let metricMathAnomalyDetector: MetricMathAnomalyDetector?
@@ -243,7 +243,7 @@ extension CloudWatch {
         /// An array of time ranges to exclude from use when the anomaly detection model is trained. Use
         /// 			this to make sure that events that could cause unusual values for the metric, such as
         /// 			deployments, aren't used when CloudWatch creates the model.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Range>>
         public var excludedTimeRanges: [Range]?
         /// The time zone to use for the metric. This is useful to enable the model to automatically
         /// 			account for daylight savings time changes if the metric is sensitive to such time
@@ -335,7 +335,7 @@ extension CloudWatch {
         ///
         public let actionsSuppressorWaitPeriod: Int?
         /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var alarmActions: [String]?
         /// The Amazon Resource Name (ARN) of the alarm.
         public let alarmArn: String?
@@ -348,10 +348,10 @@ extension CloudWatch {
         /// The rule that this alarm uses to evaluate its alarm state.
         public let alarmRule: String?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var insufficientDataActions: [String]?
         /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var okActions: [String]?
         /// An explanation for the alarm state, in text format.
         public let stateReason: String?
@@ -459,7 +459,7 @@ extension CloudWatch {
         /// The average of the metric values that correspond to the data point.
         public let average: Double?
         /// The percentile statistic for the data point.
-        @OptionalCustomCoding<StandardDictionaryCoder>
+        @OptionalCustomCoding<StandardDictionaryCoder<String, Double>>
         public var extendedStatistics: [String: Double]?
         /// The maximum metric value for the data point.
         public let maximum: Double?
@@ -500,7 +500,7 @@ extension CloudWatch {
 
     public struct DeleteAlarmsInput: AWSEncodableShape {
         /// The alarms to be deleted. Do not enclose the alarm names in quote marks.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var alarmNames: [String]
 
         public init(alarmNames: [String]) {
@@ -522,7 +522,7 @@ extension CloudWatch {
 
     public struct DeleteAnomalyDetectorInput: AWSEncodableShape {
         /// The metric dimensions associated with the anomaly detection model to delete.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Dimension>>
         public var dimensions: [Dimension]?
         /// The metric math anomaly detector to be deleted. When using MetricMathAnomalyDetector, you cannot include following parameters in the same operation:    Dimensions,    MetricName     Namespace     Stat    the SingleMetricAnomalyDetector parameters of DeleteAnomalyDetectorInput    Instead, specify the metric math anomaly detector attributes as part of the
         /// 			MetricMathAnomalyDetector property.
@@ -589,7 +589,7 @@ extension CloudWatch {
 
     public struct DeleteDashboardsInput: AWSEncodableShape {
         /// The dashboards to be deleted. This parameter is required.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var dashboardNames: [String]
 
         public init(dashboardNames: [String]) {
@@ -607,7 +607,7 @@ extension CloudWatch {
 
     public struct DeleteInsightRulesInput: AWSEncodableShape {
         /// An array of the rule names to delete. If you need to find out the names of your rules, use DescribeInsightRules.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var ruleNames: [String]
 
         public init(ruleNames: [String]) {
@@ -629,7 +629,7 @@ extension CloudWatch {
 
     public struct DeleteInsightRulesOutput: AWSDecodableShape {
         /// An array listing the rules that could not be deleted. You cannot delete built-in rules.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<PartialFailure>>
         public var failures: [PartialFailure]?
 
         public init(failures: [PartialFailure]? = nil) {
@@ -668,7 +668,7 @@ extension CloudWatch {
         public let alarmName: String?
         /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter,
         /// 			only metric alarms are returned.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AlarmType>>
         public var alarmTypes: [AlarmType]?
         /// The ending date to retrieve alarm history.
         public let endDate: Date?
@@ -717,7 +717,7 @@ extension CloudWatch {
 
     public struct DescribeAlarmHistoryOutput: AWSDecodableShape {
         /// The alarm histories, in JSON format.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AlarmHistoryItem>>
         public var alarmHistoryItems: [AlarmHistoryItem]?
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
@@ -736,7 +736,7 @@ extension CloudWatch {
     public struct DescribeAlarmsForMetricInput: AWSEncodableShape {
         /// The dimensions associated with the metric. If the metric has any associated
         /// 			dimensions, you must specify them in order for the call to succeed.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Dimension>>
         public var dimensions: [Dimension]?
         /// The percentile statistic for the metric. Specify a value between
         /// 		    p0.0 and p100.
@@ -789,7 +789,7 @@ extension CloudWatch {
 
     public struct DescribeAlarmsForMetricOutput: AWSDecodableShape {
         /// The information for each alarm with the specified metric.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricAlarm>>
         public var metricAlarms: [MetricAlarm]?
 
         public init(metricAlarms: [MetricAlarm]? = nil) {
@@ -811,11 +811,11 @@ extension CloudWatch {
         /// 			is specified, you cannot specify AlarmNames.
         public let alarmNamePrefix: String?
         /// The names of the alarms to retrieve information about.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var alarmNames: [String]?
         /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter,
         /// 		only metric alarms are returned.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AlarmType>>
         public var alarmTypes: [AlarmType]?
         /// If you use this parameter and specify the name of a composite alarm, the operation returns
         /// 			information about the "children" alarms
@@ -895,10 +895,10 @@ extension CloudWatch {
 
     public struct DescribeAlarmsOutput: AWSDecodableShape {
         /// The information about any composite alarms returned by the operation.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<CompositeAlarm>>
         public var compositeAlarms: [CompositeAlarm]?
         /// The information about any metric alarms returned by the operation.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricAlarm>>
         public var metricAlarms: [MetricAlarm]?
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
@@ -919,12 +919,12 @@ extension CloudWatch {
     public struct DescribeAnomalyDetectorsInput: AWSEncodableShape {
         /// The anomaly detector types to request when using DescribeAnomalyDetectorsInput.
         /// 			If empty, defaults to SINGLE_METRIC.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AnomalyDetectorType>>
         public var anomalyDetectorTypes: [AnomalyDetectorType]?
         /// Limits the results to only the anomaly detection models that are associated with the
         /// 			specified metric dimensions. If there are multiple metrics that have these dimensions
         /// 			and have anomaly detection models associated, they're all returned.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Dimension>>
         public var dimensions: [Dimension]?
         /// The maximum number of results to return in one operation. The maximum
         /// 			value that you can specify is 100. To retrieve the remaining results, make another call with the returned
@@ -975,7 +975,7 @@ extension CloudWatch {
 
     public struct DescribeAnomalyDetectorsOutput: AWSDecodableShape {
         /// The list of anomaly detection models returned by the operation.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AnomalyDetector>>
         public var anomalyDetectors: [AnomalyDetector]?
         /// A token that you can use in a subsequent operation to
         /// 		retrieve the next set of results.
@@ -1017,7 +1017,7 @@ extension CloudWatch {
 
     public struct DescribeInsightRulesOutput: AWSDecodableShape {
         /// The rules returned by the operation.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<InsightRule>>
         public var insightRules: [InsightRule]?
         /// If this parameter is present, it is a token that marks the start of the next batch of returned results.
         public let nextToken: String?
@@ -1088,7 +1088,7 @@ extension CloudWatch {
 
     public struct DisableAlarmActionsInput: AWSEncodableShape {
         /// The names of the alarms.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var alarmNames: [String]
 
         public init(alarmNames: [String]) {
@@ -1110,7 +1110,7 @@ extension CloudWatch {
 
     public struct DisableInsightRulesInput: AWSEncodableShape {
         /// An array of the rule names to disable. If you need to find out the names of your rules, use DescribeInsightRules.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var ruleNames: [String]
 
         public init(ruleNames: [String]) {
@@ -1132,7 +1132,7 @@ extension CloudWatch {
 
     public struct DisableInsightRulesOutput: AWSDecodableShape {
         /// An array listing the rules that could not be disabled. You cannot disable built-in rules.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<PartialFailure>>
         public var failures: [PartialFailure]?
 
         public init(failures: [PartialFailure]? = nil) {
@@ -1146,7 +1146,7 @@ extension CloudWatch {
 
     public struct EnableAlarmActionsInput: AWSEncodableShape {
         /// The names of the alarms.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var alarmNames: [String]
 
         public init(alarmNames: [String]) {
@@ -1168,7 +1168,7 @@ extension CloudWatch {
 
     public struct EnableInsightRulesInput: AWSEncodableShape {
         /// An array of the rule names to enable. If you need to find out the names of your rules, use DescribeInsightRules.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var ruleNames: [String]
 
         public init(ruleNames: [String]) {
@@ -1190,7 +1190,7 @@ extension CloudWatch {
 
     public struct EnableInsightRulesOutput: AWSDecodableShape {
         /// An array listing the rules that could not be enabled. You cannot disable or enable built-in rules.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<PartialFailure>>
         public var failures: [PartialFailure]?
 
         public init(failures: [PartialFailure]? = nil) {
@@ -1250,7 +1250,7 @@ extension CloudWatch {
         /// 					contributor might change for each data point in the graph. If this rule aggregates by COUNT, the top contributor for each data point is the contributor with the
         /// 					most occurrences in that period. If the rule aggregates by SUM, the top contributor is the contributor with the highest sum in the log field specified
         /// 					by the rule's Value, during that period.    SampleCount -- the number of data points matched by the rule.    Sum -- the sum of the values from all contributors during the time period represented by that data point.    Minimum -- the minimum value from a single observation during the time period represented by that data point.    Maximum -- the maximum value from a single observation during the time period represented by that data point.    Average -- the average value from all contributors during the time period represented by that data point.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var metrics: [String]?
         /// Determines what statistic to use to rank the contributors. Valid values are SUM and MAXIMUM.
         public let orderBy: String?
@@ -1308,14 +1308,14 @@ extension CloudWatch {
         public let approximateUniqueCount: Int64?
         /// An array of the unique contributors found by this rule in this time period. If the rule contains multiple keys, each combination of values
         /// 		for the keys counts as a unique contributor.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<InsightRuleContributor>>
         public var contributors: [InsightRuleContributor]?
         /// An array of the strings used as the keys for this rule. The keys are the dimensions used to classify contributors.
         /// 			If the rule contains more than one key, then each unique combination of values for the keys is counted as a unique contributor.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var keyLabels: [String]?
         /// A time series of metric data points that matches the time period in the rule request.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<InsightRuleMetricDatapoint>>
         public var metricDatapoints: [InsightRuleMetricDatapoint]?
 
         public init(aggregateValue: Double? = nil, aggregationStatistic: String? = nil, approximateUniqueCount: Int64? = nil, contributors: [InsightRuleContributor]? = nil, keyLabels: [String]? = nil, metricDatapoints: [InsightRuleMetricDatapoint]? = nil) {
@@ -1356,7 +1356,7 @@ extension CloudWatch {
         /// 			include as many as 500 MetricDataQuery
         /// 		structures. Each of these structures can specify either a metric to retrieve, a Metrics Insights query,
         /// 		or a math expression to perform on retrieved data.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<MetricDataQuery>>
         public var metricDataQueries: [MetricDataQuery]
         /// Include this value, if it was returned by the previous GetMetricData operation,
         /// 			to get the next set of data points.
@@ -1415,10 +1415,10 @@ extension CloudWatch {
         /// 			might be returned is Maximum number of allowed metrics exceeded. If there is a message, as much of the
         /// 			operation as possible is still executed. A message appears here only if it is related to the global GetMetricData operation. Any message
         /// 			about a specific metric returned by the operation appears in the MetricDataResult object returned for that metric.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MessageData>>
         public var messages: [MessageData]?
         /// The metrics that are returned, including the metric name, namespace, and dimensions.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricDataResult>>
         public var metricDataResults: [MetricDataResult]?
         /// A token that marks the next batch of returned results.
         public let nextToken: String?
@@ -1443,7 +1443,7 @@ extension CloudWatch {
         /// 		    You must specify the same dimensions that were used when the metrics were created. For an example,
         /// 		    see Dimension Combinations in the Amazon CloudWatch User Guide. For more information about specifying dimensions, see Publishing Metrics in the
         /// 			Amazon CloudWatch User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Dimension>>
         public var dimensions: [Dimension]?
         /// The time stamp that determines the last data point to return. The value specified is exclusive; results include data points up to the specified time stamp.
         /// 			In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
@@ -1451,7 +1451,7 @@ extension CloudWatch {
         /// The percentile statistics. Specify values between p0.0 and p100. When calling GetMetricStatistics, you must
         /// 			specify either Statistics or ExtendedStatistics, but not both. Percentile statistics are not
         /// 			available for metrics when any of the metric values are negative numbers.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var extendedStatistics: [String]?
         /// The name of the metric, with or without spaces.
         public let metricName: String
@@ -1480,7 +1480,7 @@ extension CloudWatch {
         /// The metric statistics, other than percentile. For percentile statistics,
         /// 		    use ExtendedStatistics. When calling GetMetricStatistics, you must
         /// 		specify either Statistics or ExtendedStatistics, but not both.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Statistic>>
         public var statistics: [Statistic]?
         /// The unit for a given metric.
         /// 			If you omit Unit, all data that was collected with any unit is returned, along with the corresponding units that were specified
@@ -1532,7 +1532,7 @@ extension CloudWatch {
 
     public struct GetMetricStatisticsOutput: AWSDecodableShape {
         /// The data points for the specified metric.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Datapoint>>
         public var datapoints: [Datapoint]?
         /// A label for the specified metric.
         public let label: String?
@@ -1574,7 +1574,7 @@ extension CloudWatch {
         /// If this array of metric namespaces is present, then these namespaces are the only
         /// 			metric namespaces that are not streamed by this metric stream. In this case, all other metric namespaces in
         /// 		the account are streamed by this metric stream.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricStreamFilter>>
         public var excludeFilters: [MetricStreamFilter]?
         /// The ARN of the Amazon Kinesis Data Firehose delivery stream that is used by this metric
         /// 			stream.
@@ -1582,7 +1582,7 @@ extension CloudWatch {
         /// If this array of metric namespaces is present, then these
         /// 			namespaces are the only
         /// 		metric namespaces that are streamed by this metric stream.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricStreamFilter>>
         public var includeFilters: [MetricStreamFilter]?
         /// If this is true and this metric stream is in a monitoring account, then the stream includes
         /// 			metrics from source accounts that the monitoring account is linked to.
@@ -1605,7 +1605,7 @@ extension CloudWatch {
         /// 			in the metric stream. For more information about the additional statistics, see
         ///
         /// 				CloudWatch statistics definitions.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricStreamStatisticsConfiguration>>
         public var statisticsConfigurations: [MetricStreamStatisticsConfiguration]?
 
         public init(arn: String? = nil, creationDate: Date? = nil, excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String? = nil, includeFilters: [MetricStreamFilter]? = nil, includeLinkedAccountsMetrics: Bool? = nil, lastUpdateDate: Date? = nil, name: String? = nil, outputFormat: MetricStreamOutputFormat? = nil, roleArn: String? = nil, state: String? = nil, statisticsConfigurations: [MetricStreamStatisticsConfiguration]? = nil) {
@@ -1717,10 +1717,10 @@ extension CloudWatch {
         /// An approximation of the aggregate value that comes from this contributor.
         public let approximateAggregateValue: Double
         /// An array of the data points where this contributor is present. Only the data points when this contributor appeared are included in the array.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<InsightRuleContributorDatapoint>>
         public var datapoints: [InsightRuleContributorDatapoint]
         /// One of the log entry field keywords that is used to define contributors for this rule.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var keys: [String]
 
         public init(approximateAggregateValue: Double, datapoints: [InsightRuleContributorDatapoint], keys: [String]) {
@@ -1836,7 +1836,7 @@ extension CloudWatch {
 
     public struct ListDashboardsOutput: AWSDecodableShape {
         /// The list of matching dashboards.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<DashboardEntry>>
         public var dashboardEntries: [DashboardEntry]?
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
@@ -1901,7 +1901,7 @@ extension CloudWatch {
         /// 			that are available
         /// 			for the specified Amazon Web Services resource.
         ///
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ManagedRuleDescription>>
         public var managedRules: [ManagedRuleDescription]?
         /// 			Include this value
         /// 			to get
@@ -1947,7 +1947,7 @@ extension CloudWatch {
 
     public struct ListMetricStreamsOutput: AWSDecodableShape {
         /// The array of metric stream information.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricStreamEntry>>
         public var entries: [MetricStreamEntry]?
         /// The token that marks the start of the next batch of returned results. You can use this
         /// 		token in a subsequent operation to get the next batch of results.
@@ -1967,7 +1967,7 @@ extension CloudWatch {
     public struct ListMetricsInput: AWSEncodableShape {
         /// The dimensions to filter against.  Only the dimensions that match exactly
         /// 			will be returned.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<DimensionFilter>>
         public var dimensions: [DimensionFilter]?
         /// If you are using this operation in a monitoring account,
         /// 			specify true to include metrics from source accounts in the returned data. The default is false.
@@ -2030,14 +2030,14 @@ extension CloudWatch {
 
     public struct ListMetricsOutput: AWSDecodableShape {
         /// The metrics that match your request.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Metric>>
         public var metrics: [Metric]?
         /// The token that marks the start of the next batch of returned results.
         public let nextToken: String?
         /// If you are using this operation in a monitoring account, this array contains the account IDs of the source
         /// 			accounts where the metrics in the returned data
         /// 		are from. This field is a 1:1 mapping between each metric that is returned and the ID of the owning account.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var owningAccounts: [String]?
 
         public init(metrics: [Metric]? = nil, nextToken: String? = nil, owningAccounts: [String]? = nil) {
@@ -2077,7 +2077,7 @@ extension CloudWatch {
 
     public struct ListTagsForResourceOutput: AWSDecodableShape {
         /// The list of tag keys and values associated with the resource you specified.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
         public init(tags: [Tag]? = nil) {
@@ -2121,7 +2121,7 @@ extension CloudWatch {
         /// 			of an existing rule,
         /// 			use TagResource.
         ///
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
         /// 			The template name
         /// 			for the managed Contributor Insights rule,
@@ -2230,7 +2230,7 @@ extension CloudWatch {
 
     public struct Metric: AWSEncodableShape & AWSDecodableShape {
         /// The dimensions for the metric.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Dimension>>
         public var dimensions: [Dimension]?
         /// The name of the metric. This is a required field.
         public let metricName: String?
@@ -2267,7 +2267,7 @@ extension CloudWatch {
         public let actionsEnabled: Bool?
         /// The actions to execute when this alarm transitions to the ALARM state
         /// 			from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var alarmActions: [String]?
         /// The Amazon Resource Name (ARN) of the alarm.
         public let alarmArn: String?
@@ -2283,7 +2283,7 @@ extension CloudWatch {
         /// The number of data points that must be breaching to trigger the alarm.
         public let datapointsToAlarm: Int?
         /// The dimensions for the metric associated with the alarm.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Dimension>>
         public var dimensions: [Dimension]?
         /// Used only for alarms based on percentiles. If ignore, the alarm state does not change
         /// 			during periods with too few data points to be statistically significant. If evaluate or this
@@ -2303,7 +2303,7 @@ extension CloudWatch {
         public let extendedStatistic: String?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state
         /// 			from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var insufficientDataActions: [String]?
         /// The name of the metric associated with the alarm, if this is an alarm
         /// 		based on a single metric.
@@ -2315,13 +2315,13 @@ extension CloudWatch {
         /// 			One item in the Metrics array is the math expression that the alarm watches.
         /// 			This expression by designated by having ReturnData set to
         /// 			true.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricDataQuery>>
         public var metrics: [MetricDataQuery]?
         /// The namespace of the metric associated with the alarm.
         public let namespace: String?
         /// The actions to execute when this alarm transitions to the OK state
         /// 			from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var okActions: [String]?
         /// The period, in seconds, over which the statistic is applied.
         public let period: Int?
@@ -2500,7 +2500,7 @@ extension CloudWatch {
         /// The human-readable label associated with the data.
         public let label: String?
         /// A list of messages with additional information about the data returned.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MessageData>>
         public var messages: [MessageData]?
         /// The status of the returned data. Complete indicates that all data points in the requested time range were returned.
         /// 			PartialData means that an incomplete set of data points were returned.
@@ -2511,12 +2511,12 @@ extension CloudWatch {
         /// The timestamps for the data points, formatted in Unix timestamp format. The number of
         /// 			timestamps always matches the number of values and the value for Timestamps[x] is
         /// 			Values[x].
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Date>>
         public var timestamps: [Date]?
         /// The data points for the metric corresponding to Timestamps. The number of
         /// 			values always matches the number of timestamps and the timestamp for Values[x] is
         /// 			Timestamps[x].
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Double>>
         public var values: [Double]?
 
         public init(id: String? = nil, label: String? = nil, messages: [MessageData]? = nil, statusCode: StatusCode? = nil, timestamps: [Date]? = nil, values: [Double]? = nil) {
@@ -2542,10 +2542,10 @@ extension CloudWatch {
         /// Array of numbers that is used along with the Values array. Each number in the Count array
         /// 			is the number of times the corresponding value in the Values array occurred during the period.  If you omit the Counts array, the default of 1 is used as the value for each count. If you
         /// 		include a Counts array, it must include the same amount of values as the Values array.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Double>>
         public var counts: [Double]?
         /// The dimensions associated with the metric.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Dimension>>
         public var dimensions: [Dimension]?
         /// The name of the metric.
         public let metricName: String
@@ -2574,7 +2574,7 @@ extension CloudWatch {
         /// 			Double, CloudWatch rejects values that are either too small
         /// 			or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity,
         /// 			-Infinity) are not supported.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Double>>
         public var values: [Double]?
 
         public init(counts: [Double]? = nil, dimensions: [Dimension]? = nil, metricName: String, statisticValues: StatisticSet? = nil, storageResolution: Int? = nil, timestamp: Date? = nil, unit: StandardUnit? = nil, value: Double? = nil, values: [Double]? = nil) {
@@ -2625,7 +2625,7 @@ extension CloudWatch {
         /// 			For all other expressions and metrics, set ReturnData to false.
         /// 			The designated expression must return
         /// 			a single time series.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricDataQuery>>
         public var metricDataQueries: [MetricDataQuery]?
 
         public init(metricDataQueries: [MetricDataQuery]? = nil) {
@@ -2722,7 +2722,7 @@ extension CloudWatch {
         /// The names of the metrics to either include or exclude from the metric stream.  If you omit this parameter, all metrics in the namespace are included or excluded,
         /// 		depending on whether this filter is specified as an exclude filter or an include filter. Each metric name can contain only ASCII printable characters (ASCII range 32 through 126).
         /// 			Each metric name must contain at least one non-whitespace character.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var metricNames: [String]?
         /// The name of the metric namespace for this filter. The namespace can contain only ASCII printable characters (ASCII range 32 through 126). It must
         /// 			contain at least one non-whitespace character.
@@ -2757,13 +2757,13 @@ extension CloudWatch {
         ///
         /// 				CloudWatch statistics definitions. For example, this includes
         /// 			tm98,  wm90, PR(:300), and so on.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var additionalStatistics: [String]
         /// An array of metric name and namespace pairs that stream the additional statistics listed
         /// 			in the value of the AdditionalStatistics parameter. There can be as many as
         /// 			100 pairs in the array. All metrics that match the combination of metric name and namespace will be streamed
         /// 			with the additional statistics, no matter their dimensions.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<MetricStreamStatisticsMetric>>
         public var includeMetrics: [MetricStreamStatisticsMetric]
 
         public init(additionalStatistics: [String], includeMetrics: [MetricStreamStatisticsMetric]) {
@@ -2841,7 +2841,7 @@ extension CloudWatch {
         /// 			the metric.
         public let configuration: AnomalyDetectorConfiguration?
         /// The metric dimensions to create the anomaly detection model for.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Dimension>>
         public var dimensions: [Dimension]?
         /// The metric math anomaly detector to be created. When using MetricMathAnomalyDetector, you cannot include the following parameters in the same operation:    Dimensions     MetricName     Namespace     Stat    the SingleMetricAnomalyDetector parameters of PutAnomalyDetectorInput    Instead, specify the metric math anomaly detector attributes
         /// 			as part of the property MetricMathAnomalyDetector.
@@ -2949,7 +2949,7 @@ extension CloudWatch {
         /// The actions to execute when this alarm transitions to the ALARM state from any other state.
         /// 			Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:sns:region:account-id:sns-topic-name
         /// 			| arn:aws:ssm:region:account-id:opsitem:severity
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var alarmActions: [String]?
         /// The description for the composite alarm.
         public let alarmDescription: String?
@@ -2979,16 +2979,16 @@ extension CloudWatch {
         public let alarmRule: String
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state.
         /// 			Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:sns:region:account-id:sns-topic-name
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var insufficientDataActions: [String]?
         /// The actions to execute when this alarm transitions to an OK state
         /// 			from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:sns:region:account-id:sns-topic-name
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var okActions: [String]?
         /// A list of key-value pairs to associate with the composite alarm. You can associate as many as 50 tags with an alarm. Tags can help you organize and categorize your
         /// 			resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with
         /// 			certain tag values.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
         public init(actionsEnabled: Bool? = nil, actionsSuppressor: String? = nil, actionsSuppressorExtensionPeriod: Int? = nil, actionsSuppressorWaitPeriod: Int? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String, alarmRule: String, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, tags: [Tag]? = nil) {
@@ -3073,7 +3073,7 @@ extension CloudWatch {
         /// If the input for PutDashboard was correct and the dashboard was successfully created or modified, this result is empty. If this result includes only warning messages, then the input was valid enough for the dashboard to be
         /// 			created or modified, but some elements of the dashboard
         /// 			might not render. If this result includes error messages, the input was not valid and the operation failed.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<DashboardValidationMessage>>
         public var dashboardValidationMessages: [DashboardValidationMessage]?
 
         public init(dashboardValidationMessages: [DashboardValidationMessage]? = nil) {
@@ -3102,7 +3102,7 @@ extension CloudWatch {
         /// 		permission in addition to the cloudwatch:PutInsightRule permission. If you are using this operation to update an existing Contributor Insights rule, any tags
         /// 		you specify in this parameter are ignored. To change the tags of an existing rule, use
         /// 			TagResource.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
         public init(ruleDefinition: String, ruleName: String, ruleState: String? = nil, tags: [Tag]? = nil) {
@@ -3144,7 +3144,7 @@ extension CloudWatch {
         /// 			of ManagedRules
         /// 			to enable.
         ///
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<ManagedRule>>
         public var managedRules: [ManagedRule]
 
         public init(managedRules: [ManagedRule]) {
@@ -3167,7 +3167,7 @@ extension CloudWatch {
         /// 			that lists the rules
         /// 			that could not be enabled.
         ///
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<PartialFailure>>
         public var failures: [PartialFailure]?
 
         public init(failures: [PartialFailure]? = nil) {
@@ -3185,7 +3185,7 @@ extension CloudWatch {
         public let actionsEnabled: Bool?
         /// The actions to execute when this alarm transitions to the ALARM state from any other state.
         /// 			Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SNS notification action:     arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var alarmActions: [String]?
         /// The description for the alarm.
         public let alarmDescription: String?
@@ -3203,7 +3203,7 @@ extension CloudWatch {
         /// 			Amazon CloudWatch User Guide.
         public let datapointsToAlarm: Int?
         /// The dimensions for the metric specified in MetricName.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Dimension>>
         public var dimensions: [Dimension]?
         ///  Used only for alarms based on percentiles. If you specify ignore, the alarm state does not change during periods with too few data points to be
         /// 			statistically significant. If you specify evaluate or omit this parameter, the alarm is always evaluated and possibly changes state
@@ -3222,7 +3222,7 @@ extension CloudWatch {
         public let extendedStatistic: String?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state.
         /// 			Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SNS notification action:     arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var insufficientDataActions: [String]?
         /// The name for the metric associated with the alarm. For each PutMetricAlarm
         /// 		operation, you must specify either MetricName or a Metrics array. If you are creating an alarm based on a math expression, you cannot specify this parameter, or any of the
@@ -3237,13 +3237,13 @@ extension CloudWatch {
         /// 			Namespace, Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation.
         /// 			Instead, you retrieve
         /// 		the metrics you are using in your math expression as part of the Metrics array.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricDataQuery>>
         public var metrics: [MetricDataQuery]?
         /// The namespace for the metric associated specified in MetricName.
         public let namespace: String?
         /// The actions to execute when this alarm transitions to an OK state
         /// 			from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0     arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling action:     arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SNS notification action:     arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name      SSM integration actions:     arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name      arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var okActions: [String]?
         /// The length, in seconds, used each time the metric specified in MetricName is
         /// 			evaluated. Valid values are 10, 30, and any multiple of 60.  Period is required for alarms based on static thresholds. If
@@ -3267,7 +3267,7 @@ extension CloudWatch {
         /// 			you specify in this parameter are ignored. To change the tags of an existing alarm, use
         /// 			TagResource
         /// 			or UntagResource.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
         /// The value against which the specified statistic is compared. This parameter is required for alarms based on static thresholds, but should
         /// 		not be used for alarms based on anomaly detection models.
@@ -3397,7 +3397,7 @@ extension CloudWatch {
 
     public struct PutMetricDataInput: AWSEncodableShape {
         /// The data for the metric. The array can include no more than 1000 metrics per call.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<MetricDatum>>
         public var metricData: [MetricDatum]
         /// The namespace for the metric data. You can use ASCII characters for the namespace, except for
         /// 		control characters which are not supported. To avoid conflicts
@@ -3428,7 +3428,7 @@ extension CloudWatch {
         /// If you specify this parameter, the stream sends metrics from all
         /// 			metric namespaces except for the namespaces that you specify here. You cannot include ExcludeFilters and IncludeFilters in
         /// 			the same operation.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricStreamFilter>>
         public var excludeFilters: [MetricStreamFilter]?
         /// The ARN of the Amazon Kinesis Data Firehose delivery stream to use for this metric stream.
         /// 			This Amazon Kinesis Data Firehose delivery stream must already exist and must be in the
@@ -3437,7 +3437,7 @@ extension CloudWatch {
         /// If you specify this parameter, the stream sends only the
         /// 		metrics from the metric namespaces that you specify here. You cannot include IncludeFilters and ExcludeFilters
         /// 		in the same operation.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricStreamFilter>>
         public var includeFilters: [MetricStreamFilter]?
         /// If you are creating a metric stream in a monitoring account,
         /// 			specify true to include metrics from source accounts in the metric stream.
@@ -3466,7 +3466,7 @@ extension CloudWatch {
         /// 				CloudWatch statistics definitions. If the OutputFormat
         /// 			is opentelemetry0.7, you can stream percentile statistics such as p95,
         /// 			p99.9, and so on.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricStreamStatisticsConfiguration>>
         public var statisticsConfigurations: [MetricStreamStatisticsConfiguration]?
         /// A list of key-value pairs to associate with the metric stream. You can associate as
         /// 			many as 50 tags with a metric stream. Tags can help you organize and categorize your resources. You can also use them to scope user
@@ -3475,7 +3475,7 @@ extension CloudWatch {
         /// 			you specify in this parameter are ignored. To change the tags of an existing metric stream, use
         /// 			TagResource
         /// 			or UntagResource.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
         public init(excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String, includeFilters: [MetricStreamFilter]? = nil, includeLinkedAccountsMetrics: Bool? = nil, name: String, outputFormat: MetricStreamOutputFormat, roleArn: String, statisticsConfigurations: [MetricStreamStatisticsConfiguration]? = nil, tags: [Tag]? = nil) {
@@ -3591,7 +3591,7 @@ extension CloudWatch {
 
     public struct SingleMetricAnomalyDetector: AWSEncodableShape & AWSDecodableShape {
         /// The metric dimensions to create the anomaly detection model for.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Dimension>>
         public var dimensions: [Dimension]?
         /// The name of the metric to create the anomaly detection model for.
         public let metricName: String?
@@ -3633,7 +3633,7 @@ extension CloudWatch {
         /// The array of the names of metric streams to start streaming. This is an "all or nothing" operation. If you do not have
         /// 		permission to access all of the metric streams that you list here, then none of the streams that you list
         /// 		in the operation will start streaming.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var names: [String]
 
         public init(names: [String]) {
@@ -3685,7 +3685,7 @@ extension CloudWatch {
         /// The array of the names of metric streams to stop streaming. This is an "all or nothing" operation. If you do not have
         /// 			permission to access all of the metric streams that you list here, then none of the streams that you list
         /// 			in the operation will stop streaming.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var names: [String]
 
         public init(names: [String]) {
@@ -3740,7 +3740,7 @@ extension CloudWatch {
         /// 			Reference.
         public let resourceARN: String
         /// The list of key-value pairs to associate with the alarm.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
         public init(resourceARN: String, tags: [Tag]) {
@@ -3774,7 +3774,7 @@ extension CloudWatch {
         /// 			Reference.
         public let resourceARN: String
         /// The list of tag keys to remove from the resource.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
         public init(resourceARN: String, tagKeys: [String]) {

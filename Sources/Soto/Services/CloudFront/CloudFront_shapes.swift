@@ -1327,32 +1327,28 @@ extension CloudFront {
         }
     }
 
-    public struct CopyDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distribution"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distribution", location: .body("Distribution")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
-        public let distribution: Distribution?
+    public struct CopyDistributionResult: AWSDecodableShape {
+        public let distribution: Distribution
         /// The version identifier for the current version of the staging distribution.
         public let eTag: String?
         /// The URL of the staging distribution.
         public let location: String?
 
-        public init(distribution: Distribution? = nil, eTag: String? = nil, location: String? = nil) {
+        public init(distribution: Distribution, eTag: String? = nil, location: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distribution = "Distribution"
-            case eTag = "ETag"
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.distribution = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateCachePolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -1369,38 +1365,32 @@ extension CloudFront {
             self.cachePolicyConfig = cachePolicyConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cachePolicyConfig = "CachePolicyConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateCachePolicyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cachePolicy"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cachePolicy", location: .body("CachePolicy")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
+    public struct CreateCachePolicyResult: AWSDecodableShape {
         /// A cache policy.
-        public let cachePolicy: CachePolicy?
+        public let cachePolicy: CachePolicy
         /// The current version of the cache policy.
         public let eTag: String?
         /// The fully qualified URI of the cache policy just created.
         public let location: String?
 
-        public init(cachePolicy: CachePolicy? = nil, eTag: String? = nil, location: String? = nil) {
+        public init(cachePolicy: CachePolicy, eTag: String? = nil, location: String? = nil) {
             self.cachePolicy = cachePolicy
             self.eTag = eTag
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cachePolicy = "CachePolicy"
-            case eTag = "ETag"
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.cachePolicy = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateCloudFrontOriginAccessIdentityRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -1417,38 +1407,32 @@ extension CloudFront {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateCloudFrontOriginAccessIdentityResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cloudFrontOriginAccessIdentity"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentity", location: .body("CloudFrontOriginAccessIdentity")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
+    public struct CreateCloudFrontOriginAccessIdentityResult: AWSDecodableShape {
         /// The origin access identity's information.
-        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
+        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity
         /// The current version of the origin access identity created.
         public let eTag: String?
         /// The fully qualified URI of the new origin access identity just created.
         public let location: String?
 
-        public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil, eTag: String? = nil, location: String? = nil) {
+        public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity, eTag: String? = nil, location: String? = nil) {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
             self.eTag = eTag
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
-            case eTag = "ETag"
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.cloudFrontOriginAccessIdentity = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateContinuousDeploymentPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -1465,39 +1449,33 @@ extension CloudFront {
             self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateContinuousDeploymentPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "continuousDeploymentPolicy"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "continuousDeploymentPolicy", location: .body("ContinuousDeploymentPolicy")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
+    public struct CreateContinuousDeploymentPolicyResult: AWSDecodableShape {
         /// A continuous deployment policy.
-        public let continuousDeploymentPolicy: ContinuousDeploymentPolicy?
+        public let continuousDeploymentPolicy: ContinuousDeploymentPolicy
         /// The version identifier for the current version of the continuous deployment
         /// 			policy.
         public let eTag: String?
         /// The location of the continuous deployment policy.
         public let location: String?
 
-        public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy? = nil, eTag: String? = nil, location: String? = nil) {
+        public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy, eTag: String? = nil, location: String? = nil) {
             self.continuousDeploymentPolicy = continuousDeploymentPolicy
             self.eTag = eTag
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
-            case eTag = "ETag"
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.continuousDeploymentPolicy = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -1518,38 +1496,32 @@ extension CloudFront {
             try self.distributionConfig.validate(name: "\(name).distributionConfig")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionConfig = "DistributionConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distribution"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distribution", location: .body("Distribution")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
+    public struct CreateDistributionResult: AWSDecodableShape {
         /// The distribution's information.
-        public let distribution: Distribution?
+        public let distribution: Distribution
         /// The current version of the distribution created.
         public let eTag: String?
         /// The fully qualified URI of the new distribution resource just created.
         public let location: String?
 
-        public init(distribution: Distribution? = nil, eTag: String? = nil, location: String? = nil) {
+        public init(distribution: Distribution, eTag: String? = nil, location: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distribution = "Distribution"
-            case eTag = "ETag"
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.distribution = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateDistributionWithTagsRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -1570,38 +1542,32 @@ extension CloudFront {
             try self.distributionConfigWithTags.validate(name: "\(name).distributionConfigWithTags")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionConfigWithTags = "DistributionConfigWithTags"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateDistributionWithTagsResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distribution"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distribution", location: .body("Distribution")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
+    public struct CreateDistributionWithTagsResult: AWSDecodableShape {
         /// The distribution's information.
-        public let distribution: Distribution?
+        public let distribution: Distribution
         /// The current version of the distribution created.
         public let eTag: String?
         /// The fully qualified URI of the new distribution resource just created.
         public let location: String?
 
-        public init(distribution: Distribution? = nil, eTag: String? = nil, location: String? = nil) {
+        public init(distribution: Distribution, eTag: String? = nil, location: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distribution = "Distribution"
-            case eTag = "ETag"
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.distribution = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateFieldLevelEncryptionConfigRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -1618,39 +1584,33 @@ extension CloudFront {
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionConfig = "FieldLevelEncryptionConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateFieldLevelEncryptionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryption"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "fieldLevelEncryption", location: .body("FieldLevelEncryption")),
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
+    public struct CreateFieldLevelEncryptionConfigResult: AWSDecodableShape {
         /// The current version of the field level encryption configuration. For example:
         /// 				E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Returned when you create a new field-level encryption configuration.
-        public let fieldLevelEncryption: FieldLevelEncryption?
+        public let fieldLevelEncryption: FieldLevelEncryption
         /// The fully qualified URI of the new configuration resource just created.
         public let location: String?
 
-        public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption? = nil, location: String? = nil) {
+        public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption, location: String? = nil) {
             self.eTag = eTag
             self.fieldLevelEncryption = fieldLevelEncryption
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case fieldLevelEncryption = "FieldLevelEncryption"
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.fieldLevelEncryption = try .init(from: decoder)
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateFieldLevelEncryptionProfileRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -1667,39 +1627,33 @@ extension CloudFront {
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateFieldLevelEncryptionProfileResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryptionProfile"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "fieldLevelEncryptionProfile", location: .body("FieldLevelEncryptionProfile")),
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
+    public struct CreateFieldLevelEncryptionProfileResult: AWSDecodableShape {
         /// The current version of the field level encryption profile. For example:
         /// 				E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Returned when you create a new field-level encryption profile.
-        public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile?
+        public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile
         /// The fully qualified URI of the new profile resource just created.
         public let location: String?
 
-        public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile? = nil, location: String? = nil) {
+        public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile, location: String? = nil) {
             self.eTag = eTag
             self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case fieldLevelEncryptionProfile = "FieldLevelEncryptionProfile"
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.fieldLevelEncryptionProfile = try .init(from: decoder)
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateFunctionRequest: AWSEncodableShape {
@@ -1734,34 +1688,30 @@ extension CloudFront {
         }
     }
 
-    public struct CreateFunctionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "functionSummary"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "functionSummary", location: .body("FunctionSummary")),
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
+    public struct CreateFunctionResult: AWSDecodableShape {
         /// The version identifier for the current version of the CloudFront function.
         public let eTag: String?
         /// Contains configuration information and metadata about a CloudFront function.
-        public let functionSummary: FunctionSummary?
+        public let functionSummary: FunctionSummary
         /// The URL of the CloudFront function. Use the URL to manage the function with the CloudFront
         /// 			API.
         public let location: String?
 
-        public init(eTag: String? = nil, functionSummary: FunctionSummary? = nil, location: String? = nil) {
+        public init(eTag: String? = nil, functionSummary: FunctionSummary, location: String? = nil) {
             self.eTag = eTag
             self.functionSummary = functionSummary
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case functionSummary = "FunctionSummary"
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.functionSummary = try .init(from: decoder)
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateInvalidationRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -1782,34 +1732,29 @@ extension CloudFront {
             self.invalidationBatch = invalidationBatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case invalidationBatch = "InvalidationBatch"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateInvalidationResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "invalidation"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "invalidation", location: .body("Invalidation")),
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
+    public struct CreateInvalidationResult: AWSDecodableShape {
         /// The invalidation's information.
-        public let invalidation: Invalidation?
+        public let invalidation: Invalidation
         /// The fully qualified URI of the distribution and invalidation batch request, including
         /// 			the Invalidation ID.
         public let location: String?
 
-        public init(invalidation: Invalidation? = nil, location: String? = nil) {
+        public init(invalidation: Invalidation, location: String? = nil) {
             self.invalidation = invalidation
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case invalidation = "Invalidation"
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.invalidation = try .init(from: decoder)
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateKeyGroupRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -1826,38 +1771,32 @@ extension CloudFront {
             self.keyGroupConfig = keyGroupConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case keyGroupConfig = "KeyGroupConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateKeyGroupResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "keyGroup"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "keyGroup", location: .body("KeyGroup")),
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
+    public struct CreateKeyGroupResult: AWSDecodableShape {
         /// The identifier for this version of the key group.
         public let eTag: String?
         /// The key group that was just created.
-        public let keyGroup: KeyGroup?
+        public let keyGroup: KeyGroup
         /// The URL of the key group.
         public let location: String?
 
-        public init(eTag: String? = nil, keyGroup: KeyGroup? = nil, location: String? = nil) {
+        public init(eTag: String? = nil, keyGroup: KeyGroup, location: String? = nil) {
             self.eTag = eTag
             self.keyGroup = keyGroup
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case keyGroup = "KeyGroup"
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.keyGroup = try .init(from: decoder)
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateMonitoringSubscriptionRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -1879,29 +1818,24 @@ extension CloudFront {
             self.monitoringSubscription = monitoringSubscription
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case monitoringSubscription = "MonitoringSubscription"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateMonitoringSubscriptionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "monitoringSubscription"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "monitoringSubscription", location: .body("MonitoringSubscription"))
-        ]
-
+    public struct CreateMonitoringSubscriptionResult: AWSDecodableShape {
         /// A monitoring subscription. This structure contains information about whether
         /// 			additional CloudWatch metrics are enabled for a given CloudFront distribution.
-        public let monitoringSubscription: MonitoringSubscription?
+        public let monitoringSubscription: MonitoringSubscription
 
-        public init(monitoringSubscription: MonitoringSubscription? = nil) {
+        public init(monitoringSubscription: MonitoringSubscription) {
             self.monitoringSubscription = monitoringSubscription
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case monitoringSubscription = "MonitoringSubscription"
+        public init(from decoder: Decoder) throws {
+            self.monitoringSubscription = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateOriginAccessControlRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -1918,38 +1852,32 @@ extension CloudFront {
             self.originAccessControlConfig = originAccessControlConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case originAccessControlConfig = "OriginAccessControlConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateOriginAccessControlResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originAccessControl"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "location", location: .header("Location")),
-            AWSMemberEncoding(label: "originAccessControl", location: .body("OriginAccessControl"))
-        ]
-
+    public struct CreateOriginAccessControlResult: AWSDecodableShape {
         /// The version identifier for the current version of the origin access control.
         public let eTag: String?
         /// The URL of the origin access control.
         public let location: String?
         /// Contains an origin access control.
-        public let originAccessControl: OriginAccessControl?
+        public let originAccessControl: OriginAccessControl
 
-        public init(eTag: String? = nil, location: String? = nil, originAccessControl: OriginAccessControl? = nil) {
+        public init(eTag: String? = nil, location: String? = nil, originAccessControl: OriginAccessControl) {
             self.eTag = eTag
             self.location = location
             self.originAccessControl = originAccessControl
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case location = "Location"
-            case originAccessControl = "OriginAccessControl"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+            self.originAccessControl = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateOriginRequestPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -1966,38 +1894,32 @@ extension CloudFront {
             self.originRequestPolicyConfig = originRequestPolicyConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case originRequestPolicyConfig = "OriginRequestPolicyConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateOriginRequestPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originRequestPolicy"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "location", location: .header("Location")),
-            AWSMemberEncoding(label: "originRequestPolicy", location: .body("OriginRequestPolicy"))
-        ]
-
+    public struct CreateOriginRequestPolicyResult: AWSDecodableShape {
         /// The current version of the origin request policy.
         public let eTag: String?
         /// The fully qualified URI of the origin request policy just created.
         public let location: String?
         /// An origin request policy.
-        public let originRequestPolicy: OriginRequestPolicy?
+        public let originRequestPolicy: OriginRequestPolicy
 
-        public init(eTag: String? = nil, location: String? = nil, originRequestPolicy: OriginRequestPolicy? = nil) {
+        public init(eTag: String? = nil, location: String? = nil, originRequestPolicy: OriginRequestPolicy) {
             self.eTag = eTag
             self.location = location
             self.originRequestPolicy = originRequestPolicy
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case location = "Location"
-            case originRequestPolicy = "OriginRequestPolicy"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+            self.originRequestPolicy = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreatePublicKeyRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2014,38 +1936,32 @@ extension CloudFront {
             self.publicKeyConfig = publicKeyConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case publicKeyConfig = "PublicKeyConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreatePublicKeyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "publicKey"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "location", location: .header("Location")),
-            AWSMemberEncoding(label: "publicKey", location: .body("PublicKey"))
-        ]
-
+    public struct CreatePublicKeyResult: AWSDecodableShape {
         /// The identifier for this version of the public key.
         public let eTag: String?
         /// The URL of the public key.
         public let location: String?
         /// The public key.
-        public let publicKey: PublicKey?
+        public let publicKey: PublicKey
 
-        public init(eTag: String? = nil, location: String? = nil, publicKey: PublicKey? = nil) {
+        public init(eTag: String? = nil, location: String? = nil, publicKey: PublicKey) {
             self.eTag = eTag
             self.location = location
             self.publicKey = publicKey
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case location = "Location"
-            case publicKey = "PublicKey"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+            self.publicKey = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateRealtimeLogConfigRequest: AWSEncodableShape {
@@ -2053,7 +1969,7 @@ extension CloudFront {
 
         /// Contains information about the Amazon Kinesis data stream where you are sending real-time
         /// 			log data.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<EndPoint>>
         public var endPoints: [EndPoint]
         /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the
         /// 				Amazon CloudFront Developer Guide.
@@ -2113,38 +2029,32 @@ extension CloudFront {
             try self.responseHeadersPolicyConfig.validate(name: "\(name).responseHeadersPolicyConfig")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case responseHeadersPolicyConfig = "ResponseHeadersPolicyConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateResponseHeadersPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "responseHeadersPolicy"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "location", location: .header("Location")),
-            AWSMemberEncoding(label: "responseHeadersPolicy", location: .body("ResponseHeadersPolicy"))
-        ]
-
+    public struct CreateResponseHeadersPolicyResult: AWSDecodableShape {
         /// The version identifier for the current version of the response headers policy.
         public let eTag: String?
         /// The URL of the response headers policy.
         public let location: String?
         /// Contains a response headers policy.
-        public let responseHeadersPolicy: ResponseHeadersPolicy?
+        public let responseHeadersPolicy: ResponseHeadersPolicy
 
-        public init(eTag: String? = nil, location: String? = nil, responseHeadersPolicy: ResponseHeadersPolicy? = nil) {
+        public init(eTag: String? = nil, location: String? = nil, responseHeadersPolicy: ResponseHeadersPolicy) {
             self.eTag = eTag
             self.location = location
             self.responseHeadersPolicy = responseHeadersPolicy
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case location = "Location"
-            case responseHeadersPolicy = "ResponseHeadersPolicy"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+            self.responseHeadersPolicy = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateStreamingDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2161,39 +2071,33 @@ extension CloudFront {
             self.streamingDistributionConfig = streamingDistributionConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case streamingDistributionConfig = "StreamingDistributionConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateStreamingDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "streamingDistribution"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "location", location: .header("Location")),
-            AWSMemberEncoding(label: "streamingDistribution", location: .body("StreamingDistribution"))
-        ]
-
+    public struct CreateStreamingDistributionResult: AWSDecodableShape {
         /// The current version of the streaming distribution created.
         public let eTag: String?
         /// The fully qualified URI of the new streaming distribution resource just
         /// 			created.
         public let location: String?
         /// The streaming distribution's information.
-        public let streamingDistribution: StreamingDistribution?
+        public let streamingDistribution: StreamingDistribution
 
-        public init(eTag: String? = nil, location: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
+        public init(eTag: String? = nil, location: String? = nil, streamingDistribution: StreamingDistribution) {
             self.eTag = eTag
             self.location = location
             self.streamingDistribution = streamingDistribution
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case location = "Location"
-            case streamingDistribution = "StreamingDistribution"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+            self.streamingDistribution = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateStreamingDistributionWithTagsRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2214,39 +2118,33 @@ extension CloudFront {
             try self.streamingDistributionConfigWithTags.validate(name: "\(name).streamingDistributionConfigWithTags")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case streamingDistributionConfigWithTags = "StreamingDistributionConfigWithTags"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateStreamingDistributionWithTagsResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "streamingDistribution"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "location", location: .header("Location")),
-            AWSMemberEncoding(label: "streamingDistribution", location: .body("StreamingDistribution"))
-        ]
-
+    public struct CreateStreamingDistributionWithTagsResult: AWSDecodableShape {
         /// The current version of the distribution created.
         public let eTag: String?
         /// The fully qualified URI of the new streaming distribution resource just
         /// 			created.
         public let location: String?
         /// The streaming distribution's information.
-        public let streamingDistribution: StreamingDistribution?
+        public let streamingDistribution: StreamingDistribution
 
-        public init(eTag: String? = nil, location: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
+        public init(eTag: String? = nil, location: String? = nil, streamingDistribution: StreamingDistribution) {
             self.eTag = eTag
             self.location = location
             self.streamingDistribution = streamingDistribution
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case location = "Location"
-            case streamingDistribution = "StreamingDistribution"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+            self.streamingDistribution = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CustomErrorResponse: AWSEncodableShape & AWSDecodableShape {
@@ -2911,28 +2809,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeFunctionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "functionSummary"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "functionSummary", location: .body("FunctionSummary"))
-        ]
-
+    public struct DescribeFunctionResult: AWSDecodableShape {
         /// The version identifier for the current version of the CloudFront function.
         public let eTag: String?
         /// Contains configuration information and metadata about a CloudFront function.
-        public let functionSummary: FunctionSummary?
+        public let functionSummary: FunctionSummary
 
-        public init(eTag: String? = nil, functionSummary: FunctionSummary? = nil) {
+        public init(eTag: String? = nil, functionSummary: FunctionSummary) {
             self.eTag = eTag
             self.functionSummary = functionSummary
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case functionSummary = "FunctionSummary"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.functionSummary = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Distribution: AWSDecodableShape {
@@ -3973,28 +3868,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCachePolicyConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cachePolicyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cachePolicyConfig", location: .body("CachePolicyConfig")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
-        ]
-
+    public struct GetCachePolicyConfigResult: AWSDecodableShape {
         /// The cache policy configuration.
-        public let cachePolicyConfig: CachePolicyConfig?
+        public let cachePolicyConfig: CachePolicyConfig
         /// The current version of the cache policy.
         public let eTag: String?
 
-        public init(cachePolicyConfig: CachePolicyConfig? = nil, eTag: String? = nil) {
+        public init(cachePolicyConfig: CachePolicyConfig, eTag: String? = nil) {
             self.cachePolicyConfig = cachePolicyConfig
             self.eTag = eTag
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cachePolicyConfig = "CachePolicyConfig"
-            case eTag = "ETag"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.cachePolicyConfig = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCachePolicyRequest: AWSEncodableShape {
@@ -4016,28 +3908,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCachePolicyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cachePolicy"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cachePolicy", location: .body("CachePolicy")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
-        ]
-
+    public struct GetCachePolicyResult: AWSDecodableShape {
         /// The cache policy.
-        public let cachePolicy: CachePolicy?
+        public let cachePolicy: CachePolicy
         /// The current version of the cache policy.
         public let eTag: String?
 
-        public init(cachePolicy: CachePolicy? = nil, eTag: String? = nil) {
+        public init(cachePolicy: CachePolicy, eTag: String? = nil) {
             self.cachePolicy = cachePolicy
             self.eTag = eTag
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cachePolicy = "CachePolicy"
-            case eTag = "ETag"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.cachePolicy = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCloudFrontOriginAccessIdentityConfigRequest: AWSEncodableShape {
@@ -4055,29 +3944,26 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cloudFrontOriginAccessIdentityConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentityConfig", location: .body("CloudFrontOriginAccessIdentityConfig")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
-        ]
-
+    public struct GetCloudFrontOriginAccessIdentityConfigResult: AWSDecodableShape {
         /// The origin access identity's configuration information.
-        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig?
+        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
         /// The current version of the configuration. For example:
         /// 			E2QWRUHAPOMQZL.
         public let eTag: String?
 
-        public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig? = nil, eTag: String? = nil) {
+        public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig, eTag: String? = nil) {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
             self.eTag = eTag
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
-            case eTag = "ETag"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.cloudFrontOriginAccessIdentityConfig = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCloudFrontOriginAccessIdentityRequest: AWSEncodableShape {
@@ -4095,29 +3981,26 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCloudFrontOriginAccessIdentityResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cloudFrontOriginAccessIdentity"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentity", location: .body("CloudFrontOriginAccessIdentity")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
-        ]
-
+    public struct GetCloudFrontOriginAccessIdentityResult: AWSDecodableShape {
         /// The origin access identity's information.
-        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
+        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity
         /// The current version of the origin access identity's information. For example:
         /// 				E2QWRUHAPOMQZL.
         public let eTag: String?
 
-        public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil, eTag: String? = nil) {
+        public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity, eTag: String? = nil) {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
             self.eTag = eTag
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
-            case eTag = "ETag"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.cloudFrontOriginAccessIdentity = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetContinuousDeploymentPolicyConfigRequest: AWSEncodableShape {
@@ -4136,28 +4019,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetContinuousDeploymentPolicyConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "continuousDeploymentPolicyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "continuousDeploymentPolicyConfig", location: .body("ContinuousDeploymentPolicyConfig")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
-        ]
-
-        public let continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig?
+    public struct GetContinuousDeploymentPolicyConfigResult: AWSDecodableShape {
+        public let continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig
         /// The version identifier for the current version of the continuous deployment
         /// 			policy.
         public let eTag: String?
 
-        public init(continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig? = nil, eTag: String? = nil) {
+        public init(continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig, eTag: String? = nil) {
             self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
             self.eTag = eTag
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
-            case eTag = "ETag"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.continuousDeploymentPolicyConfig = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetContinuousDeploymentPolicyRequest: AWSEncodableShape {
@@ -4175,29 +4055,26 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetContinuousDeploymentPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "continuousDeploymentPolicy"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "continuousDeploymentPolicy", location: .body("ContinuousDeploymentPolicy")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
-        ]
-
+    public struct GetContinuousDeploymentPolicyResult: AWSDecodableShape {
         /// A continuous deployment policy.
-        public let continuousDeploymentPolicy: ContinuousDeploymentPolicy?
+        public let continuousDeploymentPolicy: ContinuousDeploymentPolicy
         /// The version identifier for the current version of the continuous deployment
         /// 			policy.
         public let eTag: String?
 
-        public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy? = nil, eTag: String? = nil) {
+        public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy, eTag: String? = nil) {
             self.continuousDeploymentPolicy = continuousDeploymentPolicy
             self.eTag = eTag
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
-            case eTag = "ETag"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.continuousDeploymentPolicy = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDistributionConfigRequest: AWSEncodableShape {
@@ -4216,29 +4093,26 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDistributionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distributionConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionConfig", location: .body("DistributionConfig")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
-        ]
-
+    public struct GetDistributionConfigResult: AWSDecodableShape {
         /// The distribution's configuration information.
-        public let distributionConfig: DistributionConfig?
+        public let distributionConfig: DistributionConfig
         /// The current version of the configuration. For example:
         /// 			E2QWRUHAPOMQZL.
         public let eTag: String?
 
-        public init(distributionConfig: DistributionConfig? = nil, eTag: String? = nil) {
+        public init(distributionConfig: DistributionConfig, eTag: String? = nil) {
             self.distributionConfig = distributionConfig
             self.eTag = eTag
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionConfig = "DistributionConfig"
-            case eTag = "ETag"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.distributionConfig = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDistributionRequest: AWSEncodableShape {
@@ -4257,29 +4131,26 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distribution"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distribution", location: .body("Distribution")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
-        ]
-
+    public struct GetDistributionResult: AWSDecodableShape {
         /// The distribution's information.
-        public let distribution: Distribution?
+        public let distribution: Distribution
         /// The current version of the distribution's information. For example:
         /// 				E2QWRUHAPOMQZL.
         public let eTag: String?
 
-        public init(distribution: Distribution? = nil, eTag: String? = nil) {
+        public init(distribution: Distribution, eTag: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distribution = "Distribution"
-            case eTag = "ETag"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.distribution = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFieldLevelEncryptionConfigRequest: AWSEncodableShape {
@@ -4297,29 +4168,26 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFieldLevelEncryptionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryptionConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "fieldLevelEncryptionConfig", location: .body("FieldLevelEncryptionConfig"))
-        ]
-
+    public struct GetFieldLevelEncryptionConfigResult: AWSDecodableShape {
         /// The current version of the field level encryption configuration. For example:
         /// 				E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Return the field-level encryption configuration information.
-        public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig?
+        public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
 
-        public init(eTag: String? = nil, fieldLevelEncryptionConfig: FieldLevelEncryptionConfig? = nil) {
+        public init(eTag: String? = nil, fieldLevelEncryptionConfig: FieldLevelEncryptionConfig) {
             self.eTag = eTag
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case fieldLevelEncryptionConfig = "FieldLevelEncryptionConfig"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.fieldLevelEncryptionConfig = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFieldLevelEncryptionProfileConfigRequest: AWSEncodableShape {
@@ -4337,29 +4205,26 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFieldLevelEncryptionProfileConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryptionProfileConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "fieldLevelEncryptionProfileConfig", location: .body("FieldLevelEncryptionProfileConfig"))
-        ]
-
+    public struct GetFieldLevelEncryptionProfileConfigResult: AWSDecodableShape {
         /// The current version of the field-level encryption profile configuration result. For
         /// 			example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Return the field-level encryption profile configuration information.
-        public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig?
+        public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
 
-        public init(eTag: String? = nil, fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig? = nil) {
+        public init(eTag: String? = nil, fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig) {
             self.eTag = eTag
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.fieldLevelEncryptionProfileConfig = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFieldLevelEncryptionProfileRequest: AWSEncodableShape {
@@ -4377,29 +4242,26 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFieldLevelEncryptionProfileResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryptionProfile"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "fieldLevelEncryptionProfile", location: .body("FieldLevelEncryptionProfile"))
-        ]
-
+    public struct GetFieldLevelEncryptionProfileResult: AWSDecodableShape {
         /// The current version of the field level encryption profile. For example:
         /// 				E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Return the field-level encryption profile information.
-        public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile?
+        public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile
 
-        public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile? = nil) {
+        public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile) {
             self.eTag = eTag
             self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case fieldLevelEncryptionProfile = "FieldLevelEncryptionProfile"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.fieldLevelEncryptionProfile = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFieldLevelEncryptionRequest: AWSEncodableShape {
@@ -4417,29 +4279,26 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFieldLevelEncryptionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryption"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "fieldLevelEncryption", location: .body("FieldLevelEncryption"))
-        ]
-
+    public struct GetFieldLevelEncryptionResult: AWSDecodableShape {
         /// The current version of the field level encryption configuration. For example:
         /// 				E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Return the field-level encryption configuration information.
-        public let fieldLevelEncryption: FieldLevelEncryption?
+        public let fieldLevelEncryption: FieldLevelEncryption
 
-        public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption? = nil) {
+        public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption) {
             self.eTag = eTag
             self.fieldLevelEncryption = fieldLevelEncryption
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case fieldLevelEncryption = "FieldLevelEncryption"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.fieldLevelEncryption = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFunctionRequest: AWSEncodableShape {
@@ -4461,34 +4320,30 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetFunctionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "functionCode"
+    public struct GetFunctionResult: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "functionCode", location: .body("FunctionCode"))
-        ]
-
         /// The content type (media type) of the response.
         public let contentType: String?
         /// The version identifier for the current version of the CloudFront function.
         public let eTag: String?
         /// The function code of a CloudFront function.
-        public let functionCode: HTTPBody?
+        public let functionCode: AWSHTTPBody
 
-        public init(contentType: String? = nil, eTag: String? = nil, functionCode: HTTPBody? = nil) {
+        public init(contentType: String? = nil, eTag: String? = nil, functionCode: AWSHTTPBody) {
             self.contentType = contentType
             self.eTag = eTag
             self.functionCode = functionCode
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contentType = "Content-Type"
-            case eTag = "ETag"
-            case functionCode = "FunctionCode"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.functionCode = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetInvalidationRequest: AWSEncodableShape {
@@ -4511,24 +4366,21 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetInvalidationResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "invalidation"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "invalidation", location: .body("Invalidation"))
-        ]
-
+    public struct GetInvalidationResult: AWSDecodableShape {
         /// The invalidation's information. For more information, see Invalidation
         /// 				Complex Type.
-        public let invalidation: Invalidation?
+        public let invalidation: Invalidation
 
-        public init(invalidation: Invalidation? = nil) {
+        public init(invalidation: Invalidation) {
             self.invalidation = invalidation
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case invalidation = "Invalidation"
+        public init(from decoder: Decoder) throws {
+            self.invalidation = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetKeyGroupConfigRequest: AWSEncodableShape {
@@ -4547,28 +4399,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetKeyGroupConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "keyGroupConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "keyGroupConfig", location: .body("KeyGroupConfig"))
-        ]
-
+    public struct GetKeyGroupConfigResult: AWSDecodableShape {
         /// The identifier for this version of the key group.
         public let eTag: String?
         /// The key group configuration.
-        public let keyGroupConfig: KeyGroupConfig?
+        public let keyGroupConfig: KeyGroupConfig
 
-        public init(eTag: String? = nil, keyGroupConfig: KeyGroupConfig? = nil) {
+        public init(eTag: String? = nil, keyGroupConfig: KeyGroupConfig) {
             self.eTag = eTag
             self.keyGroupConfig = keyGroupConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case keyGroupConfig = "KeyGroupConfig"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.keyGroupConfig = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetKeyGroupRequest: AWSEncodableShape {
@@ -4587,28 +4436,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetKeyGroupResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "keyGroup"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "keyGroup", location: .body("KeyGroup"))
-        ]
-
+    public struct GetKeyGroupResult: AWSDecodableShape {
         /// The identifier for this version of the key group.
         public let eTag: String?
         /// The key group.
-        public let keyGroup: KeyGroup?
+        public let keyGroup: KeyGroup
 
-        public init(eTag: String? = nil, keyGroup: KeyGroup? = nil) {
+        public init(eTag: String? = nil, keyGroup: KeyGroup) {
             self.eTag = eTag
             self.keyGroup = keyGroup
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case keyGroup = "KeyGroup"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.keyGroup = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMonitoringSubscriptionRequest: AWSEncodableShape {
@@ -4626,24 +4472,21 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetMonitoringSubscriptionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "monitoringSubscription"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "monitoringSubscription", location: .body("MonitoringSubscription"))
-        ]
-
+    public struct GetMonitoringSubscriptionResult: AWSDecodableShape {
         /// A monitoring subscription. This structure contains information about whether
         /// 			additional CloudWatch metrics are enabled for a given CloudFront distribution.
-        public let monitoringSubscription: MonitoringSubscription?
+        public let monitoringSubscription: MonitoringSubscription
 
-        public init(monitoringSubscription: MonitoringSubscription? = nil) {
+        public init(monitoringSubscription: MonitoringSubscription) {
             self.monitoringSubscription = monitoringSubscription
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case monitoringSubscription = "MonitoringSubscription"
+        public init(from decoder: Decoder) throws {
+            self.monitoringSubscription = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetOriginAccessControlConfigRequest: AWSEncodableShape {
@@ -4661,28 +4504,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetOriginAccessControlConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originAccessControlConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "originAccessControlConfig", location: .body("OriginAccessControlConfig"))
-        ]
-
+    public struct GetOriginAccessControlConfigResult: AWSDecodableShape {
         /// The version identifier for the current version of the origin access control.
         public let eTag: String?
         /// Contains an origin access control configuration.
-        public let originAccessControlConfig: OriginAccessControlConfig?
+        public let originAccessControlConfig: OriginAccessControlConfig
 
-        public init(eTag: String? = nil, originAccessControlConfig: OriginAccessControlConfig? = nil) {
+        public init(eTag: String? = nil, originAccessControlConfig: OriginAccessControlConfig) {
             self.eTag = eTag
             self.originAccessControlConfig = originAccessControlConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case originAccessControlConfig = "OriginAccessControlConfig"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.originAccessControlConfig = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetOriginAccessControlRequest: AWSEncodableShape {
@@ -4700,28 +4540,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetOriginAccessControlResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originAccessControl"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "originAccessControl", location: .body("OriginAccessControl"))
-        ]
-
+    public struct GetOriginAccessControlResult: AWSDecodableShape {
         /// The version identifier for the current version of the origin access control.
         public let eTag: String?
         /// Contains an origin access control, including its unique identifier.
-        public let originAccessControl: OriginAccessControl?
+        public let originAccessControl: OriginAccessControl
 
-        public init(eTag: String? = nil, originAccessControl: OriginAccessControl? = nil) {
+        public init(eTag: String? = nil, originAccessControl: OriginAccessControl) {
             self.eTag = eTag
             self.originAccessControl = originAccessControl
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case originAccessControl = "OriginAccessControl"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.originAccessControl = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetOriginRequestPolicyConfigRequest: AWSEncodableShape {
@@ -4743,28 +4580,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetOriginRequestPolicyConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originRequestPolicyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "originRequestPolicyConfig", location: .body("OriginRequestPolicyConfig"))
-        ]
-
+    public struct GetOriginRequestPolicyConfigResult: AWSDecodableShape {
         /// The current version of the origin request policy.
         public let eTag: String?
         /// The origin request policy configuration.
-        public let originRequestPolicyConfig: OriginRequestPolicyConfig?
+        public let originRequestPolicyConfig: OriginRequestPolicyConfig
 
-        public init(eTag: String? = nil, originRequestPolicyConfig: OriginRequestPolicyConfig? = nil) {
+        public init(eTag: String? = nil, originRequestPolicyConfig: OriginRequestPolicyConfig) {
             self.eTag = eTag
             self.originRequestPolicyConfig = originRequestPolicyConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case originRequestPolicyConfig = "OriginRequestPolicyConfig"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.originRequestPolicyConfig = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetOriginRequestPolicyRequest: AWSEncodableShape {
@@ -4786,28 +4620,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetOriginRequestPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originRequestPolicy"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "originRequestPolicy", location: .body("OriginRequestPolicy"))
-        ]
-
+    public struct GetOriginRequestPolicyResult: AWSDecodableShape {
         /// The current version of the origin request policy.
         public let eTag: String?
         /// The origin request policy.
-        public let originRequestPolicy: OriginRequestPolicy?
+        public let originRequestPolicy: OriginRequestPolicy
 
-        public init(eTag: String? = nil, originRequestPolicy: OriginRequestPolicy? = nil) {
+        public init(eTag: String? = nil, originRequestPolicy: OriginRequestPolicy) {
             self.eTag = eTag
             self.originRequestPolicy = originRequestPolicy
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case originRequestPolicy = "OriginRequestPolicy"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.originRequestPolicy = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPublicKeyConfigRequest: AWSEncodableShape {
@@ -4825,28 +4656,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetPublicKeyConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "publicKeyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "publicKeyConfig", location: .body("PublicKeyConfig"))
-        ]
-
+    public struct GetPublicKeyConfigResult: AWSDecodableShape {
         /// The identifier for this version of the public key configuration.
         public let eTag: String?
         /// A public key configuration.
-        public let publicKeyConfig: PublicKeyConfig?
+        public let publicKeyConfig: PublicKeyConfig
 
-        public init(eTag: String? = nil, publicKeyConfig: PublicKeyConfig? = nil) {
+        public init(eTag: String? = nil, publicKeyConfig: PublicKeyConfig) {
             self.eTag = eTag
             self.publicKeyConfig = publicKeyConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case publicKeyConfig = "PublicKeyConfig"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.publicKeyConfig = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPublicKeyRequest: AWSEncodableShape {
@@ -4864,28 +4692,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetPublicKeyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "publicKey"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "publicKey", location: .body("PublicKey"))
-        ]
-
+    public struct GetPublicKeyResult: AWSDecodableShape {
         /// The identifier for this version of the public key.
         public let eTag: String?
         /// The public key.
-        public let publicKey: PublicKey?
+        public let publicKey: PublicKey
 
-        public init(eTag: String? = nil, publicKey: PublicKey? = nil) {
+        public init(eTag: String? = nil, publicKey: PublicKey) {
             self.eTag = eTag
             self.publicKey = publicKey
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case publicKey = "PublicKey"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.publicKey = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRealtimeLogConfigRequest: AWSEncodableShape {
@@ -4937,28 +4762,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetResponseHeadersPolicyConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "responseHeadersPolicyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "responseHeadersPolicyConfig", location: .body("ResponseHeadersPolicyConfig"))
-        ]
-
+    public struct GetResponseHeadersPolicyConfigResult: AWSDecodableShape {
         /// The version identifier for the current version of the response headers policy.
         public let eTag: String?
         /// Contains a response headers policy.
-        public let responseHeadersPolicyConfig: ResponseHeadersPolicyConfig?
+        public let responseHeadersPolicyConfig: ResponseHeadersPolicyConfig
 
-        public init(eTag: String? = nil, responseHeadersPolicyConfig: ResponseHeadersPolicyConfig? = nil) {
+        public init(eTag: String? = nil, responseHeadersPolicyConfig: ResponseHeadersPolicyConfig) {
             self.eTag = eTag
             self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case responseHeadersPolicyConfig = "ResponseHeadersPolicyConfig"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.responseHeadersPolicyConfig = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetResponseHeadersPolicyRequest: AWSEncodableShape {
@@ -4980,28 +4802,25 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetResponseHeadersPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "responseHeadersPolicy"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "responseHeadersPolicy", location: .body("ResponseHeadersPolicy"))
-        ]
-
+    public struct GetResponseHeadersPolicyResult: AWSDecodableShape {
         /// The version identifier for the current version of the response headers policy.
         public let eTag: String?
         /// Contains a response headers policy.
-        public let responseHeadersPolicy: ResponseHeadersPolicy?
+        public let responseHeadersPolicy: ResponseHeadersPolicy
 
-        public init(eTag: String? = nil, responseHeadersPolicy: ResponseHeadersPolicy? = nil) {
+        public init(eTag: String? = nil, responseHeadersPolicy: ResponseHeadersPolicy) {
             self.eTag = eTag
             self.responseHeadersPolicy = responseHeadersPolicy
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case responseHeadersPolicy = "ResponseHeadersPolicy"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.responseHeadersPolicy = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetStreamingDistributionConfigRequest: AWSEncodableShape {
@@ -5019,29 +4838,26 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetStreamingDistributionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "streamingDistributionConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "streamingDistributionConfig", location: .body("StreamingDistributionConfig"))
-        ]
-
+    public struct GetStreamingDistributionConfigResult: AWSDecodableShape {
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
         ///
         public let eTag: String?
         /// The streaming distribution's configuration information.
-        public let streamingDistributionConfig: StreamingDistributionConfig?
+        public let streamingDistributionConfig: StreamingDistributionConfig
 
-        public init(eTag: String? = nil, streamingDistributionConfig: StreamingDistributionConfig? = nil) {
+        public init(eTag: String? = nil, streamingDistributionConfig: StreamingDistributionConfig) {
             self.eTag = eTag
             self.streamingDistributionConfig = streamingDistributionConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case streamingDistributionConfig = "StreamingDistributionConfig"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.streamingDistributionConfig = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetStreamingDistributionRequest: AWSEncodableShape {
@@ -5059,29 +4875,26 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetStreamingDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "streamingDistribution"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "streamingDistribution", location: .body("StreamingDistribution"))
-        ]
-
+    public struct GetStreamingDistributionResult: AWSDecodableShape {
         /// The current version of the streaming distribution's information. For example:
         /// 				E2QWRUHAPOMQZL.
         public let eTag: String?
         /// The streaming distribution's information.
-        public let streamingDistribution: StreamingDistribution?
+        public let streamingDistribution: StreamingDistribution
 
-        public init(eTag: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
+        public init(eTag: String? = nil, streamingDistribution: StreamingDistribution) {
             self.eTag = eTag
             self.streamingDistribution = streamingDistribution
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case streamingDistribution = "StreamingDistribution"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.streamingDistribution = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Headers: AWSEncodableShape & AWSDecodableShape {
@@ -5455,23 +5268,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListCachePoliciesResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cachePolicyList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cachePolicyList", location: .body("CachePolicyList"))
-        ]
-
+    public struct ListCachePoliciesResult: AWSDecodableShape {
         /// A list of cache policies.
-        public let cachePolicyList: CachePolicyList?
+        public let cachePolicyList: CachePolicyList
 
-        public init(cachePolicyList: CachePolicyList? = nil) {
+        public init(cachePolicyList: CachePolicyList) {
             self.cachePolicyList = cachePolicyList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cachePolicyList = "CachePolicyList"
+        public init(from decoder: Decoder) throws {
+            self.cachePolicyList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListCloudFrontOriginAccessIdentitiesRequest: AWSEncodableShape {
@@ -5497,23 +5307,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListCloudFrontOriginAccessIdentitiesResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cloudFrontOriginAccessIdentityList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentityList", location: .body("CloudFrontOriginAccessIdentityList"))
-        ]
-
+    public struct ListCloudFrontOriginAccessIdentitiesResult: AWSDecodableShape {
         /// The CloudFrontOriginAccessIdentityList type.
-        public let cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList?
+        public let cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList
 
-        public init(cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList? = nil) {
+        public init(cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList) {
             self.cloudFrontOriginAccessIdentityList = cloudFrontOriginAccessIdentityList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cloudFrontOriginAccessIdentityList = "CloudFrontOriginAccessIdentityList"
+        public init(from decoder: Decoder) throws {
+            self.cloudFrontOriginAccessIdentityList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListConflictingAliasesRequest: AWSEncodableShape {
@@ -5553,23 +5360,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListConflictingAliasesResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "conflictingAliasesList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "conflictingAliasesList", location: .body("ConflictingAliasesList"))
-        ]
-
+    public struct ListConflictingAliasesResult: AWSDecodableShape {
         /// A list of conflicting aliases.
-        public let conflictingAliasesList: ConflictingAliasesList?
+        public let conflictingAliasesList: ConflictingAliasesList
 
-        public init(conflictingAliasesList: ConflictingAliasesList? = nil) {
+        public init(conflictingAliasesList: ConflictingAliasesList) {
             self.conflictingAliasesList = conflictingAliasesList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case conflictingAliasesList = "ConflictingAliasesList"
+        public init(from decoder: Decoder) throws {
+            self.conflictingAliasesList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListContinuousDeploymentPoliciesRequest: AWSEncodableShape {
@@ -5595,23 +5399,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListContinuousDeploymentPoliciesResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "continuousDeploymentPolicyList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "continuousDeploymentPolicyList", location: .body("ContinuousDeploymentPolicyList"))
-        ]
-
+    public struct ListContinuousDeploymentPoliciesResult: AWSDecodableShape {
         /// A list of continuous deployment policies.
-        public let continuousDeploymentPolicyList: ContinuousDeploymentPolicyList?
+        public let continuousDeploymentPolicyList: ContinuousDeploymentPolicyList
 
-        public init(continuousDeploymentPolicyList: ContinuousDeploymentPolicyList? = nil) {
+        public init(continuousDeploymentPolicyList: ContinuousDeploymentPolicyList) {
             self.continuousDeploymentPolicyList = continuousDeploymentPolicyList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case continuousDeploymentPolicyList = "ContinuousDeploymentPolicyList"
+        public init(from decoder: Decoder) throws {
+            self.continuousDeploymentPolicyList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsByCachePolicyIdRequest: AWSEncodableShape {
@@ -5640,23 +5441,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDistributionsByCachePolicyIdResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distributionIdList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionIdList", location: .body("DistributionIdList"))
-        ]
-
+    public struct ListDistributionsByCachePolicyIdResult: AWSDecodableShape {
         /// A list of distribution IDs.
-        public let distributionIdList: DistributionIdList?
+        public let distributionIdList: DistributionIdList
 
-        public init(distributionIdList: DistributionIdList? = nil) {
+        public init(distributionIdList: DistributionIdList) {
             self.distributionIdList = distributionIdList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionIdList = "DistributionIdList"
+        public init(from decoder: Decoder) throws {
+            self.distributionIdList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsByKeyGroupRequest: AWSEncodableShape {
@@ -5685,22 +5483,19 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDistributionsByKeyGroupResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distributionIdList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionIdList", location: .body("DistributionIdList"))
-        ]
+    public struct ListDistributionsByKeyGroupResult: AWSDecodableShape {
+        public let distributionIdList: DistributionIdList
 
-        public let distributionIdList: DistributionIdList?
-
-        public init(distributionIdList: DistributionIdList? = nil) {
+        public init(distributionIdList: DistributionIdList) {
             self.distributionIdList = distributionIdList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionIdList = "DistributionIdList"
+        public init(from decoder: Decoder) throws {
+            self.distributionIdList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsByOriginRequestPolicyIdRequest: AWSEncodableShape {
@@ -5730,23 +5525,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDistributionsByOriginRequestPolicyIdResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distributionIdList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionIdList", location: .body("DistributionIdList"))
-        ]
-
+    public struct ListDistributionsByOriginRequestPolicyIdResult: AWSDecodableShape {
         /// A list of distribution IDs.
-        public let distributionIdList: DistributionIdList?
+        public let distributionIdList: DistributionIdList
 
-        public init(distributionIdList: DistributionIdList? = nil) {
+        public init(distributionIdList: DistributionIdList) {
             self.distributionIdList = distributionIdList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionIdList = "DistributionIdList"
+        public init(from decoder: Decoder) throws {
+            self.distributionIdList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsByRealtimeLogConfigRequest: AWSEncodableShape {
@@ -5779,22 +5571,19 @@ extension CloudFront {
         }
     }
 
-    public struct ListDistributionsByRealtimeLogConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distributionList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionList", location: .body("DistributionList"))
-        ]
+    public struct ListDistributionsByRealtimeLogConfigResult: AWSDecodableShape {
+        public let distributionList: DistributionList
 
-        public let distributionList: DistributionList?
-
-        public init(distributionList: DistributionList? = nil) {
+        public init(distributionList: DistributionList) {
             self.distributionList = distributionList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionList = "DistributionList"
+        public init(from decoder: Decoder) throws {
+            self.distributionList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsByResponseHeadersPolicyIdRequest: AWSEncodableShape {
@@ -5824,22 +5613,19 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDistributionsByResponseHeadersPolicyIdResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distributionIdList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionIdList", location: .body("DistributionIdList"))
-        ]
+    public struct ListDistributionsByResponseHeadersPolicyIdResult: AWSDecodableShape {
+        public let distributionIdList: DistributionIdList
 
-        public let distributionIdList: DistributionIdList?
-
-        public init(distributionIdList: DistributionIdList? = nil) {
+        public init(distributionIdList: DistributionIdList) {
             self.distributionIdList = distributionIdList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionIdList = "DistributionIdList"
+        public init(from decoder: Decoder) throws {
+            self.distributionIdList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsByWebACLIdRequest: AWSEncodableShape {
@@ -5873,23 +5659,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDistributionsByWebACLIdResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distributionList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionList", location: .body("DistributionList"))
-        ]
-
+    public struct ListDistributionsByWebACLIdResult: AWSDecodableShape {
         /// The DistributionList type.
-        public let distributionList: DistributionList?
+        public let distributionList: DistributionList
 
-        public init(distributionList: DistributionList? = nil) {
+        public init(distributionList: DistributionList) {
             self.distributionList = distributionList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionList = "DistributionList"
+        public init(from decoder: Decoder) throws {
+            self.distributionList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsRequest: AWSEncodableShape {
@@ -5915,23 +5698,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListDistributionsResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distributionList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionList", location: .body("DistributionList"))
-        ]
-
+    public struct ListDistributionsResult: AWSDecodableShape {
         /// The DistributionList type.
-        public let distributionList: DistributionList?
+        public let distributionList: DistributionList
 
-        public init(distributionList: DistributionList? = nil) {
+        public init(distributionList: DistributionList) {
             self.distributionList = distributionList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionList = "DistributionList"
+        public init(from decoder: Decoder) throws {
+            self.distributionList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFieldLevelEncryptionConfigsRequest: AWSEncodableShape {
@@ -5958,24 +5738,21 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListFieldLevelEncryptionConfigsResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryptionList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fieldLevelEncryptionList", location: .body("FieldLevelEncryptionList"))
-        ]
-
+    public struct ListFieldLevelEncryptionConfigsResult: AWSDecodableShape {
         /// Returns a list of all field-level encryption configurations that have been created in
         /// 			CloudFront for this account.
-        public let fieldLevelEncryptionList: FieldLevelEncryptionList?
+        public let fieldLevelEncryptionList: FieldLevelEncryptionList
 
-        public init(fieldLevelEncryptionList: FieldLevelEncryptionList? = nil) {
+        public init(fieldLevelEncryptionList: FieldLevelEncryptionList) {
             self.fieldLevelEncryptionList = fieldLevelEncryptionList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionList = "FieldLevelEncryptionList"
+        public init(from decoder: Decoder) throws {
+            self.fieldLevelEncryptionList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFieldLevelEncryptionProfilesRequest: AWSEncodableShape {
@@ -6002,24 +5779,21 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListFieldLevelEncryptionProfilesResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryptionProfileList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fieldLevelEncryptionProfileList", location: .body("FieldLevelEncryptionProfileList"))
-        ]
-
+    public struct ListFieldLevelEncryptionProfilesResult: AWSDecodableShape {
         /// Returns a list of the field-level encryption profiles that have been created in CloudFront
         /// 			for this account.
-        public let fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList?
+        public let fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList
 
-        public init(fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList? = nil) {
+        public init(fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList) {
             self.fieldLevelEncryptionProfileList = fieldLevelEncryptionProfileList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionProfileList = "FieldLevelEncryptionProfileList"
+        public init(from decoder: Decoder) throws {
+            self.fieldLevelEncryptionProfileList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFunctionsRequest: AWSEncodableShape {
@@ -6049,23 +5823,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListFunctionsResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "functionList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionList", location: .body("FunctionList"))
-        ]
-
+    public struct ListFunctionsResult: AWSDecodableShape {
         /// A list of CloudFront functions.
-        public let functionList: FunctionList?
+        public let functionList: FunctionList
 
-        public init(functionList: FunctionList? = nil) {
+        public init(functionList: FunctionList) {
             self.functionList = functionList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionList = "FunctionList"
+        public init(from decoder: Decoder) throws {
+            self.functionList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListInvalidationsRequest: AWSEncodableShape {
@@ -6097,23 +5868,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListInvalidationsResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "invalidationList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "invalidationList", location: .body("InvalidationList"))
-        ]
-
+    public struct ListInvalidationsResult: AWSDecodableShape {
         /// Information about invalidation batches.
-        public let invalidationList: InvalidationList?
+        public let invalidationList: InvalidationList
 
-        public init(invalidationList: InvalidationList? = nil) {
+        public init(invalidationList: InvalidationList) {
             self.invalidationList = invalidationList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case invalidationList = "InvalidationList"
+        public init(from decoder: Decoder) throws {
+            self.invalidationList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListKeyGroupsRequest: AWSEncodableShape {
@@ -6138,23 +5906,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListKeyGroupsResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "keyGroupList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "keyGroupList", location: .body("KeyGroupList"))
-        ]
-
+    public struct ListKeyGroupsResult: AWSDecodableShape {
         /// A list of key groups.
-        public let keyGroupList: KeyGroupList?
+        public let keyGroupList: KeyGroupList
 
-        public init(keyGroupList: KeyGroupList? = nil) {
+        public init(keyGroupList: KeyGroupList) {
             self.keyGroupList = keyGroupList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case keyGroupList = "KeyGroupList"
+        public init(from decoder: Decoder) throws {
+            self.keyGroupList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListOriginAccessControlsRequest: AWSEncodableShape {
@@ -6179,23 +5944,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListOriginAccessControlsResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originAccessControlList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "originAccessControlList", location: .body("OriginAccessControlList"))
-        ]
-
+    public struct ListOriginAccessControlsResult: AWSDecodableShape {
         /// A list of origin access controls.
-        public let originAccessControlList: OriginAccessControlList?
+        public let originAccessControlList: OriginAccessControlList
 
-        public init(originAccessControlList: OriginAccessControlList? = nil) {
+        public init(originAccessControlList: OriginAccessControlList) {
             self.originAccessControlList = originAccessControlList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case originAccessControlList = "OriginAccessControlList"
+        public init(from decoder: Decoder) throws {
+            self.originAccessControlList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListOriginRequestPoliciesRequest: AWSEncodableShape {
@@ -6227,23 +5989,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListOriginRequestPoliciesResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originRequestPolicyList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "originRequestPolicyList", location: .body("OriginRequestPolicyList"))
-        ]
-
+    public struct ListOriginRequestPoliciesResult: AWSDecodableShape {
         /// A list of origin request policies.
-        public let originRequestPolicyList: OriginRequestPolicyList?
+        public let originRequestPolicyList: OriginRequestPolicyList
 
-        public init(originRequestPolicyList: OriginRequestPolicyList? = nil) {
+        public init(originRequestPolicyList: OriginRequestPolicyList) {
             self.originRequestPolicyList = originRequestPolicyList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case originRequestPolicyList = "OriginRequestPolicyList"
+        public init(from decoder: Decoder) throws {
+            self.originRequestPolicyList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPublicKeysRequest: AWSEncodableShape {
@@ -6269,24 +6028,21 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListPublicKeysResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "publicKeyList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "publicKeyList", location: .body("PublicKeyList"))
-        ]
-
+    public struct ListPublicKeysResult: AWSDecodableShape {
         /// Returns a list of all public keys that have been added to CloudFront for this
         /// 			account.
-        public let publicKeyList: PublicKeyList?
+        public let publicKeyList: PublicKeyList
 
-        public init(publicKeyList: PublicKeyList? = nil) {
+        public init(publicKeyList: PublicKeyList) {
             self.publicKeyList = publicKeyList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case publicKeyList = "PublicKeyList"
+        public init(from decoder: Decoder) throws {
+            self.publicKeyList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRealtimeLogConfigsRequest: AWSEncodableShape {
@@ -6312,23 +6068,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListRealtimeLogConfigsResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "realtimeLogConfigs"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "realtimeLogConfigs", location: .body("RealtimeLogConfigs"))
-        ]
-
+    public struct ListRealtimeLogConfigsResult: AWSDecodableShape {
         /// A list of real-time log configurations.
-        public let realtimeLogConfigs: RealtimeLogConfigs?
+        public let realtimeLogConfigs: RealtimeLogConfigs
 
-        public init(realtimeLogConfigs: RealtimeLogConfigs? = nil) {
+        public init(realtimeLogConfigs: RealtimeLogConfigs) {
             self.realtimeLogConfigs = realtimeLogConfigs
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case realtimeLogConfigs = "RealtimeLogConfigs"
+        public init(from decoder: Decoder) throws {
+            self.realtimeLogConfigs = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListResponseHeadersPoliciesRequest: AWSEncodableShape {
@@ -6360,23 +6113,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListResponseHeadersPoliciesResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "responseHeadersPolicyList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "responseHeadersPolicyList", location: .body("ResponseHeadersPolicyList"))
-        ]
-
+    public struct ListResponseHeadersPoliciesResult: AWSDecodableShape {
         /// A list of response headers policies.
-        public let responseHeadersPolicyList: ResponseHeadersPolicyList?
+        public let responseHeadersPolicyList: ResponseHeadersPolicyList
 
-        public init(responseHeadersPolicyList: ResponseHeadersPolicyList? = nil) {
+        public init(responseHeadersPolicyList: ResponseHeadersPolicyList) {
             self.responseHeadersPolicyList = responseHeadersPolicyList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case responseHeadersPolicyList = "ResponseHeadersPolicyList"
+        public init(from decoder: Decoder) throws {
+            self.responseHeadersPolicyList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListStreamingDistributionsRequest: AWSEncodableShape {
@@ -6398,23 +6148,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListStreamingDistributionsResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "streamingDistributionList"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "streamingDistributionList", location: .body("StreamingDistributionList"))
-        ]
-
+    public struct ListStreamingDistributionsResult: AWSDecodableShape {
         /// The StreamingDistributionList type.
-        public let streamingDistributionList: StreamingDistributionList?
+        public let streamingDistributionList: StreamingDistributionList
 
-        public init(streamingDistributionList: StreamingDistributionList? = nil) {
+        public init(streamingDistributionList: StreamingDistributionList) {
             self.streamingDistributionList = streamingDistributionList
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case streamingDistributionList = "StreamingDistributionList"
+        public init(from decoder: Decoder) throws {
+            self.streamingDistributionList = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
@@ -6436,13 +6183,7 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "tags"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tags", location: .body("Tags"))
-        ]
-
+    public struct ListTagsForResourceResult: AWSDecodableShape {
         /// A complex type that contains zero or more Tag elements.
         public let tags: Tags
 
@@ -6450,9 +6191,12 @@ extension CloudFront {
             self.tags = tags
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
+        public init(from decoder: Decoder) throws {
+            self.tags = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct LoggingConfig: AWSEncodableShape & AWSDecodableShape {
@@ -7325,23 +7069,20 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PublishFunctionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "functionSummary"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionSummary", location: .body("FunctionSummary"))
-        ]
-
+    public struct PublishFunctionResult: AWSDecodableShape {
         /// Contains configuration information and metadata about a CloudFront function.
-        public let functionSummary: FunctionSummary?
+        public let functionSummary: FunctionSummary
 
-        public init(functionSummary: FunctionSummary? = nil) {
+        public init(functionSummary: FunctionSummary) {
             self.functionSummary = functionSummary
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case functionSummary = "FunctionSummary"
+        public init(from decoder: Decoder) throws {
+            self.functionSummary = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct QueryArgProfile: AWSEncodableShape & AWSDecodableShape {
@@ -7451,7 +7192,7 @@ extension CloudFront {
         public let arn: String
         /// Contains information about the Amazon Kinesis data stream where you are sending real-time
         /// 			log data for this real-time log configuration.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<EndPoint>>
         public var endPoints: [EndPoint]
         /// A list of fields that are included in each real-time log record. In an API response,
         /// 			the fields are provided in the same order in which they are sent to the Amazon Kinesis data
@@ -7488,7 +7229,7 @@ extension CloudFront {
         /// 			contained in this list.
         public let isTruncated: Bool
         /// Contains the list of real-time log configurations.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<RealtimeLogConfig>>
         public var items: [RealtimeLogConfig]?
         /// This parameter indicates where this list of real-time log configurations begins. This
         /// 			list includes real-time log configurations that occur after the marker.
@@ -8558,9 +8299,7 @@ extension CloudFront {
             try self.tags.validate(name: "\(name).tags")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case tags = "Tags"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Tags: AWSEncodableShape & AWSDecodableShape {
@@ -8620,24 +8359,21 @@ extension CloudFront {
         }
     }
 
-    public struct TestFunctionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "testResult"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "testResult", location: .body("TestResult"))
-        ]
-
+    public struct TestFunctionResult: AWSDecodableShape {
         /// An object that represents the result of running the function with the provided event
         /// 			object.
-        public let testResult: TestResult?
+        public let testResult: TestResult
 
-        public init(testResult: TestResult? = nil) {
+        public init(testResult: TestResult) {
             self.testResult = testResult
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case testResult = "TestResult"
+        public init(from decoder: Decoder) throws {
+            self.testResult = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct TestResult: AWSDecodableShape {
@@ -8649,7 +8385,7 @@ extension CloudFront {
         /// 			message.
         public let functionErrorMessage: String?
         /// Contains the log lines that the function wrote (if any) when running the test.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var functionExecutionLogs: [String]?
         /// The event object returned by the function. For more information about the structure of
         /// 			the event object, see Event
@@ -8772,9 +8508,7 @@ extension CloudFront {
             try self.tagKeys.validate(name: "\(name).tagKeys")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case tagKeys = "TagKeys"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateCachePolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -8803,33 +8537,28 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cachePolicyConfig = "CachePolicyConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateCachePolicyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cachePolicy"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cachePolicy", location: .body("CachePolicy")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
-        ]
-
+    public struct UpdateCachePolicyResult: AWSDecodableShape {
         /// A cache policy.
-        public let cachePolicy: CachePolicy?
+        public let cachePolicy: CachePolicy
         /// The current version of the cache policy.
         public let eTag: String?
 
-        public init(cachePolicy: CachePolicy? = nil, eTag: String? = nil) {
+        public init(cachePolicy: CachePolicy, eTag: String? = nil) {
             self.cachePolicy = cachePolicy
             self.eTag = eTag
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cachePolicy = "CachePolicy"
-            case eTag = "ETag"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.cachePolicy = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -8855,34 +8584,29 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cloudFrontOriginAccessIdentityConfig = "CloudFrontOriginAccessIdentityConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateCloudFrontOriginAccessIdentityResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cloudFrontOriginAccessIdentity"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentity", location: .body("CloudFrontOriginAccessIdentity")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
-        ]
-
+    public struct UpdateCloudFrontOriginAccessIdentityResult: AWSDecodableShape {
         /// The origin access identity's information.
-        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
+        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity
         /// The current version of the configuration. For example:
         /// 			E2QWRUHAPOMQZL.
         public let eTag: String?
 
-        public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil, eTag: String? = nil) {
+        public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity, eTag: String? = nil) {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
             self.eTag = eTag
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cloudFrontOriginAccessIdentity = "CloudFrontOriginAccessIdentity"
-            case eTag = "ETag"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.cloudFrontOriginAccessIdentity = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateContinuousDeploymentPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -8908,34 +8632,29 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case continuousDeploymentPolicyConfig = "ContinuousDeploymentPolicyConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateContinuousDeploymentPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "continuousDeploymentPolicy"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "continuousDeploymentPolicy", location: .body("ContinuousDeploymentPolicy")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
-        ]
-
+    public struct UpdateContinuousDeploymentPolicyResult: AWSDecodableShape {
         /// A continuous deployment policy.
-        public let continuousDeploymentPolicy: ContinuousDeploymentPolicy?
+        public let continuousDeploymentPolicy: ContinuousDeploymentPolicy
         /// The version identifier for the current version of the continuous deployment
         /// 			policy.
         public let eTag: String?
 
-        public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy? = nil, eTag: String? = nil) {
+        public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy, eTag: String? = nil) {
             self.continuousDeploymentPolicy = continuousDeploymentPolicy
             self.eTag = eTag
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case continuousDeploymentPolicy = "ContinuousDeploymentPolicy"
-            case eTag = "ETag"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.continuousDeploymentPolicy = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -8965,34 +8684,29 @@ extension CloudFront {
             try self.distributionConfig.validate(name: "\(name).distributionConfig")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distributionConfig = "DistributionConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distribution"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distribution", location: .body("Distribution")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
-        ]
-
+    public struct UpdateDistributionResult: AWSDecodableShape {
         /// The distribution's information.
-        public let distribution: Distribution?
+        public let distribution: Distribution
         /// The current version of the configuration. For example:
         /// 			E2QWRUHAPOMQZL.
         public let eTag: String?
 
-        public init(distribution: Distribution? = nil, eTag: String? = nil) {
+        public init(distribution: Distribution, eTag: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distribution = "Distribution"
-            case eTag = "ETag"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.distribution = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateDistributionWithStagingConfigRequest: AWSEncodableShape {
@@ -9020,27 +8734,24 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateDistributionWithStagingConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distribution"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distribution", location: .body("Distribution")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag"))
-        ]
-
-        public let distribution: Distribution?
+    public struct UpdateDistributionWithStagingConfigResult: AWSDecodableShape {
+        public let distribution: Distribution
         /// The current version of the primary distribution (after it's updated).
         public let eTag: String?
 
-        public init(distribution: Distribution? = nil, eTag: String? = nil) {
+        public init(distribution: Distribution, eTag: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case distribution = "Distribution"
-            case eTag = "ETag"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.distribution = try .init(from: decoder)
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateFieldLevelEncryptionConfigRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -9066,34 +8777,29 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionConfig = "FieldLevelEncryptionConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateFieldLevelEncryptionConfigResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryption"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "fieldLevelEncryption", location: .body("FieldLevelEncryption"))
-        ]
-
+    public struct UpdateFieldLevelEncryptionConfigResult: AWSDecodableShape {
         /// The value of the ETag header that you received when updating the
         /// 			configuration. For example: E2QWRUHAPOMQZL.
         public let eTag: String?
         /// Return the results of updating the configuration.
-        public let fieldLevelEncryption: FieldLevelEncryption?
+        public let fieldLevelEncryption: FieldLevelEncryption
 
-        public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption? = nil) {
+        public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption) {
             self.eTag = eTag
             self.fieldLevelEncryption = fieldLevelEncryption
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case fieldLevelEncryption = "FieldLevelEncryption"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.fieldLevelEncryption = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateFieldLevelEncryptionProfileRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -9119,33 +8825,28 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case fieldLevelEncryptionProfileConfig = "FieldLevelEncryptionProfileConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateFieldLevelEncryptionProfileResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryptionProfile"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "fieldLevelEncryptionProfile", location: .body("FieldLevelEncryptionProfile"))
-        ]
-
+    public struct UpdateFieldLevelEncryptionProfileResult: AWSDecodableShape {
         /// The result of the field-level encryption profile request.
         public let eTag: String?
         /// Return the results of updating the profile.
-        public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile?
+        public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile
 
-        public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile? = nil) {
+        public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile) {
             self.eTag = eTag
             self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case fieldLevelEncryptionProfile = "FieldLevelEncryptionProfile"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.fieldLevelEncryptionProfile = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateFunctionRequest: AWSEncodableShape {
@@ -9184,28 +8885,25 @@ extension CloudFront {
         }
     }
 
-    public struct UpdateFunctionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "functionSummary"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETtag")),
-            AWSMemberEncoding(label: "functionSummary", location: .body("FunctionSummary"))
-        ]
-
+    public struct UpdateFunctionResult: AWSDecodableShape {
         /// The version identifier for the current version of the CloudFront function.
         public let eTag: String?
         /// Contains configuration information and metadata about a CloudFront function.
-        public let functionSummary: FunctionSummary?
+        public let functionSummary: FunctionSummary
 
-        public init(eTag: String? = nil, functionSummary: FunctionSummary? = nil) {
+        public init(eTag: String? = nil, functionSummary: FunctionSummary) {
             self.eTag = eTag
             self.functionSummary = functionSummary
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETtag"
-            case functionSummary = "FunctionSummary"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETtag")
+            self.functionSummary = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateKeyGroupRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -9231,33 +8929,28 @@ extension CloudFront {
             self.keyGroupConfig = keyGroupConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case keyGroupConfig = "KeyGroupConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateKeyGroupResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "keyGroup"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "keyGroup", location: .body("KeyGroup"))
-        ]
-
+    public struct UpdateKeyGroupResult: AWSDecodableShape {
         /// The identifier for this version of the key group.
         public let eTag: String?
         /// The key group that was just updated.
-        public let keyGroup: KeyGroup?
+        public let keyGroup: KeyGroup
 
-        public init(eTag: String? = nil, keyGroup: KeyGroup? = nil) {
+        public init(eTag: String? = nil, keyGroup: KeyGroup) {
             self.eTag = eTag
             self.keyGroup = keyGroup
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case keyGroup = "KeyGroup"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.keyGroup = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateOriginAccessControlRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -9283,33 +8976,28 @@ extension CloudFront {
             self.originAccessControlConfig = originAccessControlConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case originAccessControlConfig = "OriginAccessControlConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateOriginAccessControlResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originAccessControl"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "originAccessControl", location: .body("OriginAccessControl"))
-        ]
-
+    public struct UpdateOriginAccessControlResult: AWSDecodableShape {
         /// The new version of the origin access control after it has been updated.
         public let eTag: String?
         /// The origin access control after it has been updated.
-        public let originAccessControl: OriginAccessControl?
+        public let originAccessControl: OriginAccessControl
 
-        public init(eTag: String? = nil, originAccessControl: OriginAccessControl? = nil) {
+        public init(eTag: String? = nil, originAccessControl: OriginAccessControl) {
             self.eTag = eTag
             self.originAccessControl = originAccessControl
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case originAccessControl = "OriginAccessControl"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.originAccessControl = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateOriginRequestPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -9338,33 +9026,28 @@ extension CloudFront {
             self.originRequestPolicyConfig = originRequestPolicyConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case originRequestPolicyConfig = "OriginRequestPolicyConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateOriginRequestPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originRequestPolicy"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "originRequestPolicy", location: .body("OriginRequestPolicy"))
-        ]
-
+    public struct UpdateOriginRequestPolicyResult: AWSDecodableShape {
         /// The current version of the origin request policy.
         public let eTag: String?
         /// An origin request policy.
-        public let originRequestPolicy: OriginRequestPolicy?
+        public let originRequestPolicy: OriginRequestPolicy
 
-        public init(eTag: String? = nil, originRequestPolicy: OriginRequestPolicy? = nil) {
+        public init(eTag: String? = nil, originRequestPolicy: OriginRequestPolicy) {
             self.eTag = eTag
             self.originRequestPolicy = originRequestPolicy
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case originRequestPolicy = "OriginRequestPolicy"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.originRequestPolicy = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdatePublicKeyRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -9390,33 +9073,28 @@ extension CloudFront {
             self.publicKeyConfig = publicKeyConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case publicKeyConfig = "PublicKeyConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdatePublicKeyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "publicKey"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "publicKey", location: .body("PublicKey"))
-        ]
-
+    public struct UpdatePublicKeyResult: AWSDecodableShape {
         /// The identifier of the current version of the public key.
         public let eTag: String?
         /// The public key.
-        public let publicKey: PublicKey?
+        public let publicKey: PublicKey
 
-        public init(eTag: String? = nil, publicKey: PublicKey? = nil) {
+        public init(eTag: String? = nil, publicKey: PublicKey) {
             self.eTag = eTag
             self.publicKey = publicKey
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case publicKey = "PublicKey"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.publicKey = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateRealtimeLogConfigRequest: AWSEncodableShape {
@@ -9426,7 +9104,7 @@ extension CloudFront {
         public let arn: String?
         /// Contains information about the Amazon Kinesis data stream where you are sending real-time
         /// 			log data.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<EndPoint>>
         public var endPoints: [EndPoint]?
         /// A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the
         /// 				Amazon CloudFront Developer Guide.
@@ -9496,33 +9174,28 @@ extension CloudFront {
             try self.responseHeadersPolicyConfig.validate(name: "\(name).responseHeadersPolicyConfig")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case responseHeadersPolicyConfig = "ResponseHeadersPolicyConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateResponseHeadersPolicyResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "responseHeadersPolicy"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "responseHeadersPolicy", location: .body("ResponseHeadersPolicy"))
-        ]
-
+    public struct UpdateResponseHeadersPolicyResult: AWSDecodableShape {
         /// The current version of the response headers policy.
         public let eTag: String?
         /// A response headers policy.
-        public let responseHeadersPolicy: ResponseHeadersPolicy?
+        public let responseHeadersPolicy: ResponseHeadersPolicy
 
-        public init(eTag: String? = nil, responseHeadersPolicy: ResponseHeadersPolicy? = nil) {
+        public init(eTag: String? = nil, responseHeadersPolicy: ResponseHeadersPolicy) {
             self.eTag = eTag
             self.responseHeadersPolicy = responseHeadersPolicy
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case responseHeadersPolicy = "ResponseHeadersPolicy"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.responseHeadersPolicy = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateStreamingDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -9548,34 +9221,29 @@ extension CloudFront {
             self.streamingDistributionConfig = streamingDistributionConfig
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case streamingDistributionConfig = "StreamingDistributionConfig"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateStreamingDistributionResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "streamingDistribution"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "streamingDistribution", location: .body("StreamingDistribution"))
-        ]
-
+    public struct UpdateStreamingDistributionResult: AWSDecodableShape {
         /// The current version of the configuration. For example:
         /// 			E2QWRUHAPOMQZL.
         public let eTag: String?
         /// The streaming distribution's information.
-        public let streamingDistribution: StreamingDistribution?
+        public let streamingDistribution: StreamingDistribution
 
-        public init(eTag: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
+        public init(eTag: String? = nil, streamingDistribution: StreamingDistribution) {
             self.eTag = eTag
             self.streamingDistribution = streamingDistribution
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eTag = "ETag"
-            case streamingDistribution = "StreamingDistribution"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.streamingDistribution = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ViewerCertificate: AWSEncodableShape & AWSDecodableShape {

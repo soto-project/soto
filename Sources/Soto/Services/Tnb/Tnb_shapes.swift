@@ -523,28 +523,26 @@ extension Tnb {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSolFunctionPackageContentOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "packageContent"
+    public struct GetSolFunctionPackageContentOutput: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
-        ]
-
         /// Indicates the media type of the resource.
         public let contentType: PackageContentType?
         /// Contents of the function package.
-        public let packageContent: HTTPBody?
+        public let packageContent: AWSHTTPBody
 
-        public init(contentType: PackageContentType? = nil, packageContent: HTTPBody? = nil) {
+        public init(contentType: PackageContentType? = nil, packageContent: AWSHTTPBody) {
             self.contentType = contentType
             self.packageContent = packageContent
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contentType = "Content-Type"
-            case packageContent = "packageContent"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.contentType = try response.decodeIfPresent(PackageContentType.self, forHeader: "Content-Type")
+            self.packageContent = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSolFunctionPackageDescriptorInput: AWSEncodableShape {
@@ -570,28 +568,26 @@ extension Tnb {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSolFunctionPackageDescriptorOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "vnfd"
+    public struct GetSolFunctionPackageDescriptorOutput: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
-        ]
-
         /// Indicates the media type of the resource.
         public let contentType: DescriptorContentType?
         /// Contents of the function package descriptor.
-        public let vnfd: HTTPBody?
+        public let vnfd: AWSHTTPBody
 
-        public init(contentType: DescriptorContentType? = nil, vnfd: HTTPBody? = nil) {
+        public init(contentType: DescriptorContentType? = nil, vnfd: AWSHTTPBody) {
             self.contentType = contentType
             self.vnfd = vnfd
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contentType = "Content-Type"
-            case vnfd = "vnfd"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.contentType = try response.decodeIfPresent(DescriptorContentType.self, forHeader: "Content-Type")
+            self.vnfd = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSolFunctionPackageInput: AWSEncodableShape {
@@ -919,28 +915,26 @@ extension Tnb {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSolNetworkPackageContentOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "nsdContent"
+    public struct GetSolNetworkPackageContentOutput: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
-        ]
-
         /// Indicates the media type of the resource.
         public let contentType: PackageContentType?
         /// Content of the network service descriptor in the network package.
-        public let nsdContent: HTTPBody?
+        public let nsdContent: AWSHTTPBody
 
-        public init(contentType: PackageContentType? = nil, nsdContent: HTTPBody? = nil) {
+        public init(contentType: PackageContentType? = nil, nsdContent: AWSHTTPBody) {
             self.contentType = contentType
             self.nsdContent = nsdContent
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contentType = "Content-Type"
-            case nsdContent = "nsdContent"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.contentType = try response.decodeIfPresent(PackageContentType.self, forHeader: "Content-Type")
+            self.nsdContent = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSolNetworkPackageDescriptorInput: AWSEncodableShape {
@@ -962,28 +956,26 @@ extension Tnb {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSolNetworkPackageDescriptorOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "nsd"
+    public struct GetSolNetworkPackageDescriptorOutput: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
-        ]
-
         /// Indicates the media type of the resource.
         public let contentType: DescriptorContentType?
         /// Contents of the network service descriptor in the network package.
-        public let nsd: HTTPBody?
+        public let nsd: AWSHTTPBody
 
-        public init(contentType: DescriptorContentType? = nil, nsd: HTTPBody? = nil) {
+        public init(contentType: DescriptorContentType? = nil, nsd: AWSHTTPBody) {
             self.contentType = contentType
             self.nsd = nsd
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case contentType = "Content-Type"
-            case nsd = "nsd"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.contentType = try response.decodeIfPresent(DescriptorContentType.self, forHeader: "Content-Type")
+            self.nsd = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSolNetworkPackageInput: AWSEncodableShape {
@@ -1759,11 +1751,11 @@ extension Tnb {
         /// Function package content type.
         public let contentType: PackageContentType?
         /// Function package file.
-        public let file: HTTPBody
+        public let file: AWSHTTPBody
         /// Function package ID.
         public let vnfPkgId: String
 
-        public init(contentType: PackageContentType? = nil, file: HTTPBody, vnfPkgId: String) {
+        public init(contentType: PackageContentType? = nil, file: AWSHTTPBody, vnfPkgId: String) {
             self.contentType = contentType
             self.file = file
             self.vnfPkgId = vnfPkgId
@@ -1833,11 +1825,11 @@ extension Tnb {
         /// Network package content type.
         public let contentType: PackageContentType?
         /// Network package file.
-        public let file: HTTPBody
+        public let file: AWSHTTPBody
         /// Network service descriptor info ID.
         public let nsdInfoId: String
 
-        public init(contentType: PackageContentType? = nil, file: HTTPBody, nsdInfoId: String) {
+        public init(contentType: PackageContentType? = nil, file: AWSHTTPBody, nsdInfoId: String) {
             self.contentType = contentType
             self.file = file
             self.nsdInfoId = nsdInfoId
@@ -2188,11 +2180,11 @@ extension Tnb {
         /// Function package content type.
         public let contentType: PackageContentType?
         /// Function package file.
-        public let file: HTTPBody
+        public let file: AWSHTTPBody
         /// Function package ID.
         public let vnfPkgId: String
 
-        public init(contentType: PackageContentType? = nil, file: HTTPBody, vnfPkgId: String) {
+        public init(contentType: PackageContentType? = nil, file: AWSHTTPBody, vnfPkgId: String) {
             self.contentType = contentType
             self.file = file
             self.vnfPkgId = vnfPkgId
@@ -2262,11 +2254,11 @@ extension Tnb {
         /// Network package content type.
         public let contentType: PackageContentType?
         /// Network package file.
-        public let file: HTTPBody
+        public let file: AWSHTTPBody
         /// Network service descriptor file.
         public let nsdInfoId: String
 
-        public init(contentType: PackageContentType? = nil, file: HTTPBody, nsdInfoId: String) {
+        public init(contentType: PackageContentType? = nil, file: AWSHTTPBody, nsdInfoId: String) {
             self.contentType = contentType
             self.file = file
             self.nsdInfoId = nsdInfoId
