@@ -4687,9 +4687,7 @@ extension IoT {
             try self.topicRulePayload.validate(name: "\(name).topicRulePayload")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case topicRulePayload = "topicRulePayload"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CustomCodeSigning: AWSEncodableShape & AWSDecodableShape {
@@ -13957,9 +13955,7 @@ extension IoT {
             try self.topicRulePayload.validate(name: "\(name).topicRulePayload")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case topicRulePayload = "topicRulePayload"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RepublishAction: AWSEncodableShape & AWSDecodableShape {
@@ -14490,9 +14486,7 @@ extension IoT {
             self.loggingOptionsPayload = loggingOptionsPayload
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case loggingOptionsPayload = "loggingOptionsPayload"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SetV2LoggingLevelRequest: AWSEncodableShape {

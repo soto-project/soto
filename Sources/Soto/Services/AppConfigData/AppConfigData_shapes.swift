@@ -47,20 +47,10 @@ extension AppConfigData {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetLatestConfigurationResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "configuration"
+    public struct GetLatestConfigurationResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configuration", location: .body("Configuration")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "nextPollConfigurationToken", location: .header("Next-Poll-Configuration-Token")),
-            AWSMemberEncoding(label: "nextPollIntervalInSeconds", location: .header("Next-Poll-Interval-In-Seconds")),
-            AWSMemberEncoding(label: "versionLabel", location: .header("Version-Label"))
-        ]
-
         /// The data of the configuration. This may be empty if the client already has the latest version of configuration.
-        public let configuration: HTTPBody?
+        public let configuration: AWSHTTPBody
         /// A standard MIME type describing the format of the configuration content.
         public let contentType: String?
         /// The latest token describing the current state of the configuration session. This must be provided to the next call to GetLatestConfiguration.   This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
@@ -70,7 +60,7 @@ extension AppConfigData {
         /// The user-defined label for the AppConfig hosted configuration version. This attribute doesn't apply if the configuration is not from an AppConfig hosted configuration version. If the client already has the latest version of the configuration data, this value is empty.
         public let versionLabel: String?
 
-        public init(configuration: HTTPBody? = nil, contentType: String? = nil, nextPollConfigurationToken: String? = nil, nextPollIntervalInSeconds: Int? = nil, versionLabel: String? = nil) {
+        public init(configuration: AWSHTTPBody, contentType: String? = nil, nextPollConfigurationToken: String? = nil, nextPollIntervalInSeconds: Int? = nil, versionLabel: String? = nil) {
             self.configuration = configuration
             self.contentType = contentType
             self.nextPollConfigurationToken = nextPollConfigurationToken
@@ -78,13 +68,17 @@ extension AppConfigData {
             self.versionLabel = versionLabel
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configuration = "Configuration"
-            case contentType = "Content-Type"
-            case nextPollConfigurationToken = "Next-Poll-Configuration-Token"
-            case nextPollIntervalInSeconds = "Next-Poll-Interval-In-Seconds"
-            case versionLabel = "Version-Label"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.configuration = response.decodePayload()
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+            self.nextPollConfigurationToken = try response.decodeIfPresent(String.self, forHeader: "Next-Poll-Configuration-Token")
+            self.nextPollIntervalInSeconds = try response.decodeIfPresent(Int.self, forHeader: "Next-Poll-Interval-In-Seconds")
+            self.versionLabel = try response.decodeIfPresent(String.self, forHeader: "Version-Label")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StartConfigurationSessionRequest: AWSEncodableShape {

@@ -185,7 +185,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct AddListenerCertificatesInput: AWSEncodableShape {
         /// The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<Certificate>>
         public var certificates: [Certificate]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -203,7 +203,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct AddListenerCertificatesOutput: AWSDecodableShape {
         /// Information about the certificates in the certificate list.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Certificate>>
         public var certificates: [Certificate]?
 
         public init(certificates: [Certificate]? = nil) {
@@ -217,10 +217,10 @@ extension ElasticLoadBalancingV2 {
 
     public struct AddTagsInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var resourceArns: [String]
         /// The tags.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
         public init(resourceArns: [String], tags: [Tag]) {
@@ -247,7 +247,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct AuthenticateCognitoActionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
-        @OptionalCustomCoding<StandardDictionaryCoder>
+        @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var authenticationRequestExtraParams: [String: String]?
         /// The behavior if the user is not authenticated. The following are possible values:   deny - Return an HTTP 401 Unauthorized error.   allow - Allow the request to be forwarded to the target.   authenticate - Redirect the request to the IdP authorization endpoint. This is the default value.
         public let onUnauthenticatedRequest: AuthenticateCognitoActionConditionalBehaviorEnum?
@@ -289,7 +289,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct AuthenticateOidcActionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
-        @OptionalCustomCoding<StandardDictionaryCoder>
+        @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var authenticationRequestExtraParams: [String: String]?
         /// The authorization endpoint of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
         public let authorizationEndpoint: String
@@ -347,7 +347,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct AvailabilityZone: AWSDecodableShape {
         /// [Network Load Balancers] If you need static IP addresses for your load balancer, you can specify one Elastic IP address per Availability Zone when you create an internal-facing load balancer. For internal load balancers, you can specify a private IP address from the IPv4 range of the subnet.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LoadBalancerAddress>>
         public var loadBalancerAddresses: [LoadBalancerAddress]?
         /// [Application Load Balancers on Outposts] The ID of the Outpost.
         public let outpostId: String?
@@ -407,13 +407,13 @@ extension ElasticLoadBalancingV2 {
 
     public struct CreateListenerInput: AWSEncodableShape {
         /// [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:    HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more information, see ALPN policies in the Network Load Balancers Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var alpnPolicy: [String]?
         /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Certificate>>
         public var certificates: [Certificate]?
         /// The actions for the default rule.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<Action>>
         public var defaultActions: [Action]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -424,7 +424,7 @@ extension ElasticLoadBalancingV2 {
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security policies in the Application Load Balancers Guide and Security policies in the Network Load Balancers Guide.
         public let sslPolicy: String?
         /// The tags to assign to the listener.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
         public init(alpnPolicy: [String]? = nil, certificates: [Certificate]? = nil, defaultActions: [Action], loadBalancerArn: String, port: Int? = nil, protocol: ProtocolEnum? = nil, sslPolicy: String? = nil, tags: [Tag]? = nil) {
@@ -464,7 +464,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct CreateListenerOutput: AWSDecodableShape {
         /// Information about the listener.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Listener>>
         public var listeners: [Listener]?
 
         public init(listeners: [Listener]? = nil) {
@@ -486,16 +486,16 @@ extension ElasticLoadBalancingV2 {
         /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer. You cannot specify a scheme for a Gateway Load Balancer.
         public let scheme: LoadBalancerSchemeEnum?
         /// [Application Load Balancers] The IDs of the security groups for the load balancer.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var securityGroups: [String]?
         /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You cannot specify Elastic IP addresses for your subnets.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<SubnetMapping>>
         public var subnetMappings: [SubnetMapping]?
         /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. To specify an Elastic IP address, specify subnet mappings instead of subnets. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var subnets: [String]?
         /// The tags to assign to the load balancer.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
         /// The type of load balancer. The default is application.
         public let type: LoadBalancerTypeEnum?
@@ -536,7 +536,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct CreateLoadBalancerOutput: AWSDecodableShape {
         /// Information about the load balancer.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LoadBalancer>>
         public var loadBalancers: [LoadBalancer]?
 
         public init(loadBalancers: [LoadBalancer]? = nil) {
@@ -550,17 +550,17 @@ extension ElasticLoadBalancingV2 {
 
     public struct CreateRuleInput: AWSEncodableShape {
         /// The actions.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<Action>>
         public var actions: [Action]
         /// The conditions.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<RuleCondition>>
         public var conditions: [RuleCondition]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
         /// The rule priority. A listener can't have multiple rules with the same priority.
         public let priority: Int
         /// The tags to assign to the rule.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
         public init(actions: [Action], conditions: [RuleCondition], listenerArn: String, priority: Int, tags: [Tag]? = nil) {
@@ -597,7 +597,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct CreateRuleOutput: AWSDecodableShape {
         /// Information about the rule.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Rule>>
         public var rules: [Rule]?
 
         public init(rules: [Rule]? = nil) {
@@ -637,7 +637,7 @@ extension ElasticLoadBalancingV2 {
         /// [HTTP/HTTPS protocol] The protocol version. Specify GRPC to send requests to targets using gRPC. Specify HTTP2 to send requests to targets using HTTP/2. The default is HTTP1, which sends requests to targets using HTTP/1.1.
         public let protocolVersion: String?
         /// The tags to assign to the target group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
         /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Register targets by instance ID. This is the default value.    ip - Register targets by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - Register a single Lambda function as a target.    alb - Register a single Application Load Balancer as a target.
         public let targetType: TargetTypeEnum?
@@ -708,7 +708,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct CreateTargetGroupOutput: AWSDecodableShape {
         /// Information about the target group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TargetGroup>>
         public var targetGroups: [TargetGroup]?
 
         public init(targetGroups: [TargetGroup]? = nil) {
@@ -792,7 +792,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
         /// The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<TargetDescription>>
         public var targets: [TargetDescription]
 
         public init(targetGroupArn: String, targets: [TargetDescription]) {
@@ -840,7 +840,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct DescribeAccountLimitsOutput: AWSDecodableShape {
         /// Information about the limits.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Limit>>
         public var limits: [Limit]?
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
@@ -884,7 +884,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct DescribeListenerCertificatesOutput: AWSDecodableShape {
         /// Information about the certificates.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Certificate>>
         public var certificates: [Certificate]?
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
@@ -902,7 +902,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct DescribeListenersInput: AWSEncodableShape {
         /// The Amazon Resource Names (ARN) of the listeners.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var listenerArns: [String]?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
@@ -933,7 +933,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct DescribeListenersOutput: AWSDecodableShape {
         /// Information about the listeners.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Listener>>
         public var listeners: [Listener]?
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
@@ -964,7 +964,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct DescribeLoadBalancerAttributesOutput: AWSDecodableShape {
         /// Information about the load balancer attributes.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LoadBalancerAttribute>>
         public var attributes: [LoadBalancerAttribute]?
 
         public init(attributes: [LoadBalancerAttribute]? = nil) {
@@ -978,12 +978,12 @@ extension ElasticLoadBalancingV2 {
 
     public struct DescribeLoadBalancersInput: AWSEncodableShape {
         /// The Amazon Resource Names (ARN) of the load balancers. You can specify up to 20 load balancers in a single call.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var loadBalancerArns: [String]?
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The names of the load balancers.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var names: [String]?
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
@@ -1010,7 +1010,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct DescribeLoadBalancersOutput: AWSDecodableShape {
         /// Information about the load balancers.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LoadBalancer>>
         public var loadBalancers: [LoadBalancer]?
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
@@ -1034,7 +1034,7 @@ extension ElasticLoadBalancingV2 {
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
         /// The Amazon Resource Names (ARN) of the rules.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var ruleArns: [String]?
 
         public init(listenerArn: String? = nil, marker: String? = nil, pageSize: Int? = nil, ruleArns: [String]? = nil) {
@@ -1061,7 +1061,7 @@ extension ElasticLoadBalancingV2 {
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
         /// Information about the rules.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Rule>>
         public var rules: [Rule]?
 
         public init(nextMarker: String? = nil, rules: [Rule]? = nil) {
@@ -1081,7 +1081,7 @@ extension ElasticLoadBalancingV2 {
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The names of the policies.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var names: [String]?
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
@@ -1110,7 +1110,7 @@ extension ElasticLoadBalancingV2 {
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
         /// Information about the security policies.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<SslPolicy>>
         public var sslPolicies: [SslPolicy]?
 
         public init(nextMarker: String? = nil, sslPolicies: [SslPolicy]? = nil) {
@@ -1126,7 +1126,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct DescribeTagsInput: AWSEncodableShape {
         /// The Amazon Resource Names (ARN) of the resources. You can specify up to 20 resources in a single call.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var resourceArns: [String]
 
         public init(resourceArns: [String]) {
@@ -1140,7 +1140,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct DescribeTagsOutput: AWSDecodableShape {
         /// Information about the tags.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TagDescription>>
         public var tagDescriptions: [TagDescription]?
 
         public init(tagDescriptions: [TagDescription]? = nil) {
@@ -1167,7 +1167,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct DescribeTargetGroupAttributesOutput: AWSDecodableShape {
         /// Information about the target group attributes
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TargetGroupAttribute>>
         public var attributes: [TargetGroupAttribute]?
 
         public init(attributes: [TargetGroupAttribute]? = nil) {
@@ -1185,12 +1185,12 @@ extension ElasticLoadBalancingV2 {
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The names of the target groups.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var names: [String]?
         /// The maximum number of results to return with this call.
         public let pageSize: Int?
         /// The Amazon Resource Names (ARN) of the target groups.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var targetGroupArns: [String]?
 
         public init(loadBalancerArn: String? = nil, marker: String? = nil, names: [String]? = nil, pageSize: Int? = nil, targetGroupArns: [String]? = nil) {
@@ -1219,7 +1219,7 @@ extension ElasticLoadBalancingV2 {
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
         /// Information about the target groups.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TargetGroup>>
         public var targetGroups: [TargetGroup]?
 
         public init(nextMarker: String? = nil, targetGroups: [TargetGroup]? = nil) {
@@ -1237,7 +1237,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
         /// The targets.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TargetDescription>>
         public var targets: [TargetDescription]?
 
         public init(targetGroupArn: String, targets: [TargetDescription]? = nil) {
@@ -1259,7 +1259,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct DescribeTargetHealthOutput: AWSDecodableShape {
         /// Information about the health of the targets.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TargetHealthDescription>>
         public var targetHealthDescriptions: [TargetHealthDescription]?
 
         public init(targetHealthDescriptions: [TargetHealthDescription]? = nil) {
@@ -1300,7 +1300,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct ForwardActionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The target groups. For Network Load Balancers, you can specify a single target group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TargetGroupTuple>>
         public var targetGroups: [TargetGroupTuple]?
         /// The target group stickiness for the rule.
         public let targetGroupStickinessConfig: TargetGroupStickinessConfig?
@@ -1318,7 +1318,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct HostHeaderConditionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
         public init(values: [String]? = nil) {
@@ -1334,7 +1334,7 @@ extension ElasticLoadBalancingV2 {
         /// The name of the HTTP header field. The maximum size is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Use HostHeaderConditionConfig to specify a host header condition.
         public let httpHeaderName: String?
         /// The strings to compare against the value of the HTTP header. The maximum size of each string is 128 characters. The comparison strings are case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request, we search them in order until a match is found. If you specify multiple strings, the condition is satisfied if one of the strings matches the value of the HTTP header. To require that all of the strings are a match, create one condition per string.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
         public init(httpHeaderName: String? = nil, values: [String]? = nil) {
@@ -1350,7 +1350,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct HttpRequestMethodConditionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The name of the request method. The maximum size is 40 characters. The allowed characters are A-Z, hyphen (-), and underscore (_). The comparison is case sensitive. Wildcards are not supported; therefore, the method name must be an exact match. If you specify multiple strings, the condition is satisfied if one of the strings matches the HTTP request method. We recommend that you route GET and HEAD requests in the same way, because the response to a HEAD request may be cached.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
         public init(values: [String]? = nil) {
@@ -1381,13 +1381,13 @@ extension ElasticLoadBalancingV2 {
 
     public struct Listener: AWSDecodableShape {
         /// [TLS listener] The name of the Application-Layer Protocol Negotiation (ALPN) policy.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var alpnPolicy: [String]?
         /// [HTTPS or TLS listener] The default certificate for the listener.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Certificate>>
         public var certificates: [Certificate]?
         /// The default actions for the listener.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Action>>
         public var defaultActions: [Action]?
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
@@ -1425,7 +1425,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct LoadBalancer: AWSDecodableShape {
         /// The subnets for the load balancer.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AvailabilityZone>>
         public var availabilityZones: [AvailabilityZone]?
         /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
         public let canonicalHostedZoneId: String?
@@ -1444,7 +1444,7 @@ extension ElasticLoadBalancingV2 {
         /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer.
         public let scheme: LoadBalancerSchemeEnum?
         /// The IDs of the security groups for the load balancer.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var securityGroups: [String]?
         /// The state of the load balancer.
         public let state: LoadBalancerState?
@@ -1570,13 +1570,13 @@ extension ElasticLoadBalancingV2 {
 
     public struct ModifyListenerInput: AWSEncodableShape {
         /// [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:    HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more information, see ALPN policies in the Network Load Balancers Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var alpnPolicy: [String]?
         /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Certificate>>
         public var certificates: [Certificate]?
         /// The actions for the default rule.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Action>>
         public var defaultActions: [Action]?
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -1618,7 +1618,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct ModifyListenerOutput: AWSDecodableShape {
         /// Information about the modified listener.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Listener>>
         public var listeners: [Listener]?
 
         public init(listeners: [Listener]? = nil) {
@@ -1632,7 +1632,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct ModifyLoadBalancerAttributesInput: AWSEncodableShape {
         /// The load balancer attributes.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<LoadBalancerAttribute>>
         public var attributes: [LoadBalancerAttribute]
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
@@ -1657,7 +1657,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct ModifyLoadBalancerAttributesOutput: AWSDecodableShape {
         /// Information about the load balancer attributes.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LoadBalancerAttribute>>
         public var attributes: [LoadBalancerAttribute]?
 
         public init(attributes: [LoadBalancerAttribute]? = nil) {
@@ -1671,10 +1671,10 @@ extension ElasticLoadBalancingV2 {
 
     public struct ModifyRuleInput: AWSEncodableShape {
         /// The actions.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Action>>
         public var actions: [Action]?
         /// The conditions.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<RuleCondition>>
         public var conditions: [RuleCondition]?
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String
@@ -1703,7 +1703,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct ModifyRuleOutput: AWSDecodableShape {
         /// Information about the modified rule.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Rule>>
         public var rules: [Rule]?
 
         public init(rules: [Rule]? = nil) {
@@ -1717,7 +1717,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct ModifyTargetGroupAttributesInput: AWSEncodableShape {
         /// The attributes.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<TargetGroupAttribute>>
         public var attributes: [TargetGroupAttribute]
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
@@ -1741,7 +1741,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct ModifyTargetGroupAttributesOutput: AWSDecodableShape {
         /// Information about the attributes.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TargetGroupAttribute>>
         public var attributes: [TargetGroupAttribute]?
 
         public init(attributes: [TargetGroupAttribute]? = nil) {
@@ -1817,7 +1817,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct ModifyTargetGroupOutput: AWSDecodableShape {
         /// Information about the modified target group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TargetGroup>>
         public var targetGroups: [TargetGroup]?
 
         public init(targetGroups: [TargetGroup]? = nil) {
@@ -1831,7 +1831,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct PathPatternConditionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use QueryStringConditionConfig.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
         public init(values: [String]? = nil) {
@@ -1845,7 +1845,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct QueryStringConditionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The key/value pairs or values to find in the query string. The maximum size of each string is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). To search for a literal '*' or '?' character in a query string, you must escape these characters in Values using a '\' character. If you specify multiple key/value pairs or values, the condition is satisfied if one of them is found in the query string.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<QueryStringKeyValuePair>>
         public var values: [QueryStringKeyValuePair]?
 
         public init(values: [QueryStringKeyValuePair]? = nil) {
@@ -1920,7 +1920,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
         /// The targets.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<TargetDescription>>
         public var targets: [TargetDescription]
 
         public init(targetGroupArn: String, targets: [TargetDescription]) {
@@ -1946,7 +1946,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct RemoveListenerCertificatesInput: AWSEncodableShape {
         /// The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<Certificate>>
         public var certificates: [Certificate]
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
@@ -1968,10 +1968,10 @@ extension ElasticLoadBalancingV2 {
 
     public struct RemoveTagsInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var resourceArns: [String]
         /// The tag keys for the tags to remove.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
         public init(resourceArns: [String], tagKeys: [String]) {
@@ -1999,10 +1999,10 @@ extension ElasticLoadBalancingV2 {
 
     public struct Rule: AWSDecodableShape {
         /// The actions. Each rule must include exactly one of the following types of actions: forward, redirect, or fixed-response, and it must be the last action to be performed.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Action>>
         public var actions: [Action]?
         /// The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<RuleCondition>>
         public var conditions: [RuleCondition]?
         /// Indicates whether this is the default rule.
         public let isDefault: Bool?
@@ -2044,7 +2044,7 @@ extension ElasticLoadBalancingV2 {
         /// Information for a source IP condition. Specify only when Field is source-ip.
         public let sourceIpConfig: SourceIpConditionConfig?
         /// The condition value. Specify only when Field is host-header or path-pattern. Alternatively, to specify multiple host names or multiple path patterns, use HostHeaderConfig or PathPatternConfig. If Field is host-header and you are not using HostHeaderConfig, you can specify a single host name (for example, my.example.com) in Values. A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If Field is path-pattern and you are not using PathPatternConfig, you can specify a single path pattern (for example, /img/*) in Values. A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   & (using &amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
         public init(field: String? = nil, hostHeaderConfig: HostHeaderConditionConfig? = nil, httpHeaderConfig: HttpHeaderConditionConfig? = nil, httpRequestMethodConfig: HttpRequestMethodConditionConfig? = nil, pathPatternConfig: PathPatternConditionConfig? = nil, queryStringConfig: QueryStringConditionConfig? = nil, sourceIpConfig: SourceIpConditionConfig? = nil, values: [String]? = nil) {
@@ -2128,7 +2128,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct SetRulePrioritiesInput: AWSEncodableShape {
         /// The rule priorities.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<RulePriorityPair>>
         public var rulePriorities: [RulePriorityPair]
 
         public init(rulePriorities: [RulePriorityPair]) {
@@ -2148,7 +2148,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct SetRulePrioritiesOutput: AWSDecodableShape {
         /// Information about the rules.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Rule>>
         public var rules: [Rule]?
 
         public init(rules: [Rule]? = nil) {
@@ -2164,7 +2164,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
         /// The IDs of the security groups.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var securityGroups: [String]
 
         public init(loadBalancerArn: String, securityGroups: [String]) {
@@ -2180,7 +2180,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct SetSecurityGroupsOutput: AWSDecodableShape {
         /// The IDs of the security groups associated with the load balancer.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var securityGroupIds: [String]?
 
         public init(securityGroupIds: [String]? = nil) {
@@ -2198,10 +2198,10 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
         /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<SubnetMapping>>
         public var subnetMappings: [SubnetMapping]?
         /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var subnets: [String]?
 
         public init(ipAddressType: IpAddressType? = nil, loadBalancerArn: String, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil) {
@@ -2221,7 +2221,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct SetSubnetsOutput: AWSDecodableShape {
         /// Information about the subnets.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AvailabilityZone>>
         public var availabilityZones: [AvailabilityZone]?
         /// [Network Load Balancers] The IP address type.
         public let ipAddressType: IpAddressType?
@@ -2239,7 +2239,7 @@ extension ElasticLoadBalancingV2 {
 
     public struct SourceIpConditionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use HttpHeaderConditionConfig.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
         public init(values: [String]? = nil) {
@@ -2253,15 +2253,15 @@ extension ElasticLoadBalancingV2 {
 
     public struct SslPolicy: AWSDecodableShape {
         /// The ciphers.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Cipher>>
         public var ciphers: [Cipher]?
         /// The name of the policy.
         public let name: String?
         /// The protocols.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var sslProtocols: [String]?
         ///  The supported load balancers.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var supportedLoadBalancerTypes: [String]?
 
         public init(ciphers: [Cipher]? = nil, name: String? = nil, sslProtocols: [String]? = nil, supportedLoadBalancerTypes: [String]? = nil) {
@@ -2333,7 +2333,7 @@ extension ElasticLoadBalancingV2 {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
         /// Information about the tags.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
@@ -2391,7 +2391,7 @@ extension ElasticLoadBalancingV2 {
         /// The type of IP address used for this target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
         public let ipAddressType: TargetGroupIpAddressTypeEnum?
         /// The Amazon Resource Names (ARN) of the load balancers that route traffic to this target group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var loadBalancerArns: [String]?
         /// The HTTP or gRPC codes to use when checking for a successful response from a target.
         public let matcher: Matcher?

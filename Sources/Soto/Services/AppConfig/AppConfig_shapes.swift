@@ -229,34 +229,30 @@ extension AppConfig {
         }
     }
 
-    public struct Configuration: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "content"
+    public struct Configuration: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationVersion", location: .header("Configuration-Version")),
-            AWSMemberEncoding(label: "content", location: .body("Content")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
-        ]
-
         /// The configuration version.
         public let configurationVersion: String?
         /// The content of the configuration or the configuration data.  The Content attribute only contains data if the system finds new or updated configuration data. If there is no new or updated data and ClientConfigurationVersion matches the version of the current configuration, AppConfig returns a 204 No Content HTTP response code and the Content value will be empty.
-        public let content: HTTPBody?
+        public let content: AWSHTTPBody
         /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
         public let contentType: String?
 
-        public init(configurationVersion: String? = nil, content: HTTPBody? = nil, contentType: String? = nil) {
+        public init(configurationVersion: String? = nil, content: AWSHTTPBody, contentType: String? = nil) {
             self.configurationVersion = configurationVersion
             self.content = content
             self.contentType = contentType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case configurationVersion = "Configuration-Version"
-            case content = "Content"
-            case contentType = "Content-Type"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.configurationVersion = try response.decodeIfPresent(String.self, forHeader: "Configuration-Version")
+            self.content = response.decodePayload()
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ConfigurationProfile: AWSDecodableShape {
@@ -686,7 +682,7 @@ extension AppConfig {
         /// The configuration profile ID.
         public let configurationProfileId: String
         /// The content of the configuration or the configuration data.
-        public let content: HTTPBody
+        public let content: AWSHTTPBody
         /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
         public let contentType: String
         /// A description of the configuration.
@@ -696,7 +692,7 @@ extension AppConfig {
         /// An optional, user-defined label for the AppConfig hosted configuration version. This value must contain at least one non-numeric character. For example, "v2.2.0".
         public let versionLabel: String?
 
-        public init(applicationId: String, configurationProfileId: String, content: HTTPBody, contentType: String, description: String? = nil, latestVersionNumber: Int? = nil, versionLabel: String? = nil) {
+        public init(applicationId: String, configurationProfileId: String, content: AWSHTTPBody, contentType: String, description: String? = nil, latestVersionNumber: Int? = nil, versionLabel: String? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.content = content
@@ -1565,26 +1561,14 @@ extension AppConfig {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct HostedConfigurationVersion: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "content"
+    public struct HostedConfigurationVersion: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .header("Application-Id")),
-            AWSMemberEncoding(label: "configurationProfileId", location: .header("Configuration-Profile-Id")),
-            AWSMemberEncoding(label: "content", location: .body("Content")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "description", location: .header("Description")),
-            AWSMemberEncoding(label: "versionLabel", location: .header("VersionLabel")),
-            AWSMemberEncoding(label: "versionNumber", location: .header("Version-Number"))
-        ]
-
         /// The application ID.
         public let applicationId: String?
         /// The configuration profile ID.
         public let configurationProfileId: String?
         /// The content of the configuration or the configuration data.
-        public let content: HTTPBody?
+        public let content: AWSHTTPBody
         /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
         public let contentType: String?
         /// A description of the configuration.
@@ -1594,7 +1578,7 @@ extension AppConfig {
         /// The configuration version.
         public let versionNumber: Int?
 
-        public init(applicationId: String? = nil, configurationProfileId: String? = nil, content: HTTPBody? = nil, contentType: String? = nil, description: String? = nil, versionLabel: String? = nil, versionNumber: Int? = nil) {
+        public init(applicationId: String? = nil, configurationProfileId: String? = nil, content: AWSHTTPBody, contentType: String? = nil, description: String? = nil, versionLabel: String? = nil, versionNumber: Int? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.content = content
@@ -1604,15 +1588,19 @@ extension AppConfig {
             self.versionNumber = versionNumber
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationId = "Application-Id"
-            case configurationProfileId = "Configuration-Profile-Id"
-            case content = "Content"
-            case contentType = "Content-Type"
-            case description = "Description"
-            case versionLabel = "VersionLabel"
-            case versionNumber = "Version-Number"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.applicationId = try response.decodeIfPresent(String.self, forHeader: "Application-Id")
+            self.configurationProfileId = try response.decodeIfPresent(String.self, forHeader: "Configuration-Profile-Id")
+            self.content = response.decodePayload()
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+            self.description = try response.decodeIfPresent(String.self, forHeader: "Description")
+            self.versionLabel = try response.decodeIfPresent(String.self, forHeader: "VersionLabel")
+            self.versionNumber = try response.decodeIfPresent(Int.self, forHeader: "Version-Number")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct HostedConfigurationVersionSummary: AWSDecodableShape {

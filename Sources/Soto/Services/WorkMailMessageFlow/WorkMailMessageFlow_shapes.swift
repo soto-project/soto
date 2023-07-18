@@ -49,20 +49,22 @@ extension WorkMailMessageFlow {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetRawMessageContentResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageContent"
+    public struct GetRawMessageContentResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         /// The raw content of the email message, in MIME format.
-        public let messageContent: HTTPBody
+        public let messageContent: AWSHTTPBody
 
-        public init(messageContent: HTTPBody) {
+        public init(messageContent: AWSHTTPBody) {
             self.messageContent = messageContent
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageContent = "messageContent"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.messageContent = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutRawMessageContentRequest: AWSEncodableShape {

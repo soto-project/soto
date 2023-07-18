@@ -802,19 +802,19 @@ extension S3 {
     }
 
     public struct AbortMultipartUploadOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
-        ]
-
         public let requestCharged: RequestCharged?
 
         public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct AbortMultipartUploadRequest: AWSEncodableShape {
@@ -1182,15 +1182,6 @@ extension S3 {
     }
 
     public struct CompleteMultipartUploadOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header("x-amz-server-side-encryption-bucket-key-enabled")),
-            AWSMemberEncoding(label: "expiration", location: .header("x-amz-expiration")),
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header("x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "versionId", location: .header("x-amz-version-id"))
-        ]
-
         /// The name of the bucket that contains the newly created object. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String?
         /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
@@ -1236,21 +1227,35 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.bucket = try container.decodeIfPresent(String.self, forKey: .bucket)
+            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.checksumCRC32 = try container.decodeIfPresent(String.self, forKey: .checksumCRC32)
+            self.checksumCRC32C = try container.decodeIfPresent(String.self, forKey: .checksumCRC32C)
+            self.checksumSHA1 = try container.decodeIfPresent(String.self, forKey: .checksumSHA1)
+            self.checksumSHA256 = try container.decodeIfPresent(String.self, forKey: .checksumSHA256)
+            self.eTag = try container.decodeIfPresent(String.self, forKey: .eTag)
+            self.expiration = try response.decodeIfPresent(String.self, forHeader: "x-amz-expiration")
+            self.key = try container.decodeIfPresent(String.self, forKey: .key)
+            self.location = try container.decodeIfPresent(String.self, forKey: .location)
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
+            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
+            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
-            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
             case eTag = "ETag"
-            case expiration = "x-amz-expiration"
             case key = "Key"
             case location = "Location"
-            case requestCharged = "x-amz-request-charged"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case ssekmsKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case versionId = "x-amz-version-id"
         }
     }
 
@@ -1319,9 +1324,7 @@ extension S3 {
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case multipartUpload = "CompleteMultipartUpload"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CompletedMultipartUpload: AWSEncodableShape {
@@ -1391,27 +1394,11 @@ extension S3 {
         public init() {}
     }
 
-    public struct CopyObjectOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "copyObjectResult"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header("x-amz-server-side-encryption-bucket-key-enabled")),
-            AWSMemberEncoding(label: "copyObjectResult", location: .body("CopyObjectResult")),
-            AWSMemberEncoding(label: "copySourceVersionId", location: .header("x-amz-copy-source-version-id")),
-            AWSMemberEncoding(label: "expiration", location: .header("x-amz-expiration")),
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header("x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "ssekmsEncryptionContext", location: .header("x-amz-server-side-encryption-context")),
-            AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "versionId", location: .header("x-amz-version-id"))
-        ]
-
+    public struct CopyObjectOutput: AWSDecodableShape {
         /// Indicates whether the copied object uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// Container for all response elements.
-        public let copyObjectResult: CopyObjectResult?
+        public let copyObjectResult: CopyObjectResult
         /// Version of the copied object in the destination bucket.
         public let copySourceVersionId: String?
         /// If the object expiration is configured, the response includes this header.
@@ -1430,7 +1417,7 @@ extension S3 {
         /// Version ID of the newly created copy.
         public let versionId: String?
 
-        public init(bucketKeyEnabled: Bool? = nil, copyObjectResult: CopyObjectResult? = nil, copySourceVersionId: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, versionId: String? = nil) {
+        public init(bucketKeyEnabled: Bool? = nil, copyObjectResult: CopyObjectResult, copySourceVersionId: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, versionId: String? = nil) {
             self.bucketKeyEnabled = bucketKeyEnabled
             self.copyObjectResult = copyObjectResult
             self.copySourceVersionId = copySourceVersionId
@@ -1444,19 +1431,23 @@ extension S3 {
             self.versionId = versionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
-            case copyObjectResult = "CopyObjectResult"
-            case copySourceVersionId = "x-amz-copy-source-version-id"
-            case expiration = "x-amz-expiration"
-            case requestCharged = "x-amz-request-charged"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sseCustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sseCustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case ssekmsEncryptionContext = "x-amz-server-side-encryption-context"
-            case ssekmsKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case versionId = "x-amz-version-id"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.copyObjectResult = try .init(from: decoder)
+            self.copySourceVersionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-copy-source-version-id")
+            self.expiration = try response.decodeIfPresent(String.self, forHeader: "x-amz-expiration")
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsEncryptionContext = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-context")
+            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
+            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CopyObjectRequest: AWSEncodableShape {
@@ -1722,10 +1713,6 @@ extension S3 {
     }
 
     public struct CreateBucketOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         /// A forward slash followed by the name of the bucket.
         public let location: String?
 
@@ -1733,9 +1720,13 @@ extension S3 {
             self.location = location
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case location = "Location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateBucketRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -1787,25 +1778,10 @@ extension S3 {
             self.objectOwnership = objectOwnership
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case createBucketConfiguration = "CreateBucketConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateMultipartUploadOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "abortDate", location: .header("x-amz-abort-date")),
-            AWSMemberEncoding(label: "abortRuleId", location: .header("x-amz-abort-rule-id")),
-            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header("x-amz-server-side-encryption-bucket-key-enabled")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-checksum-algorithm")),
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header("x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "ssekmsEncryptionContext", location: .header("x-amz-server-side-encryption-context")),
-            AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-server-side-encryption-aws-kms-key-id"))
-        ]
-
         /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, the response includes this header. The header indicates when the initiated multipart upload becomes eligible for an abort operation. For more information, see  Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration. The response also includes the x-amz-abort-rule-id header that provides the ID of the lifecycle configuration rule that defines this action.
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var abortDate: Date?
@@ -1849,19 +1825,28 @@ extension S3 {
             self.uploadId = uploadId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.abortDate = try response.decodeIfPresent(Date.self, forHeader: "x-amz-abort-date")
+            self.abortRuleId = try response.decodeIfPresent(String.self, forHeader: "x-amz-abort-rule-id")
+            self.bucket = try container.decodeIfPresent(String.self, forKey: .bucket)
+            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.checksumAlgorithm = try response.decodeIfPresent(ChecksumAlgorithm.self, forHeader: "x-amz-checksum-algorithm")
+            self.key = try container.decodeIfPresent(String.self, forKey: .key)
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsEncryptionContext = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-context")
+            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
+            self.uploadId = try container.decodeIfPresent(String.self, forKey: .uploadId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
-            case abortDate = "x-amz-abort-date"
-            case abortRuleId = "x-amz-abort-rule-id"
             case bucket = "Bucket"
-            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
-            case checksumAlgorithm = "x-amz-checksum-algorithm"
             case key = "Key"
-            case requestCharged = "x-amz-request-charged"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sseCustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sseCustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case ssekmsEncryptionContext = "x-amz-server-side-encryption-context"
-            case ssekmsKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
             case uploadId = "UploadId"
         }
     }
@@ -2348,12 +2333,6 @@ extension S3 {
     }
 
     public struct DeleteObjectOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deleteMarker", location: .header("x-amz-delete-marker")),
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged")),
-            AWSMemberEncoding(label: "versionId", location: .header("x-amz-version-id"))
-        ]
-
         /// Specifies whether the versioned object that was permanently deleted was (true) or was not (false) a delete marker.
         public let deleteMarker: Bool?
         public let requestCharged: RequestCharged?
@@ -2366,11 +2345,15 @@ extension S3 {
             self.versionId = versionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case deleteMarker = "x-amz-delete-marker"
-            case requestCharged = "x-amz-request-charged"
-            case versionId = "x-amz-version-id"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.deleteMarker = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-delete-marker")
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteObjectRequest: AWSEncodableShape {
@@ -2416,10 +2399,6 @@ extension S3 {
     }
 
     public struct DeleteObjectTaggingOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "versionId", location: .header("x-amz-version-id"))
-        ]
-
         /// The versionId of the object the tag-set was removed from.
         public let versionId: String?
 
@@ -2427,9 +2406,13 @@ extension S3 {
             self.versionId = versionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case versionId = "x-amz-version-id"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteObjectTaggingRequest: AWSEncodableShape {
@@ -2464,10 +2447,6 @@ extension S3 {
     }
 
     public struct DeleteObjectsOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
-        ]
-
         /// Container element for a successful delete. It identifies the object that was successfully deleted.
         public let deleted: [DeletedObject]?
         /// Container for a failed delete action that describes the object that Amazon S3 attempted to delete and the error it encountered.
@@ -2480,10 +2459,18 @@ extension S3 {
             self.requestCharged = requestCharged
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.deleted = try container.decodeIfPresent([DeletedObject].self, forKey: .deleted)
+            self.errors = try container.decodeIfPresent([Error].self, forKey: .errors)
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deleted = "Deleted"
             case errors = "Error"
-            case requestCharged = "x-amz-request-charged"
         }
     }
 
@@ -2529,9 +2516,7 @@ extension S3 {
             try self.delete.validate(name: "\(name).delete")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case delete = "Delete"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePublicAccessBlockRequest: AWSEncodableShape {
@@ -2802,23 +2787,20 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketAnalyticsConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "analyticsConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analyticsConfiguration", location: .body("AnalyticsConfiguration"))
-        ]
-
+    public struct GetBucketAnalyticsConfigurationOutput: AWSDecodableShape {
         /// The configuration and any analyses for the analytics filter.
-        public let analyticsConfiguration: AnalyticsConfiguration?
+        public let analyticsConfiguration: AnalyticsConfiguration
 
-        public init(analyticsConfiguration: AnalyticsConfiguration? = nil) {
+        public init(analyticsConfiguration: AnalyticsConfiguration) {
             self.analyticsConfiguration = analyticsConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyticsConfiguration = "AnalyticsConfiguration"
+        public init(from decoder: Decoder) throws {
+            self.analyticsConfiguration = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketAnalyticsConfigurationRequest: AWSEncodableShape {
@@ -2878,22 +2860,19 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketEncryptionOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "serverSideEncryptionConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serverSideEncryptionConfiguration", location: .body("ServerSideEncryptionConfiguration"))
-        ]
+    public struct GetBucketEncryptionOutput: AWSDecodableShape {
+        public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration
 
-        public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
-
-        public init(serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil) {
+        public init(serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration) {
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+        public init(from decoder: Decoder) throws {
+            self.serverSideEncryptionConfiguration = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketEncryptionRequest: AWSEncodableShape {
@@ -2915,23 +2894,20 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketIntelligentTieringConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "intelligentTieringConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "intelligentTieringConfiguration", location: .body("IntelligentTieringConfiguration"))
-        ]
-
+    public struct GetBucketIntelligentTieringConfigurationOutput: AWSDecodableShape {
         /// Container for S3 Intelligent-Tiering configuration.
-        public let intelligentTieringConfiguration: IntelligentTieringConfiguration?
+        public let intelligentTieringConfiguration: IntelligentTieringConfiguration
 
-        public init(intelligentTieringConfiguration: IntelligentTieringConfiguration? = nil) {
+        public init(intelligentTieringConfiguration: IntelligentTieringConfiguration) {
             self.intelligentTieringConfiguration = intelligentTieringConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case intelligentTieringConfiguration = "IntelligentTieringConfiguration"
+        public init(from decoder: Decoder) throws {
+            self.intelligentTieringConfiguration = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketIntelligentTieringConfigurationRequest: AWSEncodableShape {
@@ -2953,23 +2929,20 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketInventoryConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "inventoryConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inventoryConfiguration", location: .body("InventoryConfiguration"))
-        ]
-
+    public struct GetBucketInventoryConfigurationOutput: AWSDecodableShape {
         /// Specifies the inventory configuration.
-        public let inventoryConfiguration: InventoryConfiguration?
+        public let inventoryConfiguration: InventoryConfiguration
 
-        public init(inventoryConfiguration: InventoryConfiguration? = nil) {
+        public init(inventoryConfiguration: InventoryConfiguration) {
             self.inventoryConfiguration = inventoryConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inventoryConfiguration = "InventoryConfiguration"
+        public init(from decoder: Decoder) throws {
+            self.inventoryConfiguration = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketInventoryConfigurationRequest: AWSEncodableShape {
@@ -3092,23 +3065,20 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketMetricsConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "metricsConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "metricsConfiguration", location: .body("MetricsConfiguration"))
-        ]
-
+    public struct GetBucketMetricsConfigurationOutput: AWSDecodableShape {
         /// Specifies the metrics configuration.
-        public let metricsConfiguration: MetricsConfiguration?
+        public let metricsConfiguration: MetricsConfiguration
 
-        public init(metricsConfiguration: MetricsConfiguration? = nil) {
+        public init(metricsConfiguration: MetricsConfiguration) {
             self.metricsConfiguration = metricsConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case metricsConfiguration = "MetricsConfiguration"
+        public init(from decoder: Decoder) throws {
+            self.metricsConfiguration = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketMetricsConfigurationRequest: AWSEncodableShape {
@@ -3155,23 +3125,20 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketOwnershipControlsOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "ownershipControls"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ownershipControls", location: .body("OwnershipControls"))
-        ]
-
+    public struct GetBucketOwnershipControlsOutput: AWSDecodableShape {
         /// The OwnershipControls (BucketOwnerEnforced, BucketOwnerPreferred, or ObjectWriter) currently in effect for this Amazon S3 bucket.
-        public let ownershipControls: OwnershipControls?
+        public let ownershipControls: OwnershipControls
 
-        public init(ownershipControls: OwnershipControls? = nil) {
+        public init(ownershipControls: OwnershipControls) {
             self.ownershipControls = ownershipControls
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ownershipControls = "OwnershipControls"
+        public init(from decoder: Decoder) throws {
+            self.ownershipControls = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketOwnershipControlsRequest: AWSEncodableShape {
@@ -3193,23 +3160,20 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketPolicyOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "policy"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policy", location: .body("Policy"))
-        ]
-
+    public struct GetBucketPolicyOutput: AWSDecodableShape {
         /// The bucket policy as a JSON document.
-        public let policy: String?
+        public let policy: String
 
-        public init(policy: String? = nil) {
+        public init(policy: String) {
             self.policy = policy
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policy = "Policy"
+        public init(from decoder: Decoder) throws {
+            self.policy = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketPolicyRequest: AWSEncodableShape {
@@ -3233,23 +3197,20 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketPolicyStatusOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "policyStatus"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyStatus", location: .body("PolicyStatus"))
-        ]
-
+    public struct GetBucketPolicyStatusOutput: AWSDecodableShape {
         /// The policy status for the specified bucket.
-        public let policyStatus: PolicyStatus?
+        public let policyStatus: PolicyStatus
 
-        public init(policyStatus: PolicyStatus? = nil) {
+        public init(policyStatus: PolicyStatus) {
             self.policyStatus = policyStatus
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policyStatus = "PolicyStatus"
+        public init(from decoder: Decoder) throws {
+            self.policyStatus = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketPolicyStatusRequest: AWSEncodableShape {
@@ -3271,22 +3232,19 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBucketReplicationOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "replicationConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "replicationConfiguration", location: .body("ReplicationConfiguration"))
-        ]
+    public struct GetBucketReplicationOutput: AWSDecodableShape {
+        public let replicationConfiguration: ReplicationConfiguration
 
-        public let replicationConfiguration: ReplicationConfiguration?
-
-        public init(replicationConfiguration: ReplicationConfiguration? = nil) {
+        public init(replicationConfiguration: ReplicationConfiguration) {
             self.replicationConfiguration = replicationConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case replicationConfiguration = "ReplicationConfiguration"
+        public init(from decoder: Decoder) throws {
+            self.replicationConfiguration = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBucketReplicationRequest: AWSEncodableShape {
@@ -3459,10 +3417,6 @@ extension S3 {
     }
 
     public struct GetObjectAclOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
-        ]
-
         public struct _GrantsEncoding: ArrayCoderProperties { public static let member = "Grant" }
 
         /// A list of grants.
@@ -3478,10 +3432,18 @@ extension S3 {
             self.requestCharged = requestCharged
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.grants = try container.decode(OptionalCustomCoding<ArrayCoder<_GrantsEncoding, Grant>>.self, forKey: .grants).wrappedValue
+            self.owner = try container.decodeIfPresent(Owner.self, forKey: .owner)
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case grants = "AccessControlList"
             case owner = "Owner"
-            case requestCharged = "x-amz-request-charged"
         }
     }
 
@@ -3520,13 +3482,6 @@ extension S3 {
     }
 
     public struct GetObjectAttributesOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deleteMarker", location: .header("x-amz-delete-marker")),
-            AWSMemberEncoding(label: "lastModified", location: .header("Last-Modified")),
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged")),
-            AWSMemberEncoding(label: "versionId", location: .header("x-amz-version-id"))
-        ]
-
         /// The checksum or digest of the object.
         public let checksum: Checksum?
         /// Specifies whether the object retrieved was (true) or was not (false) a delete marker. If false, this response header does not appear in the response.
@@ -3558,16 +3513,27 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.checksum = try container.decodeIfPresent(Checksum.self, forKey: .checksum)
+            self.deleteMarker = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-delete-marker")
+            self.eTag = try container.decodeIfPresent(String.self, forKey: .eTag)
+            self.lastModified = try response.decodeIfPresent(Date.self, forHeader: "Last-Modified")
+            self.objectParts = try container.decodeIfPresent(GetObjectAttributesParts.self, forKey: .objectParts)
+            self.objectSize = try container.decodeIfPresent(Int64.self, forKey: .objectSize)
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.storageClass = try container.decodeIfPresent(StorageClass.self, forKey: .storageClass)
+            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case checksum = "Checksum"
-            case deleteMarker = "x-amz-delete-marker"
             case eTag = "ETag"
-            case lastModified = "Last-Modified"
             case objectParts = "ObjectParts"
             case objectSize = "ObjectSize"
-            case requestCharged = "x-amz-request-charged"
             case storageClass = "StorageClass"
-            case versionId = "x-amz-version-id"
         }
     }
 
@@ -3662,23 +3628,20 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectLegalHoldOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "legalHold"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "legalHold", location: .body("LegalHold"))
-        ]
-
+    public struct GetObjectLegalHoldOutput: AWSDecodableShape {
         /// The current legal hold status for the specified object.
-        public let legalHold: ObjectLockLegalHold?
+        public let legalHold: ObjectLockLegalHold
 
-        public init(legalHold: ObjectLockLegalHold? = nil) {
+        public init(legalHold: ObjectLockLegalHold) {
             self.legalHold = legalHold
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case legalHold = "LegalHold"
+        public init(from decoder: Decoder) throws {
+            self.legalHold = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectLegalHoldRequest: AWSEncodableShape {
@@ -3715,23 +3678,20 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectLockConfigurationOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "objectLockConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "objectLockConfiguration", location: .body("ObjectLockConfiguration"))
-        ]
-
+    public struct GetObjectLockConfigurationOutput: AWSDecodableShape {
         /// The specified bucket's Object Lock configuration.
-        public let objectLockConfiguration: ObjectLockConfiguration?
+        public let objectLockConfiguration: ObjectLockConfiguration
 
-        public init(objectLockConfiguration: ObjectLockConfiguration? = nil) {
+        public init(objectLockConfiguration: ObjectLockConfiguration) {
             self.objectLockConfiguration = objectLockConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case objectLockConfiguration = "ObjectLockConfiguration"
+        public init(from decoder: Decoder) throws {
+            self.objectLockConfiguration = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectLockConfigurationRequest: AWSEncodableShape {
@@ -3753,53 +3713,12 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct GetObjectOutput: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "acceptRanges", location: .header("accept-ranges")),
-            AWSMemberEncoding(label: "body", location: .body("Body")),
-            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header("x-amz-server-side-encryption-bucket-key-enabled")),
-            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
-            AWSMemberEncoding(label: "checksumCRC32", location: .header("x-amz-checksum-crc32")),
-            AWSMemberEncoding(label: "checksumCRC32C", location: .header("x-amz-checksum-crc32c")),
-            AWSMemberEncoding(label: "checksumSHA1", location: .header("x-amz-checksum-sha1")),
-            AWSMemberEncoding(label: "checksumSHA256", location: .header("x-amz-checksum-sha256")),
-            AWSMemberEncoding(label: "contentDisposition", location: .header("Content-Disposition")),
-            AWSMemberEncoding(label: "contentEncoding", location: .header("Content-Encoding")),
-            AWSMemberEncoding(label: "contentLanguage", location: .header("Content-Language")),
-            AWSMemberEncoding(label: "contentLength", location: .header("Content-Length")),
-            AWSMemberEncoding(label: "contentRange", location: .header("Content-Range")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "deleteMarker", location: .header("x-amz-delete-marker")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "expiration", location: .header("x-amz-expiration")),
-            AWSMemberEncoding(label: "expires", location: .header("Expires")),
-            AWSMemberEncoding(label: "lastModified", location: .header("Last-Modified")),
-            AWSMemberEncoding(label: "metadata", location: .headerPrefix("x-amz-meta-")),
-            AWSMemberEncoding(label: "missingMeta", location: .header("x-amz-missing-meta")),
-            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header("x-amz-object-lock-legal-hold")),
-            AWSMemberEncoding(label: "objectLockMode", location: .header("x-amz-object-lock-mode")),
-            AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header("x-amz-object-lock-retain-until-date")),
-            AWSMemberEncoding(label: "partsCount", location: .header("x-amz-mp-parts-count")),
-            AWSMemberEncoding(label: "replicationStatus", location: .header("x-amz-replication-status")),
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged")),
-            AWSMemberEncoding(label: "restore", location: .header("x-amz-restore")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header("x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "storageClass", location: .header("x-amz-storage-class")),
-            AWSMemberEncoding(label: "tagCount", location: .header("x-amz-tagging-count")),
-            AWSMemberEncoding(label: "versionId", location: .header("x-amz-version-id")),
-            AWSMemberEncoding(label: "websiteRedirectLocation", location: .header("x-amz-website-redirect-location"))
-        ]
-
         /// Indicates that a range of bytes was specified.
         public let acceptRanges: String?
         /// Object data.
-        public let body: HTTPBody?
+        public let body: AWSHTTPBody
         /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
@@ -3871,7 +3790,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
         public let websiteRedirectLocation: String?
 
-        public init(acceptRanges: String? = nil, body: HTTPBody? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, body: AWSHTTPBody, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -3910,44 +3829,48 @@ extension S3 {
             self.websiteRedirectLocation = websiteRedirectLocation
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case acceptRanges = "accept-ranges"
-            case body = "Body"
-            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
-            case cacheControl = "Cache-Control"
-            case checksumCRC32 = "x-amz-checksum-crc32"
-            case checksumCRC32C = "x-amz-checksum-crc32c"
-            case checksumSHA1 = "x-amz-checksum-sha1"
-            case checksumSHA256 = "x-amz-checksum-sha256"
-            case contentDisposition = "Content-Disposition"
-            case contentEncoding = "Content-Encoding"
-            case contentLanguage = "Content-Language"
-            case contentLength = "Content-Length"
-            case contentRange = "Content-Range"
-            case contentType = "Content-Type"
-            case deleteMarker = "x-amz-delete-marker"
-            case eTag = "ETag"
-            case expiration = "x-amz-expiration"
-            case expires = "Expires"
-            case lastModified = "Last-Modified"
-            case metadata = "x-amz-meta-"
-            case missingMeta = "x-amz-missing-meta"
-            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
-            case objectLockMode = "x-amz-object-lock-mode"
-            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
-            case partsCount = "x-amz-mp-parts-count"
-            case replicationStatus = "x-amz-replication-status"
-            case requestCharged = "x-amz-request-charged"
-            case restore = "x-amz-restore"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sseCustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sseCustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case ssekmsKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case storageClass = "x-amz-storage-class"
-            case tagCount = "x-amz-tagging-count"
-            case versionId = "x-amz-version-id"
-            case websiteRedirectLocation = "x-amz-website-redirect-location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.acceptRanges = try response.decodeIfPresent(String.self, forHeader: "accept-ranges")
+            self.body = response.decodePayload()
+            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
+            self.checksumCRC32 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32")
+            self.checksumCRC32C = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32c")
+            self.checksumSHA1 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha1")
+            self.checksumSHA256 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha256")
+            self.contentDisposition = try response.decodeIfPresent(String.self, forHeader: "Content-Disposition")
+            self.contentEncoding = try response.decodeIfPresent(String.self, forHeader: "Content-Encoding")
+            self.contentLanguage = try response.decodeIfPresent(String.self, forHeader: "Content-Language")
+            self.contentLength = try response.decodeIfPresent(Int64.self, forHeader: "Content-Length")
+            self.contentRange = try response.decodeIfPresent(String.self, forHeader: "Content-Range")
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+            self.deleteMarker = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-delete-marker")
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.expiration = try response.decodeIfPresent(String.self, forHeader: "x-amz-expiration")
+            self.expires = try response.decodeIfPresent(Date.self, forHeader: "Expires")
+            self.lastModified = try response.decodeIfPresent(Date.self, forHeader: "Last-Modified")
+            self.metadata = try response.decodeIfPresent([String: String].self, forHeader: "x-amz-meta-")
+            self.missingMeta = try response.decodeIfPresent(Int.self, forHeader: "x-amz-missing-meta")
+            self.objectLockLegalHoldStatus = try response.decodeIfPresent(ObjectLockLegalHoldStatus.self, forHeader: "x-amz-object-lock-legal-hold")
+            self.objectLockMode = try response.decodeIfPresent(ObjectLockMode.self, forHeader: "x-amz-object-lock-mode")
+            self.objectLockRetainUntilDate = try response.decodeIfPresent(Date.self, forHeader: "x-amz-object-lock-retain-until-date")
+            self.partsCount = try response.decodeIfPresent(Int.self, forHeader: "x-amz-mp-parts-count")
+            self.replicationStatus = try response.decodeIfPresent(ReplicationStatus.self, forHeader: "x-amz-replication-status")
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.restore = try response.decodeIfPresent(String.self, forHeader: "x-amz-restore")
+            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
+            self.storageClass = try response.decodeIfPresent(StorageClass.self, forHeader: "x-amz-storage-class")
+            self.tagCount = try response.decodeIfPresent(Int.self, forHeader: "x-amz-tagging-count")
+            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
+            self.websiteRedirectLocation = try response.decodeIfPresent(String.self, forHeader: "x-amz-website-redirect-location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectRequest: AWSEncodableShape {
@@ -4052,23 +3975,20 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectRetentionOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "retention"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "retention", location: .body("Retention"))
-        ]
-
+    public struct GetObjectRetentionOutput: AWSDecodableShape {
         /// The container element for an object's retention settings.
-        public let retention: ObjectLockRetention?
+        public let retention: ObjectLockRetention
 
-        public init(retention: ObjectLockRetention? = nil) {
+        public init(retention: ObjectLockRetention) {
             self.retention = retention
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case retention = "Retention"
+        public init(from decoder: Decoder) throws {
+            self.retention = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectRetentionRequest: AWSEncodableShape {
@@ -4106,10 +4026,6 @@ extension S3 {
     }
 
     public struct GetObjectTaggingOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "versionId", location: .header("x-amz-version-id"))
-        ]
-
         public struct _TagSetEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// Contains the tag set.
@@ -4123,9 +4039,16 @@ extension S3 {
             self.versionId = versionId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.tagSet = try container.decode(CustomCoding<ArrayCoder<_TagSetEncoding, Tag>>.self, forKey: .tagSet).wrappedValue
+            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tagSet = "TagSet"
-            case versionId = "x-amz-version-id"
         }
     }
 
@@ -4163,28 +4086,25 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectTorrentOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct GetObjectTorrentOutput: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body("Body")),
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
-        ]
-
         /// A Bencoded dictionary as defined by the BitTorrent specification
-        public let body: HTTPBody?
+        public let body: AWSHTTPBody
         public let requestCharged: RequestCharged?
 
-        public init(body: HTTPBody? = nil, requestCharged: RequestCharged? = nil) {
+        public init(body: AWSHTTPBody, requestCharged: RequestCharged? = nil) {
             self.body = body
             self.requestCharged = requestCharged
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "Body"
-            case requestCharged = "x-amz-request-charged"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.body = response.decodePayload()
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectTorrentRequest: AWSEncodableShape {
@@ -4217,23 +4137,20 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetPublicAccessBlockOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "publicAccessBlockConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body("PublicAccessBlockConfiguration"))
-        ]
-
+    public struct GetPublicAccessBlockOutput: AWSDecodableShape {
         /// The PublicAccessBlock configuration currently in effect for this Amazon S3 bucket.
-        public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
+        public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
 
-        public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil) {
+        public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
+        public init(from decoder: Decoder) throws {
+            self.publicAccessBlockConfiguration = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPublicAccessBlockRequest: AWSEncodableShape {
@@ -4334,43 +4251,6 @@ extension S3 {
     }
 
     public struct HeadObjectOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "acceptRanges", location: .header("accept-ranges")),
-            AWSMemberEncoding(label: "archiveStatus", location: .header("x-amz-archive-status")),
-            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header("x-amz-server-side-encryption-bucket-key-enabled")),
-            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
-            AWSMemberEncoding(label: "checksumCRC32", location: .header("x-amz-checksum-crc32")),
-            AWSMemberEncoding(label: "checksumCRC32C", location: .header("x-amz-checksum-crc32c")),
-            AWSMemberEncoding(label: "checksumSHA1", location: .header("x-amz-checksum-sha1")),
-            AWSMemberEncoding(label: "checksumSHA256", location: .header("x-amz-checksum-sha256")),
-            AWSMemberEncoding(label: "contentDisposition", location: .header("Content-Disposition")),
-            AWSMemberEncoding(label: "contentEncoding", location: .header("Content-Encoding")),
-            AWSMemberEncoding(label: "contentLanguage", location: .header("Content-Language")),
-            AWSMemberEncoding(label: "contentLength", location: .header("Content-Length")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "deleteMarker", location: .header("x-amz-delete-marker")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "expiration", location: .header("x-amz-expiration")),
-            AWSMemberEncoding(label: "expires", location: .header("Expires")),
-            AWSMemberEncoding(label: "lastModified", location: .header("Last-Modified")),
-            AWSMemberEncoding(label: "metadata", location: .headerPrefix("x-amz-meta-")),
-            AWSMemberEncoding(label: "missingMeta", location: .header("x-amz-missing-meta")),
-            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header("x-amz-object-lock-legal-hold")),
-            AWSMemberEncoding(label: "objectLockMode", location: .header("x-amz-object-lock-mode")),
-            AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header("x-amz-object-lock-retain-until-date")),
-            AWSMemberEncoding(label: "partsCount", location: .header("x-amz-mp-parts-count")),
-            AWSMemberEncoding(label: "replicationStatus", location: .header("x-amz-replication-status")),
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged")),
-            AWSMemberEncoding(label: "restore", location: .header("x-amz-restore")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header("x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "storageClass", location: .header("x-amz-storage-class")),
-            AWSMemberEncoding(label: "versionId", location: .header("x-amz-version-id")),
-            AWSMemberEncoding(label: "websiteRedirectLocation", location: .header("x-amz-website-redirect-location"))
-        ]
-
         /// Indicates that a range of bytes was specified.
         public let acceptRanges: String?
         /// The archive state of the head object.
@@ -4479,42 +4359,46 @@ extension S3 {
             self.websiteRedirectLocation = websiteRedirectLocation
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case acceptRanges = "accept-ranges"
-            case archiveStatus = "x-amz-archive-status"
-            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
-            case cacheControl = "Cache-Control"
-            case checksumCRC32 = "x-amz-checksum-crc32"
-            case checksumCRC32C = "x-amz-checksum-crc32c"
-            case checksumSHA1 = "x-amz-checksum-sha1"
-            case checksumSHA256 = "x-amz-checksum-sha256"
-            case contentDisposition = "Content-Disposition"
-            case contentEncoding = "Content-Encoding"
-            case contentLanguage = "Content-Language"
-            case contentLength = "Content-Length"
-            case contentType = "Content-Type"
-            case deleteMarker = "x-amz-delete-marker"
-            case eTag = "ETag"
-            case expiration = "x-amz-expiration"
-            case expires = "Expires"
-            case lastModified = "Last-Modified"
-            case metadata = "x-amz-meta-"
-            case missingMeta = "x-amz-missing-meta"
-            case objectLockLegalHoldStatus = "x-amz-object-lock-legal-hold"
-            case objectLockMode = "x-amz-object-lock-mode"
-            case objectLockRetainUntilDate = "x-amz-object-lock-retain-until-date"
-            case partsCount = "x-amz-mp-parts-count"
-            case replicationStatus = "x-amz-replication-status"
-            case requestCharged = "x-amz-request-charged"
-            case restore = "x-amz-restore"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sseCustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sseCustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case ssekmsKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case storageClass = "x-amz-storage-class"
-            case versionId = "x-amz-version-id"
-            case websiteRedirectLocation = "x-amz-website-redirect-location"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.acceptRanges = try response.decodeIfPresent(String.self, forHeader: "accept-ranges")
+            self.archiveStatus = try response.decodeIfPresent(ArchiveStatus.self, forHeader: "x-amz-archive-status")
+            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
+            self.checksumCRC32 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32")
+            self.checksumCRC32C = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32c")
+            self.checksumSHA1 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha1")
+            self.checksumSHA256 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha256")
+            self.contentDisposition = try response.decodeIfPresent(String.self, forHeader: "Content-Disposition")
+            self.contentEncoding = try response.decodeIfPresent(String.self, forHeader: "Content-Encoding")
+            self.contentLanguage = try response.decodeIfPresent(String.self, forHeader: "Content-Language")
+            self.contentLength = try response.decodeIfPresent(Int64.self, forHeader: "Content-Length")
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+            self.deleteMarker = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-delete-marker")
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.expiration = try response.decodeIfPresent(String.self, forHeader: "x-amz-expiration")
+            self.expires = try response.decodeIfPresent(Date.self, forHeader: "Expires")
+            self.lastModified = try response.decodeIfPresent(Date.self, forHeader: "Last-Modified")
+            self.metadata = try response.decodeIfPresent([String: String].self, forHeader: "x-amz-meta-")
+            self.missingMeta = try response.decodeIfPresent(Int.self, forHeader: "x-amz-missing-meta")
+            self.objectLockLegalHoldStatus = try response.decodeIfPresent(ObjectLockLegalHoldStatus.self, forHeader: "x-amz-object-lock-legal-hold")
+            self.objectLockMode = try response.decodeIfPresent(ObjectLockMode.self, forHeader: "x-amz-object-lock-mode")
+            self.objectLockRetainUntilDate = try response.decodeIfPresent(Date.self, forHeader: "x-amz-object-lock-retain-until-date")
+            self.partsCount = try response.decodeIfPresent(Int.self, forHeader: "x-amz-mp-parts-count")
+            self.replicationStatus = try response.decodeIfPresent(ReplicationStatus.self, forHeader: "x-amz-replication-status")
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.restore = try response.decodeIfPresent(String.self, forHeader: "x-amz-restore")
+            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
+            self.storageClass = try response.decodeIfPresent(StorageClass.self, forHeader: "x-amz-storage-class")
+            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
+            self.websiteRedirectLocation = try response.decodeIfPresent(String.self, forHeader: "x-amz-website-redirect-location")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct HeadObjectRequest: AWSEncodableShape {
@@ -5622,12 +5506,6 @@ extension S3 {
     }
 
     public struct ListPartsOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "abortDate", location: .header("x-amz-abort-date")),
-            AWSMemberEncoding(label: "abortRuleId", location: .header("x-amz-abort-rule-id")),
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
-        ]
-
         /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, then the response includes this header indicating when the initiated multipart upload will become eligible for abort operation. For more information, see Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration. The response will also include the x-amz-abort-rule-id header that will provide the ID of the lifecycle configuration rule that defines this action.
         @OptionalCustomCoding<HTTPHeaderDateCoder>
         public var abortDate: Date?
@@ -5677,9 +5555,28 @@ extension S3 {
             self.uploadId = uploadId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.abortDate = try response.decodeIfPresent(Date.self, forHeader: "x-amz-abort-date")
+            self.abortRuleId = try response.decodeIfPresent(String.self, forHeader: "x-amz-abort-rule-id")
+            self.bucket = try container.decodeIfPresent(String.self, forKey: .bucket)
+            self.checksumAlgorithm = try container.decodeIfPresent(ChecksumAlgorithm.self, forKey: .checksumAlgorithm)
+            self.initiator = try container.decodeIfPresent(Initiator.self, forKey: .initiator)
+            self.isTruncated = try container.decodeIfPresent(Bool.self, forKey: .isTruncated)
+            self.key = try container.decodeIfPresent(String.self, forKey: .key)
+            self.maxParts = try container.decodeIfPresent(Int.self, forKey: .maxParts)
+            self.nextPartNumberMarker = try container.decodeIfPresent(String.self, forKey: .nextPartNumberMarker)
+            self.owner = try container.decodeIfPresent(Owner.self, forKey: .owner)
+            self.partNumberMarker = try container.decodeIfPresent(String.self, forKey: .partNumberMarker)
+            self.parts = try container.decodeIfPresent([Part].self, forKey: .parts)
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.storageClass = try container.decodeIfPresent(StorageClass.self, forKey: .storageClass)
+            self.uploadId = try container.decodeIfPresent(String.self, forKey: .uploadId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
-            case abortDate = "x-amz-abort-date"
-            case abortRuleId = "x-amz-abort-rule-id"
             case bucket = "Bucket"
             case checksumAlgorithm = "ChecksumAlgorithm"
             case initiator = "Initiator"
@@ -5690,7 +5587,6 @@ extension S3 {
             case owner = "Owner"
             case partNumberMarker = "PartNumberMarker"
             case parts = "Part"
-            case requestCharged = "x-amz-request-charged"
             case storageClass = "StorageClass"
             case uploadId = "UploadId"
         }
@@ -6385,9 +6281,7 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accelerateConfiguration = "AccelerateConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketAclRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6445,9 +6339,7 @@ extension S3 {
             self.grantWriteACP = grantWriteACP
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessControlPolicy = "AccessControlPolicy"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketAnalyticsConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6480,9 +6372,7 @@ extension S3 {
             try self.analyticsConfiguration.validate(name: "\(name).analyticsConfiguration")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case analyticsConfiguration = "AnalyticsConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketCorsRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6516,9 +6406,7 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case corsConfiguration = "CORSConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketEncryptionRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6551,9 +6439,7 @@ extension S3 {
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketIntelligentTieringConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6582,9 +6468,7 @@ extension S3 {
             try self.intelligentTieringConfiguration.validate(name: "\(name).intelligentTieringConfiguration")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case intelligentTieringConfiguration = "IntelligentTieringConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketInventoryConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6613,9 +6497,7 @@ extension S3 {
             self.inventoryConfiguration = inventoryConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inventoryConfiguration = "InventoryConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketLifecycleConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6649,9 +6531,7 @@ extension S3 {
             try self.lifecycleConfiguration?.validate(name: "\(name).lifecycleConfiguration")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case lifecycleConfiguration = "LifecycleConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketLoggingRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6685,9 +6565,7 @@ extension S3 {
             self.expectedBucketOwner = expectedBucketOwner
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucketLoggingStatus = "BucketLoggingStatus"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketMetricsConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6720,9 +6598,7 @@ extension S3 {
             try self.metricsConfiguration.validate(name: "\(name).metricsConfiguration")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case metricsConfiguration = "MetricsConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketNotificationConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6750,9 +6626,7 @@ extension S3 {
             self.skipDestinationValidation = skipDestinationValidation
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case notificationConfiguration = "NotificationConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketOwnershipControlsRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6782,9 +6656,7 @@ extension S3 {
             self.ownershipControls = ownershipControls
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case ownershipControls = "OwnershipControls"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6822,9 +6694,7 @@ extension S3 {
             self.policy = policy
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case policy = "Policy"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketReplicationRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6865,9 +6735,7 @@ extension S3 {
             try self.replicationConfiguration.validate(name: "\(name).replicationConfiguration")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case replicationConfiguration = "ReplicationConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketRequestPaymentRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6901,9 +6769,7 @@ extension S3 {
             self.requestPaymentConfiguration = requestPaymentConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case requestPaymentConfiguration = "RequestPaymentConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketTaggingRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6941,9 +6807,7 @@ extension S3 {
             try self.tagging.validate(name: "\(name).tagging")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case tagging = "Tagging"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketVersioningRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -6981,9 +6845,7 @@ extension S3 {
             self.versioningConfiguration = versioningConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case versioningConfiguration = "VersioningConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketWebsiteRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -7021,25 +6883,23 @@ extension S3 {
             try self.websiteConfiguration.validate(name: "\(name).websiteConfiguration")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case websiteConfiguration = "WebsiteConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutObjectAclOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
-        ]
-
         public let requestCharged: RequestCharged?
 
         public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutObjectAclRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -7112,25 +6972,23 @@ extension S3 {
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case accessControlPolicy = "AccessControlPolicy"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutObjectLegalHoldOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
-        ]
-
         public let requestCharged: RequestCharged?
 
         public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutObjectLegalHoldRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -7179,25 +7037,23 @@ extension S3 {
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case legalHold = "LegalHold"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutObjectLockConfigurationOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
-        ]
-
         public let requestCharged: RequestCharged?
 
         public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutObjectLockConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -7238,29 +7094,10 @@ extension S3 {
             self.token = token
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case objectLockConfiguration = "ObjectLockConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutObjectOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header("x-amz-server-side-encryption-bucket-key-enabled")),
-            AWSMemberEncoding(label: "checksumCRC32", location: .header("x-amz-checksum-crc32")),
-            AWSMemberEncoding(label: "checksumCRC32C", location: .header("x-amz-checksum-crc32c")),
-            AWSMemberEncoding(label: "checksumSHA1", location: .header("x-amz-checksum-sha1")),
-            AWSMemberEncoding(label: "checksumSHA256", location: .header("x-amz-checksum-sha256")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "expiration", location: .header("x-amz-expiration")),
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header("x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "ssekmsEncryptionContext", location: .header("x-amz-server-side-encryption-context")),
-            AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "versionId", location: .header("x-amz-version-id"))
-        ]
-
         /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
@@ -7306,22 +7143,26 @@ extension S3 {
             self.versionId = versionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
-            case checksumCRC32 = "x-amz-checksum-crc32"
-            case checksumCRC32C = "x-amz-checksum-crc32c"
-            case checksumSHA1 = "x-amz-checksum-sha1"
-            case checksumSHA256 = "x-amz-checksum-sha256"
-            case eTag = "ETag"
-            case expiration = "x-amz-expiration"
-            case requestCharged = "x-amz-request-charged"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sseCustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sseCustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case ssekmsEncryptionContext = "x-amz-server-side-encryption-context"
-            case ssekmsKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
-            case versionId = "x-amz-version-id"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.checksumCRC32 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32")
+            self.checksumCRC32C = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32c")
+            self.checksumSHA1 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha1")
+            self.checksumSHA256 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha256")
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.expiration = try response.decodeIfPresent(String.self, forHeader: "x-amz-expiration")
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsEncryptionContext = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-context")
+            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
+            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -7370,7 +7211,7 @@ extension S3 {
         /// The canned ACL to apply to the object. For more information, see Canned ACL. This action is not supported by Amazon S3 on Outposts.
         public let acl: ObjectCannedACL?
         /// Object data.
-        public let body: HTTPBody?
+        public let body: AWSHTTPBody?
         /// The bucket name to which the PUT action was initiated.  When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a PUT action doesn’t affect bucket-level settings for S3 Bucket Key.
@@ -7443,7 +7284,7 @@ extension S3 {
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata. In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request header sets the object redirect to another website:  x-amz-website-redirect-location: http://www.example.com/  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects.
         public let websiteRedirectLocation: String?
 
-        public init(acl: ObjectCannedACL? = nil, body: HTTPBody? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, body: AWSHTTPBody? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.body = body
             self.bucket = bucket
@@ -7491,19 +7332,19 @@ extension S3 {
     }
 
     public struct PutObjectRetentionOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged"))
-        ]
-
         public let requestCharged: RequestCharged?
 
         public init(requestCharged: RequestCharged? = nil) {
             self.requestCharged = requestCharged
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutObjectRetentionRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -7556,16 +7397,10 @@ extension S3 {
             try self.validate(self.key, name: "key", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case retention = "Retention"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutObjectTaggingOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "versionId", location: .header("x-amz-version-id"))
-        ]
-
         /// The versionId of the object the tag-set was added to.
         public let versionId: String?
 
@@ -7573,9 +7408,13 @@ extension S3 {
             self.versionId = versionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case versionId = "x-amz-version-id"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.versionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-version-id")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutObjectTaggingRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -7625,9 +7464,7 @@ extension S3 {
             try self.tagging.validate(name: "\(name).tagging")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case tagging = "Tagging"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutPublicAccessBlockRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -7661,9 +7498,7 @@ extension S3 {
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct QueueConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -7924,11 +7759,6 @@ extension S3 {
     }
 
     public struct RestoreObjectOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged")),
-            AWSMemberEncoding(label: "restoreOutputPath", location: .header("x-amz-restore-output-path"))
-        ]
-
         public let requestCharged: RequestCharged?
         /// Indicates the path in the provided S3 output location where Select results will be restored to.
         public let restoreOutputPath: String?
@@ -7938,10 +7768,14 @@ extension S3 {
             self.restoreOutputPath = restoreOutputPath
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case requestCharged = "x-amz-request-charged"
-            case restoreOutputPath = "x-amz-restore-output-path"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.restoreOutputPath = try response.decodeIfPresent(String.self, forHeader: "x-amz-restore-output-path")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RestoreObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -7986,9 +7820,7 @@ extension S3 {
             try self.restoreRequest?.validate(name: "\(name).restoreRequest")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case restoreRequest = "RestoreRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct RestoreRequest: AWSEncodableShape {
@@ -8144,23 +7976,20 @@ extension S3 {
         }
     }
 
-    public struct SelectObjectContentOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "payload"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "payload", location: .body("Payload"))
-        ]
-
+    public struct SelectObjectContentOutput: AWSDecodableShape {
         /// The array of results.
-        public let payload: SelectObjectContentEventStream?
+        public let payload: SelectObjectContentEventStream
 
-        public init(payload: SelectObjectContentEventStream? = nil) {
+        public init(payload: SelectObjectContentEventStream) {
             self.payload = payload
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "Payload"
+        public init(from decoder: Decoder) throws {
+            self.payload = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SelectObjectContentRequest: AWSEncodableShape {
@@ -8515,24 +8344,11 @@ extension S3 {
         }
     }
 
-    public struct UploadPartCopyOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "copyPartResult"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header("x-amz-server-side-encryption-bucket-key-enabled")),
-            AWSMemberEncoding(label: "copyPartResult", location: .body("CopyPartResult")),
-            AWSMemberEncoding(label: "copySourceVersionId", location: .header("x-amz-copy-source-version-id")),
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header("x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-server-side-encryption-aws-kms-key-id"))
-        ]
-
+    public struct UploadPartCopyOutput: AWSDecodableShape {
         /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// Container for all response elements.
-        public let copyPartResult: CopyPartResult?
+        public let copyPartResult: CopyPartResult
         /// The version of the source object that was copied, if you have enabled versioning on the source bucket.
         public let copySourceVersionId: String?
         public let requestCharged: RequestCharged?
@@ -8545,7 +8361,7 @@ extension S3 {
         /// If present, specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that was used for the object.
         public let ssekmsKeyId: String?
 
-        public init(bucketKeyEnabled: Bool? = nil, copyPartResult: CopyPartResult? = nil, copySourceVersionId: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil) {
+        public init(bucketKeyEnabled: Bool? = nil, copyPartResult: CopyPartResult, copySourceVersionId: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil) {
             self.bucketKeyEnabled = bucketKeyEnabled
             self.copyPartResult = copyPartResult
             self.copySourceVersionId = copySourceVersionId
@@ -8556,16 +8372,20 @@ extension S3 {
             self.ssekmsKeyId = ssekmsKeyId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
-            case copyPartResult = "CopyPartResult"
-            case copySourceVersionId = "x-amz-copy-source-version-id"
-            case requestCharged = "x-amz-request-charged"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sseCustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sseCustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case ssekmsKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.copyPartResult = try .init(from: decoder)
+            self.copySourceVersionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-copy-source-version-id")
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UploadPartCopyRequest: AWSEncodableShape {
@@ -8662,20 +8482,6 @@ extension S3 {
     }
 
     public struct UploadPartOutput: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bucketKeyEnabled", location: .header("x-amz-server-side-encryption-bucket-key-enabled")),
-            AWSMemberEncoding(label: "checksumCRC32", location: .header("x-amz-checksum-crc32")),
-            AWSMemberEncoding(label: "checksumCRC32C", location: .header("x-amz-checksum-crc32c")),
-            AWSMemberEncoding(label: "checksumSHA1", location: .header("x-amz-checksum-sha1")),
-            AWSMemberEncoding(label: "checksumSHA256", location: .header("x-amz-checksum-sha256")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "requestCharged", location: .header("x-amz-request-charged")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header("x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sseCustomerAlgorithm", location: .header("x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sseCustomerKeyMD5", location: .header("x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "ssekmsKeyId", location: .header("x-amz-server-side-encryption-aws-kms-key-id"))
-        ]
-
         /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
@@ -8712,19 +8518,23 @@ extension S3 {
             self.ssekmsKeyId = ssekmsKeyId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case bucketKeyEnabled = "x-amz-server-side-encryption-bucket-key-enabled"
-            case checksumCRC32 = "x-amz-checksum-crc32"
-            case checksumCRC32C = "x-amz-checksum-crc32c"
-            case checksumSHA1 = "x-amz-checksum-sha1"
-            case checksumSHA256 = "x-amz-checksum-sha256"
-            case eTag = "ETag"
-            case requestCharged = "x-amz-request-charged"
-            case serverSideEncryption = "x-amz-server-side-encryption"
-            case sseCustomerAlgorithm = "x-amz-server-side-encryption-customer-algorithm"
-            case sseCustomerKeyMD5 = "x-amz-server-side-encryption-customer-key-MD5"
-            case ssekmsKeyId = "x-amz-server-side-encryption-aws-kms-key-id"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.bucketKeyEnabled = try response.decodeIfPresent(Bool.self, forHeader: "x-amz-server-side-encryption-bucket-key-enabled")
+            self.checksumCRC32 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32")
+            self.checksumCRC32C = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-crc32c")
+            self.checksumSHA1 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha1")
+            self.checksumSHA256 = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum-sha256")
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.requestCharged = try response.decodeIfPresent(RequestCharged.self, forHeader: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeIfPresent(ServerSideEncryption.self, forHeader: "x-amz-server-side-encryption")
+            self.sseCustomerAlgorithm = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-algorithm")
+            self.sseCustomerKeyMD5 = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-customer-key-MD5")
+            self.ssekmsKeyId = try response.decodeIfPresent(String.self, forHeader: "x-amz-server-side-encryption-aws-kms-key-id")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UploadPartRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -8751,7 +8561,7 @@ extension S3 {
         ]
 
         /// Object data.
-        public let body: HTTPBody?
+        public let body: AWSHTTPBody?
         /// The name of the bucket to which the multipart upload was initiated. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter. This checksum algorithm must be the same for all parts and it match the checksum value supplied in the CreateMultipartUpload request.
@@ -8784,7 +8594,7 @@ extension S3 {
         /// Upload ID identifying the multipart upload whose part is being uploaded.
         public let uploadId: String
 
-        public init(body: HTTPBody? = nil, bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, partNumber: Int = 0, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
+        public init(body: AWSHTTPBody? = nil, bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, partNumber: Int = 0, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
             self.body = body
             self.bucket = bucket
             self.checksumAlgorithm = checksumAlgorithm
@@ -8910,7 +8720,7 @@ extension S3 {
         /// Indicates that a range of bytes was specified.
         public let acceptRanges: String?
         /// The object data.
-        public let body: HTTPBody?
+        public let body: AWSHTTPBody?
         ///  Indicates whether the object stored in Amazon S3 uses an S3 bucket key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
         public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
@@ -8990,7 +8800,7 @@ extension S3 {
         /// An ID used to reference a specific version of the object.
         public let versionId: String?
 
-        public init(acceptRanges: String? = nil, body: HTTPBody? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, errorCode: String? = nil, errorMessage: String? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, requestRoute: String, requestToken: String, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, statusCode: Int? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil) {
+        public init(acceptRanges: String? = nil, body: AWSHTTPBody? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, errorCode: String? = nil, errorMessage: String? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, requestRoute: String, requestToken: String, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, statusCode: Int? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
             self.bucketKeyEnabled = bucketKeyEnabled

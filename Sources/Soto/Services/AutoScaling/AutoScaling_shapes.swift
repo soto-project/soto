@@ -293,7 +293,7 @@ extension AutoScaling {
 
     public struct ActivitiesType: AWSDecodableShape {
         /// The scaling activities. Activities are sorted by start time. Activities still in progress are described first.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<Activity>>
         public var activities: [Activity]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
@@ -413,7 +413,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var instanceIds: [String]?
 
         public init(autoScalingGroupName: String, instanceIds: [String]? = nil) {
@@ -446,7 +446,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The Amazon Resource Names (ARNs) of the target groups. You can specify up to 10 target groups. To get the ARN of a target group, use the Elastic Load Balancing DescribeTargetGroups API operation.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var targetGroupARNs: [String]
 
         public init(autoScalingGroupName: String, targetGroupARNs: [String]) {
@@ -479,7 +479,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of the load balancers. You can specify up to 10 load balancers.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var loadBalancerNames: [String]
 
         public init(autoScalingGroupName: String, loadBalancerNames: [String]) {
@@ -512,7 +512,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<TrafficSourceIdentifier>>
         public var trafficSources: [TrafficSourceIdentifier]
 
         public init(autoScalingGroupName: String, trafficSources: [TrafficSourceIdentifier]) {
@@ -541,7 +541,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more Availability Zones for the group.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var availabilityZones: [String]
         /// Indicates whether Capacity Rebalancing is enabled.
         public let capacityRebalance: Bool?
@@ -558,21 +558,21 @@ extension AutoScaling {
         /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only.
         public let desiredCapacityType: String?
         /// The metrics enabled for the group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<EnabledMetric>>
         public var enabledMetrics: [EnabledMetric]?
         /// The duration of the health check grace period, in seconds.
         public let healthCheckGracePeriod: Int?
         /// A comma-separated value string of one or more health check types.
         public let healthCheckType: String
         /// The EC2 instances associated with the group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Instance>>
         public var instances: [Instance]?
         /// The name of the associated launch configuration.
         public let launchConfigurationName: String?
         /// The launch template for the group.
         public let launchTemplate: LaunchTemplateSpecification?
         /// One or more load balancers associated with the group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var loadBalancerNames: [String]?
         /// The maximum amount of time, in seconds, that an instance can be in service. Valid Range: Minimum value of 0.
         public let maxInstanceLifetime: Int?
@@ -593,19 +593,19 @@ extension AutoScaling {
         /// The current state of the group when the DeleteAutoScalingGroup operation is in progress.
         public let status: String?
         /// The suspended processes associated with the group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<SuspendedProcess>>
         public var suspendedProcesses: [SuspendedProcess]?
         /// The tags for the group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TagDescription>>
         public var tags: [TagDescription]?
         /// The Amazon Resource Names (ARN) of the target groups for your load balancer.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var targetGroupARNs: [String]?
         /// The termination policies for the group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var terminationPolicies: [String]?
         /// The traffic sources associated with this Auto Scaling group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TrafficSourceIdentifier>>
         public var trafficSources: [TrafficSourceIdentifier]?
         /// One or more subnet IDs, if applicable, separated by commas.
         public let vpcZoneIdentifier: String?
@@ -691,10 +691,10 @@ extension AutoScaling {
 
     public struct AutoScalingGroupNamesType: AWSEncodableShape {
         /// The names of the Auto Scaling groups. By default, you can only specify up to 50 names. You can optionally increase this limit using the MaxRecords property. If you omit this property, all Auto Scaling groups are described.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var autoScalingGroupNames: [String]?
         /// One or more filters to limit the results based on specific tags.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Filter>>
         public var filters: [Filter]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int?
@@ -730,7 +730,7 @@ extension AutoScaling {
 
     public struct AutoScalingGroupsType: AWSDecodableShape {
         /// The groups.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<AutoScalingGroup>>
         public var autoScalingGroups: [AutoScalingGroup]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
@@ -797,7 +797,7 @@ extension AutoScaling {
 
     public struct AutoScalingInstancesType: AWSDecodableShape {
         /// The instances.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AutoScalingInstanceDetails>>
         public var autoScalingInstances: [AutoScalingInstanceDetails]?
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
@@ -837,7 +837,7 @@ extension AutoScaling {
 
     public struct BatchDeleteScheduledActionAnswer: AWSDecodableShape {
         /// The names of the scheduled actions that could not be deleted, including an error message.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<FailedScheduledUpdateGroupActionRequest>>
         public var failedScheduledActions: [FailedScheduledUpdateGroupActionRequest]?
 
         public init(failedScheduledActions: [FailedScheduledUpdateGroupActionRequest]? = nil) {
@@ -853,7 +853,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of the scheduled actions to delete. The maximum number allowed is 50.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var scheduledActionNames: [String]
 
         public init(autoScalingGroupName: String, scheduledActionNames: [String]) {
@@ -880,7 +880,7 @@ extension AutoScaling {
 
     public struct BatchPutScheduledUpdateGroupActionAnswer: AWSDecodableShape {
         /// The names of the scheduled actions that could not be created or updated, including an error message.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<FailedScheduledUpdateGroupActionRequest>>
         public var failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]?
 
         public init(failedScheduledUpdateGroupActions: [FailedScheduledUpdateGroupActionRequest]? = nil) {
@@ -896,7 +896,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more scheduled actions. The maximum number allowed is 50.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<ScheduledUpdateGroupActionRequest>>
         public var scheduledUpdateGroupActions: [ScheduledUpdateGroupActionRequest]
 
         public init(autoScalingGroupName: String, scheduledUpdateGroupActions: [ScheduledUpdateGroupActionRequest]) {
@@ -988,10 +988,10 @@ extension AutoScaling {
 
     public struct CapacityForecast: AWSDecodableShape {
         /// The timestamps for the data points, in UTC format.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<Date>>
         public var timestamps: [Date]
         /// The values of the data points.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<Double>>
         public var values: [Double]
 
         public init(timestamps: [Date], values: [Double]) {
@@ -1056,7 +1056,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group. This name must be unique per Region per account. The name can contain any ASCII character 33 to 126 including most punctuation characters, digits, and upper and lowercased letters.  You cannot use a colon (:) in the name.
         public let autoScalingGroupName: String
         /// A list of Availability Zones where instances in the Auto Scaling group can be created. Used for launching into the default VPC subnet in each Availability Zone when not using the VPCZoneIdentifier property, or for attaching a network interface when an existing network interface ID is specified in a launch template.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var availabilityZones: [String]?
         /// Indicates whether Capacity Rebalancing is enabled. Otherwise, Capacity Rebalancing is disabled. When you turn on Capacity Rebalancing, Amazon EC2 Auto Scaling attempts to launch a Spot Instance whenever Amazon EC2 notifies that a Spot Instance is at an elevated risk of interruption. After launching a new instance, it then terminates an old instance. For more information, see Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions in the in the Amazon EC2 Auto Scaling User Guide.
         public let capacityRebalance: Bool?
@@ -1081,10 +1081,10 @@ extension AutoScaling {
         /// Information used to specify the launch template and version to use to launch instances.  Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).  The launch template that is specified must be configured for use with an Auto Scaling group. For more information, see Creating a launch template for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
         public let launchTemplate: LaunchTemplateSpecification?
         /// One or more lifecycle hooks to add to the Auto Scaling group before instances are launched.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LifecycleHookSpecification>>
         public var lifecycleHookSpecificationList: [LifecycleHookSpecification]?
         /// A list of Classic Load Balancers associated with this Auto Scaling group. For Application Load Balancers, Network Load Balancers, and Gateway Load Balancers, specify the TargetGroupARNs property instead.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var loadBalancerNames: [String]?
         /// The maximum amount of time, in seconds, that an instance can be in service. The default is null. If specified, the value must be either 0 or a number equal to or greater than 86,400 seconds (1 day). For more information, see Replacing Auto Scaling instances based on maximum instance lifetime in the Amazon EC2 Auto Scaling User Guide.
         public let maxInstanceLifetime: Int?
@@ -1101,16 +1101,16 @@ extension AutoScaling {
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services service on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
         public let serviceLinkedRoleARN: String?
         /// One or more tags. You can tag your Auto Scaling group and propagate the tags to the Amazon EC2 instances it launches. Tags are not propagated to Amazon EBS volumes. To add tags to Amazon EBS volumes, specify the tags in a launch template but use caution. If the launch template specifies an instance tag with a key that is also specified for the Auto Scaling group, Amazon EC2 Auto Scaling overrides the value of that instance tag with the value specified by the Auto Scaling group. For more information, see Tag Auto Scaling groups and instances in the Amazon EC2 Auto Scaling User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
         /// The Amazon Resource Names (ARN) of the Elastic Load Balancing target groups to associate with the Auto Scaling group. Instances are registered as targets with the target groups. The target groups receive incoming traffic and route requests to one or more registered targets. For more information, see Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var targetGroupARNs: [String]?
         /// A policy or a list of policies that are used to select the instance to terminate. These policies are executed in the order that you list them. For more information, see Work with Amazon EC2 Auto Scaling termination policies in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var terminationPolicies: [String]?
         /// The list of traffic sources to attach to this Auto Scaling group. You can use any of the following as traffic sources for an Auto Scaling group: Classic Load Balancer, Application Load Balancer, Gateway Load Balancer, Network Load Balancer, and VPC Lattice.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TrafficSourceIdentifier>>
         public var trafficSources: [TrafficSourceIdentifier]?
         /// A comma-separated list of subnet IDs for a virtual private cloud (VPC) where instances in the Auto Scaling group can be created. If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those Availability Zones.
         public let vpcZoneIdentifier: String?
@@ -1238,12 +1238,12 @@ extension AutoScaling {
         /// Specifies whether to assign a public IPv4 address to the group's instances. If the instance is launched into a default subnet, the default is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4 address on the subnet. If you specify true, each instance in the Auto Scaling group receives a unique public IPv4 address. For more information, see Launching Auto Scaling instances in a VPC in the Amazon EC2 Auto Scaling User Guide. If you specify this property, you must specify at least one subnet for VPCZoneIdentifier when you create your group.
         public let associatePublicIpAddress: Bool?
         /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see Block device mappings in the Amazon EC2 User Guide for Linux Instances.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<BlockDeviceMapping>>
         public var blockDeviceMappings: [BlockDeviceMapping]?
         /// Available for backward compatibility.
         public let classicLinkVPCId: String?
         /// Available for backward compatibility.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var classicLinkVPCSecurityGroups: [String]?
         /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). The optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization is not available with all instance types. Additional fees are incurred when you enable EBS optimization for an instance type that is not EBS-optimized by default. For more information, see Amazon EBS-optimized instances in the Amazon EC2 User Guide for Linux Instances. The default value is false.
         public let ebsOptimized: Bool?
@@ -1270,7 +1270,7 @@ extension AutoScaling {
         /// The ID of the RAM disk to select.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see User provided kernels in the Amazon EC2 User Guide for Linux Instances.
         public let ramdiskId: String?
         /// A list that contains the security group IDs to assign to the instances in the Auto Scaling group. For more information, see Control traffic to resources using security groups in the Amazon Virtual Private Cloud User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var securityGroups: [String]?
         /// The maximum hourly price to be paid for any Spot Instance launched to fulfill the request. Spot Instances are launched when the price you specify exceeds the current Spot price. For more information, see Request Spot Instances for fault-tolerant and flexible applications in the Amazon EC2 Auto Scaling User Guide. Valid Range: Minimum value of 0.001  When you change your maximum price by creating a new launch configuration, running instances will continue to run as long as the maximum price for those running instances is higher than the current Spot price.
         public let spotPrice: String?
@@ -1373,7 +1373,7 @@ extension AutoScaling {
 
     public struct CreateOrUpdateTagsType: AWSEncodableShape {
         /// One or more tags.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
         public init(tags: [Tag]) {
@@ -1393,12 +1393,12 @@ extension AutoScaling {
 
     public struct CustomizedMetricSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricDimension>>
         public var dimensions: [MetricDimension]?
         /// The name of the metric. To get the exact metric name, namespace, and dimensions, inspect the Metric object that is returned by a call to ListMetrics.
         public let metricName: String?
         /// The metrics to include in the target tracking scaling policy, as a metric data query. This can include both raw metric and metric math expressions.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TargetTrackingMetricDataQuery>>
         public var metrics: [TargetTrackingMetricDataQuery]?
         /// The namespace of the metric.
         public let namespace: String?
@@ -1565,7 +1565,7 @@ extension AutoScaling {
 
     public struct DeleteTagsType: AWSEncodableShape {
         /// One or more tags.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
         public init(tags: [Tag]) {
@@ -1637,7 +1637,7 @@ extension AutoScaling {
 
     public struct DescribeAdjustmentTypesAnswer: AWSDecodableShape {
         /// The policy adjustment types.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AdjustmentType>>
         public var adjustmentTypes: [AdjustmentType]?
 
         public init(adjustmentTypes: [AdjustmentType]? = nil) {
@@ -1651,7 +1651,7 @@ extension AutoScaling {
 
     public struct DescribeAutoScalingInstancesType: AWSEncodableShape {
         /// The IDs of the instances. If you omit this property, all Auto Scaling instances are described. If you specify an ID that does not exist, it is ignored with no error. Array Members: Maximum number of 50 items.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var instanceIds: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 50.
         public let maxRecords: Int?
@@ -1682,7 +1682,7 @@ extension AutoScaling {
 
     public struct DescribeAutoScalingNotificationTypesAnswer: AWSDecodableShape {
         /// The notification types.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var autoScalingNotificationTypes: [String]?
 
         public init(autoScalingNotificationTypes: [String]? = nil) {
@@ -1696,7 +1696,7 @@ extension AutoScaling {
 
     public struct DescribeInstanceRefreshesAnswer: AWSDecodableShape {
         /// The instance refreshes for the specified group, sorted by creation timestamp in descending order.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<InstanceRefresh>>
         public var instanceRefreshes: [InstanceRefresh]?
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
@@ -1716,7 +1716,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more instance refresh IDs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var instanceRefreshIds: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int?
@@ -1752,7 +1752,7 @@ extension AutoScaling {
 
     public struct DescribeLifecycleHookTypesAnswer: AWSDecodableShape {
         /// The lifecycle hook types.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var lifecycleHookTypes: [String]?
 
         public init(lifecycleHookTypes: [String]? = nil) {
@@ -1766,7 +1766,7 @@ extension AutoScaling {
 
     public struct DescribeLifecycleHooksAnswer: AWSDecodableShape {
         /// The lifecycle hooks for the specified group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LifecycleHook>>
         public var lifecycleHooks: [LifecycleHook]?
 
         public init(lifecycleHooks: [LifecycleHook]? = nil) {
@@ -1782,7 +1782,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of one or more lifecycle hooks. If you omit this property, all lifecycle hooks are described.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var lifecycleHookNames: [String]?
 
         public init(autoScalingGroupName: String, lifecycleHookNames: [String]? = nil) {
@@ -1838,7 +1838,7 @@ extension AutoScaling {
 
     public struct DescribeLoadBalancerTargetGroupsResponse: AWSDecodableShape {
         /// Information about the target groups.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LoadBalancerTargetGroupState>>
         public var loadBalancerTargetGroups: [LoadBalancerTargetGroupState]?
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
@@ -1884,7 +1884,7 @@ extension AutoScaling {
 
     public struct DescribeLoadBalancersResponse: AWSDecodableShape {
         /// The load balancers.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LoadBalancerState>>
         public var loadBalancers: [LoadBalancerState]?
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
@@ -1902,10 +1902,10 @@ extension AutoScaling {
 
     public struct DescribeMetricCollectionTypesAnswer: AWSDecodableShape {
         /// The granularities for the metrics.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricGranularityType>>
         public var granularities: [MetricGranularityType]?
         /// The metrics.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricCollectionType>>
         public var metrics: [MetricCollectionType]?
 
         public init(granularities: [MetricGranularityType]? = nil, metrics: [MetricCollectionType]? = nil) {
@@ -1923,7 +1923,7 @@ extension AutoScaling {
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The notification configurations.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<NotificationConfiguration>>
         public var notificationConfigurations: [NotificationConfiguration]
 
         public init(nextToken: String? = nil, notificationConfigurations: [NotificationConfiguration]) {
@@ -1939,7 +1939,7 @@ extension AutoScaling {
 
     public struct DescribeNotificationConfigurationsType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var autoScalingGroupNames: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int?
@@ -1976,10 +1976,10 @@ extension AutoScaling {
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The names of one or more policies. If you omit this property, all policies are described. If a group name is provided, the results are limited to that group. If you specify an unknown policy name, it is ignored with no error. Array Members: Maximum number of 50 items.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var policyNames: [String]?
         /// One or more policy types. The valid values are SimpleScaling, StepScaling, TargetTrackingScaling, and PredictiveScaling.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var policyTypes: [String]?
 
         public init(autoScalingGroupName: String? = nil, maxRecords: Int? = nil, nextToken: String? = nil, policyNames: [String]? = nil, policyTypes: [String]? = nil) {
@@ -2018,7 +2018,7 @@ extension AutoScaling {
 
     public struct DescribeScalingActivitiesType: AWSEncodableShape {
         /// The activity IDs of the desired scaling activities. If you omit this property, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group. Array Members: Maximum number of 50 IDs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var activityIds: [String]?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
@@ -2066,7 +2066,7 @@ extension AutoScaling {
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The names of one or more scheduled actions. If you omit this property, all scheduled actions are described. If you specify an unknown scheduled action, it is ignored with no error. Array Members: Maximum number of 50 actions.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var scheduledActionNames: [String]?
         /// The earliest scheduled start time to return. If scheduled action names are provided, this property is ignored.
         public let startTime: Date?
@@ -2104,7 +2104,7 @@ extension AutoScaling {
 
     public struct DescribeTagsType: AWSEncodableShape {
         /// One or more filters to scope the tags to return. The maximum number of filters per filter type (for example, auto-scaling-group) is 1000.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Filter>>
         public var filters: [Filter]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int?
@@ -2133,7 +2133,7 @@ extension AutoScaling {
 
     public struct DescribeTerminationPolicyTypesAnswer: AWSDecodableShape {
         /// The termination policies supported by Amazon EC2 Auto Scaling: OldestInstance, OldestLaunchConfiguration, NewestInstance, ClosestToNextInstanceHour, Default, OldestLaunchTemplate, and AllocationStrategy.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var terminationPolicyTypes: [String]?
 
         public init(terminationPolicyTypes: [String]? = nil) {
@@ -2184,7 +2184,7 @@ extension AutoScaling {
         /// This string indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// Information about the traffic sources.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TrafficSourceState>>
         public var trafficSources: [TrafficSourceState]?
 
         public init(nextToken: String? = nil, trafficSources: [TrafficSourceState]? = nil) {
@@ -2200,7 +2200,7 @@ extension AutoScaling {
 
     public struct DescribeWarmPoolAnswer: AWSDecodableShape {
         /// The instances that are currently in the warm pool.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Instance>>
         public var instances: [Instance]?
         /// This string indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
@@ -2272,7 +2272,7 @@ extension AutoScaling {
 
     public struct DetachInstancesAnswer: AWSDecodableShape {
         /// The activities related to detaching the instances from the Auto Scaling group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Activity>>
         public var activities: [Activity]?
 
         public init(activities: [Activity]? = nil) {
@@ -2288,7 +2288,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var instanceIds: [String]?
         /// Indicates whether the Auto Scaling group decrements the desired capacity value by the number of instances detached.
         public let shouldDecrementDesiredCapacity: Bool
@@ -2325,7 +2325,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var targetGroupARNs: [String]
 
         public init(autoScalingGroupName: String, targetGroupARNs: [String]) {
@@ -2358,7 +2358,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The names of the load balancers. You can specify up to 10 load balancers.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var loadBalancerNames: [String]
 
         public init(autoScalingGroupName: String, loadBalancerNames: [String]) {
@@ -2391,7 +2391,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<TrafficSourceIdentifier>>
         public var trafficSources: [TrafficSourceIdentifier]
 
         public init(autoScalingGroupName: String, trafficSources: [TrafficSourceIdentifier]) {
@@ -2418,7 +2418,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// Identifies the metrics to disable. You can specify one or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity    If you omit this property, all metrics are disabled. For more information, see Auto Scaling group metrics in the Amazon EC2 Auto Scaling User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var metrics: [String]?
 
         public init(autoScalingGroupName: String, metrics: [String]? = nil) {
@@ -2500,7 +2500,7 @@ extension AutoScaling {
         /// The frequency at which Amazon EC2 Auto Scaling sends aggregated data to CloudWatch. The only valid value is 1Minute.
         public let granularity: String
         /// Identifies the metrics to enable. You can specify one or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity    If you specify Granularity and don't specify any metrics, all metrics are enabled. For more information, see Auto Scaling group metrics in the Amazon EC2 Auto Scaling User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var metrics: [String]?
 
         public init(autoScalingGroupName: String, granularity: String, metrics: [String]? = nil) {
@@ -2549,7 +2549,7 @@ extension AutoScaling {
 
     public struct EnterStandbyAnswer: AWSDecodableShape {
         /// The activities related to moving instances into Standby mode.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Activity>>
         public var activities: [Activity]?
 
         public init(activities: [Activity]? = nil) {
@@ -2565,7 +2565,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var instanceIds: [String]?
         /// Indicates whether to decrement the desired capacity of the Auto Scaling group by the number of instances moved to Standby mode.
         public let shouldDecrementDesiredCapacity: Bool
@@ -2634,7 +2634,7 @@ extension AutoScaling {
 
     public struct ExitStandbyAnswer: AWSDecodableShape {
         /// The activities related to moving instances out of Standby mode.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Activity>>
         public var activities: [Activity]?
 
         public init(activities: [Activity]? = nil) {
@@ -2650,7 +2650,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The IDs of the instances. You can specify up to 20 instances.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var instanceIds: [String]?
 
         public init(autoScalingGroupName: String, instanceIds: [String]? = nil) {
@@ -2700,7 +2700,7 @@ extension AutoScaling {
         /// The name of the filter. The valid values for Name depend on which API operation you're using with the filter (DescribeAutoScalingGroups or DescribeTags).  DescribeAutoScalingGroups  Valid values for Name include the following:     tag-key - Accepts tag keys. The results only include information about the Auto Scaling groups associated with these tag keys.     tag-value - Accepts tag values. The results only include information about the Auto Scaling groups associated with these tag values.     tag: - Accepts the key/value combination of the tag. Use the tag key in the filter name and the tag value as the filter value. The results only include information about the Auto Scaling groups associated with the specified key/value combination.     DescribeTags  Valid values for Name include the following:     auto-scaling-group - Accepts the names of Auto Scaling groups. The results only include information about the tags associated with these Auto Scaling groups.     key - Accepts tag keys. The results only include information about the tags associated with these tag keys.     value - Accepts tag values. The results only include information about the tags associated with these tag values.     propagate-at-launch - Accepts a Boolean value, which specifies whether tags propagate to instances at launch. The results only include information about the tags associated with the specified Boolean value.
         public let name: String?
         /// One or more filter values. Filter values are case-sensitive.  If you specify multiple values for a filter, the values are automatically logically joined with an OR, and the request returns all results that match any of the specified values. For example, specify "tag:environment" for the filter name and "production,development" for the filter values to find Auto Scaling groups with the tag "environment=production" or "environment=development".
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
         public init(name: String? = nil, values: [String]? = nil) {
@@ -2725,7 +2725,7 @@ extension AutoScaling {
         /// The capacity forecast.
         public let capacityForecast: CapacityForecast
         /// The load forecast.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<LoadForecast>>
         public var loadForecast: [LoadForecast]
         /// The time the forecast was made.
         public let updateTime: Date
@@ -2973,18 +2973,18 @@ extension AutoScaling {
         /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) for an instance type. To exclude accelerator-enabled instance types, set Max to 0. Default: No minimum or maximum limits
         public let acceleratorCount: AcceleratorCountRequest?
         /// Indicates whether instance types must have accelerators by specific manufacturers.   For instance types with NVIDIA devices, specify nvidia.   For instance types with AMD devices, specify amd.   For instance types with Amazon Web Services devices, specify amazon-web-services.   For instance types with Xilinx devices, specify xilinx.   Default: Any manufacturer
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AcceleratorManufacturer>>
         public var acceleratorManufacturers: [AcceleratorManufacturer]?
         /// Lists the accelerators that must be on an instance type.   For instance types with NVIDIA A100 GPUs, specify a100.   For instance types with NVIDIA V100 GPUs, specify v100.   For instance types with NVIDIA K80 GPUs, specify k80.   For instance types with NVIDIA T4 GPUs, specify t4.   For instance types with NVIDIA M60 GPUs, specify m60.   For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.   For instance types with Xilinx VU9P FPGAs, specify vu9p.   Default: Any accelerator
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AcceleratorName>>
         public var acceleratorNames: [AcceleratorName]?
         /// The minimum and maximum total memory size for the accelerators on an instance type, in MiB. Default: No minimum or maximum limits
         public let acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest?
         /// Lists the accelerator types that must be on an instance type.   For instance types with GPU accelerators, specify gpu.   For instance types with FPGA accelerators, specify fpga.   For instance types with inference accelerators, specify inference.   Default: Any accelerator type
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AcceleratorType>>
         public var acceleratorTypes: [AcceleratorType]?
         /// The instance types to apply your specified attributes against. All other instance types are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*, Amazon EC2 Auto Scaling will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 Auto Scaling will allow all the M5a instance types, but not the M5n instance types.  If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes.  Default: All instance types
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var allowedInstanceTypes: [String]?
         /// Indicates whether bare metal instance types are included, excluded, or required. Default: excluded
         public let bareMetal: BareMetal?
@@ -2993,18 +2993,18 @@ extension AutoScaling {
         /// Indicates whether burstable performance instance types are included, excluded, or required. For more information, see Burstable performance instances in the Amazon EC2 User Guide for Linux Instances. Default: excluded
         public let burstablePerformance: BurstablePerformance?
         /// Lists which specific CPU manufacturers to include.   For instance types with Intel CPUs, specify intel.   For instance types with AMD CPUs, specify amd.   For instance types with Amazon Web Services CPUs, specify amazon-web-services.    Don't confuse the CPU hardware manufacturer with the CPU hardware architecture. Instances will be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you specify in your launch template.   Default: Any manufacturer
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<CpuManufacturer>>
         public var cpuManufacturers: [CpuManufacturer]?
         /// The instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*), to exclude an instance family, type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*.  For example, if you specify c5*, you are excluding the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 Auto Scaling will exclude all the M5a instance types, but not the M5n instance types.  If you specify ExcludedInstanceTypes, you can't specify AllowedInstanceTypes.  Default: No excluded instance types
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var excludedInstanceTypes: [String]?
         /// Indicates whether current or previous generation instance types are included.   For current generation instance types, specify current. The current generation includes EC2 instance types currently recommended for use. This typically includes the latest two to three generations in each instance family. For more information, see Instance types in the Amazon EC2 User Guide for Linux Instances.   For previous generation instance types, specify previous.   Default: Any current or previous generation
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<InstanceGeneration>>
         public var instanceGenerations: [InstanceGeneration]?
         /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, see Amazon EC2 instance store in the Amazon EC2 User Guide for Linux Instances. Default: included
         public let localStorage: LocalStorage?
         /// Indicates the type of local storage that is required.   For instance types with hard disk drive (HDD) storage, specify hdd.   For instance types with solid state drive (SSD) storage, specify ssd.   Default: Any local storage type
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LocalStorageType>>
         public var localStorageTypes: [LocalStorageType]?
         /// The minimum and maximum amount of memory per vCPU for an instance type, in GiB. Default: No minimum or maximum limits
         public let memoryGiBPerVCpu: MemoryGiBPerVCpuRequest?
@@ -3160,12 +3160,12 @@ extension AutoScaling {
         /// Specifies whether to assign a public IPv4 address to the group's instances. If the instance is launched into a default subnet, the default is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4 address on the subnet. For more information, see Launching Auto Scaling instances in a VPC in the Amazon EC2 Auto Scaling User Guide.
         public let associatePublicIpAddress: Bool?
         /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see Block Device Mapping in the Amazon EC2 User Guide for Linux Instances.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<BlockDeviceMapping>>
         public var blockDeviceMappings: [BlockDeviceMapping]?
         /// Available for backward compatibility.
         public let classicLinkVPCId: String?
         /// Available for backward compatibility.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var classicLinkVPCSecurityGroups: [String]?
         /// The creation date and time for the launch configuration.
         public let createdTime: Date
@@ -3194,7 +3194,7 @@ extension AutoScaling {
         /// The ID of the RAM disk associated with the AMI.
         public let ramdiskId: String?
         /// A list that contains the security groups to assign to the instances in the Auto Scaling group. For more information, see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var securityGroups: [String]?
         /// The maximum hourly price to be paid for any Spot Instance launched to fulfill the request. Spot Instances are launched when the price you specify exceeds the current Spot price. For more information, see Requesting Spot Instances in the Amazon EC2 Auto Scaling User Guide.
         public let spotPrice: String?
@@ -3269,7 +3269,7 @@ extension AutoScaling {
 
     public struct LaunchConfigurationNamesType: AWSEncodableShape {
         /// The launch configuration names. If you omit this property, all launch configurations are described. Array Members: Maximum number of 50 items.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var launchConfigurationNames: [String]?
         /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
         public let maxRecords: Int?
@@ -3300,7 +3300,7 @@ extension AutoScaling {
 
     public struct LaunchConfigurationsType: AWSDecodableShape {
         /// The launch configurations.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<LaunchConfiguration>>
         public var launchConfigurations: [LaunchConfiguration]
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
@@ -3320,7 +3320,7 @@ extension AutoScaling {
         /// The launch template.
         public let launchTemplateSpecification: LaunchTemplateSpecification?
         /// Any properties that you specify override the same properties in the launch template.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<LaunchTemplateOverrides>>
         public var overrides: [LaunchTemplateOverrides]?
 
         public init(launchTemplateSpecification: LaunchTemplateSpecification? = nil, overrides: [LaunchTemplateOverrides]? = nil) {
@@ -3544,10 +3544,10 @@ extension AutoScaling {
         /// The metric specification for the load forecast.
         public let metricSpecification: PredictiveScalingMetricSpecification
         /// The timestamps for the data points, in UTC format.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<Date>>
         public var timestamps: [Date]
         /// The values of the data points.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<Double>>
         public var values: [Double]
 
         public init(metricSpecification: PredictiveScalingMetricSpecification, timestamps: [Date], values: [Double]) {
@@ -3609,7 +3609,7 @@ extension AutoScaling {
 
     public struct Metric: AWSEncodableShape & AWSDecodableShape {
         /// The dimensions for the metric. For the list of available dimensions, see the Amazon Web Services documentation available from the table in Amazon Web Services services that publish CloudWatch metrics  in the Amazon CloudWatch User Guide.  Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<MetricDimension>>
         public var dimensions: [MetricDimension]?
         /// The name of the metric.
         public let metricName: String
@@ -3831,7 +3831,7 @@ extension AutoScaling {
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The scaling policies.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ScalingPolicy>>
         public var scalingPolicies: [ScalingPolicy]?
 
         public init(nextToken: String? = nil, scalingPolicies: [ScalingPolicy]? = nil) {
@@ -3847,7 +3847,7 @@ extension AutoScaling {
 
     public struct PolicyARNType: AWSDecodableShape {
         /// The CloudWatch alarms created for the target tracking scaling policy.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Alarm>>
         public var alarms: [Alarm]?
         /// The Amazon Resource Name (ARN) of the policy.
         public let policyARN: String?
@@ -3892,7 +3892,7 @@ extension AutoScaling {
         /// The size of the capacity buffer to use when the forecast capacity is close to or exceeds the maximum capacity. The value is specified as a percentage relative to the forecast capacity. For example, if the buffer is 10, this means a 10 percent buffer, such that if the forecast capacity is 50, and the maximum capacity is 40, then the effective maximum capacity is 55. If set to 0, Amazon EC2 Auto Scaling may scale capacity higher than the maximum capacity to equal but not exceed forecast capacity.  Required if the MaxCapacityBreachBehavior property is set to IncreaseMaxCapacity, and cannot be used otherwise.
         public let maxCapacityBuffer: Int?
         /// This structure includes the metrics and target utilization to use for predictive scaling.  This is an array, but we currently only support a single metric specification. That is, you can specify a target value and a single metric pair, or a target value and one scaling metric and one load metric.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<PredictiveScalingMetricSpecification>>
         public var metricSpecifications: [PredictiveScalingMetricSpecification]
         /// The predictive scaling mode. Defaults to ForecastOnly if not specified.
         public let mode: PredictiveScalingMode?
@@ -3927,7 +3927,7 @@ extension AutoScaling {
 
     public struct PredictiveScalingCustomizedCapacityMetric: AWSEncodableShape & AWSDecodableShape {
         /// One or more metric data queries to provide the data points for a capacity metric. Use multiple metric data queries only if you are performing a math expression on returned data.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<MetricDataQuery>>
         public var metricDataQueries: [MetricDataQuery]
 
         public init(metricDataQueries: [MetricDataQuery]) {
@@ -3947,7 +3947,7 @@ extension AutoScaling {
 
     public struct PredictiveScalingCustomizedLoadMetric: AWSEncodableShape & AWSDecodableShape {
         /// One or more metric data queries to provide the data points for a load metric. Use multiple metric data queries only if you are performing a math expression on returned data.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<MetricDataQuery>>
         public var metricDataQueries: [MetricDataQuery]
 
         public init(metricDataQueries: [MetricDataQuery]) {
@@ -3967,7 +3967,7 @@ extension AutoScaling {
 
     public struct PredictiveScalingCustomizedScalingMetric: AWSEncodableShape & AWSDecodableShape {
         /// One or more metric data queries to provide the data points for a scaling metric. Use multiple metric data queries only if you are performing a math expression on returned data.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<MetricDataQuery>>
         public var metricDataQueries: [MetricDataQuery]
 
         public init(metricDataQueries: [MetricDataQuery]) {
@@ -4115,7 +4115,7 @@ extension AutoScaling {
 
     public struct ProcessesType: AWSDecodableShape {
         /// The names of the process types.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ProcessType>>
         public var processes: [ProcessType]?
 
         public init(processes: [ProcessType]? = nil) {
@@ -4193,7 +4193,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// The type of event that causes the notification to be sent. To query the notification types supported by Amazon EC2 Auto Scaling, call the DescribeAutoScalingNotificationTypes API.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var notificationTypes: [String]
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic.
         public let topicARN: String
@@ -4251,7 +4251,7 @@ extension AutoScaling {
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. For exact capacity, you must specify a positive value. Required if the policy type is SimpleScaling. (Not used with any other policy type.)
         public let scalingAdjustment: Int?
         /// A set of adjustments that enable you to scale based on the size of the alarm breach. Required if the policy type is StepScaling. (Not used with any other policy type.)
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<StepAdjustment>>
         public var stepAdjustments: [StepAdjustment]?
         /// A target tracking scaling policy. Provides support for predefined or custom metrics. The following predefined metrics are available:    ASGAverageCPUUtilization     ASGAverageNetworkIn     ASGAverageNetworkOut     ALBRequestCountPerTarget    If you specify ALBRequestCountPerTarget for the metric, you must specify the ResourceLabel property with the PredefinedMetricSpecification. For more information, see TargetTrackingConfiguration in the Amazon EC2 Auto Scaling API Reference. Required if the policy type is TargetTrackingScaling.
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
@@ -4465,7 +4465,7 @@ extension AutoScaling {
         /// (Optional) The amount of time, in seconds, to wait after a checkpoint before continuing. This property is optional, but if you specify a value for it, you must also specify a value for CheckpointPercentages. If you specify a value for CheckpointPercentages and not for CheckpointDelay, the CheckpointDelay defaults to 3600 (1 hour).
         public let checkpointDelay: Int?
         /// (Optional) Threshold values for each checkpoint in ascending order. Each number must be unique. To replace all instances in the Auto Scaling group, the last number in the array must be 100. For usage examples, see Adding checkpoints to an instance refresh in the Amazon EC2 Auto Scaling User Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Int>>
         public var checkpointPercentages: [Int]?
         /// A time period, in seconds, during which an instance refresh waits before moving on to replacing the next instance after a new instance enters the InService state. This property is not required for normal usage. Instead, use the DefaultInstanceWarmup property of the Auto Scaling group. The InstanceWarmup and DefaultInstanceWarmup properties work the same way. Only specify this property if you must override the DefaultInstanceWarmup property.  If you do not specify this property, the instance warmup by default is the value of the DefaultInstanceWarmup property, if defined (which is recommended in all cases), or the HealthCheckGracePeriod property otherwise.
         public let instanceWarmup: Int?
@@ -4578,7 +4578,7 @@ extension AutoScaling {
         /// Specifies how the scaling adjustment is interpreted (for example, an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public let adjustmentType: String?
         /// The CloudWatch alarms related to the policy.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<Alarm>>
         public var alarms: [Alarm]?
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String?
@@ -4605,7 +4605,7 @@ extension AutoScaling {
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity.
         public let scalingAdjustment: Int?
         /// A set of adjustments that enable you to scale based on the size of the alarm breach.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<StepAdjustment>>
         public var stepAdjustments: [StepAdjustment]?
         /// A target tracking scaling policy.
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
@@ -4653,7 +4653,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     InstanceRefresh     ReplaceUnhealthy     ScheduledActions    If you omit this property, all processes are specified.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var scalingProcesses: [String]?
 
         public init(autoScalingGroupName: String, scalingProcesses: [String]? = nil) {
@@ -4682,7 +4682,7 @@ extension AutoScaling {
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// The scheduled actions.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ScheduledUpdateGroupAction>>
         public var scheduledUpdateGroupActions: [ScheduledUpdateGroupAction]?
 
         public init(nextToken: String? = nil, scheduledUpdateGroupActions: [ScheduledUpdateGroupAction]? = nil) {
@@ -4867,7 +4867,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more instance IDs. You can specify up to 50 instances.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<String>>
         public var instanceIds: [String]
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
         public let protectedFromScaleIn: Bool
@@ -5052,7 +5052,7 @@ extension AutoScaling {
         /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
         public let nextToken: String?
         /// One or more tags.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<TagDescription>>
         public var tags: [TagDescription]?
 
         public init(nextToken: String? = nil, tags: [TagDescription]? = nil) {
@@ -5272,7 +5272,7 @@ extension AutoScaling {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
         /// One or more Availability Zones for the group.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var availabilityZones: [String]?
         /// Enables or disables Capacity Rebalancing. For more information, see Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions in the Amazon EC2 Auto Scaling User Guide.
         public let capacityRebalance: Bool?
@@ -5309,7 +5309,7 @@ extension AutoScaling {
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
         public let serviceLinkedRoleARN: String?
         /// A policy or a list of policies that are used to select the instances to terminate. The policies are executed in the order that you list them. For more information, see Work with Amazon EC2 Auto Scaling termination policies in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var terminationPolicies: [String]?
         /// A comma-separated list of subnet IDs for a virtual private cloud (VPC). If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those Availability Zones.
         public let vpcZoneIdentifier: String?

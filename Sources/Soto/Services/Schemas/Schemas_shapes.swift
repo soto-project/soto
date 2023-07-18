@@ -665,23 +665,21 @@ extension Schemas {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCodeBindingSourceResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct GetCodeBindingSourceResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body("Body"))
-        ]
+        public let body: AWSHTTPBody
 
-        public let body: HTTPBody?
-
-        public init(body: HTTPBody? = nil) {
+        public init(body: AWSHTTPBody) {
             self.body = body
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "Body"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.body = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDiscoveredSchemaRequest: AWSEncodableShape {

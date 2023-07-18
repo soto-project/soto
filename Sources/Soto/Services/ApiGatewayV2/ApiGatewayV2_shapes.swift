@@ -1897,19 +1897,21 @@ extension ApiGatewayV2 {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ExportApiResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct ExportApiResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public let body: HTTPBody?
+        public let body: AWSHTTPBody
 
-        public init(body: HTTPBody? = nil) {
+        public init(body: AWSHTTPBody) {
             self.body = body
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "body"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.body = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApiMappingRequest: AWSEncodableShape {

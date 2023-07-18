@@ -2399,34 +2399,30 @@ extension Location {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetMapGlyphsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "blob"
+    public struct GetMapGlyphsResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blob", location: .body("Blob")),
-            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
-        ]
-
         /// The glyph, as binary blob.
-        public let blob: HTTPBody?
+        public let blob: AWSHTTPBody
         /// The HTTP Cache-Control directive for the value.
         public let cacheControl: String?
         /// The map glyph content type. For example, application/octet-stream.
         public let contentType: String?
 
-        public init(blob: HTTPBody? = nil, cacheControl: String? = nil, contentType: String? = nil) {
+        public init(blob: AWSHTTPBody, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
             self.cacheControl = cacheControl
             self.contentType = contentType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case blob = "Blob"
-            case cacheControl = "Cache-Control"
-            case contentType = "Content-Type"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.blob = response.decodePayload()
+            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMapSpritesRequest: AWSEncodableShape {
@@ -2459,34 +2455,30 @@ extension Location {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetMapSpritesResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "blob"
+    public struct GetMapSpritesResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blob", location: .body("Blob")),
-            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
-        ]
-
         /// Contains the body of the sprite sheet or JSON offset ﬁle.
-        public let blob: HTTPBody?
+        public let blob: AWSHTTPBody
         /// The HTTP Cache-Control directive for the value.
         public let cacheControl: String?
         /// The content type of the sprite sheet and offsets. For example, the sprite sheet content type is image/png, and the sprite offset JSON document is application/json.
         public let contentType: String?
 
-        public init(blob: HTTPBody? = nil, cacheControl: String? = nil, contentType: String? = nil) {
+        public init(blob: AWSHTTPBody, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
             self.cacheControl = cacheControl
             self.contentType = contentType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case blob = "Blob"
-            case cacheControl = "Cache-Control"
-            case contentType = "Content-Type"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.blob = response.decodePayload()
+            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMapStyleDescriptorRequest: AWSEncodableShape {
@@ -2515,34 +2507,30 @@ extension Location {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetMapStyleDescriptorResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "blob"
+    public struct GetMapStyleDescriptorResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blob", location: .body("Blob")),
-            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
-        ]
-
         /// Contains the body of the style descriptor.
-        public let blob: HTTPBody?
+        public let blob: AWSHTTPBody
         /// The HTTP Cache-Control directive for the value.
         public let cacheControl: String?
         /// The style descriptor's content type. For example, application/json.
         public let contentType: String?
 
-        public init(blob: HTTPBody? = nil, cacheControl: String? = nil, contentType: String? = nil) {
+        public init(blob: AWSHTTPBody, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
             self.cacheControl = cacheControl
             self.contentType = contentType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case blob = "Blob"
-            case cacheControl = "Cache-Control"
-            case contentType = "Content-Type"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.blob = response.decodePayload()
+            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMapTileRequest: AWSEncodableShape {
@@ -2583,34 +2571,30 @@ extension Location {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetMapTileResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "blob"
+    public struct GetMapTileResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blob", location: .body("Blob")),
-            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type"))
-        ]
-
         /// Contains Mapbox Vector Tile (MVT) data.
-        public let blob: HTTPBody?
+        public let blob: AWSHTTPBody
         /// The HTTP Cache-Control directive for the value.
         public let cacheControl: String?
         /// The map tile's content type. For example, application/vnd.mapbox-vector-tile.
         public let contentType: String?
 
-        public init(blob: HTTPBody? = nil, cacheControl: String? = nil, contentType: String? = nil) {
+        public init(blob: AWSHTTPBody, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
             self.cacheControl = cacheControl
             self.contentType = contentType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case blob = "Blob"
-            case cacheControl = "Cache-Control"
-            case contentType = "Content-Type"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.blob = response.decodePayload()
+            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPlaceRequest: AWSEncodableShape {

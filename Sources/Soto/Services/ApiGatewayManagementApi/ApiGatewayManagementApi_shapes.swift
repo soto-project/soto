@@ -106,9 +106,9 @@ extension ApiGatewayManagementApi {
         /// The identifier of the connection that a specific client is using.
         public let connectionId: String
         /// The data to be sent to the client specified by its connection id.
-        public let data: HTTPBody
+        public let data: AWSHTTPBody
 
-        public init(connectionId: String, data: HTTPBody) {
+        public init(connectionId: String, data: AWSHTTPBody) {
             self.connectionId = connectionId
             self.data = data
         }

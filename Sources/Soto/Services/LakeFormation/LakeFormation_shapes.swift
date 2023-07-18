@@ -1710,24 +1710,22 @@ extension LakeFormation {
         }
     }
 
-    public struct GetWorkUnitResultsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "resultStream"
+    public struct GetWorkUnitResultsResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resultStream", location: .body("ResultStream"))
-        ]
-
         /// Rows returned from the GetWorkUnitResults operation as a stream of Apache Arrow v1.0 messages.
-        public let resultStream: HTTPBody?
+        public let resultStream: AWSHTTPBody
 
-        public init(resultStream: HTTPBody? = nil) {
+        public init(resultStream: AWSHTTPBody) {
             self.resultStream = resultStream
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case resultStream = "ResultStream"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.resultStream = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetWorkUnitsRequest: AWSEncodableShape {

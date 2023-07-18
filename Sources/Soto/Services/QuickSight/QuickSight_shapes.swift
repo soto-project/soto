@@ -4285,10 +4285,6 @@ extension QuickSight {
     }
 
     public struct CancelIngestionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the data ingestion.
         public let arn: String?
         /// An ID for the ingestion.
@@ -4305,11 +4301,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.ingestionId = try container.decodeIfPresent(String.self, forKey: .ingestionId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case ingestionId = "IngestionId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -5533,10 +5538,6 @@ extension QuickSight {
     }
 
     public struct CreateAccountCustomizationResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon QuickSight customizations you're adding in the current Amazon Web Services Region.
         public let accountCustomization: AccountCustomization?
         /// The Amazon Resource Name (ARN) for the customization that you created for this Amazon Web Services account.
@@ -5559,13 +5560,24 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accountCustomization = try container.decodeIfPresent(AccountCustomization.self, forKey: .accountCustomization)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.awsAccountId = try container.decodeIfPresent(String.self, forKey: .awsAccountId)
+            self.namespace = try container.decodeIfPresent(String.self, forKey: .namespace)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountCustomization = "AccountCustomization"
             case arn = "Arn"
             case awsAccountId = "AwsAccountId"
             case namespace = "Namespace"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -5648,10 +5660,6 @@ extension QuickSight {
     }
 
     public struct CreateAccountSubscriptionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// A SignupResponse object that returns information about a newly created Amazon QuickSight account.
@@ -5665,10 +5673,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.signupResponse = try container.decodeIfPresent(SignupResponse.self, forKey: .signupResponse)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
             case signupResponse = "SignupResponse"
-            case status = "Status"
         }
     }
 
@@ -5745,10 +5761,6 @@ extension QuickSight {
     }
 
     public struct CreateAnalysisResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The ID of the analysis.
         public let analysisId: String?
         /// The ARN for the analysis.
@@ -5768,12 +5780,22 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.analysisId = try container.decodeIfPresent(String.self, forKey: .analysisId)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.creationStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .creationStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case analysisId = "AnalysisId"
             case arn = "Arn"
             case creationStatus = "CreationStatus"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -5881,10 +5903,6 @@ extension QuickSight {
     }
 
     public struct CreateDashboardResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The ARN of the dashboard.
         public let arn: String?
         /// The status of the dashboard creation request.
@@ -5907,12 +5925,23 @@ extension QuickSight {
             self.versionArn = versionArn
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.creationStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .creationStatus)
+            self.dashboardId = try container.decodeIfPresent(String.self, forKey: .dashboardId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.versionArn = try container.decodeIfPresent(String.self, forKey: .versionArn)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case creationStatus = "CreationStatus"
             case dashboardId = "DashboardId"
             case requestId = "RequestId"
-            case status = "Status"
             case versionArn = "VersionArn"
         }
     }
@@ -6043,10 +6072,6 @@ extension QuickSight {
     }
 
     public struct CreateDataSetResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
         /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -6071,13 +6096,24 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.dataSetId = try container.decodeIfPresent(String.self, forKey: .dataSetId)
+            self.ingestionArn = try container.decodeIfPresent(String.self, forKey: .ingestionArn)
+            self.ingestionId = try container.decodeIfPresent(String.self, forKey: .ingestionId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case dataSetId = "DataSetId"
             case ingestionArn = "IngestionArn"
             case ingestionId = "IngestionId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -6157,10 +6193,6 @@ extension QuickSight {
     }
 
     public struct CreateDataSourceResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the data source.
         public let arn: String?
         /// The status of creating the data source.
@@ -6180,12 +6212,22 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.creationStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .creationStatus)
+            self.dataSourceId = try container.decodeIfPresent(String.self, forKey: .dataSourceId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case creationStatus = "CreationStatus"
             case dataSourceId = "DataSourceId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -6311,10 +6353,6 @@ extension QuickSight {
     }
 
     public struct CreateFolderResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the newly created folder.
         public let arn: String?
         /// The folder ID for the newly created folder.
@@ -6331,11 +6369,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.folderId = try container.decodeIfPresent(String.self, forKey: .folderId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case folderId = "FolderId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -6381,10 +6428,6 @@ extension QuickSight {
     }
 
     public struct CreateGroupMembershipResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The group member.
         public let groupMember: GroupMember?
         /// The Amazon Web Services request ID for this operation.
@@ -6398,10 +6441,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.groupMember = try container.decodeIfPresent(GroupMember.self, forKey: .groupMember)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case groupMember = "GroupMember"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -6447,10 +6498,6 @@ extension QuickSight {
     }
 
     public struct CreateGroupResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The name of the group.
         public let group: Group?
         /// The Amazon Web Services request ID for this operation.
@@ -6464,10 +6511,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.group = try container.decodeIfPresent(Group.self, forKey: .group)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case group = "Group"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -6527,10 +6582,6 @@ extension QuickSight {
     }
 
     public struct CreateIAMPolicyAssignmentResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The ID for the assignment.
         public let assignmentId: String?
         /// The name of the assignment.
@@ -6563,6 +6614,19 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.assignmentId = try container.decodeIfPresent(String.self, forKey: .assignmentId)
+            self.assignmentName = try container.decodeIfPresent(String.self, forKey: .assignmentName)
+            self.assignmentStatus = try container.decodeIfPresent(AssignmentStatus.self, forKey: .assignmentStatus)
+            self.identities = try container.decodeIfPresent([String: [String]].self, forKey: .identities)
+            self.policyArn = try container.decodeIfPresent(String.self, forKey: .policyArn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assignmentId = "AssignmentId"
             case assignmentName = "AssignmentName"
@@ -6570,7 +6634,6 @@ extension QuickSight {
             case identities = "Identities"
             case policyArn = "PolicyArn"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -6612,10 +6675,6 @@ extension QuickSight {
     }
 
     public struct CreateIngestionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the data ingestion.
         public let arn: String?
         /// An ID for the ingestion.
@@ -6635,12 +6694,22 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.ingestionId = try container.decodeIfPresent(String.self, forKey: .ingestionId)
+            self.ingestionStatus = try container.decodeIfPresent(IngestionStatus.self, forKey: .ingestionStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case ingestionId = "IngestionId"
             case ingestionStatus = "IngestionStatus"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -6686,10 +6755,6 @@ extension QuickSight {
     }
 
     public struct CreateNamespaceResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The ARN of the Amazon QuickSight namespace you created.
         public let arn: String?
         /// The Amazon Web Services Region; that you want to use for the free SPICE capacity for the new namespace. This is set to the region that you run CreateNamespace in.
@@ -6715,6 +6780,19 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.capacityRegion = try container.decodeIfPresent(String.self, forKey: .capacityRegion)
+            self.creationStatus = try container.decodeIfPresent(NamespaceStatus.self, forKey: .creationStatus)
+            self.identityStore = try container.decodeIfPresent(IdentityStore.self, forKey: .identityStore)
+            self.name = try container.decodeIfPresent(String.self, forKey: .name)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case capacityRegion = "CapacityRegion"
@@ -6722,7 +6800,6 @@ extension QuickSight {
             case identityStore = "IdentityStore"
             case name = "Name"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -6758,10 +6835,6 @@ extension QuickSight {
     }
 
     public struct CreateRefreshScheduleResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the refresh schedule.
         public let arn: String?
         /// The Amazon Web Services request ID for this operation.
@@ -6778,11 +6851,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.scheduleId = try container.decodeIfPresent(String.self, forKey: .scheduleId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case requestId = "RequestId"
             case scheduleId = "ScheduleId"
-            case status = "Status"
         }
     }
 
@@ -6830,10 +6912,6 @@ extension QuickSight {
     }
 
     public struct CreateTemplateAliasResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -6847,9 +6925,17 @@ extension QuickSight {
             self.templateAlias = templateAlias
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.templateAlias = try container.decodeIfPresent(TemplateAlias.self, forKey: .templateAlias)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
             case templateAlias = "TemplateAlias"
         }
     }
@@ -6938,10 +7024,6 @@ extension QuickSight {
     }
 
     public struct CreateTemplateResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The ARN for the template.
         public let arn: String?
         /// The template creation status.
@@ -6965,11 +7047,22 @@ extension QuickSight {
             self.versionArn = versionArn
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.creationStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .creationStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
+            self.versionArn = try container.decodeIfPresent(String.self, forKey: .versionArn)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case creationStatus = "CreationStatus"
             case requestId = "RequestId"
-            case status = "Status"
             case templateId = "TemplateId"
             case versionArn = "VersionArn"
         }
@@ -7019,10 +7112,6 @@ extension QuickSight {
     }
 
     public struct CreateThemeAliasResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -7036,9 +7125,17 @@ extension QuickSight {
             self.themeAlias = themeAlias
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.themeAlias = try container.decodeIfPresent(ThemeAlias.self, forKey: .themeAlias)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
             case themeAlias = "ThemeAlias"
         }
     }
@@ -7124,10 +7221,6 @@ extension QuickSight {
     }
 
     public struct CreateThemeResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the theme.
         public let arn: String?
         /// The theme creation status.
@@ -7150,11 +7243,22 @@ extension QuickSight {
             self.versionArn = versionArn
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.creationStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .creationStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.themeId = try container.decodeIfPresent(String.self, forKey: .themeId)
+            self.versionArn = try container.decodeIfPresent(String.self, forKey: .versionArn)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case creationStatus = "CreationStatus"
             case requestId = "RequestId"
-            case status = "Status"
             case themeId = "ThemeId"
             case versionArn = "VersionArn"
         }
@@ -7202,10 +7306,6 @@ extension QuickSight {
     }
 
     public struct CreateTopicRefreshScheduleResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String?
         /// The Amazon Web Services request ID for this operation.
@@ -7225,10 +7325,20 @@ extension QuickSight {
             self.topicId = topicId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.datasetArn = try container.decodeIfPresent(String.self, forKey: .datasetArn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "DatasetArn"
             case requestId = "RequestId"
-            case status = "Status"
             case topicArn = "TopicArn"
             case topicId = "TopicId"
         }
@@ -7277,10 +7387,6 @@ extension QuickSight {
     }
 
     public struct CreateTopicResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the topic.
         public let arn: String?
         /// The Amazon Resource Name (ARN) of the topic refresh.
@@ -7300,11 +7406,21 @@ extension QuickSight {
             self.topicId = topicId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.refreshArn = try container.decodeIfPresent(String.self, forKey: .refreshArn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case refreshArn = "RefreshArn"
             case requestId = "RequestId"
-            case status = "Status"
             case topicId = "TopicId"
         }
     }
@@ -7395,10 +7511,6 @@ extension QuickSight {
     }
 
     public struct CreateVPCConnectionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the VPC connection.
         public let arn: String?
         /// The availability status of the VPC connection.
@@ -7423,12 +7535,23 @@ extension QuickSight {
             self.vpcConnectionId = vpcConnectionId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.availabilityStatus = try container.decodeIfPresent(VPCConnectionAvailabilityStatus.self, forKey: .availabilityStatus)
+            self.creationStatus = try container.decodeIfPresent(VPCConnectionResourceStatus.self, forKey: .creationStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.vpcConnectionId = try container.decodeIfPresent(String.self, forKey: .vpcConnectionId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case availabilityStatus = "AvailabilityStatus"
             case creationStatus = "CreationStatus"
             case requestId = "RequestId"
-            case status = "Status"
             case vpcConnectionId = "VPCConnectionId"
         }
     }
@@ -9807,10 +9930,6 @@ extension QuickSight {
     }
 
     public struct DeleteAccountCustomizationResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -9821,9 +9940,16 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -9849,10 +9975,6 @@ extension QuickSight {
     }
 
     public struct DeleteAccountSubscriptionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -9863,9 +9985,16 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -9908,10 +10037,6 @@ extension QuickSight {
     }
 
     public struct DeleteAnalysisResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The ID of the deleted analysis.
         public let analysisId: String?
         /// The Amazon Resource Name (ARN) of the deleted analysis.
@@ -9931,12 +10056,22 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.analysisId = try container.decodeIfPresent(String.self, forKey: .analysisId)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.deletionTime = try container.decodeIfPresent(Date.self, forKey: .deletionTime)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case analysisId = "AnalysisId"
             case arn = "Arn"
             case deletionTime = "DeletionTime"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -9974,10 +10109,6 @@ extension QuickSight {
     }
 
     public struct DeleteDashboardResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Secure Socket Layer (SSL) properties that apply for the resource.
         public let arn: String?
         /// The ID of the dashboard.
@@ -9994,11 +10125,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.dashboardId = try container.decodeIfPresent(String.self, forKey: .dashboardId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case dashboardId = "DashboardId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -10028,10 +10168,6 @@ extension QuickSight {
     }
 
     public struct DeleteDataSetRefreshPropertiesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -10042,9 +10178,16 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -10074,10 +10217,6 @@ extension QuickSight {
     }
 
     public struct DeleteDataSetResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
         /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -10094,11 +10233,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.dataSetId = try container.decodeIfPresent(String.self, forKey: .dataSetId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case dataSetId = "DataSetId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -10128,10 +10276,6 @@ extension QuickSight {
     }
 
     public struct DeleteDataSourceResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the data source that you deleted.
         public let arn: String?
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -10148,11 +10292,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.dataSourceId = try container.decodeIfPresent(String.self, forKey: .dataSourceId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case dataSourceId = "DataSourceId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -10241,10 +10394,6 @@ extension QuickSight {
     }
 
     public struct DeleteFolderResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name of the deleted folder.
         public let arn: String?
         /// The ID of the folder.
@@ -10261,11 +10410,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.folderId = try container.decodeIfPresent(String.self, forKey: .folderId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case folderId = "FolderId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -10311,10 +10469,6 @@ extension QuickSight {
     }
 
     public struct DeleteGroupMembershipResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -10325,9 +10479,16 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -10366,10 +10527,6 @@ extension QuickSight {
     }
 
     public struct DeleteGroupResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -10380,9 +10537,16 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -10421,10 +10585,6 @@ extension QuickSight {
     }
 
     public struct DeleteIAMPolicyAssignmentResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The name of the assignment.
         public let assignmentName: String?
         /// The Amazon Web Services request ID for this operation.
@@ -10438,10 +10598,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.assignmentName = try container.decodeIfPresent(String.self, forKey: .assignmentName)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assignmentName = "AssignmentName"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -10473,10 +10641,6 @@ extension QuickSight {
     }
 
     public struct DeleteNamespaceResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -10487,9 +10651,16 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -10523,10 +10694,6 @@ extension QuickSight {
     }
 
     public struct DeleteRefreshScheduleResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the refresh schedule.
         public let arn: String?
         /// The Amazon Web Services request ID for this operation.
@@ -10543,11 +10710,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.scheduleId = try container.decodeIfPresent(String.self, forKey: .scheduleId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case requestId = "RequestId"
             case scheduleId = "ScheduleId"
-            case status = "Status"
         }
     }
 
@@ -10590,10 +10766,6 @@ extension QuickSight {
     }
 
     public struct DeleteTemplateAliasResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The name for the template alias.
         public let aliasName: String?
         /// The Amazon Resource Name (ARN) of the template you want to delete.
@@ -10613,11 +10785,21 @@ extension QuickSight {
             self.templateId = templateId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.aliasName = try container.decodeIfPresent(String.self, forKey: .aliasName)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case aliasName = "AliasName"
             case arn = "Arn"
             case requestId = "RequestId"
-            case status = "Status"
             case templateId = "TemplateId"
         }
     }
@@ -10658,10 +10840,6 @@ extension QuickSight {
     }
 
     public struct DeleteTemplateResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
         /// The Amazon Web Services request ID for this operation.
@@ -10678,10 +10856,19 @@ extension QuickSight {
             self.templateId = templateId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case requestId = "RequestId"
-            case status = "Status"
             case templateId = "TemplateId"
         }
     }
@@ -10722,10 +10909,6 @@ extension QuickSight {
     }
 
     public struct DeleteThemeAliasResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The name for the theme alias.
         public let aliasName: String?
         /// The Amazon Resource Name (ARN) of the theme resource using the deleted alias.
@@ -10745,11 +10928,21 @@ extension QuickSight {
             self.themeId = themeId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.aliasName = try container.decodeIfPresent(String.self, forKey: .aliasName)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.themeId = try container.decodeIfPresent(String.self, forKey: .themeId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case aliasName = "AliasName"
             case arn = "Arn"
             case requestId = "RequestId"
-            case status = "Status"
             case themeId = "ThemeId"
         }
     }
@@ -10789,10 +10982,6 @@ extension QuickSight {
     }
 
     public struct DeleteThemeResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
         /// The Amazon Web Services request ID for this operation.
@@ -10809,10 +10998,19 @@ extension QuickSight {
             self.themeId = themeId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.themeId = try container.decodeIfPresent(String.self, forKey: .themeId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case requestId = "RequestId"
-            case status = "Status"
             case themeId = "ThemeId"
         }
     }
@@ -10849,10 +11047,6 @@ extension QuickSight {
     }
 
     public struct DeleteTopicRefreshScheduleResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String?
         /// The Amazon Web Services request ID for this operation.
@@ -10872,10 +11066,20 @@ extension QuickSight {
             self.topicId = topicId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.datasetArn = try container.decodeIfPresent(String.self, forKey: .datasetArn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "DatasetArn"
             case requestId = "RequestId"
-            case status = "Status"
             case topicArn = "TopicArn"
             case topicId = "TopicId"
         }
@@ -10909,10 +11113,6 @@ extension QuickSight {
     }
 
     public struct DeleteTopicResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the topic.
         public let arn: String?
         /// The Amazon Web Services request ID for this operation.
@@ -10929,10 +11129,19 @@ extension QuickSight {
             self.topicId = topicId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case requestId = "RequestId"
-            case status = "Status"
             case topicId = "TopicId"
         }
     }
@@ -10970,10 +11179,6 @@ extension QuickSight {
     }
 
     public struct DeleteUserByPrincipalIdResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -10984,9 +11189,16 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -11025,10 +11237,6 @@ extension QuickSight {
     }
 
     public struct DeleteUserResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -11039,9 +11247,16 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -11075,10 +11290,6 @@ extension QuickSight {
     }
 
     public struct DeleteVPCConnectionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the deleted VPC connection.
         public let arn: String?
         /// The availability status of the VPC connection.
@@ -11103,12 +11314,23 @@ extension QuickSight {
             self.vpcConnectionId = vpcConnectionId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.availabilityStatus = try container.decodeIfPresent(VPCConnectionAvailabilityStatus.self, forKey: .availabilityStatus)
+            self.deletionStatus = try container.decodeIfPresent(VPCConnectionResourceStatus.self, forKey: .deletionStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.vpcConnectionId = try container.decodeIfPresent(String.self, forKey: .vpcConnectionId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case availabilityStatus = "AvailabilityStatus"
             case deletionStatus = "DeletionStatus"
             case requestId = "RequestId"
-            case status = "Status"
             case vpcConnectionId = "VPCConnectionId"
         }
     }
@@ -11145,10 +11367,6 @@ extension QuickSight {
     }
 
     public struct DescribeAccountCustomizationResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon QuickSight customizations that exist in the current Amazon Web Services Region.
         public let accountCustomization: AccountCustomization?
         /// The Amazon Resource Name (ARN) of the customization that's associated with this Amazon Web Services account.
@@ -11171,13 +11389,24 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accountCustomization = try container.decodeIfPresent(AccountCustomization.self, forKey: .accountCustomization)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.awsAccountId = try container.decodeIfPresent(String.self, forKey: .awsAccountId)
+            self.namespace = try container.decodeIfPresent(String.self, forKey: .namespace)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountCustomization = "AccountCustomization"
             case arn = "Arn"
             case awsAccountId = "AwsAccountId"
             case namespace = "Namespace"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -11203,10 +11432,6 @@ extension QuickSight {
     }
 
     public struct DescribeAccountSettingsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon QuickSight settings for this Amazon Web Services account. This information includes the edition of Amazon Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the Amazon QuickSight subscription.  In the QuickSight console, the Amazon QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the Amazon QuickSight service for your Amazon Web Services account. The edition that you subscribe to applies to Amazon QuickSight in every Amazon Web Services Region where you use it.
         public let accountSettings: AccountSettings?
         /// The Amazon Web Services request ID for this operation.
@@ -11220,10 +11445,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accountSettings = try container.decodeIfPresent(AccountSettings.self, forKey: .accountSettings)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountSettings = "AccountSettings"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -11249,10 +11482,6 @@ extension QuickSight {
     }
 
     public struct DescribeAccountSubscriptionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A structure that contains the following elements:   Your Amazon QuickSight account name.   The edition of Amazon QuickSight that your account is using.   The notification email address that is associated with the Amazon QuickSight account.    The authentication type of the Amazon QuickSight account.   The status of the Amazon QuickSight account's subscription.
         public let accountInfo: AccountInfo?
         /// The Amazon Web Services request ID for this operation.
@@ -11266,10 +11495,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accountInfo = try container.decodeIfPresent(AccountInfo.self, forKey: .accountInfo)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountInfo = "AccountInfo"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -11302,10 +11539,6 @@ extension QuickSight {
     }
 
     public struct DescribeAnalysisDefinitionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The ID of the analysis described.
         public let analysisId: String?
         /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
@@ -11334,6 +11567,20 @@ extension QuickSight {
             self.themeArn = themeArn
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.analysisId = try container.decodeIfPresent(String.self, forKey: .analysisId)
+            self.definition = try container.decodeIfPresent(AnalysisDefinition.self, forKey: .definition)
+            self.errors = try container.decodeIfPresent([AnalysisError].self, forKey: .errors)
+            self.name = try container.decodeIfPresent(String.self, forKey: .name)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.resourceStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .resourceStatus)
+            self.status = response.decodeStatus()
+            self.themeArn = try container.decodeIfPresent(String.self, forKey: .themeArn)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case analysisId = "AnalysisId"
             case definition = "Definition"
@@ -11341,7 +11588,6 @@ extension QuickSight {
             case name = "Name"
             case requestId = "RequestId"
             case resourceStatus = "ResourceStatus"
-            case status = "Status"
             case themeArn = "ThemeArn"
         }
     }
@@ -11375,10 +11621,6 @@ extension QuickSight {
     }
 
     public struct DescribeAnalysisPermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the analysis whose permissions you're describing.
         public let analysisArn: String?
         /// The ID of the analysis whose permissions you're describing.
@@ -11398,12 +11640,22 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.analysisArn = try container.decodeIfPresent(String.self, forKey: .analysisArn)
+            self.analysisId = try container.decodeIfPresent(String.self, forKey: .analysisId)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case analysisArn = "AnalysisArn"
             case analysisId = "AnalysisId"
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -11436,10 +11688,6 @@ extension QuickSight {
     }
 
     public struct DescribeAnalysisResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A metadata structure that contains summary information for the analysis that you're describing.
         public let analysis: Analysis?
         /// The Amazon Web Services request ID for this operation.
@@ -11453,10 +11701,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.analysis = try container.decodeIfPresent(Analysis.self, forKey: .analysis)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case analysis = "Analysis"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -11489,10 +11745,6 @@ extension QuickSight {
     }
 
     public struct DescribeAssetBundleExportJobResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the export job.
         public let arn: String?
         /// The ID of the job. The job ID is set when you start a new job with a StartAssetBundleExportJob API call.
@@ -11536,6 +11788,25 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.assetBundleExportJobId = try container.decodeIfPresent(String.self, forKey: .assetBundleExportJobId)
+            self.awsAccountId = try container.decodeIfPresent(String.self, forKey: .awsAccountId)
+            self.cloudFormationOverridePropertyConfiguration = try container.decodeIfPresent(AssetBundleCloudFormationOverridePropertyConfiguration.self, forKey: .cloudFormationOverridePropertyConfiguration)
+            self.createdTime = try container.decodeIfPresent(Date.self, forKey: .createdTime)
+            self.downloadUrl = try container.decodeIfPresent(String.self, forKey: .downloadUrl)
+            self.errors = try container.decodeIfPresent([AssetBundleExportJobError].self, forKey: .errors)
+            self.exportFormat = try container.decodeIfPresent(AssetBundleExportFormat.self, forKey: .exportFormat)
+            self.includeAllDependencies = try container.decodeIfPresent(Bool.self, forKey: .includeAllDependencies)
+            self.jobStatus = try container.decodeIfPresent(AssetBundleExportJobStatus.self, forKey: .jobStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.resourceArns = try container.decodeIfPresent([String].self, forKey: .resourceArns)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case assetBundleExportJobId = "AssetBundleExportJobId"
@@ -11549,7 +11820,6 @@ extension QuickSight {
             case jobStatus = "JobStatus"
             case requestId = "RequestId"
             case resourceArns = "ResourceArns"
-            case status = "Status"
         }
     }
 
@@ -11582,10 +11852,6 @@ extension QuickSight {
     }
 
     public struct DescribeAssetBundleImportJobResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the import job.
         public let arn: String?
         /// The ID of the job. The job ID is set when you start a new job with a StartAssetBundleImportJob API call.
@@ -11626,6 +11892,24 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.assetBundleImportJobId = try container.decodeIfPresent(String.self, forKey: .assetBundleImportJobId)
+            self.assetBundleImportSource = try container.decodeIfPresent(AssetBundleImportSourceDescription.self, forKey: .assetBundleImportSource)
+            self.awsAccountId = try container.decodeIfPresent(String.self, forKey: .awsAccountId)
+            self.createdTime = try container.decodeIfPresent(Date.self, forKey: .createdTime)
+            self.errors = try container.decodeIfPresent([AssetBundleImportJobError].self, forKey: .errors)
+            self.failureAction = try container.decodeIfPresent(AssetBundleImportFailureAction.self, forKey: .failureAction)
+            self.jobStatus = try container.decodeIfPresent(AssetBundleImportJobStatus.self, forKey: .jobStatus)
+            self.overrideParameters = try container.decodeIfPresent(AssetBundleImportJobOverrideParameters.self, forKey: .overrideParameters)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.rollbackErrors = try container.decodeIfPresent([AssetBundleImportJobError].self, forKey: .rollbackErrors)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case assetBundleImportJobId = "AssetBundleImportJobId"
@@ -11638,7 +11922,6 @@ extension QuickSight {
             case overrideParameters = "OverrideParameters"
             case requestId = "RequestId"
             case rollbackErrors = "RollbackErrors"
-            case status = "Status"
         }
     }
 
@@ -11683,10 +11966,6 @@ extension QuickSight {
     }
 
     public struct DescribeDashboardDefinitionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The ID of the dashboard described.
         public let dashboardId: String?
         /// Options for publishing the dashboard:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
@@ -11718,6 +11997,21 @@ extension QuickSight {
             self.themeArn = themeArn
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dashboardId = try container.decodeIfPresent(String.self, forKey: .dashboardId)
+            self.dashboardPublishOptions = try container.decodeIfPresent(DashboardPublishOptions.self, forKey: .dashboardPublishOptions)
+            self.definition = try container.decodeIfPresent(DashboardVersionDefinition.self, forKey: .definition)
+            self.errors = try container.decodeIfPresent([DashboardError].self, forKey: .errors)
+            self.name = try container.decodeIfPresent(String.self, forKey: .name)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.resourceStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .resourceStatus)
+            self.status = response.decodeStatus()
+            self.themeArn = try container.decodeIfPresent(String.self, forKey: .themeArn)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dashboardId = "DashboardId"
             case dashboardPublishOptions = "DashboardPublishOptions"
@@ -11726,7 +12020,6 @@ extension QuickSight {
             case name = "Name"
             case requestId = "RequestId"
             case resourceStatus = "ResourceStatus"
-            case status = "Status"
             case themeArn = "ThemeArn"
         }
     }
@@ -11760,10 +12053,6 @@ extension QuickSight {
     }
 
     public struct DescribeDashboardPermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
         /// The ID for the dashboard.
@@ -11786,13 +12075,24 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dashboardArn = try container.decodeIfPresent(String.self, forKey: .dashboardArn)
+            self.dashboardId = try container.decodeIfPresent(String.self, forKey: .dashboardId)
+            self.linkSharingConfiguration = try container.decodeIfPresent(LinkSharingConfiguration.self, forKey: .linkSharingConfiguration)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dashboardArn = "DashboardArn"
             case dashboardId = "DashboardId"
             case linkSharingConfiguration = "LinkSharingConfiguration"
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -11837,10 +12137,6 @@ extension QuickSight {
     }
 
     public struct DescribeDashboardResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// Information about the dashboard.
         public let dashboard: Dashboard?
         /// The Amazon Web Services request ID for this operation.
@@ -11854,10 +12150,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dashboard = try container.decodeIfPresent(Dashboard.self, forKey: .dashboard)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dashboard = "Dashboard"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -11887,10 +12191,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSetPermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the dataset.
         public let dataSetArn: String?
         /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -11910,12 +12210,22 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dataSetArn = try container.decodeIfPresent(String.self, forKey: .dataSetArn)
+            self.dataSetId = try container.decodeIfPresent(String.self, forKey: .dataSetId)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSetArn = "DataSetArn"
             case dataSetId = "DataSetId"
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -11945,10 +12255,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSetRefreshPropertiesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The dataset refresh properties.
         public let dataSetRefreshProperties: DataSetRefreshProperties?
         /// The Amazon Web Services request ID for this operation.
@@ -11962,10 +12268,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dataSetRefreshProperties = try container.decodeIfPresent(DataSetRefreshProperties.self, forKey: .dataSetRefreshProperties)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSetRefreshProperties = "DataSetRefreshProperties"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -11995,10 +12309,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSetResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// Information on the dataset.
         public let dataSet: DataSet?
         /// The Amazon Web Services request ID for this operation.
@@ -12012,10 +12322,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dataSet = try container.decodeIfPresent(DataSet.self, forKey: .dataSet)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSet = "DataSet"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -12045,10 +12363,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSourcePermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the data source.
         public let dataSourceArn: String?
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -12068,12 +12382,22 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dataSourceArn = try container.decodeIfPresent(String.self, forKey: .dataSourceArn)
+            self.dataSourceId = try container.decodeIfPresent(String.self, forKey: .dataSourceId)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSourceArn = "DataSourceArn"
             case dataSourceId = "DataSourceId"
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -12103,10 +12427,6 @@ extension QuickSight {
     }
 
     public struct DescribeDataSourceResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The information on the data source.
         public let dataSource: DataSource?
         /// The Amazon Web Services request ID for this operation.
@@ -12120,10 +12440,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dataSource = try container.decodeIfPresent(DataSource.self, forKey: .dataSource)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSource = "DataSource"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -12156,10 +12484,6 @@ extension QuickSight {
     }
 
     public struct DescribeFolderPermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the folder.
         public let arn: String?
         /// The ID of the folder.
@@ -12179,12 +12503,22 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.folderId = try container.decodeIfPresent(String.self, forKey: .folderId)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case folderId = "FolderId"
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -12245,10 +12579,6 @@ extension QuickSight {
     }
 
     public struct DescribeFolderResolvedPermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the folder.
         public let arn: String?
         /// The ID of the folder.
@@ -12268,20 +12598,26 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.folderId = try container.decodeIfPresent(String.self, forKey: .folderId)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case folderId = "FolderId"
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
     public struct DescribeFolderResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// Information about the folder.
         public let folder: Folder?
         /// The Amazon Web Services request ID for this operation.
@@ -12295,10 +12631,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.folder = try container.decodeIfPresent(Folder.self, forKey: .folder)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case folder = "Folder"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -12343,10 +12687,6 @@ extension QuickSight {
     }
 
     public struct DescribeGroupMembershipResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         public let groupMember: GroupMember?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -12359,10 +12699,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.groupMember = try container.decodeIfPresent(GroupMember.self, forKey: .groupMember)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case groupMember = "GroupMember"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -12401,10 +12749,6 @@ extension QuickSight {
     }
 
     public struct DescribeGroupResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The name of the group.
         public let group: Group?
         /// The Amazon Web Services request ID for this operation.
@@ -12418,10 +12762,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.group = try container.decodeIfPresent(Group.self, forKey: .group)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case group = "Group"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -12460,10 +12812,6 @@ extension QuickSight {
     }
 
     public struct DescribeIAMPolicyAssignmentResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// Information describing the IAM policy assignment.
         public let iamPolicyAssignment: IAMPolicyAssignment?
         /// The Amazon Web Services request ID for this operation.
@@ -12477,10 +12825,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.iamPolicyAssignment = try container.decodeIfPresent(IAMPolicyAssignment.self, forKey: .iamPolicyAssignment)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case iamPolicyAssignment = "IAMPolicyAssignment"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -12517,10 +12873,6 @@ extension QuickSight {
     }
 
     public struct DescribeIngestionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// Information about the ingestion.
         public let ingestion: Ingestion?
         /// The Amazon Web Services request ID for this operation.
@@ -12534,10 +12886,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.ingestion = try container.decodeIfPresent(Ingestion.self, forKey: .ingestion)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case ingestion = "Ingestion"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -12563,10 +12923,6 @@ extension QuickSight {
     }
 
     public struct DescribeIpRestrictionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The ID of the Amazon Web Services account that contains the IP rules.
         public let awsAccountId: String?
         /// A value that specifies whether IP rules are turned on.
@@ -12587,12 +12943,22 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.awsAccountId = try container.decodeIfPresent(String.self, forKey: .awsAccountId)
+            self.enabled = try container.decodeIfPresent(Bool.self, forKey: .enabled)
+            self.ipRestrictionRuleMap = try container.decodeIfPresent([String: String].self, forKey: .ipRestrictionRuleMap)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case enabled = "Enabled"
             case ipRestrictionRuleMap = "IpRestrictionRuleMap"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -12624,10 +12990,6 @@ extension QuickSight {
     }
 
     public struct DescribeNamespaceResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The information about the namespace that you're describing. The response includes  the namespace ARN, name, Amazon Web Services Region, creation status, and identity store. DescribeNamespace also works for namespaces that are in the process of being created. For incomplete namespaces, this API operation lists the namespace error types and messages associated with the creation process.
         public let namespace: NamespaceInfoV2?
         /// The Amazon Web Services request ID for this operation.
@@ -12641,10 +13003,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.namespace = try container.decodeIfPresent(NamespaceInfoV2.self, forKey: .namespace)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case namespace = "Namespace"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -12678,10 +13048,6 @@ extension QuickSight {
     }
 
     public struct DescribeRefreshScheduleResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the refresh schedule.
         public let arn: String?
         /// The refresh schedule.
@@ -12698,11 +13064,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.refreshSchedule = try container.decodeIfPresent(RefreshSchedule.self, forKey: .refreshSchedule)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case refreshSchedule = "RefreshSchedule"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -12746,10 +13121,6 @@ extension QuickSight {
     }
 
     public struct DescribeTemplateAliasResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -12763,9 +13134,17 @@ extension QuickSight {
             self.templateAlias = templateAlias
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.templateAlias = try container.decodeIfPresent(TemplateAlias.self, forKey: .templateAlias)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
             case templateAlias = "TemplateAlias"
         }
     }
@@ -12815,10 +13194,6 @@ extension QuickSight {
     }
 
     public struct DescribeTemplateDefinitionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The definition of the template. A definition is the data model of all features in a Dashboard, Template, or Analysis.
         public let definition: TemplateVersionDefinition?
         /// Errors associated with the template version.
@@ -12847,13 +13222,26 @@ extension QuickSight {
             self.themeArn = themeArn
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.definition = try container.decodeIfPresent(TemplateVersionDefinition.self, forKey: .definition)
+            self.errors = try container.decodeIfPresent([TemplateError].self, forKey: .errors)
+            self.name = try container.decodeIfPresent(String.self, forKey: .name)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.resourceStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .resourceStatus)
+            self.status = response.decodeStatus()
+            self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
+            self.themeArn = try container.decodeIfPresent(String.self, forKey: .themeArn)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case definition = "Definition"
             case errors = "Errors"
             case name = "Name"
             case requestId = "RequestId"
             case resourceStatus = "ResourceStatus"
-            case status = "Status"
             case templateId = "TemplateId"
             case themeArn = "ThemeArn"
         }
@@ -12888,10 +13276,6 @@ extension QuickSight {
     }
 
     public struct DescribeTemplatePermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A list of resource permissions to be set on the template.
         public let permissions: [ResourcePermission]?
         /// The Amazon Web Services request ID for this operation.
@@ -12911,10 +13295,20 @@ extension QuickSight {
             self.templateId = templateId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.templateArn = try container.decodeIfPresent(String.self, forKey: .templateArn)
+            self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
             case templateArn = "TemplateArn"
             case templateId = "TemplateId"
         }
@@ -12965,10 +13359,6 @@ extension QuickSight {
     }
 
     public struct DescribeTemplateResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -12982,9 +13372,17 @@ extension QuickSight {
             self.template = template
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.template = try container.decodeIfPresent(Template.self, forKey: .template)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
             case template = "Template"
         }
     }
@@ -13026,10 +13424,6 @@ extension QuickSight {
     }
 
     public struct DescribeThemeAliasResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -13043,9 +13437,17 @@ extension QuickSight {
             self.themeAlias = themeAlias
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.themeAlias = try container.decodeIfPresent(ThemeAlias.self, forKey: .themeAlias)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
             case themeAlias = "ThemeAlias"
         }
     }
@@ -13079,10 +13481,6 @@ extension QuickSight {
     }
 
     public struct DescribeThemePermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A list of resource permissions set on the theme.
         public let permissions: [ResourcePermission]?
         /// The Amazon Web Services request ID for this operation.
@@ -13102,10 +13500,20 @@ extension QuickSight {
             self.themeId = themeId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.themeArn = try container.decodeIfPresent(String.self, forKey: .themeArn)
+            self.themeId = try container.decodeIfPresent(String.self, forKey: .themeId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
             case themeArn = "ThemeArn"
             case themeId = "ThemeId"
         }
@@ -13154,10 +13562,6 @@ extension QuickSight {
     }
 
     public struct DescribeThemeResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -13171,9 +13575,17 @@ extension QuickSight {
             self.theme = theme
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.theme = try container.decodeIfPresent(Theme.self, forKey: .theme)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
             case theme = "Theme"
         }
     }
@@ -13206,10 +13618,6 @@ extension QuickSight {
     }
 
     public struct DescribeTopicPermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A list of resource permissions that are configured to the topic.
         public let permissions: [ResourcePermission]?
         /// The Amazon Web Services request ID for this operation.
@@ -13229,10 +13637,20 @@ extension QuickSight {
             self.topicId = topicId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
             case topicArn = "TopicArn"
             case topicId = "TopicId"
         }
@@ -13270,10 +13688,6 @@ extension QuickSight {
     }
 
     public struct DescribeTopicRefreshResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// Details of the refresh, which is performed when the topic is created or updated.
         public let refreshDetails: TopicRefreshDetails?
         /// The Amazon Web Services request ID for this operation.
@@ -13287,10 +13701,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.refreshDetails = try container.decodeIfPresent(TopicRefreshDetails.self, forKey: .refreshDetails)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case refreshDetails = "RefreshDetails"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -13326,10 +13748,6 @@ extension QuickSight {
     }
 
     public struct DescribeTopicRefreshScheduleResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String?
         /// The definition of a refresh schedule.
@@ -13352,11 +13770,22 @@ extension QuickSight {
             self.topicId = topicId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.datasetArn = try container.decodeIfPresent(String.self, forKey: .datasetArn)
+            self.refreshSchedule = try container.decodeIfPresent(TopicRefreshSchedule.self, forKey: .refreshSchedule)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "DatasetArn"
             case refreshSchedule = "RefreshSchedule"
             case requestId = "RequestId"
-            case status = "Status"
             case topicArn = "TopicArn"
             case topicId = "TopicId"
         }
@@ -13390,10 +13819,6 @@ extension QuickSight {
     }
 
     public struct DescribeTopicResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the topic.
         public let arn: String?
         /// The Amazon Web Services request ID for this operation.
@@ -13413,10 +13838,20 @@ extension QuickSight {
             self.topicId = topicId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topic = try container.decodeIfPresent(TopicDetails.self, forKey: .topic)
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case requestId = "RequestId"
-            case status = "Status"
             case topic = "Topic"
             case topicId = "TopicId"
         }
@@ -13457,10 +13892,6 @@ extension QuickSight {
     }
 
     public struct DescribeUserResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -13474,9 +13905,17 @@ extension QuickSight {
             self.user = user
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.user = try container.decodeIfPresent(User.self, forKey: .user)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
             case user = "User"
         }
     }
@@ -15902,10 +16341,6 @@ extension QuickSight {
     }
 
     public struct GenerateEmbedUrlForAnonymousUserResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) to use for the anonymous Amazon QuickSight user.
         public let anonymousUserArn: String
         /// The embed URL for the dashboard.
@@ -15922,11 +16357,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.anonymousUserArn = try container.decode(String.self, forKey: .anonymousUserArn)
+            self.embedUrl = try container.decode(String.self, forKey: .embedUrl)
+            self.requestId = try container.decode(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case anonymousUserArn = "AnonymousUserArn"
             case embedUrl = "EmbedUrl"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -15972,10 +16416,6 @@ extension QuickSight {
     }
 
     public struct GenerateEmbedUrlForRegisteredUserResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The embed URL for the Amazon QuickSight dashboard, visual, Q search bar, or console.
         public let embedUrl: String
         /// The Amazon Web Services request ID for this operation.
@@ -15989,10 +16429,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.embedUrl = try container.decode(String.self, forKey: .embedUrl)
+            self.requestId = try container.decode(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case embedUrl = "EmbedUrl"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -16404,10 +16852,6 @@ extension QuickSight {
     }
 
     public struct GetDashboardEmbedUrlResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A single-use URL that you can put into your server-side webpage to embed your
         /// 			dashboard. This URL is valid for 5 minutes. The API operation provides the URL with an
         /// 			auth_code value that enables one (and only one) sign-on to a user session
@@ -16424,10 +16868,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.embedUrl = try container.decodeIfPresent(String.self, forKey: .embedUrl)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case embedUrl = "EmbedUrl"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -16471,10 +16923,6 @@ extension QuickSight {
     }
 
     public struct GetSessionEmbedUrlResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A single-use URL that you can put into your server-side web page to embed your
         /// 			Amazon QuickSight session. This URL is valid for 5 minutes. The API operation provides the URL with an
         /// 			auth_code value that enables one (and only one) sign-on to a user session
@@ -16491,10 +16939,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.embedUrl = try container.decodeIfPresent(String.self, forKey: .embedUrl)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case embedUrl = "EmbedUrl"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -18418,10 +18874,6 @@ extension QuickSight {
     }
 
     public struct ListAnalysesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// Metadata describing each of the analyses that are listed.
         public let analysisSummaryList: [AnalysisSummary]?
         /// A pagination token that can be used in a subsequent request.
@@ -18438,11 +18890,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.analysisSummaryList = try container.decodeIfPresent([AnalysisSummary].self, forKey: .analysisSummaryList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case analysisSummaryList = "AnalysisSummaryList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -18478,10 +18939,6 @@ extension QuickSight {
     }
 
     public struct ListAssetBundleExportJobsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A list of export job summaries.
         public let assetBundleExportJobSummaryList: [AssetBundleExportJobSummary]?
         /// The token for the next set of results, or null if there are no more results.
@@ -18498,11 +18955,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.assetBundleExportJobSummaryList = try container.decodeIfPresent([AssetBundleExportJobSummary].self, forKey: .assetBundleExportJobSummaryList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assetBundleExportJobSummaryList = "AssetBundleExportJobSummaryList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -18538,10 +19004,6 @@ extension QuickSight {
     }
 
     public struct ListAssetBundleImportJobsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A list of import job summaries.
         public let assetBundleImportJobSummaryList: [AssetBundleImportJobSummary]?
         /// The token for the next set of results, or null if there are no more results.
@@ -18558,11 +19020,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.assetBundleImportJobSummaryList = try container.decodeIfPresent([AssetBundleImportJobSummary].self, forKey: .assetBundleImportJobSummaryList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assetBundleImportJobSummaryList = "AssetBundleImportJobSummaryList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -18656,10 +19127,6 @@ extension QuickSight {
     }
 
     public struct ListDashboardVersionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A structure that contains information about each version of the dashboard.
         public let dashboardVersionSummaryList: [DashboardVersionSummary]?
         /// The token for the next set of results, or null if there are no more results.
@@ -18676,11 +19143,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dashboardVersionSummaryList = try container.decodeIfPresent([DashboardVersionSummary].self, forKey: .dashboardVersionSummaryList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dashboardVersionSummaryList = "DashboardVersionSummaryList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -18716,10 +19192,6 @@ extension QuickSight {
     }
 
     public struct ListDashboardsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A structure that contains all of the dashboards in your Amazon Web Services account. This structure provides basic information about the dashboards.
         public let dashboardSummaryList: [DashboardSummary]?
         /// The token for the next set of results, or null if there are no more results.
@@ -18736,11 +19208,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dashboardSummaryList = try container.decodeIfPresent([DashboardSummary].self, forKey: .dashboardSummaryList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dashboardSummaryList = "DashboardSummaryList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -18776,10 +19257,6 @@ extension QuickSight {
     }
 
     public struct ListDataSetsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The list of dataset summaries.
         public let dataSetSummaries: [DataSetSummary]?
         /// The token for the next set of results, or null if there are no more results.
@@ -18796,11 +19273,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dataSetSummaries = try container.decodeIfPresent([DataSetSummary].self, forKey: .dataSetSummaries)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSetSummaries = "DataSetSummaries"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -18836,10 +19322,6 @@ extension QuickSight {
     }
 
     public struct ListDataSourcesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A list of data sources.
         public let dataSources: [DataSource]?
         /// The token for the next set of results, or null if there are no more results.
@@ -18856,11 +19338,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dataSources = try container.decodeIfPresent([DataSource].self, forKey: .dataSources)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSources = "DataSources"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -18903,10 +19394,6 @@ extension QuickSight {
     }
 
     public struct ListFolderMembersResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A structure that contains all of the folder members (dashboards, analyses, and datasets) in the folder.
         public let folderMemberList: [MemberIdArnPair]?
         /// The token for the next set of results, or null if there are no more results.
@@ -18923,11 +19410,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.folderMemberList = try container.decodeIfPresent([MemberIdArnPair].self, forKey: .folderMemberList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case folderMemberList = "FolderMemberList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -18963,10 +19459,6 @@ extension QuickSight {
     }
 
     public struct ListFoldersResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A structure that contains all of the folders in the Amazon Web Services account. This structure provides basic information about the folders.
         public let folderSummaryList: [FolderSummary]?
         /// The token for the next set of results, or null if there are no more results.
@@ -18983,11 +19475,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.folderSummaryList = try container.decodeIfPresent([FolderSummary].self, forKey: .folderSummaryList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case folderSummaryList = "FolderSummaryList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -19036,10 +19537,6 @@ extension QuickSight {
     }
 
     public struct ListGroupMembershipsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The list of the members of the group.
         public let groupMemberList: [GroupMember]?
         /// A pagination token that can be used in a subsequent request.
@@ -19056,11 +19553,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.groupMemberList = try container.decodeIfPresent([GroupMember].self, forKey: .groupMemberList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case groupMemberList = "GroupMemberList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -19103,10 +19609,6 @@ extension QuickSight {
     }
 
     public struct ListGroupsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The list of the groups.
         public let groupList: [Group]?
         /// A pagination token that can be used in a subsequent request.
@@ -19123,11 +19625,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.groupList = try container.decodeIfPresent([Group].self, forKey: .groupList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case groupList = "GroupList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -19175,10 +19686,6 @@ extension QuickSight {
     }
 
     public struct ListIAMPolicyAssignmentsForUserResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The active assignments for this user.
         public let activeAssignments: [ActiveIAMPolicyAssignment]?
         /// The token for the next set of results, or null if there are no more results.
@@ -19195,11 +19702,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.activeAssignments = try container.decodeIfPresent([ActiveIAMPolicyAssignment].self, forKey: .activeAssignments)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case activeAssignments = "ActiveAssignments"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -19246,10 +19762,6 @@ extension QuickSight {
     }
 
     public struct ListIAMPolicyAssignmentsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// Information describing the IAM policy assignments.
         public let iamPolicyAssignments: [IAMPolicyAssignmentSummary]?
         /// The token for the next set of results, or null if there are no more results.
@@ -19266,11 +19778,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.iamPolicyAssignments = try container.decodeIfPresent([IAMPolicyAssignmentSummary].self, forKey: .iamPolicyAssignments)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case iamPolicyAssignments = "IAMPolicyAssignments"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -19310,10 +19831,6 @@ extension QuickSight {
     }
 
     public struct ListIngestionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A list of the ingestions.
         public let ingestions: [Ingestion]?
         /// The token for the next set of results, or null if there are no more results.
@@ -19330,11 +19847,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.ingestions = try container.decodeIfPresent([Ingestion].self, forKey: .ingestions)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case ingestions = "Ingestions"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -19370,10 +19896,6 @@ extension QuickSight {
     }
 
     public struct ListNamespacesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The information about the namespaces in this Amazon Web Services account. The response includes  the namespace ARN, name, Amazon Web Services Region, notification email address, creation status, and  identity store.
         public let namespaces: [NamespaceInfoV2]?
         /// A unique pagination token that can be used in a subsequent request. Receiving NextToken in your response inticates that there is more data that can be returned. To receive the data, make another ListNamespaces API call with the returned token to retrieve the next page of data. Each token is valid for 24 hours. If you try to make a ListNamespaces API call with an expired token, you will receive a HTTP 400 InvalidNextTokenException error.
@@ -19390,11 +19912,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.namespaces = try container.decodeIfPresent([NamespaceInfoV2].self, forKey: .namespaces)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case namespaces = "Namespaces"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -19424,10 +19955,6 @@ extension QuickSight {
     }
 
     public struct ListRefreshSchedulesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The list of refresh schedules for the dataset.
         public let refreshSchedules: [RefreshSchedule]?
         /// The Amazon Web Services request ID for this operation.
@@ -19441,10 +19968,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.refreshSchedules = try container.decodeIfPresent([RefreshSchedule].self, forKey: .refreshSchedules)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case refreshSchedules = "RefreshSchedules"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -19464,10 +19999,6 @@ extension QuickSight {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -19482,9 +20013,17 @@ extension QuickSight {
             self.tags = tags
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.tags = try container.decodeIfPresent([Tag].self, forKey: .tags)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
             case tags = "Tags"
         }
     }
@@ -19528,10 +20067,6 @@ extension QuickSight {
     }
 
     public struct ListTemplateAliasesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The Amazon Web Services request ID for this operation.
@@ -19548,10 +20083,19 @@ extension QuickSight {
             self.templateAliasList = templateAliasList
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.templateAliasList = try container.decodeIfPresent([TemplateAlias].self, forKey: .templateAliasList)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
             case templateAliasList = "TemplateAliasList"
         }
     }
@@ -19595,10 +20139,6 @@ extension QuickSight {
     }
 
     public struct ListTemplateVersionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The Amazon Web Services request ID for this operation.
@@ -19615,10 +20155,19 @@ extension QuickSight {
             self.templateVersionSummaryList = templateVersionSummaryList
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.templateVersionSummaryList = try container.decodeIfPresent([TemplateVersionSummary].self, forKey: .templateVersionSummaryList)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
             case templateVersionSummaryList = "TemplateVersionSummaryList"
         }
     }
@@ -19655,10 +20204,6 @@ extension QuickSight {
     }
 
     public struct ListTemplatesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The Amazon Web Services request ID for this operation.
@@ -19675,10 +20220,19 @@ extension QuickSight {
             self.templateSummaryList = templateSummaryList
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.templateSummaryList = try container.decodeIfPresent([TemplateSummary].self, forKey: .templateSummaryList)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
             case templateSummaryList = "TemplateSummaryList"
         }
     }
@@ -19722,10 +20276,6 @@ extension QuickSight {
     }
 
     public struct ListThemeAliasesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The Amazon Web Services request ID for this operation.
@@ -19742,10 +20292,19 @@ extension QuickSight {
             self.themeAliasList = themeAliasList
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.themeAliasList = try container.decodeIfPresent([ThemeAlias].self, forKey: .themeAliasList)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
             case themeAliasList = "ThemeAliasList"
         }
     }
@@ -19789,10 +20348,6 @@ extension QuickSight {
     }
 
     public struct ListThemeVersionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The Amazon Web Services request ID for this operation.
@@ -19809,10 +20364,19 @@ extension QuickSight {
             self.themeVersionSummaryList = themeVersionSummaryList
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.themeVersionSummaryList = try container.decodeIfPresent([ThemeVersionSummary].self, forKey: .themeVersionSummaryList)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
             case themeVersionSummaryList = "ThemeVersionSummaryList"
         }
     }
@@ -19853,10 +20417,6 @@ extension QuickSight {
     }
 
     public struct ListThemesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The Amazon Web Services request ID for this operation.
@@ -19873,10 +20433,19 @@ extension QuickSight {
             self.themeSummaryList = themeSummaryList
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.themeSummaryList = try container.decodeIfPresent([ThemeSummary].self, forKey: .themeSummaryList)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
             case themeSummaryList = "ThemeSummaryList"
         }
     }
@@ -19909,10 +20478,6 @@ extension QuickSight {
     }
 
     public struct ListTopicRefreshSchedulesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The list of topic refresh schedules.
         public let refreshSchedules: [TopicRefreshScheduleSummary]?
         /// The Amazon Web Services request ID for this operation.
@@ -19932,10 +20497,20 @@ extension QuickSight {
             self.topicId = topicId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.refreshSchedules = try container.decodeIfPresent([TopicRefreshScheduleSummary].self, forKey: .refreshSchedules)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case refreshSchedules = "RefreshSchedules"
             case requestId = "RequestId"
-            case status = "Status"
             case topicArn = "TopicArn"
             case topicId = "TopicId"
         }
@@ -19973,10 +20548,6 @@ extension QuickSight {
     }
 
     public struct ListTopicsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The Amazon Web Services request ID for this operation.
@@ -19993,10 +20564,19 @@ extension QuickSight {
             self.topicsSummaries = topicsSummaries
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topicsSummaries = try container.decodeIfPresent([TopicSummary].self, forKey: .topicsSummaries)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
             case topicsSummaries = "TopicsSummaries"
         }
     }
@@ -20046,10 +20626,6 @@ extension QuickSight {
     }
 
     public struct ListUserGroupsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The list of groups the user is a member of.
         public let groupList: [Group]?
         /// A pagination token that can be used in a subsequent request.
@@ -20066,11 +20642,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.groupList = try container.decodeIfPresent([Group].self, forKey: .groupList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case groupList = "GroupList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -20113,10 +20698,6 @@ extension QuickSight {
     }
 
     public struct ListUsersResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
         /// The Amazon Web Services request ID for this operation.
@@ -20133,10 +20714,19 @@ extension QuickSight {
             self.userList = userList
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.userList = try container.decodeIfPresent([User].self, forKey: .userList)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
             case userList = "UserList"
         }
     }
@@ -20174,10 +20764,6 @@ extension QuickSight {
     }
 
     public struct ListVPCConnectionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The token for the next set of results, or null if there are no more
         /// 			results.
         public let nextToken: String?
@@ -20196,10 +20782,19 @@ extension QuickSight {
             self.vpcConnectionSummaries = vpcConnectionSummaries
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.vpcConnectionSummaries = try container.decodeIfPresent([VPCConnectionSummary].self, forKey: .vpcConnectionSummaries)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
             case vpcConnectionSummaries = "VPCConnectionSummaries"
         }
     }
@@ -22921,10 +23516,6 @@ extension QuickSight {
     }
 
     public struct PutDataSetRefreshPropertiesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -22935,9 +23526,16 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -23667,10 +24265,6 @@ extension QuickSight {
     }
 
     public struct RegisterUserResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -23688,9 +24282,18 @@ extension QuickSight {
             self.userInvitationUrl = userInvitationUrl
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.user = try container.decodeIfPresent(User.self, forKey: .user)
+            self.userInvitationUrl = try container.decodeIfPresent(String.self, forKey: .userInvitationUrl)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
             case user = "User"
             case userInvitationUrl = "UserInvitationUrl"
         }
@@ -24040,10 +24643,6 @@ extension QuickSight {
     }
 
     public struct RestoreAnalysisResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The ID of the analysis that you're restoring.
         public let analysisId: String?
         /// The Amazon Resource Name (ARN) of the analysis that you're restoring.
@@ -24060,11 +24659,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.analysisId = try container.decodeIfPresent(String.self, forKey: .analysisId)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case analysisId = "AnalysisId"
             case arn = "Arn"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -24785,10 +25393,6 @@ extension QuickSight {
     }
 
     public struct SearchAnalysesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// Metadata describing the analyses that you searched for.
         public let analysisSummaryList: [AnalysisSummary]?
         /// A pagination token that can be used in a subsequent request.
@@ -24805,11 +25409,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.analysisSummaryList = try container.decodeIfPresent([AnalysisSummary].self, forKey: .analysisSummaryList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case analysisSummaryList = "AnalysisSummaryList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -24852,10 +25465,6 @@ extension QuickSight {
     }
 
     public struct SearchDashboardsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The list of dashboards owned by the user specified in Filters in your request.
         public let dashboardSummaryList: [DashboardSummary]?
         /// The token for the next set of results, or null if there are no more results.
@@ -24872,11 +25481,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dashboardSummaryList = try container.decodeIfPresent([DashboardSummary].self, forKey: .dashboardSummaryList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dashboardSummaryList = "DashboardSummaryList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -24919,10 +25537,6 @@ extension QuickSight {
     }
 
     public struct SearchDataSetsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A DataSetSummaries object that returns a summary of a dataset.
         public let dataSetSummaries: [DataSetSummary]?
         /// A pagination token that can be used in a subsequent request.
@@ -24939,11 +25553,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dataSetSummaries = try container.decodeIfPresent([DataSetSummary].self, forKey: .dataSetSummaries)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSetSummaries = "DataSetSummaries"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -24986,10 +25609,6 @@ extension QuickSight {
     }
 
     public struct SearchDataSourcesResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A DataSourceSummaries object that returns a summary of a data source.
         public let dataSourceSummaries: [DataSourceSummary]?
         /// A pagination token that can be used in a subsequent request.
@@ -25006,11 +25625,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dataSourceSummaries = try container.decodeIfPresent([DataSourceSummary].self, forKey: .dataSourceSummaries)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSourceSummaries = "DataSourceSummaries"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -25052,10 +25680,6 @@ extension QuickSight {
     }
 
     public struct SearchFoldersResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A structure that contains all of the folders in the Amazon Web Services account. This structure provides basic information about the folders.
         public let folderSummaryList: [FolderSummary]?
         /// The token for the next set of results, or null if there are no more results.
@@ -25072,11 +25696,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.folderSummaryList = try container.decodeIfPresent([FolderSummary].self, forKey: .folderSummaryList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case folderSummaryList = "FolderSummaryList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -25125,10 +25758,6 @@ extension QuickSight {
     }
 
     public struct SearchGroupsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A list of groups in a specified namespace that match the filters you set in your SearchGroups request.
         public let groupList: [Group]?
         /// A pagination token that can be used in a subsequent request.
@@ -25145,11 +25774,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.groupList = try container.decodeIfPresent([Group].self, forKey: .groupList)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case groupList = "GroupList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -26059,10 +26697,6 @@ extension QuickSight {
     }
 
     public struct StartAssetBundleExportJobResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the export job.
         public let arn: String?
         /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
@@ -26079,11 +26713,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.assetBundleExportJobId = try container.decodeIfPresent(String.self, forKey: .assetBundleExportJobId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case assetBundleExportJobId = "AssetBundleExportJobId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -26131,10 +26774,6 @@ extension QuickSight {
     }
 
     public struct StartAssetBundleImportJobResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the import job.
         public let arn: String?
         /// The ID of the job. This ID is unique while the job is running. After the job is completed, you can reuse this ID for another job.
@@ -26151,11 +26790,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.assetBundleImportJobId = try container.decodeIfPresent(String.self, forKey: .assetBundleImportJobId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case assetBundleImportJobId = "AssetBundleImportJobId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -27126,10 +27774,6 @@ extension QuickSight {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -27140,9 +27784,16 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -29301,10 +29952,6 @@ extension QuickSight {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -29315,9 +29962,16 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -29354,10 +30008,6 @@ extension QuickSight {
     }
 
     public struct UpdateAccountCustomizationResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon QuickSight customizations you're updating in the current Amazon Web Services Region.
         public let accountCustomization: AccountCustomization?
         /// The Amazon Resource Name (ARN) for the updated customization for this Amazon Web Services account.
@@ -29380,13 +30030,24 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accountCustomization = try container.decodeIfPresent(AccountCustomization.self, forKey: .accountCustomization)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.awsAccountId = try container.decodeIfPresent(String.self, forKey: .awsAccountId)
+            self.namespace = try container.decodeIfPresent(String.self, forKey: .namespace)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case accountCustomization = "AccountCustomization"
             case arn = "Arn"
             case awsAccountId = "AwsAccountId"
             case namespace = "Namespace"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -29427,10 +30088,6 @@ extension QuickSight {
     }
 
     public struct UpdateAccountSettingsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -29441,9 +30098,16 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -29493,10 +30157,6 @@ extension QuickSight {
     }
 
     public struct UpdateAnalysisPermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the analysis that you updated.
         public let analysisArn: String?
         /// The ID of the analysis that you updated permissions for.
@@ -29516,12 +30176,22 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.analysisArn = try container.decodeIfPresent(String.self, forKey: .analysisArn)
+            self.analysisId = try container.decodeIfPresent(String.self, forKey: .analysisId)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case analysisArn = "AnalysisArn"
             case analysisId = "AnalysisId"
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -29580,10 +30250,6 @@ extension QuickSight {
     }
 
     public struct UpdateAnalysisResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The ID of the analysis.
         public let analysisId: String?
         /// The ARN of the analysis that you're updating.
@@ -29603,11 +30269,21 @@ extension QuickSight {
             self.updateStatus = updateStatus
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.analysisId = try container.decodeIfPresent(String.self, forKey: .analysisId)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.updateStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .updateStatus)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case analysisId = "AnalysisId"
             case arn = "Arn"
             case requestId = "RequestId"
-            case status = "Status"
             case updateStatus = "UpdateStatus"
         }
     }
@@ -29674,10 +30350,6 @@ extension QuickSight {
     }
 
     public struct UpdateDashboardPermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
         /// The ID for the dashboard.
@@ -29700,13 +30372,24 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dashboardArn = try container.decodeIfPresent(String.self, forKey: .dashboardArn)
+            self.dashboardId = try container.decodeIfPresent(String.self, forKey: .dashboardId)
+            self.linkSharingConfiguration = try container.decodeIfPresent(LinkSharingConfiguration.self, forKey: .linkSharingConfiguration)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dashboardArn = "DashboardArn"
             case dashboardId = "DashboardId"
             case linkSharingConfiguration = "LinkSharingConfiguration"
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -29744,10 +30427,6 @@ extension QuickSight {
     }
 
     public struct UpdateDashboardPublishedVersionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
         /// The ID for the dashboard.
@@ -29764,11 +30443,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dashboardArn = try container.decodeIfPresent(String.self, forKey: .dashboardArn)
+            self.dashboardId = try container.decodeIfPresent(String.self, forKey: .dashboardId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dashboardArn = "DashboardArn"
             case dashboardId = "DashboardId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -29915,10 +30603,6 @@ extension QuickSight {
     }
 
     public struct UpdateDataSetPermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the dataset.
         public let dataSetArn: String?
         /// The ID for the dataset whose permissions you want to update. This ID is unique per
@@ -29936,11 +30620,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dataSetArn = try container.decodeIfPresent(String.self, forKey: .dataSetArn)
+            self.dataSetId = try container.decodeIfPresent(String.self, forKey: .dataSetId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSetArn = "DataSetArn"
             case dataSetId = "DataSetId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -30053,10 +30746,6 @@ extension QuickSight {
     }
 
     public struct UpdateDataSetResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the dataset.
         public let arn: String?
         /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -30081,13 +30770,24 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.dataSetId = try container.decodeIfPresent(String.self, forKey: .dataSetId)
+            self.ingestionArn = try container.decodeIfPresent(String.self, forKey: .ingestionArn)
+            self.ingestionId = try container.decodeIfPresent(String.self, forKey: .ingestionId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case dataSetId = "DataSetId"
             case ingestionArn = "IngestionArn"
             case ingestionId = "IngestionId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -30136,10 +30836,6 @@ extension QuickSight {
     }
 
     public struct UpdateDataSourcePermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the data source.
         public let dataSourceArn: String?
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -30156,11 +30852,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.dataSourceArn = try container.decodeIfPresent(String.self, forKey: .dataSourceArn)
+            self.dataSourceId = try container.decodeIfPresent(String.self, forKey: .dataSourceId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case dataSourceArn = "DataSourceArn"
             case dataSourceId = "DataSourceId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -30218,10 +30923,6 @@ extension QuickSight {
     }
 
     public struct UpdateDataSourceResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the data source.
         public let arn: String?
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
@@ -30241,11 +30942,21 @@ extension QuickSight {
             self.updateStatus = updateStatus
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.dataSourceId = try container.decodeIfPresent(String.self, forKey: .dataSourceId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.updateStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .updateStatus)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case dataSourceId = "DataSourceId"
             case requestId = "RequestId"
-            case status = "Status"
             case updateStatus = "UpdateStatus"
         }
     }
@@ -30362,10 +31073,6 @@ extension QuickSight {
     }
 
     public struct UpdateFolderResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the folder.
         public let arn: String?
         /// The ID of the folder.
@@ -30382,11 +31089,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.folderId = try container.decodeIfPresent(String.self, forKey: .folderId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case folderId = "FolderId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -30432,10 +31148,6 @@ extension QuickSight {
     }
 
     public struct UpdateGroupResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The name of the group.
         public let group: Group?
         /// The Amazon Web Services request ID for this operation.
@@ -30449,10 +31161,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.group = try container.decodeIfPresent(Group.self, forKey: .group)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case group = "Group"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -30512,10 +31232,6 @@ extension QuickSight {
     }
 
     public struct UpdateIAMPolicyAssignmentResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The ID of the assignment.
         public let assignmentId: String?
         /// The name of the assignment or rule.
@@ -30546,6 +31262,19 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.assignmentId = try container.decodeIfPresent(String.self, forKey: .assignmentId)
+            self.assignmentName = try container.decodeIfPresent(String.self, forKey: .assignmentName)
+            self.assignmentStatus = try container.decodeIfPresent(AssignmentStatus.self, forKey: .assignmentStatus)
+            self.identities = try container.decodeIfPresent([String: [String]].self, forKey: .identities)
+            self.policyArn = try container.decodeIfPresent(String.self, forKey: .policyArn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case assignmentId = "AssignmentId"
             case assignmentName = "AssignmentName"
@@ -30553,7 +31282,6 @@ extension QuickSight {
             case identities = "Identities"
             case policyArn = "PolicyArn"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -30592,10 +31320,6 @@ extension QuickSight {
     }
 
     public struct UpdateIpRestrictionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The ID of the Amazon Web Services account that contains the IP rules.
         public let awsAccountId: String?
         /// The Amazon Web Services request ID for this operation.
@@ -30609,10 +31333,18 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.awsAccountId = try container.decodeIfPresent(String.self, forKey: .awsAccountId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "AwsAccountId"
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -30643,10 +31375,6 @@ extension QuickSight {
     }
 
     public struct UpdatePublicSharingSettingsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -30657,9 +31385,16 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
         }
     }
 
@@ -30695,10 +31430,6 @@ extension QuickSight {
     }
 
     public struct UpdateRefreshScheduleResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the refresh schedule.
         public let arn: String?
         /// The Amazon Web Services request ID for this operation.
@@ -30715,11 +31446,20 @@ extension QuickSight {
             self.status = status
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.scheduleId = try container.decodeIfPresent(String.self, forKey: .scheduleId)
+            self.status = response.decodeStatus()
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case requestId = "RequestId"
             case scheduleId = "ScheduleId"
-            case status = "Status"
         }
     }
 
@@ -30768,10 +31508,6 @@ extension QuickSight {
     }
 
     public struct UpdateTemplateAliasResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -30785,9 +31521,17 @@ extension QuickSight {
             self.templateAlias = templateAlias
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.templateAlias = try container.decodeIfPresent(TemplateAlias.self, forKey: .templateAlias)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
             case templateAlias = "TemplateAlias"
         }
     }
@@ -30838,10 +31582,6 @@ extension QuickSight {
     }
 
     public struct UpdateTemplatePermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A list of resource permissions to be set on the template.
         public let permissions: [ResourcePermission]?
         /// The Amazon Web Services request ID for this operation.
@@ -30861,10 +31601,20 @@ extension QuickSight {
             self.templateId = templateId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.templateArn = try container.decodeIfPresent(String.self, forKey: .templateArn)
+            self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
             case templateArn = "TemplateArn"
             case templateId = "TemplateId"
         }
@@ -30933,10 +31683,6 @@ extension QuickSight {
     }
 
     public struct UpdateTemplateResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the template.
         public let arn: String?
         /// The creation status of the template.
@@ -30959,11 +31705,22 @@ extension QuickSight {
             self.versionArn = versionArn
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.creationStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .creationStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.templateId = try container.decodeIfPresent(String.self, forKey: .templateId)
+            self.versionArn = try container.decodeIfPresent(String.self, forKey: .versionArn)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case creationStatus = "CreationStatus"
             case requestId = "RequestId"
-            case status = "Status"
             case templateId = "TemplateId"
             case versionArn = "VersionArn"
         }
@@ -31011,10 +31768,6 @@ extension QuickSight {
     }
 
     public struct UpdateThemeAliasResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -31028,9 +31781,17 @@ extension QuickSight {
             self.themeAlias = themeAlias
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.themeAlias = try container.decodeIfPresent(ThemeAlias.self, forKey: .themeAlias)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
             case themeAlias = "ThemeAlias"
         }
     }
@@ -31081,10 +31842,6 @@ extension QuickSight {
     }
 
     public struct UpdateThemePermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The resulting list of resource permissions for the theme.
         public let permissions: [ResourcePermission]?
         /// The Amazon Web Services request ID for this operation.
@@ -31104,10 +31861,20 @@ extension QuickSight {
             self.themeId = themeId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.themeArn = try container.decodeIfPresent(String.self, forKey: .themeArn)
+            self.themeId = try container.decodeIfPresent(String.self, forKey: .themeId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
             case themeArn = "ThemeArn"
             case themeId = "ThemeId"
         }
@@ -31170,10 +31937,6 @@ extension QuickSight {
     }
 
     public struct UpdateThemeResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) for the theme.
         public let arn: String?
         /// The creation status of the theme.
@@ -31196,11 +31959,22 @@ extension QuickSight {
             self.versionArn = versionArn
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.creationStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .creationStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.themeId = try container.decodeIfPresent(String.self, forKey: .themeId)
+            self.versionArn = try container.decodeIfPresent(String.self, forKey: .versionArn)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case creationStatus = "CreationStatus"
             case requestId = "RequestId"
-            case status = "Status"
             case themeId = "ThemeId"
             case versionArn = "VersionArn"
         }
@@ -31251,10 +32025,6 @@ extension QuickSight {
     }
 
     public struct UpdateTopicPermissionsResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// A list of resource permissions on the topic.
         public let permissions: [ResourcePermission]?
         /// The Amazon Web Services request ID for this operation.
@@ -31274,10 +32044,20 @@ extension QuickSight {
             self.topicId = topicId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case permissions = "Permissions"
             case requestId = "RequestId"
-            case status = "Status"
             case topicArn = "TopicArn"
             case topicId = "TopicId"
         }
@@ -31321,10 +32101,6 @@ extension QuickSight {
     }
 
     public struct UpdateTopicRefreshScheduleResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String?
         /// The Amazon Web Services request ID for this operation.
@@ -31344,10 +32120,20 @@ extension QuickSight {
             self.topicId = topicId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.datasetArn = try container.decodeIfPresent(String.self, forKey: .datasetArn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topicArn = try container.decodeIfPresent(String.self, forKey: .topicArn)
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case datasetArn = "DatasetArn"
             case requestId = "RequestId"
-            case status = "Status"
             case topicArn = "TopicArn"
             case topicId = "TopicId"
         }
@@ -31387,10 +32173,6 @@ extension QuickSight {
     }
 
     public struct UpdateTopicResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the topic.
         public let arn: String?
         /// The Amazon Resource Name (ARN) of the topic refresh.
@@ -31410,11 +32192,21 @@ extension QuickSight {
             self.topicId = topicId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.refreshArn = try container.decodeIfPresent(String.self, forKey: .refreshArn)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case refreshArn = "RefreshArn"
             case requestId = "RequestId"
-            case status = "Status"
             case topicId = "TopicId"
         }
     }
@@ -31490,10 +32282,6 @@ extension QuickSight {
     }
 
     public struct UpdateUserResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
@@ -31507,9 +32295,17 @@ extension QuickSight {
             self.user = user
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.user = try container.decodeIfPresent(User.self, forKey: .user)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
-            case status = "Status"
             case user = "User"
         }
     }
@@ -31589,10 +32385,6 @@ extension QuickSight {
     }
 
     public struct UpdateVPCConnectionResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "status", location: .statusCode)
-        ]
-
         /// The Amazon Resource Name (ARN) of the VPC connection.
         public let arn: String?
         /// The availability status of the VPC connection.
@@ -31615,11 +32407,22 @@ extension QuickSight {
             self.vpcConnectionId = vpcConnectionId
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.availabilityStatus = try container.decodeIfPresent(VPCConnectionAvailabilityStatus.self, forKey: .availabilityStatus)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.updateStatus = try container.decodeIfPresent(VPCConnectionResourceStatus.self, forKey: .updateStatus)
+            self.vpcConnectionId = try container.decodeIfPresent(String.self, forKey: .vpcConnectionId)
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case availabilityStatus = "AvailabilityStatus"
             case requestId = "RequestId"
-            case status = "Status"
             case updateStatus = "UpdateStatus"
             case vpcConnectionId = "VPCConnectionId"
         }

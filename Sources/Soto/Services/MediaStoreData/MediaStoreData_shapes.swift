@@ -92,14 +92,6 @@ extension MediaStoreData {
     }
 
     public struct DescribeObjectResponse: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
-            AWSMemberEncoding(label: "contentLength", location: .header("Content-Length")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "lastModified", location: .header("Last-Modified"))
-        ]
-
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
         public let cacheControl: String?
         /// The length of the object in bytes.
@@ -120,13 +112,17 @@ extension MediaStoreData {
             self.lastModified = lastModified
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case cacheControl = "Cache-Control"
-            case contentLength = "Content-Length"
-            case contentType = "Content-Type"
-            case eTag = "ETag"
-            case lastModified = "Last-Modified"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
+            self.contentLength = try response.decodeIfPresent(Int64.self, forHeader: "Content-Length")
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.lastModified = try response.decodeIfPresent(Date.self, forHeader: "Last-Modified")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectRequest: AWSEncodableShape {
@@ -155,23 +151,10 @@ extension MediaStoreData {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetObjectResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct GetObjectResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body("Body")),
-            AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
-            AWSMemberEncoding(label: "contentLength", location: .header("Content-Length")),
-            AWSMemberEncoding(label: "contentRange", location: .header("Content-Range")),
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "eTag", location: .header("ETag")),
-            AWSMemberEncoding(label: "lastModified", location: .header("Last-Modified")),
-            AWSMemberEncoding(label: "statusCode", location: .statusCode)
-        ]
-
         /// The bytes of the object.
-        public let body: HTTPBody?
+        public let body: AWSHTTPBody
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP spec at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
         public let cacheControl: String?
         /// The length of the object in bytes.
@@ -188,7 +171,7 @@ extension MediaStoreData {
         /// The HTML status code of the request. Status codes ranging from 200 to 299 indicate success. All other status codes indicate the type of error that occurred.
         public let statusCode: Int
 
-        public init(body: HTTPBody? = nil, cacheControl: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: Date? = nil, statusCode: Int) {
+        public init(body: AWSHTTPBody, cacheControl: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: Date? = nil, statusCode: Int) {
             self.body = body
             self.cacheControl = cacheControl
             self.contentLength = contentLength
@@ -199,16 +182,20 @@ extension MediaStoreData {
             self.statusCode = statusCode
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "Body"
-            case cacheControl = "Cache-Control"
-            case contentLength = "Content-Length"
-            case contentRange = "Content-Range"
-            case contentType = "Content-Type"
-            case eTag = "ETag"
-            case lastModified = "Last-Modified"
-            case statusCode = "StatusCode"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.body = response.decodePayload()
+            self.cacheControl = try response.decodeIfPresent(String.self, forHeader: "Cache-Control")
+            self.contentLength = try response.decodeIfPresent(Int64.self, forHeader: "Content-Length")
+            self.contentRange = try response.decodeIfPresent(String.self, forHeader: "Content-Range")
+            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
+            self.lastModified = try response.decodeIfPresent(Date.self, forHeader: "Last-Modified")
+            self.statusCode = response.decodeStatus()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Item: AWSDecodableShape {
@@ -304,7 +291,7 @@ extension MediaStoreData {
         ]
 
         /// The bytes to be stored.
-        public let body: HTTPBody
+        public let body: AWSHTTPBody
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
         public let cacheControl: String?
         /// The content type of the object.
@@ -316,7 +303,7 @@ extension MediaStoreData {
         /// Indicates the availability of an object while it is still uploading. If the value is set to streaming, the object is available for downloading after some initial buffering but before the object is uploaded completely. If the value is set to standard, the object is available for downloading only when it is uploaded completely. The default value for this header is standard. To use this header, you must also set the HTTP Transfer-Encoding header to chunked.
         public let uploadAvailability: UploadAvailability?
 
-        public init(body: HTTPBody, cacheControl: String? = nil, contentType: String? = nil, path: String, storageClass: StorageClass? = nil, uploadAvailability: UploadAvailability? = nil) {
+        public init(body: AWSHTTPBody, cacheControl: String? = nil, contentType: String? = nil, path: String, storageClass: StorageClass? = nil, uploadAvailability: UploadAvailability? = nil) {
             self.body = body
             self.cacheControl = cacheControl
             self.contentType = contentType

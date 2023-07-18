@@ -1386,18 +1386,10 @@ extension CodeArtifact {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetPackageVersionAssetResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "asset"
+    public struct GetPackageVersionAssetResult: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetName", location: .header("X-AssetName")),
-            AWSMemberEncoding(label: "packageVersion", location: .header("X-PackageVersion")),
-            AWSMemberEncoding(label: "packageVersionRevision", location: .header("X-PackageVersionRevision"))
-        ]
-
         ///  The binary file, or asset, that is downloaded.
-        public let asset: HTTPBody?
+        public let asset: AWSHTTPBody
         ///  The name of the asset that is downloaded.
         public let assetName: String?
         ///  A string that contains the package version (for example, 3.5.2).
@@ -1405,19 +1397,23 @@ extension CodeArtifact {
         ///  The name of the package version revision that contains the downloaded asset.
         public let packageVersionRevision: String?
 
-        public init(asset: HTTPBody? = nil, assetName: String? = nil, packageVersion: String? = nil, packageVersionRevision: String? = nil) {
+        public init(asset: AWSHTTPBody, assetName: String? = nil, packageVersion: String? = nil, packageVersionRevision: String? = nil) {
             self.asset = asset
             self.assetName = assetName
             self.packageVersion = packageVersion
             self.packageVersionRevision = packageVersionRevision
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case asset = "asset"
-            case assetName = "X-AssetName"
-            case packageVersion = "X-PackageVersion"
-            case packageVersionRevision = "X-PackageVersionRevision"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.asset = response.decodePayload()
+            self.assetName = try response.decodeIfPresent(String.self, forHeader: "X-AssetName")
+            self.packageVersion = try response.decodeIfPresent(String.self, forHeader: "X-PackageVersion")
+            self.packageVersionRevision = try response.decodeIfPresent(String.self, forHeader: "X-PackageVersionRevision")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPackageVersionReadmeRequest: AWSEncodableShape {
@@ -2488,7 +2484,7 @@ extension CodeArtifact {
         ]
 
         /// The content of the asset to publish.
-        public let assetContent: HTTPBody
+        public let assetContent: AWSHTTPBody
         /// The name of the asset to publish. Asset names can include Unicode letters and numbers, and the following special characters: ~ ! @ ^ & ( ) - ` _ + [ ] { } ; , . `
         public let assetName: String
         /// The SHA256 hash of the assetContent to publish. This value must be calculated by the caller and provided with the request (see Publishing a generic package in the CodeArtifact User Guide). This value is used as an integrity check to verify that the assetContent has not changed after it was originally sent.
@@ -2510,7 +2506,7 @@ extension CodeArtifact {
         /// Specifies whether the package version should remain in the unfinished state. If omitted, the package version status will be set to Published (see Package version status in the CodeArtifact User Guide). Valid values: unfinished
         public let unfinished: Bool?
 
-        public init(assetContent: HTTPBody, assetName: String, assetSHA256: String, domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, packageVersion: String, repository: String, unfinished: Bool? = nil) {
+        public init(assetContent: AWSHTTPBody, assetName: String, assetSHA256: String, domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, packageVersion: String, repository: String, unfinished: Bool? = nil) {
             self.assetContent = assetContent
             self.assetName = assetName
             self.assetSHA256 = assetSHA256

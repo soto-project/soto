@@ -2236,20 +2236,22 @@ extension Omics {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetReadSetResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "payload"
+    public struct GetReadSetResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         /// The read set file payload.
-        public let payload: HTTPBody?
+        public let payload: AWSHTTPBody
 
-        public init(payload: HTTPBody? = nil) {
+        public init(payload: AWSHTTPBody) {
             self.payload = payload
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.payload = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetReferenceImportJobRequest: AWSEncodableShape {
@@ -2441,20 +2443,22 @@ extension Omics {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetReferenceResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "payload"
+    public struct GetReferenceResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
         /// The reference file payload.
-        public let payload: HTTPBody?
+        public let payload: AWSHTTPBody
 
-        public init(payload: HTTPBody? = nil) {
+        public init(payload: AWSHTTPBody) {
             self.payload = payload
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.payload = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetReferenceStoreRequest: AWSEncodableShape {
@@ -6096,13 +6100,13 @@ extension Omics {
         ///  The source file for an upload part.
         public let partSource: ReadSetPartSource
         ///  The read set data to upload for a part.
-        public let payload: HTTPBody
+        public let payload: AWSHTTPBody
         ///  The Sequence Store ID used for the multipart upload.
         public let sequenceStoreId: String
         ///  The ID for the initiated multipart upload.
         public let uploadId: String
 
-        public init(partNumber: Int, partSource: ReadSetPartSource, payload: HTTPBody, sequenceStoreId: String, uploadId: String) {
+        public init(partNumber: Int, partSource: ReadSetPartSource, payload: AWSHTTPBody, sequenceStoreId: String, uploadId: String) {
             self.partNumber = partNumber
             self.partSource = partSource
             self.payload = payload

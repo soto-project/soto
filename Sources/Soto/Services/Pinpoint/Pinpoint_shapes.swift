@@ -1948,27 +1948,22 @@ extension Pinpoint {
             self.createApplicationRequest = createApplicationRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case createApplicationRequest = "CreateApplicationRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateAppResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "applicationResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationResponse", location: .body("ApplicationResponse"))
-        ]
-
+    public struct CreateAppResponse: AWSDecodableShape {
         public let applicationResponse: ApplicationResponse
 
         public init(applicationResponse: ApplicationResponse) {
             self.applicationResponse = applicationResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationResponse = "ApplicationResponse"
+        public init(from decoder: Decoder) throws {
+            self.applicationResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
@@ -2005,27 +2000,22 @@ extension Pinpoint {
             self.writeCampaignRequest = writeCampaignRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case writeCampaignRequest = "WriteCampaignRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateCampaignResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "campaignResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "campaignResponse", location: .body("CampaignResponse"))
-        ]
-
+    public struct CreateCampaignResponse: AWSDecodableShape {
         public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case campaignResponse = "CampaignResponse"
+        public init(from decoder: Decoder) throws {
+            self.campaignResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateEmailTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2045,27 +2035,22 @@ extension Pinpoint {
             self.templateName = templateName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailTemplateRequest = "EmailTemplateRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateEmailTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "createTemplateMessageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body("CreateTemplateMessageBody"))
-        ]
-
+    public struct CreateEmailTemplateResponse: AWSDecodableShape {
         public let createTemplateMessageBody: CreateTemplateMessageBody
 
         public init(createTemplateMessageBody: CreateTemplateMessageBody) {
             self.createTemplateMessageBody = createTemplateMessageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case createTemplateMessageBody = "CreateTemplateMessageBody"
+        public init(from decoder: Decoder) throws {
+            self.createTemplateMessageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateExportJobRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2085,27 +2070,22 @@ extension Pinpoint {
             self.exportJobRequest = exportJobRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case exportJobRequest = "ExportJobRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateExportJobResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "exportJobResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportJobResponse", location: .body("ExportJobResponse"))
-        ]
-
+    public struct CreateExportJobResponse: AWSDecodableShape {
         public let exportJobResponse: ExportJobResponse
 
         public init(exportJobResponse: ExportJobResponse) {
             self.exportJobResponse = exportJobResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case exportJobResponse = "ExportJobResponse"
+        public init(from decoder: Decoder) throws {
+            self.exportJobResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateImportJobRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2125,27 +2105,22 @@ extension Pinpoint {
             self.importJobRequest = importJobRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case importJobRequest = "ImportJobRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateImportJobResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "importJobResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "importJobResponse", location: .body("ImportJobResponse"))
-        ]
-
+    public struct CreateImportJobResponse: AWSDecodableShape {
         public let importJobResponse: ImportJobResponse
 
         public init(importJobResponse: ImportJobResponse) {
             self.importJobResponse = importJobResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case importJobResponse = "ImportJobResponse"
+        public init(from decoder: Decoder) throws {
+            self.importJobResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateInAppTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2165,27 +2140,22 @@ extension Pinpoint {
             self.templateName = templateName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inAppTemplateRequest = "InAppTemplateRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateInAppTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "templateCreateMessageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateCreateMessageBody", location: .body("TemplateCreateMessageBody"))
-        ]
-
+    public struct CreateInAppTemplateResponse: AWSDecodableShape {
         public let templateCreateMessageBody: TemplateCreateMessageBody
 
         public init(templateCreateMessageBody: TemplateCreateMessageBody) {
             self.templateCreateMessageBody = templateCreateMessageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateCreateMessageBody = "TemplateCreateMessageBody"
+        public init(from decoder: Decoder) throws {
+            self.templateCreateMessageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateJourneyRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2205,27 +2175,22 @@ extension Pinpoint {
             self.writeJourneyRequest = writeJourneyRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case writeJourneyRequest = "WriteJourneyRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateJourneyResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "journeyResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "journeyResponse", location: .body("JourneyResponse"))
-        ]
-
+    public struct CreateJourneyResponse: AWSDecodableShape {
         public let journeyResponse: JourneyResponse
 
         public init(journeyResponse: JourneyResponse) {
             self.journeyResponse = journeyResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case journeyResponse = "JourneyResponse"
+        public init(from decoder: Decoder) throws {
+            self.journeyResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreatePushTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2245,27 +2210,22 @@ extension Pinpoint {
             self.templateName = templateName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case pushNotificationTemplateRequest = "PushNotificationTemplateRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreatePushTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "createTemplateMessageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body("CreateTemplateMessageBody"))
-        ]
-
+    public struct CreatePushTemplateResponse: AWSDecodableShape {
         public let createTemplateMessageBody: CreateTemplateMessageBody
 
         public init(createTemplateMessageBody: CreateTemplateMessageBody) {
             self.createTemplateMessageBody = createTemplateMessageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case createTemplateMessageBody = "CreateTemplateMessageBody"
+        public init(from decoder: Decoder) throws {
+            self.createTemplateMessageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateRecommenderConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2281,27 +2241,22 @@ extension Pinpoint {
             self.createRecommenderConfiguration = createRecommenderConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case createRecommenderConfiguration = "CreateRecommenderConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateRecommenderConfigurationResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "recommenderConfigurationResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body("RecommenderConfigurationResponse"))
-        ]
-
+    public struct CreateRecommenderConfigurationResponse: AWSDecodableShape {
         public let recommenderConfigurationResponse: RecommenderConfigurationResponse
 
         public init(recommenderConfigurationResponse: RecommenderConfigurationResponse) {
             self.recommenderConfigurationResponse = recommenderConfigurationResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case recommenderConfigurationResponse = "RecommenderConfigurationResponse"
+        public init(from decoder: Decoder) throws {
+            self.recommenderConfigurationResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateRecommenderConfigurationShape: AWSEncodableShape {
@@ -2366,27 +2321,22 @@ extension Pinpoint {
             self.writeSegmentRequest = writeSegmentRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case writeSegmentRequest = "WriteSegmentRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateSegmentResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "segmentResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "segmentResponse", location: .body("SegmentResponse"))
-        ]
-
+    public struct CreateSegmentResponse: AWSDecodableShape {
         public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case segmentResponse = "SegmentResponse"
+        public init(from decoder: Decoder) throws {
+            self.segmentResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateSmsTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -2406,27 +2356,22 @@ extension Pinpoint {
             self.templateName = templateName
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case smsTemplateRequest = "SMSTemplateRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateSmsTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "createTemplateMessageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body("CreateTemplateMessageBody"))
-        ]
-
+    public struct CreateSmsTemplateResponse: AWSDecodableShape {
         public let createTemplateMessageBody: CreateTemplateMessageBody
 
         public init(createTemplateMessageBody: CreateTemplateMessageBody) {
             self.createTemplateMessageBody = createTemplateMessageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case createTemplateMessageBody = "CreateTemplateMessageBody"
+        public init(from decoder: Decoder) throws {
+            self.createTemplateMessageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateTemplateMessageBody: AWSDecodableShape {
@@ -2467,27 +2412,22 @@ extension Pinpoint {
             self.voiceTemplateRequest = voiceTemplateRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceTemplateRequest = "VoiceTemplateRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateVoiceTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "createTemplateMessageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createTemplateMessageBody", location: .body("CreateTemplateMessageBody"))
-        ]
-
+    public struct CreateVoiceTemplateResponse: AWSDecodableShape {
         public let createTemplateMessageBody: CreateTemplateMessageBody
 
         public init(createTemplateMessageBody: CreateTemplateMessageBody) {
             self.createTemplateMessageBody = createTemplateMessageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case createTemplateMessageBody = "CreateTemplateMessageBody"
+        public init(from decoder: Decoder) throws {
+            self.createTemplateMessageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CustomDeliveryConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -2671,22 +2611,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteAdmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "admChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "admChannelResponse", location: .body("ADMChannelResponse"))
-        ]
-
+    public struct DeleteAdmChannelResponse: AWSDecodableShape {
         public let admChannelResponse: ADMChannelResponse
 
         public init(admChannelResponse: ADMChannelResponse) {
             self.admChannelResponse = admChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case admChannelResponse = "ADMChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.admChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApnsChannelRequest: AWSEncodableShape {
@@ -2704,22 +2641,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteApnsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsChannelResponse", location: .body("APNSChannelResponse"))
-        ]
-
+    public struct DeleteApnsChannelResponse: AWSDecodableShape {
         public let apnsChannelResponse: APNSChannelResponse
 
         public init(apnsChannelResponse: APNSChannelResponse) {
             self.apnsChannelResponse = apnsChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsChannelResponse = "APNSChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.apnsChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApnsSandboxChannelRequest: AWSEncodableShape {
@@ -2737,22 +2671,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteApnsSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsSandboxChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsSandboxChannelResponse", location: .body("APNSSandboxChannelResponse"))
-        ]
-
+    public struct DeleteApnsSandboxChannelResponse: AWSDecodableShape {
         public let apnsSandboxChannelResponse: APNSSandboxChannelResponse
 
         public init(apnsSandboxChannelResponse: APNSSandboxChannelResponse) {
             self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsSandboxChannelResponse = "APNSSandboxChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.apnsSandboxChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApnsVoipChannelRequest: AWSEncodableShape {
@@ -2770,22 +2701,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteApnsVoipChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsVoipChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsVoipChannelResponse", location: .body("APNSVoipChannelResponse"))
-        ]
-
+    public struct DeleteApnsVoipChannelResponse: AWSDecodableShape {
         public let apnsVoipChannelResponse: APNSVoipChannelResponse
 
         public init(apnsVoipChannelResponse: APNSVoipChannelResponse) {
             self.apnsVoipChannelResponse = apnsVoipChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsVoipChannelResponse = "APNSVoipChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.apnsVoipChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApnsVoipSandboxChannelRequest: AWSEncodableShape {
@@ -2803,22 +2731,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteApnsVoipSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsVoipSandboxChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsVoipSandboxChannelResponse", location: .body("APNSVoipSandboxChannelResponse"))
-        ]
-
+    public struct DeleteApnsVoipSandboxChannelResponse: AWSDecodableShape {
         public let apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
 
         public init(apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
             self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.apnsVoipSandboxChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAppRequest: AWSEncodableShape {
@@ -2836,22 +2761,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteAppResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "applicationResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationResponse", location: .body("ApplicationResponse"))
-        ]
-
+    public struct DeleteAppResponse: AWSDecodableShape {
         public let applicationResponse: ApplicationResponse
 
         public init(applicationResponse: ApplicationResponse) {
             self.applicationResponse = applicationResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationResponse = "ApplicationResponse"
+        public init(from decoder: Decoder) throws {
+            self.applicationResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBaiduChannelRequest: AWSEncodableShape {
@@ -2869,22 +2791,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteBaiduChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "baiduChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "baiduChannelResponse", location: .body("BaiduChannelResponse"))
-        ]
-
+    public struct DeleteBaiduChannelResponse: AWSDecodableShape {
         public let baiduChannelResponse: BaiduChannelResponse
 
         public init(baiduChannelResponse: BaiduChannelResponse) {
             self.baiduChannelResponse = baiduChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case baiduChannelResponse = "BaiduChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.baiduChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteCampaignRequest: AWSEncodableShape {
@@ -2906,22 +2825,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteCampaignResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "campaignResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "campaignResponse", location: .body("CampaignResponse"))
-        ]
-
+    public struct DeleteCampaignResponse: AWSDecodableShape {
         public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case campaignResponse = "CampaignResponse"
+        public init(from decoder: Decoder) throws {
+            self.campaignResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEmailChannelRequest: AWSEncodableShape {
@@ -2939,22 +2855,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteEmailChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "emailChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailChannelResponse", location: .body("EmailChannelResponse"))
-        ]
-
+    public struct DeleteEmailChannelResponse: AWSDecodableShape {
         public let emailChannelResponse: EmailChannelResponse
 
         public init(emailChannelResponse: EmailChannelResponse) {
             self.emailChannelResponse = emailChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailChannelResponse = "EmailChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.emailChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEmailTemplateRequest: AWSEncodableShape {
@@ -2976,22 +2889,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteEmailTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
-        ]
-
+    public struct DeleteEmailTemplateResponse: AWSDecodableShape {
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
+        public init(from decoder: Decoder) throws {
+            self.messageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEndpointRequest: AWSEncodableShape {
@@ -3013,22 +2923,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteEndpointResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "endpointResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endpointResponse", location: .body("EndpointResponse"))
-        ]
-
+    public struct DeleteEndpointResponse: AWSDecodableShape {
         public let endpointResponse: EndpointResponse
 
         public init(endpointResponse: EndpointResponse) {
             self.endpointResponse = endpointResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endpointResponse = "EndpointResponse"
+        public init(from decoder: Decoder) throws {
+            self.endpointResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEventStreamRequest: AWSEncodableShape {
@@ -3046,22 +2953,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteEventStreamResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "eventStream"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventStream", location: .body("EventStream"))
-        ]
-
+    public struct DeleteEventStreamResponse: AWSDecodableShape {
         public let eventStream: EventStream
 
         public init(eventStream: EventStream) {
             self.eventStream = eventStream
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eventStream = "EventStream"
+        public init(from decoder: Decoder) throws {
+            self.eventStream = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteGcmChannelRequest: AWSEncodableShape {
@@ -3079,22 +2983,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteGcmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "gcmChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gcmChannelResponse", location: .body("GCMChannelResponse"))
-        ]
-
+    public struct DeleteGcmChannelResponse: AWSDecodableShape {
         public let gcmChannelResponse: GCMChannelResponse
 
         public init(gcmChannelResponse: GCMChannelResponse) {
             self.gcmChannelResponse = gcmChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case gcmChannelResponse = "GCMChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.gcmChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteInAppTemplateRequest: AWSEncodableShape {
@@ -3116,22 +3017,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteInAppTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
-        ]
-
+    public struct DeleteInAppTemplateResponse: AWSDecodableShape {
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
+        public init(from decoder: Decoder) throws {
+            self.messageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteJourneyRequest: AWSEncodableShape {
@@ -3153,22 +3051,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteJourneyResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "journeyResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "journeyResponse", location: .body("JourneyResponse"))
-        ]
-
+    public struct DeleteJourneyResponse: AWSDecodableShape {
         public let journeyResponse: JourneyResponse
 
         public init(journeyResponse: JourneyResponse) {
             self.journeyResponse = journeyResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case journeyResponse = "JourneyResponse"
+        public init(from decoder: Decoder) throws {
+            self.journeyResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePushTemplateRequest: AWSEncodableShape {
@@ -3190,22 +3085,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeletePushTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
-        ]
-
+    public struct DeletePushTemplateResponse: AWSDecodableShape {
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
+        public init(from decoder: Decoder) throws {
+            self.messageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRecommenderConfigurationRequest: AWSEncodableShape {
@@ -3223,22 +3115,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteRecommenderConfigurationResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "recommenderConfigurationResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body("RecommenderConfigurationResponse"))
-        ]
-
+    public struct DeleteRecommenderConfigurationResponse: AWSDecodableShape {
         public let recommenderConfigurationResponse: RecommenderConfigurationResponse
 
         public init(recommenderConfigurationResponse: RecommenderConfigurationResponse) {
             self.recommenderConfigurationResponse = recommenderConfigurationResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case recommenderConfigurationResponse = "RecommenderConfigurationResponse"
+        public init(from decoder: Decoder) throws {
+            self.recommenderConfigurationResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSegmentRequest: AWSEncodableShape {
@@ -3260,22 +3149,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteSegmentResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "segmentResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "segmentResponse", location: .body("SegmentResponse"))
-        ]
-
+    public struct DeleteSegmentResponse: AWSDecodableShape {
         public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case segmentResponse = "SegmentResponse"
+        public init(from decoder: Decoder) throws {
+            self.segmentResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSmsChannelRequest: AWSEncodableShape {
@@ -3293,22 +3179,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteSmsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "smsChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "smsChannelResponse", location: .body("SMSChannelResponse"))
-        ]
-
+    public struct DeleteSmsChannelResponse: AWSDecodableShape {
         public let smsChannelResponse: SMSChannelResponse
 
         public init(smsChannelResponse: SMSChannelResponse) {
             self.smsChannelResponse = smsChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case smsChannelResponse = "SMSChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.smsChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSmsTemplateRequest: AWSEncodableShape {
@@ -3330,22 +3213,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteSmsTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
-        ]
-
+    public struct DeleteSmsTemplateResponse: AWSDecodableShape {
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
+        public init(from decoder: Decoder) throws {
+            self.messageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteUserEndpointsRequest: AWSEncodableShape {
@@ -3367,22 +3247,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteUserEndpointsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "endpointsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endpointsResponse", location: .body("EndpointsResponse"))
-        ]
-
+    public struct DeleteUserEndpointsResponse: AWSDecodableShape {
         public let endpointsResponse: EndpointsResponse
 
         public init(endpointsResponse: EndpointsResponse) {
             self.endpointsResponse = endpointsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endpointsResponse = "EndpointsResponse"
+        public init(from decoder: Decoder) throws {
+            self.endpointsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVoiceChannelRequest: AWSEncodableShape {
@@ -3400,22 +3277,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVoiceChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "voiceChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceChannelResponse", location: .body("VoiceChannelResponse"))
-        ]
-
+    public struct DeleteVoiceChannelResponse: AWSDecodableShape {
         public let voiceChannelResponse: VoiceChannelResponse
 
         public init(voiceChannelResponse: VoiceChannelResponse) {
             self.voiceChannelResponse = voiceChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceChannelResponse = "VoiceChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.voiceChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVoiceTemplateRequest: AWSEncodableShape {
@@ -3437,22 +3311,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteVoiceTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
-        ]
-
+    public struct DeleteVoiceTemplateResponse: AWSDecodableShape {
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
+        public init(from decoder: Decoder) throws {
+            self.messageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DirectMessageConfiguration: AWSEncodableShape {
@@ -4669,22 +4540,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetAdmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "admChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "admChannelResponse", location: .body("ADMChannelResponse"))
-        ]
-
+    public struct GetAdmChannelResponse: AWSDecodableShape {
         public let admChannelResponse: ADMChannelResponse
 
         public init(admChannelResponse: ADMChannelResponse) {
             self.admChannelResponse = admChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case admChannelResponse = "ADMChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.admChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApnsChannelRequest: AWSEncodableShape {
@@ -4702,22 +4570,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetApnsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsChannelResponse", location: .body("APNSChannelResponse"))
-        ]
-
+    public struct GetApnsChannelResponse: AWSDecodableShape {
         public let apnsChannelResponse: APNSChannelResponse
 
         public init(apnsChannelResponse: APNSChannelResponse) {
             self.apnsChannelResponse = apnsChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsChannelResponse = "APNSChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.apnsChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApnsSandboxChannelRequest: AWSEncodableShape {
@@ -4735,22 +4600,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetApnsSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsSandboxChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsSandboxChannelResponse", location: .body("APNSSandboxChannelResponse"))
-        ]
-
+    public struct GetApnsSandboxChannelResponse: AWSDecodableShape {
         public let apnsSandboxChannelResponse: APNSSandboxChannelResponse
 
         public init(apnsSandboxChannelResponse: APNSSandboxChannelResponse) {
             self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsSandboxChannelResponse = "APNSSandboxChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.apnsSandboxChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApnsVoipChannelRequest: AWSEncodableShape {
@@ -4768,22 +4630,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetApnsVoipChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsVoipChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsVoipChannelResponse", location: .body("APNSVoipChannelResponse"))
-        ]
-
+    public struct GetApnsVoipChannelResponse: AWSDecodableShape {
         public let apnsVoipChannelResponse: APNSVoipChannelResponse
 
         public init(apnsVoipChannelResponse: APNSVoipChannelResponse) {
             self.apnsVoipChannelResponse = apnsVoipChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsVoipChannelResponse = "APNSVoipChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.apnsVoipChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApnsVoipSandboxChannelRequest: AWSEncodableShape {
@@ -4801,22 +4660,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetApnsVoipSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsVoipSandboxChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsVoipSandboxChannelResponse", location: .body("APNSVoipSandboxChannelResponse"))
-        ]
-
+    public struct GetApnsVoipSandboxChannelResponse: AWSDecodableShape {
         public let apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
 
         public init(apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
             self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.apnsVoipSandboxChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAppRequest: AWSEncodableShape {
@@ -4834,22 +4690,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetAppResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "applicationResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationResponse", location: .body("ApplicationResponse"))
-        ]
-
+    public struct GetAppResponse: AWSDecodableShape {
         public let applicationResponse: ApplicationResponse
 
         public init(applicationResponse: ApplicationResponse) {
             self.applicationResponse = applicationResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationResponse = "ApplicationResponse"
+        public init(from decoder: Decoder) throws {
+            self.applicationResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApplicationDateRangeKpiRequest: AWSEncodableShape {
@@ -4889,22 +4742,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetApplicationDateRangeKpiResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "applicationDateRangeKpiResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationDateRangeKpiResponse", location: .body("ApplicationDateRangeKpiResponse"))
-        ]
-
+    public struct GetApplicationDateRangeKpiResponse: AWSDecodableShape {
         public let applicationDateRangeKpiResponse: ApplicationDateRangeKpiResponse
 
         public init(applicationDateRangeKpiResponse: ApplicationDateRangeKpiResponse) {
             self.applicationDateRangeKpiResponse = applicationDateRangeKpiResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationDateRangeKpiResponse = "ApplicationDateRangeKpiResponse"
+        public init(from decoder: Decoder) throws {
+            self.applicationDateRangeKpiResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApplicationSettingsRequest: AWSEncodableShape {
@@ -4922,22 +4772,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetApplicationSettingsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "applicationSettingsResource"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationSettingsResource", location: .body("ApplicationSettingsResource"))
-        ]
-
+    public struct GetApplicationSettingsResponse: AWSDecodableShape {
         public let applicationSettingsResource: ApplicationSettingsResource
 
         public init(applicationSettingsResource: ApplicationSettingsResource) {
             self.applicationSettingsResource = applicationSettingsResource
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationSettingsResource = "ApplicationSettingsResource"
+        public init(from decoder: Decoder) throws {
+            self.applicationSettingsResource = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAppsRequest: AWSEncodableShape {
@@ -4959,22 +4806,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetAppsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "applicationsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationsResponse", location: .body("ApplicationsResponse"))
-        ]
-
+    public struct GetAppsResponse: AWSDecodableShape {
         public let applicationsResponse: ApplicationsResponse
 
         public init(applicationsResponse: ApplicationsResponse) {
             self.applicationsResponse = applicationsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationsResponse = "ApplicationsResponse"
+        public init(from decoder: Decoder) throws {
+            self.applicationsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBaiduChannelRequest: AWSEncodableShape {
@@ -4992,22 +4836,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetBaiduChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "baiduChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "baiduChannelResponse", location: .body("BaiduChannelResponse"))
-        ]
-
+    public struct GetBaiduChannelResponse: AWSDecodableShape {
         public let baiduChannelResponse: BaiduChannelResponse
 
         public init(baiduChannelResponse: BaiduChannelResponse) {
             self.baiduChannelResponse = baiduChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case baiduChannelResponse = "BaiduChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.baiduChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignActivitiesRequest: AWSEncodableShape {
@@ -5037,22 +4878,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCampaignActivitiesResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "activitiesResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "activitiesResponse", location: .body("ActivitiesResponse"))
-        ]
-
+    public struct GetCampaignActivitiesResponse: AWSDecodableShape {
         public let activitiesResponse: ActivitiesResponse
 
         public init(activitiesResponse: ActivitiesResponse) {
             self.activitiesResponse = activitiesResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case activitiesResponse = "ActivitiesResponse"
+        public init(from decoder: Decoder) throws {
+            self.activitiesResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignDateRangeKpiRequest: AWSEncodableShape {
@@ -5096,22 +4934,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCampaignDateRangeKpiResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "campaignDateRangeKpiResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "campaignDateRangeKpiResponse", location: .body("CampaignDateRangeKpiResponse"))
-        ]
-
+    public struct GetCampaignDateRangeKpiResponse: AWSDecodableShape {
         public let campaignDateRangeKpiResponse: CampaignDateRangeKpiResponse
 
         public init(campaignDateRangeKpiResponse: CampaignDateRangeKpiResponse) {
             self.campaignDateRangeKpiResponse = campaignDateRangeKpiResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case campaignDateRangeKpiResponse = "CampaignDateRangeKpiResponse"
+        public init(from decoder: Decoder) throws {
+            self.campaignDateRangeKpiResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignRequest: AWSEncodableShape {
@@ -5133,22 +4968,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCampaignResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "campaignResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "campaignResponse", location: .body("CampaignResponse"))
-        ]
-
+    public struct GetCampaignResponse: AWSDecodableShape {
         public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case campaignResponse = "CampaignResponse"
+        public init(from decoder: Decoder) throws {
+            self.campaignResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignVersionRequest: AWSEncodableShape {
@@ -5174,22 +5006,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCampaignVersionResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "campaignResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "campaignResponse", location: .body("CampaignResponse"))
-        ]
-
+    public struct GetCampaignVersionResponse: AWSDecodableShape {
         public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case campaignResponse = "CampaignResponse"
+        public init(from decoder: Decoder) throws {
+            self.campaignResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignVersionsRequest: AWSEncodableShape {
@@ -5219,22 +5048,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCampaignVersionsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "campaignsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "campaignsResponse", location: .body("CampaignsResponse"))
-        ]
-
+    public struct GetCampaignVersionsResponse: AWSDecodableShape {
         public let campaignsResponse: CampaignsResponse
 
         public init(campaignsResponse: CampaignsResponse) {
             self.campaignsResponse = campaignsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case campaignsResponse = "CampaignsResponse"
+        public init(from decoder: Decoder) throws {
+            self.campaignsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignsRequest: AWSEncodableShape {
@@ -5260,22 +5086,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetCampaignsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "campaignsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "campaignsResponse", location: .body("CampaignsResponse"))
-        ]
-
+    public struct GetCampaignsResponse: AWSDecodableShape {
         public let campaignsResponse: CampaignsResponse
 
         public init(campaignsResponse: CampaignsResponse) {
             self.campaignsResponse = campaignsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case campaignsResponse = "CampaignsResponse"
+        public init(from decoder: Decoder) throws {
+            self.campaignsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetChannelsRequest: AWSEncodableShape {
@@ -5293,22 +5116,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetChannelsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "channelsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelsResponse", location: .body("ChannelsResponse"))
-        ]
-
+    public struct GetChannelsResponse: AWSDecodableShape {
         public let channelsResponse: ChannelsResponse
 
         public init(channelsResponse: ChannelsResponse) {
             self.channelsResponse = channelsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case channelsResponse = "ChannelsResponse"
+        public init(from decoder: Decoder) throws {
+            self.channelsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEmailChannelRequest: AWSEncodableShape {
@@ -5326,22 +5146,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetEmailChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "emailChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailChannelResponse", location: .body("EmailChannelResponse"))
-        ]
-
+    public struct GetEmailChannelResponse: AWSDecodableShape {
         public let emailChannelResponse: EmailChannelResponse
 
         public init(emailChannelResponse: EmailChannelResponse) {
             self.emailChannelResponse = emailChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailChannelResponse = "EmailChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.emailChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEmailTemplateRequest: AWSEncodableShape {
@@ -5363,22 +5180,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetEmailTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "emailTemplateResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailTemplateResponse", location: .body("EmailTemplateResponse"))
-        ]
-
+    public struct GetEmailTemplateResponse: AWSDecodableShape {
         public let emailTemplateResponse: EmailTemplateResponse
 
         public init(emailTemplateResponse: EmailTemplateResponse) {
             self.emailTemplateResponse = emailTemplateResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailTemplateResponse = "EmailTemplateResponse"
+        public init(from decoder: Decoder) throws {
+            self.emailTemplateResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEndpointRequest: AWSEncodableShape {
@@ -5400,22 +5214,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetEndpointResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "endpointResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endpointResponse", location: .body("EndpointResponse"))
-        ]
-
+    public struct GetEndpointResponse: AWSDecodableShape {
         public let endpointResponse: EndpointResponse
 
         public init(endpointResponse: EndpointResponse) {
             self.endpointResponse = endpointResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endpointResponse = "EndpointResponse"
+        public init(from decoder: Decoder) throws {
+            self.endpointResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEventStreamRequest: AWSEncodableShape {
@@ -5433,22 +5244,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetEventStreamResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "eventStream"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventStream", location: .body("EventStream"))
-        ]
-
+    public struct GetEventStreamResponse: AWSDecodableShape {
         public let eventStream: EventStream
 
         public init(eventStream: EventStream) {
             self.eventStream = eventStream
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eventStream = "EventStream"
+        public init(from decoder: Decoder) throws {
+            self.eventStream = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetExportJobRequest: AWSEncodableShape {
@@ -5470,22 +5278,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetExportJobResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "exportJobResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportJobResponse", location: .body("ExportJobResponse"))
-        ]
-
+    public struct GetExportJobResponse: AWSDecodableShape {
         public let exportJobResponse: ExportJobResponse
 
         public init(exportJobResponse: ExportJobResponse) {
             self.exportJobResponse = exportJobResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case exportJobResponse = "ExportJobResponse"
+        public init(from decoder: Decoder) throws {
+            self.exportJobResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetExportJobsRequest: AWSEncodableShape {
@@ -5511,22 +5316,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetExportJobsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "exportJobsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportJobsResponse", location: .body("ExportJobsResponse"))
-        ]
-
+    public struct GetExportJobsResponse: AWSDecodableShape {
         public let exportJobsResponse: ExportJobsResponse
 
         public init(exportJobsResponse: ExportJobsResponse) {
             self.exportJobsResponse = exportJobsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case exportJobsResponse = "ExportJobsResponse"
+        public init(from decoder: Decoder) throws {
+            self.exportJobsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetGcmChannelRequest: AWSEncodableShape {
@@ -5544,22 +5346,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetGcmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "gcmChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gcmChannelResponse", location: .body("GCMChannelResponse"))
-        ]
-
+    public struct GetGcmChannelResponse: AWSDecodableShape {
         public let gcmChannelResponse: GCMChannelResponse
 
         public init(gcmChannelResponse: GCMChannelResponse) {
             self.gcmChannelResponse = gcmChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case gcmChannelResponse = "GCMChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.gcmChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetImportJobRequest: AWSEncodableShape {
@@ -5581,22 +5380,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetImportJobResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "importJobResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "importJobResponse", location: .body("ImportJobResponse"))
-        ]
-
+    public struct GetImportJobResponse: AWSDecodableShape {
         public let importJobResponse: ImportJobResponse
 
         public init(importJobResponse: ImportJobResponse) {
             self.importJobResponse = importJobResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case importJobResponse = "ImportJobResponse"
+        public init(from decoder: Decoder) throws {
+            self.importJobResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetImportJobsRequest: AWSEncodableShape {
@@ -5622,22 +5418,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetImportJobsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "importJobsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "importJobsResponse", location: .body("ImportJobsResponse"))
-        ]
-
+    public struct GetImportJobsResponse: AWSDecodableShape {
         public let importJobsResponse: ImportJobsResponse
 
         public init(importJobsResponse: ImportJobsResponse) {
             self.importJobsResponse = importJobsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case importJobsResponse = "ImportJobsResponse"
+        public init(from decoder: Decoder) throws {
+            self.importJobsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetInAppMessagesRequest: AWSEncodableShape {
@@ -5659,22 +5452,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetInAppMessagesResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "inAppMessagesResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inAppMessagesResponse", location: .body("InAppMessagesResponse"))
-        ]
-
+    public struct GetInAppMessagesResponse: AWSDecodableShape {
         public let inAppMessagesResponse: InAppMessagesResponse
 
         public init(inAppMessagesResponse: InAppMessagesResponse) {
             self.inAppMessagesResponse = inAppMessagesResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inAppMessagesResponse = "InAppMessagesResponse"
+        public init(from decoder: Decoder) throws {
+            self.inAppMessagesResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetInAppTemplateRequest: AWSEncodableShape {
@@ -5696,22 +5486,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetInAppTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "inAppTemplateResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inAppTemplateResponse", location: .body("InAppTemplateResponse"))
-        ]
-
+    public struct GetInAppTemplateResponse: AWSDecodableShape {
         public let inAppTemplateResponse: InAppTemplateResponse
 
         public init(inAppTemplateResponse: InAppTemplateResponse) {
             self.inAppTemplateResponse = inAppTemplateResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inAppTemplateResponse = "InAppTemplateResponse"
+        public init(from decoder: Decoder) throws {
+            self.inAppTemplateResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyDateRangeKpiRequest: AWSEncodableShape {
@@ -5755,22 +5542,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetJourneyDateRangeKpiResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "journeyDateRangeKpiResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "journeyDateRangeKpiResponse", location: .body("JourneyDateRangeKpiResponse"))
-        ]
-
+    public struct GetJourneyDateRangeKpiResponse: AWSDecodableShape {
         public let journeyDateRangeKpiResponse: JourneyDateRangeKpiResponse
 
         public init(journeyDateRangeKpiResponse: JourneyDateRangeKpiResponse) {
             self.journeyDateRangeKpiResponse = journeyDateRangeKpiResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case journeyDateRangeKpiResponse = "JourneyDateRangeKpiResponse"
+        public init(from decoder: Decoder) throws {
+            self.journeyDateRangeKpiResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyExecutionActivityMetricsRequest: AWSEncodableShape {
@@ -5804,22 +5588,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetJourneyExecutionActivityMetricsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "journeyExecutionActivityMetricsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "journeyExecutionActivityMetricsResponse", location: .body("JourneyExecutionActivityMetricsResponse"))
-        ]
-
+    public struct GetJourneyExecutionActivityMetricsResponse: AWSDecodableShape {
         public let journeyExecutionActivityMetricsResponse: JourneyExecutionActivityMetricsResponse
 
         public init(journeyExecutionActivityMetricsResponse: JourneyExecutionActivityMetricsResponse) {
             self.journeyExecutionActivityMetricsResponse = journeyExecutionActivityMetricsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case journeyExecutionActivityMetricsResponse = "JourneyExecutionActivityMetricsResponse"
+        public init(from decoder: Decoder) throws {
+            self.journeyExecutionActivityMetricsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyExecutionMetricsRequest: AWSEncodableShape {
@@ -5849,22 +5630,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetJourneyExecutionMetricsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "journeyExecutionMetricsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "journeyExecutionMetricsResponse", location: .body("JourneyExecutionMetricsResponse"))
-        ]
-
+    public struct GetJourneyExecutionMetricsResponse: AWSDecodableShape {
         public let journeyExecutionMetricsResponse: JourneyExecutionMetricsResponse
 
         public init(journeyExecutionMetricsResponse: JourneyExecutionMetricsResponse) {
             self.journeyExecutionMetricsResponse = journeyExecutionMetricsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case journeyExecutionMetricsResponse = "JourneyExecutionMetricsResponse"
+        public init(from decoder: Decoder) throws {
+            self.journeyExecutionMetricsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyRequest: AWSEncodableShape {
@@ -5886,22 +5664,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetJourneyResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "journeyResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "journeyResponse", location: .body("JourneyResponse"))
-        ]
-
+    public struct GetJourneyResponse: AWSDecodableShape {
         public let journeyResponse: JourneyResponse
 
         public init(journeyResponse: JourneyResponse) {
             self.journeyResponse = journeyResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case journeyResponse = "JourneyResponse"
+        public init(from decoder: Decoder) throws {
+            self.journeyResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyRunExecutionActivityMetricsRequest: AWSEncodableShape {
@@ -5939,22 +5714,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetJourneyRunExecutionActivityMetricsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "journeyRunExecutionActivityMetricsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "journeyRunExecutionActivityMetricsResponse", location: .body("JourneyRunExecutionActivityMetricsResponse"))
-        ]
-
+    public struct GetJourneyRunExecutionActivityMetricsResponse: AWSDecodableShape {
         public let journeyRunExecutionActivityMetricsResponse: JourneyRunExecutionActivityMetricsResponse
 
         public init(journeyRunExecutionActivityMetricsResponse: JourneyRunExecutionActivityMetricsResponse) {
             self.journeyRunExecutionActivityMetricsResponse = journeyRunExecutionActivityMetricsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case journeyRunExecutionActivityMetricsResponse = "JourneyRunExecutionActivityMetricsResponse"
+        public init(from decoder: Decoder) throws {
+            self.journeyRunExecutionActivityMetricsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyRunExecutionMetricsRequest: AWSEncodableShape {
@@ -5988,22 +5760,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetJourneyRunExecutionMetricsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "journeyRunExecutionMetricsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "journeyRunExecutionMetricsResponse", location: .body("JourneyRunExecutionMetricsResponse"))
-        ]
-
+    public struct GetJourneyRunExecutionMetricsResponse: AWSDecodableShape {
         public let journeyRunExecutionMetricsResponse: JourneyRunExecutionMetricsResponse
 
         public init(journeyRunExecutionMetricsResponse: JourneyRunExecutionMetricsResponse) {
             self.journeyRunExecutionMetricsResponse = journeyRunExecutionMetricsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case journeyRunExecutionMetricsResponse = "JourneyRunExecutionMetricsResponse"
+        public init(from decoder: Decoder) throws {
+            self.journeyRunExecutionMetricsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyRunsRequest: AWSEncodableShape {
@@ -6033,22 +5802,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetJourneyRunsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "journeyRunsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "journeyRunsResponse", location: .body("JourneyRunsResponse"))
-        ]
-
+    public struct GetJourneyRunsResponse: AWSDecodableShape {
         public let journeyRunsResponse: JourneyRunsResponse
 
         public init(journeyRunsResponse: JourneyRunsResponse) {
             self.journeyRunsResponse = journeyRunsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case journeyRunsResponse = "JourneyRunsResponse"
+        public init(from decoder: Decoder) throws {
+            self.journeyRunsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPushTemplateRequest: AWSEncodableShape {
@@ -6070,22 +5836,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetPushTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "pushNotificationTemplateResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pushNotificationTemplateResponse", location: .body("PushNotificationTemplateResponse"))
-        ]
-
+    public struct GetPushTemplateResponse: AWSDecodableShape {
         public let pushNotificationTemplateResponse: PushNotificationTemplateResponse
 
         public init(pushNotificationTemplateResponse: PushNotificationTemplateResponse) {
             self.pushNotificationTemplateResponse = pushNotificationTemplateResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case pushNotificationTemplateResponse = "PushNotificationTemplateResponse"
+        public init(from decoder: Decoder) throws {
+            self.pushNotificationTemplateResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRecommenderConfigurationRequest: AWSEncodableShape {
@@ -6103,22 +5866,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetRecommenderConfigurationResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "recommenderConfigurationResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body("RecommenderConfigurationResponse"))
-        ]
-
+    public struct GetRecommenderConfigurationResponse: AWSDecodableShape {
         public let recommenderConfigurationResponse: RecommenderConfigurationResponse
 
         public init(recommenderConfigurationResponse: RecommenderConfigurationResponse) {
             self.recommenderConfigurationResponse = recommenderConfigurationResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case recommenderConfigurationResponse = "RecommenderConfigurationResponse"
+        public init(from decoder: Decoder) throws {
+            self.recommenderConfigurationResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRecommenderConfigurationsRequest: AWSEncodableShape {
@@ -6140,22 +5900,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetRecommenderConfigurationsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "listRecommenderConfigurationsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "listRecommenderConfigurationsResponse", location: .body("ListRecommenderConfigurationsResponse"))
-        ]
-
+    public struct GetRecommenderConfigurationsResponse: AWSDecodableShape {
         public let listRecommenderConfigurationsResponse: ListRecommenderConfigurationsResponse
 
         public init(listRecommenderConfigurationsResponse: ListRecommenderConfigurationsResponse) {
             self.listRecommenderConfigurationsResponse = listRecommenderConfigurationsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case listRecommenderConfigurationsResponse = "ListRecommenderConfigurationsResponse"
+        public init(from decoder: Decoder) throws {
+            self.listRecommenderConfigurationsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentExportJobsRequest: AWSEncodableShape {
@@ -6185,22 +5942,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSegmentExportJobsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "exportJobsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportJobsResponse", location: .body("ExportJobsResponse"))
-        ]
-
+    public struct GetSegmentExportJobsResponse: AWSDecodableShape {
         public let exportJobsResponse: ExportJobsResponse
 
         public init(exportJobsResponse: ExportJobsResponse) {
             self.exportJobsResponse = exportJobsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case exportJobsResponse = "ExportJobsResponse"
+        public init(from decoder: Decoder) throws {
+            self.exportJobsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentImportJobsRequest: AWSEncodableShape {
@@ -6230,22 +5984,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSegmentImportJobsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "importJobsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "importJobsResponse", location: .body("ImportJobsResponse"))
-        ]
-
+    public struct GetSegmentImportJobsResponse: AWSDecodableShape {
         public let importJobsResponse: ImportJobsResponse
 
         public init(importJobsResponse: ImportJobsResponse) {
             self.importJobsResponse = importJobsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case importJobsResponse = "ImportJobsResponse"
+        public init(from decoder: Decoder) throws {
+            self.importJobsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentRequest: AWSEncodableShape {
@@ -6267,22 +6018,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSegmentResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "segmentResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "segmentResponse", location: .body("SegmentResponse"))
-        ]
-
+    public struct GetSegmentResponse: AWSDecodableShape {
         public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case segmentResponse = "SegmentResponse"
+        public init(from decoder: Decoder) throws {
+            self.segmentResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentVersionRequest: AWSEncodableShape {
@@ -6308,22 +6056,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSegmentVersionResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "segmentResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "segmentResponse", location: .body("SegmentResponse"))
-        ]
-
+    public struct GetSegmentVersionResponse: AWSDecodableShape {
         public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case segmentResponse = "SegmentResponse"
+        public init(from decoder: Decoder) throws {
+            self.segmentResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentVersionsRequest: AWSEncodableShape {
@@ -6353,22 +6098,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSegmentVersionsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "segmentsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "segmentsResponse", location: .body("SegmentsResponse"))
-        ]
-
+    public struct GetSegmentVersionsResponse: AWSDecodableShape {
         public let segmentsResponse: SegmentsResponse
 
         public init(segmentsResponse: SegmentsResponse) {
             self.segmentsResponse = segmentsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case segmentsResponse = "SegmentsResponse"
+        public init(from decoder: Decoder) throws {
+            self.segmentsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentsRequest: AWSEncodableShape {
@@ -6394,22 +6136,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSegmentsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "segmentsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "segmentsResponse", location: .body("SegmentsResponse"))
-        ]
-
+    public struct GetSegmentsResponse: AWSDecodableShape {
         public let segmentsResponse: SegmentsResponse
 
         public init(segmentsResponse: SegmentsResponse) {
             self.segmentsResponse = segmentsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case segmentsResponse = "SegmentsResponse"
+        public init(from decoder: Decoder) throws {
+            self.segmentsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSmsChannelRequest: AWSEncodableShape {
@@ -6427,22 +6166,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSmsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "smsChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "smsChannelResponse", location: .body("SMSChannelResponse"))
-        ]
-
+    public struct GetSmsChannelResponse: AWSDecodableShape {
         public let smsChannelResponse: SMSChannelResponse
 
         public init(smsChannelResponse: SMSChannelResponse) {
             self.smsChannelResponse = smsChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case smsChannelResponse = "SMSChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.smsChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSmsTemplateRequest: AWSEncodableShape {
@@ -6464,22 +6200,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetSmsTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "smsTemplateResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "smsTemplateResponse", location: .body("SMSTemplateResponse"))
-        ]
-
+    public struct GetSmsTemplateResponse: AWSDecodableShape {
         public let smsTemplateResponse: SMSTemplateResponse
 
         public init(smsTemplateResponse: SMSTemplateResponse) {
             self.smsTemplateResponse = smsTemplateResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case smsTemplateResponse = "SMSTemplateResponse"
+        public init(from decoder: Decoder) throws {
+            self.smsTemplateResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetUserEndpointsRequest: AWSEncodableShape {
@@ -6501,22 +6234,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetUserEndpointsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "endpointsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endpointsResponse", location: .body("EndpointsResponse"))
-        ]
-
+    public struct GetUserEndpointsResponse: AWSDecodableShape {
         public let endpointsResponse: EndpointsResponse
 
         public init(endpointsResponse: EndpointsResponse) {
             self.endpointsResponse = endpointsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endpointsResponse = "EndpointsResponse"
+        public init(from decoder: Decoder) throws {
+            self.endpointsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVoiceChannelRequest: AWSEncodableShape {
@@ -6534,22 +6264,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVoiceChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "voiceChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceChannelResponse", location: .body("VoiceChannelResponse"))
-        ]
-
+    public struct GetVoiceChannelResponse: AWSDecodableShape {
         public let voiceChannelResponse: VoiceChannelResponse
 
         public init(voiceChannelResponse: VoiceChannelResponse) {
             self.voiceChannelResponse = voiceChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceChannelResponse = "VoiceChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.voiceChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVoiceTemplateRequest: AWSEncodableShape {
@@ -6571,22 +6298,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetVoiceTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "voiceTemplateResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceTemplateResponse", location: .body("VoiceTemplateResponse"))
-        ]
-
+    public struct GetVoiceTemplateResponse: AWSDecodableShape {
         public let voiceTemplateResponse: VoiceTemplateResponse
 
         public init(voiceTemplateResponse: VoiceTemplateResponse) {
             self.voiceTemplateResponse = voiceTemplateResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceTemplateResponse = "VoiceTemplateResponse"
+        public init(from decoder: Decoder) throws {
+            self.voiceTemplateResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct HoldoutActivity: AWSEncodableShape & AWSDecodableShape {
@@ -7545,22 +7269,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListJourneysResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "journeysResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "journeysResponse", location: .body("JourneysResponse"))
-        ]
-
+    public struct ListJourneysResponse: AWSDecodableShape {
         public let journeysResponse: JourneysResponse
 
         public init(journeysResponse: JourneysResponse) {
             self.journeysResponse = journeysResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case journeysResponse = "JourneysResponse"
+        public init(from decoder: Decoder) throws {
+            self.journeysResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRecommenderConfigurationsResponse: AWSDecodableShape {
@@ -7595,22 +7316,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTagsForResourceResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "tagsModel"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tagsModel", location: .body("TagsModel"))
-        ]
-
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
         public let tagsModel: TagsModel
 
         public init(tagsModel: TagsModel) {
             self.tagsModel = tagsModel
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case tagsModel = "TagsModel"
+        public init(from decoder: Decoder) throws {
+            self.tagsModel = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTemplateVersionsRequest: AWSEncodableShape {
@@ -7640,22 +7358,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTemplateVersionsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "templateVersionsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateVersionsResponse", location: .body("TemplateVersionsResponse"))
-        ]
-
+    public struct ListTemplateVersionsResponse: AWSDecodableShape {
         public let templateVersionsResponse: TemplateVersionsResponse
 
         public init(templateVersionsResponse: TemplateVersionsResponse) {
             self.templateVersionsResponse = templateVersionsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateVersionsResponse = "TemplateVersionsResponse"
+        public init(from decoder: Decoder) throws {
+            self.templateVersionsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTemplatesRequest: AWSEncodableShape {
@@ -7685,22 +7400,19 @@ extension Pinpoint {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ListTemplatesResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "templatesResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templatesResponse", location: .body("TemplatesResponse"))
-        ]
-
+    public struct ListTemplatesResponse: AWSDecodableShape {
         public let templatesResponse: TemplatesResponse
 
         public init(templatesResponse: TemplatesResponse) {
             self.templatesResponse = templatesResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templatesResponse = "TemplatesResponse"
+        public init(from decoder: Decoder) throws {
+            self.templatesResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Message: AWSEncodableShape & AWSDecodableShape {
@@ -8122,27 +7834,22 @@ extension Pinpoint {
             self.numberValidateRequest = numberValidateRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case numberValidateRequest = "NumberValidateRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct PhoneNumberValidateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "numberValidateResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "numberValidateResponse", location: .body("NumberValidateResponse"))
-        ]
-
+    public struct PhoneNumberValidateResponse: AWSDecodableShape {
         public let numberValidateResponse: NumberValidateResponse
 
         public init(numberValidateResponse: NumberValidateResponse) {
             self.numberValidateResponse = numberValidateResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case numberValidateResponse = "NumberValidateResponse"
+        public init(from decoder: Decoder) throws {
+            self.numberValidateResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PublicEndpoint: AWSEncodableShape {
@@ -8354,27 +8061,22 @@ extension Pinpoint {
             self.writeEventStream = writeEventStream
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case writeEventStream = "WriteEventStream"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutEventStreamResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "eventStream"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventStream", location: .body("EventStream"))
-        ]
-
+    public struct PutEventStreamResponse: AWSDecodableShape {
         public let eventStream: EventStream
 
         public init(eventStream: EventStream) {
             self.eventStream = eventStream
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eventStream = "EventStream"
+        public init(from decoder: Decoder) throws {
+            self.eventStream = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutEventsRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -8394,27 +8096,22 @@ extension Pinpoint {
             self.eventsRequest = eventsRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eventsRequest = "EventsRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutEventsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "eventsResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventsResponse", location: .body("EventsResponse"))
-        ]
-
+    public struct PutEventsResponse: AWSDecodableShape {
         public let eventsResponse: EventsResponse
 
         public init(eventsResponse: EventsResponse) {
             self.eventsResponse = eventsResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eventsResponse = "EventsResponse"
+        public init(from decoder: Decoder) throws {
+            self.eventsResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct QuietTime: AWSEncodableShape & AWSDecodableShape {
@@ -8572,27 +8269,22 @@ extension Pinpoint {
             self.updateAttributesRequest = updateAttributesRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case updateAttributesRequest = "UpdateAttributesRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct RemoveAttributesResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "attributesResource"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributesResource", location: .body("AttributesResource"))
-        ]
-
+    public struct RemoveAttributesResponse: AWSDecodableShape {
         public let attributesResource: AttributesResource
 
         public init(attributesResource: AttributesResource) {
             self.attributesResource = attributesResource
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case attributesResource = "AttributesResource"
+        public init(from decoder: Decoder) throws {
+            self.attributesResource = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct ResultRow: AWSDecodableShape {
@@ -9200,27 +8892,22 @@ extension Pinpoint {
             self.messageRequest = messageRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageRequest = "MessageRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct SendMessagesResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageResponse", location: .body("MessageResponse"))
-        ]
-
+    public struct SendMessagesResponse: AWSDecodableShape {
         public let messageResponse: MessageResponse
 
         public init(messageResponse: MessageResponse) {
             self.messageResponse = messageResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageResponse = "MessageResponse"
+        public init(from decoder: Decoder) throws {
+            self.messageResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SendOTPMessageRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -9240,9 +8927,7 @@ extension Pinpoint {
             self.sendOTPMessageRequestParameters = sendOTPMessageRequestParameters
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case sendOTPMessageRequestParameters = "SendOTPMessageRequestParameters"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SendOTPMessageRequestParameters: AWSEncodableShape {
@@ -9298,22 +8983,19 @@ extension Pinpoint {
         }
     }
 
-    public struct SendOTPMessageResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageResponse", location: .body("MessageResponse"))
-        ]
-
+    public struct SendOTPMessageResponse: AWSDecodableShape {
         public let messageResponse: MessageResponse
 
         public init(messageResponse: MessageResponse) {
             self.messageResponse = messageResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageResponse = "MessageResponse"
+        public init(from decoder: Decoder) throws {
+            self.messageResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SendUsersMessageRequest: AWSEncodableShape {
@@ -9383,27 +9065,22 @@ extension Pinpoint {
             self.sendUsersMessageRequest = sendUsersMessageRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case sendUsersMessageRequest = "SendUsersMessageRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct SendUsersMessagesResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "sendUsersMessageResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sendUsersMessageResponse", location: .body("SendUsersMessageResponse"))
-        ]
-
+    public struct SendUsersMessagesResponse: AWSDecodableShape {
         public let sendUsersMessageResponse: SendUsersMessageResponse
 
         public init(sendUsersMessageResponse: SendUsersMessageResponse) {
             self.sendUsersMessageResponse = sendUsersMessageResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case sendUsersMessageResponse = "SendUsersMessageResponse"
+        public init(from decoder: Decoder) throws {
+            self.sendUsersMessageResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Session: AWSEncodableShape {
@@ -9544,9 +9221,7 @@ extension Pinpoint {
             self.tagsModel = tagsModel
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case tagsModel = "TagsModel"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct TagsModel: AWSEncodableShape & AWSDecodableShape {
@@ -9843,27 +9518,22 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case admChannelRequest = "ADMChannelRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateAdmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "admChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "admChannelResponse", location: .body("ADMChannelResponse"))
-        ]
-
+    public struct UpdateAdmChannelResponse: AWSDecodableShape {
         public let admChannelResponse: ADMChannelResponse
 
         public init(admChannelResponse: ADMChannelResponse) {
             self.admChannelResponse = admChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case admChannelResponse = "ADMChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.admChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateApnsChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -9883,27 +9553,22 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsChannelRequest = "APNSChannelRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateApnsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsChannelResponse", location: .body("APNSChannelResponse"))
-        ]
-
+    public struct UpdateApnsChannelResponse: AWSDecodableShape {
         public let apnsChannelResponse: APNSChannelResponse
 
         public init(apnsChannelResponse: APNSChannelResponse) {
             self.apnsChannelResponse = apnsChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsChannelResponse = "APNSChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.apnsChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateApnsSandboxChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -9923,27 +9588,22 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsSandboxChannelRequest = "APNSSandboxChannelRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateApnsSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsSandboxChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsSandboxChannelResponse", location: .body("APNSSandboxChannelResponse"))
-        ]
-
+    public struct UpdateApnsSandboxChannelResponse: AWSDecodableShape {
         public let apnsSandboxChannelResponse: APNSSandboxChannelResponse
 
         public init(apnsSandboxChannelResponse: APNSSandboxChannelResponse) {
             self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsSandboxChannelResponse = "APNSSandboxChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.apnsSandboxChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateApnsVoipChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -9963,27 +9623,22 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsVoipChannelRequest = "APNSVoipChannelRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateApnsVoipChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsVoipChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsVoipChannelResponse", location: .body("APNSVoipChannelResponse"))
-        ]
-
+    public struct UpdateApnsVoipChannelResponse: AWSDecodableShape {
         public let apnsVoipChannelResponse: APNSVoipChannelResponse
 
         public init(apnsVoipChannelResponse: APNSVoipChannelResponse) {
             self.apnsVoipChannelResponse = apnsVoipChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsVoipChannelResponse = "APNSVoipChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.apnsVoipChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateApnsVoipSandboxChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10003,27 +9658,22 @@ extension Pinpoint {
             self.applicationId = applicationId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsVoipSandboxChannelRequest = "APNSVoipSandboxChannelRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateApnsVoipSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsVoipSandboxChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsVoipSandboxChannelResponse", location: .body("APNSVoipSandboxChannelResponse"))
-        ]
-
+    public struct UpdateApnsVoipSandboxChannelResponse: AWSDecodableShape {
         public let apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
 
         public init(apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
             self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case apnsVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.apnsVoipSandboxChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateApplicationSettingsRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10043,27 +9693,22 @@ extension Pinpoint {
             self.writeApplicationSettingsRequest = writeApplicationSettingsRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case writeApplicationSettingsRequest = "WriteApplicationSettingsRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateApplicationSettingsResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "applicationSettingsResource"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationSettingsResource", location: .body("ApplicationSettingsResource"))
-        ]
-
+    public struct UpdateApplicationSettingsResponse: AWSDecodableShape {
         public let applicationSettingsResource: ApplicationSettingsResource
 
         public init(applicationSettingsResource: ApplicationSettingsResource) {
             self.applicationSettingsResource = applicationSettingsResource
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case applicationSettingsResource = "ApplicationSettingsResource"
+        public init(from decoder: Decoder) throws {
+            self.applicationSettingsResource = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateAttributesRequest: AWSEncodableShape {
@@ -10096,27 +9741,22 @@ extension Pinpoint {
             self.baiduChannelRequest = baiduChannelRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case baiduChannelRequest = "BaiduChannelRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateBaiduChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "baiduChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "baiduChannelResponse", location: .body("BaiduChannelResponse"))
-        ]
-
+    public struct UpdateBaiduChannelResponse: AWSDecodableShape {
         public let baiduChannelResponse: BaiduChannelResponse
 
         public init(baiduChannelResponse: BaiduChannelResponse) {
             self.baiduChannelResponse = baiduChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case baiduChannelResponse = "BaiduChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.baiduChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateCampaignRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10140,27 +9780,22 @@ extension Pinpoint {
             self.writeCampaignRequest = writeCampaignRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case writeCampaignRequest = "WriteCampaignRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateCampaignResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "campaignResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "campaignResponse", location: .body("CampaignResponse"))
-        ]
-
+    public struct UpdateCampaignResponse: AWSDecodableShape {
         public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case campaignResponse = "CampaignResponse"
+        public init(from decoder: Decoder) throws {
+            self.campaignResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateEmailChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10180,27 +9815,22 @@ extension Pinpoint {
             self.emailChannelRequest = emailChannelRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailChannelRequest = "EmailChannelRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateEmailChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "emailChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailChannelResponse", location: .body("EmailChannelResponse"))
-        ]
-
+    public struct UpdateEmailChannelResponse: AWSDecodableShape {
         public let emailChannelResponse: EmailChannelResponse
 
         public init(emailChannelResponse: EmailChannelResponse) {
             self.emailChannelResponse = emailChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailChannelResponse = "EmailChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.emailChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateEmailTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10228,27 +9858,22 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case emailTemplateRequest = "EmailTemplateRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateEmailTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
-        ]
-
+    public struct UpdateEmailTemplateResponse: AWSDecodableShape {
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
+        public init(from decoder: Decoder) throws {
+            self.messageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateEndpointRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10272,27 +9897,22 @@ extension Pinpoint {
             self.endpointRequest = endpointRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endpointRequest = "EndpointRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateEndpointResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
-        ]
-
+    public struct UpdateEndpointResponse: AWSDecodableShape {
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
+        public init(from decoder: Decoder) throws {
+            self.messageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateEndpointsBatchRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10312,27 +9932,22 @@ extension Pinpoint {
             self.endpointBatchRequest = endpointBatchRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case endpointBatchRequest = "EndpointBatchRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateEndpointsBatchResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
-        ]
-
+    public struct UpdateEndpointsBatchResponse: AWSDecodableShape {
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
+        public init(from decoder: Decoder) throws {
+            self.messageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateGcmChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10352,27 +9967,22 @@ extension Pinpoint {
             self.gcmChannelRequest = gcmChannelRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case gcmChannelRequest = "GCMChannelRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateGcmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "gcmChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gcmChannelResponse", location: .body("GCMChannelResponse"))
-        ]
-
+    public struct UpdateGcmChannelResponse: AWSDecodableShape {
         public let gcmChannelResponse: GCMChannelResponse
 
         public init(gcmChannelResponse: GCMChannelResponse) {
             self.gcmChannelResponse = gcmChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case gcmChannelResponse = "GCMChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.gcmChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateInAppTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10400,27 +10010,22 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case inAppTemplateRequest = "InAppTemplateRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateInAppTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
-        ]
-
+    public struct UpdateInAppTemplateResponse: AWSDecodableShape {
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
+        public init(from decoder: Decoder) throws {
+            self.messageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateJourneyRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10444,27 +10049,22 @@ extension Pinpoint {
             self.writeJourneyRequest = writeJourneyRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case writeJourneyRequest = "WriteJourneyRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateJourneyResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "journeyResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "journeyResponse", location: .body("JourneyResponse"))
-        ]
-
+    public struct UpdateJourneyResponse: AWSDecodableShape {
         public let journeyResponse: JourneyResponse
 
         public init(journeyResponse: JourneyResponse) {
             self.journeyResponse = journeyResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case journeyResponse = "JourneyResponse"
+        public init(from decoder: Decoder) throws {
+            self.journeyResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateJourneyStateRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10488,27 +10088,22 @@ extension Pinpoint {
             self.journeyStateRequest = journeyStateRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case journeyStateRequest = "JourneyStateRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateJourneyStateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "journeyResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "journeyResponse", location: .body("JourneyResponse"))
-        ]
-
+    public struct UpdateJourneyStateResponse: AWSDecodableShape {
         public let journeyResponse: JourneyResponse
 
         public init(journeyResponse: JourneyResponse) {
             self.journeyResponse = journeyResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case journeyResponse = "JourneyResponse"
+        public init(from decoder: Decoder) throws {
+            self.journeyResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdatePushTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10536,27 +10131,22 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case pushNotificationTemplateRequest = "PushNotificationTemplateRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdatePushTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
-        ]
-
+    public struct UpdatePushTemplateResponse: AWSDecodableShape {
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
+        public init(from decoder: Decoder) throws {
+            self.messageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateRecommenderConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10576,27 +10166,22 @@ extension Pinpoint {
             self.updateRecommenderConfiguration = updateRecommenderConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case updateRecommenderConfiguration = "UpdateRecommenderConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateRecommenderConfigurationResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "recommenderConfigurationResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderConfigurationResponse", location: .body("RecommenderConfigurationResponse"))
-        ]
-
+    public struct UpdateRecommenderConfigurationResponse: AWSDecodableShape {
         public let recommenderConfigurationResponse: RecommenderConfigurationResponse
 
         public init(recommenderConfigurationResponse: RecommenderConfigurationResponse) {
             self.recommenderConfigurationResponse = recommenderConfigurationResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case recommenderConfigurationResponse = "RecommenderConfigurationResponse"
+        public init(from decoder: Decoder) throws {
+            self.recommenderConfigurationResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateRecommenderConfigurationShape: AWSEncodableShape {
@@ -10665,27 +10250,22 @@ extension Pinpoint {
             self.writeSegmentRequest = writeSegmentRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case writeSegmentRequest = "WriteSegmentRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateSegmentResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "segmentResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "segmentResponse", location: .body("SegmentResponse"))
-        ]
-
+    public struct UpdateSegmentResponse: AWSDecodableShape {
         public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case segmentResponse = "SegmentResponse"
+        public init(from decoder: Decoder) throws {
+            self.segmentResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateSmsChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10705,27 +10285,22 @@ extension Pinpoint {
             self.smsChannelRequest = smsChannelRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case smsChannelRequest = "SMSChannelRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateSmsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "smsChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "smsChannelResponse", location: .body("SMSChannelResponse"))
-        ]
-
+    public struct UpdateSmsChannelResponse: AWSDecodableShape {
         public let smsChannelResponse: SMSChannelResponse
 
         public init(smsChannelResponse: SMSChannelResponse) {
             self.smsChannelResponse = smsChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case smsChannelResponse = "SMSChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.smsChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateSmsTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10753,27 +10328,22 @@ extension Pinpoint {
             self.version = version
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case smsTemplateRequest = "SMSTemplateRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateSmsTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
-        ]
-
+    public struct UpdateSmsTemplateResponse: AWSDecodableShape {
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
+        public init(from decoder: Decoder) throws {
+            self.messageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateTemplateActiveVersionRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10797,27 +10367,22 @@ extension Pinpoint {
             self.templateType = templateType
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case templateActiveVersionRequest = "TemplateActiveVersionRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateTemplateActiveVersionResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
-        ]
-
+    public struct UpdateTemplateActiveVersionResponse: AWSDecodableShape {
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
+        public init(from decoder: Decoder) throws {
+            self.messageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateVoiceChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10837,27 +10402,22 @@ extension Pinpoint {
             self.voiceChannelRequest = voiceChannelRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceChannelRequest = "VoiceChannelRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateVoiceChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "voiceChannelResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceChannelResponse", location: .body("VoiceChannelResponse"))
-        ]
-
+    public struct UpdateVoiceChannelResponse: AWSDecodableShape {
         public let voiceChannelResponse: VoiceChannelResponse
 
         public init(voiceChannelResponse: VoiceChannelResponse) {
             self.voiceChannelResponse = voiceChannelResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceChannelResponse = "VoiceChannelResponse"
+        public init(from decoder: Decoder) throws {
+            self.voiceChannelResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateVoiceTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -10885,27 +10445,22 @@ extension Pinpoint {
             self.voiceTemplateRequest = voiceTemplateRequest
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case voiceTemplateRequest = "VoiceTemplateRequest"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateVoiceTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageBody"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageBody", location: .body("MessageBody"))
-        ]
-
+    public struct UpdateVoiceTemplateResponse: AWSDecodableShape {
         public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case messageBody = "MessageBody"
+        public init(from decoder: Decoder) throws {
+            self.messageBody = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct VerificationResponse: AWSDecodableShape {
@@ -10938,9 +10493,7 @@ extension Pinpoint {
             self.verifyOTPMessageRequestParameters = verifyOTPMessageRequestParameters
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case verifyOTPMessageRequestParameters = "VerifyOTPMessageRequestParameters"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct VerifyOTPMessageRequestParameters: AWSEncodableShape {
@@ -10964,22 +10517,19 @@ extension Pinpoint {
         }
     }
 
-    public struct VerifyOTPMessageResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "verificationResponse"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "verificationResponse", location: .body("VerificationResponse"))
-        ]
-
+    public struct VerifyOTPMessageResponse: AWSDecodableShape {
         public let verificationResponse: VerificationResponse
 
         public init(verificationResponse: VerificationResponse) {
             self.verificationResponse = verificationResponse
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case verificationResponse = "VerificationResponse"
+        public init(from decoder: Decoder) throws {
+            self.verificationResponse = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct VoiceChannelRequest: AWSEncodableShape {

@@ -7985,7 +7985,7 @@ extension EC2 {
         /// 			explicitly target a Capacity Reservation Fleet to use its reserved capacity.
         public let instanceMatchCriteria: FleetInstanceMatchCriteria?
         /// Information about the instance types for which to reserve the capacity.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<ReservationFleetInstanceSpecification>>
         public var instanceTypeSpecifications: [ReservationFleetInstanceSpecification]?
         /// The tags to assign to the Capacity Reservation Fleet. The tags are automatically assigned
         /// 			to the Capacity Reservations in the Fleet.
@@ -8256,7 +8256,7 @@ extension EC2 {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// Information about the authentication method to be used to authenticate clients.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<ClientVpnAuthenticationRequest>>
         public var authenticationOptions: [ClientVpnAuthenticationRequest]?
         /// The IPv4 address range, in CIDR notation, from which to assign client IP addresses. The address range cannot overlap with the local CIDR of the VPC in which the associated subnet is located, or the routes that you add manually. The address range cannot be changed after the Client VPN endpoint has been created. Client CIDR range must have a size of at least /22 and must not be greater than /12.
         public let clientCidrBlock: String?
@@ -9076,7 +9076,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The time range for the event window. If you specify a time range, you can't specify a cron expression.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<InstanceEventWindowTimeRangeRequest>>
         public var timeRanges: [InstanceEventWindowTimeRangeRequest]?
 
         public init(cronExpression: String? = nil, dryRun: Bool? = nil, name: String? = nil, tagSpecifications: [TagSpecification]? = nil, timeRanges: [InstanceEventWindowTimeRangeRequest]? = nil) {
@@ -9303,7 +9303,7 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The operating Regions for the IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions.  For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<AddIpamOperatingRegion>>
         public var operatingRegions: [AddIpamOperatingRegion]?
         /// The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
@@ -9340,7 +9340,7 @@ extension EC2 {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Operating Regions for the IPAM resource discovery. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<AddIpamOperatingRegion>>
         public var operatingRegions: [AddIpamOperatingRegion]?
         /// Tag specifications for the IPAM resource discovery.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
@@ -9776,7 +9776,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// One or more entries for the prefix list.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<AddPrefixListEntry>>
         public var entries: [AddPrefixListEntry]?
         /// The maximum number of entries for the prefix list.
         public let maxEntries: Int?
@@ -10958,7 +10958,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the resources, separated by spaces. Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller batches.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var resources: [String]?
         /// The tags. The value parameter is required, but if you don't want the tag to have a value, specify the parameter with no value, and we set the value to an empty string.
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
@@ -13102,7 +13102,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the EC2 Fleets.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var fleetIds: [String]?
         /// Indicates whether to terminate the associated instances when the EC2 Fleet is deleted. The default is to terminate the instances. To let the instances continue to run after the EC2 Fleet is deleted, specify no-terminate-instances. Supported only for fleets of type maintain and request. For instant fleets, you cannot specify NoTerminateInstances. A deleted instant fleet with running instances is not supported.
         public let terminateInstances: Bool?
@@ -14211,7 +14211,7 @@ extension EC2 {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the resources, separated by spaces. Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller batches.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var resources: [String]?
         /// The tags to delete. Specify a tag key and an optional tag value to delete specific tags. If you specify a tag key without a tag value, we delete any tag with this key regardless of its value. If you specify a tag key with an empty string as the tag value, we delete the tag only if its value is an empty string. If you omit this parameter, we delete all user-defined tags for the specified resources. We do not delete Amazon Web Services-generated tags (tags that have the aws: prefix). Constraints: Up to 1000 tags.
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
@@ -15860,7 +15860,7 @@ extension EC2 {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// One or more carrier gateway IDs.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var carrierGatewayIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -17099,7 +17099,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The IDs of the EC2 Fleets.  If a fleet is of type instant, you must specify the fleet ID, otherwise it does not appear in the response.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var fleetIds: [String]?
         /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
         /// 	        For more information, see Pagination.
@@ -18076,7 +18076,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The instance types. For more information, see Instance types in the Amazon EC2 User Guide.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<InstanceType>>
         public var instanceTypes: [InstanceType]?
         /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
         /// 	        For more information, see Pagination.
@@ -19731,7 +19731,7 @@ extension EC2 {
         /// 			Pagination.
         public let maxResults: Int?
         /// The network interface permission IDs.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var networkInterfacePermissionIds: [String]?
         /// The token returned from a previous paginated request.
         /// 		    Pagination continues from the end of the items returned by the previous request.
@@ -19864,7 +19864,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_GroupIdsEncoding, String>>
         public var groupIds: [String]?
         /// The names of the placement groups. Default: Describes all your placement groups, or only those otherwise specified.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var groupNames: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, groupIds: [String]? = nil, groupNames: [String]? = nil) {
@@ -20293,7 +20293,7 @@ extension EC2 {
         /// The Reserved Instance product platform description. Instances that include (Amazon VPC) in the description are for use with Amazon VPC.
         public let productDescription: RIProductDescription?
         /// One or more Reserved Instances offering IDs.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var reservedInstancesOfferingIds: [String]?
 
         public init(availabilityZone: String? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, includeMarketplace: Bool? = nil, instanceTenancy: Tenancy? = nil, instanceType: InstanceType? = nil, maxDuration: Int64? = nil, maxInstanceCount: Int? = nil, maxResults: Int? = nil, minDuration: Int64? = nil, nextToken: String? = nil, offeringClass: OfferingClassType? = nil, offeringType: OfferingTypeValues? = nil, productDescription: RIProductDescription? = nil, reservedInstancesOfferingIds: [String]? = nil) {
@@ -20873,7 +20873,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_OwnerIdsEncoding, String>>
         public var ownerIds: [String]?
         /// The IDs of the Amazon Web Services accounts that can create volumes from the snapshot.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var restorableByUserIds: [String]?
         /// The snapshot IDs. Default: Describes the snapshots for which you have create volume permissions.
         @OptionalCustomCoding<EC2ArrayCoder<_SnapshotIdsEncoding, String>>
@@ -21189,7 +21189,7 @@ extension EC2 {
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// Filters the results by the specified instance types.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<InstanceType>>
         public var instanceTypes: [InstanceType]?
         /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
         /// 	        For more information, see Pagination.
@@ -21197,7 +21197,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// Filters the results by the specified basic product descriptions.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var productDescriptions: [String]?
         /// The date and time, up to the past 90 days, from which to start retrieving the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let startTime: Date?
@@ -21664,7 +21664,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The IDs of the attachments.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var transitGatewayAttachmentIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
@@ -21783,7 +21783,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The IDs of the attachments.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var transitGatewayAttachmentIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
@@ -21902,7 +21902,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// One or more IDs of the transit gateway peering attachments.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var transitGatewayAttachmentIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
@@ -22141,7 +22141,7 @@ extension EC2 {
         /// The token for the next page of results.
         public let nextToken: String?
         /// The IDs of the attachments.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var transitGatewayAttachmentIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayAttachmentIds: [String]? = nil) {
@@ -27634,7 +27634,7 @@ extension EC2 {
 
     public struct GetAwsNetworkPerformanceDataRequest: AWSEncodableShape {
         /// A list of network performance data queries.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<DataQuery>>
         public var dataQueries: [DataQuery]?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -28980,7 +28980,7 @@ extension EC2 {
         /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes. If you specify InstanceRequirementsWithMetadata, you can't specify InstanceTypes.
         public let instanceRequirementsWithMetadata: InstanceRequirementsWithMetadataRequest?
         /// The instance types. We recommend that you specify at least three instance types. If you specify one or two instance types, or specify variations of a single instance type (for example, an m3.xlarge with and without instance storage), the returned placement score will always be low.  If you specify InstanceTypes, you can't specify InstanceRequirementsWithMetadata.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var instanceTypes: [String]?
         /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
         /// 	        For more information, see Pagination.
@@ -28988,7 +28988,7 @@ extension EC2 {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
         /// The Regions used to narrow down the list of Regions to be scored. Enter the Region code, for example, us-east-1.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
         public var regionNames: [String]?
         /// Specify true so that the response returns a list of scored Availability Zones. Otherwise, the response returns a list of scored Regions. A list of scored Availability Zones is useful if you want to launch all of your Spot capacity into a single Availability Zone.
         public let singleAvailabilityZone: Bool?
@@ -30876,7 +30876,7 @@ extension EC2 {
         /// A description for the instance being imported.
         public let description: String?
         /// The disk image.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<DiskImage>>
         public var diskImages: [DiskImage]?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -31213,7 +31213,7 @@ extension EC2 {
 
     public struct InferenceAcceleratorInfo: AWSDecodableShape {
         /// Describes the Inference accelerators for the instance type.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<InferenceDeviceInfo>>
         public var accelerators: [InferenceDeviceInfo]?
 
         public init(accelerators: [InferenceDeviceInfo]? = nil) {
@@ -36907,7 +36907,7 @@ extension EC2 {
         /// The name of the event window.
         public let name: String?
         /// The time ranges of the event window.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<InstanceEventWindowTimeRangeRequest>>
         public var timeRanges: [InstanceEventWindowTimeRangeRequest]?
 
         public init(cronExpression: String? = nil, dryRun: Bool? = nil, instanceEventWindowId: String? = nil, name: String? = nil, timeRanges: [InstanceEventWindowTimeRangeRequest]? = nil) {
@@ -37170,7 +37170,7 @@ extension EC2 {
 
     public struct ModifyIpamRequest: AWSEncodableShape {
         /// Choose the operating Regions for the IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions. For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<AddIpamOperatingRegion>>
         public var addOperatingRegions: [AddIpamOperatingRegion]?
         /// The description of the IPAM you want to modify.
         public let description: String?
@@ -37179,7 +37179,7 @@ extension EC2 {
         /// The ID of the IPAM you want to modify.
         public let ipamId: String?
         /// The operating Regions to remove.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<RemoveIpamOperatingRegion>>
         public var removeOperatingRegions: [RemoveIpamOperatingRegion]?
 
         public init(addOperatingRegions: [AddIpamOperatingRegion]? = nil, description: String? = nil, dryRun: Bool? = nil, ipamId: String? = nil, removeOperatingRegions: [RemoveIpamOperatingRegion]? = nil) {
@@ -37256,7 +37256,7 @@ extension EC2 {
 
     public struct ModifyIpamResourceDiscoveryRequest: AWSEncodableShape {
         /// Add operating Regions to the resource discovery. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<AddIpamOperatingRegion>>
         public var addOperatingRegions: [AddIpamOperatingRegion]?
         /// A resource discovery description.
         public let description: String?
@@ -37265,7 +37265,7 @@ extension EC2 {
         /// A resource discovery ID.
         public let ipamResourceDiscoveryId: String?
         /// Remove operating Regions.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<RemoveIpamOperatingRegion>>
         public var removeOperatingRegions: [RemoveIpamOperatingRegion]?
 
         public init(addOperatingRegions: [AddIpamOperatingRegion]? = nil, description: String? = nil, dryRun: Bool? = nil, ipamResourceDiscoveryId: String? = nil, removeOperatingRegions: [RemoveIpamOperatingRegion]? = nil) {
@@ -37446,7 +37446,7 @@ extension EC2 {
 
     public struct ModifyManagedPrefixListRequest: AWSEncodableShape {
         /// One or more entries to add to the prefix list.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<AddPrefixListEntry>>
         public var addEntries: [AddPrefixListEntry]?
         /// The current version of the prefix list.
         public let currentVersion: Int64?
@@ -37459,7 +37459,7 @@ extension EC2 {
         /// A name for the prefix list.
         public let prefixListName: String?
         /// One or more entries to remove from the prefix list.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<RemovePrefixListEntry>>
         public var removeEntries: [RemovePrefixListEntry]?
 
         public init(addEntries: [AddPrefixListEntry]? = nil, currentVersion: Int64? = nil, dryRun: Bool? = nil, maxEntries: Int? = nil, prefixListId: String? = nil, prefixListName: String? = nil, removeEntries: [RemovePrefixListEntry]? = nil) {
@@ -37905,7 +37905,7 @@ extension EC2 {
         /// The protocol, for example TCP, to assign to the Traffic Mirror rule.
         public let `protocol`: Int?
         /// The properties that you want to remove from the Traffic Mirror filter rule. When you remove a property from a Traffic Mirror filter rule, the property is set to the default.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<TrafficMirrorFilterRuleField>>
         public var removeFields: [TrafficMirrorFilterRuleField]?
         /// The action to assign to the rule.
         public let ruleAction: TrafficMirrorRuleAction?
@@ -37972,7 +37972,7 @@ extension EC2 {
         /// The number of bytes in each packet to mirror. These are bytes after the VXLAN header. To mirror a subset, set this to the length (in bytes) to mirror. For example, if you set this value to 100, then the first 100 bytes that meet the filter criteria are copied to the target. Do not specify this parameter when you want to mirror the entire packet.
         public let packetLength: Int?
         /// The properties that you want to remove from the Traffic Mirror session. When you remove a property from a Traffic Mirror session, the property is set to the default.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<TrafficMirrorSessionField>>
         public var removeFields: [TrafficMirrorSessionField]?
         /// The session number determines the order in which sessions are evaluated when an interface is used by multiple sessions. The first session with a matching filter is the one that mirrors the packets. Valid values are 1-32766.
         public let sessionNumber: Int?
@@ -52158,7 +52158,7 @@ extension EC2 {
         /// Indicate whether the VPN tunnels process IPv4 or IPv6 traffic. Default: ipv4
         public let tunnelInsideIpVersion: TunnelInsideIpVersion?
         /// The tunnel options for the VPN connection.
-        @OptionalCustomCoding<EC2StandardArrayCoder>
+        @OptionalCustomCoding<EC2StandardArrayCoder<VpnTunnelOptionsSpecification>>
         public var tunnelOptions: [VpnTunnelOptionsSpecification]?
 
         public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, outsideIpAddressType: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, transportTransitGatewayAttachmentId: String? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [VpnTunnelOptionsSpecification]? = nil) {

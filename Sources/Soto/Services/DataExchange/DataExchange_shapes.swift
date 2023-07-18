@@ -2625,33 +2625,29 @@ extension DataExchange {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case body = "Body"
             case queryStringParameters = "QueryStringParameters"
         }
     }
 
-    public struct SendApiAssetResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body("Body")),
-            AWSMemberEncoding(label: "responseHeaders", location: .headerPrefix(""))
-        ]
-
+    public struct SendApiAssetResponse: AWSDecodableShape {
         /// The response body from the underlying API tracked by the API asset.
-        public let body: String?
+        public let body: String
         /// The response headers from the underlying API tracked by the API asset.
         public let responseHeaders: [String: String]?
 
-        public init(body: String? = nil, responseHeaders: [String: String]? = nil) {
+        public init(body: String, responseHeaders: [String: String]? = nil) {
             self.body = body
             self.responseHeaders = responseHeaders
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case body = "Body"
-            case responseHeaders = ""
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.body = try .init(from: decoder)
+            self.responseHeaders = try response.decodeIfPresent([String: String].self, forHeader: "")
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StartJobRequest: AWSEncodableShape {

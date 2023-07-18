@@ -850,16 +850,10 @@ extension S3Control {
             try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case createBucketConfiguration = "CreateBucketConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct CreateBucketResult: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header("Location"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the bucket. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucketArn: String?
         /// The location of the bucket.
@@ -870,9 +864,16 @@ extension S3Control {
             self.location = location
         }
 
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.bucketArn = try container.decodeIfPresent(String.self, forKey: .bucketArn)
+            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
+
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bucketArn = "BucketArn"
-            case location = "Location"
         }
     }
 
@@ -903,7 +904,7 @@ extension S3Control {
         /// The Amazon Resource Name (ARN) for the Identity and Access Management (IAM) role that Batch Operations will use to run this job's action on every object in the manifest.
         public let roleArn: String
         /// A set of tags to associate with the S3 Batch Operations job. This is an optional parameter.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var tags: [S3Tag]?
 
         public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest? = nil, manifestGenerator: JobManifestGenerator? = nil, operation: JobOperation, priority: Int, report: JobReport, roleArn: String, tags: [S3Tag]? = nil) {
@@ -2009,7 +2010,7 @@ extension S3Control {
         /// The date and time when the specified access point was created.
         public let creationDate: Date?
         /// The VPC endpoint for the access point.
-        @OptionalCustomCoding<StandardDictionaryCoder>
+        @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var endpoints: [String: String]?
         /// The name of the specified access point.
         public let name: String?
@@ -2245,7 +2246,7 @@ extension S3Control {
 
     public struct GetBucketTaggingResult: AWSDecodableShape {
         /// The tags set of the Outposts bucket.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<S3Tag>>
         public var tagSet: [S3Tag]
 
         public init(tagSet: [S3Tag]) {
@@ -2331,7 +2332,7 @@ extension S3Control {
 
     public struct GetJobTaggingResult: AWSDecodableShape {
         /// The set of tags associated with the S3 Batch Operations job.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var tags: [S3Tag]?
 
         public init(tags: [S3Tag]? = nil) {
@@ -2513,23 +2514,20 @@ extension S3Control {
         }
     }
 
-    public struct GetPublicAccessBlockOutput: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "publicAccessBlockConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body("PublicAccessBlockConfiguration"))
-        ]
-
+    public struct GetPublicAccessBlockOutput: AWSDecodableShape {
         /// The PublicAccessBlock configuration currently in effect for this Amazon Web Services account.
-        public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
+        public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration
 
-        public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil) {
+        public init(publicAccessBlockConfiguration: PublicAccessBlockConfiguration) {
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
+        public init(from decoder: Decoder) throws {
+            self.publicAccessBlockConfiguration = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPublicAccessBlockRequest: AWSEncodableShape {
@@ -2581,23 +2579,20 @@ extension S3Control {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetStorageLensConfigurationResult: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "storageLensConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "storageLensConfiguration", location: .body("StorageLensConfiguration"))
-        ]
-
+    public struct GetStorageLensConfigurationResult: AWSDecodableShape {
         /// The S3 Storage Lens configuration requested.
-        public let storageLensConfiguration: StorageLensConfiguration?
+        public let storageLensConfiguration: StorageLensConfiguration
 
-        public init(storageLensConfiguration: StorageLensConfiguration? = nil) {
+        public init(storageLensConfiguration: StorageLensConfiguration) {
             self.storageLensConfiguration = storageLensConfiguration
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case storageLensConfiguration = "StorageLensConfiguration"
+        public init(from decoder: Decoder) throws {
+            self.storageLensConfiguration = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetStorageLensConfigurationTaggingRequest: AWSEncodableShape {
@@ -2687,7 +2682,7 @@ extension S3Control {
         /// The description for this job, if one was provided in this job's Create Job request.
         public let description: String?
         /// If the specified job failed, this field contains information describing the failure.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<JobFailure>>
         public var failureReasons: [JobFailure]?
         /// The attribute of the JobDescriptor containing details about the job's generated manifest.
         public let generatedManifestDescriptor: S3GeneratedManifestDescriptor?
@@ -2852,7 +2847,7 @@ extension S3Control {
         /// Include objects in the generated manifest only if they are eligible for replication according to the Replication configuration on the source bucket.
         public let eligibleForReplication: Bool?
         /// If provided, the generated manifest should include only source bucket objects that have one of the specified Replication statuses.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ReplicationStatus>>
         public var objectReplicationStatuses: [ReplicationStatus]?
 
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, eligibleForReplication: Bool? = nil, objectReplicationStatuses: [ReplicationStatus]? = nil) {
@@ -2905,7 +2900,7 @@ extension S3Control {
 
     public struct JobManifestSpec: AWSEncodableShape & AWSDecodableShape {
         /// If the specified manifest object is in the S3BatchOperations_CSV_20180820 format, this element describes which columns contain the required data.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<JobManifestFieldName>>
         public var fields: [JobManifestFieldName]?
         /// Indicates which of the available formats the specified manifest uses.
         public let format: JobManifestFormat
@@ -3164,7 +3159,7 @@ extension S3Control {
         /// Prefix identifying one or more objects to which the rule applies.
         public let prefix: String?
         /// All of these tags must exist in the object's tag set in order for the rule to apply.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var tags: [S3Tag]?
 
         public init(objectSizeGreaterThan: Int64? = nil, objectSizeLessThan: Int64? = nil, prefix: String? = nil, tags: [S3Tag]? = nil) {
@@ -3375,7 +3370,7 @@ extension S3Control {
 
     public struct ListJobsResult: AWSDecodableShape {
         /// The list of current jobs and jobs that have ended within the last 30 days.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<JobListDescriptor>>
         public var jobs: [JobListDescriptor]?
         /// If the List Jobs request produced more than the maximum number of results, you can pass this value into a subsequent List Jobs request in order to retrieve the next page of results.
         public let nextToken: String?
@@ -4053,9 +4048,7 @@ extension S3Control {
             try self.lifecycleConfiguration?.validate(name: "\(name).lifecycleConfiguration")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case lifecycleConfiguration = "LifecycleConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketPolicyRequest: AWSEncodableShape {
@@ -4126,9 +4119,7 @@ extension S3Control {
             try self.replicationConfiguration.validate(name: "\(name).replicationConfiguration")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case replicationConfiguration = "ReplicationConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketTaggingRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -4162,9 +4153,7 @@ extension S3Control {
             try self.tagging.validate(name: "\(name).tagging")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case tagging = "Tagging"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutBucketVersioningRequest: AWSEncodableShape & AWSShapeWithPayload {
@@ -4202,9 +4191,7 @@ extension S3Control {
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case versioningConfiguration = "VersioningConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutJobTaggingRequest: AWSEncodableShape {
@@ -4219,7 +4206,7 @@ extension S3Control {
         /// The ID for the S3 Batch Operations job whose tags you want to replace.
         public let jobId: String
         /// The set of tags to associate with the S3 Batch Operations job.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<S3Tag>>
         public var tags: [S3Tag]
 
         public init(accountId: String, jobId: String, tags: [S3Tag]) {
@@ -4341,9 +4328,7 @@ extension S3Control {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PutStorageLensConfigurationRequest: AWSEncodableShape {
@@ -4618,7 +4603,7 @@ extension S3Control {
         /// An object key name prefix that identifies the subset of objects that the rule applies to.
         public let prefix: String?
         /// An array of tags that contain key and value pairs.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var tags: [S3Tag]?
 
         public init(prefix: String? = nil, tags: [S3Tag]? = nil) {
@@ -4696,7 +4681,7 @@ extension S3Control {
     }
 
     public struct S3AccessControlList: AWSEncodableShape & AWSDecodableShape {
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<S3Grant>>
         public var grants: [S3Grant]?
         public let owner: S3ObjectOwner
 
@@ -4778,7 +4763,7 @@ extension S3Control {
     }
 
     public struct S3CopyObjectOperation: AWSEncodableShape & AWSDecodableShape {
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<S3Grant>>
         public var accessControlGrants: [S3Grant]?
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Amazon Web Services KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.
         public let bucketKeyEnabled: Bool?
@@ -4789,7 +4774,7 @@ extension S3Control {
         public let modifiedSinceConstraint: Date?
         /// If you don't provide this parameter, Amazon S3 copies all the metadata from the original objects. If you specify an empty set, the new objects will have no tags. Otherwise, Amazon S3 assigns the supplied tags to the new objects.
         public let newObjectMetadata: S3ObjectMetadata?
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var newObjectTagging: [S3Tag]?
         /// The legal hold status to be applied to all objects in the Batch Operations job.
         public let objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus?
@@ -5057,7 +5042,7 @@ extension S3Control {
         public let httpExpiresDate: Date?
         public let requesterCharged: Bool?
         public let sseAlgorithm: S3SSEAlgorithm?
-        @OptionalCustomCoding<StandardDictionaryCoder>
+        @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var userMetadata: [String: String]?
 
         public init(cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, httpExpiresDate: Date? = nil, requesterCharged: Bool? = nil, sseAlgorithm: S3SSEAlgorithm? = nil, userMetadata: [String: String]? = nil) {
@@ -5201,7 +5186,7 @@ extension S3Control {
     }
 
     public struct S3SetObjectTaggingOperation: AWSEncodableShape & AWSDecodableShape {
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var tagSet: [S3Tag]?
 
         public init(tagSet: [S3Tag]? = nil) {
@@ -5520,7 +5505,7 @@ extension S3Control {
 
     public struct Tagging: AWSEncodableShape {
         /// A collection for a set of tags.
-        @CustomCoding<StandardArrayCoder>
+        @CustomCoding<StandardArrayCoder<S3Tag>>
         public var tagSet: [S3Tag]
 
         public init(tagSet: [S3Tag]) {

@@ -697,7 +697,7 @@ extension Redshift {
         /// The namespace Amazon Resource Name (ARN) of the cluster.
         public let clusterNamespaceArn: String?
         /// The nodes in the cluster.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ClusterNode>>
         public var clusterNodes: [ClusterNode]?
         /// The list of cluster parameter groups that are associated with this cluster. Each parameter group in the list is returned with its status.
         @OptionalCustomCoding<ArrayCoder<_ClusterParameterGroupsEncoding, ClusterParameterGroupStatus>>
@@ -761,7 +761,7 @@ extension Redshift {
         /// The number of compute nodes in the cluster.
         public let numberOfNodes: Int?
         /// Cluster operations that are waiting to be started.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var pendingActions: [String]?
         /// A value that, if present, indicates that changes to the cluster are pending. Specific pending changes are identified by subelements.
         public let pendingModifiedValues: PendingModifiedValues?
@@ -1118,7 +1118,7 @@ extension Redshift {
         /// For more information about parameters and parameter groups, go to
         /// Amazon Redshift Parameter Groups
         /// in the Amazon Redshift Cluster Management Guide.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<ClusterParameterStatus>>
         public var clusterParameterStatusList: [ClusterParameterStatus]?
         /// The status of parameter updates.
         public let parameterApplyStatus: String?
@@ -2332,7 +2332,7 @@ extension Redshift {
         /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
         public let dataShareArn: String?
         /// A value that specifies when the datashare has an association between producer and data consumers.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<DataShareAssociation>>
         public var dataShareAssociations: [DataShareAssociation]?
         /// The identifier of a datashare to show its managing entity.
         public let managedBy: String?
@@ -2848,7 +2848,7 @@ extension Redshift {
 
     public struct DescribeAuthenticationProfilesResult: AWSDecodableShape {
         /// The list of authentication profiles.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<AuthenticationProfile>>
         public var authenticationProfiles: [AuthenticationProfile]?
 
         public init(authenticationProfiles: [AuthenticationProfile]? = nil) {
@@ -3268,7 +3268,7 @@ extension Redshift {
 
     public struct DescribeDataSharesForConsumerResult: AWSDecodableShape {
         /// Shows the results of datashares available for consumers.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<DataShare>>
         public var dataShares: [DataShare]?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForConsumer request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
@@ -3316,7 +3316,7 @@ extension Redshift {
 
     public struct DescribeDataSharesForProducerResult: AWSDecodableShape {
         /// Shows the results of datashares available for producers.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<DataShare>>
         public var dataShares: [DataShare]?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataSharesForProducer request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
@@ -3360,7 +3360,7 @@ extension Redshift {
 
     public struct DescribeDataSharesResult: AWSDecodableShape {
         /// The results returned from describing datashares.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<DataShare>>
         public var dataShares: [DataShare]?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDataShares request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
@@ -4392,7 +4392,7 @@ extension Redshift {
         /// The log destination type. An enum with possible values of s3 and cloudwatch.
         public let logDestinationType: LogDestinationType?
         /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var logExports: [String]?
         /// The prefix applied to the log file names. Constraints:   Cannot exceed 512 characters   Cannot contain spaces( ), double quotes ("), single quotes ('), a backslash (\), or control characters. The hexadecimal codes for invalid characters are:    x00 to x20   x22   x27   x5c   x7f or larger
         public let s3KeyPrefix: String?
@@ -4547,7 +4547,7 @@ extension Redshift {
 
     public struct EndpointAccessList: AWSDecodableShape {
         /// The list of endpoints with access to the cluster.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<EndpointAccess>>
         public var endpointAccessList: [EndpointAccess]?
         /// An optional pagination token provided by a previous DescribeEndpointAccess request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
         public let marker: String?
@@ -4613,7 +4613,7 @@ extension Redshift {
 
     public struct EndpointAuthorizationList: AWSDecodableShape {
         /// The authorizations to an endpoint.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<EndpointAuthorization>>
         public var endpointAuthorizationList: [EndpointAuthorization]?
         /// An optional pagination token provided by a previous DescribeEndpointAuthorization request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
         public let marker: String?
@@ -5158,7 +5158,7 @@ extension Redshift {
         /// The log destination type. An enum with possible values of s3 and cloudwatch.
         public let logDestinationType: LogDestinationType?
         /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and  userlog.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var logExports: [String]?
         ///  true if logging is on, false if logging is off.
         public let loggingEnabled: Bool?
@@ -6747,13 +6747,13 @@ extension Redshift {
         /// The estimated time remaining, in seconds, until the resize operation is complete. This value is calculated based on the average resize rate and the estimated amount of data remaining to be processed. Once the resize operation is complete, this value will be 0.
         public let estimatedTimeToCompletionInSeconds: Int64?
         /// The names of tables that have been completely imported . Valid Values: List of table names.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var importTablesCompleted: [String]?
         /// The names of tables that are being currently imported. Valid Values: List of table names.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var importTablesInProgress: [String]?
         /// The names of tables that have not been yet imported. Valid Values: List of table names
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<String>>
         public var importTablesNotStarted: [String]?
         /// An optional string to provide additional details about the resize action.
         public let message: String?
@@ -8068,7 +8068,7 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
         public let marker: String?
         /// Contains the output from the DescribeUsageLimits action.
-        @OptionalCustomCoding<StandardArrayCoder>
+        @OptionalCustomCoding<StandardArrayCoder<UsageLimit>>
         public var usageLimits: [UsageLimit]?
 
         public init(marker: String? = nil, usageLimits: [UsageLimit]? = nil) {

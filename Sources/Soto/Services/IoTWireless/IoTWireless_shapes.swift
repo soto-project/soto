@@ -2771,24 +2771,22 @@ extension IoTWireless {
         }
     }
 
-    public struct GetPositionEstimateResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "geoJsonPayload"
+    public struct GetPositionEstimateResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "geoJsonPayload", location: .body("GeoJsonPayload"))
-        ]
-
         /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see GeoJSON.
-        public let geoJsonPayload: HTTPBody?
+        public let geoJsonPayload: AWSHTTPBody
 
-        public init(geoJsonPayload: HTTPBody? = nil) {
+        public init(geoJsonPayload: AWSHTTPBody) {
             self.geoJsonPayload = geoJsonPayload
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case geoJsonPayload = "GeoJsonPayload"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.geoJsonPayload = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPositionRequest: AWSEncodableShape {
@@ -2960,24 +2958,22 @@ extension IoTWireless {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct GetResourcePositionResponse: AWSDecodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "geoJsonPayload"
+    public struct GetResourcePositionResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "geoJsonPayload", location: .body("GeoJsonPayload"))
-        ]
-
         /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see GeoJSON.
-        public let geoJsonPayload: HTTPBody?
+        public let geoJsonPayload: AWSHTTPBody
 
-        public init(geoJsonPayload: HTTPBody? = nil) {
+        public init(geoJsonPayload: AWSHTTPBody) {
             self.geoJsonPayload = geoJsonPayload
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case geoJsonPayload = "GeoJsonPayload"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.geoJsonPayload = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetServiceEndpointRequest: AWSEncodableShape {
@@ -7310,13 +7306,13 @@ extension IoTWireless {
         ]
 
         /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format,  which a format that's used to encode geographic data structures. For more information, see GeoJSON.
-        public let geoJsonPayload: HTTPBody?
+        public let geoJsonPayload: AWSHTTPBody?
         /// The identifier of the resource for which position information is updated. It can be the wireless device ID or the wireless gateway ID, depending on the resource type.
         public let resourceIdentifier: String
         /// The type of resource for which position information is updated, which can be a wireless device or a wireless gateway.
         public let resourceType: PositionResourceType
 
-        public init(geoJsonPayload: HTTPBody? = nil, resourceIdentifier: String, resourceType: PositionResourceType) {
+        public init(geoJsonPayload: AWSHTTPBody? = nil, resourceIdentifier: String, resourceType: PositionResourceType) {
             self.geoJsonPayload = geoJsonPayload
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
