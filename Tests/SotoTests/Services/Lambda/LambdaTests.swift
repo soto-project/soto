@@ -163,6 +163,24 @@ class LambdaTests: XCTestCase {
         XCTAssertEqual(payload, "\"hello world\"")
     }
 
+    func testInvokeWithEventStream() async throws {
+        // This doesnt work with LocalStack
+        guard !TestEnvironment.isUsingLocalstack else { return }
+
+        // invoke the Lambda function created by setUp()
+        let request = Lambda.InvokeWithResponseStreamRequest(functionName: Self.functionName, logType: .tail, payload: .init(string: "{}"))
+        let response = try await Self.lambda.invokeWithResponseStream(request)
+
+        for try await event in response.eventStream {
+            switch event {
+            case .payloadChunk(let update):
+                print(String(buffer: update.payload))
+            case .invokeComplete(let complete):
+                print(complete)
+            }
+        }
+    }
+
     func testListFunctions() async throws {
         _ = try await Self.lambda.listFunctions(.init(maxItems: 10))
     }
