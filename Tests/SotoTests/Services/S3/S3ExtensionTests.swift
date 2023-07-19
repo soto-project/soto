@@ -275,7 +275,7 @@ extension S3Tests {
             let size = file10.utf8.count
             var returnedSize = 0
 
-            let response = try await s3.selectObjectContentEventStream(request, logger: TestEnvironment.logger)
+            let response = try await s3.selectObjectContent(request, logger: TestEnvironment.logger)
             for try await event in response.payload {
                 switch event {
                 case .records(let records):
