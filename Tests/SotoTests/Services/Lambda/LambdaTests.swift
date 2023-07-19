@@ -174,7 +174,7 @@ class LambdaTests: XCTestCase {
         for try await event in response.eventStream {
             switch event {
             case .payloadChunk(let update):
-                print(String(buffer: update.payload))
+                XCTAssertEqual(String(buffer: update.payload), "\"hello world\"")
             case .invokeComplete(let complete):
                 print(complete)
             }
