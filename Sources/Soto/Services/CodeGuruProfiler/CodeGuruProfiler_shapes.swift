@@ -1171,7 +1171,6 @@ extension CodeGuruProfiler {
     public struct PostAgentProfileRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "agentProfile"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
             AWSMemberEncoding(label: "profileToken", location: .querystring("profileToken")),

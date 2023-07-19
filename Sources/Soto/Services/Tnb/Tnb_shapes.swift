@@ -1742,7 +1742,6 @@ extension Tnb {
     public struct PutSolFunctionPackageContentInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "file"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
             AWSMemberEncoding(label: "vnfPkgId", location: .uri("vnfPkgId"))
@@ -1816,7 +1815,6 @@ extension Tnb {
     public struct PutSolNetworkPackageContentInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "file"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
             AWSMemberEncoding(label: "nsdInfoId", location: .uri("nsdInfoId"))
@@ -2171,7 +2169,6 @@ extension Tnb {
     public struct ValidateSolFunctionPackageContentInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "file"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
             AWSMemberEncoding(label: "vnfPkgId", location: .uri("vnfPkgId"))
@@ -2245,7 +2242,6 @@ extension Tnb {
     public struct ValidateSolNetworkPackageContentInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "file"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
             AWSMemberEncoding(label: "nsdInfoId", location: .uri("nsdInfoId"))

@@ -986,6 +986,7 @@ extension TranscribeStreaming {
     }
 
     public struct StartCallAnalyticsStreamTranscriptionResponse: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// Provides detailed information about your Call Analytics streaming session.
         public let callAnalyticsTranscriptResultStream: AWSEventStream<CallAnalyticsTranscriptResultStream>
         /// Shows whether content identification was enabled for your Call Analytics transcription.
@@ -1131,6 +1132,7 @@ extension TranscribeStreaming {
     }
 
     public struct StartMedicalStreamTranscriptionResponse: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// Shows whether content identification was enabled for your transcription.
         public let contentIdentificationType: MedicalContentIdentificationType?
         /// Shows whether channel identification was enabled for your transcription.
@@ -1327,6 +1329,7 @@ extension TranscribeStreaming {
     }
 
     public struct StartStreamTranscriptionResponse: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// Shows whether content identification was enabled for your transcription.
         public let contentIdentificationType: ContentIdentificationType?
         /// Shows whether content redaction was enabled for your transcription.

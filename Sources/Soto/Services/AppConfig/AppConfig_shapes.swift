@@ -667,7 +667,6 @@ extension AppConfig {
     public struct CreateHostedConfigurationVersionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "content"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
             AWSMemberEncoding(label: "configurationProfileId", location: .uri("ConfigurationProfileId")),

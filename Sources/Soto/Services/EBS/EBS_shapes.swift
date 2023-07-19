@@ -169,7 +169,7 @@ extension EBS {
     }
 
     public struct GetSnapshotBlockResponse: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// The data content of the block.
         public let blockData: AWSHTTPBody
         /// The checksum generated for the block, which is Base64 encoded.
@@ -342,7 +342,7 @@ extension EBS {
     public struct PutSnapshotBlockRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "blockData"
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming, .allowChunkedStreaming]
+        public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "blockIndex", location: .uri("BlockIndex")),
             AWSMemberEncoding(label: "checksum", location: .header("x-amz-Checksum")),

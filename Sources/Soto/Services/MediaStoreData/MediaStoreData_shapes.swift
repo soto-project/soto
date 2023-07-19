@@ -152,7 +152,7 @@ extension MediaStoreData {
     }
 
     public struct GetObjectResponse: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// The bytes of the object.
         public let body: AWSHTTPBody
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP spec at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
@@ -281,7 +281,7 @@ extension MediaStoreData {
     public struct PutObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming, .allowChunkedStreaming]
+        public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "cacheControl", location: .header("Cache-Control")),
             AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),

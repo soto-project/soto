@@ -76,7 +76,6 @@ extension Mobile {
     public struct CreateProjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "contents"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .querystring("name")),
             AWSMemberEncoding(label: "region", location: .querystring("region")),
@@ -428,7 +427,6 @@ extension Mobile {
     public struct UpdateProjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "contents"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "projectId", location: .querystring("projectId"))
         ]

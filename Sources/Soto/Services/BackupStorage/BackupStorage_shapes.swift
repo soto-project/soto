@@ -139,7 +139,7 @@ extension BackupStorage {
     }
 
     public struct GetChunkOutput: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// Data checksum
         public let checksum: String
         /// Checksum algorithm
@@ -188,7 +188,7 @@ extension BackupStorage {
     }
 
     public struct GetObjectMetadataOutput: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// Metadata blob.
         public let metadataBlob: AWSHTTPBody
         /// MetadataBlob checksum.
@@ -334,7 +334,7 @@ extension BackupStorage {
     public struct NotifyObjectCompleteInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "metadataBlob"
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming, .allowChunkedStreaming]
+        public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "backupJobId", location: .uri("BackupJobId")),
             AWSMemberEncoding(label: "metadataBlobChecksum", location: .querystring("metadata-checksum")),
@@ -404,7 +404,7 @@ extension BackupStorage {
     public struct PutChunkInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "data"
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming, .allowChunkedStreaming]
+        public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "backupJobId", location: .uri("BackupJobId")),
             AWSMemberEncoding(label: "checksum", location: .querystring("checksum")),
@@ -462,7 +462,7 @@ extension BackupStorage {
     public struct PutObjectInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "inlineChunk"
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming, .allowChunkedStreaming]
+        public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "backupJobId", location: .uri("BackupJobId")),
             AWSMemberEncoding(label: "inlineChunkChecksum", location: .querystring("checksum")),

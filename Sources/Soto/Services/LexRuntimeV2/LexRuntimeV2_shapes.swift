@@ -1024,7 +1024,7 @@ extension LexRuntimeV2 {
     }
 
     public struct PutSessionResponse: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// If the requested content type was audio, the audio version of the message to convey to the user.
         public let audioStream: AWSHTTPBody
         /// The type of response. Same as the type specified in the responseContentType field in the request.
@@ -1153,7 +1153,7 @@ extension LexRuntimeV2 {
     public struct RecognizeUtteranceRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "inputStream"
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming, .allowChunkedStreaming]
+        public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
             AWSMemberEncoding(label: "botId", location: .uri("botId")),
@@ -1212,7 +1212,7 @@ extension LexRuntimeV2 {
     }
 
     public struct RecognizeUtteranceResponse: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// The prompt or statement to send to the user. This is based on the bot configuration and context. For example, if Amazon Lex V2 did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex V2 sends that message in the response.
         public let audioStream: AWSHTTPBody
         /// Content type as specified in the responseContentType in the request.
@@ -1535,6 +1535,7 @@ extension LexRuntimeV2 {
     }
 
     public struct StartConversationResponse: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// Represents the stream of events from Amazon Lex V2 to your application. The events are encoded as HTTP/2 data frames.
         public let responseEventStream: AWSEventStream<StartConversationResponseEventStream>
 

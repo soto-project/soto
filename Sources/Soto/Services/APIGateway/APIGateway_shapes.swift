@@ -2922,7 +2922,6 @@ extension APIGateway {
     public struct ImportApiKeysRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring("failonwarnings")),
             AWSMemberEncoding(label: "format", location: .querystring("format"))
@@ -2947,7 +2946,6 @@ extension APIGateway {
     public struct ImportDocumentationPartsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring("failonwarnings")),
             AWSMemberEncoding(label: "mode", location: .querystring("mode")),
@@ -2976,7 +2974,6 @@ extension APIGateway {
     public struct ImportRestApiRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring("failonwarnings"))
         ]
@@ -3608,7 +3605,6 @@ extension APIGateway {
     public struct PutRestApiRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring("failonwarnings")),
             AWSMemberEncoding(label: "mode", location: .querystring("mode")),
