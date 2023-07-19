@@ -34,9 +34,9 @@ extension CredentialProviderWithClient {
 
 extension STS {
     /// Enumeration for provided a Request structure to a credential provider
-    enum RequestProvider<Request> {
+    enum RequestProvider<Request: Sendable>: Sendable {
         case `static`(Request)
-        case dynamic(() async throws -> Request)
+        case dynamic(@Sendable () async throws -> Request)
 
         func request() async throws -> Request {
             switch self {
@@ -179,13 +179,14 @@ extension STS {
         static func loadFile(path: String, on eventLoop: EventLoop, using fileIO: NonBlockingFileIO) -> EventLoopFuture<ByteBuffer> {
             return fileIO.openFile(path: path, eventLoop: eventLoop)
                 .flatMap { handle, region in
-                    fileIO.read(fileRegion: region, allocator: ByteBufferAllocator(), eventLoop: eventLoop)
+                    let handleTransfer = NIOLoopBound(handle, eventLoop: eventLoop)
+                    return fileIO.read(fileRegion: region, allocator: ByteBufferAllocator(), eventLoop: eventLoop)
                         .flatMapErrorThrowing { error in
-                            try? handle.close()
+                            try? handleTransfer.value.close()
                             throw error
                         }
                         .flatMapThrowing { byteBuffer in
-                            try handle.close()
+                            try handleTransfer.value.close()
                             return byteBuffer
                         }
                 }
@@ -279,7 +280,7 @@ extension CredentialProviderFactory {
     public static func stsAssumeRole(
         credentialProvider: CredentialProviderFactory = .default,
         region: Region,
-        requestProvider: @escaping () async throws -> STS.AssumeRoleRequest
+        requestProvider: @escaping @Sendable () async throws -> STS.AssumeRoleRequest
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleCredentialProvider(
@@ -315,7 +316,7 @@ extension CredentialProviderFactory {
     ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRoleWithSAML request struct
     public static func stsSAML(
         region: Region,
-        requestProvider: @escaping () async throws -> STS.AssumeRoleWithSAMLRequest
+        requestProvider: @escaping @Sendable () async throws -> STS.AssumeRoleWithSAMLRequest
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleWithSAMLCredentialProvider(requestProvider: .dynamic(requestProvider), region: region, httpClient: context.httpClient)
@@ -346,7 +347,7 @@ extension CredentialProviderFactory {
     ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRoleWithWebIdentity request struct
     public static func stsWebIdentity(
         region: Region,
-        requestProvider: @escaping () async throws -> STS.AssumeRoleWithWebIdentityRequest
+        requestProvider: @escaping @Sendable () async throws -> STS.AssumeRoleWithWebIdentityRequest
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleWithWebIdentityCredentialProvider(requestProvider: .dynamic(requestProvider), region: region, httpClient: context.httpClient)
@@ -431,7 +432,7 @@ extension CredentialProviderFactory {
     public static func stsSessionToken(
         credentialProvider: CredentialProviderFactory = .default,
         region: Region,
-        requestProvider: @escaping () async throws -> STS.GetSessionTokenRequest
+        requestProvider: @escaping @Sendable () async throws -> STS.GetSessionTokenRequest
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.SessionTokenCredentialProvider(

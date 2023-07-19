@@ -1,4 +1,4 @@
-// swift-tools-version:5.7
+// swift-tools-version:5.6
 //===----------------------------------------------------------------------===//
 //
 // This source file is part of the Soto for AWS open source project
@@ -13,11 +13,17 @@
 //
 //===----------------------------------------------------------------------===//
 
+import Foundation
 import PackageDescription
 
 let package = Package(
     name: "soto",
-    platforms: [.macOS(.v10_15), .iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
+    platforms: [
+        .macOS(.v10_15),
+        .iOS(.v13),
+        .tvOS(.v13),
+        .watchOS(.v6),
+    ],
     products: [
         .library(name: "SotoACM", targets: ["SotoACM"]),
         .library(name: "SotoACMPCA", targets: ["SotoACMPCA"]),
@@ -743,3 +749,11 @@ let package = Package(
         )
     ]
 )
+
+if ProcessInfo.processInfo.environment["SOTO_STRICT_CONCURRENCY"] == "true" {
+    for target in package.targets {
+        if !target.isTest {
+            target.swiftSettings = [.unsafeFlags(["-Xfrontend", "-strict-concurrency=complete"])]
+        }
+    }
+}

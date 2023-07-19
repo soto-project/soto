@@ -18,14 +18,19 @@ import PackageDescription
 
 let package = Package(
     name: "soto",
-    platforms: [.iOS(.v12), .tvOS(.v12), .watchOS(.v5)],
+    platforms: [
+        .macOS(.v10_15),
+        .iOS(.v13),
+        .tvOS(.v13),
+        .watchOS(.v6),
+    ],
     products: [
 {{#targets}}
         .library(name: "Soto{{name}}", targets: ["Soto{{name}}"]){{^last()}},{{/last()}}
 {{/targets}}
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", branch: "main")
+        .package(url: "https://github.com/soto-project/soto-core.git", branch: "7.x.x")
     ],
     targets: [
 {{#targets}}
@@ -47,3 +52,11 @@ let package = Package(
         )
     ]
 )
+
+if ProcessInfo.processInfo.environment["STRICT_CONCURRENCY"] == "true" {
+    for target in package.targets {
+        if !target.isTest {
+            target.swiftSettings = [.unsafeFlags(["-Xfrontend", "-warn-concurrency"])]
+        }
+    }
+}

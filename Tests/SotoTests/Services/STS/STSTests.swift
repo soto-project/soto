@@ -12,6 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+import NIOConcurrencyHelpers
 import SotoS3
 import SotoSNS
 @testable import SotoSTS
@@ -60,16 +61,20 @@ class STSTests: XCTestCase {
 
     func testSTSCredentialProviderClosure() async throws {
         let request = STS.AssumeRoleRequest(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session")
-        var returnedRequest: STS.AssumeRoleRequest?
+        let returnedRequest: NIOLockedValueBox<STS.AssumeRoleRequest?> = .init(nil)
         let credentialProvider = CredentialProviderFactory.stsAssumeRole(region: .euwest2) {
             try await Task.sleep(nanoseconds: 500_000_000)
-            returnedRequest = request
+            returnedRequest.withLockedValue { value in
+                value = request
+            }
             return request
         }
         let client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .createNew, logger: TestEnvironment.logger)
         _ = try? await client.credentialProvider.getCredential(logger: TestEnvironment.logger)
         try await client.shutdown()
-        XCTAssertEqual(request.roleSessionName, returnedRequest?.roleSessionName)
+        returnedRequest.withLockedValue { value in
+            XCTAssertEqual(request.roleSessionName, value?.roleSessionName)
+        }
     }
 
     func testFederationToken() async throws {

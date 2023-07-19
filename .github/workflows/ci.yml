@@ -21,6 +21,7 @@ env:
   AWS_DISABLE_LOCALSTACK : "false"
   AWS_ENABLE_LOGGING : "true"
   AWS_LOG_LEVEL: "trace"
+  STRICT_CONCURRENCY: "true"
 
 jobs:
   macos:
