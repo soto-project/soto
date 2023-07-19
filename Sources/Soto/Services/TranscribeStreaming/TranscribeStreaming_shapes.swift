@@ -352,15 +352,13 @@ extension TranscribeStreaming {
 
     public struct AudioEvent: AWSEncodableShape {
         /// An audio blob that contains the next part of the audio that you want to transcribe. The maximum audio chunk size is 32 KB.
-        public let audioChunk: AWSBase64Data?
+        public let audioChunk: ByteBuffer?
 
-        public init(audioChunk: AWSBase64Data? = nil) {
+        public init(audioChunk: ByteBuffer? = nil) {
             self.audioChunk = audioChunk
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case audioChunk = "AudioChunk"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct BadRequestException: AWSDecodableShape {
@@ -919,7 +917,7 @@ extension TranscribeStreaming {
             AWSMemberEncoding(label: "vocabularyName", location: .header("x-amzn-transcribe-vocabulary-name"))
         ]
 
-        public let audioStream: AudioStream
+        public let audioStream: AWSEventStream<AudioStream>
         /// Labels all personally identifiable information (PII) identified in your transcript.      Content identification is performed at the segment level; PII specified in  PiiEntityTypes is flagged upon complete transcription of an audio segment.  You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
         public let contentIdentificationType: ContentIdentificationType?
         /// Redacts all personally identifiable information (PII) identified in your transcript.      Content redaction is performed at the segment level; PII specified in  PiiEntityTypes is redacted upon complete transcription of an audio segment.  You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
@@ -947,7 +945,7 @@ extension TranscribeStreaming {
         /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If the language of the specified custom vocabulary doesn't match the language identified in your media, the custom vocabulary is not applied to your transcription. For more information, see Custom vocabularies.
         public let vocabularyName: String?
 
-        public init(audioStream: AudioStream, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: CallAnalyticsLanguageCode, languageModelName: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, sessionId: String? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(audioStream: AWSEventStream<AudioStream>, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: CallAnalyticsLanguageCode, languageModelName: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, sessionId: String? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.audioStream = audioStream
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
@@ -965,7 +963,6 @@ extension TranscribeStreaming {
         }
 
         public func validate(name: String) throws {
-            try self.audioStream.validate(name: "\(name).audioStream")
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, max: 200)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, min: 1)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
@@ -990,7 +987,7 @@ extension TranscribeStreaming {
 
     public struct StartCallAnalyticsStreamTranscriptionResponse: AWSDecodableShape {
         /// Provides detailed information about your Call Analytics streaming session.
-        public let callAnalyticsTranscriptResultStream: CallAnalyticsTranscriptResultStream
+        public let callAnalyticsTranscriptResultStream: AWSEventStream<CallAnalyticsTranscriptResultStream>
         /// Shows whether content identification was enabled for your Call Analytics transcription.
         public let contentIdentificationType: ContentIdentificationType?
         /// Shows whether content redaction was enabled for your Call Analytics transcription.
@@ -1020,7 +1017,7 @@ extension TranscribeStreaming {
         /// Provides the name of the custom vocabulary that you specified in your Call Analytics request.
         public let vocabularyName: String?
 
-        public init(callAnalyticsTranscriptResultStream: CallAnalyticsTranscriptResultStream, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: CallAnalyticsLanguageCode? = nil, languageModelName: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, requestId: String? = nil, sessionId: String? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(callAnalyticsTranscriptResultStream: AWSEventStream<CallAnalyticsTranscriptResultStream>, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: CallAnalyticsLanguageCode? = nil, languageModelName: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, requestId: String? = nil, sessionId: String? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.callAnalyticsTranscriptResultStream = callAnalyticsTranscriptResultStream
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
@@ -1040,7 +1037,7 @@ extension TranscribeStreaming {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.callAnalyticsTranscriptResultStream = try .init(from: decoder)
+            self.callAnalyticsTranscriptResultStream = response.decodeEventStream()
             self.contentIdentificationType = try response.decodeIfPresent(ContentIdentificationType.self, forHeader: "x-amzn-transcribe-content-identification-type")
             self.contentRedactionType = try response.decodeIfPresent(ContentRedactionType.self, forHeader: "x-amzn-transcribe-content-redaction-type")
             self.enablePartialResultsStabilization = try response.decodeIfPresent(Bool.self, forHeader: "x-amzn-transcribe-enable-partial-results-stabilization")
@@ -1079,7 +1076,7 @@ extension TranscribeStreaming {
             AWSMemberEncoding(label: "vocabularyName", location: .header("x-amzn-transcribe-vocabulary-name"))
         ]
 
-        public let audioStream: AudioStream
+        public let audioStream: AWSEventStream<AudioStream>
         /// Labels all personal health information (PHI) identified in your transcript.      Content identification is performed at the segment level; PHI is flagged upon complete transcription of an audio segment.  For more information, see Identifying personal health information (PHI) in a transcription.
         public let contentIdentificationType: MedicalContentIdentificationType?
         /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the output for each channel into one transcript. If you have multi-channel audio and do not enable channel identification, your audio is  transcribed in a continuous manner and your transcript is not separated by channel. For more information, see Transcribing multi-channel audio.
@@ -1103,7 +1100,7 @@ extension TranscribeStreaming {
         /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive.
         public let vocabularyName: String?
 
-        public init(audioStream: AudioStream, contentIdentificationType: MedicalContentIdentificationType? = nil, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty, type: `Type`, vocabularyName: String? = nil) {
+        public init(audioStream: AWSEventStream<AudioStream>, contentIdentificationType: MedicalContentIdentificationType? = nil, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty, type: `Type`, vocabularyName: String? = nil) {
             self.audioStream = audioStream
             self.contentIdentificationType = contentIdentificationType
             self.enableChannelIdentification = enableChannelIdentification
@@ -1119,7 +1116,6 @@ extension TranscribeStreaming {
         }
 
         public func validate(name: String) throws {
-            try self.audioStream.validate(name: "\(name).audioStream")
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
             try self.validate(self.numberOfChannels, name: "numberOfChannels", parent: name, min: 2)
@@ -1156,13 +1152,13 @@ extension TranscribeStreaming {
         /// Provides the medical specialty that you specified in your request.
         public let specialty: Specialty?
         /// Provides detailed information about your streaming session.
-        public let transcriptResultStream: MedicalTranscriptResultStream
+        public let transcriptResultStream: AWSEventStream<MedicalTranscriptResultStream>
         /// Provides the type of audio you specified in your request.
         public let type: `Type`?
         /// Provides the name of the custom vocabulary that you specified in your request.
         public let vocabularyName: String?
 
-        public init(contentIdentificationType: MedicalContentIdentificationType? = nil, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty? = nil, transcriptResultStream: MedicalTranscriptResultStream, type: `Type`? = nil, vocabularyName: String? = nil) {
+        public init(contentIdentificationType: MedicalContentIdentificationType? = nil, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty? = nil, transcriptResultStream: AWSEventStream<MedicalTranscriptResultStream>, type: `Type`? = nil, vocabularyName: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.enableChannelIdentification = enableChannelIdentification
             self.languageCode = languageCode
@@ -1190,7 +1186,7 @@ extension TranscribeStreaming {
             self.sessionId = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-session-id")
             self.showSpeakerLabel = try response.decodeIfPresent(Bool.self, forHeader: "x-amzn-transcribe-show-speaker-label")
             self.specialty = try response.decodeIfPresent(Specialty.self, forHeader: "x-amzn-transcribe-specialty")
-            self.transcriptResultStream = try .init(from: decoder)
+            self.transcriptResultStream = response.decodeEventStream()
             self.type = try response.decodeIfPresent(`Type`.self, forHeader: "x-amzn-transcribe-type")
             self.vocabularyName = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-vocabulary-name")
 
@@ -1228,7 +1224,7 @@ extension TranscribeStreaming {
         ]
 
         /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket  data frames.  For more information, see Transcribing streaming audio.
-        public let audioStream: AudioStream
+        public let audioStream: AWSEventStream<AudioStream>
         /// Labels all personally identifiable information (PII) identified in your transcript.      Content identification is performed at the segment level; PII specified in  PiiEntityTypes is flagged upon complete transcription of an audio segment.  You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
         public let contentIdentificationType: ContentIdentificationType?
         /// Redacts all personally identifiable information (PII) identified in your transcript.      Content redaction is performed at the segment level; PII specified in  PiiEntityTypes is redacted upon complete transcription of an audio segment.  You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
@@ -1272,7 +1268,7 @@ extension TranscribeStreaming {
         /// Specify the names of the custom vocabularies that you want to use when processing your transcription. Note that vocabulary names are case sensitive.     If none of the languages of the specified custom vocabularies match the language identified in  your media, your job fails.  This parameter is only intended for use with the IdentifyLanguage parameter. If you're not including IdentifyLanguage in your request and want to use a custom vocabulary with your transcription, use the VocabularyName parameter instead.  For more information, see Custom vocabularies.
         public let vocabularyNames: String?
 
-        public init(audioStream: AudioStream, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
+        public init(audioStream: AWSEventStream<AudioStream>, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.audioStream = audioStream
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
@@ -1298,7 +1294,6 @@ extension TranscribeStreaming {
         }
 
         public func validate(name: String) throws {
-            try self.audioStream.validate(name: "\(name).audioStream")
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, max: 200)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, min: 1)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
@@ -1367,7 +1362,7 @@ extension TranscribeStreaming {
         /// Shows whether speaker partitioning was enabled for your transcription.
         public let showSpeakerLabel: Bool?
         /// Provides detailed information about your streaming session.
-        public let transcriptResultStream: TranscriptResultStream
+        public let transcriptResultStream: AWSEventStream<TranscriptResultStream>
         /// Provides the vocabulary filtering method used in your transcription.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
         /// Provides the name of the custom vocabulary filter that you specified in your request.
@@ -1379,7 +1374,7 @@ extension TranscribeStreaming {
         /// Provides the names of the custom vocabularies that you specified in your request.
         public let vocabularyNames: String?
 
-        public init(contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: TranscriptResultStream, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
+        public init(contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: AWSEventStream<TranscriptResultStream>, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enableChannelIdentification = enableChannelIdentification
@@ -1424,7 +1419,7 @@ extension TranscribeStreaming {
             self.requestId = try response.decodeIfPresent(String.self, forHeader: "x-amzn-request-id")
             self.sessionId = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-session-id")
             self.showSpeakerLabel = try response.decodeIfPresent(Bool.self, forHeader: "x-amzn-transcribe-show-speaker-label")
-            self.transcriptResultStream = try .init(from: decoder)
+            self.transcriptResultStream = response.decodeEventStream()
             self.vocabularyFilterMethod = try response.decodeIfPresent(VocabularyFilterMethod.self, forHeader: "x-amzn-transcribe-vocabulary-filter-method")
             self.vocabularyFilterName = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-vocabulary-filter-name")
             self.vocabularyFilterNames = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-vocabulary-filter-names")

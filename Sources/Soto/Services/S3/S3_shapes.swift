@@ -6217,16 +6217,23 @@ extension S3 {
     }
 
     public struct ProgressEvent: AWSDecodableShape {
-        /// The Progress event details.
-        public let details: Progress?
+        public static var _encoding = [
+            AWSMemberEncoding(label: "details", location: .body("Details"))
+        ]
 
-        public init(details: Progress? = nil) {
+        /// The Progress event details.
+        public let details: Progress
+
+        public init(details: Progress) {
             self.details = details
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case details = "Details"
+        public init(from decoder: Decoder) throws {
+            self.details = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PublicAccessBlockConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -7525,16 +7532,24 @@ extension S3 {
     }
 
     public struct RecordsEvent: AWSDecodableShape {
-        /// The byte array of partial, one or more result records.
-        public let payload: AWSBase64Data?
+        public static var _encoding = [
+            AWSMemberEncoding(label: "payload", location: .body("Payload"))
+        ]
 
-        public init(payload: AWSBase64Data? = nil) {
+        /// The byte array of partial, one or more result records.
+        public let payload: ByteBuffer
+
+        public init(payload: ByteBuffer) {
             self.payload = payload
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "Payload"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsEvent]! as! EventDecodingContainer
+            self.payload = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Redirect: AWSEncodableShape & AWSDecodableShape {
@@ -7978,14 +7993,15 @@ extension S3 {
 
     public struct SelectObjectContentOutput: AWSDecodableShape {
         /// The array of results.
-        public let payload: SelectObjectContentEventStream
+        public let payload: AWSEventStream<SelectObjectContentEventStream>
 
-        public init(payload: SelectObjectContentEventStream) {
+        public init(payload: AWSEventStream<SelectObjectContentEventStream>) {
             self.payload = payload
         }
 
         public init(from decoder: Decoder) throws {
-            self.payload = try .init(from: decoder)
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.payload = response.decodeEventStream()
 
         }
 
@@ -8180,16 +8196,23 @@ extension S3 {
     }
 
     public struct StatsEvent: AWSDecodableShape {
-        /// The Stats event details.
-        public let details: Stats?
+        public static var _encoding = [
+            AWSMemberEncoding(label: "details", location: .body("Details"))
+        ]
 
-        public init(details: Stats? = nil) {
+        /// The Stats event details.
+        public let details: Stats
+
+        public init(details: Stats) {
             self.details = details
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case details = "Details"
+        public init(from decoder: Decoder) throws {
+            self.details = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StorageClassAnalysis: AWSEncodableShape & AWSDecodableShape {

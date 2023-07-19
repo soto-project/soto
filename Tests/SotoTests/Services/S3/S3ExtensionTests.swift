@@ -237,83 +237,68 @@ extension S3Tests {
         XCTAssertEqual(values3?.versionId, "5")
     }
 
-    /*
-     func testSelectObjectContent() throws {
-         // doesnt work with LocalStack
-         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+    func testSelectObjectContent() async throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
-         let s3 = Self.s3.with(timeout: .minutes(2))
-         let strings = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".split(separator: " ")
-         let file = strings.reduce("") { $0 + "\($1), \($1.count), \($0.count + $1.count)\n" }
-         let file2 = file + file
-         let file3 = file2 + file2
-         let file4 = file3 + file3
-         let file5 = file4 + file4
-         let file6 = file5 + file5
-         let file7 = file6 + file6
-         let file8 = file7 + file7
-         let file9 = file8 + file8
-         let file10 = file9 + file9
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let strings = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".split(separator: " ")
+        let file = strings.reduce("") { $0 + "\($1), \($1.count), \($0.count + $1.count)\n" }
+        let file2 = file + file
+        let file3 = file2 + file2
+        let file4 = file3 + file3
+        let file5 = file4 + file4
+        let file6 = file5 + file5
+        let file7 = file6 + file6
+        let file8 = file7 + file7
+        let file9 = file8 + file8
+        let file10 = file9 + file9
 
-         let name = TestEnvironment.generateResourceName()
-         let runOnEventLoop = s3.client.eventLoopGroup.next()
+        let name = TestEnvironment.generateResourceName()
 
-         let response = S3Tests.createBucket(name: name, s3: s3)
-             .hop(to: runOnEventLoop)
-             .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
-                 let putRequest = S3.PutObjectRequest(body: .string(file10), bucket: name, key: "file.csv")
-                 return s3.putObject(putRequest, on: runOnEventLoop)
-             }
-             .flatMap { _ -> EventLoopFuture<S3.SelectObjectContentOutput> in
-                 let expression = "Select * from S3Object"
-                 let input = S3.InputSerialization(csv: .init(fieldDelimiter: ",", fileHeaderInfo: .use, recordDelimiter: "\n"))
-                 let output = S3.OutputSerialization(csv: .init(fieldDelimiter: ",", recordDelimiter: "\n"))
-                 let request = S3.SelectObjectContentRequest(
-                     bucket: name,
-                     expression: expression,
-                     expressionType: .sql,
-                     inputSerialization: input,
-                     key: "file.csv",
-                     outputSerialization: output,
-                     requestProgress: S3.RequestProgress(enabled: true)
-                 )
-                 let size = file10.utf8.count
-                 var returnedSize = 0
-                 return s3.selectObjectContentEventStream(request, logger: TestEnvironment.logger, on: runOnEventLoop) { eventStream, eventLoop in
-                     XCTAssertTrue(eventLoop === runOnEventLoop)
-                     switch eventStream {
-                     case .records(let records):
-                         if let payload = records.payload {
-                             if let decodedCount = payload.decoded()?.count {
-                                 returnedSize += decodedCount
-                                 print("Record size: \(decodedCount)")
-                             } else {
-                                 XCTFail("Failed to decode Base64 data in payload")
-                             }
-                         }
-                     case .stats(let stats):
-                         if let details = stats.details {
-                             print("Stats: ")
-                             print("  processed: \(details.bytesProcessed ?? 0)")
-                             print("  returned: \(details.bytesReturned ?? 0)")
-                             print("  scanned: \(details.bytesScanned ?? 0)")
+        try await testBucket(name) { name in
+            let putRequest = S3.PutObjectRequest(body: .init(string: file10), bucket: name, key: "file.csv")
+            _ = try await s3.putObject(putRequest, logger: TestEnvironment.logger)
 
-                             XCTAssertEqual(Int64(size), details.bytesProcessed)
-                             XCTAssertEqual(Int64(returnedSize), details.bytesReturned)
-                         }
-                     case .end:
-                         print("End")
-                     default:
-                         break
-                     }
-                     return eventLoop.makeSucceededFuture(())
-                 }
-             }
-             .flatAlways { _ in
-                 return S3Tests.deleteBucket(name: name, s3: s3)
-             }
-         XCTAssertNoThrow(try response.wait())
-     }*/
+            let expression = "Select * from S3Object"
+            let input = S3.InputSerialization(csv: .init(fieldDelimiter: ",", fileHeaderInfo: .use, recordDelimiter: "\n"))
+            let output = S3.OutputSerialization(csv: .init(fieldDelimiter: ",", recordDelimiter: "\n"))
+            let request = S3.SelectObjectContentRequest(
+                bucket: name,
+                expression: expression,
+                expressionType: .sql,
+                inputSerialization: input,
+                key: "file.csv",
+                outputSerialization: output,
+                requestProgress: S3.RequestProgress(enabled: true)
+            )
+            let size = file10.utf8.count
+            var returnedSize = 0
+
+            let response = try await s3.selectObjectContentEventStream(request, logger: TestEnvironment.logger)
+            for try await event in response.payload {
+                switch event {
+                case .records(let records):
+                    let decodedCount = records.payload.readableBytes
+                    returnedSize += decodedCount
+                    print("Record size: \(decodedCount)")
+                case .stats(let stats):
+                    let details = stats.details
+                    print("Stats: ")
+                    print("  processed: \(details.bytesProcessed ?? 0)")
+                    print("  returned: \(details.bytesReturned ?? 0)")
+                    print("  scanned: \(details.bytesScanned ?? 0)")
+
+                    XCTAssertEqual(Int64(size), details.bytesProcessed)
+                    XCTAssertEqual(Int64(returnedSize), details.bytesReturned)
+                case .end:
+                    print("End")
+                default:
+                    break
+                }
+            }
+        }
+    }
 
     func testS3VirtualAddressing(_ urlString: String, config: AWSServiceConfig = S3Tests.s3.config) throws -> String {
         let url = URL(string: urlString)!

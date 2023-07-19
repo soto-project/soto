@@ -1508,11 +1508,11 @@ extension LexRuntimeV2 {
         /// The locale where the session is in use.
         public let localeId: String
         /// Represents the stream of events to Amazon Lex V2 from your application. The events are encoded as HTTP/2 data frames.
-        public let requestEventStream: StartConversationRequestEventStream
+        public let requestEventStream: AWSEventStream<StartConversationRequestEventStream>
         /// The identifier of the user session that is having the conversation.
         public let sessionId: String
 
-        public init(botAliasId: String, botId: String, conversationMode: ConversationMode? = nil, localeId: String, requestEventStream: StartConversationRequestEventStream, sessionId: String) {
+        public init(botAliasId: String, botId: String, conversationMode: ConversationMode? = nil, localeId: String, requestEventStream: AWSEventStream<StartConversationRequestEventStream>, sessionId: String) {
             self.botAliasId = botAliasId
             self.botId = botId
             self.conversationMode = conversationMode
@@ -1526,7 +1526,6 @@ extension LexRuntimeV2 {
             try self.validate(self.botId, name: "botId", parent: name, min: 10)
             try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.localeId, name: "localeId", parent: name, min: 1)
-            try self.requestEventStream.validate(name: "\(name).requestEventStream")
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 2)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[0-9a-zA-Z._:-]+$")
@@ -1537,14 +1536,15 @@ extension LexRuntimeV2 {
 
     public struct StartConversationResponse: AWSDecodableShape {
         /// Represents the stream of events from Amazon Lex V2 to your application. The events are encoded as HTTP/2 data frames.
-        public let responseEventStream: StartConversationResponseEventStream
+        public let responseEventStream: AWSEventStream<StartConversationResponseEventStream>
 
-        public init(responseEventStream: StartConversationResponseEventStream) {
+        public init(responseEventStream: AWSEventStream<StartConversationResponseEventStream>) {
             self.responseEventStream = responseEventStream
         }
 
         public init(from decoder: Decoder) throws {
-            self.responseEventStream = try .init(from: decoder)
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.responseEventStream = response.decodeEventStream()
 
         }
 

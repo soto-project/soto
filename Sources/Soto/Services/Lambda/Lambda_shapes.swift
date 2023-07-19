@@ -2816,16 +2816,24 @@ extension Lambda {
     }
 
     public struct InvokeResponseStreamUpdate: AWSDecodableShape {
-        /// Data returned by your Lambda function.
-        public let payload: AWSBase64Data?
+        public static var _encoding = [
+            AWSMemberEncoding(label: "payload", location: .body("Payload"))
+        ]
 
-        public init(payload: AWSBase64Data? = nil) {
+        /// Data returned by your Lambda function.
+        public let payload: ByteBuffer
+
+        public init(payload: ByteBuffer) {
             self.payload = payload
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "Payload"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsEvent]! as! EventDecodingContainer
+            self.payload = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct InvokeWithResponseStreamCompleteEvent: AWSDecodableShape {
@@ -2897,7 +2905,7 @@ extension Lambda {
 
     public struct InvokeWithResponseStreamResponse: AWSDecodableShape {
         /// The stream of response payloads.
-        public let eventStream: InvokeWithResponseStreamResponseEvent
+        public let eventStream: AWSEventStream<InvokeWithResponseStreamResponseEvent>
         /// The version of the function that executed. When you invoke a function with an alias, this indicates which version the alias resolved to.
         public let executedVersion: String?
         /// The type of data the stream is returning.
@@ -2905,7 +2913,7 @@ extension Lambda {
         /// For a successful request, the HTTP status code is in the 200 range. For the RequestResponse invocation type, this status code is 200. For the DryRun invocation type, this status code is 204.
         public let statusCode: Int?
 
-        public init(eventStream: InvokeWithResponseStreamResponseEvent, executedVersion: String? = nil, responseStreamContentType: String? = nil, statusCode: Int? = nil) {
+        public init(eventStream: AWSEventStream<InvokeWithResponseStreamResponseEvent>, executedVersion: String? = nil, responseStreamContentType: String? = nil, statusCode: Int? = nil) {
             self.eventStream = eventStream
             self.executedVersion = executedVersion
             self.responseStreamContentType = responseStreamContentType
@@ -2914,7 +2922,7 @@ extension Lambda {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eventStream = try .init(from: decoder)
+            self.eventStream = response.decodeEventStream()
             self.executedVersion = try response.decodeIfPresent(String.self, forHeader: "X-Amz-Executed-Version")
             self.responseStreamContentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
             self.statusCode = response.decodeStatus()
