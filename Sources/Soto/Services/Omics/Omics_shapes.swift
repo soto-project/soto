@@ -2237,7 +2237,7 @@ extension Omics {
     }
 
     public struct GetReadSetResponse: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// The read set file payload.
         public let payload: AWSHTTPBody
 
@@ -2444,7 +2444,7 @@ extension Omics {
     }
 
     public struct GetReferenceResponse: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// The reference file payload.
         public let payload: AWSHTTPBody
 
@@ -6087,7 +6087,7 @@ extension Omics {
     public struct UploadReadSetPartRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "payload"
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "partNumber", location: .querystring("partNumber")),
             AWSMemberEncoding(label: "partSource", location: .querystring("partSource")),

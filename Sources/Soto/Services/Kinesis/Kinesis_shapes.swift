@@ -1902,15 +1902,19 @@ extension Kinesis {
 
     public struct SubscribeToShardOutput: AWSDecodableShape {
         /// The event stream that your consumer can use to read records from the shard.
-        public let eventStream: SubscribeToShardEventStream
+        public let eventStream: AWSEventStream<SubscribeToShardEventStream>
 
-        public init(eventStream: SubscribeToShardEventStream) {
+        public init(eventStream: AWSEventStream<SubscribeToShardEventStream>) {
             self.eventStream = eventStream
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case eventStream = "EventStream"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.eventStream = response.decodeEventStream()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Tag: AWSDecodableShape {

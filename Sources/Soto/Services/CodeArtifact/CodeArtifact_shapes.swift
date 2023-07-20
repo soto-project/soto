@@ -1387,7 +1387,7 @@ extension CodeArtifact {
     }
 
     public struct GetPackageVersionAssetResult: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         ///  The binary file, or asset, that is downloaded.
         public let asset: AWSHTTPBody
         ///  The name of the asset that is downloaded.
@@ -2469,7 +2469,7 @@ extension CodeArtifact {
     public struct PublishPackageVersionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "assetContent"
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "assetName", location: .querystring("asset")),
             AWSMemberEncoding(label: "assetSHA256", location: .header("x-amz-content-sha256")),

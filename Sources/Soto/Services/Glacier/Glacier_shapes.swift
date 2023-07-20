@@ -605,7 +605,7 @@ extension Glacier {
     }
 
     public struct GetJobOutputOutput: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// Indicates the range units accepted. For more information, see RFC2616.
         public let acceptRanges: String?
         /// The description of an archive.
@@ -1674,7 +1674,7 @@ extension Glacier {
     public struct UploadArchiveInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
             AWSMemberEncoding(label: "archiveDescription", location: .header("x-amz-archive-description")),
@@ -1736,7 +1736,7 @@ extension Glacier {
     public struct UploadMultipartPartInput: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .uri("accountId")),
             AWSMemberEncoding(label: "checksum", location: .header("x-amz-sha256-tree-hash")),

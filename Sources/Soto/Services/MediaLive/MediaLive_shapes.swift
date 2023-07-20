@@ -4322,7 +4322,7 @@ extension MediaLive {
     }
 
     public struct DescribeInputDeviceThumbnailResponse: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// The binary data for the thumbnail that the Link device has most recently sent to MediaLive.
         public let body: AWSHTTPBody
         /// The length of the content.

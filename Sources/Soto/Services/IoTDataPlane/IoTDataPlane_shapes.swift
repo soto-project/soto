@@ -266,7 +266,6 @@ extension IoTDataPlane {
     public struct PublishRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "payload"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "contentType", location: .querystring("contentType")),
             AWSMemberEncoding(label: "correlationData", location: .header("x-amz-mqtt5-correlation-data")),
@@ -349,7 +348,6 @@ extension IoTDataPlane {
     public struct UpdateThingShadowRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "payload"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "shadowName", location: .querystring("name")),
             AWSMemberEncoding(label: "thingName", location: .uri("thingName"))

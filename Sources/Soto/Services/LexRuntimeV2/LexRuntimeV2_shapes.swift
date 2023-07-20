@@ -1024,7 +1024,7 @@ extension LexRuntimeV2 {
     }
 
     public struct PutSessionResponse: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// If the requested content type was audio, the audio version of the message to convey to the user.
         public let audioStream: AWSHTTPBody
         /// The type of response. Same as the type specified in the responseContentType field in the request.
@@ -1153,7 +1153,7 @@ extension LexRuntimeV2 {
     public struct RecognizeUtteranceRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "inputStream"
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming, .allowChunkedStreaming]
+        public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
             AWSMemberEncoding(label: "botId", location: .uri("botId")),
@@ -1212,7 +1212,7 @@ extension LexRuntimeV2 {
     }
 
     public struct RecognizeUtteranceResponse: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// The prompt or statement to send to the user. This is based on the bot configuration and context. For example, if Amazon Lex V2 did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex V2 sends that message in the response.
         public let audioStream: AWSHTTPBody
         /// Content type as specified in the responseContentType in the request.
@@ -1508,11 +1508,11 @@ extension LexRuntimeV2 {
         /// The locale where the session is in use.
         public let localeId: String
         /// Represents the stream of events to Amazon Lex V2 from your application. The events are encoded as HTTP/2 data frames.
-        public let requestEventStream: StartConversationRequestEventStream
+        public let requestEventStream: AWSEventStream<StartConversationRequestEventStream>
         /// The identifier of the user session that is having the conversation.
         public let sessionId: String
 
-        public init(botAliasId: String, botId: String, conversationMode: ConversationMode? = nil, localeId: String, requestEventStream: StartConversationRequestEventStream, sessionId: String) {
+        public init(botAliasId: String, botId: String, conversationMode: ConversationMode? = nil, localeId: String, requestEventStream: AWSEventStream<StartConversationRequestEventStream>, sessionId: String) {
             self.botAliasId = botAliasId
             self.botId = botId
             self.conversationMode = conversationMode
@@ -1526,7 +1526,6 @@ extension LexRuntimeV2 {
             try self.validate(self.botId, name: "botId", parent: name, min: 10)
             try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
             try self.validate(self.localeId, name: "localeId", parent: name, min: 1)
-            try self.requestEventStream.validate(name: "\(name).requestEventStream")
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 2)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[0-9a-zA-Z._:-]+$")
@@ -1536,15 +1535,17 @@ extension LexRuntimeV2 {
     }
 
     public struct StartConversationResponse: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// Represents the stream of events from Amazon Lex V2 to your application. The events are encoded as HTTP/2 data frames.
-        public let responseEventStream: StartConversationResponseEventStream
+        public let responseEventStream: AWSEventStream<StartConversationResponseEventStream>
 
-        public init(responseEventStream: StartConversationResponseEventStream) {
+        public init(responseEventStream: AWSEventStream<StartConversationResponseEventStream>) {
             self.responseEventStream = responseEventStream
         }
 
         public init(from decoder: Decoder) throws {
-            self.responseEventStream = try .init(from: decoder)
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.responseEventStream = response.decodeEventStream()
 
         }
 

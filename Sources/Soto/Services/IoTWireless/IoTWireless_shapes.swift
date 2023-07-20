@@ -7299,7 +7299,6 @@ extension IoTWireless {
     public struct UpdateResourcePositionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "geoJsonPayload"
-        public static let _options: AWSShapeOptions = [.rawPayload]
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
             AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))

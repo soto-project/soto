@@ -399,7 +399,7 @@ extension LexRuntimeService {
     public struct PostContentRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "inputStream"
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming, .allowChunkedStreaming]
+        public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "accept", location: .header("Accept")),
             AWSMemberEncoding(label: "activeContexts", location: .header("x-amz-lex-active-contexts")),
@@ -452,7 +452,7 @@ extension LexRuntimeService {
     }
 
     public struct PostContentResponse: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// A list of active contexts for the session. A context can be set when an intent is fulfilled or by calling the PostContent, PostText, or PutSession operation. You can use a context to control the intents that can follow up an intent, or to modify the operation of your application.
         public let activeContexts: String?
         /// One to four alternative intents that may be applicable to the user's intent. Each alternative includes a score that indicates how confident Amazon Lex is that the intent matches the user's intent. The intents are sorted by the confidence score.
@@ -758,7 +758,7 @@ extension LexRuntimeService {
     }
 
     public struct PutSessionResponse: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// A list of active contexts for the session.
         public let activeContexts: String?
         /// The audio version of the message to convey to the user.

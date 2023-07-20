@@ -1217,7 +1217,7 @@ extension SageMakerGeospatial {
     }
 
     public struct GetTileOutput: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// The output binary file.
         public let binaryFile: AWSHTTPBody
 

@@ -3714,7 +3714,7 @@ extension S3 {
     }
 
     public struct GetObjectOutput: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// Indicates that a range of bytes was specified.
         public let acceptRanges: String?
         /// Object data.
@@ -4087,7 +4087,7 @@ extension S3 {
     }
 
     public struct GetObjectTorrentOutput: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// A Bencoded dictionary as defined by the BitTorrent specification
         public let body: AWSHTTPBody
         public let requestCharged: RequestCharged?
@@ -6217,16 +6217,23 @@ extension S3 {
     }
 
     public struct ProgressEvent: AWSDecodableShape {
-        /// The Progress event details.
-        public let details: Progress?
+        public static var _encoding = [
+            AWSMemberEncoding(label: "details", location: .body("Details"))
+        ]
 
-        public init(details: Progress? = nil) {
+        /// The Progress event details.
+        public let details: Progress
+
+        public init(details: Progress) {
             self.details = details
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case details = "Details"
+        public init(from decoder: Decoder) throws {
+            self.details = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct PublicAccessBlockConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -7168,7 +7175,7 @@ extension S3 {
     public struct PutObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _options: AWSShapeOptions = [.checksumHeader, .md5ChecksumHeader, .rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .md5ChecksumHeader, .allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "acl", location: .header("x-amz-acl")),
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
@@ -7525,16 +7532,24 @@ extension S3 {
     }
 
     public struct RecordsEvent: AWSDecodableShape {
-        /// The byte array of partial, one or more result records.
-        public let payload: AWSBase64Data?
+        public static var _encoding = [
+            AWSMemberEncoding(label: "payload", location: .body("Payload"))
+        ]
 
-        public init(payload: AWSBase64Data? = nil) {
+        /// The byte array of partial, one or more result records.
+        public let payload: ByteBuffer
+
+        public init(payload: ByteBuffer) {
             self.payload = payload
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case payload = "Payload"
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsEvent]! as! EventDecodingContainer
+            self.payload = response.decodePayload()
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct Redirect: AWSEncodableShape & AWSDecodableShape {
@@ -7977,15 +7992,17 @@ extension S3 {
     }
 
     public struct SelectObjectContentOutput: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// The array of results.
-        public let payload: SelectObjectContentEventStream
+        public let payload: AWSEventStream<SelectObjectContentEventStream>
 
-        public init(payload: SelectObjectContentEventStream) {
+        public init(payload: AWSEventStream<SelectObjectContentEventStream>) {
             self.payload = payload
         }
 
         public init(from decoder: Decoder) throws {
-            self.payload = try .init(from: decoder)
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.payload = response.decodeEventStream()
 
         }
 
@@ -8180,16 +8197,23 @@ extension S3 {
     }
 
     public struct StatsEvent: AWSDecodableShape {
-        /// The Stats event details.
-        public let details: Stats?
+        public static var _encoding = [
+            AWSMemberEncoding(label: "details", location: .body("Details"))
+        ]
 
-        public init(details: Stats? = nil) {
+        /// The Stats event details.
+        public let details: Stats
+
+        public init(details: Stats) {
             self.details = details
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case details = "Details"
+        public init(from decoder: Decoder) throws {
+            self.details = try .init(from: decoder)
+
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct StorageClassAnalysis: AWSEncodableShape & AWSDecodableShape {
@@ -8540,7 +8564,7 @@ extension S3 {
     public struct UploadPartRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _options: AWSShapeOptions = [.checksumHeader, .md5ChecksumHeader, .rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .md5ChecksumHeader, .allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -8673,7 +8697,7 @@ extension S3 {
     public struct WriteGetObjectResponseRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming, .allowChunkedStreaming]
+        public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "acceptRanges", location: .header("x-amz-fwd-header-accept-ranges")),
             AWSMemberEncoding(label: "bucketKeyEnabled", location: .header("x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled")),

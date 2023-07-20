@@ -1711,7 +1711,7 @@ extension LakeFormation {
     }
 
     public struct GetWorkUnitResultsResponse: AWSDecodableShape {
-        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.rawPayload]
         /// Rows returned from the GetWorkUnitResults operation as a stream of Apache Arrow v1.0 messages.
         public let resultStream: AWSHTTPBody
 
