@@ -111,157 +111,340 @@ public struct ServiceDiscovery: AWSService {
     /// Creates an HTTP namespace. Service instances registered using an HTTP namespace can be discovered using a DiscoverInstances request but can't be discovered using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see Cloud Map quotas in the Cloud Map Developer Guide.
     @Sendable
     public func createHttpNamespace(_ input: CreateHttpNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHttpNamespaceResponse {
-        return try await self.client.execute(operation: "CreateHttpNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateHttpNamespace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a private namespace based on DNS, which is visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service is backend.example.com. Service instances that are registered using a private DNS namespace can be discovered using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see Cloud Map quotas in the Cloud Map Developer Guide.
     @Sendable
     public func createPrivateDnsNamespace(_ input: CreatePrivateDnsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePrivateDnsNamespaceResponse {
-        return try await self.client.execute(operation: "CreatePrivateDnsNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePrivateDnsNamespace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a public namespace based on DNS, which is visible on the internet. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service is backend.example.com. You can discover instances that were registered with a public DNS namespace by using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see Cloud Map quotas in the Cloud Map Developer Guide.  The CreatePublicDnsNamespace API operation is not supported in the Amazon Web Services GovCloud (US) Regions.
     @Sendable
     public func createPublicDnsNamespace(_ input: CreatePublicDnsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePublicDnsNamespaceResponse {
-        return try await self.client.execute(operation: "CreatePublicDnsNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePublicDnsNamespace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a service. This action defines the configuration for the following entities:   For public and private DNS namespaces, one of the following combinations of DNS records in Amazon Route 53:    A     AAAA     A and AAAA     SRV     CNAME      Optionally, a health check   After you create the service, you can submit a RegisterInstance request, and Cloud Map uses the values in the configuration to create the specified entities. For the current quota on the number of instances that you can register using the same namespace and using the same service, see Cloud Map quotas in the Cloud Map Developer Guide.
     @Sendable
     public func createService(_ input: CreateServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceResponse {
-        return try await self.client.execute(operation: "CreateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateService", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a namespace from the current account. If the namespace still contains one or more services, the request fails.
     @Sendable
     public func deleteNamespace(_ input: DeleteNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNamespaceResponse {
-        return try await self.client.execute(operation: "DeleteNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteNamespace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified service. If the service still contains one or more registered instances, the request fails.
     @Sendable
     public func deleteService(_ input: DeleteServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceResponse {
-        return try await self.client.execute(operation: "DeleteService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteService", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created for the specified instance.
     @Sendable
     public func deregisterInstance(_ input: DeregisterInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterInstanceResponse {
-        return try await self.client.execute(operation: "DeregisterInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeregisterInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. For public and private DNS namespaces, you can also use DNS queries to discover instances.
     @Sendable
     public func discoverInstances(_ input: DiscoverInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DiscoverInstancesResponse {
-        return try await self.client.execute(operation: "DiscoverInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data-", logger: logger)
+        return try await self.client.execute(
+            operation: "DiscoverInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a specified instance.
     @Sendable
     public func getInstance(_ input: GetInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInstanceResponse {
-        return try await self.client.execute(operation: "GetInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the current health status (Healthy, Unhealthy, or Unknown) of one or more instances that are associated with a specified service.  There's a brief delay between when you register an instance and when the health status for the instance is available.
     @Sendable
     public func getInstancesHealthStatus(_ input: GetInstancesHealthStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInstancesHealthStatusResponse {
-        return try await self.client.execute(operation: "GetInstancesHealthStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetInstancesHealthStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a namespace.
     @Sendable
     public func getNamespace(_ input: GetNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNamespaceResponse {
-        return try await self.client.execute(operation: "GetNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetNamespace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about any operation that returns an operation ID in the response, such as a CreateService request.  To get a list of operations that match specified criteria, see ListOperations.
     @Sendable
     public func getOperation(_ input: GetOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOperationResponse {
-        return try await self.client.execute(operation: "GetOperation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetOperation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the settings for a specified service.
     @Sendable
     public func getService(_ input: GetServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceResponse {
-        return try await self.client.execute(operation: "GetService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetService", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists summary information about the instances that you registered by using a specified service.
     @Sendable
     public func listInstances(_ input: ListInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInstancesResponse {
-        return try await self.client.execute(operation: "ListInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists summary information about the namespaces that were created by the current Amazon Web Services account.
     @Sendable
     public func listNamespaces(_ input: ListNamespacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNamespacesResponse {
-        return try await self.client.execute(operation: "ListNamespaces", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNamespaces", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists operations that match the criteria that you specify.
     @Sendable
     public func listOperations(_ input: ListOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOperationsResponse {
-        return try await self.client.execute(operation: "ListOperations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOperations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists summary information for all the services that are associated with one or more specified namespaces.
     @Sendable
     public func listServices(_ input: ListServicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServicesResponse {
-        return try await self.client.execute(operation: "ListServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListServices", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists tags for the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates one or more records and, optionally, creates a health check based on the settings in a specified service. When you submit a RegisterInstance request, the following occurs:   For each DNS record that you define in the service that's specified by ServiceId, a record is created or updated in the hosted zone that's associated with the corresponding namespace.   If the service includes HealthCheckConfig, a health check is created based on the settings in the health check configuration.   The health check, if any, is associated with each of the new or updated records.    One RegisterInstance request must complete before you can submit another request and specify the same service ID and instance ID.  For more information, see CreateService. When Cloud Map receives a DNS query for the specified DNS name, it returns the applicable value:    If the health check is healthy: returns all the records    If the health check is unhealthy: returns the applicable value for the last healthy instance    If you didn't specify a health check configuration: returns all the records   For the current quota on the number of instances that you can register using the same namespace and using the same service, see Cloud Map quotas in the Cloud Map Developer Guide.
     @Sendable
     public func registerInstance(_ input: RegisterInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterInstanceResponse {
-        return try await self.client.execute(operation: "RegisterInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds one or more tags to the specified resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from the specified resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an HTTP namespace.
     @Sendable
     public func updateHttpNamespace(_ input: UpdateHttpNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHttpNamespaceResponse {
-        return try await self.client.execute(operation: "UpdateHttpNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateHttpNamespace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomConfig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig. For more information, see HealthCheckCustomConfig.
     @Sendable
     public func updateInstanceCustomHealthStatus(_ input: UpdateInstanceCustomHealthStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateInstanceCustomHealthStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateInstanceCustomHealthStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a private DNS namespace.
     @Sendable
     public func updatePrivateDnsNamespace(_ input: UpdatePrivateDnsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePrivateDnsNamespaceResponse {
-        return try await self.client.execute(operation: "UpdatePrivateDnsNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePrivateDnsNamespace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a public DNS namespace.
     @Sendable
     public func updatePublicDnsNamespace(_ input: UpdatePublicDnsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePublicDnsNamespaceResponse {
-        return try await self.client.execute(operation: "UpdatePublicDnsNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePublicDnsNamespace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Submits a request to perform the following operations:   Update the TTL setting for existing DnsRecords configurations   Add, update, or delete HealthCheckConfig for a specified service  You can't add, update, or delete a HealthCheckCustomConfig configuration.    For public and private DNS namespaces, note the following:   If you omit any existing DnsRecords or HealthCheckConfig configurations from an UpdateService request, the configurations are deleted from the service.   If you omit an existing HealthCheckCustomConfig configuration from an UpdateService request, the configuration isn't deleted from the service.   When you update settings for a service, Cloud Map also updates the corresponding settings in all the records and health checks that were created by using the specified service.
     @Sendable
     public func updateService(_ input: UpdateServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceResponse {
-        return try await self.client.execute(operation: "UpdateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateService", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

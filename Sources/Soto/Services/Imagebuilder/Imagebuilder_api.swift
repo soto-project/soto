@@ -70,7 +70,14 @@ public struct Imagebuilder: AWSService {
     /// 			images in a non-terminal state.
     @Sendable
     public func cancelImageCreation(_ input: CancelImageCreationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelImageCreationResponse {
-        return try await self.client.execute(operation: "CancelImageCreation", path: "/CancelImageCreation", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelImageCreation", 
+            path: "/CancelImageCreation", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new component that can be used to build, validate, test, and assess your
@@ -79,21 +86,42 @@ public struct Imagebuilder: AWSService {
     /// 						uri property in the request body.
     @Sendable
     public func createComponent(_ input: CreateComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateComponentResponse {
-        return try await self.client.execute(operation: "CreateComponent", path: "/CreateComponent", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateComponent", 
+            path: "/CreateComponent", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new container recipe. Container recipes define how images are configured,
     /// 			tested, and assessed.
     @Sendable
     public func createContainerRecipe(_ input: CreateContainerRecipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContainerRecipeResponse {
-        return try await self.client.execute(operation: "CreateContainerRecipe", path: "/CreateContainerRecipe", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateContainerRecipe", 
+            path: "/CreateContainerRecipe", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new distribution configuration. Distribution configurations define and
     /// 			configure the outputs of your pipeline.
     @Sendable
     public func createDistributionConfiguration(_ input: CreateDistributionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDistributionConfigurationResponse {
-        return try await self.client.execute(operation: "CreateDistributionConfiguration", path: "/CreateDistributionConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDistributionConfiguration", 
+            path: "/CreateDistributionConfiguration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new image. This request will create a new image along with all of the
@@ -102,46 +130,95 @@ public struct Imagebuilder: AWSService {
     /// 			ImageRecipeArn.
     @Sendable
     public func createImage(_ input: CreateImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImageResponse {
-        return try await self.client.execute(operation: "CreateImage", path: "/CreateImage", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateImage", 
+            path: "/CreateImage", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new image pipeline. Image pipelines enable you to automate the creation and
     /// 			distribution of images.
     @Sendable
     public func createImagePipeline(_ input: CreateImagePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImagePipelineResponse {
-        return try await self.client.execute(operation: "CreateImagePipeline", path: "/CreateImagePipeline", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateImagePipeline", 
+            path: "/CreateImagePipeline", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new image recipe. Image recipes define how images are configured, tested,
     /// 			and assessed.
     @Sendable
     public func createImageRecipe(_ input: CreateImageRecipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImageRecipeResponse {
-        return try await self.client.execute(operation: "CreateImageRecipe", path: "/CreateImageRecipe", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateImageRecipe", 
+            path: "/CreateImageRecipe", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new infrastructure configuration. An infrastructure configuration defines
     /// 			the environment in which your image will be built and tested.
     @Sendable
     public func createInfrastructureConfiguration(_ input: CreateInfrastructureConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInfrastructureConfigurationResponse {
-        return try await self.client.execute(operation: "CreateInfrastructureConfiguration", path: "/CreateInfrastructureConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateInfrastructureConfiguration", 
+            path: "/CreateInfrastructureConfiguration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a component build version.
     @Sendable
     public func deleteComponent(_ input: DeleteComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteComponentResponse {
-        return try await self.client.execute(operation: "DeleteComponent", path: "/DeleteComponent", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteComponent", 
+            path: "/DeleteComponent", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a container recipe.
     @Sendable
     public func deleteContainerRecipe(_ input: DeleteContainerRecipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContainerRecipeResponse {
-        return try await self.client.execute(operation: "DeleteContainerRecipe", path: "/DeleteContainerRecipe", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteContainerRecipe", 
+            path: "/DeleteContainerRecipe", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a distribution configuration.
     @Sendable
     public func deleteDistributionConfiguration(_ input: DeleteDistributionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDistributionConfigurationResponse {
-        return try await self.client.execute(operation: "DeleteDistributionConfiguration", path: "/DeleteDistributionConfiguration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDistributionConfiguration", 
+            path: "/DeleteDistributionConfiguration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container
@@ -153,111 +230,237 @@ public struct Imagebuilder: AWSService {
     /// 						an image in the Amazon ECR User Guide.
     @Sendable
     public func deleteImage(_ input: DeleteImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImageResponse {
-        return try await self.client.execute(operation: "DeleteImage", path: "/DeleteImage", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteImage", 
+            path: "/DeleteImage", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an image pipeline.
     @Sendable
     public func deleteImagePipeline(_ input: DeleteImagePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImagePipelineResponse {
-        return try await self.client.execute(operation: "DeleteImagePipeline", path: "/DeleteImagePipeline", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteImagePipeline", 
+            path: "/DeleteImagePipeline", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an image recipe.
     @Sendable
     public func deleteImageRecipe(_ input: DeleteImageRecipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImageRecipeResponse {
-        return try await self.client.execute(operation: "DeleteImageRecipe", path: "/DeleteImageRecipe", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteImageRecipe", 
+            path: "/DeleteImageRecipe", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an infrastructure configuration.
     @Sendable
     public func deleteInfrastructureConfiguration(_ input: DeleteInfrastructureConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInfrastructureConfigurationResponse {
-        return try await self.client.execute(operation: "DeleteInfrastructureConfiguration", path: "/DeleteInfrastructureConfiguration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteInfrastructureConfiguration", 
+            path: "/DeleteInfrastructureConfiguration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a component object.
     @Sendable
     public func getComponent(_ input: GetComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComponentResponse {
-        return try await self.client.execute(operation: "GetComponent", path: "/GetComponent", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetComponent", 
+            path: "/GetComponent", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a component policy.
     @Sendable
     public func getComponentPolicy(_ input: GetComponentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComponentPolicyResponse {
-        return try await self.client.execute(operation: "GetComponentPolicy", path: "/GetComponentPolicy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetComponentPolicy", 
+            path: "/GetComponentPolicy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a container recipe.
     @Sendable
     public func getContainerRecipe(_ input: GetContainerRecipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContainerRecipeResponse {
-        return try await self.client.execute(operation: "GetContainerRecipe", path: "/GetContainerRecipe", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetContainerRecipe", 
+            path: "/GetContainerRecipe", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the policy for a container recipe.
     @Sendable
     public func getContainerRecipePolicy(_ input: GetContainerRecipePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContainerRecipePolicyResponse {
-        return try await self.client.execute(operation: "GetContainerRecipePolicy", path: "/GetContainerRecipePolicy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetContainerRecipePolicy", 
+            path: "/GetContainerRecipePolicy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a distribution configuration.
     @Sendable
     public func getDistributionConfiguration(_ input: GetDistributionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDistributionConfigurationResponse {
-        return try await self.client.execute(operation: "GetDistributionConfiguration", path: "/GetDistributionConfiguration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDistributionConfiguration", 
+            path: "/GetDistributionConfiguration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets an image.
     @Sendable
     public func getImage(_ input: GetImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImageResponse {
-        return try await self.client.execute(operation: "GetImage", path: "/GetImage", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetImage", 
+            path: "/GetImage", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets an image pipeline.
     @Sendable
     public func getImagePipeline(_ input: GetImagePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImagePipelineResponse {
-        return try await self.client.execute(operation: "GetImagePipeline", path: "/GetImagePipeline", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetImagePipeline", 
+            path: "/GetImagePipeline", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets an image policy.
     @Sendable
     public func getImagePolicy(_ input: GetImagePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImagePolicyResponse {
-        return try await self.client.execute(operation: "GetImagePolicy", path: "/GetImagePolicy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetImagePolicy", 
+            path: "/GetImagePolicy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets an image recipe.
     @Sendable
     public func getImageRecipe(_ input: GetImageRecipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImageRecipeResponse {
-        return try await self.client.execute(operation: "GetImageRecipe", path: "/GetImageRecipe", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetImageRecipe", 
+            path: "/GetImageRecipe", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets an image recipe policy.
     @Sendable
     public func getImageRecipePolicy(_ input: GetImageRecipePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImageRecipePolicyResponse {
-        return try await self.client.execute(operation: "GetImageRecipePolicy", path: "/GetImageRecipePolicy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetImageRecipePolicy", 
+            path: "/GetImageRecipePolicy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets an infrastructure configuration.
     @Sendable
     public func getInfrastructureConfiguration(_ input: GetInfrastructureConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInfrastructureConfigurationResponse {
-        return try await self.client.execute(operation: "GetInfrastructureConfiguration", path: "/GetInfrastructureConfiguration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetInfrastructureConfiguration", 
+            path: "/GetInfrastructureConfiguration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the runtime information that was logged for a specific runtime instance
     /// 			of the workflow.
     @Sendable
     public func getWorkflowExecution(_ input: GetWorkflowExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowExecutionResponse {
-        return try await self.client.execute(operation: "GetWorkflowExecution", path: "/GetWorkflowExecution", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorkflowExecution", 
+            path: "/GetWorkflowExecution", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the runtime information that was logged for a specific runtime instance of
     /// 			the workflow step.
     @Sendable
     public func getWorkflowStepExecution(_ input: GetWorkflowStepExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowStepExecutionResponse {
-        return try await self.client.execute(operation: "GetWorkflowStepExecution", path: "/GetWorkflowStepExecution", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorkflowStepExecution", 
+            path: "/GetWorkflowStepExecution", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Imports a component and transforms its data into a component document.
     @Sendable
     public func importComponent(_ input: ImportComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportComponentResponse {
-        return try await self.client.execute(operation: "ImportComponent", path: "/ImportComponent", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportComponent", 
+            path: "/ImportComponent", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// When you export your virtual machine (VM) from its virtualization environment, that
@@ -268,7 +471,14 @@ public struct Imagebuilder: AWSService {
     /// 			created as the base image for your Image Builder recipe.
     @Sendable
     public func importVmImage(_ input: ImportVmImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportVmImageResponse {
-        return try await self.client.execute(operation: "ImportVmImage", path: "/ImportVmImage", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportVmImage", 
+            path: "/ImportVmImage", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the list of component build versions for the specified semantic
@@ -279,7 +489,14 @@ public struct Imagebuilder: AWSService {
     /// 	wildcards.
     @Sendable
     public func listComponentBuildVersions(_ input: ListComponentBuildVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentBuildVersionsResponse {
-        return try await self.client.execute(operation: "ListComponentBuildVersions", path: "/ListComponentBuildVersions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListComponentBuildVersions", 
+            path: "/ListComponentBuildVersions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the list of components that can be filtered by name, or by using the listed
@@ -291,50 +508,106 @@ public struct Imagebuilder: AWSService {
     /// 	wildcards.
     @Sendable
     public func listComponents(_ input: ListComponentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentsResponse {
-        return try await self.client.execute(operation: "ListComponents", path: "/ListComponents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListComponents", 
+            path: "/ListComponents", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of container recipes.
     @Sendable
     public func listContainerRecipes(_ input: ListContainerRecipesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContainerRecipesResponse {
-        return try await self.client.execute(operation: "ListContainerRecipes", path: "/ListContainerRecipes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListContainerRecipes", 
+            path: "/ListContainerRecipes", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of distribution configurations.
     @Sendable
     public func listDistributionConfigurations(_ input: ListDistributionConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionConfigurationsResponse {
-        return try await self.client.execute(operation: "ListDistributionConfigurations", path: "/ListDistributionConfigurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDistributionConfigurations", 
+            path: "/ListDistributionConfigurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of image build versions.
     @Sendable
     public func listImageBuildVersions(_ input: ListImageBuildVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImageBuildVersionsResponse {
-        return try await self.client.execute(operation: "ListImageBuildVersions", path: "/ListImageBuildVersions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImageBuildVersions", 
+            path: "/ListImageBuildVersions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the Packages that are associated with an Image Build Version, as determined by
     /// 			Amazon Web Services Systems Manager Inventory at build time.
     @Sendable
     public func listImagePackages(_ input: ListImagePackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImagePackagesResponse {
-        return try await self.client.execute(operation: "ListImagePackages", path: "/ListImagePackages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImagePackages", 
+            path: "/ListImagePackages", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of images created by the specified pipeline.
     @Sendable
     public func listImagePipelineImages(_ input: ListImagePipelineImagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImagePipelineImagesResponse {
-        return try await self.client.execute(operation: "ListImagePipelineImages", path: "/ListImagePipelineImages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImagePipelineImages", 
+            path: "/ListImagePipelineImages", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of image pipelines.
     @Sendable
     public func listImagePipelines(_ input: ListImagePipelinesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImagePipelinesResponse {
-        return try await self.client.execute(operation: "ListImagePipelines", path: "/ListImagePipelines", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImagePipelines", 
+            path: "/ListImagePipelines", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of image recipes.
     @Sendable
     public func listImageRecipes(_ input: ListImageRecipesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImageRecipesResponse {
-        return try await self.client.execute(operation: "ListImageRecipes", path: "/ListImageRecipes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImageRecipes", 
+            path: "/ListImageRecipes", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of image scan aggregations for your account. You can filter by the type
@@ -344,46 +617,95 @@ public struct Imagebuilder: AWSService {
     /// 			returns an aggregation for your account. To streamline results, you can use the following filters in your request:    accountId     imageBuildVersionArn     imagePipelineArn     vulnerabilityId
     @Sendable
     public func listImageScanFindingAggregations(_ input: ListImageScanFindingAggregationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImageScanFindingAggregationsResponse {
-        return try await self.client.execute(operation: "ListImageScanFindingAggregations", path: "/ListImageScanFindingAggregations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImageScanFindingAggregations", 
+            path: "/ListImageScanFindingAggregations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of image scan findings for your account.
     @Sendable
     public func listImageScanFindings(_ input: ListImageScanFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImageScanFindingsResponse {
-        return try await self.client.execute(operation: "ListImageScanFindings", path: "/ListImageScanFindings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImageScanFindings", 
+            path: "/ListImageScanFindings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the list of images that you have access to. Newly created images can take up
     /// 			to two minutes to appear in the ListImages API Results.
     @Sendable
     public func listImages(_ input: ListImagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImagesResponse {
-        return try await self.client.execute(operation: "ListImages", path: "/ListImages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImages", 
+            path: "/ListImages", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of infrastructure configurations.
     @Sendable
     public func listInfrastructureConfigurations(_ input: ListInfrastructureConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInfrastructureConfigurationsResponse {
-        return try await self.client.execute(operation: "ListInfrastructureConfigurations", path: "/ListInfrastructureConfigurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListInfrastructureConfigurations", 
+            path: "/ListInfrastructureConfigurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the list of tags for the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of workflow runtime instance metadata objects for a specific image build
     /// 			version.
     @Sendable
     public func listWorkflowExecutions(_ input: ListWorkflowExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkflowExecutionsResponse {
-        return try await self.client.execute(operation: "ListWorkflowExecutions", path: "/ListWorkflowExecutions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkflowExecutions", 
+            path: "/ListWorkflowExecutions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Shows runtime data for each step in a runtime instance of the workflow
     /// 			that you specify in the request.
     @Sendable
     public func listWorkflowStepExecutions(_ input: ListWorkflowStepExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkflowStepExecutionsResponse {
-        return try await self.client.execute(operation: "ListWorkflowStepExecutions", path: "/ListWorkflowStepExecutions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkflowStepExecutions", 
+            path: "/ListWorkflowStepExecutions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Applies a policy to a component. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
@@ -391,7 +713,14 @@ public struct Imagebuilder: AWSService {
     /// 			visible to all principals with whom the resource is shared.
     @Sendable
     public func putComponentPolicy(_ input: PutComponentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutComponentPolicyResponse {
-        return try await self.client.execute(operation: "PutComponentPolicy", path: "/PutComponentPolicy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutComponentPolicy", 
+            path: "/PutComponentPolicy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Applies a policy to a container image. We recommend that you call the RAM API
@@ -404,7 +733,14 @@ public struct Imagebuilder: AWSService {
     /// 			shared.
     @Sendable
     public func putContainerRecipePolicy(_ input: PutContainerRecipePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutContainerRecipePolicyResponse {
-        return try await self.client.execute(operation: "PutContainerRecipePolicy", path: "/PutContainerRecipePolicy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutContainerRecipePolicy", 
+            path: "/PutContainerRecipePolicy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
@@ -412,7 +748,14 @@ public struct Imagebuilder: AWSService {
     /// 			visible to all principals with whom the resource is shared.
     @Sendable
     public func putImagePolicy(_ input: PutImagePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutImagePolicyResponse {
-        return try await self.client.execute(operation: "PutImagePolicy", path: "/PutImagePolicy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutImagePolicy", 
+            path: "/PutImagePolicy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Applies a policy to an image recipe. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
@@ -420,32 +763,67 @@ public struct Imagebuilder: AWSService {
     /// 			visible to all principals with whom the resource is shared.
     @Sendable
     public func putImageRecipePolicy(_ input: PutImageRecipePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutImageRecipePolicyResponse {
-        return try await self.client.execute(operation: "PutImageRecipePolicy", path: "/PutImageRecipePolicy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutImageRecipePolicy", 
+            path: "/PutImageRecipePolicy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Manually triggers a pipeline to create an image.
     @Sendable
     public func startImagePipelineExecution(_ input: StartImagePipelineExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImagePipelineExecutionResponse {
-        return try await self.client.execute(operation: "StartImagePipelineExecution", path: "/StartImagePipelineExecution", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartImagePipelineExecution", 
+            path: "/StartImagePipelineExecution", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a tag to a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a tag from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a new distribution configuration. Distribution configurations define and
     /// 			configure the outputs of your pipeline.
     @Sendable
     public func updateDistributionConfiguration(_ input: UpdateDistributionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDistributionConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateDistributionConfiguration", path: "/UpdateDistributionConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDistributionConfiguration", 
+            path: "/UpdateDistributionConfiguration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an image pipeline. Image pipelines enable you to automate the creation and
@@ -454,14 +832,28 @@ public struct Imagebuilder: AWSService {
     /// 				properties that have changed.
     @Sendable
     public func updateImagePipeline(_ input: UpdateImagePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateImagePipelineResponse {
-        return try await self.client.execute(operation: "UpdateImagePipeline", path: "/UpdateImagePipeline", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateImagePipeline", 
+            path: "/UpdateImagePipeline", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a new infrastructure configuration. An infrastructure configuration defines
     /// 			the environment in which your image will be built and tested.
     @Sendable
     public func updateInfrastructureConfiguration(_ input: UpdateInfrastructureConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInfrastructureConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateInfrastructureConfiguration", path: "/UpdateInfrastructureConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateInfrastructureConfiguration", 
+            path: "/UpdateInfrastructureConfiguration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

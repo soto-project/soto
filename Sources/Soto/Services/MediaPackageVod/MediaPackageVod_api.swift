@@ -66,103 +66,222 @@ public struct MediaPackageVod: AWSService {
     /// Changes the packaging group's properities to configure log subscription
     @Sendable
     public func configureLogs(_ input: ConfigureLogsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigureLogsResponse {
-        return try await self.client.execute(operation: "ConfigureLogs", path: "/packaging_groups/{Id}/configure_logs", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ConfigureLogs", 
+            path: "/packaging_groups/{Id}/configure_logs", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new MediaPackage VOD Asset resource.
     @Sendable
     public func createAsset(_ input: CreateAssetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssetResponse {
-        return try await self.client.execute(operation: "CreateAsset", path: "/assets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAsset", 
+            path: "/assets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new MediaPackage VOD PackagingConfiguration resource.
     @Sendable
     public func createPackagingConfiguration(_ input: CreatePackagingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePackagingConfigurationResponse {
-        return try await self.client.execute(operation: "CreatePackagingConfiguration", path: "/packaging_configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePackagingConfiguration", 
+            path: "/packaging_configurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new MediaPackage VOD PackagingGroup resource.
     @Sendable
     public func createPackagingGroup(_ input: CreatePackagingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePackagingGroupResponse {
-        return try await self.client.execute(operation: "CreatePackagingGroup", path: "/packaging_groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePackagingGroup", 
+            path: "/packaging_groups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing MediaPackage VOD Asset resource.
     @Sendable
     public func deleteAsset(_ input: DeleteAssetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAssetResponse {
-        return try await self.client.execute(operation: "DeleteAsset", path: "/assets/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAsset", 
+            path: "/assets/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a MediaPackage VOD PackagingConfiguration resource.
     @Sendable
     public func deletePackagingConfiguration(_ input: DeletePackagingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePackagingConfigurationResponse {
-        return try await self.client.execute(operation: "DeletePackagingConfiguration", path: "/packaging_configurations/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePackagingConfiguration", 
+            path: "/packaging_configurations/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a MediaPackage VOD PackagingGroup resource.
     @Sendable
     public func deletePackagingGroup(_ input: DeletePackagingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePackagingGroupResponse {
-        return try await self.client.execute(operation: "DeletePackagingGroup", path: "/packaging_groups/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePackagingGroup", 
+            path: "/packaging_groups/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a description of a MediaPackage VOD Asset resource.
     @Sendable
     public func describeAsset(_ input: DescribeAssetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAssetResponse {
-        return try await self.client.execute(operation: "DescribeAsset", path: "/assets/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAsset", 
+            path: "/assets/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a description of a MediaPackage VOD PackagingConfiguration resource.
     @Sendable
     public func describePackagingConfiguration(_ input: DescribePackagingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackagingConfigurationResponse {
-        return try await self.client.execute(operation: "DescribePackagingConfiguration", path: "/packaging_configurations/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePackagingConfiguration", 
+            path: "/packaging_configurations/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a description of a MediaPackage VOD PackagingGroup resource.
     @Sendable
     public func describePackagingGroup(_ input: DescribePackagingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackagingGroupResponse {
-        return try await self.client.execute(operation: "DescribePackagingGroup", path: "/packaging_groups/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePackagingGroup", 
+            path: "/packaging_groups/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a collection of MediaPackage VOD Asset resources.
     @Sendable
     public func listAssets(_ input: ListAssetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetsResponse {
-        return try await self.client.execute(operation: "ListAssets", path: "/assets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAssets", 
+            path: "/assets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a collection of MediaPackage VOD PackagingConfiguration resources.
     @Sendable
     public func listPackagingConfigurations(_ input: ListPackagingConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackagingConfigurationsResponse {
-        return try await self.client.execute(operation: "ListPackagingConfigurations", path: "/packaging_configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPackagingConfigurations", 
+            path: "/packaging_configurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a collection of MediaPackage VOD PackagingGroup resources.
     @Sendable
     public func listPackagingGroups(_ input: ListPackagingGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackagingGroupsResponse {
-        return try await self.client.execute(operation: "ListPackagingGroups", path: "/packaging_groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPackagingGroups", 
+            path: "/packaging_groups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the tags assigned to the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds tags to the specified resource. You can specify one or more tags to add.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from the specified resource. You can specify one or more tags to remove.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
     @Sendable
     public func updatePackagingGroup(_ input: UpdatePackagingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePackagingGroupResponse {
-        return try await self.client.execute(operation: "UpdatePackagingGroup", path: "/packaging_groups/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePackagingGroup", 
+            path: "/packaging_groups/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

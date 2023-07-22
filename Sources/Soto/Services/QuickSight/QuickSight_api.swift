@@ -66,68 +66,145 @@ public struct QuickSight: AWSService {
     /// Cancels an ongoing ingestion of data into SPICE.
     @Sendable
     public func cancelIngestion(_ input: CancelIngestionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelIngestionResponse {
-        return try await self.client.execute(operation: "CancelIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelIngestion", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon QuickSight by removing Amazon QuickSight sample assets and videos for all new users, see Customizing Amazon QuickSight in the Amazon QuickSight User Guide.  You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the  DescribeThemePermissions  API operation. To share the theme, grant permissions by using the  UpdateThemePermissions  API operation.
     @Sendable
     public func createAccountCustomization(_ input: CreateAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccountCustomizationResponse {
-        return try await self.client.execute(operation: "CreateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAccountCustomization", 
+            path: "/accounts/{AwsAccountId}/customizations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. This operation isn't supported in the US East (Ohio) Region, South America (Sao Paulo) Region, or Asia Pacific (Singapore) Region.   Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see Sign up for Amazon Web Services in the Amazon QuickSight User Guide. The person who signs up for Amazon QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see IAM Policy Examples for Amazon QuickSight in the Amazon QuickSight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon QuickSight, see Passing IAM roles to Amazon QuickSight in the Amazon QuickSight User Guide. You can't set default resource access on the new account from the Amazon QuickSight API. Instead, add default resource access from the Amazon QuickSight console. For more information about setting default resource access to Amazon Web Services services, see Setting default resource access to Amazon Web Services services in the Amazon QuickSight User Guide.
     @Sendable
     public func createAccountSubscription(_ input: CreateAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccountSubscriptionResponse {
-        return try await self.client.execute(operation: "CreateAccountSubscription", path: "/account/{AwsAccountId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAccountSubscription", 
+            path: "/account/{AwsAccountId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an analysis in Amazon QuickSight.  Analyses can be created either from a template or from an AnalysisDefinition.
     @Sendable
     public func createAnalysis(_ input: CreateAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAnalysisResponse {
-        return try await self.client.execute(operation: "CreateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAnalysis", 
+            path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the   CreateTemplate  API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
     @Sendable
     public func createDashboard(_ input: CreateDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDashboardResponse {
-        return try await self.client.execute(operation: "CreateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDashboard", 
+            path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a dataset. This operation doesn't support datasets that include uploaded files as a source.
     @Sendable
     public func createDataSet(_ input: CreateDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSetResponse {
-        return try await self.client.execute(operation: "CreateDataSet", path: "/accounts/{AwsAccountId}/data-sets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDataSet", 
+            path: "/accounts/{AwsAccountId}/data-sets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a data source.
     @Sendable
     public func createDataSource(_ input: CreateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSourceResponse {
-        return try await self.client.execute(operation: "CreateDataSource", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDataSource", 
+            path: "/accounts/{AwsAccountId}/data-sources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an empty shared folder.
     @Sendable
     public func createFolder(_ input: CreateFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFolderResponse {
-        return try await self.client.execute(operation: "CreateFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFolder", 
+            path: "/accounts/{AwsAccountId}/folders/{FolderId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds an asset, such as a dashboard, analysis, or dataset into a folder.
     @Sendable
     public func createFolderMembership(_ input: CreateFolderMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFolderMembershipResponse {
-        return try await self.client.execute(operation: "CreateFolderMembership", path: "/accounts/{AwsAccountId}/folders/{FolderId}/members/{MemberType}/{MemberId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFolderMembership", 
+            path: "/accounts/{AwsAccountId}/folders/{FolderId}/members/{MemberType}/{MemberId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use the CreateGroup operation to create a group in   Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact AWS Support. The permissions resource is
     /// 					arn:aws:quicksight:::group/default/ . The response is a group object.
     @Sendable
     public func createGroup(_ input: CreateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGroupResponse {
-        return try await self.client.execute(operation: "CreateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateGroup", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds an Amazon QuickSight user to an Amazon QuickSight group.
     @Sendable
     public func createGroupMembership(_ input: CreateGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGroupMembershipResponse {
-        return try await self.client.execute(operation: "CreateGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateGroupMembership", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an assignment with one specified IAM policy, identified by its
@@ -137,7 +214,14 @@ public struct QuickSight: AWSService {
     /// 			unique.
     @Sendable
     public func createIAMPolicyAssignment(_ input: CreateIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIAMPolicyAssignmentResponse {
-        return try await self.client.execute(operation: "CreateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateIAMPolicyAssignment", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in
@@ -148,19 +232,40 @@ public struct QuickSight: AWSService {
     /// 				tags? in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
     @Sendable
     public func createIngestion(_ input: CreateIngestionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIngestionResponse {
-        return try await self.client.execute(operation: "CreateIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateIngestion", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
     @Sendable
     public func createNamespace(_ input: CreateNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNamespaceResponse {
-        return try await self.client.execute(operation: "CreateNamespace", path: "/accounts/{AwsAccountId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateNamespace", 
+            path: "/accounts/{AwsAccountId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
     @Sendable
     public func createRefreshSchedule(_ input: CreateRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRefreshScheduleResponse {
-        return try await self.client.execute(operation: "CreateRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRefreshSchedule", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a template either from a TemplateDefinition or from an existing Amazon QuickSight analysis or template. You can use the resulting
@@ -172,13 +277,27 @@ public struct QuickSight: AWSService {
     /// 			and template.
     @Sendable
     public func createTemplate(_ input: CreateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTemplateResponse {
-        return try await self.client.execute(operation: "CreateTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTemplate", 
+            path: "/accounts/{AwsAccountId}/templates/{TemplateId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a template alias for a template.
     @Sendable
     public func createTemplateAlias(_ input: CreateTemplateAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTemplateAliasResponse {
-        return try await self.client.execute(operation: "CreateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTemplateAlias", 
+            path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a theme. A theme is set of configuration options for color and layout.
@@ -186,135 +305,289 @@ public struct QuickSight: AWSService {
     /// 			Themes in Amazon QuickSight in the Amazon QuickSight User Guide.
     @Sendable
     public func createTheme(_ input: CreateThemeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThemeResponse {
-        return try await self.client.execute(operation: "CreateTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTheme", 
+            path: "/accounts/{AwsAccountId}/themes/{ThemeId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a theme alias for a theme.
     @Sendable
     public func createThemeAlias(_ input: CreateThemeAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThemeAliasResponse {
-        return try await self.client.execute(operation: "CreateThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateThemeAlias", 
+            path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new Q topic.
     @Sendable
     public func createTopic(_ input: CreateTopicRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTopicResponse {
-        return try await self.client.execute(operation: "CreateTopic", path: "/accounts/{AwsAccountId}/topics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTopic", 
+            path: "/accounts/{AwsAccountId}/topics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a topic refresh schedule.
     @Sendable
     public func createTopicRefreshSchedule(_ input: CreateTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTopicRefreshScheduleResponse {
-        return try await self.client.execute(operation: "CreateTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTopicRefreshSchedule", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new VPC connection.
     @Sendable
     public func createVPCConnection(_ input: CreateVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVPCConnectionResponse {
-        return try await self.client.execute(operation: "CreateVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVPCConnection", 
+            path: "/accounts/{AwsAccountId}/vpc-connections", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the specified Amazon Web Services account and Amazon QuickSight namespace.
     @Sendable
     public func deleteAccountCustomization(_ input: DeleteAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountCustomizationResponse {
-        return try await self.client.execute(operation: "DeleteAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAccountCustomization", 
+            path: "/accounts/{AwsAccountId}/customizations", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use the DeleteAccountSubscription operation to delete an Amazon QuickSight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
     @Sendable
     public func deleteAccountSubscription(_ input: DeleteAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountSubscriptionResponse {
-        return try await self.client.execute(operation: "DeleteAccountSubscription", path: "/account/{AwsAccountId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAccountSubscription", 
+            path: "/account/{AwsAccountId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
     @Sendable
     public func deleteAnalysis(_ input: DeleteAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAnalysisResponse {
-        return try await self.client.execute(operation: "DeleteAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAnalysis", 
+            path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a dashboard.
     @Sendable
     public func deleteDashboard(_ input: DeleteDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDashboardResponse {
-        return try await self.client.execute(operation: "DeleteDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDashboard", 
+            path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a dataset.
     @Sendable
     public func deleteDataSet(_ input: DeleteDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataSetResponse {
-        return try await self.client.execute(operation: "DeleteDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDataSet", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the dataset refresh properties of the dataset.
     @Sendable
     public func deleteDataSetRefreshProperties(_ input: DeleteDataSetRefreshPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataSetRefreshPropertiesResponse {
-        return try await self.client.execute(operation: "DeleteDataSetRefreshProperties", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDataSetRefreshProperties", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the data source permanently. This operation breaks
     /// 			all the datasets that reference the deleted data source.
     @Sendable
     public func deleteDataSource(_ input: DeleteDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataSourceResponse {
-        return try await self.client.execute(operation: "DeleteDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDataSource", 
+            path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an empty folder.
     @Sendable
     public func deleteFolder(_ input: DeleteFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFolderResponse {
-        return try await self.client.execute(operation: "DeleteFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFolder", 
+            path: "/accounts/{AwsAccountId}/folders/{FolderId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
     @Sendable
     public func deleteFolderMembership(_ input: DeleteFolderMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFolderMembershipResponse {
-        return try await self.client.execute(operation: "DeleteFolderMembership", path: "/accounts/{AwsAccountId}/folders/{FolderId}/members/{MemberType}/{MemberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFolderMembership", 
+            path: "/accounts/{AwsAccountId}/folders/{FolderId}/members/{MemberType}/{MemberId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a user group from Amazon QuickSight.
     @Sendable
     public func deleteGroup(_ input: DeleteGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGroupResponse {
-        return try await self.client.execute(operation: "DeleteGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteGroup", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a user from a group so that the user is no longer a member of the group.
     @Sendable
     public func deleteGroupMembership(_ input: DeleteGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGroupMembershipResponse {
-        return try await self.client.execute(operation: "DeleteGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteGroupMembership", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing IAM policy assignment.
     @Sendable
     public func deleteIAMPolicyAssignment(_ input: DeleteIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIAMPolicyAssignmentResponse {
-        return try await self.client.execute(operation: "DeleteIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespace/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteIAMPolicyAssignment", 
+            path: "/accounts/{AwsAccountId}/namespace/{Namespace}/iam-policy-assignments/{AssignmentName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not  deleted. To delete these assets, you use the API operations for the relevant asset.
     @Sendable
     public func deleteNamespace(_ input: DeleteNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNamespaceResponse {
-        return try await self.client.execute(operation: "DeleteNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteNamespace", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a refresh schedule from a dataset.
     @Sendable
     public func deleteRefreshSchedule(_ input: DeleteRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRefreshScheduleResponse {
-        return try await self.client.execute(operation: "DeleteRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules/{ScheduleId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRefreshSchedule", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules/{ScheduleId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a template.
     @Sendable
     public func deleteTemplate(_ input: DeleteTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTemplateResponse {
-        return try await self.client.execute(operation: "DeleteTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTemplate", 
+            path: "/accounts/{AwsAccountId}/templates/{TemplateId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the item that the specified template alias points to. If you provide a specific
     /// 			alias, you delete the version of the template that the alias points to.
     @Sendable
     public func deleteTemplateAlias(_ input: DeleteTemplateAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTemplateAliasResponse {
-        return try await self.client.execute(operation: "DeleteTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTemplateAlias", 
+            path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a theme.
     @Sendable
     public func deleteTheme(_ input: DeleteThemeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteThemeResponse {
-        return try await self.client.execute(operation: "DeleteTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTheme", 
+            path: "/accounts/{AwsAccountId}/themes/{ThemeId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the version of the theme that the specified theme alias points to.
@@ -322,19 +595,40 @@ public struct QuickSight: AWSService {
     /// 			that the alias points to.
     @Sendable
     public func deleteThemeAlias(_ input: DeleteThemeAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteThemeAliasResponse {
-        return try await self.client.execute(operation: "DeleteThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteThemeAlias", 
+            path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a topic.
     @Sendable
     public func deleteTopic(_ input: DeleteTopicRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTopicResponse {
-        return try await self.client.execute(operation: "DeleteTopic", path: "/accounts/{AwsAccountId}/topics/{TopicId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTopic", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a topic refresh schedule.
     @Sendable
     public func deleteTopicRefreshSchedule(_ input: DeleteTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTopicRefreshScheduleResponse {
-        return try await self.client.execute(operation: "DeleteTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTopicRefreshSchedule", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the Amazon QuickSight user that is associated with the identity of the
@@ -342,139 +636,300 @@ public struct QuickSight: AWSService {
     /// 			isn't deleted as a result of this call.
     @Sendable
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserResponse {
-        return try await self.client.execute(operation: "DeleteUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUser", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a user identified by its principal ID.
     @Sendable
     public func deleteUserByPrincipalId(_ input: DeleteUserByPrincipalIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserByPrincipalIdResponse {
-        return try await self.client.execute(operation: "DeleteUserByPrincipalId", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/user-principals/{PrincipalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUserByPrincipalId", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/user-principals/{PrincipalId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a VPC connection.
     @Sendable
     public func deleteVPCConnection(_ input: DeleteVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVPCConnectionResponse {
-        return try await self.client.execute(operation: "DeleteVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVPCConnection", 
+            path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Amazon QuickSight namespace in an Amazon Web Services Region. The Amazon QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included.  To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.     Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to Amazon QuickSight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use Amazon QuickSight in any supported Amazon Web Services Region.     Amazon Web Services Region - In each Amazon Web Services Region where you sign in to Amazon QuickSight at least once, Amazon QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to Amazon QuickSight in any Amazon Web Services Region, unless they are constrained to a namespace.  To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:   Use command line options.    Use named profiles.    Run aws configure to change your default Amazon Web Services Region. Use Enter to key the same settings for your keys. For more information, see Configuring the CLI.      Namespace - A QuickSight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region.    Applied customizations -  Within an Amazon Web Services Region, a set of Amazon QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region. To apply them in other Amazon Web Services Regions, run the CreateAccountCustomization command in each Amazon Web Services Region where you want to apply the same customizations.
     @Sendable
     public func describeAccountCustomization(_ input: DescribeAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountCustomizationResponse {
-        return try await self.client.execute(operation: "DescribeAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAccountCustomization", 
+            path: "/accounts/{AwsAccountId}/customizations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the settings that were used when your Amazon QuickSight subscription was first created in this Amazon Web Services account.
     @Sendable
     public func describeAccountSettings(_ input: DescribeAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountSettingsResponse {
-        return try await self.client.execute(operation: "DescribeAccountSettings", path: "/accounts/{AwsAccountId}/settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAccountSettings", 
+            path: "/accounts/{AwsAccountId}/settings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use the DescribeAccountSubscription operation to receive a description of an Amazon QuickSight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
     @Sendable
     public func describeAccountSubscription(_ input: DescribeAccountSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountSubscriptionResponse {
-        return try await self.client.execute(operation: "DescribeAccountSubscription", path: "/account/{AwsAccountId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAccountSubscription", 
+            path: "/account/{AwsAccountId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a summary of the metadata for an analysis.
     @Sendable
     public func describeAnalysis(_ input: DescribeAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAnalysisResponse {
-        return try await self.client.execute(operation: "DescribeAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAnalysis", 
+            path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a detailed description of the definition of an analysis.  If you do not need to know details about the content of an Analysis, for instance if you are trying to check the status of a recently created or updated Analysis, use the  DescribeAnalysis instead.
     @Sendable
     public func describeAnalysisDefinition(_ input: DescribeAnalysisDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAnalysisDefinitionResponse {
-        return try await self.client.execute(operation: "DescribeAnalysisDefinition", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/definition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAnalysisDefinition", 
+            path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/definition", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides the read and write permissions for an analysis.
     @Sendable
     public func describeAnalysisPermissions(_ input: DescribeAnalysisPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAnalysisPermissionsResponse {
-        return try await self.client.execute(operation: "DescribeAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAnalysisPermissions", 
+            path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing export job. Poll job descriptions after a job starts to know the status of the job. When a job succeeds, a URL is provided to download the exported assets' data from. Download URLs are valid for five minutes after they are generated. You can call the DescribeAssetBundleExportJob API for a new download URL as needed. Job descriptions are available for 14 days after the job starts.
     @Sendable
     public func describeAssetBundleExportJob(_ input: DescribeAssetBundleExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAssetBundleExportJobResponse {
-        return try await self.client.execute(operation: "DescribeAssetBundleExportJob", path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs/{AssetBundleExportJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAssetBundleExportJob", 
+            path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs/{AssetBundleExportJobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing import job. Poll job descriptions after starting a job to know when it has succeeded or failed. Job descriptions are available for 14 days after job starts.
     @Sendable
     public func describeAssetBundleImportJob(_ input: DescribeAssetBundleImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAssetBundleImportJobResponse {
-        return try await self.client.execute(operation: "DescribeAssetBundleImportJob", path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs/{AssetBundleImportJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAssetBundleImportJob", 
+            path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs/{AssetBundleImportJobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a summary for a dashboard.
     @Sendable
     public func describeDashboard(_ input: DescribeDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDashboardResponse {
-        return try await self.client.execute(operation: "DescribeDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDashboard", 
+            path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a detailed description of the definition of a dashboard.  If you do not need to know details about the content of a dashboard, for instance if you are trying to check the status of a recently created or updated dashboard, use the  DescribeDashboard instead.
     @Sendable
     public func describeDashboardDefinition(_ input: DescribeDashboardDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDashboardDefinitionResponse {
-        return try await self.client.execute(operation: "DescribeDashboardDefinition", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/definition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDashboardDefinition", 
+            path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/definition", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes read and write permissions for a dashboard.
     @Sendable
     public func describeDashboardPermissions(_ input: DescribeDashboardPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDashboardPermissionsResponse {
-        return try await self.client.execute(operation: "DescribeDashboardPermissions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDashboardPermissions", 
+            path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a dataset. This operation doesn't support datasets that include uploaded files as a source.
     @Sendable
     public func describeDataSet(_ input: DescribeDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSetResponse {
-        return try await self.client.execute(operation: "DescribeDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDataSet", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     @Sendable
     public func describeDataSetPermissions(_ input: DescribeDataSetPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSetPermissionsResponse {
-        return try await self.client.execute(operation: "DescribeDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDataSetPermissions", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the refresh properties of a dataset.
     @Sendable
     public func describeDataSetRefreshProperties(_ input: DescribeDataSetRefreshPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSetRefreshPropertiesResponse {
-        return try await self.client.execute(operation: "DescribeDataSetRefreshProperties", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDataSetRefreshProperties", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a data source.
     @Sendable
     public func describeDataSource(_ input: DescribeDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSourceResponse {
-        return try await self.client.execute(operation: "DescribeDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDataSource", 
+            path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the resource permissions for a data source.
     @Sendable
     public func describeDataSourcePermissions(_ input: DescribeDataSourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSourcePermissionsResponse {
-        return try await self.client.execute(operation: "DescribeDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDataSourcePermissions", 
+            path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a folder.
     @Sendable
     public func describeFolder(_ input: DescribeFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFolderResponse {
-        return try await self.client.execute(operation: "DescribeFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFolder", 
+            path: "/accounts/{AwsAccountId}/folders/{FolderId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes permissions for a folder.
     @Sendable
     public func describeFolderPermissions(_ input: DescribeFolderPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFolderPermissionsResponse {
-        return try await self.client.execute(operation: "DescribeFolderPermissions", path: "/accounts/{AwsAccountId}/folders/{FolderId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFolderPermissions", 
+            path: "/accounts/{AwsAccountId}/folders/{FolderId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
     @Sendable
     public func describeFolderResolvedPermissions(_ input: DescribeFolderResolvedPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFolderResolvedPermissionsResponse {
-        return try await self.client.execute(operation: "DescribeFolderResolvedPermissions", path: "/accounts/{AwsAccountId}/folders/{FolderId}/resolved-permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFolderResolvedPermissions", 
+            path: "/accounts/{AwsAccountId}/folders/{FolderId}/resolved-permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN).
     @Sendable
     public func describeGroup(_ input: DescribeGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGroupResponse {
-        return try await self.client.execute(operation: "DescribeGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeGroup", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use the DescribeGroupMembership operation to determine if a user is a
@@ -482,50 +937,106 @@ public struct QuickSight: AWSService {
     /// 			group, an associated GroupMember object is returned.
     @Sendable
     public func describeGroupMembership(_ input: DescribeGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGroupMembershipResponse {
-        return try await self.client.execute(operation: "DescribeGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeGroupMembership", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing IAM policy assignment, as specified by the
     /// 			assignment name.
     @Sendable
     public func describeIAMPolicyAssignment(_ input: DescribeIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIAMPolicyAssignmentResponse {
-        return try await self.client.execute(operation: "DescribeIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeIAMPolicyAssignment", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a SPICE ingestion.
     @Sendable
     public func describeIngestion(_ input: DescribeIngestionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIngestionResponse {
-        return try await self.client.execute(operation: "DescribeIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeIngestion", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a summary and status of IP rules.
     @Sendable
     public func describeIpRestriction(_ input: DescribeIpRestrictionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIpRestrictionResponse {
-        return try await self.client.execute(operation: "DescribeIpRestriction", path: "/accounts/{AwsAccountId}/ip-restriction", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeIpRestriction", 
+            path: "/accounts/{AwsAccountId}/ip-restriction", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the current namespace.
     @Sendable
     public func describeNamespace(_ input: DescribeNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNamespaceResponse {
-        return try await self.client.execute(operation: "DescribeNamespace", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeNamespace", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a summary of a refresh schedule.
     @Sendable
     public func describeRefreshSchedule(_ input: DescribeRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRefreshScheduleResponse {
-        return try await self.client.execute(operation: "DescribeRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules/{ScheduleId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRefreshSchedule", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules/{ScheduleId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a template's metadata.
     @Sendable
     public func describeTemplate(_ input: DescribeTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTemplateResponse {
-        return try await self.client.execute(operation: "DescribeTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTemplate", 
+            path: "/accounts/{AwsAccountId}/templates/{TemplateId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the template alias for a template.
     @Sendable
     public func describeTemplateAlias(_ input: DescribeTemplateAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTemplateAliasResponse {
-        return try await self.client.execute(operation: "DescribeTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTemplateAlias", 
+            path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a detailed description of the definition of a template.  If you do not need to know details about the content of a template, for instance if you
@@ -534,157 +1045,339 @@ public struct QuickSight: AWSService {
     ///
     @Sendable
     public func describeTemplateDefinition(_ input: DescribeTemplateDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTemplateDefinitionResponse {
-        return try await self.client.execute(operation: "DescribeTemplateDefinition", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/definition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTemplateDefinition", 
+            path: "/accounts/{AwsAccountId}/templates/{TemplateId}/definition", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes read and write permissions on a template.
     @Sendable
     public func describeTemplatePermissions(_ input: DescribeTemplatePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTemplatePermissionsResponse {
-        return try await self.client.execute(operation: "DescribeTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTemplatePermissions", 
+            path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a theme.
     @Sendable
     public func describeTheme(_ input: DescribeThemeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeThemeResponse {
-        return try await self.client.execute(operation: "DescribeTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTheme", 
+            path: "/accounts/{AwsAccountId}/themes/{ThemeId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the alias for a theme.
     @Sendable
     public func describeThemeAlias(_ input: DescribeThemeAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeThemeAliasResponse {
-        return try await self.client.execute(operation: "DescribeThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeThemeAlias", 
+            path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the read and write permissions for a theme.
     @Sendable
     public func describeThemePermissions(_ input: DescribeThemePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeThemePermissionsResponse {
-        return try await self.client.execute(operation: "DescribeThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeThemePermissions", 
+            path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a topic.
     @Sendable
     public func describeTopic(_ input: DescribeTopicRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTopicResponse {
-        return try await self.client.execute(operation: "DescribeTopic", path: "/accounts/{AwsAccountId}/topics/{TopicId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTopic", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the permissions of a topic.
     @Sendable
     public func describeTopicPermissions(_ input: DescribeTopicPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTopicPermissionsResponse {
-        return try await self.client.execute(operation: "DescribeTopicPermissions", path: "/accounts/{AwsAccountId}/topics/{TopicId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTopicPermissions", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the status of a topic refresh.
     @Sendable
     public func describeTopicRefresh(_ input: DescribeTopicRefreshRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTopicRefreshResponse {
-        return try await self.client.execute(operation: "DescribeTopicRefresh", path: "/accounts/{AwsAccountId}/topics/{TopicId}/refresh/{RefreshId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTopicRefresh", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}/refresh/{RefreshId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a topic refresh schedule.
     @Sendable
     public func describeTopicRefreshSchedule(_ input: DescribeTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTopicRefreshScheduleResponse {
-        return try await self.client.execute(operation: "DescribeTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTopicRefreshSchedule", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a user, given the user name.
     @Sendable
     public func describeUser(_ input: DescribeUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserResponse {
-        return try await self.client.execute(operation: "DescribeUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeUser", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a VPC connection.
     @Sendable
     public func describeVPCConnection(_ input: DescribeVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVPCConnectionResponse {
-        return try await self.client.execute(operation: "DescribeVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeVPCConnection", 
+            path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Generates an embed URL that you can use to embed an Amazon QuickSight dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   For more information, see Embedded Analytics in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
     @Sendable
     public func generateEmbedUrlForAnonymousUser(_ input: GenerateEmbedUrlForAnonymousUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateEmbedUrlForAnonymousUserResponse {
-        return try await self.client.execute(operation: "GenerateEmbedUrlForAnonymousUser", path: "/accounts/{AwsAccountId}/embed-url/anonymous-user", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GenerateEmbedUrlForAnonymousUser", 
+            path: "/accounts/{AwsAccountId}/embed-url/anonymous-user", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user registered in an Amazon QuickSight account.  Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. The following rules apply to the generated URL:   It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.   The URL validity period should not be confused with the actual session lifetime that can be customized using the  SessionLifetimeInMinutes parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   For more information, see Embedded Analytics in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
     @Sendable
     public func generateEmbedUrlForRegisteredUser(_ input: GenerateEmbedUrlForRegisteredUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateEmbedUrlForRegisteredUserResponse {
-        return try await self.client.execute(operation: "GenerateEmbedUrlForRegisteredUser", path: "/accounts/{AwsAccountId}/embed-url/registered-user", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GenerateEmbedUrlForRegisteredUser", 
+            path: "/accounts/{AwsAccountId}/embed-url/registered-user", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon QuickSight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions.  Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:   They must be used together.   They can be used one time only.   They are valid for 5 minutes after you run this command.   You are charged only when the URL is used or there is interaction with Amazon QuickSight.   The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.   For more information, see Embedding Analytics Using GetDashboardEmbedUrl in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
     @Sendable
     public func getDashboardEmbedUrl(_ input: GetDashboardEmbedUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDashboardEmbedUrlResponse {
-        return try await self.client.execute(operation: "GetDashboardEmbedUrl", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/embed-url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDashboardEmbedUrl", 
+            path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/embed-url", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use  RegisterUser  API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding Analytics     Customizing Access to the Amazon QuickSight Console
     @Sendable
     public func getSessionEmbedUrl(_ input: GetSessionEmbedUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionEmbedUrlResponse {
-        return try await self.client.execute(operation: "GetSessionEmbedUrl", path: "/accounts/{AwsAccountId}/session-embed-url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSessionEmbedUrl", 
+            path: "/accounts/{AwsAccountId}/session-embed-url", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account.
     @Sendable
     public func listAnalyses(_ input: ListAnalysesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnalysesResponse {
-        return try await self.client.execute(operation: "ListAnalyses", path: "/accounts/{AwsAccountId}/analyses", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAnalyses", 
+            path: "/accounts/{AwsAccountId}/analyses", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent job that uses the repeated job ID.
     @Sendable
     public func listAssetBundleExportJobs(_ input: ListAssetBundleExportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetBundleExportJobsResponse {
-        return try await self.client.execute(operation: "ListAssetBundleExportJobs", path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAssetBundleExportJobs", 
+            path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all asset bundle import jobs that have taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleImportJobs only returns the most recent job that uses the repeated job ID.
     @Sendable
     public func listAssetBundleImportJobs(_ input: ListAssetBundleImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetBundleImportJobsResponse {
-        return try await self.client.execute(operation: "ListAssetBundleImportJobs", path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAssetBundleImportJobs", 
+            path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the versions of the dashboards in the Amazon QuickSight subscription.
     @Sendable
     public func listDashboardVersions(_ input: ListDashboardVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDashboardVersionsResponse {
-        return try await self.client.execute(operation: "ListDashboardVersions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDashboardVersions", 
+            path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists dashboards in an Amazon Web Services account.
     @Sendable
     public func listDashboards(_ input: ListDashboardsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDashboardsResponse {
-        return try await self.client.execute(operation: "ListDashboards", path: "/accounts/{AwsAccountId}/dashboards", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDashboards", 
+            path: "/accounts/{AwsAccountId}/dashboards", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
     @Sendable
     public func listDataSets(_ input: ListDataSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSetsResponse {
-        return try await self.client.execute(operation: "ListDataSets", path: "/accounts/{AwsAccountId}/data-sets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDataSets", 
+            path: "/accounts/{AwsAccountId}/data-sets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
     @Sendable
     public func listDataSources(_ input: ListDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSourcesResponse {
-        return try await self.client.execute(operation: "ListDataSources", path: "/accounts/{AwsAccountId}/data-sources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDataSources", 
+            path: "/accounts/{AwsAccountId}/data-sources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all assets (DASHBOARD, ANALYSIS, and DATASET) in a folder.
     @Sendable
     public func listFolderMembers(_ input: ListFolderMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFolderMembersResponse {
-        return try await self.client.execute(operation: "ListFolderMembers", path: "/accounts/{AwsAccountId}/folders/{FolderId}/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFolderMembers", 
+            path: "/accounts/{AwsAccountId}/folders/{FolderId}/members", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all folders in an account.
     @Sendable
     public func listFolders(_ input: ListFoldersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFoldersResponse {
-        return try await self.client.execute(operation: "ListFolders", path: "/accounts/{AwsAccountId}/folders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFolders", 
+            path: "/accounts/{AwsAccountId}/folders", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists member users in a group.
     @Sendable
     public func listGroupMemberships(_ input: ListGroupMembershipsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupMembershipsResponse {
-        return try await self.client.execute(operation: "ListGroupMemberships", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGroupMemberships", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all user groups in Amazon QuickSight.
     @Sendable
     public func listGroups(_ input: ListGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupsResponse {
-        return try await self.client.execute(operation: "ListGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGroups", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the
@@ -692,7 +1385,14 @@ public struct QuickSight: AWSService {
     /// 			account.
     @Sendable
     public func listIAMPolicyAssignments(_ input: ListIAMPolicyAssignmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIAMPolicyAssignmentsResponse {
-        return try await self.client.execute(operation: "ListIAMPolicyAssignments", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/v2/iam-policy-assignments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListIAMPolicyAssignments", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/v2/iam-policy-assignments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all of
@@ -704,164 +1404,353 @@ public struct QuickSight: AWSService {
     /// 			or groups that the user belongs to.
     @Sendable
     public func listIAMPolicyAssignmentsForUser(_ input: ListIAMPolicyAssignmentsForUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIAMPolicyAssignmentsForUserResponse {
-        return try await self.client.execute(operation: "ListIAMPolicyAssignmentsForUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/iam-policy-assignments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListIAMPolicyAssignmentsForUser", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/iam-policy-assignments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the history of SPICE ingestions for a dataset.
     @Sendable
     public func listIngestions(_ input: ListIngestionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIngestionsResponse {
-        return try await self.client.execute(operation: "ListIngestions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListIngestions", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
     @Sendable
     public func listNamespaces(_ input: ListNamespacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNamespacesResponse {
-        return try await self.client.execute(operation: "ListNamespaces", path: "/accounts/{AwsAccountId}/namespaces", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNamespaces", 
+            path: "/accounts/{AwsAccountId}/namespaces", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
     @Sendable
     public func listRefreshSchedules(_ input: ListRefreshSchedulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRefreshSchedulesResponse {
-        return try await self.client.execute(operation: "ListRefreshSchedules", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRefreshSchedules", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags assigned to a resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/resources/{ResourceArn}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/resources/{ResourceArn}/tags", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the aliases of a template.
     @Sendable
     public func listTemplateAliases(_ input: ListTemplateAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplateAliasesResponse {
-        return try await self.client.execute(operation: "ListTemplateAliases", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTemplateAliases", 
+            path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the versions of the templates in the current Amazon QuickSight account.
     @Sendable
     public func listTemplateVersions(_ input: ListTemplateVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplateVersionsResponse {
-        return try await self.client.execute(operation: "ListTemplateVersions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTemplateVersions", 
+            path: "/accounts/{AwsAccountId}/templates/{TemplateId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the templates in the current Amazon QuickSight account.
     @Sendable
     public func listTemplates(_ input: ListTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplatesResponse {
-        return try await self.client.execute(operation: "ListTemplates", path: "/accounts/{AwsAccountId}/templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTemplates", 
+            path: "/accounts/{AwsAccountId}/templates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the aliases of a theme.
     @Sendable
     public func listThemeAliases(_ input: ListThemeAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThemeAliasesResponse {
-        return try await self.client.execute(operation: "ListThemeAliases", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListThemeAliases", 
+            path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the versions of the themes in the current Amazon Web Services account.
     @Sendable
     public func listThemeVersions(_ input: ListThemeVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThemeVersionsResponse {
-        return try await self.client.execute(operation: "ListThemeVersions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListThemeVersions", 
+            path: "/accounts/{AwsAccountId}/themes/{ThemeId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the themes in the current Amazon Web Services account.
     @Sendable
     public func listThemes(_ input: ListThemesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThemesResponse {
-        return try await self.client.execute(operation: "ListThemes", path: "/accounts/{AwsAccountId}/themes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListThemes", 
+            path: "/accounts/{AwsAccountId}/themes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all of the refresh schedules for a topic.
     @Sendable
     public func listTopicRefreshSchedules(_ input: ListTopicRefreshSchedulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTopicRefreshSchedulesResponse {
-        return try await self.client.execute(operation: "ListTopicRefreshSchedules", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTopicRefreshSchedules", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all of the topics within an account.
     @Sendable
     public func listTopics(_ input: ListTopicsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTopicsResponse {
-        return try await self.client.execute(operation: "ListTopics", path: "/accounts/{AwsAccountId}/topics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTopics", 
+            path: "/accounts/{AwsAccountId}/topics", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
     @Sendable
     public func listUserGroups(_ input: ListUserGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserGroupsResponse {
-        return try await self.client.execute(operation: "ListUserGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListUserGroups", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/groups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all of the Amazon QuickSight users belonging to this account.
     @Sendable
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersResponse {
-        return try await self.client.execute(operation: "ListUsers", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListUsers", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all of the VPC connections in the current set Amazon Web Services Region of an
     /// 				Amazon Web Services account.
     @Sendable
     public func listVPCConnections(_ input: ListVPCConnectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVPCConnectionsResponse {
-        return try await self.client.execute(operation: "ListVPCConnections", path: "/accounts/{AwsAccountId}/vpc-connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVPCConnections", 
+            path: "/accounts/{AwsAccountId}/vpc-connections", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates the dataset refresh properties for the dataset.
     @Sendable
     public func putDataSetRefreshProperties(_ input: PutDataSetRefreshPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDataSetRefreshPropertiesResponse {
-        return try await self.client.execute(operation: "PutDataSetRefreshProperties", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutDataSetRefreshProperties", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-properties", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an Amazon QuickSight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Amazon QuickSight API, Amazon QuickSight generates a registration URL. The user accesses this registration URL to create their account. Amazon QuickSight doesn't send a registration email to users who are registered from the Amazon QuickSight API. If you want new users to receive a registration email, then add those users in the Amazon QuickSight console. For more information on registering a new user in the Amazon QuickSight console, see  Inviting users to access Amazon QuickSight.
     @Sendable
     public func registerUser(_ input: RegisterUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterUserResponse {
-        return try await self.client.execute(operation: "RegisterUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterUser", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Restores an analysis.
     @Sendable
     public func restoreAnalysis(_ input: RestoreAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreAnalysisResponse {
-        return try await self.client.execute(operation: "RestoreAnalysis", path: "/accounts/{AwsAccountId}/restore/analyses/{AnalysisId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RestoreAnalysis", 
+            path: "/accounts/{AwsAccountId}/restore/analyses/{AnalysisId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches for analyses that belong to the user specified in the filter.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     @Sendable
     public func searchAnalyses(_ input: SearchAnalysesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAnalysesResponse {
-        return try await self.client.execute(operation: "SearchAnalyses", path: "/accounts/{AwsAccountId}/search/analyses", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchAnalyses", 
+            path: "/accounts/{AwsAccountId}/search/analyses", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches for dashboards that belong to a user.   This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     @Sendable
     public func searchDashboards(_ input: SearchDashboardsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchDashboardsResponse {
-        return try await self.client.execute(operation: "SearchDashboards", path: "/accounts/{AwsAccountId}/search/dashboards", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchDashboards", 
+            path: "/accounts/{AwsAccountId}/search/dashboards", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use the SearchDataSets operation to search for datasets that belong to an account.
     @Sendable
     public func searchDataSets(_ input: SearchDataSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchDataSetsResponse {
-        return try await self.client.execute(operation: "SearchDataSets", path: "/accounts/{AwsAccountId}/search/data-sets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchDataSets", 
+            path: "/accounts/{AwsAccountId}/search/data-sets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use the SearchDataSources operation to search for data sources that belong to an account.
     @Sendable
     public func searchDataSources(_ input: SearchDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchDataSourcesResponse {
-        return try await self.client.execute(operation: "SearchDataSources", path: "/accounts/{AwsAccountId}/search/data-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchDataSources", 
+            path: "/accounts/{AwsAccountId}/search/data-sources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches the subfolders in a folder.
     @Sendable
     public func searchFolders(_ input: SearchFoldersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchFoldersResponse {
-        return try await self.client.execute(operation: "SearchFolders", path: "/accounts/{AwsAccountId}/search/folders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchFolders", 
+            path: "/accounts/{AwsAccountId}/search/folders", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use the SearchGroups operation to search groups in a specified Amazon QuickSight namespace using the supplied filters.
     @Sendable
     public func searchGroups(_ input: SearchGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchGroupsResponse {
-        return try await self.client.execute(operation: "SearchGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups-search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchGroups", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups-search", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon QuickSight account can run up to 10 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
     @Sendable
     public func startAssetBundleExportJob(_ input: StartAssetBundleExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAssetBundleExportJobResponse {
-        return try await self.client.execute(operation: "StartAssetBundleExportJob", path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs/export", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartAssetBundleExportJob", 
+            path: "/accounts/{AwsAccountId}/asset-bundle-export-jobs/export", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon QuickSight account. Each Amazon QuickSight account can run up to 10 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
     @Sendable
     public func startAssetBundleImportJob(_ input: StartAssetBundleImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAssetBundleImportJobResponse {
-        return try await self.client.execute(operation: "StartAssetBundleImportJob", path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs/import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartAssetBundleImportJob", 
+            path: "/accounts/{AwsAccountId}/asset-bundle-import-jobs/import", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource.  Tags can help you organize and categorize your resources. You can also use them to
@@ -878,97 +1767,209 @@ public struct QuickSight: AWSService {
     /// 				of users, and usage metrics.   Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/resources/{ResourceArn}/tags", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a tag or tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/resources/{ResourceArn}/tags", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Amazon QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
     @Sendable
     public func updateAccountCustomization(_ input: UpdateAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountCustomizationResponse {
-        return try await self.client.execute(operation: "UpdateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAccountCustomization", 
+            path: "/accounts/{AwsAccountId}/customizations", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the Amazon QuickSight settings in your Amazon Web Services account.
     @Sendable
     public func updateAccountSettings(_ input: UpdateAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountSettingsResponse {
-        return try await self.client.execute(operation: "UpdateAccountSettings", path: "/accounts/{AwsAccountId}/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAccountSettings", 
+            path: "/accounts/{AwsAccountId}/settings", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an analysis in Amazon QuickSight
     @Sendable
     public func updateAnalysis(_ input: UpdateAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnalysisResponse {
-        return try await self.client.execute(operation: "UpdateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAnalysis", 
+            path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the read and write permissions for an analysis.
     @Sendable
     public func updateAnalysisPermissions(_ input: UpdateAnalysisPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnalysisPermissionsResponse {
-        return try await self.client.execute(operation: "UpdateAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAnalysisPermissions", 
+            path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a dashboard in an Amazon Web Services account.  Updating a Dashboard creates a new dashboard version but does not immediately publish the new version.  You can update the published version of a dashboard by using the  UpdateDashboardPublishedVersion API operation.
     @Sendable
     public func updateDashboard(_ input: UpdateDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDashboardResponse {
-        return try await self.client.execute(operation: "UpdateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDashboard", 
+            path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates read and write permissions on a dashboard.
     @Sendable
     public func updateDashboardPermissions(_ input: UpdateDashboardPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDashboardPermissionsResponse {
-        return try await self.client.execute(operation: "UpdateDashboardPermissions", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDashboardPermissions", 
+            path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the published version of a dashboard.
     @Sendable
     public func updateDashboardPublishedVersion(_ input: UpdateDashboardPublishedVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDashboardPublishedVersionResponse {
-        return try await self.client.execute(operation: "UpdateDashboardPublishedVersion", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions/{VersionNumber}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDashboardPublishedVersion", 
+            path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions/{VersionNumber}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a dataset. This operation doesn't support datasets that include uploaded files as a source. Partial updates are not supported by this operation.
     @Sendable
     public func updateDataSet(_ input: UpdateDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSetResponse {
-        return try await self.client.execute(operation: "UpdateDataSet", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDataSet", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     @Sendable
     public func updateDataSetPermissions(_ input: UpdateDataSetPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSetPermissionsResponse {
-        return try await self.client.execute(operation: "UpdateDataSetPermissions", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDataSetPermissions", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a data source.
     @Sendable
     public func updateDataSource(_ input: UpdateDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSourceResponse {
-        return try await self.client.execute(operation: "UpdateDataSource", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDataSource", 
+            path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the permissions to a data source.
     @Sendable
     public func updateDataSourcePermissions(_ input: UpdateDataSourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSourcePermissionsResponse {
-        return try await self.client.execute(operation: "UpdateDataSourcePermissions", path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDataSourcePermissions", 
+            path: "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the name of a folder.
     @Sendable
     public func updateFolder(_ input: UpdateFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFolderResponse {
-        return try await self.client.execute(operation: "UpdateFolder", path: "/accounts/{AwsAccountId}/folders/{FolderId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFolder", 
+            path: "/accounts/{AwsAccountId}/folders/{FolderId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates permissions of a folder.
     @Sendable
     public func updateFolderPermissions(_ input: UpdateFolderPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFolderPermissionsResponse {
-        return try await self.client.execute(operation: "UpdateFolderPermissions", path: "/accounts/{AwsAccountId}/folders/{FolderId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFolderPermissions", 
+            path: "/accounts/{AwsAccountId}/folders/{FolderId}/permissions", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes a group description.
     @Sendable
     public func updateGroup(_ input: UpdateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGroupResponse {
-        return try await self.client.execute(operation: "UpdateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateGroup", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing IAM policy assignment. This operation updates only
@@ -976,7 +1977,14 @@ public struct QuickSight: AWSService {
     /// 			all of the users included in Identities.
     @Sendable
     public func updateIAMPolicyAssignment(_ input: UpdateIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIAMPolicyAssignmentResponse {
-        return try await self.client.execute(operation: "UpdateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateIAMPolicyAssignment", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the content and status of IP rules. To use this operation, you
@@ -985,49 +1993,105 @@ public struct QuickSight: AWSService {
     /// 			operation to get the current rule map.
     @Sendable
     public func updateIpRestriction(_ input: UpdateIpRestrictionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIpRestrictionResponse {
-        return try await self.client.execute(operation: "UpdateIpRestriction", path: "/accounts/{AwsAccountId}/ip-restriction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateIpRestriction", 
+            path: "/accounts/{AwsAccountId}/ip-restriction", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon QuickSight dashboard. To use this operation, turn on session capacity pricing for your Amazon QuickSight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon QuickSight, see Using Amazon QuickSight with IAM in the Amazon QuickSight User Guide.
     @Sendable
     public func updatePublicSharingSettings(_ input: UpdatePublicSharingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePublicSharingSettingsResponse {
-        return try await self.client.execute(operation: "UpdatePublicSharingSettings", path: "/accounts/{AwsAccountId}/public-sharing-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePublicSharingSettings", 
+            path: "/accounts/{AwsAccountId}/public-sharing-settings", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a refresh schedule for a dataset.
     @Sendable
     public func updateRefreshSchedule(_ input: UpdateRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRefreshScheduleResponse {
-        return try await self.client.execute(operation: "UpdateRefreshSchedule", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRefreshSchedule", 
+            path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/refresh-schedules", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a template from an existing Amazon QuickSight analysis or another template.
     @Sendable
     public func updateTemplate(_ input: UpdateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTemplateResponse {
-        return try await self.client.execute(operation: "UpdateTemplate", path: "/accounts/{AwsAccountId}/templates/{TemplateId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTemplate", 
+            path: "/accounts/{AwsAccountId}/templates/{TemplateId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the template alias of a template.
     @Sendable
     public func updateTemplateAlias(_ input: UpdateTemplateAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTemplateAliasResponse {
-        return try await self.client.execute(operation: "UpdateTemplateAlias", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTemplateAlias", 
+            path: "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the resource permissions for a template.
     @Sendable
     public func updateTemplatePermissions(_ input: UpdateTemplatePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTemplatePermissionsResponse {
-        return try await self.client.execute(operation: "UpdateTemplatePermissions", path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTemplatePermissions", 
+            path: "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a theme.
     @Sendable
     public func updateTheme(_ input: UpdateThemeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThemeResponse {
-        return try await self.client.execute(operation: "UpdateTheme", path: "/accounts/{AwsAccountId}/themes/{ThemeId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTheme", 
+            path: "/accounts/{AwsAccountId}/themes/{ThemeId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an alias of a theme.
     @Sendable
     public func updateThemeAlias(_ input: UpdateThemeAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThemeAliasResponse {
-        return try await self.client.execute(operation: "UpdateThemeAlias", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateThemeAlias", 
+            path: "/accounts/{AwsAccountId}/themes/{ThemeId}/aliases/{AliasName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the resource permissions for a theme. Permissions apply to the action to grant or
@@ -1035,37 +2099,79 @@ public struct QuickSight: AWSService {
     /// 			levels of permissions, which are user, owner, or no permissions:    User    "quicksight:DescribeTheme"     "quicksight:DescribeThemeAlias"     "quicksight:ListThemeAliases"     "quicksight:ListThemeVersions"      Owner    "quicksight:DescribeTheme"     "quicksight:DescribeThemeAlias"     "quicksight:ListThemeAliases"     "quicksight:ListThemeVersions"     "quicksight:DeleteTheme"     "quicksight:UpdateTheme"     "quicksight:CreateThemeAlias"     "quicksight:DeleteThemeAlias"     "quicksight:UpdateThemeAlias"     "quicksight:UpdateThemePermissions"     "quicksight:DescribeThemePermissions"      To specify no permissions, omit the permissions list.
     @Sendable
     public func updateThemePermissions(_ input: UpdateThemePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThemePermissionsResponse {
-        return try await self.client.execute(operation: "UpdateThemePermissions", path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateThemePermissions", 
+            path: "/accounts/{AwsAccountId}/themes/{ThemeId}/permissions", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a topic.
     @Sendable
     public func updateTopic(_ input: UpdateTopicRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTopicResponse {
-        return try await self.client.execute(operation: "UpdateTopic", path: "/accounts/{AwsAccountId}/topics/{TopicId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTopic", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the permissions of a topic.
     @Sendable
     public func updateTopicPermissions(_ input: UpdateTopicPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTopicPermissionsResponse {
-        return try await self.client.execute(operation: "UpdateTopicPermissions", path: "/accounts/{AwsAccountId}/topics/{TopicId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTopicPermissions", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}/permissions", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a topic refresh schedule.
     @Sendable
     public func updateTopicRefreshSchedule(_ input: UpdateTopicRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTopicRefreshScheduleResponse {
-        return try await self.client.execute(operation: "UpdateTopicRefreshSchedule", path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTopicRefreshSchedule", 
+            path: "/accounts/{AwsAccountId}/topics/{TopicId}/schedules/{DatasetId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an Amazon QuickSight user.
     @Sendable
     public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserResponse {
-        return try await self.client.execute(operation: "UpdateUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUser", 
+            path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a VPC connection.
     @Sendable
     public func updateVPCConnection(_ input: UpdateVPCConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVPCConnectionResponse {
-        return try await self.client.execute(operation: "UpdateVPCConnection", path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVPCConnection", 
+            path: "/accounts/{AwsAccountId}/vpc-connections/{VPCConnectionId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -67,61 +67,131 @@ public struct Pipes: AWSService {
     /// Create a pipe. Amazon EventBridge Pipes connect event sources to targets and reduces the need for specialized knowledge and integration code.
     @Sendable
     public func createPipe(_ input: CreatePipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePipeResponse {
-        return try await self.client.execute(operation: "CreatePipe", path: "/v1/pipes/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePipe", 
+            path: "/v1/pipes/{Name}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete an existing pipe. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
     @Sendable
     public func deletePipe(_ input: DeletePipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePipeResponse {
-        return try await self.client.execute(operation: "DeletePipe", path: "/v1/pipes/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePipe", 
+            path: "/v1/pipes/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the information about an existing pipe. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
     @Sendable
     public func describePipe(_ input: DescribePipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePipeResponse {
-        return try await self.client.execute(operation: "DescribePipe", path: "/v1/pipes/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePipe", 
+            path: "/v1/pipes/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the pipes associated with this account. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
     @Sendable
     public func listPipes(_ input: ListPipesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipesResponse {
-        return try await self.client.execute(operation: "ListPipes", path: "/v1/pipes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPipes", 
+            path: "/v1/pipes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays the tags associated with a pipe.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Start an existing pipe.
     @Sendable
     public func startPipe(_ input: StartPipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartPipeResponse {
-        return try await self.client.execute(operation: "StartPipe", path: "/v1/pipes/{Name}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartPipe", 
+            path: "/v1/pipes/{Name}/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stop an existing pipe.
     @Sendable
     public func stopPipe(_ input: StopPipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopPipeResponse {
-        return try await self.client.execute(operation: "StopPipe", path: "/v1/pipes/{Name}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopPipe", 
+            path: "/v1/pipes/{Name}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified pipe. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a pipe that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the pipe. If you specify a tag key that is already associated with the pipe, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a pipe.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from the specified pipes.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update an existing pipe. When you call UpdatePipe, only the fields that are included in the request are changed, the rest are unchanged.  The exception to this is if you modify any Amazon Web Services-service specific fields in the SourceParameters, EnrichmentParameters, or  TargetParameters objects. The fields in these objects are updated atomically as one and override existing values. This is by design and means that  if you don't specify an optional field in one of these Parameters objects, that field will be set to its system-default value after the update. For more information about pipes, see  Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
     @Sendable
     public func updatePipe(_ input: UpdatePipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePipeResponse {
-        return try await self.client.execute(operation: "UpdatePipe", path: "/v1/pipes/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePipe", 
+            path: "/v1/pipes/{Name}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

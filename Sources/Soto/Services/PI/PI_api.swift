@@ -68,37 +68,79 @@ public struct PI: AWSService {
     /// For a specific time period, retrieve the top N dimension keys for a metric.   Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements,  only the first 500 bytes are returned.
     @Sendable
     public func describeDimensionKeys(_ input: DescribeDimensionKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDimensionKeysResponse {
-        return try await self.client.execute(operation: "DescribeDimensionKeys", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDimensionKeys", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text.
     @Sendable
     public func getDimensionKeyDetails(_ input: GetDimensionKeyDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDimensionKeyDetailsResponse {
-        return try await self.client.execute(operation: "GetDimensionKeyDetails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDimensionKeyDetails", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve the metadata for different features. For example, the metadata might indicate  that a feature is turned on or off on a specific DB instance.
     @Sendable
     public func getResourceMetadata(_ input: GetResourceMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceMetadataResponse {
-        return try await self.client.execute(operation: "GetResourceMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourceMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve Performance Insights metrics for a set of data sources over a time period. You can provide specific dimension groups and dimensions, and provide aggregation and filtering criteria for each group.  Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements,  only the first 500 bytes are returned.
     @Sendable
     public func getResourceMetrics(_ input: GetResourceMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceMetricsResponse {
-        return try await self.client.execute(operation: "GetResourceMetrics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourceMetrics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance.
     @Sendable
     public func listAvailableResourceDimensions(_ input: ListAvailableResourceDimensionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAvailableResourceDimensionsResponse {
-        return try await self.client.execute(operation: "ListAvailableResourceDimensions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAvailableResourceDimensions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve metrics of the specified types that can be queried for a specified DB instance.
     @Sendable
     public func listAvailableResourceMetrics(_ input: ListAvailableResourceMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAvailableResourceMetricsResponse {
-        return try await self.client.execute(operation: "ListAvailableResourceMetrics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAvailableResourceMetrics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

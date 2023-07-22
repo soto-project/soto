@@ -76,391 +76,846 @@ public struct AppStream: AWSService {
     /// Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
     @Sendable
     public func associateApplicationFleet(_ input: AssociateApplicationFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateApplicationFleetResult {
-        return try await self.client.execute(operation: "AssociateApplicationFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateApplicationFleet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates an application to entitle.
     @Sendable
     public func associateApplicationToEntitlement(_ input: AssociateApplicationToEntitlementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateApplicationToEntitlementResult {
-        return try await self.client.execute(operation: "AssociateApplicationToEntitlement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateApplicationToEntitlement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates the specified fleet with the specified stack.
     @Sendable
     public func associateFleet(_ input: AssociateFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateFleetResult {
-        return try await self.client.execute(operation: "AssociateFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateFleet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain.
     @Sendable
     public func batchAssociateUserStack(_ input: BatchAssociateUserStackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAssociateUserStackResult {
-        return try await self.client.execute(operation: "BatchAssociateUserStack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchAssociateUserStack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates the specified users from the specified stacks.
     @Sendable
     public func batchDisassociateUserStack(_ input: BatchDisassociateUserStackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisassociateUserStackResult {
-        return try await self.client.execute(operation: "BatchDisassociateUserStack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDisassociateUserStack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied.
     @Sendable
     public func copyImage(_ input: CopyImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyImageResponse {
-        return try await self.client.execute(operation: "CopyImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CopyImage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
     @Sendable
     public func createAppBlock(_ input: CreateAppBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppBlockResult {
-        return try await self.client.execute(operation: "CreateAppBlock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAppBlock", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an application. Applications are an Amazon AppStream 2.0 resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch.  This is only supported for Elastic fleets.
     @Sendable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResult {
-        return try await self.client.execute(operation: "CreateApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     @Sendable
     public func createDirectoryConfig(_ input: CreateDirectoryConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDirectoryConfigResult {
-        return try await self.client.execute(operation: "CreateDirectoryConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDirectoryConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
     @Sendable
     public func createEntitlement(_ input: CreateEntitlementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEntitlementResult {
-        return try await self.client.execute(operation: "CreateEntitlement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEntitlement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
     @Sendable
     public func createFleet(_ input: CreateFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFleetResult {
-        return try await self.client.execute(operation: "CreateFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFleet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an image builder. An image builder is a virtual machine that is used to create an image. The initial state of the builder is PENDING. When it is ready, the state is RUNNING.
     @Sendable
     public func createImageBuilder(_ input: CreateImageBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImageBuilderResult {
-        return try await self.client.execute(operation: "CreateImageBuilder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateImageBuilder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a URL to start an image builder streaming session.
     @Sendable
     public func createImageBuilderStreamingURL(_ input: CreateImageBuilderStreamingURLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImageBuilderStreamingURLResult {
-        return try await self.client.execute(operation: "CreateImageBuilderStreamingURL", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateImageBuilderStreamingURL", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
     @Sendable
     public func createStack(_ input: CreateStackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStackResult {
-        return try await self.client.execute(operation: "CreateStack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateStack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a temporary URL to start an AppStream 2.0 streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
     @Sendable
     public func createStreamingURL(_ input: CreateStreamingURLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStreamingURLResult {
-        return try await self.client.execute(operation: "CreateStreamingURL", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateStreamingURL", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software. For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates" section in Administer Your AppStream 2.0 Images, in the Amazon AppStream 2.0 Administration Guide.
     @Sendable
     public func createUpdatedImage(_ input: CreateUpdatedImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUpdatedImageResult {
-        return try await self.client.execute(operation: "CreateUpdatedImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUpdatedImage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a usage report subscription. Usage reports are generated daily.
     @Sendable
     public func createUsageReportSubscription(_ input: CreateUsageReportSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUsageReportSubscriptionResult {
-        return try await self.client.execute(operation: "CreateUsageReportSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUsageReportSubscription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new user in the user pool.
     @Sendable
     public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserResult {
-        return try await self.client.execute(operation: "CreateUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an app block.
     @Sendable
     public func deleteAppBlock(_ input: DeleteAppBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAppBlockResult {
-        return try await self.client.execute(operation: "DeleteAppBlock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAppBlock", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an application.
     @Sendable
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationResult {
-        return try await self.client.execute(operation: "DeleteApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified Directory Config object from AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
     @Sendable
     public func deleteDirectoryConfig(_ input: DeleteDirectoryConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDirectoryConfigResult {
-        return try await self.client.execute(operation: "DeleteDirectoryConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDirectoryConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified entitlement.
     @Sendable
     public func deleteEntitlement(_ input: DeleteEntitlementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEntitlementResult {
-        return try await self.client.execute(operation: "DeleteEntitlement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEntitlement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified fleet.
     @Sendable
     public func deleteFleet(_ input: DeleteFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFleetResult {
-        return try await self.client.execute(operation: "DeleteFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFleet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified image. You cannot delete an image when it is in use.   After you delete an image, you cannot provision new capacity using the image.
     @Sendable
     public func deleteImage(_ input: DeleteImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImageResult {
-        return try await self.client.execute(operation: "DeleteImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteImage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified image builder and releases the capacity.
     @Sendable
     public func deleteImageBuilder(_ input: DeleteImageBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImageBuilderResult {
-        return try await self.client.execute(operation: "DeleteImageBuilder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteImageBuilder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image.
     @Sendable
     public func deleteImagePermissions(_ input: DeleteImagePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImagePermissionsResult {
-        return try await self.client.execute(operation: "DeleteImagePermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteImagePermissions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released.
     @Sendable
     public func deleteStack(_ input: DeleteStackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStackResult {
-        return try await self.client.execute(operation: "DeleteStack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteStack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables usage report generation.
     @Sendable
     public func deleteUsageReportSubscription(_ input: DeleteUsageReportSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUsageReportSubscriptionResult {
-        return try await self.client.execute(operation: "DeleteUsageReportSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUsageReportSubscription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a user from the user pool.
     @Sendable
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserResult {
-        return try await self.client.execute(operation: "DeleteUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes one or more app blocks.
     @Sendable
     public func describeAppBlocks(_ input: DescribeAppBlocksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppBlocksResult {
-        return try await self.client.execute(operation: "DescribeAppBlocks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAppBlocks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
     @Sendable
     public func describeApplicationFleetAssociations(_ input: DescribeApplicationFleetAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationFleetAssociationsResult {
-        return try await self.client.execute(operation: "DescribeApplicationFleetAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeApplicationFleetAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes one or more applications.
     @Sendable
     public func describeApplications(_ input: DescribeApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationsResult {
-        return try await self.client.execute(operation: "DescribeApplications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeApplications", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains.   Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
     @Sendable
     public func describeDirectoryConfigs(_ input: DescribeDirectoryConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDirectoryConfigsResult {
-        return try await self.client.execute(operation: "DescribeDirectoryConfigs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDirectoryConfigs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes one of more entitlements.
     @Sendable
     public func describeEntitlements(_ input: DescribeEntitlementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEntitlementsResult {
-        return try await self.client.execute(operation: "DescribeEntitlements", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEntitlements", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are described.
     @Sendable
     public func describeFleets(_ input: DescribeFleetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetsResult {
-        return try await self.client.execute(operation: "DescribeFleets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFleets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
     @Sendable
     public func describeImageBuilders(_ input: DescribeImageBuildersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImageBuildersResult {
-        return try await self.client.execute(operation: "DescribeImageBuilders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeImageBuilders", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
     @Sendable
     public func describeImagePermissions(_ input: DescribeImagePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImagePermissionsResult {
-        return try await self.client.execute(operation: "DescribeImagePermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeImagePermissions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
     @Sendable
     public func describeImages(_ input: DescribeImagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImagesResult {
-        return try await self.client.execute(operation: "DescribeImages", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeImages", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes the streaming sessions for a specified stack and fleet. If a UserId is provided for the stack and fleet, only streaming sessions for that user are described. If an authentication type is not provided,  the default is to authenticate users using a streaming URL.
     @Sendable
     public func describeSessions(_ input: DescribeSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSessionsResult {
-        return try await self.client.execute(operation: "DescribeSessions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSessions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are described.
     @Sendable
     public func describeStacks(_ input: DescribeStacksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStacksResult {
-        return try await self.client.execute(operation: "DescribeStacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeStacks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes one or more usage report subscriptions.
     @Sendable
     public func describeUsageReportSubscriptions(_ input: DescribeUsageReportSubscriptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUsageReportSubscriptionsResult {
-        return try await self.client.execute(operation: "DescribeUsageReportSubscriptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeUsageReportSubscriptions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes the UserStackAssociation objects. You must specify either or both of the following:   The stack name   The user name (email address of the user associated with the stack) and the authentication type for the user
     @Sendable
     public func describeUserStackAssociations(_ input: DescribeUserStackAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserStackAssociationsResult {
-        return try await self.client.execute(operation: "DescribeUserStackAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeUserStackAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list that describes one or more specified users in the user pool.
     @Sendable
     public func describeUsers(_ input: DescribeUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUsersResult {
-        return try await self.client.execute(operation: "DescribeUsers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeUsers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables the specified user in the user pool. Users can't sign in to AppStream 2.0 until they are re-enabled. This action does not delete the user.
     @Sendable
     public func disableUser(_ input: DisableUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableUserResult {
-        return try await self.client.execute(operation: "DisableUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates the specified application from the fleet.
     @Sendable
     public func disassociateApplicationFleet(_ input: DisassociateApplicationFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateApplicationFleetResult {
-        return try await self.client.execute(operation: "DisassociateApplicationFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateApplicationFleet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified application from the specified entitlement.
     @Sendable
     public func disassociateApplicationFromEntitlement(_ input: DisassociateApplicationFromEntitlementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateApplicationFromEntitlementResult {
-        return try await self.client.execute(operation: "DisassociateApplicationFromEntitlement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateApplicationFromEntitlement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates the specified fleet from the specified stack.
     @Sendable
     public func disassociateFleet(_ input: DisassociateFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFleetResult {
-        return try await self.client.execute(operation: "DisassociateFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateFleet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables a user in the user pool. After being enabled, users can sign in to AppStream 2.0 and open applications from the stacks to which they are assigned.
     @Sendable
     public func enableUser(_ input: EnableUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableUserResult {
-        return try await self.client.execute(operation: "EnableUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Immediately stops the specified streaming session.
     @Sendable
     public func expireSession(_ input: ExpireSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExpireSessionResult {
-        return try await self.client.execute(operation: "ExpireSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ExpireSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the name of the fleet that is associated with the specified stack.
     @Sendable
     public func listAssociatedFleets(_ input: ListAssociatedFleetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssociatedFleetsResult {
-        return try await self.client.execute(operation: "ListAssociatedFleets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAssociatedFleets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the name of the stack with which the specified fleet is associated.
     @Sendable
     public func listAssociatedStacks(_ input: ListAssociatedStacksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssociatedStacksResult {
-        return try await self.client.execute(operation: "ListAssociatedStacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAssociatedStacks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of entitled applications.
     @Sendable
     public func listEntitledApplications(_ input: ListEntitledApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEntitledApplicationsResult {
-        return try await self.client.execute(operation: "ListEntitledApplications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEntitledApplications", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts the specified fleet.
     @Sendable
     public func startFleet(_ input: StartFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFleetResult {
-        return try await self.client.execute(operation: "StartFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartFleet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts the specified image builder.
     @Sendable
     public func startImageBuilder(_ input: StartImageBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImageBuilderResult {
-        return try await self.client.execute(operation: "StartImageBuilder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartImageBuilder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops the specified fleet.
     @Sendable
     public func stopFleet(_ input: StopFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopFleetResult {
-        return try await self.client.execute(operation: "StopFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopFleet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops the specified image builder.
     @Sendable
     public func stopImageBuilder(_ input: StopImageBuilderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopImageBuilderResult {
-        return try await self.client.execute(operation: "StopImageBuilder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopImageBuilder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key,  this operation updates its value. To list the current tags for your resources, use ListTagsForResource. To disassociate tags from your resources, use UntagResource. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list the current tags for your resources, use ListTagsForResource. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified application.
     @Sendable
     public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationResult {
-        return try await self.client.execute(operation: "UpdateApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     @Sendable
     public func updateDirectoryConfig(_ input: UpdateDirectoryConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDirectoryConfigResult {
-        return try await self.client.execute(operation: "UpdateDirectoryConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDirectoryConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified entitlement.
     @Sendable
     public func updateEntitlement(_ input: UpdateEntitlementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEntitlementResult {
-        return try await self.client.execute(operation: "UpdateEntitlement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEntitlement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified fleet. If the fleet is in the STOPPED state, you can update any attribute except the fleet name. If the fleet is in the RUNNING state, you can update the following based on the fleet type:   Always-On and On-Demand fleet types You can update the  DisplayName, ComputeCapacity, ImageARN, ImageName, IdleDisconnectTimeoutInSeconds, and DisconnectTimeoutInSeconds attributes.   Elastic fleet type You can update the  DisplayName, IdleDisconnectTimeoutInSeconds, DisconnectTimeoutInSeconds, MaxConcurrentSessions, SessionScriptS3Location and UsbDeviceFilterStrings attributes.   If the fleet is in the STARTING or STOPPED state, you can't update it.
     @Sendable
     public func updateFleet(_ input: UpdateFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFleetResult {
-        return try await self.client.execute(operation: "UpdateFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFleet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or updates permissions for the specified private image.
     @Sendable
     public func updateImagePermissions(_ input: UpdateImagePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateImagePermissionsResult {
-        return try await self.client.execute(operation: "UpdateImagePermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateImagePermissions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified fields for the specified stack.
     @Sendable
     public func updateStack(_ input: UpdateStackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStackResult {
-        return try await self.client.execute(operation: "UpdateStack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateStack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

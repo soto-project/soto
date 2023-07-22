@@ -67,19 +67,40 @@ public struct SagemakerEdge: AWSService {
     /// Use to get the active deployments from a device.
     @Sendable
     public func getDeployments(_ input: GetDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeploymentsResult {
-        return try await self.client.execute(operation: "GetDeployments", path: "/GetDeployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeployments", 
+            path: "/GetDeployments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use to check if a device is registered with SageMaker Edge Manager.
     @Sendable
     public func getDeviceRegistration(_ input: GetDeviceRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeviceRegistrationResult {
-        return try await self.client.execute(operation: "GetDeviceRegistration", path: "/GetDeviceRegistration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeviceRegistration", 
+            path: "/GetDeviceRegistration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use to get the current status of devices registered on SageMaker Edge Manager.
     @Sendable
     public func sendHeartbeat(_ input: SendHeartbeatRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "SendHeartbeat", path: "/SendHeartbeat", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SendHeartbeat", 
+            path: "/SendHeartbeat", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

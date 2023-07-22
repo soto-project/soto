@@ -64,73 +64,157 @@ public struct KafkaConnect: AWSService {
     /// Creates a connector using the specified properties.
     @Sendable
     public func createConnector(_ input: CreateConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectorResponse {
-        return try await self.client.execute(operation: "CreateConnector", path: "/v1/connectors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateConnector", 
+            path: "/v1/connectors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a custom plugin using the specified properties.
     @Sendable
     public func createCustomPlugin(_ input: CreateCustomPluginRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomPluginResponse {
-        return try await self.client.execute(operation: "CreateCustomPlugin", path: "/v1/custom-plugins", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCustomPlugin", 
+            path: "/v1/custom-plugins", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a worker configuration using the specified properties.
     @Sendable
     public func createWorkerConfiguration(_ input: CreateWorkerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkerConfigurationResponse {
-        return try await self.client.execute(operation: "CreateWorkerConfiguration", path: "/v1/worker-configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorkerConfiguration", 
+            path: "/v1/worker-configurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified connector.
     @Sendable
     public func deleteConnector(_ input: DeleteConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConnectorResponse {
-        return try await self.client.execute(operation: "DeleteConnector", path: "/v1/connectors/{connectorArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConnector", 
+            path: "/v1/connectors/{connectorArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a custom plugin.
     @Sendable
     public func deleteCustomPlugin(_ input: DeleteCustomPluginRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomPluginResponse {
-        return try await self.client.execute(operation: "DeleteCustomPlugin", path: "/v1/custom-plugins/{customPluginArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCustomPlugin", 
+            path: "/v1/custom-plugins/{customPluginArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns summary information about the connector.
     @Sendable
     public func describeConnector(_ input: DescribeConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConnectorResponse {
-        return try await self.client.execute(operation: "DescribeConnector", path: "/v1/connectors/{connectorArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConnector", 
+            path: "/v1/connectors/{connectorArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// A summary description of the custom plugin.
     @Sendable
     public func describeCustomPlugin(_ input: DescribeCustomPluginRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCustomPluginResponse {
-        return try await self.client.execute(operation: "DescribeCustomPlugin", path: "/v1/custom-plugins/{customPluginArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCustomPlugin", 
+            path: "/v1/custom-plugins/{customPluginArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a worker configuration.
     @Sendable
     public func describeWorkerConfiguration(_ input: DescribeWorkerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkerConfigurationResponse {
-        return try await self.client.execute(operation: "DescribeWorkerConfiguration", path: "/v1/worker-configurations/{workerConfigurationArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeWorkerConfiguration", 
+            path: "/v1/worker-configurations/{workerConfigurationArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors.
     @Sendable
     public func listConnectors(_ input: ListConnectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectorsResponse {
-        return try await self.client.execute(operation: "ListConnectors", path: "/v1/connectors", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConnectors", 
+            path: "/v1/connectors", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all of the custom plugins in this account and Region.
     @Sendable
     public func listCustomPlugins(_ input: ListCustomPluginsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomPluginsResponse {
-        return try await self.client.execute(operation: "ListCustomPlugins", path: "/v1/custom-plugins", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCustomPlugins", 
+            path: "/v1/custom-plugins", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all of the worker configurations in this account and Region.
     @Sendable
     public func listWorkerConfigurations(_ input: ListWorkerConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkerConfigurationsResponse {
-        return try await self.client.execute(operation: "ListWorkerConfigurations", path: "/v1/worker-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkerConfigurations", 
+            path: "/v1/worker-configurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified connector.
     @Sendable
     public func updateConnector(_ input: UpdateConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectorResponse {
-        return try await self.client.execute(operation: "UpdateConnector", path: "/v1/connectors/{connectorArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateConnector", 
+            path: "/v1/connectors/{connectorArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

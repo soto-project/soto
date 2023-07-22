@@ -67,187 +67,404 @@ public struct OpenSearchServerless: AWSService {
     /// Returns attributes for one or more collections, including the collection endpoint and the OpenSearch Dashboards endpoint. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
     @Sendable
     public func batchGetCollection(_ input: BatchGetCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetCollectionResponse {
-        return try await self.client.execute(operation: "BatchGetCollection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetCollection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns attributes for one or more VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
     @Sendable
     public func batchGetVpcEndpoint(_ input: BatchGetVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetVpcEndpointResponse {
-        return try await self.client.execute(operation: "BatchGetVpcEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetVpcEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or network source. For more information, see Data access control for Amazon OpenSearch Serverless.
     @Sendable
     public func createAccessPolicy(_ input: CreateAccessPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessPolicyResponse {
-        return try await self.client.execute(operation: "CreateAccessPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAccessPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
     @Sendable
     public func createCollection(_ input: CreateCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCollectionResponse {
-        return try await self.client.execute(operation: "CreateCollection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCollection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Specifies a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
     @Sendable
     public func createSecurityConfig(_ input: CreateSecurityConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSecurityConfigResponse {
-        return try await self.client.execute(operation: "CreateSecurityConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSecurityConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a security policy to be used by one or more OpenSearch Serverless collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS encryption key. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
     @Sendable
     public func createSecurityPolicy(_ input: CreateSecurityPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSecurityPolicyResponse {
-        return try await self.client.execute(operation: "CreateSecurityPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSecurityPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
     @Sendable
     public func createVpcEndpoint(_ input: CreateVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVpcEndpointResponse {
-        return try await self.client.execute(operation: "CreateVpcEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVpcEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
     @Sendable
     public func deleteAccessPolicy(_ input: DeleteAccessPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccessPolicyResponse {
-        return try await self.client.execute(operation: "DeleteAccessPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAccessPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
     @Sendable
     public func deleteCollection(_ input: DeleteCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCollectionResponse {
-        return try await self.client.execute(operation: "DeleteCollection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCollection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
     @Sendable
     public func deleteSecurityConfig(_ input: DeleteSecurityConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSecurityConfigResponse {
-        return try await self.client.execute(operation: "DeleteSecurityConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSecurityConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an OpenSearch Serverless security policy.
     @Sendable
     public func deleteSecurityPolicy(_ input: DeleteSecurityPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSecurityPolicyResponse {
-        return try await self.client.execute(operation: "DeleteSecurityPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSecurityPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
     @Sendable
     public func deleteVpcEndpoint(_ input: DeleteVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVpcEndpointResponse {
-        return try await self.client.execute(operation: "DeleteVpcEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVpcEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
     @Sendable
     public func getAccessPolicy(_ input: GetAccessPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessPolicyResponse {
-        return try await self.client.execute(operation: "GetAccessPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAccessPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns account-level settings related to OpenSearch Serverless.
     @Sendable
     public func getAccountSettings(_ input: GetAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingsResponse {
-        return try await self.client.execute(operation: "GetAccountSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAccountSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns statistical information about your OpenSearch Serverless access policies, security configurations, and security policies.
     @Sendable
     public func getPoliciesStats(_ input: GetPoliciesStatsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPoliciesStatsResponse {
-        return try await self.client.execute(operation: "GetPoliciesStats", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPoliciesStats", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about an OpenSearch Serverless security configuration. For more information, see SAML authentication for Amazon OpenSearch Serverless.
     @Sendable
     public func getSecurityConfig(_ input: GetSecurityConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSecurityConfigResponse {
-        return try await self.client.execute(operation: "GetSecurityConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSecurityConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a configured OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
     @Sendable
     public func getSecurityPolicy(_ input: GetSecurityPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSecurityPolicyResponse {
-        return try await self.client.execute(operation: "GetSecurityPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSecurityPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a list of OpenSearch Serverless access policies.
     @Sendable
     public func listAccessPolicies(_ input: ListAccessPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessPoliciesResponse {
-        return try await self.client.execute(operation: "ListAccessPolicies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAccessPolicies", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all OpenSearch Serverless collections. For more information, see Creating and managing Amazon OpenSearch Serverless collections.  Make sure to include an empty request body {} if you don't include any collection filters in the request.
     @Sendable
     public func listCollections(_ input: ListCollectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCollectionsResponse {
-        return try await self.client.execute(operation: "ListCollections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCollections", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Amazon OpenSearch Serverless.
     @Sendable
     public func listSecurityConfigs(_ input: ListSecurityConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityConfigsResponse {
-        return try await self.client.execute(operation: "ListSecurityConfigs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSecurityConfigs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about configured OpenSearch Serverless security policies.
     @Sendable
     public func listSecurityPolicies(_ input: ListSecurityPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityPoliciesResponse {
-        return try await self.client.execute(operation: "ListSecurityPolicies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSecurityPolicies", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the tags for an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the OpenSearch Serverless-managed interface VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
     @Sendable
     public func listVpcEndpoints(_ input: ListVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVpcEndpointsResponse {
-        return try await self.client.execute(operation: "ListVpcEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVpcEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates tags with an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a tag or set of tags from an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
     @Sendable
     public func updateAccessPolicy(_ input: UpdateAccessPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccessPolicyResponse {
-        return try await self.client.execute(operation: "UpdateAccessPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAccessPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see Managing capacity limits for Amazon OpenSearch Serverless.
     @Sendable
     public func updateAccountSettings(_ input: UpdateAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountSettingsResponse {
-        return try await self.client.execute(operation: "UpdateAccountSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAccountSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an OpenSearch Serverless collection.
     @Sendable
     public func updateCollection(_ input: UpdateCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCollectionResponse {
-        return try await self.client.execute(operation: "UpdateCollection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCollection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
     @Sendable
     public func updateSecurityConfig(_ input: UpdateSecurityConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSecurityConfigResponse {
-        return try await self.client.execute(operation: "UpdateSecurityConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSecurityConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
     @Sendable
     public func updateSecurityPolicy(_ input: UpdateSecurityPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSecurityPolicyResponse {
-        return try await self.client.execute(operation: "UpdateSecurityPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSecurityPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
     @Sendable
     public func updateVpcEndpoint(_ input: UpdateVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVpcEndpointResponse {
-        return try await self.client.execute(operation: "UpdateVpcEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVpcEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

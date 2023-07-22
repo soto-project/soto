@@ -81,43 +81,92 @@ public struct IoTDataPlane: AWSService {
     /// Deletes the shadow for the specified thing. Requires permission to access the DeleteThingShadow action. For more information, see DeleteThingShadow in the IoT Developer Guide.
     @Sendable
     public func deleteThingShadow(_ input: DeleteThingShadowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteThingShadowResponse {
-        return try await self.client.execute(operation: "DeleteThingShadow", path: "/things/{thingName}/shadow", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteThingShadow", 
+            path: "/things/{thingName}/shadow", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the details of a single retained message for the specified topic. This action returns the message payload of the retained message, which can  incur messaging costs. To list only the topic names of the retained messages, call ListRetainedMessages. Requires permission to access the GetRetainedMessage action. For more information about messaging costs, see Amazon Web Services IoT Core pricing - Messaging.
     @Sendable
     public func getRetainedMessage(_ input: GetRetainedMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRetainedMessageResponse {
-        return try await self.client.execute(operation: "GetRetainedMessage", path: "/retainedMessage/{topic}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRetainedMessage", 
+            path: "/retainedMessage/{topic}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the shadow for the specified thing. Requires permission to access the GetThingShadow action. For more information, see GetThingShadow in the IoT Developer Guide.
     @Sendable
     public func getThingShadow(_ input: GetThingShadowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetThingShadowResponse {
-        return try await self.client.execute(operation: "GetThingShadow", path: "/things/{thingName}/shadow", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetThingShadow", 
+            path: "/things/{thingName}/shadow", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the shadows for the specified thing. Requires permission to access the ListNamedShadowsForThing action.
     @Sendable
     public func listNamedShadowsForThing(_ input: ListNamedShadowsForThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNamedShadowsForThingResponse {
-        return try await self.client.execute(operation: "ListNamedShadowsForThing", path: "/api/things/shadow/ListNamedShadowsForThing/{thingName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNamedShadowsForThing", 
+            path: "/api/things/shadow/ListNamedShadowsForThing/{thingName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists summary information about the retained messages stored for the account. This action returns only the topic names of the retained messages. It doesn't  return any message payloads. Although this action doesn't return a message payload, it can still incur messaging costs. To get the message payload of a retained message, call GetRetainedMessage with the topic name of the retained message. Requires permission to access the ListRetainedMessages action. For more information about messaging costs, see Amazon Web Services IoT Core pricing - Messaging.
     @Sendable
     public func listRetainedMessages(_ input: ListRetainedMessagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRetainedMessagesResponse {
-        return try await self.client.execute(operation: "ListRetainedMessages", path: "/retainedMessage", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRetainedMessages", 
+            path: "/retainedMessage", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Publishes an MQTT message. Requires permission to access the Publish action. For more information about MQTT messages, see  MQTT Protocol in the IoT Developer Guide. For more information about messaging costs, see Amazon Web Services IoT Core pricing - Messaging.
     @Sendable
     public func publish(_ input: PublishRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "Publish", path: "/topics/{topic}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "Publish", 
+            path: "/topics/{topic}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the shadow for the specified thing. Requires permission to access the UpdateThingShadow action. For more information, see UpdateThingShadow in the IoT Developer Guide.
     @Sendable
     public func updateThingShadow(_ input: UpdateThingShadowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThingShadowResponse {
-        return try await self.client.execute(operation: "UpdateThingShadow", path: "/things/{thingName}/shadow", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateThingShadow", 
+            path: "/things/{thingName}/shadow", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

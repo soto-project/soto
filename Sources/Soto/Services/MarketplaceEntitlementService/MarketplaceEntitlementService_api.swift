@@ -68,7 +68,14 @@ public struct MarketplaceEntitlementService: AWSService {
     /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier or product dimensions.
     @Sendable
     public func getEntitlements(_ input: GetEntitlementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEntitlementsResult {
-        return try await self.client.execute(operation: "GetEntitlements", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetEntitlements", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

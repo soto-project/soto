@@ -77,248 +77,535 @@ public struct IoT: AWSService {
     /// Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates. Requires permission to access the AcceptCertificateTransfer action.
     @Sendable
     public func acceptCertificateTransfer(_ input: AcceptCertificateTransferRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AcceptCertificateTransfer", path: "/accept-certificate-transfer/{certificateId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AcceptCertificateTransfer", 
+            path: "/accept-certificate-transfer/{certificateId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a thing to a billing group. Requires permission to access the AddThingToBillingGroup action.
     @Sendable
     public func addThingToBillingGroup(_ input: AddThingToBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddThingToBillingGroupResponse {
-        return try await self.client.execute(operation: "AddThingToBillingGroup", path: "/billing-groups/addThingToBillingGroup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddThingToBillingGroup", 
+            path: "/billing-groups/addThingToBillingGroup", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a thing to a thing group. Requires permission to access the AddThingToThingGroup action.
     @Sendable
     public func addThingToThingGroup(_ input: AddThingToThingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddThingToThingGroupResponse {
-        return try await self.client.execute(operation: "AddThingToThingGroup", path: "/thing-groups/addThingToThingGroup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddThingToThingGroup", 
+            path: "/thing-groups/addThingToThingGroup", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a group with a continuous job. The following criteria must be met:    The job must have been created with the targetSelection field set to "CONTINUOUS".   The job status must currently be "IN_PROGRESS".   The total number of targets associated with a job must not exceed 100.   Requires permission to access the AssociateTargetsWithJob action.
     @Sendable
     public func associateTargetsWithJob(_ input: AssociateTargetsWithJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateTargetsWithJobResponse {
-        return try await self.client.execute(operation: "AssociateTargetsWithJob", path: "/jobs/{jobId}/targets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateTargetsWithJob", 
+            path: "/jobs/{jobId}/targets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attaches the specified policy to the specified principal (certificate or other credential). Requires permission to access the AttachPolicy action.
     @Sendable
     public func attachPolicy(_ input: AttachPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AttachPolicy", path: "/target-policies/{policyName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AttachPolicy", 
+            path: "/target-policies/{policyName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attaches the specified policy to the specified principal (certificate or other credential).  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use AttachPolicy instead. Requires permission to access the AttachPrincipalPolicy action.
     @Sendable
     public func attachPrincipalPolicy(_ input: AttachPrincipalPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AttachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AttachPrincipalPolicy", 
+            path: "/principal-policies/{policyName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a Device Defender security profile with a thing group or this account. Each  thing group or account can have up to five security profiles associated with it. Requires permission to access the AttachSecurityProfile action.
     @Sendable
     public func attachSecurityProfile(_ input: AttachSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachSecurityProfileResponse {
-        return try await self.client.execute(operation: "AttachSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AttachSecurityProfile", 
+            path: "/security-profiles/{securityProfileName}/targets", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attaches the specified principal to the specified thing. A principal can be X.509
     /// 			certificates, Amazon Cognito identities or federated identities. Requires permission to access the AttachThingPrincipal action.
     @Sendable
     public func attachThingPrincipal(_ input: AttachThingPrincipalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachThingPrincipalResponse {
-        return try await self.client.execute(operation: "AttachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AttachThingPrincipal", 
+            path: "/things/{thingName}/principals", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels a mitigation action task that is in progress. If the task is not in progress, an InvalidRequestException occurs. Requires permission to access the CancelAuditMitigationActionsTask action.
     @Sendable
     public func cancelAuditMitigationActionsTask(_ input: CancelAuditMitigationActionsTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelAuditMitigationActionsTaskResponse {
-        return try await self.client.execute(operation: "CancelAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelAuditMitigationActionsTask", 
+            path: "/audit/mitigationactions/tasks/{taskId}/cancel", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestException" occurs. Requires permission to access the CancelAuditTask action.
     @Sendable
     public func cancelAuditTask(_ input: CancelAuditTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelAuditTaskResponse {
-        return try await self.client.execute(operation: "CancelAuditTask", path: "/audit/tasks/{taskId}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelAuditTask", 
+            path: "/audit/tasks/{taskId}/cancel", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels a pending transfer for the specified certificate.  Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use RejectCertificateTransfer instead.) After transfer, IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTIVE. Requires permission to access the CancelCertificateTransfer action.
     @Sendable
     public func cancelCertificateTransfer(_ input: CancelCertificateTransferRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "CancelCertificateTransfer", path: "/cancel-certificate-transfer/{certificateId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelCertificateTransfer", 
+            path: "/cancel-certificate-transfer/{certificateId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Cancels a Device Defender ML Detect mitigation action.  Requires permission to access the CancelDetectMitigationActionsTask action.
     @Sendable
     public func cancelDetectMitigationActionsTask(_ input: CancelDetectMitigationActionsTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelDetectMitigationActionsTaskResponse {
-        return try await self.client.execute(operation: "CancelDetectMitigationActionsTask", path: "/detect/mitigationactions/tasks/{taskId}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelDetectMitigationActionsTask", 
+            path: "/detect/mitigationactions/tasks/{taskId}/cancel", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels a job. Requires permission to access the CancelJob action.
     @Sendable
     public func cancelJob(_ input: CancelJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelJobResponse {
-        return try await self.client.execute(operation: "CancelJob", path: "/jobs/{jobId}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelJob", 
+            path: "/jobs/{jobId}/cancel", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels the execution of a job for a given thing. Requires permission to access the CancelJobExecution action.
     @Sendable
     public func cancelJobExecution(_ input: CancelJobExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "CancelJobExecution", path: "/things/{thingName}/jobs/{jobId}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelJobExecution", 
+            path: "/things/{thingName}/jobs/{jobId}/cancel", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Clears the default authorizer. Requires permission to access the ClearDefaultAuthorizer action.
     @Sendable
     public func clearDefaultAuthorizer(_ input: ClearDefaultAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClearDefaultAuthorizerResponse {
-        return try await self.client.execute(operation: "ClearDefaultAuthorizer", path: "/default-authorizer", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ClearDefaultAuthorizer", 
+            path: "/default-authorizer", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Confirms a topic rule destination. When you create a rule requiring a destination, IoT sends a confirmation message to the endpoint or base address you specify. The message includes a token which you pass back when calling ConfirmTopicRuleDestination to confirm that you own or have access to the endpoint. Requires permission to access the ConfirmTopicRuleDestination action.
     @Sendable
     public func confirmTopicRuleDestination(_ input: ConfirmTopicRuleDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfirmTopicRuleDestinationResponse {
-        return try await self.client.execute(operation: "ConfirmTopicRuleDestination", path: "/confirmdestination/{confirmationToken+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ConfirmTopicRuleDestination", 
+            path: "/confirmdestination/{confirmationToken+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Creates a Device Defender audit suppression.  Requires permission to access the CreateAuditSuppression action.
     @Sendable
     public func createAuditSuppression(_ input: CreateAuditSuppressionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAuditSuppressionResponse {
-        return try await self.client.execute(operation: "CreateAuditSuppression", path: "/audit/suppressions/create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAuditSuppression", 
+            path: "/audit/suppressions/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an authorizer. Requires permission to access the CreateAuthorizer action.
     @Sendable
     public func createAuthorizer(_ input: CreateAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAuthorizerResponse {
-        return try await self.client.execute(operation: "CreateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAuthorizer", 
+            path: "/authorizer/{authorizerName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a billing group. Requires permission to access the CreateBillingGroup action.
     @Sendable
     public func createBillingGroup(_ input: CreateBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBillingGroupResponse {
-        return try await self.client.execute(operation: "CreateBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateBillingGroup", 
+            path: "/billing-groups/{billingGroupName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an X.509 certificate using the specified certificate signing request.  Requires permission to access the CreateCertificateFromCsr action.   The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256 or NIST P-384 curves.  For supported certificates, consult  Certificate signing algorithms supported by IoT.    Reusing the same certificate signing request (CSR) results in a distinct certificate.  You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. In the following commands, we assume that a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is:   $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}  This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr Amazon Web Services CLI command to create a certificate for the corresponding CSR.  You can also run the aws iot create-certificate-from-csr part of the command in parallel to speed up the certificate creation process:  $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}   On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is:  > ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_}   On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is:  > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
     @Sendable
     public func createCertificateFromCsr(_ input: CreateCertificateFromCsrRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCertificateFromCsrResponse {
-        return try await self.client.execute(operation: "CreateCertificateFromCsr", path: "/certificates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCertificateFromCsr", 
+            path: "/certificates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Use this API to define a Custom Metric published by your devices to Device Defender.  Requires permission to access the CreateCustomMetric action.
     @Sendable
     public func createCustomMetric(_ input: CreateCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomMetricResponse {
-        return try await self.client.execute(operation: "CreateCustomMetric", path: "/custom-metric/{metricName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCustomMetric", 
+            path: "/custom-metric/{metricName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender.  For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension. Requires permission to access the CreateDimension action.
     @Sendable
     public func createDimension(_ input: CreateDimensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDimensionResponse {
-        return try await self.client.execute(operation: "CreateDimension", path: "/dimensions/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDimension", 
+            path: "/dimensions/{name}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a domain configuration. Requires permission to access the CreateDomainConfiguration action.
     @Sendable
     public func createDomainConfiguration(_ input: CreateDomainConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainConfigurationResponse {
-        return try await self.client.execute(operation: "CreateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDomainConfiguration", 
+            path: "/domainConfigurations/{domainConfigurationName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a dynamic thing group. Requires permission to access the CreateDynamicThingGroup action.
     @Sendable
     public func createDynamicThingGroup(_ input: CreateDynamicThingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDynamicThingGroupResponse {
-        return try await self.client.execute(operation: "CreateDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDynamicThingGroup", 
+            path: "/dynamic-thing-groups/{thingGroupName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a fleet metric. Requires permission to access the CreateFleetMetric action.
     @Sendable
     public func createFleetMetric(_ input: CreateFleetMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFleetMetricResponse {
-        return try await self.client.execute(operation: "CreateFleetMetric", path: "/fleet-metric/{metricName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFleetMetric", 
+            path: "/fleet-metric/{metricName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a job. Requires permission to access the CreateJob action.
     @Sendable
     public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobResponse {
-        return try await self.client.execute(operation: "CreateJob", path: "/jobs/{jobId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateJob", 
+            path: "/jobs/{jobId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a job template. Requires permission to access the CreateJobTemplate action.
     @Sendable
     public func createJobTemplate(_ input: CreateJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobTemplateResponse {
-        return try await self.client.execute(operation: "CreateJobTemplate", path: "/job-templates/{jobTemplateId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateJobTemplate", 
+            path: "/job-templates/{jobTemplateId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key. You can also call CreateKeysAndCertificate over MQTT from a device, for more information, see Provisioning MQTT API.  Note This is the only time IoT issues the private key for this certificate, so it is important to keep it in a secure location. Requires permission to access the CreateKeysAndCertificate action.
     @Sendable
     public func createKeysAndCertificate(_ input: CreateKeysAndCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKeysAndCertificateResponse {
-        return try await self.client.execute(operation: "CreateKeysAndCertificate", path: "/keys-and-certificate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateKeysAndCertificate", 
+            path: "/keys-and-certificate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to specific check names.  For more information, see Mitigation actions. Each mitigation action can apply only one type of change. Requires permission to access the CreateMitigationAction action.
     @Sendable
     public func createMitigationAction(_ input: CreateMitigationActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMitigationActionResponse {
-        return try await self.client.execute(operation: "CreateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMitigationAction", 
+            path: "/mitigationactions/actions/{actionName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an IoT OTA update on a target group of things or groups. Requires permission to access the CreateOTAUpdate action.
     @Sendable
     public func createOTAUpdate(_ input: CreateOTAUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOTAUpdateResponse {
-        return try await self.client.execute(operation: "CreateOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateOTAUpdate", 
+            path: "/otaUpdates/{otaUpdateId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an IoT software package that can be deployed to your fleet. Requires permission to access the CreatePackage and GetIndexingConfiguration actions.
     @Sendable
     public func createPackage(_ input: CreatePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePackageResponse {
-        return try await self.client.execute(operation: "CreatePackage", path: "/packages/{packageName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePackage", 
+            path: "/packages/{packageName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new version for an existing IoT software package. Requires permission to access the CreatePackageVersion and GetIndexingConfiguration actions.
     @Sendable
     public func createPackageVersion(_ input: CreatePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePackageVersionResponse {
-        return try await self.client.execute(operation: "CreatePackageVersion", path: "/packages/{packageName}/versions/{versionName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePackageVersion", 
+            path: "/packages/{packageName}/versions/{versionName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an IoT policy. The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version. Requires permission to access the CreatePolicy action.
     @Sendable
     public func createPolicy(_ input: CreatePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePolicyResponse {
-        return try await self.client.execute(operation: "CreatePolicy", path: "/policies/{policyName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePolicy", 
+            path: "/policies/{policyName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new version of the specified IoT policy. To update a policy, create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must use DeletePolicyVersion to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default version. The default version is the operative version (that is, the version that is in effect for the certificates to which the policy is attached). Requires permission to access the CreatePolicyVersion action.
     @Sendable
     public func createPolicyVersion(_ input: CreatePolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePolicyVersionResponse {
-        return try await self.client.execute(operation: "CreatePolicyVersion", path: "/policies/{policyName}/version", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePolicyVersion", 
+            path: "/policies/{policyName}/version", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a provisioning claim. Requires permission to access the CreateProvisioningClaim action.
     @Sendable
     public func createProvisioningClaim(_ input: CreateProvisioningClaimRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProvisioningClaimResponse {
-        return try await self.client.execute(operation: "CreateProvisioningClaim", path: "/provisioning-templates/{templateName}/provisioning-claim", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProvisioningClaim", 
+            path: "/provisioning-templates/{templateName}/provisioning-claim", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a provisioning template. Requires permission to access the CreateProvisioningTemplate action.
     @Sendable
     public func createProvisioningTemplate(_ input: CreateProvisioningTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProvisioningTemplateResponse {
-        return try await self.client.execute(operation: "CreateProvisioningTemplate", path: "/provisioning-templates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProvisioningTemplate", 
+            path: "/provisioning-templates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new version of a provisioning template. Requires permission to access the CreateProvisioningTemplateVersion action.
     @Sendable
     public func createProvisioningTemplateVersion(_ input: CreateProvisioningTemplateVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProvisioningTemplateVersionResponse {
-        return try await self.client.execute(operation: "CreateProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProvisioningTemplateVersion", 
+            path: "/provisioning-templates/{templateName}/versions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a role alias. Requires permission to access the CreateRoleAlias action.
     @Sendable
     public func createRoleAlias(_ input: CreateRoleAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRoleAliasResponse {
-        return try await self.client.execute(operation: "CreateRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRoleAlias", 
+            path: "/role-aliases/{roleAlias}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a scheduled audit that is run at a specified  time interval. Requires permission to access the CreateScheduledAudit action.
     @Sendable
     public func createScheduledAudit(_ input: CreateScheduledAuditRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScheduledAuditResponse {
-        return try await self.client.execute(operation: "CreateScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateScheduledAudit", 
+            path: "/audit/scheduledaudits/{scheduledAuditName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a Device Defender security profile. Requires permission to access the CreateSecurityProfile action.
     @Sendable
     public func createSecurityProfile(_ input: CreateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSecurityProfileResponse {
-        return try await self.client.execute(operation: "CreateSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSecurityProfile", 
+            path: "/security-profiles/{securityProfileName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream. Requires permission to access the CreateStream action.
     @Sendable
     public func createStream(_ input: CreateStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStreamResponse {
-        return try await self.client.execute(operation: "CreateStream", path: "/streams/{streamId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateStream", 
+            path: "/streams/{streamId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a thing record in the registry. If this call is made multiple times using
@@ -328,207 +615,445 @@ public struct IoT: AWSService {
     /// 				information about authorizing control plane actions.  Requires permission to access the CreateThing action.
     @Sendable
     public func createThing(_ input: CreateThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThingResponse {
-        return try await self.client.execute(operation: "CreateThing", path: "/things/{thingName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateThing", 
+            path: "/things/{thingName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a thing group.  This is a control plane operation. See Authorization for
     /// 				information about authorizing control plane actions.  Requires permission to access the CreateThingGroup action.
     @Sendable
     public func createThingGroup(_ input: CreateThingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThingGroupResponse {
-        return try await self.client.execute(operation: "CreateThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateThingGroup", 
+            path: "/thing-groups/{thingGroupName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new thing type. Requires permission to access the CreateThingType action.
     @Sendable
     public func createThingType(_ input: CreateThingTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThingTypeResponse {
-        return try await self.client.execute(operation: "CreateThingType", path: "/thing-types/{thingTypeName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateThingType", 
+            path: "/thing-types/{thingTypeName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule. Requires permission to access the CreateTopicRule action.
     @Sendable
     public func createTopicRule(_ input: CreateTopicRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "CreateTopicRule", path: "/rules/{ruleName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTopicRule", 
+            path: "/rules/{ruleName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a topic rule destination. The destination must be confirmed prior to use. Requires permission to access the CreateTopicRuleDestination action.
     @Sendable
     public func createTopicRuleDestination(_ input: CreateTopicRuleDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTopicRuleDestinationResponse {
-        return try await self.client.execute(operation: "CreateTopicRuleDestination", path: "/destinations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTopicRuleDestination", 
+            path: "/destinations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to  disabled.   Requires permission to access the DeleteAccountAuditConfiguration action.
     @Sendable
     public func deleteAccountAuditConfiguration(_ input: DeleteAccountAuditConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountAuditConfigurationResponse {
-        return try await self.client.execute(operation: "DeleteAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAccountAuditConfiguration", 
+            path: "/audit/configuration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Deletes a Device Defender audit suppression.  Requires permission to access the DeleteAuditSuppression action.
     @Sendable
     public func deleteAuditSuppression(_ input: DeleteAuditSuppressionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAuditSuppressionResponse {
-        return try await self.client.execute(operation: "DeleteAuditSuppression", path: "/audit/suppressions/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAuditSuppression", 
+            path: "/audit/suppressions/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an authorizer. Requires permission to access the DeleteAuthorizer action.
     @Sendable
     public func deleteAuthorizer(_ input: DeleteAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAuthorizerResponse {
-        return try await self.client.execute(operation: "DeleteAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAuthorizer", 
+            path: "/authorizer/{authorizerName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the billing group. Requires permission to access the DeleteBillingGroup action.
     @Sendable
     public func deleteBillingGroup(_ input: DeleteBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBillingGroupResponse {
-        return try await self.client.execute(operation: "DeleteBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBillingGroup", 
+            path: "/billing-groups/{billingGroupName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a registered CA certificate. Requires permission to access the DeleteCACertificate action.
     @Sendable
     public func deleteCACertificate(_ input: DeleteCACertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCACertificateResponse {
-        return try await self.client.execute(operation: "DeleteCACertificate", path: "/cacertificate/{certificateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCACertificate", 
+            path: "/cacertificate/{certificateId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPolicy action to detach all policies. Next, use the UpdateCertificate action to set the certificate to the INACTIVE status. Requires permission to access the DeleteCertificate action.
     @Sendable
     public func deleteCertificate(_ input: DeleteCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteCertificate", path: "/certificates/{certificateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCertificate", 
+            path: "/certificates/{certificateId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Deletes a Device Defender detect custom metric.  Requires permission to access the DeleteCustomMetric action.  Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the ListSecurityProfiles API with metricName set to your custom metric name.
     @Sendable
     public func deleteCustomMetric(_ input: DeleteCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomMetricResponse {
-        return try await self.client.execute(operation: "DeleteCustomMetric", path: "/custom-metric/{metricName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCustomMetric", 
+            path: "/custom-metric/{metricName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified dimension from your Amazon Web Services accounts. Requires permission to access the DeleteDimension action.
     @Sendable
     public func deleteDimension(_ input: DeleteDimensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDimensionResponse {
-        return try await self.client.execute(operation: "DeleteDimension", path: "/dimensions/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDimension", 
+            path: "/dimensions/{name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified domain configuration. Requires permission to access the DeleteDomainConfiguration action.
     @Sendable
     public func deleteDomainConfiguration(_ input: DeleteDomainConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainConfigurationResponse {
-        return try await self.client.execute(operation: "DeleteDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDomainConfiguration", 
+            path: "/domainConfigurations/{domainConfigurationName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a dynamic thing group. Requires permission to access the DeleteDynamicThingGroup action.
     @Sendable
     public func deleteDynamicThingGroup(_ input: DeleteDynamicThingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDynamicThingGroupResponse {
-        return try await self.client.execute(operation: "DeleteDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDynamicThingGroup", 
+            path: "/dynamic-thing-groups/{thingGroupName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified fleet metric.  Returns successfully with no error if the deletion is successful or you specify a fleet metric that doesn't exist. Requires permission to access the DeleteFleetMetric action.
     @Sendable
     public func deleteFleetMetric(_ input: DeleteFleetMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteFleetMetric", path: "/fleet-metric/{metricName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFleetMetric", 
+            path: "/fleet-metric/{metricName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as  "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status  is already "DELETION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur. Requires permission to access the DeleteJob action.
     @Sendable
     public func deleteJob(_ input: DeleteJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteJob", path: "/jobs/{jobId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteJob", 
+            path: "/jobs/{jobId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a job execution. Requires permission to access the DeleteJobExecution action.
     @Sendable
     public func deleteJobExecution(_ input: DeleteJobExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteJobExecution", path: "/things/{thingName}/jobs/{jobId}/executionNumber/{executionNumber}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteJobExecution", 
+            path: "/things/{thingName}/jobs/{jobId}/executionNumber/{executionNumber}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified job template.
     @Sendable
     public func deleteJobTemplate(_ input: DeleteJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteJobTemplate", path: "/job-templates/{jobTemplateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteJobTemplate", 
+            path: "/job-templates/{jobTemplateId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a defined mitigation action from your Amazon Web Services accounts. Requires permission to access the DeleteMitigationAction action.
     @Sendable
     public func deleteMitigationAction(_ input: DeleteMitigationActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMitigationActionResponse {
-        return try await self.client.execute(operation: "DeleteMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMitigationAction", 
+            path: "/mitigationactions/actions/{actionName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete an OTA update. Requires permission to access the DeleteOTAUpdate action.
     @Sendable
     public func deleteOTAUpdate(_ input: DeleteOTAUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteOTAUpdateResponse {
-        return try await self.client.execute(operation: "DeleteOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteOTAUpdate", 
+            path: "/otaUpdates/{otaUpdateId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specific version from a software package.  Note: All package versions must be deleted before deleting the software package. Requires permission to access the DeletePackageVersion action.
     @Sendable
     public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePackageResponse {
-        return try await self.client.execute(operation: "DeletePackage", path: "/packages/{packageName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePackage", 
+            path: "/packages/{packageName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specific version from a software package.  Note: If a package version is designated as default, you must remove the designation from the package using the UpdatePackage action.
     @Sendable
     public func deletePackageVersion(_ input: DeletePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePackageVersionResponse {
-        return try await self.client.execute(operation: "DeletePackageVersion", path: "/packages/{packageName}/versions/{versionName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePackageVersion", 
+            path: "/packages/{packageName}/versions/{versionName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the DeletePolicyVersion action to delete all non-default versions of the policy; use the DetachPolicy action to detach the policy from any certificate; and then use the DeletePolicy action to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it.  Because of the distributed nature of Amazon Web Services, it can take up to five minutes after a policy is detached before it's ready to be deleted.  Requires permission to access the DeletePolicy action.
     @Sendable
     public func deletePolicy(_ input: DeletePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeletePolicy", path: "/policies/{policyName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePolicy", 
+            path: "/policies/{policyName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this action. To delete the default version of a policy, use DeletePolicy. To find out which version of a policy is marked as the default version, use ListPolicyVersions. Requires permission to access the DeletePolicyVersion action.
     @Sendable
     public func deletePolicyVersion(_ input: DeletePolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeletePolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePolicyVersion", 
+            path: "/policies/{policyName}/version/{policyVersionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a provisioning template. Requires permission to access the DeleteProvisioningTemplate action.
     @Sendable
     public func deleteProvisioningTemplate(_ input: DeleteProvisioningTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProvisioningTemplateResponse {
-        return try await self.client.execute(operation: "DeleteProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteProvisioningTemplate", 
+            path: "/provisioning-templates/{templateName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a provisioning template version. Requires permission to access the DeleteProvisioningTemplateVersion action.
     @Sendable
     public func deleteProvisioningTemplateVersion(_ input: DeleteProvisioningTemplateVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProvisioningTemplateVersionResponse {
-        return try await self.client.execute(operation: "DeleteProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions/{versionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteProvisioningTemplateVersion", 
+            path: "/provisioning-templates/{templateName}/versions/{versionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a CA certificate registration code. Requires permission to access the DeleteRegistrationCode action.
     @Sendable
     public func deleteRegistrationCode(_ input: DeleteRegistrationCodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRegistrationCodeResponse {
-        return try await self.client.execute(operation: "DeleteRegistrationCode", path: "/registrationcode", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRegistrationCode", 
+            path: "/registrationcode", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a role alias Requires permission to access the DeleteRoleAlias action.
     @Sendable
     public func deleteRoleAlias(_ input: DeleteRoleAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRoleAliasResponse {
-        return try await self.client.execute(operation: "DeleteRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRoleAlias", 
+            path: "/role-aliases/{roleAlias}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a scheduled audit. Requires permission to access the DeleteScheduledAudit action.
     @Sendable
     public func deleteScheduledAudit(_ input: DeleteScheduledAuditRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteScheduledAuditResponse {
-        return try await self.client.execute(operation: "DeleteScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteScheduledAudit", 
+            path: "/audit/scheduledaudits/{scheduledAuditName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a Device Defender security profile. Requires permission to access the DeleteSecurityProfile action.
     @Sendable
     public func deleteSecurityProfile(_ input: DeleteSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSecurityProfileResponse {
-        return try await self.client.execute(operation: "DeleteSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSecurityProfile", 
+            path: "/security-profiles/{securityProfileName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a stream. Requires permission to access the DeleteStream action.
     @Sendable
     public func deleteStream(_ input: DeleteStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStreamResponse {
-        return try await self.client.execute(operation: "DeleteStream", path: "/streams/{streamId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteStream", 
+            path: "/streams/{streamId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified thing. Returns successfully with no error if the deletion is
     /// 			successful or you specify a thing that doesn't exist. Requires permission to access the DeleteThing action.
     @Sendable
     public func deleteThing(_ input: DeleteThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteThingResponse {
-        return try await self.client.execute(operation: "DeleteThing", path: "/things/{thingName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteThing", 
+            path: "/things/{thingName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a thing group. Requires permission to access the DeleteThingGroup action.
     @Sendable
     public func deleteThingGroup(_ input: DeleteThingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteThingGroupResponse {
-        return try await self.client.execute(operation: "DeleteThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteThingGroup", 
+            path: "/thing-groups/{thingGroupName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified thing type. You cannot delete a thing type if it has things
@@ -536,248 +1061,535 @@ public struct IoT: AWSService {
     /// 			finally use DeleteThingType to delete the thing type. Requires permission to access the DeleteThingType action.
     @Sendable
     public func deleteThingType(_ input: DeleteThingTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteThingTypeResponse {
-        return try await self.client.execute(operation: "DeleteThingType", path: "/thing-types/{thingTypeName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteThingType", 
+            path: "/thing-types/{thingTypeName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the rule. Requires permission to access the DeleteTopicRule action.
     @Sendable
     public func deleteTopicRule(_ input: DeleteTopicRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteTopicRule", path: "/rules/{ruleName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTopicRule", 
+            path: "/rules/{ruleName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a topic rule destination. Requires permission to access the DeleteTopicRuleDestination action.
     @Sendable
     public func deleteTopicRuleDestination(_ input: DeleteTopicRuleDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTopicRuleDestinationResponse {
-        return try await self.client.execute(operation: "DeleteTopicRuleDestination", path: "/destinations/{arn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTopicRuleDestination", 
+            path: "/destinations/{arn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a logging level. Requires permission to access the DeleteV2LoggingLevel action.
     @Sendable
     public func deleteV2LoggingLevel(_ input: DeleteV2LoggingLevelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteV2LoggingLevel", 
+            path: "/v2LoggingLevel", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deprecates a thing type. You can not associate new things with deprecated thing
     /// 			type. Requires permission to access the DeprecateThingType action.
     @Sendable
     public func deprecateThingType(_ input: DeprecateThingTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeprecateThingTypeResponse {
-        return try await self.client.execute(operation: "DeprecateThingType", path: "/thing-types/{thingTypeName}/deprecate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeprecateThingType", 
+            path: "/thing-types/{thingTypeName}/deprecate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the DescribeAccountAuditConfiguration action.
     @Sendable
     public func describeAccountAuditConfiguration(_ input: DescribeAccountAuditConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountAuditConfigurationResponse {
-        return try await self.client.execute(operation: "DescribeAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAccountAuditConfiguration", 
+            path: "/audit/configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and the start time when the audit that returned the finding. Requires permission to access the DescribeAuditFinding action.
     @Sendable
     public func describeAuditFinding(_ input: DescribeAuditFindingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAuditFindingResponse {
-        return try await self.client.execute(operation: "DescribeAuditFinding", path: "/audit/findings/{findingId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAuditFinding", 
+            path: "/audit/findings/{findingId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
     @Sendable
     public func describeAuditMitigationActionsTask(_ input: DescribeAuditMitigationActionsTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAuditMitigationActionsTaskResponse {
-        return try await self.client.execute(operation: "DescribeAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAuditMitigationActionsTask", 
+            path: "/audit/mitigationactions/tasks/{taskId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Gets information about a Device Defender audit suppression.
     @Sendable
     public func describeAuditSuppression(_ input: DescribeAuditSuppressionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAuditSuppressionResponse {
-        return try await self.client.execute(operation: "DescribeAuditSuppression", path: "/audit/suppressions/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAuditSuppression", 
+            path: "/audit/suppressions/describe", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a Device Defender audit. Requires permission to access the DescribeAuditTask action.
     @Sendable
     public func describeAuditTask(_ input: DescribeAuditTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAuditTaskResponse {
-        return try await self.client.execute(operation: "DescribeAuditTask", path: "/audit/tasks/{taskId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAuditTask", 
+            path: "/audit/tasks/{taskId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an authorizer. Requires permission to access the DescribeAuthorizer action.
     @Sendable
     public func describeAuthorizer(_ input: DescribeAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAuthorizerResponse {
-        return try await self.client.execute(operation: "DescribeAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAuthorizer", 
+            path: "/authorizer/{authorizerName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a billing group. Requires permission to access the DescribeBillingGroup action.
     @Sendable
     public func describeBillingGroup(_ input: DescribeBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBillingGroupResponse {
-        return try await self.client.execute(operation: "DescribeBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBillingGroup", 
+            path: "/billing-groups/{billingGroupName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a registered CA certificate. Requires permission to access the DescribeCACertificate action.
     @Sendable
     public func describeCACertificate(_ input: DescribeCACertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCACertificateResponse {
-        return try await self.client.execute(operation: "DescribeCACertificate", path: "/cacertificate/{certificateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCACertificate", 
+            path: "/cacertificate/{certificateId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified certificate. Requires permission to access the DescribeCertificate action.
     @Sendable
     public func describeCertificate(_ input: DescribeCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCertificateResponse {
-        return try await self.client.execute(operation: "DescribeCertificate", path: "/certificates/{certificateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCertificate", 
+            path: "/certificates/{certificateId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Gets information about a Device Defender detect custom metric.  Requires permission to access the DescribeCustomMetric action.
     @Sendable
     public func describeCustomMetric(_ input: DescribeCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCustomMetricResponse {
-        return try await self.client.execute(operation: "DescribeCustomMetric", path: "/custom-metric/{metricName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCustomMetric", 
+            path: "/custom-metric/{metricName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the default authorizer. Requires permission to access the DescribeDefaultAuthorizer action.
     @Sendable
     public func describeDefaultAuthorizer(_ input: DescribeDefaultAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDefaultAuthorizerResponse {
-        return try await self.client.execute(operation: "DescribeDefaultAuthorizer", path: "/default-authorizer", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDefaultAuthorizer", 
+            path: "/default-authorizer", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Gets information about a Device Defender ML Detect mitigation action.  Requires permission to access the DescribeDetectMitigationActionsTask action.
     @Sendable
     public func describeDetectMitigationActionsTask(_ input: DescribeDetectMitigationActionsTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDetectMitigationActionsTaskResponse {
-        return try await self.client.execute(operation: "DescribeDetectMitigationActionsTask", path: "/detect/mitigationactions/tasks/{taskId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDetectMitigationActionsTask", 
+            path: "/detect/mitigationactions/tasks/{taskId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides details about a dimension that is defined in your Amazon Web Services accounts. Requires permission to access the DescribeDimension action.
     @Sendable
     public func describeDimension(_ input: DescribeDimensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDimensionResponse {
-        return try await self.client.execute(operation: "DescribeDimension", path: "/dimensions/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDimension", 
+            path: "/dimensions/{name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets summary information about a domain configuration. Requires permission to access the DescribeDomainConfiguration action.
     @Sendable
     public func describeDomainConfiguration(_ input: DescribeDomainConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDomainConfigurationResponse {
-        return try await self.client.execute(operation: "DescribeDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDomainConfiguration", 
+            path: "/domainConfigurations/{domainConfigurationName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a unique endpoint specific to the Amazon Web Services account making the call. Requires permission to access the DescribeEndpoint action.
     @Sendable
     public func describeEndpoint(_ input: DescribeEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointResponse {
-        return try await self.client.execute(operation: "DescribeEndpoint", path: "/endpoint", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEndpoint", 
+            path: "/endpoint", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes event configurations. Requires permission to access the DescribeEventConfigurations action.
     @Sendable
     public func describeEventConfigurations(_ input: DescribeEventConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventConfigurationsResponse {
-        return try await self.client.execute(operation: "DescribeEventConfigurations", path: "/event-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEventConfigurations", 
+            path: "/event-configurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified fleet metric. Requires permission to access the DescribeFleetMetric action.
     @Sendable
     public func describeFleetMetric(_ input: DescribeFleetMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetMetricResponse {
-        return try await self.client.execute(operation: "DescribeFleetMetric", path: "/fleet-metric/{metricName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFleetMetric", 
+            path: "/fleet-metric/{metricName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a search index. Requires permission to access the DescribeIndex action.
     @Sendable
     public func describeIndex(_ input: DescribeIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIndexResponse {
-        return try await self.client.execute(operation: "DescribeIndex", path: "/indices/{indexName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeIndex", 
+            path: "/indices/{indexName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a job. Requires permission to access the DescribeJob action.
     @Sendable
     public func describeJob(_ input: DescribeJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobResponse {
-        return try await self.client.execute(operation: "DescribeJob", path: "/jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeJob", 
+            path: "/jobs/{jobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a job execution. Requires permission to access the DescribeJobExecution action.
     @Sendable
     public func describeJobExecution(_ input: DescribeJobExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobExecutionResponse {
-        return try await self.client.execute(operation: "DescribeJobExecution", path: "/things/{thingName}/jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeJobExecution", 
+            path: "/things/{thingName}/jobs/{jobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a job template.
     @Sendable
     public func describeJobTemplate(_ input: DescribeJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobTemplateResponse {
-        return try await self.client.execute(operation: "DescribeJobTemplate", path: "/job-templates/{jobTemplateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeJobTemplate", 
+            path: "/job-templates/{jobTemplateId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// View details of a managed job template.
     @Sendable
     public func describeManagedJobTemplate(_ input: DescribeManagedJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeManagedJobTemplateResponse {
-        return try await self.client.execute(operation: "DescribeManagedJobTemplate", path: "/managed-job-templates/{templateName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeManagedJobTemplate", 
+            path: "/managed-job-templates/{templateName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a mitigation action. Requires permission to access the DescribeMitigationAction action.
     @Sendable
     public func describeMitigationAction(_ input: DescribeMitigationActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMitigationActionResponse {
-        return try await self.client.execute(operation: "DescribeMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeMitigationAction", 
+            path: "/mitigationactions/actions/{actionName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a provisioning template. Requires permission to access the DescribeProvisioningTemplate action.
     @Sendable
     public func describeProvisioningTemplate(_ input: DescribeProvisioningTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProvisioningTemplateResponse {
-        return try await self.client.execute(operation: "DescribeProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProvisioningTemplate", 
+            path: "/provisioning-templates/{templateName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a provisioning template version. Requires permission to access the DescribeProvisioningTemplateVersion action.
     @Sendable
     public func describeProvisioningTemplateVersion(_ input: DescribeProvisioningTemplateVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProvisioningTemplateVersionResponse {
-        return try await self.client.execute(operation: "DescribeProvisioningTemplateVersion", path: "/provisioning-templates/{templateName}/versions/{versionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProvisioningTemplateVersion", 
+            path: "/provisioning-templates/{templateName}/versions/{versionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a role alias. Requires permission to access the DescribeRoleAlias action.
     @Sendable
     public func describeRoleAlias(_ input: DescribeRoleAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRoleAliasResponse {
-        return try await self.client.execute(operation: "DescribeRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRoleAlias", 
+            path: "/role-aliases/{roleAlias}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a scheduled audit. Requires permission to access the DescribeScheduledAudit action.
     @Sendable
     public func describeScheduledAudit(_ input: DescribeScheduledAuditRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeScheduledAuditResponse {
-        return try await self.client.execute(operation: "DescribeScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeScheduledAudit", 
+            path: "/audit/scheduledaudits/{scheduledAuditName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a Device Defender security profile. Requires permission to access the DescribeSecurityProfile action.
     @Sendable
     public func describeSecurityProfile(_ input: DescribeSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityProfileResponse {
-        return try await self.client.execute(operation: "DescribeSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSecurityProfile", 
+            path: "/security-profiles/{securityProfileName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a stream. Requires permission to access the DescribeStream action.
     @Sendable
     public func describeStream(_ input: DescribeStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStreamResponse {
-        return try await self.client.execute(operation: "DescribeStream", path: "/streams/{streamId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeStream", 
+            path: "/streams/{streamId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified thing. Requires permission to access the DescribeThing action.
     @Sendable
     public func describeThing(_ input: DescribeThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeThingResponse {
-        return try await self.client.execute(operation: "DescribeThing", path: "/things/{thingName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeThing", 
+            path: "/things/{thingName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe a thing group. Requires permission to access the DescribeThingGroup action.
     @Sendable
     public func describeThingGroup(_ input: DescribeThingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeThingGroupResponse {
-        return try await self.client.execute(operation: "DescribeThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeThingGroup", 
+            path: "/thing-groups/{thingGroupName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a bulk thing provisioning task. Requires permission to access the DescribeThingRegistrationTask action.
     @Sendable
     public func describeThingRegistrationTask(_ input: DescribeThingRegistrationTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeThingRegistrationTaskResponse {
-        return try await self.client.execute(operation: "DescribeThingRegistrationTask", path: "/thing-registration-tasks/{taskId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeThingRegistrationTask", 
+            path: "/thing-registration-tasks/{taskId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified thing type. Requires permission to access the DescribeThingType action.
     @Sendable
     public func describeThingType(_ input: DescribeThingTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeThingTypeResponse {
-        return try await self.client.execute(operation: "DescribeThingType", path: "/thing-types/{thingTypeName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeThingType", 
+            path: "/thing-types/{thingTypeName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Detaches a policy from the specified target.  Because of the distributed nature of Amazon Web Services, it can take up to five minutes after a policy is detached before it's ready to be deleted.  Requires permission to access the DetachPolicy action.
     @Sendable
     public func detachPolicy(_ input: DetachPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DetachPolicy", path: "/target-policies/{policyName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DetachPolicy", 
+            path: "/target-policies/{policyName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified policy from the specified certificate.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use DetachPolicy instead. Requires permission to access the DetachPrincipalPolicy action.
     @Sendable
     public func detachPrincipalPolicy(_ input: DetachPrincipalPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DetachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DetachPrincipalPolicy", 
+            path: "/principal-policies/{policyName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a Device Defender security profile from a thing group or from this account. Requires permission to access the DetachSecurityProfile action.
     @Sendable
     public func detachSecurityProfile(_ input: DetachSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetachSecurityProfileResponse {
-        return try await self.client.execute(operation: "DetachSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DetachSecurityProfile", 
+            path: "/security-profiles/{securityProfileName}/targets", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Detaches the specified principal from the specified thing. A principal can be X.509
@@ -786,337 +1598,729 @@ public struct IoT: AWSService {
     /// 				propagate.  Requires permission to access the DetachThingPrincipal action.
     @Sendable
     public func detachThingPrincipal(_ input: DetachThingPrincipalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetachThingPrincipalResponse {
-        return try await self.client.execute(operation: "DetachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DetachThingPrincipal", 
+            path: "/things/{thingName}/principals", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables the rule. Requires permission to access the DisableTopicRule action.
     @Sendable
     public func disableTopicRule(_ input: DisableTopicRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisableTopicRule", path: "/rules/{ruleName}/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableTopicRule", 
+            path: "/rules/{ruleName}/disable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables the rule. Requires permission to access the EnableTopicRule action.
     @Sendable
     public func enableTopicRule(_ input: EnableTopicRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "EnableTopicRule", path: "/rules/{ruleName}/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableTopicRule", 
+            path: "/rules/{ruleName}/enable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns a Device Defender's ML Detect Security Profile training model's status.  Requires permission to access the GetBehaviorModelTrainingSummaries action.
     @Sendable
     public func getBehaviorModelTrainingSummaries(_ input: GetBehaviorModelTrainingSummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBehaviorModelTrainingSummariesResponse {
-        return try await self.client.execute(operation: "GetBehaviorModelTrainingSummaries", path: "/behavior-model-training/summaries", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBehaviorModelTrainingSummaries", 
+            path: "/behavior-model-training/summaries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Aggregates on indexed data with search queries pertaining to particular fields.  Requires permission to access the GetBucketsAggregation action.
     @Sendable
     public func getBucketsAggregation(_ input: GetBucketsAggregationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketsAggregationResponse {
-        return try await self.client.execute(operation: "GetBucketsAggregation", path: "/indices/buckets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBucketsAggregation", 
+            path: "/indices/buckets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the approximate count of unique values that match the query. Requires permission to access the GetCardinality action.
     @Sendable
     public func getCardinality(_ input: GetCardinalityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCardinalityResponse {
-        return try await self.client.execute(operation: "GetCardinality", path: "/indices/cardinality", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCardinality", 
+            path: "/indices/cardinality", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of the policies that have an effect on the authorization behavior of the specified device when it connects to the IoT device gateway. Requires permission to access the GetEffectivePolicies action.
     @Sendable
     public func getEffectivePolicies(_ input: GetEffectivePoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEffectivePoliciesResponse {
-        return try await self.client.execute(operation: "GetEffectivePolicies", path: "/effective-policies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetEffectivePolicies", 
+            path: "/effective-policies", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the indexing configuration. Requires permission to access the GetIndexingConfiguration action.
     @Sendable
     public func getIndexingConfiguration(_ input: GetIndexingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIndexingConfigurationResponse {
-        return try await self.client.execute(operation: "GetIndexingConfiguration", path: "/indexing/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetIndexingConfiguration", 
+            path: "/indexing/config", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a job document. Requires permission to access the GetJobDocument action.
     @Sendable
     public func getJobDocument(_ input: GetJobDocumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobDocumentResponse {
-        return try await self.client.execute(operation: "GetJobDocument", path: "/jobs/{jobId}/job-document", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetJobDocument", 
+            path: "/jobs/{jobId}/job-document", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the logging options. NOTE: use of this command is not recommended. Use GetV2LoggingOptions instead. Requires permission to access the GetLoggingOptions action.
     @Sendable
     public func getLoggingOptions(_ input: GetLoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLoggingOptionsResponse {
-        return try await self.client.execute(operation: "GetLoggingOptions", path: "/loggingOptions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetLoggingOptions", 
+            path: "/loggingOptions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets an OTA update. Requires permission to access the GetOTAUpdate action.
     @Sendable
     public func getOTAUpdate(_ input: GetOTAUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOTAUpdateResponse {
-        return try await self.client.execute(operation: "GetOTAUpdate", path: "/otaUpdates/{otaUpdateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetOTAUpdate", 
+            path: "/otaUpdates/{otaUpdateId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified software package. Requires permission to access the GetPackage action.
     @Sendable
     public func getPackage(_ input: GetPackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPackageResponse {
-        return try await self.client.execute(operation: "GetPackage", path: "/packages/{packageName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPackage", 
+            path: "/packages/{packageName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified software package's configuration. Requires permission to access the GetPackageConfiguration action.
     @Sendable
     public func getPackageConfiguration(_ input: GetPackageConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPackageConfigurationResponse {
-        return try await self.client.execute(operation: "GetPackageConfiguration", path: "/package-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPackageConfiguration", 
+            path: "/package-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified package version.  Requires permission to access the GetPackageVersion action.
     @Sendable
     public func getPackageVersion(_ input: GetPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPackageVersionResponse {
-        return try await self.client.execute(operation: "GetPackageVersion", path: "/packages/{packageName}/versions/{versionName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPackageVersion", 
+            path: "/packages/{packageName}/versions/{versionName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Groups the aggregated values that match the query into percentile groupings. The default  percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own  when you call GetPercentiles. This function returns a value for each  percentile group specified (or the default percentile groupings). The percentile group  "1" contains the aggregated field value that occurs in approximately one percent of the  values that match the query. The percentile group "5" contains the aggregated field value  that occurs in approximately five percent of the values that match the query, and so on.  The result is an approximation, the more values that match the query, the more accurate  the percentile values. Requires permission to access the GetPercentiles action.
     @Sendable
     public func getPercentiles(_ input: GetPercentilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPercentilesResponse {
-        return try await self.client.execute(operation: "GetPercentiles", path: "/indices/percentiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPercentiles", 
+            path: "/indices/percentiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified policy with the policy document of the default version. Requires permission to access the GetPolicy action.
     @Sendable
     public func getPolicy(_ input: GetPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyResponse {
-        return try await self.client.execute(operation: "GetPolicy", path: "/policies/{policyName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPolicy", 
+            path: "/policies/{policyName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified policy version. Requires permission to access the GetPolicyVersion action.
     @Sendable
     public func getPolicyVersion(_ input: GetPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyVersionResponse {
-        return try await self.client.execute(operation: "GetPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPolicyVersion", 
+            path: "/policies/{policyName}/version/{policyVersionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a registration code used to register a CA certificate with IoT. Requires permission to access the GetRegistrationCode action.
     @Sendable
     public func getRegistrationCode(_ input: GetRegistrationCodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegistrationCodeResponse {
-        return try await self.client.execute(operation: "GetRegistrationCode", path: "/registrationcode", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRegistrationCode", 
+            path: "/registrationcode", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard deviation for the specified aggregated field. If the aggregation field is of type String, only the count statistic is returned. Requires permission to access the GetStatistics action.
     @Sendable
     public func getStatistics(_ input: GetStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStatisticsResponse {
-        return try await self.client.execute(operation: "GetStatistics", path: "/indices/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetStatistics", 
+            path: "/indices/statistics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the rule. Requires permission to access the GetTopicRule action.
     @Sendable
     public func getTopicRule(_ input: GetTopicRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTopicRuleResponse {
-        return try await self.client.execute(operation: "GetTopicRule", path: "/rules/{ruleName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTopicRule", 
+            path: "/rules/{ruleName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a topic rule destination. Requires permission to access the GetTopicRuleDestination action.
     @Sendable
     public func getTopicRuleDestination(_ input: GetTopicRuleDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTopicRuleDestinationResponse {
-        return try await self.client.execute(operation: "GetTopicRuleDestination", path: "/destinations/{arn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTopicRuleDestination", 
+            path: "/destinations/{arn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the fine grained logging options. Requires permission to access the GetV2LoggingOptions action.
     @Sendable
     public func getV2LoggingOptions(_ input: GetV2LoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetV2LoggingOptionsResponse {
-        return try await self.client.execute(operation: "GetV2LoggingOptions", path: "/v2LoggingOptions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetV2LoggingOptions", 
+            path: "/v2LoggingOptions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the active violations for a given Device Defender security profile. Requires permission to access the ListActiveViolations action.
     @Sendable
     public func listActiveViolations(_ input: ListActiveViolationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListActiveViolationsResponse {
-        return try await self.client.execute(operation: "ListActiveViolations", path: "/active-violations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListActiveViolations", 
+            path: "/active-violations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the policies attached to the specified thing group. Requires permission to access the ListAttachedPolicies action.
     @Sendable
     public func listAttachedPolicies(_ input: ListAttachedPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAttachedPoliciesResponse {
-        return try await self.client.execute(operation: "ListAttachedPolicies", path: "/attached-policies/{target}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAttachedPolicies", 
+            path: "/attached-policies/{target}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.) Requires permission to access the ListAuditFindings action.
     @Sendable
     public func listAuditFindings(_ input: ListAuditFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAuditFindingsResponse {
-        return try await self.client.execute(operation: "ListAuditFindings", path: "/audit/findings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAuditFindings", 
+            path: "/audit/findings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the status of audit mitigation action tasks that were executed. Requires permission to access the ListAuditMitigationActionsExecutions action.
     @Sendable
     public func listAuditMitigationActionsExecutions(_ input: ListAuditMitigationActionsExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAuditMitigationActionsExecutionsResponse {
-        return try await self.client.execute(operation: "ListAuditMitigationActionsExecutions", path: "/audit/mitigationactions/executions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAuditMitigationActionsExecutions", 
+            path: "/audit/mitigationactions/executions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of audit mitigation action tasks that match the specified filters. Requires permission to access the ListAuditMitigationActionsTasks action.
     @Sendable
     public func listAuditMitigationActionsTasks(_ input: ListAuditMitigationActionsTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAuditMitigationActionsTasksResponse {
-        return try await self.client.execute(operation: "ListAuditMitigationActionsTasks", path: "/audit/mitigationactions/tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAuditMitigationActionsTasks", 
+            path: "/audit/mitigationactions/tasks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Lists your Device Defender audit listings.  Requires permission to access the ListAuditSuppressions action.
     @Sendable
     public func listAuditSuppressions(_ input: ListAuditSuppressionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAuditSuppressionsResponse {
-        return try await self.client.execute(operation: "ListAuditSuppressions", path: "/audit/suppressions/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAuditSuppressions", 
+            path: "/audit/suppressions/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Device Defender audits that have been performed during a given time period. Requires permission to access the ListAuditTasks action.
     @Sendable
     public func listAuditTasks(_ input: ListAuditTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAuditTasksResponse {
-        return try await self.client.execute(operation: "ListAuditTasks", path: "/audit/tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAuditTasks", 
+            path: "/audit/tasks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the authorizers registered in your account. Requires permission to access the ListAuthorizers action.
     @Sendable
     public func listAuthorizers(_ input: ListAuthorizersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAuthorizersResponse {
-        return try await self.client.execute(operation: "ListAuthorizers", path: "/authorizers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAuthorizers", 
+            path: "/authorizers", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the billing groups you have created. Requires permission to access the ListBillingGroups action.
     @Sendable
     public func listBillingGroups(_ input: ListBillingGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBillingGroupsResponse {
-        return try await self.client.execute(operation: "ListBillingGroups", path: "/billing-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBillingGroups", 
+            path: "/billing-groups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the CA certificates registered for your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the ListCACertificates action.
     @Sendable
     public func listCACertificates(_ input: ListCACertificatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCACertificatesResponse {
-        return try await self.client.execute(operation: "ListCACertificates", path: "/cacertificates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCACertificates", 
+            path: "/cacertificates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the certificates registered in your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the ListCertificates action.
     @Sendable
     public func listCertificates(_ input: ListCertificatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCertificatesResponse {
-        return try await self.client.execute(operation: "ListCertificates", path: "/certificates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCertificates", 
+            path: "/certificates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the device certificates signed by the specified CA certificate. Requires permission to access the ListCertificatesByCA action.
     @Sendable
     public func listCertificatesByCA(_ input: ListCertificatesByCARequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCertificatesByCAResponse {
-        return try await self.client.execute(operation: "ListCertificatesByCA", path: "/certificates-by-ca/{caCertificateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCertificatesByCA", 
+            path: "/certificates-by-ca/{caCertificateId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Lists your Device Defender detect custom metrics.  Requires permission to access the ListCustomMetrics action.
     @Sendable
     public func listCustomMetrics(_ input: ListCustomMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomMetricsResponse {
-        return try await self.client.execute(operation: "ListCustomMetrics", path: "/custom-metrics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCustomMetrics", 
+            path: "/custom-metrics", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Lists mitigation actions executions for a Device Defender ML Detect Security Profile.  Requires permission to access the ListDetectMitigationActionsExecutions action.
     @Sendable
     public func listDetectMitigationActionsExecutions(_ input: ListDetectMitigationActionsExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDetectMitigationActionsExecutionsResponse {
-        return try await self.client.execute(operation: "ListDetectMitigationActionsExecutions", path: "/detect/mitigationactions/executions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDetectMitigationActionsExecutions", 
+            path: "/detect/mitigationactions/executions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  List of Device Defender ML Detect mitigation actions tasks.  Requires permission to access the ListDetectMitigationActionsTasks action.
     @Sendable
     public func listDetectMitigationActionsTasks(_ input: ListDetectMitigationActionsTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDetectMitigationActionsTasksResponse {
-        return try await self.client.execute(operation: "ListDetectMitigationActionsTasks", path: "/detect/mitigationactions/tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDetectMitigationActionsTasks", 
+            path: "/detect/mitigationactions/tasks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the set of dimensions that are defined for your Amazon Web Services accounts. Requires permission to access the ListDimensions action.
     @Sendable
     public func listDimensions(_ input: ListDimensionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDimensionsResponse {
-        return try await self.client.execute(operation: "ListDimensions", path: "/dimensions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDimensions", 
+            path: "/dimensions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name. Requires permission to access the ListDomainConfigurations action.
     @Sendable
     public func listDomainConfigurations(_ input: ListDomainConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainConfigurationsResponse {
-        return try await self.client.execute(operation: "ListDomainConfigurations", path: "/domainConfigurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDomainConfigurations", 
+            path: "/domainConfigurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all your fleet metrics.  Requires permission to access the ListFleetMetrics action.
     @Sendable
     public func listFleetMetrics(_ input: ListFleetMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFleetMetricsResponse {
-        return try await self.client.execute(operation: "ListFleetMetrics", path: "/fleet-metrics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFleetMetrics", 
+            path: "/fleet-metrics", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the search indices. Requires permission to access the ListIndices action.
     @Sendable
     public func listIndices(_ input: ListIndicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIndicesResponse {
-        return try await self.client.execute(operation: "ListIndices", path: "/indices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListIndices", 
+            path: "/indices", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the job executions for a job. Requires permission to access the ListJobExecutionsForJob action.
     @Sendable
     public func listJobExecutionsForJob(_ input: ListJobExecutionsForJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobExecutionsForJobResponse {
-        return try await self.client.execute(operation: "ListJobExecutionsForJob", path: "/jobs/{jobId}/things", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListJobExecutionsForJob", 
+            path: "/jobs/{jobId}/things", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the job executions for the specified thing. Requires permission to access the ListJobExecutionsForThing action.
     @Sendable
     public func listJobExecutionsForThing(_ input: ListJobExecutionsForThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobExecutionsForThingResponse {
-        return try await self.client.execute(operation: "ListJobExecutionsForThing", path: "/things/{thingName}/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListJobExecutionsForThing", 
+            path: "/things/{thingName}/jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of job templates. Requires permission to access the ListJobTemplates action.
     @Sendable
     public func listJobTemplates(_ input: ListJobTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobTemplatesResponse {
-        return try await self.client.execute(operation: "ListJobTemplates", path: "/job-templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListJobTemplates", 
+            path: "/job-templates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists jobs. Requires permission to access the ListJobs action.
     @Sendable
     public func listJobs(_ input: ListJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobsResponse {
-        return try await self.client.execute(operation: "ListJobs", path: "/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListJobs", 
+            path: "/jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of managed job templates.
     @Sendable
     public func listManagedJobTemplates(_ input: ListManagedJobTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedJobTemplatesResponse {
-        return try await self.client.execute(operation: "ListManagedJobTemplates", path: "/managed-job-templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListManagedJobTemplates", 
+            path: "/managed-job-templates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric)  by the given thing during the specified time period.
     @Sendable
     public func listMetricValues(_ input: ListMetricValuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMetricValuesResponse {
-        return try await self.client.execute(operation: "ListMetricValues", path: "/metric-values", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMetricValues", 
+            path: "/metric-values", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of all mitigation actions that match the specified filter criteria. Requires permission to access the ListMitigationActions action.
     @Sendable
     public func listMitigationActions(_ input: ListMitigationActionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMitigationActionsResponse {
-        return try await self.client.execute(operation: "ListMitigationActions", path: "/mitigationactions/actions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMitigationActions", 
+            path: "/mitigationactions/actions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists OTA updates. Requires permission to access the ListOTAUpdates action.
     @Sendable
     public func listOTAUpdates(_ input: ListOTAUpdatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOTAUpdatesResponse {
-        return try await self.client.execute(operation: "ListOTAUpdates", path: "/otaUpdates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOTAUpdates", 
+            path: "/otaUpdates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists certificates that are being transferred but not yet accepted. Requires permission to access the ListOutgoingCertificates action.
     @Sendable
     public func listOutgoingCertificates(_ input: ListOutgoingCertificatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOutgoingCertificatesResponse {
-        return try await self.client.execute(operation: "ListOutgoingCertificates", path: "/certificates-out-going", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOutgoingCertificates", 
+            path: "/certificates-out-going", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the software package versions associated to the account. Requires permission to access the ListPackageVersions action.
     @Sendable
     public func listPackageVersions(_ input: ListPackageVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackageVersionsResponse {
-        return try await self.client.execute(operation: "ListPackageVersions", path: "/packages/{packageName}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPackageVersions", 
+            path: "/packages/{packageName}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the software packages associated to the account. Requires permission to access the ListPackages action.
     @Sendable
     public func listPackages(_ input: ListPackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackagesResponse {
-        return try await self.client.execute(operation: "ListPackages", path: "/packages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPackages", 
+            path: "/packages", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists your policies. Requires permission to access the ListPolicies action.
     @Sendable
     public func listPolicies(_ input: ListPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPoliciesResponse {
-        return try await self.client.execute(operation: "ListPolicies", path: "/policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPolicies", 
+            path: "/policies", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the principals associated with the specified policy.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use ListTargetsForPolicy instead. Requires permission to access the ListPolicyPrincipals action.
     @Sendable
     public func listPolicyPrincipals(_ input: ListPolicyPrincipalsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPolicyPrincipalsResponse {
-        return try await self.client.execute(operation: "ListPolicyPrincipals", path: "/policy-principals", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPolicyPrincipals", 
+            path: "/policy-principals", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the versions of the specified policy and identifies the default version. Requires permission to access the ListPolicyVersions action.
     @Sendable
     public func listPolicyVersions(_ input: ListPolicyVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPolicyVersionsResponse {
-        return try await self.client.execute(operation: "ListPolicyVersions", path: "/policies/{policyName}/version", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPolicyVersions", 
+            path: "/policies/{policyName}/version", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use ListAttachedPolicies instead. Requires permission to access the ListPrincipalPolicies action.
     @Sendable
     public func listPrincipalPolicies(_ input: ListPrincipalPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPrincipalPoliciesResponse {
-        return try await self.client.execute(operation: "ListPrincipalPolicies", path: "/principal-policies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPrincipalPolicies", 
+            path: "/principal-policies", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the things associated with the specified principal. A principal can be X.509
@@ -1124,85 +2328,183 @@ public struct IoT: AWSService {
     /// 			identities.  Requires permission to access the ListPrincipalThings action.
     @Sendable
     public func listPrincipalThings(_ input: ListPrincipalThingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPrincipalThingsResponse {
-        return try await self.client.execute(operation: "ListPrincipalThings", path: "/principals/things", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPrincipalThings", 
+            path: "/principals/things", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// A list of provisioning template versions. Requires permission to access the ListProvisioningTemplateVersions action.
     @Sendable
     public func listProvisioningTemplateVersions(_ input: ListProvisioningTemplateVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProvisioningTemplateVersionsResponse {
-        return try await self.client.execute(operation: "ListProvisioningTemplateVersions", path: "/provisioning-templates/{templateName}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProvisioningTemplateVersions", 
+            path: "/provisioning-templates/{templateName}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the provisioning templates in your Amazon Web Services account. Requires permission to access the ListProvisioningTemplates action.
     @Sendable
     public func listProvisioningTemplates(_ input: ListProvisioningTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProvisioningTemplatesResponse {
-        return try await self.client.execute(operation: "ListProvisioningTemplates", path: "/provisioning-templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProvisioningTemplates", 
+            path: "/provisioning-templates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The related resources of an Audit finding.  The following resources can be returned from calling this API:   DEVICE_CERTIFICATE   CA_CERTIFICATE   IOT_POLICY   COGNITO_IDENTITY_POOL   CLIENT_ID   ACCOUNT_SETTINGS   ROLE_ALIAS   IAM_ROLE   ISSUER_CERTIFICATE    This API is similar to DescribeAuditFinding's RelatedResources     but provides pagination and is not limited to 10 resources.  When calling DescribeAuditFinding for the intermediate CA revoked for  active device certificates check, RelatedResources will not be populated. You must use this API, ListRelatedResourcesForAuditFinding, to list the certificates.
     @Sendable
     public func listRelatedResourcesForAuditFinding(_ input: ListRelatedResourcesForAuditFindingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRelatedResourcesForAuditFindingResponse {
-        return try await self.client.execute(operation: "ListRelatedResourcesForAuditFinding", path: "/audit/relatedResources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRelatedResourcesForAuditFinding", 
+            path: "/audit/relatedResources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the role aliases registered in your account. Requires permission to access the ListRoleAliases action.
     @Sendable
     public func listRoleAliases(_ input: ListRoleAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRoleAliasesResponse {
-        return try await self.client.execute(operation: "ListRoleAliases", path: "/role-aliases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRoleAliases", 
+            path: "/role-aliases", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all of your scheduled audits. Requires permission to access the ListScheduledAudits action.
     @Sendable
     public func listScheduledAudits(_ input: ListScheduledAuditsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScheduledAuditsResponse {
-        return try await self.client.execute(operation: "ListScheduledAudits", path: "/audit/scheduledaudits", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListScheduledAudits", 
+            path: "/audit/scheduledaudits", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric. Requires permission to access the ListSecurityProfiles action.   dimensionName and metricName cannot be used in the same request.
     @Sendable
     public func listSecurityProfiles(_ input: ListSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityProfilesResponse {
-        return try await self.client.execute(operation: "ListSecurityProfiles", path: "/security-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSecurityProfiles", 
+            path: "/security-profiles", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Device Defender security profiles attached to a target (thing group). Requires permission to access the ListSecurityProfilesForTarget action.
     @Sendable
     public func listSecurityProfilesForTarget(_ input: ListSecurityProfilesForTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityProfilesForTargetResponse {
-        return try await self.client.execute(operation: "ListSecurityProfilesForTarget", path: "/security-profiles-for-target", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSecurityProfilesForTarget", 
+            path: "/security-profiles-for-target", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all of the streams in your Amazon Web Services account. Requires permission to access the ListStreams action.
     @Sendable
     public func listStreams(_ input: ListStreamsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStreamsResponse {
-        return try await self.client.execute(operation: "ListStreams", path: "/streams", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListStreams", 
+            path: "/streams", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags (metadata) you have assigned to the resource. Requires permission to access the ListTagsForResource action.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List targets for the specified policy. Requires permission to access the ListTargetsForPolicy action.
     @Sendable
     public func listTargetsForPolicy(_ input: ListTargetsForPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTargetsForPolicyResponse {
-        return try await self.client.execute(operation: "ListTargetsForPolicy", path: "/policy-targets/{policyName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTargetsForPolicy", 
+            path: "/policy-targets/{policyName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the targets (thing groups) associated with a given Device Defender security profile. Requires permission to access the ListTargetsForSecurityProfile action.
     @Sendable
     public func listTargetsForSecurityProfile(_ input: ListTargetsForSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTargetsForSecurityProfileResponse {
-        return try await self.client.execute(operation: "ListTargetsForSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTargetsForSecurityProfile", 
+            path: "/security-profiles/{securityProfileName}/targets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the thing groups in your account. Requires permission to access the ListThingGroups action.
     @Sendable
     public func listThingGroups(_ input: ListThingGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThingGroupsResponse {
-        return try await self.client.execute(operation: "ListThingGroups", path: "/thing-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListThingGroups", 
+            path: "/thing-groups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the thing groups to which the specified thing belongs. Requires permission to access the ListThingGroupsForThing action.
     @Sendable
     public func listThingGroupsForThing(_ input: ListThingGroupsForThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThingGroupsForThingResponse {
-        return try await self.client.execute(operation: "ListThingGroupsForThing", path: "/things/{thingName}/thing-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListThingGroupsForThing", 
+            path: "/things/{thingName}/thing-groups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the principals associated with the specified thing. A principal can be X.509
@@ -1210,25 +2512,53 @@ public struct IoT: AWSService {
     /// 			identities. Requires permission to access the ListThingPrincipals action.
     @Sendable
     public func listThingPrincipals(_ input: ListThingPrincipalsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThingPrincipalsResponse {
-        return try await self.client.execute(operation: "ListThingPrincipals", path: "/things/{thingName}/principals", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListThingPrincipals", 
+            path: "/things/{thingName}/principals", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Information about the thing registration tasks.
     @Sendable
     public func listThingRegistrationTaskReports(_ input: ListThingRegistrationTaskReportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThingRegistrationTaskReportsResponse {
-        return try await self.client.execute(operation: "ListThingRegistrationTaskReports", path: "/thing-registration-tasks/{taskId}/reports", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListThingRegistrationTaskReports", 
+            path: "/thing-registration-tasks/{taskId}/reports", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List bulk thing provisioning tasks. Requires permission to access the ListThingRegistrationTasks action.
     @Sendable
     public func listThingRegistrationTasks(_ input: ListThingRegistrationTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThingRegistrationTasksResponse {
-        return try await self.client.execute(operation: "ListThingRegistrationTasks", path: "/thing-registration-tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListThingRegistrationTasks", 
+            path: "/thing-registration-tasks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the existing thing types. Requires permission to access the ListThingTypes action.
     @Sendable
     public func listThingTypes(_ input: ListThingTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThingTypesResponse {
-        return try await self.client.execute(operation: "ListThingTypes", path: "/thing-types", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListThingTypes", 
+            path: "/thing-types", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example,
@@ -1238,85 +2568,183 @@ public struct IoT: AWSService {
     /// 				Guide. Requires permission to access the ListThings action.  You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
     @Sendable
     public func listThings(_ input: ListThingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThingsResponse {
-        return try await self.client.execute(operation: "ListThings", path: "/things", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListThings", 
+            path: "/things", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the things you have added to the given billing group. Requires permission to access the ListThingsInBillingGroup action.
     @Sendable
     public func listThingsInBillingGroup(_ input: ListThingsInBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThingsInBillingGroupResponse {
-        return try await self.client.execute(operation: "ListThingsInBillingGroup", path: "/billing-groups/{billingGroupName}/things", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListThingsInBillingGroup", 
+            path: "/billing-groups/{billingGroupName}/things", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the things in the specified group. Requires permission to access the ListThingsInThingGroup action.
     @Sendable
     public func listThingsInThingGroup(_ input: ListThingsInThingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListThingsInThingGroupResponse {
-        return try await self.client.execute(operation: "ListThingsInThingGroup", path: "/thing-groups/{thingGroupName}/things", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListThingsInThingGroup", 
+            path: "/thing-groups/{thingGroupName}/things", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the topic rule destinations in your Amazon Web Services account. Requires permission to access the ListTopicRuleDestinations action.
     @Sendable
     public func listTopicRuleDestinations(_ input: ListTopicRuleDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTopicRuleDestinationsResponse {
-        return try await self.client.execute(operation: "ListTopicRuleDestinations", path: "/destinations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTopicRuleDestinations", 
+            path: "/destinations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the rules for the specific topic. Requires permission to access the ListTopicRules action.
     @Sendable
     public func listTopicRules(_ input: ListTopicRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTopicRulesResponse {
-        return try await self.client.execute(operation: "ListTopicRules", path: "/rules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTopicRules", 
+            path: "/rules", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists logging levels. Requires permission to access the ListV2LoggingLevels action.
     @Sendable
     public func listV2LoggingLevels(_ input: ListV2LoggingLevelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListV2LoggingLevelsResponse {
-        return try await self.client.execute(operation: "ListV2LoggingLevels", path: "/v2LoggingLevel", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListV2LoggingLevels", 
+            path: "/v2LoggingLevel", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Device Defender security profile violations discovered during the given time period.  You can use filters to limit the results to those alerts issued for a particular security profile,  behavior, or thing (device). Requires permission to access the ListViolationEvents action.
     @Sendable
     public func listViolationEvents(_ input: ListViolationEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListViolationEventsResponse {
-        return try await self.client.execute(operation: "ListViolationEvents", path: "/violation-events", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListViolationEvents", 
+            path: "/violation-events", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Set a verification state and provide a description of that verification state on a violation (detect alarm).
     @Sendable
     public func putVerificationStateOnViolation(_ input: PutVerificationStateOnViolationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutVerificationStateOnViolationResponse {
-        return try await self.client.execute(operation: "PutVerificationStateOnViolation", path: "/violations/verification-state/{violationId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutVerificationStateOnViolation", 
+            path: "/violations/verification-state/{violationId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA certificates you can register in your Amazon Web Services account. You can register up to 10 CA certificates with the same CA subject field per Amazon Web Services account. Requires permission to access the RegisterCACertificate action.
     @Sendable
     public func registerCACertificate(_ input: RegisterCACertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterCACertificateResponse {
-        return try await self.client.execute(operation: "RegisterCACertificate", path: "/cacertificate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterCACertificate", 
+            path: "/cacertificate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers a device certificate with IoT in the same certificate mode as the signing CA. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered. Requires permission to access the RegisterCertificate action.
     @Sendable
     public func registerCertificate(_ input: RegisterCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterCertificateResponse {
-        return try await self.client.execute(operation: "RegisterCertificate", path: "/certificate/register", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterCertificate", 
+            path: "/certificate/register", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Register a certificate that does not have a certificate authority (CA).  For supported certificates, consult  Certificate signing algorithms supported by IoT.
     @Sendable
     public func registerCertificateWithoutCA(_ input: RegisterCertificateWithoutCARequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterCertificateWithoutCAResponse {
-        return try await self.client.execute(operation: "RegisterCertificateWithoutCA", path: "/certificate/register-no-ca", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterCertificateWithoutCA", 
+            path: "/certificate/register-no-ca", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provisions a thing in the device registry. RegisterThing calls other IoT control plane APIs. These calls might exceed your account level  IoT Throttling Limits and cause throttle errors. Please contact Amazon Web Services Customer Support to raise your throttling limits if necessary. Requires permission to access the RegisterThing action.
     @Sendable
     public func registerThing(_ input: RegisterThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterThingResponse {
-        return try await self.client.execute(operation: "RegisterThing", path: "/things", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterThing", 
+            path: "/things", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state. Requires permission to access the RejectCertificateTransfer action.
     @Sendable
     public func rejectCertificateTransfer(_ input: RejectCertificateTransferRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RejectCertificateTransfer", path: "/reject-certificate-transfer/{certificateId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RejectCertificateTransfer", 
+            path: "/reject-certificate-transfer/{certificateId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the given thing from the billing group. Requires permission to access the RemoveThingFromBillingGroup action.  This call is asynchronous. It might take several seconds for the detachment to propagate.
     @Sendable
     public func removeThingFromBillingGroup(_ input: RemoveThingFromBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveThingFromBillingGroupResponse {
-        return try await self.client.execute(operation: "RemoveThingFromBillingGroup", path: "/billing-groups/removeThingFromBillingGroup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveThingFromBillingGroup", 
+            path: "/billing-groups/removeThingFromBillingGroup", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Remove the specified thing from the specified group. You must specify either a thingGroupArn or a
@@ -1326,278 +2754,600 @@ public struct IoT: AWSService {
     /// 		 Requires permission to access the RemoveThingFromThingGroup action.
     @Sendable
     public func removeThingFromThingGroup(_ input: RemoveThingFromThingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveThingFromThingGroupResponse {
-        return try await self.client.execute(operation: "RemoveThingFromThingGroup", path: "/thing-groups/removeThingFromThingGroup", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveThingFromThingGroup", 
+            path: "/thing-groups/removeThingFromThingGroup", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Replaces the rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule. Requires permission to access the ReplaceTopicRule action.
     @Sendable
     public func replaceTopicRule(_ input: ReplaceTopicRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "ReplaceTopicRule", path: "/rules/{ruleName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ReplaceTopicRule", 
+            path: "/rules/{ruleName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The query search index. Requires permission to access the SearchIndex action.
     @Sendable
     public func searchIndex(_ input: SearchIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchIndexResponse {
-        return try await self.client.execute(operation: "SearchIndex", path: "/indices/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchIndex", 
+            path: "/indices/search", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets the default authorizer. This will be used if a websocket connection is made without specifying an authorizer. Requires permission to access the SetDefaultAuthorizer action.
     @Sendable
     public func setDefaultAuthorizer(_ input: SetDefaultAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SetDefaultAuthorizerResponse {
-        return try await self.client.execute(operation: "SetDefaultAuthorizer", path: "/default-authorizer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SetDefaultAuthorizer", 
+            path: "/default-authorizer", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the ListPrincipalPolicies action. Requires permission to access the SetDefaultPolicyVersion action.
     @Sendable
     public func setDefaultPolicyVersion(_ input: SetDefaultPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "SetDefaultPolicyVersion", path: "/policies/{policyName}/version/{policyVersionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SetDefaultPolicyVersion", 
+            path: "/policies/{policyName}/version/{policyVersionId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets the logging options. NOTE: use of this command is not recommended. Use SetV2LoggingOptions instead. Requires permission to access the SetLoggingOptions action.
     @Sendable
     public func setLoggingOptions(_ input: SetLoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "SetLoggingOptions", path: "/loggingOptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SetLoggingOptions", 
+            path: "/loggingOptions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets the logging level. Requires permission to access the SetV2LoggingLevel action.
     @Sendable
     public func setV2LoggingLevel(_ input: SetV2LoggingLevelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "SetV2LoggingLevel", path: "/v2LoggingLevel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SetV2LoggingLevel", 
+            path: "/v2LoggingLevel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets the logging options for the V2 logging service. Requires permission to access the SetV2LoggingOptions action.
     @Sendable
     public func setV2LoggingOptions(_ input: SetV2LoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "SetV2LoggingOptions", path: "/v2LoggingOptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SetV2LoggingOptions", 
+            path: "/v2LoggingOptions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a task that applies a set of mitigation actions to the specified target. Requires permission to access the StartAuditMitigationActionsTask action.
     @Sendable
     public func startAuditMitigationActionsTask(_ input: StartAuditMitigationActionsTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAuditMitigationActionsTaskResponse {
-        return try await self.client.execute(operation: "StartAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartAuditMitigationActionsTask", 
+            path: "/audit/mitigationactions/tasks/{taskId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Starts a Device Defender ML Detect mitigation actions task.  Requires permission to access the StartDetectMitigationActionsTask action.
     @Sendable
     public func startDetectMitigationActionsTask(_ input: StartDetectMitigationActionsTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDetectMitigationActionsTaskResponse {
-        return try await self.client.execute(operation: "StartDetectMitigationActionsTask", path: "/detect/mitigationactions/tasks/{taskId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartDetectMitigationActionsTask", 
+            path: "/detect/mitigationactions/tasks/{taskId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an on-demand Device Defender audit. Requires permission to access the StartOnDemandAuditTask action.
     @Sendable
     public func startOnDemandAuditTask(_ input: StartOnDemandAuditTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartOnDemandAuditTaskResponse {
-        return try await self.client.execute(operation: "StartOnDemandAuditTask", path: "/audit/tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartOnDemandAuditTask", 
+            path: "/audit/tasks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a bulk thing provisioning task. Requires permission to access the StartThingRegistrationTask action.
     @Sendable
     public func startThingRegistrationTask(_ input: StartThingRegistrationTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartThingRegistrationTaskResponse {
-        return try await self.client.execute(operation: "StartThingRegistrationTask", path: "/thing-registration-tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartThingRegistrationTask", 
+            path: "/thing-registration-tasks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels a bulk thing provisioning task. Requires permission to access the StopThingRegistrationTask action.
     @Sendable
     public func stopThingRegistrationTask(_ input: StopThingRegistrationTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopThingRegistrationTaskResponse {
-        return try await self.client.execute(operation: "StopThingRegistrationTask", path: "/thing-registration-tasks/{taskId}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopThingRegistrationTask", 
+            path: "/thing-registration-tasks/{taskId}/cancel", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be
     /// 			used to manage a resource. Requires permission to access the TagResource action.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Tests if a specified principal is authorized to perform an IoT action on a specified resource. Use this to test and debug the authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the TestAuthorization action.
     @Sendable
     public func testAuthorization(_ input: TestAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestAuthorizationResponse {
-        return try await self.client.execute(operation: "TestAuthorization", path: "/test-authorization", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TestAuthorization", 
+            path: "/test-authorization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the TestInvokeAuthorizer action.
     @Sendable
     public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestInvokeAuthorizerResponse {
-        return try await self.client.execute(operation: "TestInvokeAuthorizer", path: "/authorizer/{authorizerName}/test", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TestInvokeAuthorizer", 
+            path: "/authorizer/{authorizerName}/test", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Transfers the specified certificate to the specified Amazon Web Services account. Requires permission to access the TransferCertificate action. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It is up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate action to deactivate it. The certificate must not have any policies attached to it. You can use the DetachPolicy action to detach them.
     @Sendable
     public func transferCertificate(_ input: TransferCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TransferCertificateResponse {
-        return try await self.client.execute(operation: "TransferCertificate", path: "/transfer-certificate/{certificateId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TransferCertificate", 
+            path: "/transfer-certificate/{certificateId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the given tags (metadata) from the resource. Requires permission to access the UntagResource action.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/untag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/untag", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Configures or reconfigures the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the UpdateAccountAuditConfiguration action.
     @Sendable
     public func updateAccountAuditConfiguration(_ input: UpdateAccountAuditConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccountAuditConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAccountAuditConfiguration", 
+            path: "/audit/configuration", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Updates a Device Defender audit suppression.
     @Sendable
     public func updateAuditSuppression(_ input: UpdateAuditSuppressionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAuditSuppressionResponse {
-        return try await self.client.execute(operation: "UpdateAuditSuppression", path: "/audit/suppressions/update", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAuditSuppression", 
+            path: "/audit/suppressions/update", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an authorizer. Requires permission to access the UpdateAuthorizer action.
     @Sendable
     public func updateAuthorizer(_ input: UpdateAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAuthorizerResponse {
-        return try await self.client.execute(operation: "UpdateAuthorizer", path: "/authorizer/{authorizerName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAuthorizer", 
+            path: "/authorizer/{authorizerName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates information about the billing group. Requires permission to access the UpdateBillingGroup action.
     @Sendable
     public func updateBillingGroup(_ input: UpdateBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBillingGroupResponse {
-        return try await self.client.execute(operation: "UpdateBillingGroup", path: "/billing-groups/{billingGroupName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBillingGroup", 
+            path: "/billing-groups/{billingGroupName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a registered CA certificate. Requires permission to access the UpdateCACertificate action.
     @Sendable
     public func updateCACertificate(_ input: UpdateCACertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateCACertificate", path: "/cacertificate/{certificateId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCACertificate", 
+            path: "/cacertificate/{certificateId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the status of the specified certificate. This operation is idempotent. Requires permission to access the UpdateCertificate action. Certificates must be in the ACTIVE state to authenticate devices that use a certificate to connect to IoT. Within a few minutes of updating a certificate from the ACTIVE state to any other state, IoT disconnects all devices that used that certificate to connect. Devices cannot use a certificate that is not in the ACTIVE state to reconnect.
     @Sendable
     public func updateCertificate(_ input: UpdateCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateCertificate", path: "/certificates/{certificateId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCertificate", 
+            path: "/certificates/{certificateId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a Device Defender detect custom metric.  Requires permission to access the UpdateCustomMetric action.
     @Sendable
     public func updateCustomMetric(_ input: UpdateCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCustomMetricResponse {
-        return try await self.client.execute(operation: "UpdateCustomMetric", path: "/custom-metric/{metricName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCustomMetric", 
+            path: "/custom-metric/{metricName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and recreate it). Requires permission to access the UpdateDimension action.
     @Sendable
     public func updateDimension(_ input: UpdateDimensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDimensionResponse {
-        return try await self.client.execute(operation: "UpdateDimension", path: "/dimensions/{name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDimension", 
+            path: "/dimensions/{name}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated. Requires permission to access the UpdateDomainConfiguration action.
     @Sendable
     public func updateDomainConfiguration(_ input: UpdateDomainConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDomainConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDomainConfiguration", 
+            path: "/domainConfigurations/{domainConfigurationName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a dynamic thing group. Requires permission to access the UpdateDynamicThingGroup action.
     @Sendable
     public func updateDynamicThingGroup(_ input: UpdateDynamicThingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDynamicThingGroupResponse {
-        return try await self.client.execute(operation: "UpdateDynamicThingGroup", path: "/dynamic-thing-groups/{thingGroupName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDynamicThingGroup", 
+            path: "/dynamic-thing-groups/{thingGroupName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the event configurations. Requires permission to access the UpdateEventConfigurations action.
     @Sendable
     public func updateEventConfigurations(_ input: UpdateEventConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEventConfigurationsResponse {
-        return try await self.client.execute(operation: "UpdateEventConfigurations", path: "/event-configurations", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEventConfigurations", 
+            path: "/event-configurations", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the data for a fleet metric. Requires permission to access the UpdateFleetMetric action.
     @Sendable
     public func updateFleetMetric(_ input: UpdateFleetMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateFleetMetric", path: "/fleet-metric/{metricName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFleetMetric", 
+            path: "/fleet-metric/{metricName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the search configuration. Requires permission to access the UpdateIndexingConfiguration action.
     @Sendable
     public func updateIndexingConfiguration(_ input: UpdateIndexingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIndexingConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateIndexingConfiguration", path: "/indexing/config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateIndexingConfiguration", 
+            path: "/indexing/config", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates supported fields of the specified job. Requires permission to access the UpdateJob action.
     @Sendable
     public func updateJob(_ input: UpdateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateJob", path: "/jobs/{jobId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateJob", 
+            path: "/jobs/{jobId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the definition for the specified mitigation action. Requires permission to access the UpdateMitigationAction action.
     @Sendable
     public func updateMitigationAction(_ input: UpdateMitigationActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMitigationActionResponse {
-        return try await self.client.execute(operation: "UpdateMitigationAction", path: "/mitigationactions/actions/{actionName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMitigationAction", 
+            path: "/mitigationactions/actions/{actionName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the supported fields for a specific package. Requires permission to access the UpdatePackage and GetIndexingConfiguration actions.
     @Sendable
     public func updatePackage(_ input: UpdatePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePackageResponse {
-        return try await self.client.execute(operation: "UpdatePackage", path: "/packages/{packageName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePackage", 
+            path: "/packages/{packageName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the package configuration. Requires permission to access the UpdatePackageConfiguration and iam:PassRole actions.
     @Sendable
     public func updatePackageConfiguration(_ input: UpdatePackageConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePackageConfigurationResponse {
-        return try await self.client.execute(operation: "UpdatePackageConfiguration", path: "/package-configuration", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePackageConfiguration", 
+            path: "/package-configuration", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the supported fields for a specific package version. Requires permission to access the UpdatePackageVersion and GetIndexingConfiguration actions.
     @Sendable
     public func updatePackageVersion(_ input: UpdatePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePackageVersionResponse {
-        return try await self.client.execute(operation: "UpdatePackageVersion", path: "/packages/{packageName}/versions/{versionName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePackageVersion", 
+            path: "/packages/{packageName}/versions/{versionName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a provisioning template. Requires permission to access the UpdateProvisioningTemplate action.
     @Sendable
     public func updateProvisioningTemplate(_ input: UpdateProvisioningTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProvisioningTemplateResponse {
-        return try await self.client.execute(operation: "UpdateProvisioningTemplate", path: "/provisioning-templates/{templateName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateProvisioningTemplate", 
+            path: "/provisioning-templates/{templateName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a role alias. Requires permission to access the UpdateRoleAlias action.
     @Sendable
     public func updateRoleAlias(_ input: UpdateRoleAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRoleAliasResponse {
-        return try await self.client.execute(operation: "UpdateRoleAlias", path: "/role-aliases/{roleAlias}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRoleAlias", 
+            path: "/role-aliases/{roleAlias}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a scheduled audit, including which checks are performed and how often the audit takes place. Requires permission to access the UpdateScheduledAudit action.
     @Sendable
     public func updateScheduledAudit(_ input: UpdateScheduledAuditRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateScheduledAuditResponse {
-        return try await self.client.execute(operation: "UpdateScheduledAudit", path: "/audit/scheduledaudits/{scheduledAuditName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateScheduledAudit", 
+            path: "/audit/scheduledaudits/{scheduledAuditName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a Device Defender security profile. Requires permission to access the UpdateSecurityProfile action.
     @Sendable
     public func updateSecurityProfile(_ input: UpdateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSecurityProfileResponse {
-        return try await self.client.execute(operation: "UpdateSecurityProfile", path: "/security-profiles/{securityProfileName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSecurityProfile", 
+            path: "/security-profiles/{securityProfileName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing stream. The stream version will be incremented by one. Requires permission to access the UpdateStream action.
     @Sendable
     public func updateStream(_ input: UpdateStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStreamResponse {
-        return try await self.client.execute(operation: "UpdateStream", path: "/streams/{streamId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateStream", 
+            path: "/streams/{streamId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the data for a thing. Requires permission to access the UpdateThing action.
     @Sendable
     public func updateThing(_ input: UpdateThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThingResponse {
-        return try await self.client.execute(operation: "UpdateThing", path: "/things/{thingName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateThing", 
+            path: "/things/{thingName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update a thing group. Requires permission to access the UpdateThingGroup action.
     @Sendable
     public func updateThingGroup(_ input: UpdateThingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThingGroupResponse {
-        return try await self.client.execute(operation: "UpdateThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateThingGroup", 
+            path: "/thing-groups/{thingGroupName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the groups to which the thing belongs. Requires permission to access the UpdateThingGroupsForThing action.
     @Sendable
     public func updateThingGroupsForThing(_ input: UpdateThingGroupsForThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateThingGroupsForThingResponse {
-        return try await self.client.execute(operation: "UpdateThingGroupsForThing", path: "/thing-groups/updateThingGroupsForThing", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateThingGroupsForThing", 
+            path: "/thing-groups/updateThingGroupsForThing", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a topic rule destination. You use this to change the status, endpoint URL, or confirmation URL of the destination. Requires permission to access the UpdateTopicRuleDestination action.
     @Sendable
     public func updateTopicRuleDestination(_ input: UpdateTopicRuleDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTopicRuleDestinationResponse {
-        return try await self.client.execute(operation: "UpdateTopicRuleDestination", path: "/destinations", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTopicRuleDestination", 
+            path: "/destinations", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Validates a Device Defender security profile behaviors specification. Requires permission to access the ValidateSecurityProfileBehaviors action.
     @Sendable
     public func validateSecurityProfileBehaviors(_ input: ValidateSecurityProfileBehaviorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ValidateSecurityProfileBehaviorsResponse {
-        return try await self.client.execute(operation: "ValidateSecurityProfileBehaviors", path: "/security-profile-behaviors/validate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ValidateSecurityProfileBehaviors", 
+            path: "/security-profile-behaviors/validate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -76,25 +76,53 @@ public struct ControlTower: AWSService {
     /// This API call turns off a control. It starts an asynchronous operation that deletes AWS resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify.
     @Sendable
     public func disableControl(_ input: DisableControlInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableControlOutput {
-        return try await self.client.execute(operation: "DisableControl", path: "/disable-control", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableControl", 
+            path: "/disable-control", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API call activates a control. It starts an asynchronous operation that creates AWS resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify.
     @Sendable
     public func enableControl(_ input: EnableControlInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableControlOutput {
-        return try await self.client.execute(operation: "EnableControl", path: "/enable-control", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableControl", 
+            path: "/enable-control", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days.
     @Sendable
     public func getControlOperation(_ input: GetControlOperationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetControlOperationOutput {
-        return try await self.client.execute(operation: "GetControlOperation", path: "/get-control-operation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetControlOperation", 
+            path: "/get-control-operation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the controls enabled by AWS Control Tower on the specified organizational unit and the accounts it contains.
     @Sendable
     public func listEnabledControls(_ input: ListEnabledControlsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnabledControlsOutput {
-        return try await self.client.execute(operation: "ListEnabledControls", path: "/list-enabled-controls", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEnabledControls", 
+            path: "/list-enabled-controls", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

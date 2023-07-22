@@ -120,7 +120,14 @@ public struct GlobalAccelerator: AWSService {
     /// 				AllowCustomRoutingTraffic operation.
     @Sendable
     public func addCustomRoutingEndpoints(_ input: AddCustomRoutingEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddCustomRoutingEndpointsResponse {
-        return try await self.client.execute(operation: "AddCustomRoutingEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddCustomRoutingEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Add endpoints to an endpoint group. The AddEndpoints API operation is the recommended option for adding endpoints. The
@@ -134,7 +141,14 @@ public struct GlobalAccelerator: AWSService {
     /// 					endpoints that are already in the endpoint group in addition to the new endpoints that you want to add.
     @Sendable
     public func addEndpoints(_ input: AddEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddEndpointsResponse {
-        return try await self.client.execute(operation: "AddEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Advertises an IPv4 address range that is provisioned for use with your Amazon Web Services resources
@@ -146,7 +160,14 @@ public struct GlobalAccelerator: AWSService {
     /// 		    IP addresses (BYOIP) in the Global Accelerator Developer Guide.
     @Sendable
     public func advertiseByoipCidr(_ input: AdvertiseByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdvertiseByoipCidrResponse {
-        return try await self.client.execute(operation: "AdvertiseByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AdvertiseByoipCidr", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that can receive traffic
@@ -157,7 +178,14 @@ public struct GlobalAccelerator: AWSService {
     /// 			accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     @Sendable
     public func allowCustomRoutingTraffic(_ input: AllowCustomRoutingTrafficRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AllowCustomRoutingTraffic", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AllowCustomRoutingTraffic", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic
@@ -169,7 +197,14 @@ public struct GlobalAccelerator: AWSService {
     ///
     @Sendable
     public func createAccelerator(_ input: CreateAcceleratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAcceleratorResponse {
-        return try await self.client.execute(operation: "CreateAccelerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAccelerator", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a custom routing accelerator. A custom routing accelerator directs traffic to one of possibly thousands
@@ -185,7 +220,14 @@ public struct GlobalAccelerator: AWSService {
     ///
     @Sendable
     public func createCustomRoutingAccelerator(_ input: CreateCustomRoutingAcceleratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomRoutingAcceleratorResponse {
-        return try await self.client.execute(operation: "CreateCustomRoutingAccelerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCustomRoutingAccelerator", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create an endpoint group for the specified listener for a custom routing accelerator.
@@ -193,28 +235,56 @@ public struct GlobalAccelerator: AWSService {
     /// 		Region.
     @Sendable
     public func createCustomRoutingEndpointGroup(_ input: CreateCustomRoutingEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomRoutingEndpointGroupResponse {
-        return try await self.client.execute(operation: "CreateCustomRoutingEndpointGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCustomRoutingEndpointGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a listener to process inbound connections from clients to a custom routing accelerator.
     /// 			Connections arrive to assigned static IP addresses on the port range that you specify.
     @Sendable
     public func createCustomRoutingListener(_ input: CreateCustomRoutingListenerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomRoutingListenerResponse {
-        return try await self.client.execute(operation: "CreateCustomRoutingListener", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCustomRoutingListener", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create an endpoint group for the specified listener. An endpoint group is a collection of endpoints in one Amazon Web Services
     /// 			Region. A resource must be valid and active when you add it as an endpoint.
     @Sendable
     public func createEndpointGroup(_ input: CreateEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEndpointGroupResponse {
-        return try await self.client.execute(operation: "CreateEndpointGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEndpointGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static
     /// 			IP addresses on a port, port range, or list of port ranges that you specify.
     @Sendable
     public func createListener(_ input: CreateListenerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateListenerResponse {
-        return try await self.client.execute(operation: "CreateListener", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateListener", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources
@@ -231,7 +301,14 @@ public struct GlobalAccelerator: AWSService {
     /// 		    the Global Accelerator Developer Guide.
     @Sendable
     public func deleteAccelerator(_ input: DeleteAcceleratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteAccelerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAccelerator", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a custom routing accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources
@@ -247,31 +324,66 @@ public struct GlobalAccelerator: AWSService {
     /// 		    the Global Accelerator Developer Guide.
     @Sendable
     public func deleteCustomRoutingAccelerator(_ input: DeleteCustomRoutingAcceleratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteCustomRoutingAccelerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCustomRoutingAccelerator", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete an endpoint group from a listener for a custom routing accelerator.
     @Sendable
     public func deleteCustomRoutingEndpointGroup(_ input: DeleteCustomRoutingEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteCustomRoutingEndpointGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCustomRoutingEndpointGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a listener for a custom routing accelerator.
     @Sendable
     public func deleteCustomRoutingListener(_ input: DeleteCustomRoutingListenerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteCustomRoutingListener", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCustomRoutingListener", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete an endpoint group from a listener.
     @Sendable
     public func deleteEndpointGroup(_ input: DeleteEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteEndpointGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEndpointGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a listener from an accelerator.
     @Sendable
     public func deleteListener(_ input: DeleteListenerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteListener", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteListener", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic
@@ -282,7 +394,14 @@ public struct GlobalAccelerator: AWSService {
     /// 			accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     @Sendable
     public func denyCustomRoutingTraffic(_ input: DenyCustomRoutingTrafficRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DenyCustomRoutingTraffic", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DenyCustomRoutingTraffic", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Releases the specified address range that you provisioned to use with your Amazon Web Services resources
@@ -294,87 +413,185 @@ public struct GlobalAccelerator: AWSService {
     /// 			your own IP addresses (BYOIP) in the Global Accelerator Developer Guide.
     @Sendable
     public func deprovisionByoipCidr(_ input: DeprovisionByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeprovisionByoipCidrResponse {
-        return try await self.client.execute(operation: "DeprovisionByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeprovisionByoipCidr", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe an accelerator.
     @Sendable
     public func describeAccelerator(_ input: DescribeAcceleratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAcceleratorResponse {
-        return try await self.client.execute(operation: "DescribeAccelerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAccelerator", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe the attributes of an accelerator.
     ///
     @Sendable
     public func describeAcceleratorAttributes(_ input: DescribeAcceleratorAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAcceleratorAttributesResponse {
-        return try await self.client.execute(operation: "DescribeAcceleratorAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAcceleratorAttributes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe a custom routing accelerator.
     @Sendable
     public func describeCustomRoutingAccelerator(_ input: DescribeCustomRoutingAcceleratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCustomRoutingAcceleratorResponse {
-        return try await self.client.execute(operation: "DescribeCustomRoutingAccelerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCustomRoutingAccelerator", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe the attributes of a custom routing accelerator.
     @Sendable
     public func describeCustomRoutingAcceleratorAttributes(_ input: DescribeCustomRoutingAcceleratorAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCustomRoutingAcceleratorAttributesResponse {
-        return try await self.client.execute(operation: "DescribeCustomRoutingAcceleratorAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCustomRoutingAcceleratorAttributes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe an endpoint group for a custom routing accelerator.
     @Sendable
     public func describeCustomRoutingEndpointGroup(_ input: DescribeCustomRoutingEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCustomRoutingEndpointGroupResponse {
-        return try await self.client.execute(operation: "DescribeCustomRoutingEndpointGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCustomRoutingEndpointGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The description of a listener for a custom routing accelerator.
     @Sendable
     public func describeCustomRoutingListener(_ input: DescribeCustomRoutingListenerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCustomRoutingListenerResponse {
-        return try await self.client.execute(operation: "DescribeCustomRoutingListener", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCustomRoutingListener", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe an endpoint group.
     @Sendable
     public func describeEndpointGroup(_ input: DescribeEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointGroupResponse {
-        return try await self.client.execute(operation: "DescribeEndpointGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEndpointGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe a listener.
     @Sendable
     public func describeListener(_ input: DescribeListenerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeListenerResponse {
-        return try await self.client.execute(operation: "DescribeListener", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeListener", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the accelerators for an Amazon Web Services account.
     @Sendable
     public func listAccelerators(_ input: ListAcceleratorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAcceleratorsResponse {
-        return try await self.client.execute(operation: "ListAccelerators", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAccelerators", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the IP address ranges that were specified in calls to ProvisionByoipCidr, including
     /// 			the current state and a history of state changes.
     @Sendable
     public func listByoipCidrs(_ input: ListByoipCidrsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListByoipCidrsResponse {
-        return try await self.client.execute(operation: "ListByoipCidrs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListByoipCidrs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the custom routing accelerators for an Amazon Web Services account.
     @Sendable
     public func listCustomRoutingAccelerators(_ input: ListCustomRoutingAcceleratorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomRoutingAcceleratorsResponse {
-        return try await self.client.execute(operation: "ListCustomRoutingAccelerators", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCustomRoutingAccelerators", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the endpoint groups that are associated with a listener for a custom routing accelerator.
     @Sendable
     public func listCustomRoutingEndpointGroups(_ input: ListCustomRoutingEndpointGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomRoutingEndpointGroupsResponse {
-        return try await self.client.execute(operation: "ListCustomRoutingEndpointGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCustomRoutingEndpointGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the listeners for a custom routing accelerator.
     @Sendable
     public func listCustomRoutingListeners(_ input: ListCustomRoutingListenersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomRoutingListenersResponse {
-        return try await self.client.execute(operation: "ListCustomRoutingListeners", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCustomRoutingListeners", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a complete mapping from the public accelerator IP address and port to destination EC2 instance
@@ -385,7 +602,14 @@ public struct GlobalAccelerator: AWSService {
     /// 		ports are allowed or denied traffic.
     @Sendable
     public func listCustomRoutingPortMappings(_ input: ListCustomRoutingPortMappingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomRoutingPortMappingsResponse {
-        return try await self.client.execute(operation: "ListCustomRoutingPortMappings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCustomRoutingPortMappings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The
@@ -394,19 +618,40 @@ public struct GlobalAccelerator: AWSService {
     /// 			list the port mappings for a specific destination instance.
     @Sendable
     public func listCustomRoutingPortMappingsByDestination(_ input: ListCustomRoutingPortMappingsByDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomRoutingPortMappingsByDestinationResponse {
-        return try await self.client.execute(operation: "ListCustomRoutingPortMappingsByDestination", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCustomRoutingPortMappingsByDestination", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the endpoint groups that are associated with a listener.
     @Sendable
     public func listEndpointGroups(_ input: ListEndpointGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEndpointGroupsResponse {
-        return try await self.client.execute(operation: "ListEndpointGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEndpointGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the listeners for an accelerator.
     @Sendable
     public func listListeners(_ input: ListListenersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListListenersResponse {
-        return try await self.client.execute(operation: "ListListeners", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListListeners", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all tags for an accelerator.
@@ -414,7 +659,14 @@ public struct GlobalAccelerator: AWSService {
     /// 		    in Global Accelerator in the Global Accelerator Developer Guide.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provisions an IP address range to use with your Amazon Web Services resources through bring your own IP
@@ -425,13 +677,27 @@ public struct GlobalAccelerator: AWSService {
     /// 			IP addresses (BYOIP) in the Global Accelerator Developer Guide.
     @Sendable
     public func provisionByoipCidr(_ input: ProvisionByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProvisionByoipCidrResponse {
-        return try await self.client.execute(operation: "ProvisionByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ProvisionByoipCidr", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Remove endpoints from a custom routing accelerator.
     @Sendable
     public func removeCustomRoutingEndpoints(_ input: RemoveCustomRoutingEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RemoveCustomRoutingEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveCustomRoutingEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Remove endpoints from an endpoint group.
@@ -446,7 +712,14 @@ public struct GlobalAccelerator: AWSService {
     /// 				remain in the group.
     @Sendable
     public func removeEndpoints(_ input: RemoveEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RemoveEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Add tags to an accelerator resource.
@@ -454,7 +727,14 @@ public struct GlobalAccelerator: AWSService {
     /// 		    in Global Accelerator in the Global Accelerator Developer Guide.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Remove tags from a Global Accelerator resource. When you specify a tag key, the action removes both that key and its associated value.
@@ -463,7 +743,14 @@ public struct GlobalAccelerator: AWSService {
     /// 		    in Global Accelerator in the Global Accelerator Developer Guide.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update an accelerator.
@@ -475,43 +762,92 @@ public struct GlobalAccelerator: AWSService {
     ///
     @Sendable
     public func updateAccelerator(_ input: UpdateAcceleratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAcceleratorResponse {
-        return try await self.client.execute(operation: "UpdateAccelerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAccelerator", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the attributes for an accelerator.
     @Sendable
     public func updateAcceleratorAttributes(_ input: UpdateAcceleratorAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAcceleratorAttributesResponse {
-        return try await self.client.execute(operation: "UpdateAcceleratorAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAcceleratorAttributes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update a custom routing accelerator.
     @Sendable
     public func updateCustomRoutingAccelerator(_ input: UpdateCustomRoutingAcceleratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCustomRoutingAcceleratorResponse {
-        return try await self.client.execute(operation: "UpdateCustomRoutingAccelerator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCustomRoutingAccelerator", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the attributes for a custom routing accelerator.
     @Sendable
     public func updateCustomRoutingAcceleratorAttributes(_ input: UpdateCustomRoutingAcceleratorAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCustomRoutingAcceleratorAttributesResponse {
-        return try await self.client.execute(operation: "UpdateCustomRoutingAcceleratorAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCustomRoutingAcceleratorAttributes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update a listener for a custom routing accelerator.
     @Sendable
     public func updateCustomRoutingListener(_ input: UpdateCustomRoutingListenerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCustomRoutingListenerResponse {
-        return try await self.client.execute(operation: "UpdateCustomRoutingListener", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCustomRoutingListener", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update an endpoint group. A resource must be valid and active when you add it as an endpoint.
     @Sendable
     public func updateEndpointGroup(_ input: UpdateEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEndpointGroupResponse {
-        return try await self.client.execute(operation: "UpdateEndpointGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEndpointGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update a listener.
     @Sendable
     public func updateListener(_ input: UpdateListenerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateListenerResponse {
-        return try await self.client.execute(operation: "UpdateListener", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateListener", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops advertising an address range that is provisioned as an address pool.
@@ -523,7 +859,14 @@ public struct GlobalAccelerator: AWSService {
     /// 			IP addresses (BYOIP) in the Global Accelerator Developer Guide.
     @Sendable
     public func withdrawByoipCidr(_ input: WithdrawByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> WithdrawByoipCidrResponse {
-        return try await self.client.execute(operation: "WithdrawByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "WithdrawByoipCidr", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

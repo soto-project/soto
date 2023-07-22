@@ -66,169 +66,365 @@ public struct RolesAnywhere: AWSService {
     /// Creates a profile, a list of the roles that Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies.  Required permissions:  rolesanywhere:CreateProfile.
     @Sendable
     public func createProfile(_ input: CreateProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProfileDetailResponse {
-        return try await self.client.execute(operation: "CreateProfile", path: "/profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProfile", 
+            path: "/profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials.  Required permissions:  rolesanywhere:CreateTrustAnchor.
     @Sendable
     public func createTrustAnchor(_ input: CreateTrustAnchorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TrustAnchorDetailResponse {
-        return try await self.client.execute(operation: "CreateTrustAnchor", path: "/trustanchors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTrustAnchor", 
+            path: "/trustanchors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a certificate revocation list (CRL).  Required permissions:  rolesanywhere:DeleteCrl.
     @Sendable
     public func deleteCrl(_ input: ScalarCrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CrlDetailResponse {
-        return try await self.client.execute(operation: "DeleteCrl", path: "/crl/{crlId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCrl", 
+            path: "/crl/{crlId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a profile.  Required permissions:  rolesanywhere:DeleteProfile.
     @Sendable
     public func deleteProfile(_ input: ScalarProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProfileDetailResponse {
-        return try await self.client.execute(operation: "DeleteProfile", path: "/profile/{profileId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteProfile", 
+            path: "/profile/{profileId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a trust anchor.  Required permissions:  rolesanywhere:DeleteTrustAnchor.
     @Sendable
     public func deleteTrustAnchor(_ input: ScalarTrustAnchorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TrustAnchorDetailResponse {
-        return try await self.client.execute(operation: "DeleteTrustAnchor", path: "/trustanchor/{trustAnchorId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTrustAnchor", 
+            path: "/trustanchor/{trustAnchorId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables a certificate revocation list (CRL).  Required permissions:  rolesanywhere:DisableCrl.
     @Sendable
     public func disableCrl(_ input: ScalarCrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CrlDetailResponse {
-        return try await self.client.execute(operation: "DisableCrl", path: "/crl/{crlId}/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableCrl", 
+            path: "/crl/{crlId}/disable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables a profile. When disabled, temporary credential requests with this profile fail.  Required permissions:  rolesanywhere:DisableProfile.
     @Sendable
     public func disableProfile(_ input: ScalarProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProfileDetailResponse {
-        return try await self.client.execute(operation: "DisableProfile", path: "/profile/{profileId}/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableProfile", 
+            path: "/profile/{profileId}/disable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables a trust anchor. When disabled, temporary credential requests specifying this trust anchor are unauthorized.  Required permissions:  rolesanywhere:DisableTrustAnchor.
     @Sendable
     public func disableTrustAnchor(_ input: ScalarTrustAnchorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TrustAnchorDetailResponse {
-        return try await self.client.execute(operation: "DisableTrustAnchor", path: "/trustanchor/{trustAnchorId}/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableTrustAnchor", 
+            path: "/trustanchor/{trustAnchorId}/disable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables a certificate revocation list (CRL). When enabled, certificates stored in the CRL are unauthorized to receive session credentials.  Required permissions:  rolesanywhere:EnableCrl.
     @Sendable
     public func enableCrl(_ input: ScalarCrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CrlDetailResponse {
-        return try await self.client.execute(operation: "EnableCrl", path: "/crl/{crlId}/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableCrl", 
+            path: "/crl/{crlId}/enable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables temporary credential requests for a profile.   Required permissions:  rolesanywhere:EnableProfile.
     @Sendable
     public func enableProfile(_ input: ScalarProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProfileDetailResponse {
-        return try await self.client.execute(operation: "EnableProfile", path: "/profile/{profileId}/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableProfile", 
+            path: "/profile/{profileId}/enable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables a trust anchor. When enabled, certificates in the trust anchor chain are authorized for trust validation.   Required permissions:  rolesanywhere:EnableTrustAnchor.
     @Sendable
     public func enableTrustAnchor(_ input: ScalarTrustAnchorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TrustAnchorDetailResponse {
-        return try await self.client.execute(operation: "EnableTrustAnchor", path: "/trustanchor/{trustAnchorId}/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableTrustAnchor", 
+            path: "/trustanchor/{trustAnchorId}/enable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a certificate revocation list (CRL).  Required permissions:  rolesanywhere:GetCrl.
     @Sendable
     public func getCrl(_ input: ScalarCrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CrlDetailResponse {
-        return try await self.client.execute(operation: "GetCrl", path: "/crl/{crlId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCrl", 
+            path: "/crl/{crlId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a profile.  Required permissions:  rolesanywhere:GetProfile.
     @Sendable
     public func getProfile(_ input: ScalarProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProfileDetailResponse {
-        return try await self.client.execute(operation: "GetProfile", path: "/profile/{profileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetProfile", 
+            path: "/profile/{profileId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a subject, which associates a certificate identity with authentication attempts. The subject stores auditing information such as the status of the last authentication attempt, the certificate data used in the attempt, and the last time the associated identity attempted authentication.   Required permissions:  rolesanywhere:GetSubject.
     @Sendable
     public func getSubject(_ input: ScalarSubjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubjectDetailResponse {
-        return try await self.client.execute(operation: "GetSubject", path: "/subject/{subjectId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSubject", 
+            path: "/subject/{subjectId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a trust anchor.  Required permissions:  rolesanywhere:GetTrustAnchor.
     @Sendable
     public func getTrustAnchor(_ input: ScalarTrustAnchorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TrustAnchorDetailResponse {
-        return try await self.client.execute(operation: "GetTrustAnchor", path: "/trustanchor/{trustAnchorId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTrustAnchor", 
+            path: "/trustanchor/{trustAnchorId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials.   Required permissions:  rolesanywhere:ImportCrl.
     @Sendable
     public func importCrl(_ input: ImportCrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CrlDetailResponse {
-        return try await self.client.execute(operation: "ImportCrl", path: "/crls", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportCrl", 
+            path: "/crls", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all certificate revocation lists (CRL) in the authenticated account and Amazon Web Services Region.  Required permissions:  rolesanywhere:ListCrls.
     @Sendable
     public func listCrls(_ input: ListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCrlsResponse {
-        return try await self.client.execute(operation: "ListCrls", path: "/crls", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCrls", 
+            path: "/crls", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all profiles in the authenticated account and Amazon Web Services Region.  Required permissions:  rolesanywhere:ListProfiles.
     @Sendable
     public func listProfiles(_ input: ListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProfilesResponse {
-        return try await self.client.execute(operation: "ListProfiles", path: "/profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProfiles", 
+            path: "/profiles", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the subjects in the authenticated account and Amazon Web Services Region.  Required permissions:  rolesanywhere:ListSubjects.
     @Sendable
     public func listSubjects(_ input: ListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSubjectsResponse {
-        return try await self.client.execute(operation: "ListSubjects", path: "/subjects", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSubjects", 
+            path: "/subjects", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags attached to the resource.  Required permissions:  rolesanywhere:ListTagsForResource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/ListTagsForResource", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/ListTagsForResource", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the trust anchors in the authenticated account and Amazon Web Services Region.  Required permissions:  rolesanywhere:ListTrustAnchors.
     @Sendable
     public func listTrustAnchors(_ input: ListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrustAnchorsResponse {
-        return try await self.client.execute(operation: "ListTrustAnchors", path: "/trustanchors", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTrustAnchors", 
+            path: "/trustanchors", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attaches a list of notification settings to a trust anchor. A notification setting includes information such as event name, threshold, status of the notification setting, and the channel to notify.  Required permissions:  rolesanywhere:PutNotificationSettings.
     @Sendable
     public func putNotificationSettings(_ input: PutNotificationSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutNotificationSettingsResponse {
-        return try await self.client.execute(operation: "PutNotificationSettings", path: "/put-notifications-settings", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutNotificationSettings", 
+            path: "/put-notifications-settings", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Resets the custom notification setting to IAM Roles Anywhere default setting.   Required permissions:  rolesanywhere:ResetNotificationSettings.
     @Sendable
     public func resetNotificationSettings(_ input: ResetNotificationSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetNotificationSettingsResponse {
-        return try await self.client.execute(operation: "ResetNotificationSettings", path: "/reset-notifications-settings", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ResetNotificationSettings", 
+            path: "/reset-notifications-settings", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attaches tags to a resource.  Required permissions:  rolesanywhere:TagResource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/TagResource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/TagResource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from the resource.  Required permissions:  rolesanywhere:UntagResource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/UntagResource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/UntagResource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates against the CRL before issuing credentials.  Required permissions:  rolesanywhere:UpdateCrl.
     @Sendable
     public func updateCrl(_ input: UpdateCrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CrlDetailResponse {
-        return try await self.client.execute(operation: "UpdateCrl", path: "/crl/{crlId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCrl", 
+            path: "/crl/{crlId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a profile, a list of the roles that IAM Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies.  Required permissions:  rolesanywhere:UpdateProfile.
     @Sendable
     public func updateProfile(_ input: UpdateProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProfileDetailResponse {
-        return try await self.client.execute(operation: "UpdateProfile", path: "/profile/{profileId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateProfile", 
+            path: "/profile/{profileId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials.  Required permissions:  rolesanywhere:UpdateTrustAnchor.
     @Sendable
     public func updateTrustAnchor(_ input: UpdateTrustAnchorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TrustAnchorDetailResponse {
-        return try await self.client.execute(operation: "UpdateTrustAnchor", path: "/trustanchor/{trustAnchorId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTrustAnchor", 
+            path: "/trustanchor/{trustAnchorId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

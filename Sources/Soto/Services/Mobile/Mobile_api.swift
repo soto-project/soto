@@ -68,55 +68,118 @@ public struct Mobile: AWSService {
     ///  Creates an AWS Mobile Hub project.
     @Sendable
     public func createProject(_ input: CreateProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProjectResult {
-        return try await self.client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProject", 
+            path: "/projects", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Delets a project in AWS Mobile Hub.
     @Sendable
     public func deleteProject(_ input: DeleteProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProjectResult {
-        return try await self.client.execute(operation: "DeleteProject", path: "/projects/{projectId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteProject", 
+            path: "/projects/{projectId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Get the bundle details for the requested bundle id.
     @Sendable
     public func describeBundle(_ input: DescribeBundleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBundleResult {
-        return try await self.client.execute(operation: "DescribeBundle", path: "/bundles/{bundleId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBundle", 
+            path: "/bundles/{bundleId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Gets details about a project in AWS Mobile Hub.
     @Sendable
     public func describeProject(_ input: DescribeProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProjectResult {
-        return try await self.client.execute(operation: "DescribeProject", path: "/project", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProject", 
+            path: "/project", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Generates customized software development kit (SDK) and or tool packages used to integrate mobile web or mobile app clients with backend AWS resources.
     @Sendable
     public func exportBundle(_ input: ExportBundleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportBundleResult {
-        return try await self.client.execute(operation: "ExportBundle", path: "/bundles/{bundleId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ExportBundle", 
+            path: "/bundles/{bundleId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Exports project configuration to a snapshot which can be downloaded and shared. Note that mobile app push credentials are encrypted in exported projects, so they can only be shared successfully within the same AWS account.
     @Sendable
     public func exportProject(_ input: ExportProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportProjectResult {
-        return try await self.client.execute(operation: "ExportProject", path: "/exports/{projectId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ExportProject", 
+            path: "/exports/{projectId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  List all available bundles.
     @Sendable
     public func listBundles(_ input: ListBundlesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBundlesResult {
-        return try await self.client.execute(operation: "ListBundles", path: "/bundles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBundles", 
+            path: "/bundles", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Lists projects in AWS Mobile Hub.
     @Sendable
     public func listProjects(_ input: ListProjectsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProjectsResult {
-        return try await self.client.execute(operation: "ListProjects", path: "/projects", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProjects", 
+            path: "/projects", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Update an existing project.
     @Sendable
     public func updateProject(_ input: UpdateProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProjectResult {
-        return try await self.client.execute(operation: "UpdateProject", path: "/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateProject", 
+            path: "/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

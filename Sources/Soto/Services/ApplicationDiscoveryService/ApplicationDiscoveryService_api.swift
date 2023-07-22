@@ -68,151 +68,325 @@ public struct ApplicationDiscoveryService: AWSService {
     /// Associates one or more configuration items with an application.
     @Sendable
     public func associateConfigurationItemsToApplication(_ input: AssociateConfigurationItemsToApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateConfigurationItemsToApplicationResponse {
-        return try await self.client.execute(operation: "AssociateConfigurationItemsToApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateConfigurationItemsToApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications.  Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-existing discovered server is updated. When you delete an import task that contains records that were used to match, the information in those matched records that comes from the deleted records will also be deleted.
     @Sendable
     public func batchDeleteImportData(_ input: BatchDeleteImportDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteImportDataResponse {
-        return try await self.client.execute(operation: "BatchDeleteImportData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDeleteImportData", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an application with the given name and description.
     @Sendable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResponse {
-        return try await self.client.execute(operation: "CreateApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates one or more tags for configuration items. Tags are metadata that help you categorize IT assets. This API accepts a list of multiple configuration items.  Do not store sensitive information (like personal data) in tags.
     @Sendable
     public func createTags(_ input: CreateTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTagsResponse {
-        return try await self.client.execute(operation: "CreateTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a list of applications and their associations with configuration items.
     @Sendable
     public func deleteApplications(_ input: DeleteApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationsResponse {
-        return try await self.client.execute(operation: "DeleteApplications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteApplications", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the association between configuration items and one or more tags. This API accepts a list of multiple configuration items.
     @Sendable
     public func deleteTags(_ input: DeleteTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTagsResponse {
-        return try await self.client.execute(operation: "DeleteTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists agents or connectors as specified by ID or other filters. All agents/connectors associated with your user account can be listed if you call DescribeAgents as is without passing any parameters.
     @Sendable
     public func describeAgents(_ input: DescribeAgentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAgentsResponse {
-        return try await self.client.execute(operation: "DescribeAgents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAgents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves attributes for a list of configuration item IDs.  All of the supplied IDs must be for the same asset type from one of the following:   server   application   process   connection   Output fields are specific to the asset type specified. For example, the output for a server configuration item includes a list of attributes about the server, such as host name, operating system, number of network cards, etc. For a complete list of outputs for each asset type, see Using the DescribeConfigurations Action in the Amazon Web Services Application Discovery Service User Guide.
     @Sendable
     public func describeConfigurations(_ input: DescribeConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationsResponse {
-        return try await self.client.execute(operation: "DescribeConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConfigurations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists exports as specified by ID. All continuous exports associated with your user account can be listed if you call DescribeContinuousExports as is without passing any parameters.
     @Sendable
     public func describeContinuousExports(_ input: DescribeContinuousExportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContinuousExportsResponse {
-        return try await self.client.execute(operation: "DescribeContinuousExports", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeContinuousExports", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  DescribeExportConfigurations is deprecated. Use DescribeExportTasks, instead.
     @Sendable
     public func describeExportConfigurations(_ input: DescribeExportConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeExportConfigurationsResponse {
-        return try await self.client.execute(operation: "DescribeExportConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeExportConfigurations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks.
     @Sendable
     public func describeExportTasks(_ input: DescribeExportTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeExportTasksResponse {
-        return try await self.client.execute(operation: "DescribeExportTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeExportTasks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns an array of import tasks for your account, including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
     @Sendable
     public func describeImportTasks(_ input: DescribeImportTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImportTasksResponse {
-        return try await self.client.execute(operation: "DescribeImportTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeImportTasks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of configuration items that have tags as specified by the key-value pairs, name and value, passed to the optional parameter filters. There are three valid tag filter names:   tagKey   tagValue   configurationId   Also, all configuration items associated with your user account that have tags can be listed if you call DescribeTags as is without passing any parameters.
     @Sendable
     public func describeTags(_ input: DescribeTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTagsResponse {
-        return try await self.client.execute(operation: "DescribeTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates one or more configuration items from an application.
     @Sendable
     public func disassociateConfigurationItemsFromApplication(_ input: DisassociateConfigurationItemsFromApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateConfigurationItemsFromApplicationResponse {
-        return try await self.client.execute(operation: "DisassociateConfigurationItemsFromApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateConfigurationItemsFromApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deprecated. Use StartExportTask instead. Exports all discovered configuration data to an Amazon S3 bucket or an application that enables you to view and evaluate the data. Data includes tags and tag associations, processes, connections, servers, and system performance. This API returns an export ID that you can query using the DescribeExportConfigurations API. The system imposes a limit of two configuration exports in six hours.
     @Sendable
     public func exportConfigurations(logger: Logger = AWSClient.loggingDisabled) async throws -> ExportConfigurationsResponse {
-        return try await self.client.execute(operation: "ExportConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger)
+        return try await self.client.execute(
+            operation: "ExportConfigurations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
     }
 
     /// Retrieves a short summary of discovered assets. This API operation takes no request parameters and is called as is at the command prompt as shown in the example.
     @Sendable
     public func getDiscoverySummary(_ input: GetDiscoverySummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDiscoverySummaryResponse {
-        return try await self.client.execute(operation: "GetDiscoverySummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDiscoverySummary", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of configuration items as specified by the value passed to the required parameter configurationType. Optional filtering may be applied to refine search results.
     @Sendable
     public func listConfigurations(_ input: ListConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationsResponse {
-        return try await self.client.execute(operation: "ListConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConfigurations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of servers that are one network hop away from a specified server.
     @Sendable
     public func listServerNeighbors(_ input: ListServerNeighborsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServerNeighborsResponse {
-        return try await self.client.execute(operation: "ListServerNeighbors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListServerNeighbors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Start the continuous flow of agent's discovered data into Amazon Athena.
     @Sendable
     public func startContinuousExport(_ input: StartContinuousExportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartContinuousExportResponse {
-        return try await self.client.execute(operation: "StartContinuousExport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartContinuousExport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Instructs the specified agents or connectors to start collecting data.
     @Sendable
     public func startDataCollectionByAgentIds(_ input: StartDataCollectionByAgentIdsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDataCollectionByAgentIdsResponse {
-        return try await self.client.execute(operation: "StartDataCollectionByAgentIds", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartDataCollectionByAgentIds", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Begins the export of discovered data to an S3 bucket. If you specify agentIds in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime. Export of detailed agent data is limited to five concurrently running exports.  If you do not include an agentIds filter, summary data is exported that includes both Amazon Web Services Agentless Discovery Connector data and summary data from Amazon Web Services Discovery Agents. Export of summary data is limited to two exports per day.
     @Sendable
     public func startExportTask(_ input: StartExportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartExportTaskResponse {
-        return try await self.client.execute(operation: "StartExportTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartExportTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an import task, which allows you to import details of your on-premises environment directly into Amazon Web Services Migration Hub without having to use the Application Discovery Service (ADS) tools such as the Discovery Connector or Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to group your devices as applications and track their migration status. To start an import request, do this:   Download the specially formatted comma separated value (CSV) import template, which you can find here: https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv.   Fill out the template with your server and application data.   Upload your import file to an Amazon S3 bucket, and make a note of it's Object URL. Your import file must be in the CSV format.   Use the console or the StartImportTask command with the Amazon Web Services CLI or one of the Amazon Web Services SDKs to import the records from your file.   For more information, including step-by-step procedures, see Migration Hub Import in the Amazon Web Services Application Discovery Service User Guide.  There are limits to the number of import tasks you can create (and delete) in an Amazon Web Services account. For more information, see Amazon Web Services Application Discovery Service Limits in the Amazon Web Services Application Discovery Service User Guide.
     @Sendable
     public func startImportTask(_ input: StartImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImportTaskResponse {
-        return try await self.client.execute(operation: "StartImportTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartImportTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stop the continuous flow of agent's discovered data into Amazon Athena.
     @Sendable
     public func stopContinuousExport(_ input: StopContinuousExportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopContinuousExportResponse {
-        return try await self.client.execute(operation: "StopContinuousExport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopContinuousExport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Instructs the specified agents or connectors to stop collecting data.
     @Sendable
     public func stopDataCollectionByAgentIds(_ input: StopDataCollectionByAgentIdsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopDataCollectionByAgentIdsResponse {
-        return try await self.client.execute(operation: "StopDataCollectionByAgentIds", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopDataCollectionByAgentIds", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates metadata about an application.
     @Sendable
     public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationResponse {
-        return try await self.client.execute(operation: "UpdateApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

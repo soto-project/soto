@@ -76,367 +76,794 @@ public struct Mgn: AWSService {
     /// Archive application.
     @Sendable
     public func archiveApplication(_ input: ArchiveApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Application {
-        return try await self.client.execute(operation: "ArchiveApplication", path: "/ArchiveApplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ArchiveApplication", 
+            path: "/ArchiveApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Archive wave.
     @Sendable
     public func archiveWave(_ input: ArchiveWaveRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Wave {
-        return try await self.client.execute(operation: "ArchiveWave", path: "/ArchiveWave", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ArchiveWave", 
+            path: "/ArchiveWave", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associate applications to wave.
     @Sendable
     public func associateApplications(_ input: AssociateApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateApplicationsResponse {
-        return try await self.client.execute(operation: "AssociateApplications", path: "/AssociateApplications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateApplications", 
+            path: "/AssociateApplications", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associate source servers to application.
     @Sendable
     public func associateSourceServers(_ input: AssociateSourceServersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSourceServersResponse {
-        return try await self.client.execute(operation: "AssociateSourceServers", path: "/AssociateSourceServers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateSourceServers", 
+            path: "/AssociateSourceServers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
     @Sendable
     public func changeServerLifeCycleState(_ input: ChangeServerLifeCycleStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
-        return try await self.client.execute(operation: "ChangeServerLifeCycleState", path: "/ChangeServerLifeCycleState", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ChangeServerLifeCycleState", 
+            path: "/ChangeServerLifeCycleState", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create application.
     @Sendable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Application {
-        return try await self.client.execute(operation: "CreateApplication", path: "/CreateApplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateApplication", 
+            path: "/CreateApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new Launch Configuration Template.
     @Sendable
     public func createLaunchConfigurationTemplate(_ input: CreateLaunchConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LaunchConfigurationTemplate {
-        return try await self.client.execute(operation: "CreateLaunchConfigurationTemplate", path: "/CreateLaunchConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLaunchConfigurationTemplate", 
+            path: "/CreateLaunchConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new ReplicationConfigurationTemplate.
     @Sendable
     public func createReplicationConfigurationTemplate(_ input: CreateReplicationConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicationConfigurationTemplate {
-        return try await self.client.execute(operation: "CreateReplicationConfigurationTemplate", path: "/CreateReplicationConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateReplicationConfigurationTemplate", 
+            path: "/CreateReplicationConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create wave.
     @Sendable
     public func createWave(_ input: CreateWaveRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Wave {
-        return try await self.client.execute(operation: "CreateWave", path: "/CreateWave", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWave", 
+            path: "/CreateWave", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete application.
     @Sendable
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationResponse {
-        return try await self.client.execute(operation: "DeleteApplication", path: "/DeleteApplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteApplication", 
+            path: "/DeleteApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a single Job by ID.
     @Sendable
     public func deleteJob(_ input: DeleteJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteJobResponse {
-        return try await self.client.execute(operation: "DeleteJob", path: "/DeleteJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteJob", 
+            path: "/DeleteJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a single Launch Configuration Template by ID.
     @Sendable
     public func deleteLaunchConfigurationTemplate(_ input: DeleteLaunchConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLaunchConfigurationTemplateResponse {
-        return try await self.client.execute(operation: "DeleteLaunchConfigurationTemplate", path: "/DeleteLaunchConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteLaunchConfigurationTemplate", 
+            path: "/DeleteLaunchConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a single Replication Configuration Template by ID
     @Sendable
     public func deleteReplicationConfigurationTemplate(_ input: DeleteReplicationConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReplicationConfigurationTemplateResponse {
-        return try await self.client.execute(operation: "DeleteReplicationConfigurationTemplate", path: "/DeleteReplicationConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReplicationConfigurationTemplate", 
+            path: "/DeleteReplicationConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a single source server by ID.
     @Sendable
     public func deleteSourceServer(_ input: DeleteSourceServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSourceServerResponse {
-        return try await self.client.execute(operation: "DeleteSourceServer", path: "/DeleteSourceServer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSourceServer", 
+            path: "/DeleteSourceServer", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a given vCenter client by ID.
     @Sendable
     public func deleteVcenterClient(_ input: DeleteVcenterClientRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVcenterClient", path: "/DeleteVcenterClient", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVcenterClient", 
+            path: "/DeleteVcenterClient", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete wave.
     @Sendable
     public func deleteWave(_ input: DeleteWaveRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWaveResponse {
-        return try await self.client.execute(operation: "DeleteWave", path: "/DeleteWave", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWave", 
+            path: "/DeleteWave", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves detailed job log items with paging.
     @Sendable
     public func describeJobLogItems(_ input: DescribeJobLogItemsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobLogItemsResponse {
-        return try await self.client.execute(operation: "DescribeJobLogItems", path: "/DescribeJobLogItems", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeJobLogItems", 
+            path: "/DescribeJobLogItems", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     @Sendable
     public func describeJobs(_ input: DescribeJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobsResponse {
-        return try await self.client.execute(operation: "DescribeJobs", path: "/DescribeJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeJobs", 
+            path: "/DescribeJobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
     @Sendable
     public func describeLaunchConfigurationTemplates(_ input: DescribeLaunchConfigurationTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLaunchConfigurationTemplatesResponse {
-        return try await self.client.execute(operation: "DescribeLaunchConfigurationTemplates", path: "/DescribeLaunchConfigurationTemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLaunchConfigurationTemplates", 
+            path: "/DescribeLaunchConfigurationTemplates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
     @Sendable
     public func describeReplicationConfigurationTemplates(_ input: DescribeReplicationConfigurationTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationConfigurationTemplatesResponse {
-        return try await self.client.execute(operation: "DescribeReplicationConfigurationTemplates", path: "/DescribeReplicationConfigurationTemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReplicationConfigurationTemplates", 
+            path: "/DescribeReplicationConfigurationTemplates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves all SourceServers or multiple SourceServers by ID.
     @Sendable
     public func describeSourceServers(_ input: DescribeSourceServersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSourceServersResponse {
-        return try await self.client.execute(operation: "DescribeSourceServers", path: "/DescribeSourceServers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSourceServers", 
+            path: "/DescribeSourceServers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the installed vCenter clients.
     @Sendable
     public func describeVcenterClients(_ input: DescribeVcenterClientsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVcenterClientsResponse {
-        return try await self.client.execute(operation: "DescribeVcenterClients", path: "/DescribeVcenterClients", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeVcenterClients", 
+            path: "/DescribeVcenterClients", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociate applications from wave.
     @Sendable
     public func disassociateApplications(_ input: DisassociateApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateApplicationsResponse {
-        return try await self.client.execute(operation: "DisassociateApplications", path: "/DisassociateApplications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateApplications", 
+            path: "/DisassociateApplications", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociate source servers from application.
     @Sendable
     public func disassociateSourceServers(_ input: DisassociateSourceServersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateSourceServersResponse {
-        return try await self.client.execute(operation: "DisassociateSourceServers", path: "/DisassociateSourceServers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateSourceServers", 
+            path: "/DisassociateSourceServers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     @Sendable
     public func disconnectFromService(_ input: DisconnectFromServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
-        return try await self.client.execute(operation: "DisconnectFromService", path: "/DisconnectFromService", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisconnectFromService", 
+            path: "/DisconnectFromService", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property fo each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     @Sendable
     public func finalizeCutover(_ input: FinalizeCutoverRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
-        return try await self.client.execute(operation: "FinalizeCutover", path: "/FinalizeCutover", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "FinalizeCutover", 
+            path: "/FinalizeCutover", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all LaunchConfigurations available, filtered by Source Server IDs.
     @Sendable
     public func getLaunchConfiguration(_ input: GetLaunchConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LaunchConfiguration {
-        return try await self.client.execute(operation: "GetLaunchConfiguration", path: "/GetLaunchConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetLaunchConfiguration", 
+            path: "/GetLaunchConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all ReplicationConfigurations, filtered by Source Server ID.
     @Sendable
     public func getReplicationConfiguration(_ input: GetReplicationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicationConfiguration {
-        return try await self.client.execute(operation: "GetReplicationConfiguration", path: "/GetReplicationConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetReplicationConfiguration", 
+            path: "/GetReplicationConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Initialize Application Migration Service.
     @Sendable
     public func initializeService(_ input: InitializeServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InitializeServiceResponse {
-        return try await self.client.execute(operation: "InitializeService", path: "/InitializeService", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "InitializeService", 
+            path: "/InitializeService", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves all applications or multiple applications by ID.
     @Sendable
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsResponse {
-        return try await self.client.execute(operation: "ListApplications", path: "/ListApplications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApplications", 
+            path: "/ListApplications", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List export errors.
     @Sendable
     public func listExportErrors(_ input: ListExportErrorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExportErrorsResponse {
-        return try await self.client.execute(operation: "ListExportErrors", path: "/ListExportErrors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListExportErrors", 
+            path: "/ListExportErrors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List exports.
     @Sendable
     public func listExports(_ input: ListExportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExportsResponse {
-        return try await self.client.execute(operation: "ListExports", path: "/ListExports", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListExports", 
+            path: "/ListExports", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List import errors.
     @Sendable
     public func listImportErrors(_ input: ListImportErrorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportErrorsResponse {
-        return try await self.client.execute(operation: "ListImportErrors", path: "/ListImportErrors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImportErrors", 
+            path: "/ListImportErrors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List imports.
     @Sendable
     public func listImports(_ input: ListImportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportsResponse {
-        return try await self.client.execute(operation: "ListImports", path: "/ListImports", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImports", 
+            path: "/ListImports", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List source server post migration custom actions.
     @Sendable
     public func listSourceServerActions(_ input: ListSourceServerActionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSourceServerActionsResponse {
-        return try await self.client.execute(operation: "ListSourceServerActions", path: "/ListSourceServerActions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSourceServerActions", 
+            path: "/ListSourceServerActions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all tags for your Application Migration Service resources.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List template post migration custom actions.
     @Sendable
     public func listTemplateActions(_ input: ListTemplateActionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplateActionsResponse {
-        return try await self.client.execute(operation: "ListTemplateActions", path: "/ListTemplateActions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTemplateActions", 
+            path: "/ListTemplateActions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves all waves or multiple waves by ID.
     @Sendable
     public func listWaves(_ input: ListWavesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWavesResponse {
-        return try await self.client.execute(operation: "ListWaves", path: "/ListWaves", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWaves", 
+            path: "/ListWaves", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.
     @Sendable
     public func markAsArchived(_ input: MarkAsArchivedRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
-        return try await self.client.execute(operation: "MarkAsArchived", path: "/MarkAsArchived", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "MarkAsArchived", 
+            path: "/MarkAsArchived", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Put source server post migration custom action.
     @Sendable
     public func putSourceServerAction(_ input: PutSourceServerActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServerActionDocument {
-        return try await self.client.execute(operation: "PutSourceServerAction", path: "/PutSourceServerAction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutSourceServerAction", 
+            path: "/PutSourceServerAction", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Put template post migration custom action.
     @Sendable
     public func putTemplateAction(_ input: PutTemplateActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TemplateActionDocument {
-        return try await self.client.execute(operation: "PutTemplateAction", path: "/PutTemplateAction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutTemplateAction", 
+            path: "/PutTemplateAction", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Remove source server post migration custom action.
     @Sendable
     public func removeSourceServerAction(_ input: RemoveSourceServerActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveSourceServerActionResponse {
-        return try await self.client.execute(operation: "RemoveSourceServerAction", path: "/RemoveSourceServerAction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveSourceServerAction", 
+            path: "/RemoveSourceServerAction", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Remove template post migration custom action.
     @Sendable
     public func removeTemplateAction(_ input: RemoveTemplateActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveTemplateActionResponse {
-        return try await self.client.execute(operation: "RemoveTemplateAction", path: "/RemoveTemplateAction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveTemplateAction", 
+            path: "/RemoveTemplateAction", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Causes the data replication initiation sequence to begin immediately upon next Handshake for specified SourceServer IDs, regardless of when the previous initiation started. This command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
     @Sendable
     public func retryDataReplication(_ input: RetryDataReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
-        return try await self.client.execute(operation: "RetryDataReplication", path: "/RetryDataReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RetryDataReplication", 
+            path: "/RetryDataReplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Launches a Cutover Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycle.state property to CUTTING_OVER.
     @Sendable
     public func startCutover(_ input: StartCutoverRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCutoverResponse {
-        return try await self.client.execute(operation: "StartCutover", path: "/StartCutover", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartCutover", 
+            path: "/StartCutover", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Start export.
     @Sendable
     public func startExport(_ input: StartExportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartExportResponse {
-        return try await self.client.execute(operation: "StartExport", path: "/StartExport", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartExport", 
+            path: "/StartExport", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Start import.
     @Sendable
     public func startImport(_ input: StartImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImportResponse {
-        return try await self.client.execute(operation: "StartImport", path: "/StartImport", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartImport", 
+            path: "/StartImport", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts replication for SNAPSHOT_SHIPPING agents.
     @Sendable
     public func startReplication(_ input: StartReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
-        return try await self.client.execute(operation: "StartReplication", path: "/StartReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartReplication", 
+            path: "/StartReplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING.
     @Sendable
     public func startTest(_ input: StartTestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTestResponse {
-        return try await self.client.execute(operation: "StartTest", path: "/StartTest", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartTest", 
+            path: "/StartTest", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER.
     @Sendable
     public func terminateTargetInstances(_ input: TerminateTargetInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateTargetInstancesResponse {
-        return try await self.client.execute(operation: "TerminateTargetInstances", path: "/TerminateTargetInstances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TerminateTargetInstances", 
+            path: "/TerminateTargetInstances", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Unarchive application.
     @Sendable
     public func unarchiveApplication(_ input: UnarchiveApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Application {
-        return try await self.client.execute(operation: "UnarchiveApplication", path: "/UnarchiveApplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UnarchiveApplication", 
+            path: "/UnarchiveApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Unarchive wave.
     @Sendable
     public func unarchiveWave(_ input: UnarchiveWaveRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Wave {
-        return try await self.client.execute(operation: "UnarchiveWave", path: "/UnarchiveWave", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UnarchiveWave", 
+            path: "/UnarchiveWave", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified set of tags from the specified set of Application Migration Service resources.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update application.
     @Sendable
     public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Application {
-        return try await self.client.execute(operation: "UpdateApplication", path: "/UpdateApplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateApplication", 
+            path: "/UpdateApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates multiple LaunchConfigurations by Source Server ID.
     @Sendable
     public func updateLaunchConfiguration(_ input: UpdateLaunchConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LaunchConfiguration {
-        return try await self.client.execute(operation: "UpdateLaunchConfiguration", path: "/UpdateLaunchConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLaunchConfiguration", 
+            path: "/UpdateLaunchConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing Launch Configuration Template by ID.
     @Sendable
     public func updateLaunchConfigurationTemplate(_ input: UpdateLaunchConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LaunchConfigurationTemplate {
-        return try await self.client.execute(operation: "UpdateLaunchConfigurationTemplate", path: "/UpdateLaunchConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLaunchConfigurationTemplate", 
+            path: "/UpdateLaunchConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Allows you to update multiple ReplicationConfigurations by Source Server ID.
     @Sendable
     public func updateReplicationConfiguration(_ input: UpdateReplicationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicationConfiguration {
-        return try await self.client.execute(operation: "UpdateReplicationConfiguration", path: "/UpdateReplicationConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateReplicationConfiguration", 
+            path: "/UpdateReplicationConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates multiple ReplicationConfigurationTemplates by ID.
     @Sendable
     public func updateReplicationConfigurationTemplate(_ input: UpdateReplicationConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicationConfigurationTemplate {
-        return try await self.client.execute(operation: "UpdateReplicationConfigurationTemplate", path: "/UpdateReplicationConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateReplicationConfigurationTemplate", 
+            path: "/UpdateReplicationConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type.
     @Sendable
     public func updateSourceServerReplicationType(_ input: UpdateSourceServerReplicationTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
-        return try await self.client.execute(operation: "UpdateSourceServerReplicationType", path: "/UpdateSourceServerReplicationType", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSourceServerReplicationType", 
+            path: "/UpdateSourceServerReplicationType", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update wave.
     @Sendable
     public func updateWave(_ input: UpdateWaveRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Wave {
-        return try await self.client.execute(operation: "UpdateWave", path: "/UpdateWave", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWave", 
+            path: "/UpdateWave", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

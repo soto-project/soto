@@ -75,121 +75,261 @@ public struct EMRContainers: AWSService {
     /// Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     @Sendable
     public func cancelJobRun(_ input: CancelJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelJobRunResponse {
-        return try await self.client.execute(operation: "CancelJobRun", path: "/virtualclusters/{virtualClusterId}/jobruns/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelJobRun", 
+            path: "/virtualclusters/{virtualClusterId}/jobruns/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     @Sendable
     public func createJobTemplate(_ input: CreateJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobTemplateResponse {
-        return try await self.client.execute(operation: "CreateJobTemplate", path: "/jobtemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateJobTemplate", 
+            path: "/jobtemplates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     @Sendable
     public func createManagedEndpoint(_ input: CreateManagedEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateManagedEndpointResponse {
-        return try await self.client.execute(operation: "CreateManagedEndpoint", path: "/virtualclusters/{virtualClusterId}/endpoints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateManagedEndpoint", 
+            path: "/virtualclusters/{virtualClusterId}/endpoints", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     @Sendable
     public func createVirtualCluster(_ input: CreateVirtualClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVirtualClusterResponse {
-        return try await self.client.execute(operation: "CreateVirtualCluster", path: "/virtualclusters", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVirtualCluster", 
+            path: "/virtualclusters", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     @Sendable
     public func deleteJobTemplate(_ input: DeleteJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteJobTemplateResponse {
-        return try await self.client.execute(operation: "DeleteJobTemplate", path: "/jobtemplates/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteJobTemplate", 
+            path: "/jobtemplates/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     @Sendable
     public func deleteManagedEndpoint(_ input: DeleteManagedEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteManagedEndpointResponse {
-        return try await self.client.execute(operation: "DeleteManagedEndpoint", path: "/virtualclusters/{virtualClusterId}/endpoints/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteManagedEndpoint", 
+            path: "/virtualclusters/{virtualClusterId}/endpoints/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     @Sendable
     public func deleteVirtualCluster(_ input: DeleteVirtualClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVirtualClusterResponse {
-        return try await self.client.execute(operation: "DeleteVirtualCluster", path: "/virtualclusters/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVirtualCluster", 
+            path: "/virtualclusters/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays detailed information about a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     @Sendable
     public func describeJobRun(_ input: DescribeJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobRunResponse {
-        return try await self.client.execute(operation: "DescribeJobRun", path: "/virtualclusters/{virtualClusterId}/jobruns/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeJobRun", 
+            path: "/virtualclusters/{virtualClusterId}/jobruns/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays detailed information about a specified job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     @Sendable
     public func describeJobTemplate(_ input: DescribeJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobTemplateResponse {
-        return try await self.client.execute(operation: "DescribeJobTemplate", path: "/jobtemplates/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeJobTemplate", 
+            path: "/jobtemplates/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays detailed information about a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     @Sendable
     public func describeManagedEndpoint(_ input: DescribeManagedEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeManagedEndpointResponse {
-        return try await self.client.execute(operation: "DescribeManagedEndpoint", path: "/virtualclusters/{virtualClusterId}/endpoints/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeManagedEndpoint", 
+            path: "/virtualclusters/{virtualClusterId}/endpoints/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays detailed information about a specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     @Sendable
     public func describeVirtualCluster(_ input: DescribeVirtualClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVirtualClusterResponse {
-        return try await self.client.execute(operation: "DescribeVirtualCluster", path: "/virtualclusters/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeVirtualCluster", 
+            path: "/virtualclusters/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Generate a session token to connect to a managed endpoint.
     @Sendable
     public func getManagedEndpointSessionCredentials(_ input: GetManagedEndpointSessionCredentialsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetManagedEndpointSessionCredentialsResponse {
-        return try await self.client.execute(operation: "GetManagedEndpointSessionCredentials", path: "/virtualclusters/{virtualClusterIdentifier}/endpoints/{endpointIdentifier}/credentials", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetManagedEndpointSessionCredentials", 
+            path: "/virtualclusters/{virtualClusterIdentifier}/endpoints/{endpointIdentifier}/credentials", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists job runs based on a set of parameters. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     @Sendable
     public func listJobRuns(_ input: ListJobRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobRunsResponse {
-        return try await self.client.execute(operation: "ListJobRuns", path: "/virtualclusters/{virtualClusterId}/jobruns", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListJobRuns", 
+            path: "/virtualclusters/{virtualClusterId}/jobruns", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists job templates based on a set of parameters. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     @Sendable
     public func listJobTemplates(_ input: ListJobTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobTemplatesResponse {
-        return try await self.client.execute(operation: "ListJobTemplates", path: "/jobtemplates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListJobTemplates", 
+            path: "/jobtemplates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists managed endpoints based on a set of parameters. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     @Sendable
     public func listManagedEndpoints(_ input: ListManagedEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedEndpointsResponse {
-        return try await self.client.execute(operation: "ListManagedEndpoints", path: "/virtualclusters/{virtualClusterId}/endpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListManagedEndpoints", 
+            path: "/virtualclusters/{virtualClusterId}/endpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags assigned to the resources.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     @Sendable
     public func listVirtualClusters(_ input: ListVirtualClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVirtualClustersResponse {
-        return try await self.client.execute(operation: "ListVirtualClusters", path: "/virtualclusters", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVirtualClusters", 
+            path: "/virtualclusters", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     @Sendable
     public func startJobRun(_ input: StartJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartJobRunResponse {
-        return try await self.client.execute(operation: "StartJobRun", path: "/virtualclusters/{virtualClusterId}/jobruns", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartJobRun", 
+            path: "/virtualclusters/{virtualClusterId}/jobruns", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it. For example, you can define a set of tags for your Amazon EMR on EKS clusters to help you track each cluster's owner and stack level. We recommend that you devise a consistent set of tag keys for each resource type. You can then search and filter the resources based on the tags that you add.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from resources.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -77,31 +77,66 @@ public struct S3Outposts: AWSService {
     /// Creates an endpoint and associates it with the specified Outpost.  It can take up to 5 minutes for this action to finish.   Related actions include:    DeleteEndpoint     ListEndpoints
     @Sendable
     public func createEndpoint(_ input: CreateEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEndpointResult {
-        return try await self.client.execute(operation: "CreateEndpoint", path: "/S3Outposts/CreateEndpoint", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEndpoint", 
+            path: "/S3Outposts/CreateEndpoint", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an endpoint.  It can take up to 5 minutes for this action to finish.   Related actions include:    CreateEndpoint     ListEndpoints
     @Sendable
     public func deleteEndpoint(_ input: DeleteEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteEndpoint", path: "/S3Outposts/DeleteEndpoint", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEndpoint", 
+            path: "/S3Outposts/DeleteEndpoint", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists endpoints associated with the specified Outpost.  Related actions include:    CreateEndpoint     DeleteEndpoint
     @Sendable
     public func listEndpoints(_ input: ListEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEndpointsResult {
-        return try await self.client.execute(operation: "ListEndpoints", path: "/S3Outposts/ListEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEndpoints", 
+            path: "/S3Outposts/ListEndpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Outposts with S3 on Outposts capacity for your Amazon Web Services account. Includes S3 on Outposts that you have access to as the Outposts owner, or as a shared user from Resource Access Manager (RAM).
     @Sendable
     public func listOutpostsWithS3(_ input: ListOutpostsWithS3Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOutpostsWithS3Result {
-        return try await self.client.execute(operation: "ListOutpostsWithS3", path: "/S3Outposts/ListOutpostsWithS3", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOutpostsWithS3", 
+            path: "/S3Outposts/ListOutpostsWithS3", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services Resource Access Manager (RAM). Related actions include:    CreateEndpoint     DeleteEndpoint
     @Sendable
     public func listSharedEndpoints(_ input: ListSharedEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSharedEndpointsResult {
-        return try await self.client.execute(operation: "ListSharedEndpoints", path: "/S3Outposts/ListSharedEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSharedEndpoints", 
+            path: "/S3Outposts/ListSharedEndpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

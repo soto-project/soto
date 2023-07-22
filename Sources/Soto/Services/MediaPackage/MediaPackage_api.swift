@@ -66,113 +66,246 @@ public struct MediaPackage: AWSService {
     /// Changes the Channel's properities to configure log subscription
     @Sendable
     public func configureLogs(_ input: ConfigureLogsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigureLogsResponse {
-        return try await self.client.execute(operation: "ConfigureLogs", path: "/channels/{Id}/configure_logs", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ConfigureLogs", 
+            path: "/channels/{Id}/configure_logs", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new Channel.
     @Sendable
     public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChannelResponse {
-        return try await self.client.execute(operation: "CreateChannel", path: "/channels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateChannel", 
+            path: "/channels", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new HarvestJob record.
     @Sendable
     public func createHarvestJob(_ input: CreateHarvestJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHarvestJobResponse {
-        return try await self.client.execute(operation: "CreateHarvestJob", path: "/harvest_jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateHarvestJob", 
+            path: "/harvest_jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new OriginEndpoint record.
     @Sendable
     public func createOriginEndpoint(_ input: CreateOriginEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOriginEndpointResponse {
-        return try await self.client.execute(operation: "CreateOriginEndpoint", path: "/origin_endpoints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateOriginEndpoint", 
+            path: "/origin_endpoints", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing Channel.
     @Sendable
     public func deleteChannel(_ input: DeleteChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChannelResponse {
-        return try await self.client.execute(operation: "DeleteChannel", path: "/channels/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteChannel", 
+            path: "/channels/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing OriginEndpoint.
     @Sendable
     public func deleteOriginEndpoint(_ input: DeleteOriginEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteOriginEndpointResponse {
-        return try await self.client.execute(operation: "DeleteOriginEndpoint", path: "/origin_endpoints/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteOriginEndpoint", 
+            path: "/origin_endpoints/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details about a Channel.
     @Sendable
     public func describeChannel(_ input: DescribeChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeChannelResponse {
-        return try await self.client.execute(operation: "DescribeChannel", path: "/channels/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeChannel", 
+            path: "/channels/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details about an existing HarvestJob.
     @Sendable
     public func describeHarvestJob(_ input: DescribeHarvestJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeHarvestJobResponse {
-        return try await self.client.execute(operation: "DescribeHarvestJob", path: "/harvest_jobs/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeHarvestJob", 
+            path: "/harvest_jobs/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details about an existing OriginEndpoint.
     @Sendable
     public func describeOriginEndpoint(_ input: DescribeOriginEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOriginEndpointResponse {
-        return try await self.client.execute(operation: "DescribeOriginEndpoint", path: "/origin_endpoints/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeOriginEndpoint", 
+            path: "/origin_endpoints/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a collection of Channels.
     @Sendable
     public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelsResponse {
-        return try await self.client.execute(operation: "ListChannels", path: "/channels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListChannels", 
+            path: "/channels", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a collection of HarvestJob records.
     @Sendable
     public func listHarvestJobs(_ input: ListHarvestJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHarvestJobsResponse {
-        return try await self.client.execute(operation: "ListHarvestJobs", path: "/harvest_jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListHarvestJobs", 
+            path: "/harvest_jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a collection of OriginEndpoint records.
     @Sendable
     public func listOriginEndpoints(_ input: ListOriginEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOriginEndpointsResponse {
-        return try await self.client.execute(operation: "ListOriginEndpoints", path: "/origin_endpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOriginEndpoints", 
+            path: "/origin_endpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
     @available(*, deprecated, message: "This API is deprecated. Please use RotateIngestEndpointCredentials instead")
     @Sendable
     public func rotateChannelCredentials(_ input: RotateChannelCredentialsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RotateChannelCredentialsResponse {
-        return try await self.client.execute(operation: "RotateChannelCredentials", path: "/channels/{Id}/credentials", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RotateChannelCredentials", 
+            path: "/channels/{Id}/credentials", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
     @Sendable
     public func rotateIngestEndpointCredentials(_ input: RotateIngestEndpointCredentialsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RotateIngestEndpointCredentialsResponse {
-        return try await self.client.execute(operation: "RotateIngestEndpointCredentials", path: "/channels/{Id}/ingest_endpoints/{IngestEndpointId}/credentials", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RotateIngestEndpointCredentials", 
+            path: "/channels/{Id}/ingest_endpoints/{IngestEndpointId}/credentials", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing Channel.
     @Sendable
     public func updateChannel(_ input: UpdateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelResponse {
-        return try await self.client.execute(operation: "UpdateChannel", path: "/channels/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateChannel", 
+            path: "/channels/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing OriginEndpoint.
     @Sendable
     public func updateOriginEndpoint(_ input: UpdateOriginEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOriginEndpointResponse {
-        return try await self.client.execute(operation: "UpdateOriginEndpoint", path: "/origin_endpoints/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateOriginEndpoint", 
+            path: "/origin_endpoints/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

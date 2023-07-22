@@ -73,43 +73,92 @@ public struct Macie: AWSService {
     /// (Discontinued) Associates a specified Amazon Web Services account with Amazon Macie Classic as a member account.
     @Sendable
     public func associateMemberAccount(_ input: AssociateMemberAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AssociateMemberAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateMemberAccount", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// (Discontinued) Associates specified S3 resources with Amazon Macie Classic for monitoring and data classification. If memberAccountId isn't specified, the action associates specified S3 resources with Macie Classic for the current Macie Classic administrator account. If memberAccountId is specified, the action associates specified S3 resources with Macie Classic for the specified member account.
     @Sendable
     public func associateS3Resources(_ input: AssociateS3ResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateS3ResourcesResult {
-        return try await self.client.execute(operation: "AssociateS3Resources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateS3Resources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// (Discontinued) Removes the specified member account from Amazon Macie Classic.
     @Sendable
     public func disassociateMemberAccount(_ input: DisassociateMemberAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisassociateMemberAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateMemberAccount", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// (Discontinued) Removes specified S3 resources from being monitored by Amazon Macie Classic. If memberAccountId isn't specified, the action removes specified S3 resources from Macie Classic for the current Macie Classic administrator account. If memberAccountId is specified, the action removes specified S3 resources from Macie Classic for the specified member account.
     @Sendable
     public func disassociateS3Resources(_ input: DisassociateS3ResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateS3ResourcesResult {
-        return try await self.client.execute(operation: "DisassociateS3Resources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateS3Resources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// (Discontinued) Lists all Amazon Macie Classic member accounts for the current Macie Classic administrator account.
     @Sendable
     public func listMemberAccounts(_ input: ListMemberAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMemberAccountsResult {
-        return try await self.client.execute(operation: "ListMemberAccounts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMemberAccounts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// (Discontinued) Lists all the S3 resources associated with Amazon Macie Classic. If memberAccountId isn't specified, the action lists the S3 resources associated with Macie Classic for the current Macie Classic administrator account. If memberAccountId is specified, the action lists the S3 resources associated with Macie Classic for the specified member account.
     @Sendable
     public func listS3Resources(_ input: ListS3ResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListS3ResourcesResult {
-        return try await self.client.execute(operation: "ListS3Resources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListS3Resources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// (Discontinued) Updates the classification types for the specified S3 resources. If memberAccountId isn't specified, the action updates the classification types of the S3 resources associated with Amazon Macie Classic for the current Macie Classic administrator account. If memberAccountId is specified, the action updates the classification types of the S3 resources associated with Macie Classic for the specified member account.
     @Sendable
     public func updateS3Resources(_ input: UpdateS3ResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateS3ResourcesResult {
-        return try await self.client.execute(operation: "UpdateS3Resources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateS3Resources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

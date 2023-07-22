@@ -67,13 +67,27 @@ public struct EC2InstanceConnect: AWSService {
     /// Pushes an SSH public key to the specified EC2 instance for use by the specified user. The key remains for 60 seconds. For more information, see Connect to your Linux instance using EC2 Instance Connect in the Amazon EC2 User Guide.
     @Sendable
     public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendSSHPublicKeyResponse {
-        return try await self.client.execute(operation: "SendSSHPublicKey", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SendSSHPublicKey", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Pushes an SSH public key to the specified EC2 instance. The key remains for 60 seconds, which gives you 60 seconds to establish a serial console connection to the instance using SSH. For more information, see EC2 Serial Console in the Amazon EC2 User Guide.
     @Sendable
     public func sendSerialConsoleSSHPublicKey(_ input: SendSerialConsoleSSHPublicKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendSerialConsoleSSHPublicKeyResponse {
-        return try await self.client.execute(operation: "SendSerialConsoleSSHPublicKey", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SendSerialConsoleSSHPublicKey", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

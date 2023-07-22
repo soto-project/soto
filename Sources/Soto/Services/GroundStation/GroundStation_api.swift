@@ -73,199 +73,430 @@ public struct GroundStation: AWSService {
     /// Cancels a contact with a specified contact ID.
     @Sendable
     public func cancelContact(_ input: CancelContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ContactIdResponse {
-        return try await self.client.execute(operation: "CancelContact", path: "/contact/{contactId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelContact", 
+            path: "/contact/{contactId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a Config with the specified configData parameters. Only one type of configData can be specified.
     @Sendable
     public func createConfig(_ input: CreateConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigIdResponse {
-        return try await self.client.execute(operation: "CreateConfig", path: "/config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateConfig", 
+            path: "/config", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig  to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config  must match a DataflowEndpoint in the same group.
     @Sendable
     public func createDataflowEndpointGroup(_ input: CreateDataflowEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DataflowEndpointGroupIdResponse {
-        return try await self.client.execute(operation: "CreateDataflowEndpointGroup", path: "/dataflowEndpointGroup", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDataflowEndpointGroup", 
+            path: "/dataflowEndpointGroup", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an Ephemeris with the specified EphemerisData.
     @Sendable
     public func createEphemeris(_ input: CreateEphemerisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EphemerisIdResponse {
-        return try await self.client.execute(operation: "CreateEphemeris", path: "/ephemeris", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEphemeris", 
+            path: "/ephemeris", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a mission profile.  dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
     @Sendable
     public func createMissionProfile(_ input: CreateMissionProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> MissionProfileIdResponse {
-        return try await self.client.execute(operation: "CreateMissionProfile", path: "/missionprofile", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMissionProfile", 
+            path: "/missionprofile", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a Config.
     @Sendable
     public func deleteConfig(_ input: DeleteConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigIdResponse {
-        return try await self.client.execute(operation: "DeleteConfig", path: "/config/{configType}/{configId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConfig", 
+            path: "/config/{configType}/{configId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a dataflow endpoint group.
     @Sendable
     public func deleteDataflowEndpointGroup(_ input: DeleteDataflowEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DataflowEndpointGroupIdResponse {
-        return try await self.client.execute(operation: "DeleteDataflowEndpointGroup", path: "/dataflowEndpointGroup/{dataflowEndpointGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDataflowEndpointGroup", 
+            path: "/dataflowEndpointGroup/{dataflowEndpointGroupId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an ephemeris
     @Sendable
     public func deleteEphemeris(_ input: DeleteEphemerisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EphemerisIdResponse {
-        return try await self.client.execute(operation: "DeleteEphemeris", path: "/ephemeris/{ephemerisId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEphemeris", 
+            path: "/ephemeris/{ephemerisId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a mission profile.
     @Sendable
     public func deleteMissionProfile(_ input: DeleteMissionProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> MissionProfileIdResponse {
-        return try await self.client.execute(operation: "DeleteMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMissionProfile", 
+            path: "/missionprofile/{missionProfileId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing contact.
     @Sendable
     public func describeContact(_ input: DescribeContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContactResponse {
-        return try await self.client.execute(operation: "DescribeContact", path: "/contact/{contactId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeContact", 
+            path: "/contact/{contactId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing ephemeris.
     @Sendable
     public func describeEphemeris(_ input: DescribeEphemerisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEphemerisResponse {
-        return try await self.client.execute(operation: "DescribeEphemeris", path: "/ephemeris/{ephemerisId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEphemeris", 
+            path: "/ephemeris/{ephemerisId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  For use by AWS Ground Station Agent and shouldn't be called directly.  Gets the latest configuration information for a registered agent.
     @Sendable
     public func getAgentConfiguration(_ input: GetAgentConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentConfigurationResponse {
-        return try await self.client.execute(operation: "GetAgentConfiguration", path: "/agent/{agentId}/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAgentConfiguration", 
+            path: "/agent/{agentId}/configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns Config information. Only one Config response can be returned.
     @Sendable
     public func getConfig(_ input: GetConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigResponse {
-        return try await self.client.execute(operation: "GetConfig", path: "/config/{configType}/{configId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConfig", 
+            path: "/config/{configType}/{configId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the dataflow endpoint group.
     @Sendable
     public func getDataflowEndpointGroup(_ input: GetDataflowEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataflowEndpointGroupResponse {
-        return try await self.client.execute(operation: "GetDataflowEndpointGroup", path: "/dataflowEndpointGroup/{dataflowEndpointGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDataflowEndpointGroup", 
+            path: "/dataflowEndpointGroup/{dataflowEndpointGroupId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the number of reserved minutes used by account.
     @Sendable
     public func getMinuteUsage(_ input: GetMinuteUsageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMinuteUsageResponse {
-        return try await self.client.execute(operation: "GetMinuteUsage", path: "/minute-usage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMinuteUsage", 
+            path: "/minute-usage", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a mission profile.
     @Sendable
     public func getMissionProfile(_ input: GetMissionProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMissionProfileResponse {
-        return try await self.client.execute(operation: "GetMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMissionProfile", 
+            path: "/missionprofile/{missionProfileId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a satellite.
     @Sendable
     public func getSatellite(_ input: GetSatelliteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSatelliteResponse {
-        return try await self.client.execute(operation: "GetSatellite", path: "/satellite/{satelliteId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSatellite", 
+            path: "/satellite/{satelliteId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of Config objects.
     @Sendable
     public func listConfigs(_ input: ListConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigsResponse {
-        return try await self.client.execute(operation: "ListConfigs", path: "/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConfigs", 
+            path: "/config", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
     @Sendable
     public func listContacts(_ input: ListContactsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactsResponse {
-        return try await self.client.execute(operation: "ListContacts", path: "/contacts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListContacts", 
+            path: "/contacts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of DataflowEndpoint groups.
     @Sendable
     public func listDataflowEndpointGroups(_ input: ListDataflowEndpointGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataflowEndpointGroupsResponse {
-        return try await self.client.execute(operation: "ListDataflowEndpointGroups", path: "/dataflowEndpointGroup", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDataflowEndpointGroups", 
+            path: "/dataflowEndpointGroup", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List existing ephemerides.
     @Sendable
     public func listEphemerides(_ input: ListEphemeridesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEphemeridesResponse {
-        return try await self.client.execute(operation: "ListEphemerides", path: "/ephemerides", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEphemerides", 
+            path: "/ephemerides", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of ground stations.
     @Sendable
     public func listGroundStations(_ input: ListGroundStationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroundStationsResponse {
-        return try await self.client.execute(operation: "ListGroundStations", path: "/groundstation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGroundStations", 
+            path: "/groundstation", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of mission profiles.
     @Sendable
     public func listMissionProfiles(_ input: ListMissionProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMissionProfilesResponse {
-        return try await self.client.execute(operation: "ListMissionProfiles", path: "/missionprofile", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMissionProfiles", 
+            path: "/missionprofile", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of satellites.
     @Sendable
     public func listSatellites(_ input: ListSatellitesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSatellitesResponse {
-        return try await self.client.execute(operation: "ListSatellites", path: "/satellite", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSatellites", 
+            path: "/satellite", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of tags for a specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  For use by AWS Ground Station Agent and shouldn't be called directly.  Registers a new agent with AWS Ground Station.
     @Sendable
     public func registerAgent(_ input: RegisterAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterAgentResponse {
-        return try await self.client.execute(operation: "RegisterAgent", path: "/agent", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterAgent", 
+            path: "/agent", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Reserves a contact using specified parameters.
     @Sendable
     public func reserveContact(_ input: ReserveContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ContactIdResponse {
-        return try await self.client.execute(operation: "ReserveContact", path: "/contact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ReserveContact", 
+            path: "/contact", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assigns a tag to a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deassigns a resource tag.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  For use by AWS Ground Station Agent and shouldn't be called directly.  Update the status of the agent.
     @Sendable
     public func updateAgentStatus(_ input: UpdateAgentStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentStatusResponse {
-        return try await self.client.execute(operation: "UpdateAgentStatus", path: "/agent/{agentId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAgentStatus", 
+            path: "/agent/{agentId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
     @Sendable
     public func updateConfig(_ input: UpdateConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigIdResponse {
-        return try await self.client.execute(operation: "UpdateConfig", path: "/config/{configType}/{configId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateConfig", 
+            path: "/config/{configType}/{configId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing ephemeris
     @Sendable
     public func updateEphemeris(_ input: UpdateEphemerisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EphemerisIdResponse {
-        return try await self.client.execute(operation: "UpdateEphemeris", path: "/ephemeris/{ephemerisId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEphemeris", 
+            path: "/ephemeris/{ephemerisId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
     @Sendable
     public func updateMissionProfile(_ input: UpdateMissionProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> MissionProfileIdResponse {
-        return try await self.client.execute(operation: "UpdateMissionProfile", path: "/missionprofile/{missionProfileId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMissionProfile", 
+            path: "/missionprofile/{missionProfileId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

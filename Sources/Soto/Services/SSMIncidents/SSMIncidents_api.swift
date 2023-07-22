@@ -66,175 +66,378 @@ public struct SSMIncidents: AWSService {
     /// A replication set replicates and encrypts your data to the provided Regions with the provided KMS key.
     @Sendable
     public func createReplicationSet(_ input: CreateReplicationSetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplicationSetOutput {
-        return try await self.client.execute(operation: "CreateReplicationSet", path: "/createReplicationSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateReplicationSet", 
+            path: "/createReplicationSet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a response plan that automates the initial response to incidents. A response plan engages contacts, starts chat channel collaboration, and initiates runbooks at the beginning of an incident.
     @Sendable
     public func createResponsePlan(_ input: CreateResponsePlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResponsePlanOutput {
-        return try await self.client.execute(operation: "CreateResponsePlan", path: "/createResponsePlan", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateResponsePlan", 
+            path: "/createResponsePlan", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a custom timeline event on the incident details page of an incident record. Incident Manager automatically creates timeline events that mark key moments during an incident. You can create custom timeline events to mark important events that Incident Manager can detect automatically.
     @Sendable
     public func createTimelineEvent(_ input: CreateTimelineEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTimelineEventOutput {
-        return try await self.client.execute(operation: "CreateTimelineEvent", path: "/createTimelineEvent", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTimelineEvent", 
+            path: "/createTimelineEvent", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete an incident record from Incident Manager.
     @Sendable
     public func deleteIncidentRecord(_ input: DeleteIncidentRecordInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIncidentRecordOutput {
-        return try await self.client.execute(operation: "DeleteIncidentRecord", path: "/deleteIncidentRecord", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteIncidentRecord", 
+            path: "/deleteIncidentRecord", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes all Regions in your replication set. Deleting the replication set deletes all Incident Manager data.
     @Sendable
     public func deleteReplicationSet(_ input: DeleteReplicationSetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReplicationSetOutput {
-        return try await self.client.execute(operation: "DeleteReplicationSet", path: "/deleteReplicationSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReplicationSet", 
+            path: "/deleteReplicationSet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the resource policy that Resource Access Manager uses to share your Incident Manager resource.
     @Sendable
     public func deleteResourcePolicy(_ input: DeleteResourcePolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyOutput {
-        return try await self.client.execute(operation: "DeleteResourcePolicy", path: "/deleteResourcePolicy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/deleteResourcePolicy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch alarms and EventBridge events from creating an incident with this response plan.
     @Sendable
     public func deleteResponsePlan(_ input: DeleteResponsePlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResponsePlanOutput {
-        return try await self.client.execute(operation: "DeleteResponsePlan", path: "/deleteResponsePlan", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResponsePlan", 
+            path: "/deleteResponsePlan", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a timeline event from an incident.
     @Sendable
     public func deleteTimelineEvent(_ input: DeleteTimelineEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTimelineEventOutput {
-        return try await self.client.execute(operation: "DeleteTimelineEvent", path: "/deleteTimelineEvent", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTimelineEvent", 
+            path: "/deleteTimelineEvent", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the details for the specified incident record.
     @Sendable
     public func getIncidentRecord(_ input: GetIncidentRecordInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIncidentRecordOutput {
-        return try await self.client.execute(operation: "GetIncidentRecord", path: "/getIncidentRecord", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetIncidentRecord", 
+            path: "/getIncidentRecord", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve your Incident Manager replication set.
     @Sendable
     public func getReplicationSet(_ input: GetReplicationSetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReplicationSetOutput {
-        return try await self.client.execute(operation: "GetReplicationSet", path: "/getReplicationSet", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetReplicationSet", 
+            path: "/getReplicationSet", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the resource policies attached to the specified response plan.
     @Sendable
     public func getResourcePolicies(_ input: GetResourcePoliciesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePoliciesOutput {
-        return try await self.client.execute(operation: "GetResourcePolicies", path: "/getResourcePolicies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourcePolicies", 
+            path: "/getResourcePolicies", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the details of the specified response plan.
     @Sendable
     public func getResponsePlan(_ input: GetResponsePlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResponsePlanOutput {
-        return try await self.client.execute(operation: "GetResponsePlan", path: "/getResponsePlan", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResponsePlan", 
+            path: "/getResponsePlan", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a timeline event based on its ID and incident record.
     @Sendable
     public func getTimelineEvent(_ input: GetTimelineEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTimelineEventOutput {
-        return try await self.client.execute(operation: "GetTimelineEvent", path: "/getTimelineEvent", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTimelineEvent", 
+            path: "/getTimelineEvent", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all incident records in your account. Use this command to retrieve the Amazon Resource Name (ARN) of the incident record you want to update.
     @Sendable
     public func listIncidentRecords(_ input: ListIncidentRecordsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIncidentRecordsOutput {
-        return try await self.client.execute(operation: "ListIncidentRecords", path: "/listIncidentRecords", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListIncidentRecords", 
+            path: "/listIncidentRecords", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all related items for an incident record.
     @Sendable
     public func listRelatedItems(_ input: ListRelatedItemsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRelatedItemsOutput {
-        return try await self.client.execute(operation: "ListRelatedItems", path: "/listRelatedItems", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRelatedItems", 
+            path: "/listRelatedItems", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists details about the replication set configured in your account.
     @Sendable
     public func listReplicationSets(_ input: ListReplicationSetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReplicationSetsOutput {
-        return try await self.client.execute(operation: "ListReplicationSets", path: "/listReplicationSets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListReplicationSets", 
+            path: "/listReplicationSets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all response plans in your account.
     @Sendable
     public func listResponsePlans(_ input: ListResponsePlansInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResponsePlansOutput {
-        return try await self.client.execute(operation: "ListResponsePlans", path: "/listResponsePlans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResponsePlans", 
+            path: "/listResponsePlans", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags that are attached to the specified response plan.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists timeline events for the specified incident record.
     @Sendable
     public func listTimelineEvents(_ input: ListTimelineEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTimelineEventsOutput {
-        return try await self.client.execute(operation: "ListTimelineEvents", path: "/listTimelineEvents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTimelineEvents", 
+            path: "/listTimelineEvents", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a resource policy to the specified response plan. The resource policy is used to share the response plan using Resource Access Manager (RAM). For more information about cross-account sharing, see Cross-Region and cross-account incident management.
     @Sendable
     public func putResourcePolicy(_ input: PutResourcePolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyOutput {
-        return try await self.client.execute(operation: "PutResourcePolicy", path: "/putResourcePolicy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/putResourcePolicy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Used to start an incident from CloudWatch alarms, EventBridge events, or manually.
     @Sendable
     public func startIncident(_ input: StartIncidentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartIncidentOutput {
-        return try await self.client.execute(operation: "StartIncident", path: "/startIncident", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartIncident", 
+            path: "/startIncident", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a tag to a response plan.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a tag from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update deletion protection to either allow or deny deletion of the final Region in a replication set.
     @Sendable
     public func updateDeletionProtection(_ input: UpdateDeletionProtectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDeletionProtectionOutput {
-        return try await self.client.execute(operation: "UpdateDeletionProtection", path: "/updateDeletionProtection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDeletionProtection", 
+            path: "/updateDeletionProtection", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the details of an incident record. You can use this operation to update an incident record from the defined chat channel. For more information about using actions in chat channels, see Interacting through chat.
     @Sendable
     public func updateIncidentRecord(_ input: UpdateIncidentRecordInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIncidentRecordOutput {
-        return try await self.client.execute(operation: "UpdateIncidentRecord", path: "/updateIncidentRecord", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateIncidentRecord", 
+            path: "/updateIncidentRecord", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Add or remove related items from the related items tab of an incident record.
     @Sendable
     public func updateRelatedItems(_ input: UpdateRelatedItemsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRelatedItemsOutput {
-        return try await self.client.execute(operation: "UpdateRelatedItems", path: "/updateRelatedItems", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRelatedItems", 
+            path: "/updateRelatedItems", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Add or delete Regions from your replication set.
     @Sendable
     public func updateReplicationSet(_ input: UpdateReplicationSetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateReplicationSetOutput {
-        return try await self.client.execute(operation: "UpdateReplicationSet", path: "/updateReplicationSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateReplicationSet", 
+            path: "/updateReplicationSet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified response plan.
     @Sendable
     public func updateResponsePlan(_ input: UpdateResponsePlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResponsePlanOutput {
-        return try await self.client.execute(operation: "UpdateResponsePlan", path: "/updateResponsePlan", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateResponsePlan", 
+            path: "/updateResponsePlan", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a timeline event. You can update events of type Custom Event.
     @Sendable
     public func updateTimelineEvent(_ input: UpdateTimelineEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTimelineEventOutput {
-        return try await self.client.execute(operation: "UpdateTimelineEvent", path: "/updateTimelineEvent", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTimelineEvent", 
+            path: "/updateTimelineEvent", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -66,160 +66,341 @@ public struct PrivateNetworks: AWSService {
     /// Acknowledges that the specified network order was received.
     @Sendable
     public func acknowledgeOrderReceipt(_ input: AcknowledgeOrderReceiptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcknowledgeOrderReceiptResponse {
-        return try await self.client.execute(operation: "AcknowledgeOrderReceipt", path: "/v1/orders/acknowledge", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AcknowledgeOrderReceipt", 
+            path: "/v1/orders/acknowledge", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Activates the specified device identifier.
     @Sendable
     public func activateDeviceIdentifier(_ input: ActivateDeviceIdentifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateDeviceIdentifierResponse {
-        return try await self.client.execute(operation: "ActivateDeviceIdentifier", path: "/v1/device-identifiers/activate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ActivateDeviceIdentifier", 
+            path: "/v1/device-identifiers/activate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Activates the specified network site.
     @Sendable
     public func activateNetworkSite(_ input: ActivateNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateNetworkSiteResponse {
-        return try await self.client.execute(operation: "ActivateNetworkSite", path: "/v1/network-sites/activate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ActivateNetworkSite", 
+            path: "/v1/network-sites/activate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Configures the specified network resource.    Use this action to specify the geographic position of the hardware. You must provide Certified Professional Installer (CPI) credentials in the request so that we can obtain spectrum grants. For more information, see Radio units in the Amazon Web Services Private 5G User Guide.
     @Sendable
     public func configureAccessPoint(_ input: ConfigureAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigureAccessPointResponse {
-        return try await self.client.execute(operation: "ConfigureAccessPoint", path: "/v1/network-resources/configure", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ConfigureAccessPoint", 
+            path: "/v1/network-resources/configure", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a network.
     @Sendable
     public func createNetwork(_ input: CreateNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNetworkResponse {
-        return try await self.client.execute(operation: "CreateNetwork", path: "/v1/networks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateNetwork", 
+            path: "/v1/networks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a network site.
     @Sendable
     public func createNetworkSite(_ input: CreateNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNetworkSiteResponse {
-        return try await self.client.execute(operation: "CreateNetworkSite", path: "/v1/network-sites", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateNetworkSite", 
+            path: "/v1/network-sites", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deactivates the specified device identifier.
     @Sendable
     public func deactivateDeviceIdentifier(_ input: DeactivateDeviceIdentifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeactivateDeviceIdentifierResponse {
-        return try await self.client.execute(operation: "DeactivateDeviceIdentifier", path: "/v1/device-identifiers/deactivate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeactivateDeviceIdentifier", 
+            path: "/v1/device-identifiers/deactivate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified network. You must delete network sites before you delete the network. For more information, see  DeleteNetworkSite in the  API Reference for Amazon Web Services Private 5G.
     @Sendable
     public func deleteNetwork(_ input: DeleteNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkResponse {
-        return try await self.client.execute(operation: "DeleteNetwork", path: "/v1/networks/{networkArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteNetwork", 
+            path: "/v1/networks/{networkArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified network site. Return the hardware after you delete the network site. You are responsible for minimum charges. For more information, see Hardware returns in the Amazon Web Services Private 5G User Guide.
     @Sendable
     public func deleteNetworkSite(_ input: DeleteNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkSiteResponse {
-        return try await self.client.execute(operation: "DeleteNetworkSite", path: "/v1/network-sites/{networkSiteArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteNetworkSite", 
+            path: "/v1/network-sites/{networkSiteArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the specified device identifier.
     @Sendable
     public func getDeviceIdentifier(_ input: GetDeviceIdentifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeviceIdentifierResponse {
-        return try await self.client.execute(operation: "GetDeviceIdentifier", path: "/v1/device-identifiers/{deviceIdentifierArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeviceIdentifier", 
+            path: "/v1/device-identifiers/{deviceIdentifierArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the specified network.
     @Sendable
     public func getNetwork(_ input: GetNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkResponse {
-        return try await self.client.execute(operation: "GetNetwork", path: "/v1/networks/{networkArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetNetwork", 
+            path: "/v1/networks/{networkArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the specified network resource.
     @Sendable
     public func getNetworkResource(_ input: GetNetworkResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkResourceResponse {
-        return try await self.client.execute(operation: "GetNetworkResource", path: "/v1/network-resources/{networkResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetNetworkResource", 
+            path: "/v1/network-resources/{networkResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the specified network site.
     @Sendable
     public func getNetworkSite(_ input: GetNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkSiteResponse {
-        return try await self.client.execute(operation: "GetNetworkSite", path: "/v1/network-sites/{networkSiteArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetNetworkSite", 
+            path: "/v1/network-sites/{networkSiteArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the specified order.
     @Sendable
     public func getOrder(_ input: GetOrderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrderResponse {
-        return try await self.client.execute(operation: "GetOrder", path: "/v1/orders/{orderArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetOrder", 
+            path: "/v1/orders/{orderArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists device identifiers. Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order,  the status of device identifiers, or the ARN of the traffic group. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
     @Sendable
     public func listDeviceIdentifiers(_ input: ListDeviceIdentifiersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeviceIdentifiersResponse {
-        return try await self.client.execute(operation: "ListDeviceIdentifiers", path: "/v1/device-identifiers/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDeviceIdentifiers", 
+            path: "/v1/device-identifiers/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists network resources.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order or   the status of network resources. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
     @Sendable
     public func listNetworkResources(_ input: ListNetworkResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkResourcesResponse {
-        return try await self.client.execute(operation: "ListNetworkResources", path: "/v1/network-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNetworkResources", 
+            path: "/v1/network-resources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists network sites. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network site.
     @Sendable
     public func listNetworkSites(_ input: ListNetworkSitesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkSitesResponse {
-        return try await self.client.execute(operation: "ListNetworkSites", path: "/v1/network-sites/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNetworkSites", 
+            path: "/v1/network-sites/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists networks. Add filters to your request to return a more  specific list of results. Use filters to match the status of the network.
     @Sendable
     public func listNetworks(_ input: ListNetworksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworksResponse {
-        return try await self.client.execute(operation: "ListNetworks", path: "/v1/networks/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNetworks", 
+            path: "/v1/networks/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists orders.  Add filters to your request to return a more  specific list of results. Use filters to match the Amazon Resource Name (ARN) of the network site or   the status of the order. If you specify multiple filters, filters are joined with an OR, and the request
     /// returns results that match all of the specified filters.
     @Sendable
     public func listOrders(_ input: ListOrdersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrdersResponse {
-        return try await self.client.execute(operation: "ListOrders", path: "/v1/orders/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOrders", 
+            path: "/v1/orders/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags for the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Checks the health of the service.
     @Sendable
     public func ping(logger: Logger = AWSClient.loggingDisabled) async throws -> PingResponse {
-        return try await self.client.execute(operation: "Ping", path: "/ping", httpMethod: .GET, serviceConfig: self.config, logger: logger)
+        return try await self.client.execute(
+            operation: "Ping", 
+            path: "/ping", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
     }
 
     /// Starts an update of the specified network resource. After you submit a request to replace or return a network resource, the status of the network resource is CREATING_SHIPPING_LABEL. The shipping label  is available when the status of the network resource is PENDING_RETURN.  After the network resource is successfully returned, its status is DELETED.  For more information, see Return a radio unit.
     @Sendable
     public func startNetworkResourceUpdate(_ input: StartNetworkResourceUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartNetworkResourceUpdateResponse {
-        return try await self.client.execute(operation: "StartNetworkResourceUpdate", path: "/v1/network-resources/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartNetworkResourceUpdate", 
+            path: "/v1/network-resources/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Adds tags to the specified resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from the specified resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified network site.
     @Sendable
     public func updateNetworkSite(_ input: UpdateNetworkSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNetworkSiteResponse {
-        return try await self.client.execute(operation: "UpdateNetworkSite", path: "/v1/network-sites/site", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateNetworkSite", 
+            path: "/v1/network-sites/site", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified network site plan.
     @Sendable
     public func updateNetworkSitePlan(_ input: UpdateNetworkSitePlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNetworkSiteResponse {
-        return try await self.client.execute(operation: "UpdateNetworkSitePlan", path: "/v1/network-sites/plan", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateNetworkSitePlan", 
+            path: "/v1/network-sites/plan", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

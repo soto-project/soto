@@ -81,271 +81,586 @@ public struct Kafka: AWSService {
     /// Associates one or more Scram Secrets with an Amazon MSK cluster.
     @Sendable
     public func batchAssociateScramSecret(_ input: BatchAssociateScramSecretRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAssociateScramSecretResponse {
-        return try await self.client.execute(operation: "BatchAssociateScramSecret", path: "/v1/clusters/{ClusterArn}/scram-secrets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchAssociateScramSecret", 
+            path: "/v1/clusters/{ClusterArn}/scram-secrets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates one or more Scram Secrets from an Amazon MSK cluster.
     @Sendable
     public func batchDisassociateScramSecret(_ input: BatchDisassociateScramSecretRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisassociateScramSecretResponse {
-        return try await self.client.execute(operation: "BatchDisassociateScramSecret", path: "/v1/clusters/{ClusterArn}/scram-secrets", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDisassociateScramSecret", 
+            path: "/v1/clusters/{ClusterArn}/scram-secrets", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new MSK cluster.
     @Sendable
     public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterResponse {
-        return try await self.client.execute(operation: "CreateCluster", path: "/v1/clusters", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCluster", 
+            path: "/v1/clusters", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new MSK cluster.
     @Sendable
     public func createClusterV2(_ input: CreateClusterV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterV2Response {
-        return try await self.client.execute(operation: "CreateClusterV2", path: "/api/v2/clusters", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateClusterV2", 
+            path: "/api/v2/clusters", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new MSK configuration.
     @Sendable
     public func createConfiguration(_ input: CreateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfigurationResponse {
-        return try await self.client.execute(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateConfiguration", 
+            path: "/v1/configurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new MSK VPC connection.
     @Sendable
     public func createVpcConnection(_ input: CreateVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVpcConnectionResponse {
-        return try await self.client.execute(operation: "CreateVpcConnection", path: "/v1/vpc-connection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVpcConnection", 
+            path: "/v1/vpc-connection", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
     @Sendable
     public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterResponse {
-        return try await self.client.execute(operation: "DeleteCluster", path: "/v1/clusters/{ClusterArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCluster", 
+            path: "/v1/clusters/{ClusterArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
     @Sendable
     public func deleteClusterPolicy(_ input: DeleteClusterPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterPolicyResponse {
-        return try await self.client.execute(operation: "DeleteClusterPolicy", path: "/v1/clusters/{ClusterArn}/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteClusterPolicy", 
+            path: "/v1/clusters/{ClusterArn}/policy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an MSK Configuration.
     @Sendable
     public func deleteConfiguration(_ input: DeleteConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfigurationResponse {
-        return try await self.client.execute(operation: "DeleteConfiguration", path: "/v1/configurations/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConfiguration", 
+            path: "/v1/configurations/{Arn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a MSK VPC connection.
     @Sendable
     public func deleteVpcConnection(_ input: DeleteVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVpcConnectionResponse {
-        return try await self.client.execute(operation: "DeleteVpcConnection", path: "/v1/vpc-connection/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVpcConnection", 
+            path: "/v1/vpc-connection/{Arn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     @Sendable
     public func describeCluster(_ input: DescribeClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterResponse {
-        return try await self.client.execute(operation: "DescribeCluster", path: "/v1/clusters/{ClusterArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCluster", 
+            path: "/v1/clusters/{ClusterArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a description of the cluster operation specified by the ARN.
     @Sendable
     public func describeClusterOperation(_ input: DescribeClusterOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterOperationResponse {
-        return try await self.client.execute(operation: "DescribeClusterOperation", path: "/v1/operations/{ClusterOperationArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeClusterOperation", 
+            path: "/v1/operations/{ClusterOperationArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     @Sendable
     public func describeClusterV2(_ input: DescribeClusterV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterV2Response {
-        return try await self.client.execute(operation: "DescribeClusterV2", path: "/api/v2/clusters/{ClusterArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeClusterV2", 
+            path: "/api/v2/clusters/{ClusterArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a description of this MSK configuration.
     @Sendable
     public func describeConfiguration(_ input: DescribeConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationResponse {
-        return try await self.client.execute(operation: "DescribeConfiguration", path: "/v1/configurations/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConfiguration", 
+            path: "/v1/configurations/{Arn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a description of this revision of the configuration.
     @Sendable
     public func describeConfigurationRevision(_ input: DescribeConfigurationRevisionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationRevisionResponse {
-        return try await self.client.execute(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{Arn}/revisions/{Revision}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConfigurationRevision", 
+            path: "/v1/configurations/{Arn}/revisions/{Revision}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a description of this MSK VPC connection.
     @Sendable
     public func describeVpcConnection(_ input: DescribeVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVpcConnectionResponse {
-        return try await self.client.execute(operation: "DescribeVpcConnection", path: "/v1/vpc-connection/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeVpcConnection", 
+            path: "/v1/vpc-connection/{Arn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// A list of brokers that a client application can use to bootstrap.
     @Sendable
     public func getBootstrapBrokers(_ input: GetBootstrapBrokersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBootstrapBrokersResponse {
-        return try await self.client.execute(operation: "GetBootstrapBrokers", path: "/v1/clusters/{ClusterArn}/bootstrap-brokers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBootstrapBrokers", 
+            path: "/v1/clusters/{ClusterArn}/bootstrap-brokers", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
     @Sendable
     public func getClusterPolicy(_ input: GetClusterPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClusterPolicyResponse {
-        return try await self.client.execute(operation: "GetClusterPolicy", path: "/v1/clusters/{ClusterArn}/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetClusterPolicy", 
+            path: "/v1/clusters/{ClusterArn}/policy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the Apache Kafka versions to which you can update the MSK cluster.
     @Sendable
     public func getCompatibleKafkaVersions(_ input: GetCompatibleKafkaVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCompatibleKafkaVersionsResponse {
-        return try await self.client.execute(operation: "GetCompatibleKafkaVersions", path: "/v1/compatible-kafka-versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCompatibleKafkaVersions", 
+            path: "/v1/compatible-kafka-versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all the VPC connections in this Region.
     @Sendable
     public func listClientVpcConnections(_ input: ListClientVpcConnectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClientVpcConnectionsResponse {
-        return try await self.client.execute(operation: "ListClientVpcConnections", path: "/v1/clusters/{ClusterArn}/client-vpc-connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListClientVpcConnections", 
+            path: "/v1/clusters/{ClusterArn}/client-vpc-connections", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     @Sendable
     public func listClusterOperations(_ input: ListClusterOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClusterOperationsResponse {
-        return try await self.client.execute(operation: "ListClusterOperations", path: "/v1/clusters/{ClusterArn}/operations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListClusterOperations", 
+            path: "/v1/clusters/{ClusterArn}/operations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all the MSK clusters in the current Region.
     @Sendable
     public func listClusters(_ input: ListClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClustersResponse {
-        return try await self.client.execute(operation: "ListClusters", path: "/v1/clusters", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListClusters", 
+            path: "/v1/clusters", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all the MSK clusters in the current Region.
     @Sendable
     public func listClustersV2(_ input: ListClustersV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClustersV2Response {
-        return try await self.client.execute(operation: "ListClustersV2", path: "/api/v2/clusters", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListClustersV2", 
+            path: "/api/v2/clusters", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all the MSK configurations in this Region.
     @Sendable
     public func listConfigurationRevisions(_ input: ListConfigurationRevisionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationRevisionsResponse {
-        return try await self.client.execute(operation: "ListConfigurationRevisions", path: "/v1/configurations/{Arn}/revisions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConfigurationRevisions", 
+            path: "/v1/configurations/{Arn}/revisions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all the MSK configurations in this Region.
     @Sendable
     public func listConfigurations(_ input: ListConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationsResponse {
-        return try await self.client.execute(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConfigurations", 
+            path: "/v1/configurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of Apache Kafka versions.
     @Sendable
     public func listKafkaVersions(_ input: ListKafkaVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKafkaVersionsResponse {
-        return try await self.client.execute(operation: "ListKafkaVersions", path: "/v1/kafka-versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListKafkaVersions", 
+            path: "/v1/kafka-versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the broker nodes in the cluster.
     @Sendable
     public func listNodes(_ input: ListNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNodesResponse {
-        return try await self.client.execute(operation: "ListNodes", path: "/v1/clusters/{ClusterArn}/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNodes", 
+            path: "/v1/clusters/{ClusterArn}/nodes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
     @Sendable
     public func listScramSecrets(_ input: ListScramSecretsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScramSecretsResponse {
-        return try await self.client.execute(operation: "ListScramSecrets", path: "/v1/clusters/{ClusterArn}/scram-secrets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListScramSecrets", 
+            path: "/v1/clusters/{ClusterArn}/scram-secrets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the tags associated with the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/v1/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/v1/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all the VPC connections in this Region.
     @Sendable
     public func listVpcConnections(_ input: ListVpcConnectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVpcConnectionsResponse {
-        return try await self.client.execute(operation: "ListVpcConnections", path: "/v1/vpc-connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVpcConnections", 
+            path: "/v1/vpc-connections", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request.
     @Sendable
     public func putClusterPolicy(_ input: PutClusterPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutClusterPolicyResponse {
-        return try await self.client.execute(operation: "PutClusterPolicy", path: "/v1/clusters/{ClusterArn}/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutClusterPolicy", 
+            path: "/v1/clusters/{ClusterArn}/policy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Reboots brokers.
     @Sendable
     public func rebootBroker(_ input: RebootBrokerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RebootBrokerResponse {
-        return try await self.client.execute(operation: "RebootBroker", path: "/v1/clusters/{ClusterArn}/reboot-broker", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RebootBroker", 
+            path: "/v1/clusters/{ClusterArn}/reboot-broker", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns empty response.
     @Sendable
     public func rejectClientVpcConnection(_ input: RejectClientVpcConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectClientVpcConnectionResponse {
-        return try await self.client.execute(operation: "RejectClientVpcConnection", path: "/v1/clusters/{ClusterArn}/client-vpc-connection", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RejectClientVpcConnection", 
+            path: "/v1/clusters/{ClusterArn}/client-vpc-connection", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds tags to the specified MSK resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/v1/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/v1/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the tags associated with the keys that are provided in the query.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/v1/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/v1/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the number of broker nodes in the cluster.
     @Sendable
     public func updateBrokerCount(_ input: UpdateBrokerCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBrokerCountResponse {
-        return try await self.client.execute(operation: "UpdateBrokerCount", path: "/v1/clusters/{ClusterArn}/nodes/count", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBrokerCount", 
+            path: "/v1/clusters/{ClusterArn}/nodes/count", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the EBS storage associated with MSK brokers.
     @Sendable
     public func updateBrokerStorage(_ input: UpdateBrokerStorageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBrokerStorageResponse {
-        return try await self.client.execute(operation: "UpdateBrokerStorage", path: "/v1/clusters/{ClusterArn}/nodes/storage", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBrokerStorage", 
+            path: "/v1/clusters/{ClusterArn}/nodes/storage", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates EC2 instance type.
     @Sendable
     public func updateBrokerType(_ input: UpdateBrokerTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBrokerTypeResponse {
-        return try await self.client.execute(operation: "UpdateBrokerType", path: "/v1/clusters/{ClusterArn}/nodes/type", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBrokerType", 
+            path: "/v1/clusters/{ClusterArn}/nodes/type", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the cluster with the configuration that is specified in the request body.
     @Sendable
     public func updateClusterConfiguration(_ input: UpdateClusterConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateClusterConfiguration", path: "/v1/clusters/{ClusterArn}/configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateClusterConfiguration", 
+            path: "/v1/clusters/{ClusterArn}/configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the Apache Kafka version for the cluster.
     @Sendable
     public func updateClusterKafkaVersion(_ input: UpdateClusterKafkaVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterKafkaVersionResponse {
-        return try await self.client.execute(operation: "UpdateClusterKafkaVersion", path: "/v1/clusters/{ClusterArn}/version", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateClusterKafkaVersion", 
+            path: "/v1/clusters/{ClusterArn}/version", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an MSK configuration.
     @Sendable
     public func updateConfiguration(_ input: UpdateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateConfiguration", path: "/v1/configurations/{Arn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateConfiguration", 
+            path: "/v1/configurations/{Arn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the cluster's connectivity configuration.
     @Sendable
     public func updateConnectivity(_ input: UpdateConnectivityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectivityResponse {
-        return try await self.client.execute(operation: "UpdateConnectivity", path: "/v1/clusters/{ClusterArn}/connectivity", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateConnectivity", 
+            path: "/v1/clusters/{ClusterArn}/connectivity", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.
     @Sendable
     public func updateMonitoring(_ input: UpdateMonitoringRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMonitoringResponse {
-        return try await self.client.execute(operation: "UpdateMonitoring", path: "/v1/clusters/{ClusterArn}/monitoring", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMonitoring", 
+            path: "/v1/clusters/{ClusterArn}/monitoring", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters.
     @Sendable
     public func updateSecurity(_ input: UpdateSecurityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSecurityResponse {
-        return try await self.client.execute(operation: "UpdateSecurity", path: "/v1/clusters/{ClusterArn}/security", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSecurity", 
+            path: "/v1/clusters/{ClusterArn}/security", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
     @Sendable
     public func updateStorage(_ input: UpdateStorageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStorageResponse {
-        return try await self.client.execute(operation: "UpdateStorage", path: "/v1/clusters/{ClusterArn}/storage", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateStorage", 
+            path: "/v1/clusters/{ClusterArn}/storage", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

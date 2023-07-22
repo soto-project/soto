@@ -75,121 +75,261 @@ public struct QLDB: AWSService {
     /// Ends a given Amazon QLDB journal stream. Before a stream can be canceled, its current status must be ACTIVE. You can't restart a stream after you cancel it. Canceled QLDB stream resources are subject to a 7-day retention period, so they are automatically deleted after this limit expires.
     @Sendable
     public func cancelJournalKinesisStream(_ input: CancelJournalKinesisStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelJournalKinesisStreamResponse {
-        return try await self.client.execute(operation: "CancelJournalKinesisStream", path: "/ledgers/{LedgerName}/journal-kinesis-streams/{StreamId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelJournalKinesisStream", 
+            path: "/ledgers/{LedgerName}/journal-kinesis-streams/{StreamId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new ledger in your Amazon Web Services account in the current Region.
     @Sendable
     public func createLedger(_ input: CreateLedgerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLedgerResponse {
-        return try await self.client.execute(operation: "CreateLedger", path: "/ledgers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLedger", 
+            path: "/ledgers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a ledger and all of its contents. This action is irreversible. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     @Sendable
     public func deleteLedger(_ input: DeleteLedgerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteLedger", path: "/ledgers/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteLedger", 
+            path: "/ledgers/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns detailed information about a given Amazon QLDB journal stream. The output includes the Amazon Resource Name (ARN), stream name, current status, creation time, and the parameters of the original stream creation request. This action does not return any expired journal streams. For more information, see Expiration for terminal streams in the Amazon QLDB Developer Guide.
     @Sendable
     public func describeJournalKinesisStream(_ input: DescribeJournalKinesisStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJournalKinesisStreamResponse {
-        return try await self.client.execute(operation: "DescribeJournalKinesisStream", path: "/ledgers/{LedgerName}/journal-kinesis-streams/{StreamId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeJournalKinesisStream", 
+            path: "/ledgers/{LedgerName}/journal-kinesis-streams/{StreamId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a journal export job, including the ledger name, export ID, creation time, current status, and the parameters of the original export creation request. This action does not return any expired export jobs. For more information, see Export job expiration in the Amazon QLDB Developer Guide. If the export job with the given ExportId doesn't exist, then throws ResourceNotFoundException. If the ledger with the given Name doesn't exist, then throws ResourceNotFoundException.
     @Sendable
     public func describeJournalS3Export(_ input: DescribeJournalS3ExportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJournalS3ExportResponse {
-        return try await self.client.execute(operation: "DescribeJournalS3Export", path: "/ledgers/{Name}/journal-s3-exports/{ExportId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeJournalS3Export", 
+            path: "/ledgers/{Name}/journal-s3-exports/{ExportId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a ledger, including its state, permissions mode, encryption at rest settings, and when it was created.
     @Sendable
     public func describeLedger(_ input: DescribeLedgerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLedgerResponse {
-        return try await self.client.execute(operation: "DescribeLedger", path: "/ledgers/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLedger", 
+            path: "/ledgers/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Exports journal contents within a date and time range from a ledger into a specified Amazon Simple Storage Service (Amazon S3) bucket. A journal export job can write the data objects in either the text or binary representation of Amazon Ion format, or in JSON Lines text format. If the ledger with the given Name doesn't exist, then throws ResourceNotFoundException. If the ledger with the given Name is in CREATING status, then throws ResourcePreconditionNotMetException. You can initiate up to two concurrent journal export requests for each ledger. Beyond this limit, journal export requests throw LimitExceededException.
     @Sendable
     public func exportJournalToS3(_ input: ExportJournalToS3Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportJournalToS3Response {
-        return try await self.client.execute(operation: "ExportJournalToS3", path: "/ledgers/{Name}/journal-s3-exports", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ExportJournalToS3", 
+            path: "/ledgers/{Name}/journal-s3-exports", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a block object at a specified address in a journal. Also returns a proof of the specified block for verification if DigestTipAddress is provided. For information about the data contents in a block, see Journal contents in the Amazon QLDB Developer Guide. If the specified ledger doesn't exist or is in DELETING status, then throws ResourceNotFoundException. If the specified ledger is in CREATING status, then throws ResourcePreconditionNotMetException. If no block exists with the specified address, then throws InvalidParameterException.
     @Sendable
     public func getBlock(_ input: GetBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBlockResponse {
-        return try await self.client.execute(operation: "GetBlock", path: "/ledgers/{Name}/block", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBlock", 
+            path: "/ledgers/{Name}/block", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the digest of a ledger at the latest committed block in the journal. The response includes a 256-bit hash value and a block address.
     @Sendable
     public func getDigest(_ input: GetDigestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDigestResponse {
-        return try await self.client.execute(operation: "GetDigest", path: "/ledgers/{Name}/digest", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDigest", 
+            path: "/ledgers/{Name}/digest", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a revision data object for a specified document ID and block address. Also returns a proof of the specified revision for verification if DigestTipAddress is provided.
     @Sendable
     public func getRevision(_ input: GetRevisionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRevisionResponse {
-        return try await self.client.execute(operation: "GetRevision", path: "/ledgers/{Name}/revision", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRevision", 
+            path: "/ledgers/{Name}/revision", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns all Amazon QLDB journal streams for a given ledger. This action does not return any expired journal streams. For more information, see Expiration for terminal streams in the Amazon QLDB Developer Guide. This action returns a maximum of MaxResults items. It is paginated so that you can retrieve all the items by calling ListJournalKinesisStreamsForLedger multiple times.
     @Sendable
     public func listJournalKinesisStreamsForLedger(_ input: ListJournalKinesisStreamsForLedgerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJournalKinesisStreamsForLedgerResponse {
-        return try await self.client.execute(operation: "ListJournalKinesisStreamsForLedger", path: "/ledgers/{LedgerName}/journal-kinesis-streams", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListJournalKinesisStreamsForLedger", 
+            path: "/ledgers/{LedgerName}/journal-kinesis-streams", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns all journal export jobs for all ledgers that are associated with the current Amazon Web Services account and Region. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple times. This action does not return any expired export jobs. For more information, see Export job expiration in the Amazon QLDB Developer Guide.
     @Sendable
     public func listJournalS3Exports(_ input: ListJournalS3ExportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJournalS3ExportsResponse {
-        return try await self.client.execute(operation: "ListJournalS3Exports", path: "/journal-s3-exports", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListJournalS3Exports", 
+            path: "/journal-s3-exports", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns all journal export jobs for a specified ledger. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3ExportsForLedger multiple times. This action does not return any expired export jobs. For more information, see Export job expiration in the Amazon QLDB Developer Guide.
     @Sendable
     public func listJournalS3ExportsForLedger(_ input: ListJournalS3ExportsForLedgerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJournalS3ExportsForLedgerResponse {
-        return try await self.client.execute(operation: "ListJournalS3ExportsForLedger", path: "/ledgers/{Name}/journal-s3-exports", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListJournalS3ExportsForLedger", 
+            path: "/ledgers/{Name}/journal-s3-exports", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns all ledgers that are associated with the current Amazon Web Services account and Region. This action returns a maximum of MaxResults items and is paginated so that you can retrieve all the items by calling ListLedgers multiple times.
     @Sendable
     public func listLedgers(_ input: ListLedgersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLedgersResponse {
-        return try await self.client.execute(operation: "ListLedgers", path: "/ledgers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListLedgers", 
+            path: "/ledgers", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns all tags for a specified Amazon QLDB resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a journal stream for a given Amazon QLDB ledger. The stream captures every document revision that is committed to the ledger's journal and delivers the data to a specified Amazon Kinesis Data Streams resource.
     @Sendable
     public func streamJournalToKinesis(_ input: StreamJournalToKinesisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StreamJournalToKinesisResponse {
-        return try await self.client.execute(operation: "StreamJournalToKinesis", path: "/ledgers/{LedgerName}/journal-kinesis-streams", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StreamJournalToKinesis", 
+            path: "/ledgers/{LedgerName}/journal-kinesis-streams", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds one or more tags to a specified Amazon QLDB resource. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, your request fails and returns an error.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from a specified Amazon QLDB resource. You can specify up to 50 tag keys to remove.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates properties on a ledger.
     @Sendable
     public func updateLedger(_ input: UpdateLedgerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLedgerResponse {
-        return try await self.client.execute(operation: "UpdateLedger", path: "/ledgers/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLedger", 
+            path: "/ledgers/{Name}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the permissions mode of a ledger.  Before you switch to the STANDARD permissions mode, you must first create all required IAM policies and table tags to avoid disruption to your users. To learn more, see Migrating to the standard permissions mode in the Amazon QLDB Developer Guide.
     @Sendable
     public func updateLedgerPermissionsMode(_ input: UpdateLedgerPermissionsModeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLedgerPermissionsModeResponse {
-        return try await self.client.execute(operation: "UpdateLedgerPermissionsMode", path: "/ledgers/{Name}/permissions-mode", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLedgerPermissionsMode", 
+            path: "/ledgers/{Name}/permissions-mode", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

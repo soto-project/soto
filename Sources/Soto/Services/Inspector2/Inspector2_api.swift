@@ -66,229 +66,495 @@ public struct Inspector2: AWSService {
     /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator.   An HTTP 200 response indicates the association was successfully started, but doesn’t indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account.
     @Sendable
     public func associateMember(_ input: AssociateMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateMemberResponse {
-        return try await self.client.execute(operation: "AssociateMember", path: "/members/associate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateMember", 
+            path: "/members/associate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the Amazon Inspector status of multiple Amazon Web Services accounts within your environment.
     @Sendable
     public func batchGetAccountStatus(_ input: BatchGetAccountStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetAccountStatusResponse {
-        return try await self.client.execute(operation: "BatchGetAccountStatus", path: "/status/batch/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetAccountStatus", 
+            path: "/status/batch/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets free trial status for multiple Amazon Web Services accounts.
     @Sendable
     public func batchGetFreeTrialInfo(_ input: BatchGetFreeTrialInfoRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetFreeTrialInfoResponse {
-        return try await self.client.execute(operation: "BatchGetFreeTrialInfo", path: "/freetrialinfo/batchget", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetFreeTrialInfo", 
+            path: "/freetrialinfo/batchget", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.
     @Sendable
     public func batchGetMemberEc2DeepInspectionStatus(_ input: BatchGetMemberEc2DeepInspectionStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetMemberEc2DeepInspectionStatusResponse {
-        return try await self.client.execute(operation: "BatchGetMemberEc2DeepInspectionStatus", path: "/ec2deepinspectionstatus/member/batch/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetMemberEc2DeepInspectionStatus", 
+            path: "/ec2deepinspectionstatus/member/batch/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.
     @Sendable
     public func batchUpdateMemberEc2DeepInspectionStatus(_ input: BatchUpdateMemberEc2DeepInspectionStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateMemberEc2DeepInspectionStatusResponse {
-        return try await self.client.execute(operation: "BatchUpdateMemberEc2DeepInspectionStatus", path: "/ec2deepinspectionstatus/member/batch/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchUpdateMemberEc2DeepInspectionStatus", 
+            path: "/ec2deepinspectionstatus/member/batch/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels the given findings report.
     @Sendable
     public func cancelFindingsReport(_ input: CancelFindingsReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelFindingsReportResponse {
-        return try await self.client.execute(operation: "CancelFindingsReport", path: "/reporting/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelFindingsReport", 
+            path: "/reporting/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a filter resource using specified filter criteria.
     @Sendable
     public func createFilter(_ input: CreateFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFilterResponse {
-        return try await self.client.execute(operation: "CreateFilter", path: "/filters/create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFilter", 
+            path: "/filters/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a finding report. By default only ACTIVE findings are returned in the report. To see SUPRESSED or CLOSED findings you must specify a value for the findingStatus filter criteria.
     @Sendable
     public func createFindingsReport(_ input: CreateFindingsReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFindingsReportResponse {
-        return try await self.client.execute(operation: "CreateFindingsReport", path: "/reporting/create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFindingsReport", 
+            path: "/reporting/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a filter resource.
     @Sendable
     public func deleteFilter(_ input: DeleteFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFilterResponse {
-        return try await self.client.execute(operation: "DeleteFilter", path: "/filters/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFilter", 
+            path: "/filters/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
     @Sendable
     public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigurationResponse {
-        return try await self.client.execute(operation: "DescribeOrganizationConfiguration", path: "/organizationconfiguration/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeOrganizationConfiguration", 
+            path: "/organizationconfiguration/describe", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Disabling all scan types in an account disables the Amazon Inspector service.
     @Sendable
     public func disable(_ input: DisableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableResponse {
-        return try await self.client.execute(operation: "Disable", path: "/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "Disable", 
+            path: "/disable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables the Amazon Inspector delegated administrator for your organization.
     @Sendable
     public func disableDelegatedAdminAccount(_ input: DisableDelegatedAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableDelegatedAdminAccountResponse {
-        return try await self.client.execute(operation: "DisableDelegatedAdminAccount", path: "/delegatedadminaccounts/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableDelegatedAdminAccount", 
+            path: "/delegatedadminaccounts/disable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a member account from an Amazon Inspector delegated administrator.
     @Sendable
     public func disassociateMember(_ input: DisassociateMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateMemberResponse {
-        return try await self.client.execute(operation: "DisassociateMember", path: "/members/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateMember", 
+            path: "/members/disassociate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables Amazon Inspector scans for one or more Amazon Web Services accounts.
     @Sendable
     public func enable(_ input: EnableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableResponse {
-        return try await self.client.execute(operation: "Enable", path: "/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "Enable", 
+            path: "/enable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables the Amazon Inspector delegated administrator for your Organizations organization.
     @Sendable
     public func enableDelegatedAdminAccount(_ input: EnableDelegatedAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableDelegatedAdminAccountResponse {
-        return try await self.client.execute(operation: "EnableDelegatedAdminAccount", path: "/delegatedadminaccounts/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableDelegatedAdminAccount", 
+            path: "/delegatedadminaccounts/enable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves setting configurations for Inspector scans.
     @Sendable
     public func getConfiguration(_ input: GetConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationResponse {
-        return try await self.client.execute(operation: "GetConfiguration", path: "/configuration/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConfiguration", 
+            path: "/configuration/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the Amazon Inspector delegated administrator for your organization.
     @Sendable
     public func getDelegatedAdminAccount(_ input: GetDelegatedAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDelegatedAdminAccountResponse {
-        return try await self.client.execute(operation: "GetDelegatedAdminAccount", path: "/delegatedadminaccounts/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDelegatedAdminAccount", 
+            path: "/delegatedadminaccounts/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated with your account.
     @Sendable
     public func getEc2DeepInspectionConfiguration(_ input: GetEc2DeepInspectionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEc2DeepInspectionConfigurationResponse {
-        return try await self.client.execute(operation: "GetEc2DeepInspectionConfiguration", path: "/ec2deepinspectionconfiguration/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetEc2DeepInspectionConfiguration", 
+            path: "/ec2deepinspectionconfiguration/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the status of a findings report.
     @Sendable
     public func getFindingsReportStatus(_ input: GetFindingsReportStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsReportStatusResponse {
-        return try await self.client.execute(operation: "GetFindingsReportStatus", path: "/reporting/status/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFindingsReportStatus", 
+            path: "/reporting/status/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets member information for your organization.
     @Sendable
     public func getMember(_ input: GetMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMemberResponse {
-        return try await self.client.execute(operation: "GetMember", path: "/members/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMember", 
+            path: "/members/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the permissions an account has to configure Amazon Inspector.
     @Sendable
     public func listAccountPermissions(_ input: ListAccountPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountPermissionsResponse {
-        return try await self.client.execute(operation: "ListAccountPermissions", path: "/accountpermissions/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAccountPermissions", 
+            path: "/accountpermissions/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists coverage details for you environment.
     @Sendable
     public func listCoverage(_ input: ListCoverageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCoverageResponse {
-        return try await self.client.execute(operation: "ListCoverage", path: "/coverage/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCoverage", 
+            path: "/coverage/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists Amazon Inspector coverage statistics for your environment.
     @Sendable
     public func listCoverageStatistics(_ input: ListCoverageStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCoverageStatisticsResponse {
-        return try await self.client.execute(operation: "ListCoverageStatistics", path: "/coverage/statistics/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCoverageStatistics", 
+            path: "/coverage/statistics/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists information about the Amazon Inspector delegated administrator of your organization.
     @Sendable
     public func listDelegatedAdminAccounts(_ input: ListDelegatedAdminAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDelegatedAdminAccountsResponse {
-        return try await self.client.execute(operation: "ListDelegatedAdminAccounts", path: "/delegatedadminaccounts/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDelegatedAdminAccounts", 
+            path: "/delegatedadminaccounts/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the filters associated with your account.
     @Sendable
     public func listFilters(_ input: ListFiltersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFiltersResponse {
-        return try await self.client.execute(operation: "ListFilters", path: "/filters/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFilters", 
+            path: "/filters/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists aggregated finding data for your environment based on specific criteria.
     @Sendable
     public func listFindingAggregations(_ input: ListFindingAggregationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFindingAggregationsResponse {
-        return try await self.client.execute(operation: "ListFindingAggregations", path: "/findings/aggregation/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFindingAggregations", 
+            path: "/findings/aggregation/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists findings for your environment.
     @Sendable
     public func listFindings(_ input: ListFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFindingsResponse {
-        return try await self.client.execute(operation: "ListFindings", path: "/findings/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFindings", 
+            path: "/findings/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List members associated with the Amazon Inspector delegated administrator for your organization.
     @Sendable
     public func listMembers(_ input: ListMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMembersResponse {
-        return try await self.client.execute(operation: "ListMembers", path: "/members/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMembers", 
+            path: "/members/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all tags attached to a given resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Amazon Inspector usage totals over the last 30 days.
     @Sendable
     public func listUsageTotals(_ input: ListUsageTotalsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsageTotalsResponse {
-        return try await self.client.execute(operation: "ListUsageTotals", path: "/usage/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListUsageTotals", 
+            path: "/usage/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists Amazon Inspector coverage details for a specific vulnerability.
     @Sendable
     public func searchVulnerabilities(_ input: SearchVulnerabilitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchVulnerabilitiesResponse {
-        return try await self.client.execute(operation: "SearchVulnerabilities", path: "/vulnerabilities/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchVulnerabilities", 
+            path: "/vulnerabilities/search", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds tags to a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates setting configurations for your Amazon Inspector account. When you use this API as an Amazon Inspector delegated administrator this updates the setting for all accounts you manage. Member accounts in an organization cannot update this setting.
     @Sendable
     public func updateConfiguration(_ input: UpdateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateConfiguration", path: "/configuration/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateConfiguration", 
+            path: "/configuration/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
     @Sendable
     public func updateEc2DeepInspectionConfiguration(_ input: UpdateEc2DeepInspectionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEc2DeepInspectionConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateEc2DeepInspectionConfiguration", path: "/ec2deepinspectionconfiguration/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEc2DeepInspectionConfiguration", 
+            path: "/ec2deepinspectionconfiguration/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Specifies the action that is to be applied to the findings that match the filter.
     @Sendable
     public func updateFilter(_ input: UpdateFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFilterResponse {
-        return try await self.client.execute(operation: "UpdateFilter", path: "/filters/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFilter", 
+            path: "/filters/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an Amazon Inspector delegated administrator to use this API.
     @Sendable
     public func updateOrgEc2DeepInspectionConfiguration(_ input: UpdateOrgEc2DeepInspectionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOrgEc2DeepInspectionConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateOrgEc2DeepInspectionConfiguration", path: "/ec2deepinspectionconfiguration/org/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateOrgEc2DeepInspectionConfiguration", 
+            path: "/ec2deepinspectionconfiguration/org/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the configurations for your Amazon Inspector organization.
     @Sendable
     public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOrganizationConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateOrganizationConfiguration", path: "/organizationconfiguration/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateOrganizationConfiguration", 
+            path: "/organizationconfiguration/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

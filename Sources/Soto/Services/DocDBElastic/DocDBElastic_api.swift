@@ -66,79 +66,170 @@ public struct DocDBElastic: AWSService {
     /// Creates a new Elastic DocumentDB cluster and returns its Cluster structure.
     @Sendable
     public func createCluster(_ input: CreateClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterOutput {
-        return try await self.client.execute(operation: "CreateCluster", path: "/cluster", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCluster", 
+            path: "/cluster", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a snapshot of a cluster.
     @Sendable
     public func createClusterSnapshot(_ input: CreateClusterSnapshotInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterSnapshotOutput {
-        return try await self.client.execute(operation: "CreateClusterSnapshot", path: "/cluster-snapshot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateClusterSnapshot", 
+            path: "/cluster-snapshot", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a Elastic DocumentDB cluster.
     @Sendable
     public func deleteCluster(_ input: DeleteClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterOutput {
-        return try await self.client.execute(operation: "DeleteCluster", path: "/cluster/{clusterArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCluster", 
+            path: "/cluster/{clusterArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a Elastic DocumentDB snapshot.
     @Sendable
     public func deleteClusterSnapshot(_ input: DeleteClusterSnapshotInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterSnapshotOutput {
-        return try await self.client.execute(operation: "DeleteClusterSnapshot", path: "/cluster-snapshot/{snapshotArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteClusterSnapshot", 
+            path: "/cluster-snapshot/{snapshotArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a specific Elastic DocumentDB cluster.
     @Sendable
     public func getCluster(_ input: GetClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClusterOutput {
-        return try await self.client.execute(operation: "GetCluster", path: "/cluster/{clusterArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCluster", 
+            path: "/cluster/{clusterArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a specific Elastic DocumentDB snapshot
     @Sendable
     public func getClusterSnapshot(_ input: GetClusterSnapshotInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClusterSnapshotOutput {
-        return try await self.client.execute(operation: "GetClusterSnapshot", path: "/cluster-snapshot/{snapshotArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetClusterSnapshot", 
+            path: "/cluster-snapshot/{snapshotArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about Elastic DocumentDB snapshots for a specified cluster.
     @Sendable
     public func listClusterSnapshots(_ input: ListClusterSnapshotsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClusterSnapshotsOutput {
-        return try await self.client.execute(operation: "ListClusterSnapshots", path: "/cluster-snapshots", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListClusterSnapshots", 
+            path: "/cluster-snapshots", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about provisioned Elastic DocumentDB clusters.
     @Sendable
     public func listClusters(_ input: ListClustersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClustersOutput {
-        return try await self.client.execute(operation: "ListClusters", path: "/clusters", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListClusters", 
+            path: "/clusters", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all tags on a Elastic DocumentDB resource
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Restores a Elastic DocumentDB cluster from a snapshot.
     @Sendable
     public func restoreClusterFromSnapshot(_ input: RestoreClusterFromSnapshotInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreClusterFromSnapshotOutput {
-        return try await self.client.execute(operation: "RestoreClusterFromSnapshot", path: "/cluster-snapshot/{snapshotArn}/restore", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RestoreClusterFromSnapshot", 
+            path: "/cluster-snapshot/{snapshotArn}/restore", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds metadata tags to a Elastic DocumentDB resource
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes metadata tags to a Elastic DocumentDB resource
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies a Elastic DocumentDB cluster. This includes updating admin-username/password,  upgrading API version setting up a backup window and maintenance window
     @Sendable
     public func updateCluster(_ input: UpdateClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterOutput {
-        return try await self.client.execute(operation: "UpdateCluster", path: "/cluster/{clusterArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCluster", 
+            path: "/cluster/{clusterArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

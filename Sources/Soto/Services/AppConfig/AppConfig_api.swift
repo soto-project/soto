@@ -72,260 +72,561 @@ public struct AppConfig: AWSService {
     /// Creates an application. In AppConfig, an application is simply an organizational construct like a folder. This organizational construct has a relationship with some unit of executable code. For example, you could create an application called MyMobileApp to organize and manage configuration data for a mobile application installed by your users.
     @Sendable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Application {
-        return try await self.client.execute(operation: "CreateApplication", path: "/applications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateApplication", 
+            path: "/applications", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a configuration profile, which is information that enables AppConfig to access the configuration source. Valid configuration sources include the following:   Configuration data in YAML, JSON, and other formats stored in the AppConfig hosted configuration store   Configuration data stored as objects in an Amazon Simple Storage Service (Amazon S3) bucket   Pipelines stored in CodePipeline   Secrets stored in Secrets Manager   Standard and secure string parameters stored in Amazon Web Services Systems Manager Parameter Store   Configuration data in SSM documents stored in the Systems Manager document store   A configuration profile includes the following information:   The URI location of the configuration data.   The Identity and Access Management (IAM) role that provides access to the configuration data.   A validator for the configuration data. Available validators include either a JSON Schema or an Amazon Web Services Lambda function.   For more information, see Create a Configuration and a Configuration Profile in the AppConfig User Guide.
     @Sendable
     public func createConfigurationProfile(_ input: CreateConfigurationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigurationProfile {
-        return try await self.client.execute(operation: "CreateConfigurationProfile", path: "/applications/{ApplicationId}/configurationprofiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateConfigurationProfile", 
+            path: "/applications/{ApplicationId}/configurationprofiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a deployment strategy that defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
     @Sendable
     public func createDeploymentStrategy(_ input: CreateDeploymentStrategyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeploymentStrategy {
-        return try await self.client.execute(operation: "CreateDeploymentStrategy", path: "/deploymentstrategies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDeploymentStrategy", 
+            path: "/deploymentstrategies", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an environment. For each application, you define one or more environments. An environment is a deployment group of AppConfig targets, such as applications in a Beta or Production environment. You can also define environments for application subcomponents such as the Web, Mobile and Back-end components for your application. You can configure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the system rolls back the configuration.
     @Sendable
     public func createEnvironment(_ input: CreateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Environment {
-        return try await self.client.execute(operation: "CreateEnvironment", path: "/applications/{ApplicationId}/environments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEnvironment", 
+            path: "/applications/{ApplicationId}/environments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an AppConfig extension. An extension augments your ability to inject logic or behavior at different points during the AppConfig workflow of creating or deploying a configuration. You can create your own extensions or use the Amazon Web Services authored extensions provided by AppConfig. For most use cases, to create your own extension, you must create an Lambda function to perform any computation and processing defined in the extension. For more information about extensions, see Working with AppConfig extensions in the AppConfig User Guide.
     @Sendable
     public func createExtension(_ input: CreateExtensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Extension {
-        return try await self.client.execute(operation: "CreateExtension", path: "/extensions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateExtension", 
+            path: "/extensions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// When you create an extension or configure an Amazon Web Services authored extension, you associate the extension with an AppConfig application, environment, or configuration profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS Amazon Web Services authored extension and receive notifications on an Amazon SNS topic anytime a configuration deployment is started for a specific application. Defining which extension to associate with an AppConfig resource is called an extension association. An extension association is a specified relationship between an extension and an AppConfig resource, such as an application or a configuration profile. For more information about extensions and associations, see Working with AppConfig extensions in the AppConfig User Guide.
     @Sendable
     public func createExtensionAssociation(_ input: CreateExtensionAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExtensionAssociation {
-        return try await self.client.execute(operation: "CreateExtensionAssociation", path: "/extensionassociations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateExtensionAssociation", 
+            path: "/extensionassociations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new configuration in the AppConfig hosted configuration store.
     @Sendable
     public func createHostedConfigurationVersion(_ input: CreateHostedConfigurationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> HostedConfigurationVersion {
-        return try await self.client.execute(operation: "CreateHostedConfigurationVersion", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateHostedConfigurationVersion", 
+            path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an application. Deleting an application does not delete a configuration from a host.
     @Sendable
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteApplication", path: "/applications/{ApplicationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteApplication", 
+            path: "/applications/{ApplicationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a configuration profile. Deleting a configuration profile does not delete a configuration from a host.
     @Sendable
     public func deleteConfigurationProfile(_ input: DeleteConfigurationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteConfigurationProfile", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConfigurationProfile", 
+            path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a deployment strategy. Deleting a deployment strategy does not delete a configuration from a host.
     @Sendable
     public func deleteDeploymentStrategy(_ input: DeleteDeploymentStrategyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteDeploymentStrategy", path: "/deployementstrategies/{DeploymentStrategyId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDeploymentStrategy", 
+            path: "/deployementstrategies/{DeploymentStrategyId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an environment. Deleting an environment does not delete a configuration from a host.
     @Sendable
     public func deleteEnvironment(_ input: DeleteEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteEnvironment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEnvironment", 
+            path: "/applications/{ApplicationId}/environments/{EnvironmentId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an AppConfig extension. You must delete all associations to an extension before you delete the extension.
     @Sendable
     public func deleteExtension(_ input: DeleteExtensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteExtension", path: "/extensions/{ExtensionIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteExtension", 
+            path: "/extensions/{ExtensionIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an extension association. This action doesn't delete extensions defined in the association.
     @Sendable
     public func deleteExtensionAssociation(_ input: DeleteExtensionAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteExtensionAssociation", path: "/extensionassociations/{ExtensionAssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteExtensionAssociation", 
+            path: "/extensionassociations/{ExtensionAssociationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a version of a configuration from the AppConfig hosted configuration store.
     @Sendable
     public func deleteHostedConfigurationVersion(_ input: DeleteHostedConfigurationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteHostedConfigurationVersion", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteHostedConfigurationVersion", 
+            path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about an application.
     @Sendable
     public func getApplication(_ input: GetApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Application {
-        return try await self.client.execute(operation: "GetApplication", path: "/applications/{ApplicationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetApplication", 
+            path: "/applications/{ApplicationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// (Deprecated) Retrieves the latest deployed configuration.  Note the following important information.   This API action is deprecated. Calls to receive configuration data should use the StartConfigurationSession and GetLatestConfiguration APIs instead.     GetConfiguration is a priced call. For more information, see Pricing.
     @available(*, deprecated, message: "This API has been deprecated in favor of the GetLatestConfiguration API used in conjunction with StartConfigurationSession.")
     @Sendable
     public func getConfiguration(_ input: GetConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Configuration {
-        return try await self.client.execute(operation: "GetConfiguration", path: "/applications/{Application}/environments/{Environment}/configurations/{Configuration}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConfiguration", 
+            path: "/applications/{Application}/environments/{Environment}/configurations/{Configuration}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about a configuration profile.
     @Sendable
     public func getConfigurationProfile(_ input: GetConfigurationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigurationProfile {
-        return try await self.client.execute(operation: "GetConfigurationProfile", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConfigurationProfile", 
+            path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about a configuration deployment.
     @Sendable
     public func getDeployment(_ input: GetDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Deployment {
-        return try await self.client.execute(operation: "GetDeployment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeployment", 
+            path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about a deployment strategy. A deployment strategy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
     @Sendable
     public func getDeploymentStrategy(_ input: GetDeploymentStrategyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeploymentStrategy {
-        return try await self.client.execute(operation: "GetDeploymentStrategy", path: "/deploymentstrategies/{DeploymentStrategyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeploymentStrategy", 
+            path: "/deploymentstrategies/{DeploymentStrategyId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about an environment. An environment is a deployment group of AppConfig applications, such as applications in a Production environment or in an EU_Region environment. Each configuration deployment targets an environment. You can enable one or more Amazon CloudWatch alarms for an environment. If an alarm is triggered during a deployment, AppConfig roles back the configuration.
     @Sendable
     public func getEnvironment(_ input: GetEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Environment {
-        return try await self.client.execute(operation: "GetEnvironment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetEnvironment", 
+            path: "/applications/{ApplicationId}/environments/{EnvironmentId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about an AppConfig extension.
     @Sendable
     public func getExtension(_ input: GetExtensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Extension {
-        return try await self.client.execute(operation: "GetExtension", path: "/extensions/{ExtensionIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetExtension", 
+            path: "/extensions/{ExtensionIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about an AppConfig extension association. For more information about extensions and associations, see Working with AppConfig extensions in the AppConfig User Guide.
     @Sendable
     public func getExtensionAssociation(_ input: GetExtensionAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExtensionAssociation {
-        return try await self.client.execute(operation: "GetExtensionAssociation", path: "/extensionassociations/{ExtensionAssociationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetExtensionAssociation", 
+            path: "/extensionassociations/{ExtensionAssociationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about a specific configuration version.
     @Sendable
     public func getHostedConfigurationVersion(_ input: GetHostedConfigurationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> HostedConfigurationVersion {
-        return try await self.client.execute(operation: "GetHostedConfigurationVersion", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetHostedConfigurationVersion", 
+            path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all applications in your Amazon Web Services account.
     @Sendable
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Applications {
-        return try await self.client.execute(operation: "ListApplications", path: "/applications", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApplications", 
+            path: "/applications", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the configuration profiles for an application.
     @Sendable
     public func listConfigurationProfiles(_ input: ListConfigurationProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigurationProfiles {
-        return try await self.client.execute(operation: "ListConfigurationProfiles", path: "/applications/{ApplicationId}/configurationprofiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConfigurationProfiles", 
+            path: "/applications/{ApplicationId}/configurationprofiles", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists deployment strategies.
     @Sendable
     public func listDeploymentStrategies(_ input: ListDeploymentStrategiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeploymentStrategies {
-        return try await self.client.execute(operation: "ListDeploymentStrategies", path: "/deploymentstrategies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDeploymentStrategies", 
+            path: "/deploymentstrategies", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the deployments for an environment in descending deployment number order.
     @Sendable
     public func listDeployments(_ input: ListDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Deployments {
-        return try await self.client.execute(operation: "ListDeployments", path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDeployments", 
+            path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the environments for an application.
     @Sendable
     public func listEnvironments(_ input: ListEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Environments {
-        return try await self.client.execute(operation: "ListEnvironments", path: "/applications/{ApplicationId}/environments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEnvironments", 
+            path: "/applications/{ApplicationId}/environments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all AppConfig extension associations in the account. For more information about extensions and associations, see Working with AppConfig extensions in the AppConfig User Guide.
     @Sendable
     public func listExtensionAssociations(_ input: ListExtensionAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExtensionAssociations {
-        return try await self.client.execute(operation: "ListExtensionAssociations", path: "/extensionassociations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListExtensionAssociations", 
+            path: "/extensionassociations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all custom and Amazon Web Services authored AppConfig extensions in the account. For more information about extensions, see Working with AppConfig extensions in the AppConfig User Guide.
     @Sendable
     public func listExtensions(_ input: ListExtensionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Extensions {
-        return try await self.client.execute(operation: "ListExtensions", path: "/extensions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListExtensions", 
+            path: "/extensions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists configurations stored in the AppConfig hosted configuration store by version.
     @Sendable
     public func listHostedConfigurationVersions(_ input: ListHostedConfigurationVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> HostedConfigurationVersions {
-        return try await self.client.execute(operation: "ListHostedConfigurationVersions", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListHostedConfigurationVersions", 
+            path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the list of key-value tags assigned to the resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResourceTags {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a deployment.
     @Sendable
     public func startDeployment(_ input: StartDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Deployment {
-        return try await self.client.execute(operation: "StartDeployment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartDeployment", 
+            path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING. This action moves the deployment to a status of ROLLED_BACK.
     @Sendable
     public func stopDeployment(_ input: StopDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Deployment {
-        return try await self.client.execute(operation: "StopDeployment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopDeployment", 
+            path: "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assigns metadata to an AppConfig resource. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. You can specify a maximum of 50 tags for a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a tag key and value from an AppConfig resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an application.
     @Sendable
     public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Application {
-        return try await self.client.execute(operation: "UpdateApplication", path: "/applications/{ApplicationId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateApplication", 
+            path: "/applications/{ApplicationId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a configuration profile.
     @Sendable
     public func updateConfigurationProfile(_ input: UpdateConfigurationProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigurationProfile {
-        return try await self.client.execute(operation: "UpdateConfigurationProfile", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateConfigurationProfile", 
+            path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a deployment strategy.
     @Sendable
     public func updateDeploymentStrategy(_ input: UpdateDeploymentStrategyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeploymentStrategy {
-        return try await self.client.execute(operation: "UpdateDeploymentStrategy", path: "/deploymentstrategies/{DeploymentStrategyId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDeploymentStrategy", 
+            path: "/deploymentstrategies/{DeploymentStrategyId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an environment.
     @Sendable
     public func updateEnvironment(_ input: UpdateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Environment {
-        return try await self.client.execute(operation: "UpdateEnvironment", path: "/applications/{ApplicationId}/environments/{EnvironmentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEnvironment", 
+            path: "/applications/{ApplicationId}/environments/{EnvironmentId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an AppConfig extension. For more information about extensions, see Working with AppConfig extensions in the AppConfig User Guide.
     @Sendable
     public func updateExtension(_ input: UpdateExtensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Extension {
-        return try await self.client.execute(operation: "UpdateExtension", path: "/extensions/{ExtensionIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateExtension", 
+            path: "/extensions/{ExtensionIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an association. For more information about extensions and associations, see Working with AppConfig extensions in the AppConfig User Guide.
     @Sendable
     public func updateExtensionAssociation(_ input: UpdateExtensionAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExtensionAssociation {
-        return try await self.client.execute(operation: "UpdateExtensionAssociation", path: "/extensionassociations/{ExtensionAssociationId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateExtensionAssociation", 
+            path: "/extensionassociations/{ExtensionAssociationId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Uses the validators in a configuration profile to validate a configuration.
     @Sendable
     public func validateConfiguration(_ input: ValidateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "ValidateConfiguration", path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/validators", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ValidateConfiguration", 
+            path: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/validators", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

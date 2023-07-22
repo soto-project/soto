@@ -131,55 +131,118 @@ public struct KendraRanking: AWSService {
     /// Creates a rescore execution plan. A rescore execution  plan is an Amazon Kendra Intelligent Ranking resource  used for provisioning the Rescore API. You set  the number of capacity units that you require for  Amazon Kendra Intelligent Ranking to rescore or re-rank  a search service's results. For an example of using the  CreateRescoreExecutionPlan API, including using  the Python and Java SDKs, see Semantically  ranking a search service's results.
     @Sendable
     public func createRescoreExecutionPlan(_ input: CreateRescoreExecutionPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRescoreExecutionPlanResponse {
-        return try await self.client.execute(operation: "CreateRescoreExecutionPlan", path: "/rescore-execution-plans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRescoreExecutionPlan", 
+            path: "/rescore-execution-plans", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a rescore execution plan. A rescore execution  plan is an Amazon Kendra Intelligent Ranking resource  used for provisioning the Rescore API.
     @Sendable
     public func deleteRescoreExecutionPlan(_ input: DeleteRescoreExecutionPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteRescoreExecutionPlan", path: "/rescore-execution-plans/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRescoreExecutionPlan", 
+            path: "/rescore-execution-plans/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a rescore execution plan. A rescore  execution plan is an Amazon Kendra Intelligent Ranking  resource used for provisioning the Rescore API.
     @Sendable
     public func describeRescoreExecutionPlan(_ input: DescribeRescoreExecutionPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRescoreExecutionPlanResponse {
-        return try await self.client.execute(operation: "DescribeRescoreExecutionPlan", path: "/rescore-execution-plans/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRescoreExecutionPlan", 
+            path: "/rescore-execution-plans/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists your rescore execution plans. A rescore execution plan  is an Amazon Kendra Intelligent Ranking resource used for  provisioning the Rescore API.
     @Sendable
     public func listRescoreExecutionPlans(_ input: ListRescoreExecutionPlansRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRescoreExecutionPlansResponse {
-        return try await self.client.execute(operation: "ListRescoreExecutionPlans", path: "/rescore-execution-plans", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRescoreExecutionPlans", 
+            path: "/rescore-execution-plans", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of tags associated with a specified resource.  A rescore execution plan is an example of a resource that  can have tags associated with it.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Rescores or re-ranks search results from a search service  such as OpenSearch (self managed). You use the semantic search  capabilities of Amazon Kendra Intelligent Ranking to  improve the search service's results.
     @Sendable
     public func rescore(_ input: RescoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RescoreResult {
-        return try await self.client.execute(operation: "Rescore", path: "/rescore-execution-plans/{RescoreExecutionPlanId}/rescore", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "Rescore", 
+            path: "/rescore-execution-plans/{RescoreExecutionPlanId}/rescore", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a specified tag to a specified rescore execution  plan. A rescore execution plan is an Amazon Kendra  Intelligent Ranking resource used for provisioning the  Rescore API. If the tag already exists,  the existing value is replaced with the new value.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a tag from a rescore execution plan. A rescore  execution plan is an Amazon Kendra Intelligent  Ranking resource used for provisioning the  Rescore operation.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a rescore execution plan. A rescore execution plan  is an Amazon Kendra Intelligent Ranking resource used for  provisioning the Rescore API. You can update the  number of capacity units you require for Amazon Kendra  Intelligent Ranking to rescore or re-rank a search service's  results.
     @Sendable
     public func updateRescoreExecutionPlan(_ input: UpdateRescoreExecutionPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateRescoreExecutionPlan", path: "/rescore-execution-plans/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRescoreExecutionPlan", 
+            path: "/rescore-execution-plans/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

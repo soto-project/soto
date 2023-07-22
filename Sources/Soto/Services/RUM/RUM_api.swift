@@ -67,108 +67,228 @@ public struct RUM: AWSService {
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchCreateRumMetricDefinitions.html
     @Sendable
     public func batchCreateRumMetricDefinitions(_ input: BatchCreateRumMetricDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreateRumMetricDefinitionsResponse {
-        return try await self.client.execute(operation: "BatchCreateRumMetricDefinitions", path: "/rummetrics/{AppMonitorName}/metrics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchCreateRumMetricDefinitions", 
+            path: "/rummetrics/{AppMonitorName}/metrics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified metrics from being sent to an extended metrics destination. If some metric definition IDs specified in a BatchDeleteRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definition IDs in the same operation are still  deleted. The maximum number of metric definitions that you can specify in one  BatchDeleteRumMetricDefinitions operation is 200.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchDeleteRumMetricDefinitions.html
     @Sendable
     public func batchDeleteRumMetricDefinitions(_ input: BatchDeleteRumMetricDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteRumMetricDefinitionsResponse {
-        return try await self.client.execute(operation: "BatchDeleteRumMetricDefinitions", path: "/rummetrics/{AppMonitorName}/metrics", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDeleteRumMetricDefinitions", 
+            path: "/rummetrics/{AppMonitorName}/metrics", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchGetRumMetricDefinitions.html
     @Sendable
     public func batchGetRumMetricDefinitions(_ input: BatchGetRumMetricDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetRumMetricDefinitionsResponse {
-        return try await self.client.execute(operation: "BatchGetRumMetricDefinitions", path: "/rummetrics/{AppMonitorName}/metrics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetRumMetricDefinitions", 
+            path: "/rummetrics/{AppMonitorName}/metrics", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a Amazon CloudWatch RUM app monitor, which collects telemetry data from your application and sends that data to RUM. The data includes performance and reliability information such as page load time, client-side errors,  and user behavior. You use this operation only to create a new app monitor. To update an existing app monitor, use UpdateAppMonitor instead. After you create an app monitor, sign in to the CloudWatch RUM console to get  the JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/CreateAppMonitor.html
     @Sendable
     public func createAppMonitor(_ input: CreateAppMonitorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppMonitorResponse {
-        return try await self.client.execute(operation: "CreateAppMonitor", path: "/appmonitor", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAppMonitor", 
+            path: "/appmonitor", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing app monitor. This immediately stops the collection of data.
     @Sendable
     public func deleteAppMonitor(_ input: DeleteAppMonitorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAppMonitorResponse {
-        return try await self.client.execute(operation: "DeleteAppMonitor", path: "/appmonitor/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAppMonitor", 
+            path: "/appmonitor/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
     @Sendable
     public func deleteRumMetricsDestination(_ input: DeleteRumMetricsDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRumMetricsDestinationResponse {
-        return try await self.client.execute(operation: "DeleteRumMetricsDestination", path: "/rummetrics/{AppMonitorName}/metricsdestination", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRumMetricsDestination", 
+            path: "/rummetrics/{AppMonitorName}/metricsdestination", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the complete configuration information for one app monitor.
     @Sendable
     public func getAppMonitor(_ input: GetAppMonitorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAppMonitorResponse {
-        return try await self.client.execute(operation: "GetAppMonitor", path: "/appmonitor/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAppMonitor", 
+            path: "/appmonitor/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
     @Sendable
     public func getAppMonitorData(_ input: GetAppMonitorDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAppMonitorDataResponse {
-        return try await self.client.execute(operation: "GetAppMonitorData", path: "/appmonitor/{Name}/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAppMonitorData", 
+            path: "/appmonitor/{Name}/data", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the Amazon CloudWatch RUM app monitors in the account.
     @Sendable
     public func listAppMonitors(_ input: ListAppMonitorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppMonitorsResponse {
-        return try await self.client.execute(operation: "ListAppMonitors", path: "/appmonitors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAppMonitors", 
+            path: "/appmonitors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of destinations that you have created to receive RUM extended metrics,  for the specified app monitor. For more information about extended metrics, see AddRumMetrics.
     @Sendable
     public func listRumMetricsDestinations(_ input: ListRumMetricsDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRumMetricsDestinationsResponse {
-        return try await self.client.execute(operation: "ListRumMetricsDestinations", path: "/rummetrics/{AppMonitorName}/metricsdestination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRumMetricsDestinations", 
+            path: "/rummetrics/{AppMonitorName}/metricsdestination", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays the tags associated with a CloudWatch RUM resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code  snippet that RUM generates for you to add to your application includes PutRumEvents operations to  send this data to RUM. Each PutRumEvents operation can send a batch of events from one user session.
     @Sendable
     public func putRumEvents(_ input: PutRumEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRumEventsResponse {
-        return try await self.client.execute(operation: "PutRumEvents", path: "/appmonitors/{Id}/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "dataplane.", logger: logger)
+        return try await self.client.execute(
+            operation: "PutRumEvents", 
+            path: "/appmonitors/{Id}/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "dataplane.", 
+            logger: logger
+        )
     }
 
     /// Creates or updates a destination to receive extended metrics from CloudWatch RUM. You can send extended metrics to CloudWatch or to a CloudWatch Evidently experiment. For more information about extended metrics, see BatchCreateRumMetricDefinitions.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/PutRumMetricsDestination.html
     @Sendable
     public func putRumMetricsDestination(_ input: PutRumMetricsDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRumMetricsDestinationResponse {
-        return try await self.client.execute(operation: "PutRumMetricsDestination", path: "/rummetrics/{AppMonitorName}/metricsdestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutRumMetricsDestination", 
+            path: "/rummetrics/{AppMonitorName}/metricsdestination", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch RUM resource. Currently,  the only resources that  can be tagged app monitors. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags.  If you specify a new tag key for the resource,  this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. For more information, see Tagging Amazon Web Services resources.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from the specified resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the configuration of an existing app monitor. When you use this operation, only the parts of the app monitor configuration that you specify in this operation are changed. For any parameters that you omit, the existing values are kept. You can't use this operation to change the tags of an existing app monitor. To change the tags of an existing app monitor, use TagResource. To create a new app monitor, use CreateAppMonitor. After you update an app monitor, sign in to the CloudWatch RUM console to get  the updated JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
     @Sendable
     public func updateAppMonitor(_ input: UpdateAppMonitorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppMonitorResponse {
-        return try await self.client.execute(operation: "UpdateAppMonitor", path: "/appmonitor/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAppMonitor", 
+            path: "/appmonitor/{Name}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies one existing metric definition for CloudWatch RUM extended metrics. For  more information about extended metrics, see BatchCreateRumMetricsDefinitions.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/UpdateRumMetricDefinitions.html
     @Sendable
     public func updateRumMetricDefinition(_ input: UpdateRumMetricDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRumMetricDefinitionResponse {
-        return try await self.client.execute(operation: "UpdateRumMetricDefinition", path: "/rummetrics/{AppMonitorName}/metrics", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRumMetricDefinition", 
+            path: "/rummetrics/{AppMonitorName}/metrics", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -74,25 +74,53 @@ public struct LicenseManagerLinuxSubscriptions: AWSService {
     /// Lists the Linux subscriptions service settings.
     @Sendable
     public func getServiceSettings(_ input: GetServiceSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceSettingsResponse {
-        return try await self.client.execute(operation: "GetServiceSettings", path: "/subscription/GetServiceSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetServiceSettings", 
+            path: "/subscription/GetServiceSettings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
     @Sendable
     public func listLinuxSubscriptionInstances(_ input: ListLinuxSubscriptionInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLinuxSubscriptionInstancesResponse {
-        return try await self.client.execute(operation: "ListLinuxSubscriptionInstances", path: "/subscription/ListLinuxSubscriptionInstances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListLinuxSubscriptionInstances", 
+            path: "/subscription/ListLinuxSubscriptionInstances", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
     @Sendable
     public func listLinuxSubscriptions(_ input: ListLinuxSubscriptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLinuxSubscriptionsResponse {
-        return try await self.client.execute(operation: "ListLinuxSubscriptions", path: "/subscription/ListLinuxSubscriptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListLinuxSubscriptions", 
+            path: "/subscription/ListLinuxSubscriptions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the service settings for Linux subscriptions.
     @Sendable
     public func updateServiceSettings(_ input: UpdateServiceSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceSettingsResponse {
-        return try await self.client.execute(operation: "UpdateServiceSettings", path: "/subscription/UpdateServiceSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateServiceSettings", 
+            path: "/subscription/UpdateServiceSettings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

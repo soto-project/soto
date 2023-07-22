@@ -66,19 +66,40 @@ public struct ApiGatewayManagementApi: AWSService {
     /// Delete the connection with the provided id.
     @Sendable
     public func deleteConnection(_ input: DeleteConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteConnection", path: "/@connections/{ConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConnection", 
+            path: "/@connections/{ConnectionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get information about the connection with the provided id.
     @Sendable
     public func getConnection(_ input: GetConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionResponse {
-        return try await self.client.execute(operation: "GetConnection", path: "/@connections/{ConnectionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConnection", 
+            path: "/@connections/{ConnectionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sends the provided data to the specified connection.
     @Sendable
     public func postToConnection(_ input: PostToConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PostToConnection", path: "/@connections/{ConnectionId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PostToConnection", 
+            path: "/@connections/{ConnectionId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -87,7 +87,14 @@ public struct Route53: AWSService {
     /// 			operation changes the KSK status to ACTIVE.
     @Sendable
     public func activateKeySigningKey(_ input: ActivateKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateKeySigningKeyResponse {
-        return try await self.client.execute(operation: "ActivateKeySigningKey", path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}/activate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ActivateKeySigningKey", 
+            path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}/activate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates an Amazon VPC with a private hosted zone.   To perform the association, the VPC and the private hosted zone must already
@@ -101,7 +108,14 @@ public struct Route53: AWSService {
     /// 				in the Amazon Web Services General Reference.
     @Sendable
     public func associateVPCWithHostedZone(_ input: AssociateVPCWithHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateVPCWithHostedZoneResponse {
-        return try await self.client.execute(operation: "AssociateVPCWithHostedZone", path: "/2013-04-01/hostedzone/{HostedZoneId}/associatevpc", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateVPCWithHostedZone", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/associatevpc", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative
@@ -112,7 +126,14 @@ public struct Route53: AWSService {
     /// 					collection.
     @Sendable
     public func changeCidrCollection(_ input: ChangeCidrCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ChangeCidrCollectionResponse {
-        return try await self.client.execute(operation: "ChangeCidrCollection", path: "/2013-04-01/cidrcollection/{Id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ChangeCidrCollection", 
+            path: "/2013-04-01/cidrcollection/{Id}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates, changes, or deletes a resource record set, which contains authoritative DNS
@@ -159,20 +180,41 @@ public struct Route53: AWSService {
     /// 			see Limits in the Amazon Route 53 Developer Guide.
     @Sendable
     public func changeResourceRecordSets(_ input: ChangeResourceRecordSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ChangeResourceRecordSetsResponse {
-        return try await self.client.execute(operation: "ChangeResourceRecordSets", path: "/2013-04-01/hostedzone/{HostedZoneId}/rrset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ChangeResourceRecordSets", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/rrset", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds, edits, or deletes tags for a health check or a hosted zone. For information about using tags for cost allocation, see Using Cost Allocation
     /// 				Tags in the Billing and Cost Management User Guide.
     @Sendable
     public func changeTagsForResource(_ input: ChangeTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ChangeTagsForResourceResponse {
-        return try await self.client.execute(operation: "ChangeTagsForResource", path: "/2013-04-01/tags/{ResourceType}/{ResourceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ChangeTagsForResource", 
+            path: "/2013-04-01/tags/{ResourceType}/{ResourceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a CIDR collection in the current Amazon Web Services account.
     @Sendable
     public func createCidrCollection(_ input: CreateCidrCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCidrCollectionResponse {
-        return try await self.client.execute(operation: "CreateCidrCollection", path: "/2013-04-01/cidrcollection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCidrCollection", 
+            path: "/2013-04-01/cidrcollection", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new health check. For information about adding health checks to resource record sets, see HealthCheckId in ChangeResourceRecordSets.   ELB Load Balancers  If you're registering EC2 instances with an Elastic Load Balancing (ELB) load
@@ -192,7 +234,14 @@ public struct Route53: AWSService {
     /// 						CloudWatch User Guide.
     @Sendable
     public func createHealthCheck(_ input: CreateHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHealthCheckResponse {
-        return try await self.client.execute(operation: "CreateHealthCheck", path: "/2013-04-01/healthcheck", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateHealthCheck", 
+            path: "/2013-04-01/healthcheck", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new public or private hosted zone. You create records in a public hosted
@@ -222,14 +271,28 @@ public struct Route53: AWSService {
     /// 				in the Amazon Web Services General Reference.
     @Sendable
     public func createHostedZone(_ input: CreateHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHostedZoneResponse {
-        return try await self.client.execute(operation: "CreateHostedZone", path: "/2013-04-01/hostedzone", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateHostedZone", 
+            path: "/2013-04-01/hostedzone", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new key-signing key (KSK) associated with a hosted zone. You can only have
     /// 			two KSKs per hosted zone.
     @Sendable
     public func createKeySigningKey(_ input: CreateKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKeySigningKeyResponse {
-        return try await self.client.execute(operation: "CreateKeySigningKey", path: "/2013-04-01/keysigningkey", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateKeySigningKey", 
+            path: "/2013-04-01/keysigningkey", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a configuration for DNS query logging. After you create a query logging
@@ -302,7 +365,14 @@ public struct Route53: AWSService {
     /// 						the query logging configuration. For more information, see DeleteQueryLoggingConfig.
     @Sendable
     public func createQueryLoggingConfig(_ input: CreateQueryLoggingConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQueryLoggingConfigResponse {
-        return try await self.client.execute(operation: "CreateQueryLoggingConfig", path: "/2013-04-01/queryloggingconfig", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateQueryLoggingConfig", 
+            path: "/2013-04-01/queryloggingconfig", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a delegation set (a group of four name servers) that can be reused by multiple
@@ -327,7 +397,14 @@ public struct Route53: AWSService {
     /// 					set.
     @Sendable
     public func createReusableDelegationSet(_ input: CreateReusableDelegationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReusableDelegationSetResponse {
-        return try await self.client.execute(operation: "CreateReusableDelegationSet", path: "/2013-04-01/delegationset", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateReusableDelegationSet", 
+            path: "/2013-04-01/delegationset", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a traffic policy, which you use to create multiple DNS resource record sets
@@ -335,7 +412,14 @@ public struct Route53: AWSService {
     /// 			www.example.com).
     @Sendable
     public func createTrafficPolicy(_ input: CreateTrafficPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrafficPolicyResponse {
-        return try await self.client.execute(operation: "CreateTrafficPolicy", path: "/2013-04-01/trafficpolicy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTrafficPolicy", 
+            path: "/2013-04-01/trafficpolicy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates resource record sets in a specified hosted zone based on the settings in a
@@ -346,7 +430,14 @@ public struct Route53: AWSService {
     /// 				CreateTrafficPolicyInstance created.
     @Sendable
     public func createTrafficPolicyInstance(_ input: CreateTrafficPolicyInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrafficPolicyInstanceResponse {
-        return try await self.client.execute(operation: "CreateTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTrafficPolicyInstance", 
+            path: "/2013-04-01/trafficpolicyinstance", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new version of an existing traffic policy. When you create a new version of
@@ -358,7 +449,14 @@ public struct Route53: AWSService {
     /// 			need to start a new traffic policy.
     @Sendable
     public func createTrafficPolicyVersion(_ input: CreateTrafficPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrafficPolicyVersionResponse {
-        return try await self.client.execute(operation: "CreateTrafficPolicyVersion", path: "/2013-04-01/trafficpolicy/{Id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTrafficPolicyVersion", 
+            path: "/2013-04-01/trafficpolicy/{Id}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Authorizes the Amazon Web Services account that created a specified VPC to submit an
@@ -371,21 +469,42 @@ public struct Route53: AWSService {
     /// 				authorization request for each VPC.
     @Sendable
     public func createVPCAssociationAuthorization(_ input: CreateVPCAssociationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVPCAssociationAuthorizationResponse {
-        return try await self.client.execute(operation: "CreateVPCAssociationAuthorization", path: "/2013-04-01/hostedzone/{HostedZoneId}/authorizevpcassociation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVPCAssociationAuthorization", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/authorizevpcassociation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC.
     /// 			This operation changes the KSK status to INACTIVE.
     @Sendable
     public func deactivateKeySigningKey(_ input: DeactivateKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeactivateKeySigningKeyResponse {
-        return try await self.client.execute(operation: "DeactivateKeySigningKey", path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}/deactivate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeactivateKeySigningKey", 
+            path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}/deactivate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a CIDR collection in the current Amazon Web Services account. The collection
     /// 			must be empty before it can be deleted.
     @Sendable
     public func deleteCidrCollection(_ input: DeleteCidrCollectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCidrCollectionResponse {
-        return try await self.client.execute(operation: "DeleteCidrCollection", path: "/2013-04-01/cidrcollection/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCidrCollection", 
+            path: "/2013-04-01/cidrcollection/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a health check.  Amazon Route 53 does not prevent you from deleting a health check even if the
@@ -401,7 +520,14 @@ public struct Route53: AWSService {
     /// 			several hours before the health check is deleted from Route 53.
     @Sendable
     public func deleteHealthCheck(_ input: DeleteHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteHealthCheckResponse {
-        return try await self.client.execute(operation: "DeleteHealthCheck", path: "/2013-04-01/healthcheck/{HealthCheckId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteHealthCheck", 
+            path: "/2013-04-01/healthcheck/{HealthCheckId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a hosted zone. If the hosted zone was created by another service, such as Cloud Map, see
@@ -432,7 +558,14 @@ public struct Route53: AWSService {
     /// 					associated with the current Amazon Web Services account.
     @Sendable
     public func deleteHostedZone(_ input: DeleteHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteHostedZoneResponse {
-        return try await self.client.execute(operation: "DeleteHostedZone", path: "/2013-04-01/hostedzone/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteHostedZone", 
+            path: "/2013-04-01/hostedzone/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it.
@@ -441,7 +574,14 @@ public struct Route53: AWSService {
     /// 			status.
     @Sendable
     public func deleteKeySigningKey(_ input: DeleteKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKeySigningKeyResponse {
-        return try await self.client.execute(operation: "DeleteKeySigningKey", path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteKeySigningKey", 
+            path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a configuration for DNS query logging. If you delete a configuration, Amazon
@@ -449,7 +589,14 @@ public struct Route53: AWSService {
     /// 			that are already in CloudWatch Logs. For more information about DNS query logs, see CreateQueryLoggingConfig.
     @Sendable
     public func deleteQueryLoggingConfig(_ input: DeleteQueryLoggingConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteQueryLoggingConfigResponse {
-        return try await self.client.execute(operation: "DeleteQueryLoggingConfig", path: "/2013-04-01/queryloggingconfig/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteQueryLoggingConfig", 
+            path: "/2013-04-01/queryloggingconfig/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a reusable delegation set.  You can delete a reusable delegation set only if it isn't associated with any
@@ -458,7 +605,14 @@ public struct Route53: AWSService {
     /// 			delegation set that you want to delete.
     @Sendable
     public func deleteReusableDelegationSet(_ input: DeleteReusableDelegationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReusableDelegationSetResponse {
-        return try await self.client.execute(operation: "DeleteReusableDelegationSet", path: "/2013-04-01/delegationset/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReusableDelegationSet", 
+            path: "/2013-04-01/delegationset/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a traffic policy. When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that
@@ -467,7 +621,14 @@ public struct Route53: AWSService {
     /// 					including the traffic policy document, by running GetTrafficPolicy.
     @Sendable
     public func deleteTrafficPolicy(_ input: DeleteTrafficPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTrafficPolicyResponse {
-        return try await self.client.execute(operation: "DeleteTrafficPolicy", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTrafficPolicy", 
+            path: "/2013-04-01/trafficpolicy/{Id}/{Version}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a traffic policy instance and all of the resource record sets that Amazon
@@ -475,7 +636,14 @@ public struct Route53: AWSService {
     /// 				records.
     @Sendable
     public func deleteTrafficPolicyInstance(_ input: DeleteTrafficPolicyInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTrafficPolicyInstanceResponse {
-        return try await self.client.execute(operation: "DeleteTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTrafficPolicyInstance", 
+            path: "/2013-04-01/trafficpolicyinstance/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes authorization to submit an AssociateVPCWithHostedZone request to
@@ -489,14 +657,28 @@ public struct Route53: AWSService {
     /// 					DisassociateVPCFromHostedZone.
     @Sendable
     public func deleteVPCAssociationAuthorization(_ input: DeleteVPCAssociationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVPCAssociationAuthorizationResponse {
-        return try await self.client.execute(operation: "DeleteVPCAssociationAuthorization", path: "/2013-04-01/hostedzone/{HostedZoneId}/deauthorizevpcassociation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVPCAssociationAuthorization", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/deauthorizevpcassociation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any
     /// 			key-signing keys (KSKs) that are active in the hosted zone.
     @Sendable
     public func disableHostedZoneDNSSEC(_ input: DisableHostedZoneDNSSECRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableHostedZoneDNSSECResponse {
-        return try await self.client.execute(operation: "DisableHostedZoneDNSSEC", path: "/2013-04-01/hostedzone/{HostedZoneId}/disable-dnssec", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableHostedZoneDNSSEC", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/disable-dnssec", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 53
@@ -516,13 +698,27 @@ public struct Route53: AWSService {
     /// 				in the Amazon Web Services General Reference.
     @Sendable
     public func disassociateVPCFromHostedZone(_ input: DisassociateVPCFromHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateVPCFromHostedZoneResponse {
-        return try await self.client.execute(operation: "DisassociateVPCFromHostedZone", path: "/2013-04-01/hostedzone/{HostedZoneId}/disassociatevpc", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateVPCFromHostedZone", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/disassociatevpc", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables DNSSEC signing in a specific hosted zone.
     @Sendable
     public func enableHostedZoneDNSSEC(_ input: EnableHostedZoneDNSSECRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableHostedZoneDNSSECResponse {
-        return try await self.client.execute(operation: "EnableHostedZoneDNSSEC", path: "/2013-04-01/hostedzone/{HostedZoneId}/enable-dnssec", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableHostedZoneDNSSEC", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/enable-dnssec", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the specified limit for the current account, for example, the maximum number of
@@ -532,7 +728,14 @@ public struct Route53: AWSService {
     /// 				the Amazon Web Services Management Console and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/. Then choose Service limits in the navigation pane.
     @Sendable
     public func getAccountLimit(_ input: GetAccountLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountLimitResponse {
-        return try await self.client.execute(operation: "GetAccountLimit", path: "/2013-04-01/accountlimit/{Type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAccountLimit", 
+            path: "/2013-04-01/accountlimit/{Type}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the current status of a change batch request. The status is one of the
@@ -542,7 +745,14 @@ public struct Route53: AWSService {
     /// 					DNS servers.
     @Sendable
     public func getChange(_ input: GetChangeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChangeResponse {
-        return try await self.client.execute(operation: "GetChange", path: "/2013-04-01/change/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetChange", 
+            path: "/2013-04-01/change/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Route 53 does not perform authorization for this API because it retrieves information
@@ -553,14 +763,28 @@ public struct Route53: AWSService {
     /// 					Guide.
     @Sendable
     public func getCheckerIpRanges(_ input: GetCheckerIpRangesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCheckerIpRangesResponse {
-        return try await self.client.execute(operation: "GetCheckerIpRanges", path: "/2013-04-01/checkeripranges", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCheckerIpRanges", 
+            path: "/2013-04-01/checkeripranges", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about DNSSEC for a specific hosted zone, including the key-signing
     /// 			keys (KSKs) in the hosted zone.
     @Sendable
     public func getDNSSEC(_ input: GetDNSSECRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDNSSECResponse {
-        return try await self.client.execute(operation: "GetDNSSEC", path: "/2013-04-01/hostedzone/{HostedZoneId}/dnssec", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDNSSEC", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/dnssec", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about whether a specified geographic location is supported for Amazon
@@ -575,25 +799,53 @@ public struct Route53: AWSService {
     /// 			code
     @Sendable
     public func getGeoLocation(_ input: GetGeoLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGeoLocationResponse {
-        return try await self.client.execute(operation: "GetGeoLocation", path: "/2013-04-01/geolocation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetGeoLocation", 
+            path: "/2013-04-01/geolocation", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a specified health check.
     @Sendable
     public func getHealthCheck(_ input: GetHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHealthCheckResponse {
-        return try await self.client.execute(operation: "GetHealthCheck", path: "/2013-04-01/healthcheck/{HealthCheckId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetHealthCheck", 
+            path: "/2013-04-01/healthcheck/{HealthCheckId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the number of health checks that are associated with the current Amazon Web Services account.
     @Sendable
     public func getHealthCheckCount(_ input: GetHealthCheckCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHealthCheckCountResponse {
-        return try await self.client.execute(operation: "GetHealthCheckCount", path: "/2013-04-01/healthcheckcount", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetHealthCheckCount", 
+            path: "/2013-04-01/healthcheckcount", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the reason that a specified health check failed most recently.
     @Sendable
     public func getHealthCheckLastFailureReason(_ input: GetHealthCheckLastFailureReasonRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHealthCheckLastFailureReasonResponse {
-        return try await self.client.execute(operation: "GetHealthCheckLastFailureReason", path: "/2013-04-01/healthcheck/{HealthCheckId}/lastfailurereason", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetHealthCheckLastFailureReason", 
+            path: "/2013-04-01/healthcheck/{HealthCheckId}/lastfailurereason", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets status of a specified health check.   This API is intended for use during development to diagnose behavior. It doesn’t
@@ -601,20 +853,41 @@ public struct Route53: AWSService {
     /// 				actionable responses.
     @Sendable
     public func getHealthCheckStatus(_ input: GetHealthCheckStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHealthCheckStatusResponse {
-        return try await self.client.execute(operation: "GetHealthCheckStatus", path: "/2013-04-01/healthcheck/{HealthCheckId}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetHealthCheckStatus", 
+            path: "/2013-04-01/healthcheck/{HealthCheckId}/status", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a specified hosted zone including the four name servers
     /// 			assigned to the hosted zone.
     @Sendable
     public func getHostedZone(_ input: GetHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHostedZoneResponse {
-        return try await self.client.execute(operation: "GetHostedZone", path: "/2013-04-01/hostedzone/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetHostedZone", 
+            path: "/2013-04-01/hostedzone/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
     @Sendable
     public func getHostedZoneCount(_ input: GetHostedZoneCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHostedZoneCountResponse {
-        return try await self.client.execute(operation: "GetHostedZoneCount", path: "/2013-04-01/hostedzonecount", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetHostedZoneCount", 
+            path: "/2013-04-01/hostedzonecount", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the specified limit for a specified hosted zone, for example, the maximum number
@@ -623,21 +896,42 @@ public struct Route53: AWSService {
     /// 				open a case.
     @Sendable
     public func getHostedZoneLimit(_ input: GetHostedZoneLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHostedZoneLimitResponse {
-        return try await self.client.execute(operation: "GetHostedZoneLimit", path: "/2013-04-01/hostedzonelimit/{HostedZoneId}/{Type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetHostedZoneLimit", 
+            path: "/2013-04-01/hostedzonelimit/{HostedZoneId}/{Type}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a specified configuration for DNS query logging. For more information about DNS query logs, see CreateQueryLoggingConfig and Logging DNS
     /// 			Queries.
     @Sendable
     public func getQueryLoggingConfig(_ input: GetQueryLoggingConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryLoggingConfigResponse {
-        return try await self.client.execute(operation: "GetQueryLoggingConfig", path: "/2013-04-01/queryloggingconfig/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetQueryLoggingConfig", 
+            path: "/2013-04-01/queryloggingconfig/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about a specified reusable delegation set, including the four
     /// 			name servers that are assigned to the delegation set.
     @Sendable
     public func getReusableDelegationSet(_ input: GetReusableDelegationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReusableDelegationSetResponse {
-        return try await self.client.execute(operation: "GetReusableDelegationSet", path: "/2013-04-01/delegationset/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetReusableDelegationSet", 
+            path: "/2013-04-01/delegationset/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the maximum number of hosted zones that you can associate with the specified
@@ -646,14 +940,28 @@ public struct Route53: AWSService {
     /// 				open a case.
     @Sendable
     public func getReusableDelegationSetLimit(_ input: GetReusableDelegationSetLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReusableDelegationSetLimitResponse {
-        return try await self.client.execute(operation: "GetReusableDelegationSetLimit", path: "/2013-04-01/reusabledelegationsetlimit/{DelegationSetId}/{Type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetReusableDelegationSetLimit", 
+            path: "/2013-04-01/reusabledelegationsetlimit/{DelegationSetId}/{Type}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a specific traffic policy version. For information about how of deleting a traffic policy affects the response from
     /// 				GetTrafficPolicy, see DeleteTrafficPolicy.
     @Sendable
     public func getTrafficPolicy(_ input: GetTrafficPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrafficPolicyResponse {
-        return try await self.client.execute(operation: "GetTrafficPolicy", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTrafficPolicy", 
+            path: "/2013-04-01/trafficpolicy/{Id}/{Version}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a specified traffic policy instance.  After you submit a CreateTrafficPolicyInstance or an
@@ -664,34 +972,69 @@ public struct Route53: AWSService {
     /// 				records.
     @Sendable
     public func getTrafficPolicyInstance(_ input: GetTrafficPolicyInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrafficPolicyInstanceResponse {
-        return try await self.client.execute(operation: "GetTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTrafficPolicyInstance", 
+            path: "/2013-04-01/trafficpolicyinstance/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the number of traffic policy instances that are associated with the current
     /// 				Amazon Web Services account.
     @Sendable
     public func getTrafficPolicyInstanceCount(_ input: GetTrafficPolicyInstanceCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrafficPolicyInstanceCountResponse {
-        return try await self.client.execute(operation: "GetTrafficPolicyInstanceCount", path: "/2013-04-01/trafficpolicyinstancecount", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTrafficPolicyInstanceCount", 
+            path: "/2013-04-01/trafficpolicyinstancecount", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a paginated list of location objects and their CIDR blocks.
     @Sendable
     public func listCidrBlocks(_ input: ListCidrBlocksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCidrBlocksResponse {
-        return try await self.client.execute(operation: "ListCidrBlocks", path: "/2013-04-01/cidrcollection/{CollectionId}/cidrblocks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCidrBlocks", 
+            path: "/2013-04-01/cidrcollection/{CollectionId}/cidrblocks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a paginated list of CIDR collections in the Amazon Web Services account
     /// 			(metadata only).
     @Sendable
     public func listCidrCollections(_ input: ListCidrCollectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCidrCollectionsResponse {
-        return try await self.client.execute(operation: "ListCidrCollections", path: "/2013-04-01/cidrcollection", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCidrCollections", 
+            path: "/2013-04-01/cidrcollection", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a paginated list of CIDR locations for the given collection (metadata only,
     /// 			does not include CIDR blocks).
     @Sendable
     public func listCidrLocations(_ input: ListCidrLocationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCidrLocationsResponse {
-        return try await self.client.execute(operation: "ListCidrLocations", path: "/2013-04-01/cidrcollection/{CollectionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCidrLocations", 
+            path: "/2013-04-01/cidrcollection/{CollectionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of supported geographic locations. Countries are listed first, and continents are listed last. If Amazon Route 53
@@ -702,13 +1045,27 @@ public struct Route53: AWSService {
     /// 			type.
     @Sendable
     public func listGeoLocations(_ input: ListGeoLocationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGeoLocationsResponse {
-        return try await self.client.execute(operation: "ListGeoLocations", path: "/2013-04-01/geolocations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGeoLocations", 
+            path: "/2013-04-01/geolocations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
     @Sendable
     public func listHealthChecks(_ input: ListHealthChecksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHealthChecksResponse {
-        return try await self.client.execute(operation: "ListHealthChecks", path: "/2013-04-01/healthcheck", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListHealthChecks", 
+            path: "/2013-04-01/healthcheck", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of the public and private hosted zones that are associated with the
@@ -718,7 +1075,14 @@ public struct Route53: AWSService {
     /// 			up to 100.
     @Sendable
     public func listHostedZones(_ input: ListHostedZonesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHostedZonesResponse {
-        return try await self.client.execute(operation: "ListHostedZones", path: "/2013-04-01/hostedzone", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListHostedZones", 
+            path: "/2013-04-01/hostedzone", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of your hosted zones in lexicographic order. The response includes a
@@ -752,7 +1116,14 @@ public struct Route53: AWSService {
     /// 						hostedzoneid parameters, respectively.
     @Sendable
     public func listHostedZonesByName(_ input: ListHostedZonesByNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHostedZonesByNameResponse {
-        return try await self.client.execute(operation: "ListHostedZonesByName", path: "/2013-04-01/hostedzonesbyname", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListHostedZonesByName", 
+            path: "/2013-04-01/hostedzonesbyname", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the private hosted zones that a specified VPC is associated with, regardless
@@ -770,7 +1141,14 @@ public struct Route53: AWSService {
     /// 				in the Amazon Web Services General Reference.
     @Sendable
     public func listHostedZonesByVPC(_ input: ListHostedZonesByVPCRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHostedZonesByVPCResponse {
-        return try await self.client.execute(operation: "ListHostedZonesByVPC", path: "/2013-04-01/hostedzonesbyvpc", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListHostedZonesByVPC", 
+            path: "/2013-04-01/hostedzonesbyvpc", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the configurations for DNS query logging that are associated with the current
@@ -780,7 +1158,14 @@ public struct Route53: AWSService {
     /// 			the Amazon Route 53 Developer Guide.
     @Sendable
     public func listQueryLoggingConfigs(_ input: ListQueryLoggingConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueryLoggingConfigsResponse {
-        return try await self.client.execute(operation: "ListQueryLoggingConfigs", path: "/2013-04-01/queryloggingconfig", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListQueryLoggingConfigs", 
+            path: "/2013-04-01/queryloggingconfig", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the resource record sets in a specified hosted zone.  ListResourceRecordSets returns up to 300 resource record sets at a time
@@ -809,28 +1194,56 @@ public struct Route53: AWSService {
     /// 				StartRecordIdentifier.
     @Sendable
     public func listResourceRecordSets(_ input: ListResourceRecordSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceRecordSetsResponse {
-        return try await self.client.execute(operation: "ListResourceRecordSets", path: "/2013-04-01/hostedzone/{HostedZoneId}/rrset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResourceRecordSets", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/rrset", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of the reusable delegation sets that are associated with the current
     /// 				Amazon Web Services account.
     @Sendable
     public func listReusableDelegationSets(_ input: ListReusableDelegationSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReusableDelegationSetsResponse {
-        return try await self.client.execute(operation: "ListReusableDelegationSets", path: "/2013-04-01/delegationset", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListReusableDelegationSets", 
+            path: "/2013-04-01/delegationset", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists tags for one health check or hosted zone.  For information about using tags for cost allocation, see Using Cost Allocation
     /// 				Tags in the Billing and Cost Management User Guide.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/2013-04-01/tags/{ResourceType}/{ResourceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/2013-04-01/tags/{ResourceType}/{ResourceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists tags for up to 10 health checks or hosted zones. For information about using tags for cost allocation, see Using Cost Allocation
     /// 				Tags in the Billing and Cost Management User Guide.
     @Sendable
     public func listTagsForResources(_ input: ListTagsForResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourcesResponse {
-        return try await self.client.execute(operation: "ListTagsForResources", path: "/2013-04-01/tags/{ResourceType}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResources", 
+            path: "/2013-04-01/tags/{ResourceType}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the latest version for every traffic policy that is associated
@@ -839,7 +1252,14 @@ public struct Route53: AWSService {
     /// 				ListTrafficPolicies, see DeleteTrafficPolicy.
     @Sendable
     public func listTrafficPolicies(_ input: ListTrafficPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrafficPoliciesResponse {
-        return try await self.client.execute(operation: "ListTrafficPolicies", path: "/2013-04-01/trafficpolicies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTrafficPolicies", 
+            path: "/2013-04-01/trafficpolicies", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the traffic policy instances that you created by using the
@@ -851,7 +1271,14 @@ public struct Route53: AWSService {
     /// 			of up to 100.
     @Sendable
     public func listTrafficPolicyInstances(_ input: ListTrafficPolicyInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrafficPolicyInstancesResponse {
-        return try await self.client.execute(operation: "ListTrafficPolicyInstances", path: "/2013-04-01/trafficpolicyinstances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTrafficPolicyInstances", 
+            path: "/2013-04-01/trafficpolicyinstances", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the traffic policy instances that you created in a specified
@@ -864,7 +1291,14 @@ public struct Route53: AWSService {
     /// 			of up to 100.
     @Sendable
     public func listTrafficPolicyInstancesByHostedZone(_ input: ListTrafficPolicyInstancesByHostedZoneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrafficPolicyInstancesByHostedZoneResponse {
-        return try await self.client.execute(operation: "ListTrafficPolicyInstancesByHostedZone", path: "/2013-04-01/trafficpolicyinstances/hostedzone", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTrafficPolicyInstancesByHostedZone", 
+            path: "/2013-04-01/trafficpolicyinstances/hostedzone", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the traffic policy instances that you created by using a
@@ -877,14 +1311,28 @@ public struct Route53: AWSService {
     /// 			of up to 100.
     @Sendable
     public func listTrafficPolicyInstancesByPolicy(_ input: ListTrafficPolicyInstancesByPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrafficPolicyInstancesByPolicyResponse {
-        return try await self.client.execute(operation: "ListTrafficPolicyInstancesByPolicy", path: "/2013-04-01/trafficpolicyinstances/trafficpolicy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTrafficPolicyInstancesByPolicy", 
+            path: "/2013-04-01/trafficpolicyinstances/trafficpolicy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about all of the versions for a specified traffic policy. Traffic policy versions are listed in numerical order by
     /// 			VersionNumber.
     @Sendable
     public func listTrafficPolicyVersions(_ input: ListTrafficPolicyVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrafficPolicyVersionsResponse {
-        return try await self.client.execute(operation: "ListTrafficPolicyVersions", path: "/2013-04-01/trafficpolicies/{Id}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTrafficPolicyVersions", 
+            path: "/2013-04-01/trafficpolicies/{Id}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of the VPCs that were created by other accounts and that can be associated
@@ -893,7 +1341,14 @@ public struct Route53: AWSService {
     /// 			element for each VPC that can be associated with the hosted zone.
     @Sendable
     public func listVPCAssociationAuthorizations(_ input: ListVPCAssociationAuthorizationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVPCAssociationAuthorizationsResponse {
-        return try await self.client.execute(operation: "ListVPCAssociationAuthorizations", path: "/2013-04-01/hostedzone/{HostedZoneId}/authorizevpcassociation", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVPCAssociationAuthorizations", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/authorizevpcassociation", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the value that Amazon Route 53 returns in response to a DNS request for a
@@ -901,7 +1356,14 @@ public struct Route53: AWSService {
     /// 			resolver, an EDNS0 client subnet IP address, and a subnet mask.  This call only supports querying public hosted zones.
     @Sendable
     public func testDNSAnswer(_ input: TestDNSAnswerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestDNSAnswerResponse {
-        return try await self.client.execute(operation: "TestDNSAnswer", path: "/2013-04-01/testdnsanswer", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TestDNSAnswer", 
+            path: "/2013-04-01/testdnsanswer", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing health check. Note that some values can't be updated.  For more information about updating health checks, see Creating,
@@ -909,19 +1371,40 @@ public struct Route53: AWSService {
     /// 				Developer Guide.
     @Sendable
     public func updateHealthCheck(_ input: UpdateHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHealthCheckResponse {
-        return try await self.client.execute(operation: "UpdateHealthCheck", path: "/2013-04-01/healthcheck/{HealthCheckId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateHealthCheck", 
+            path: "/2013-04-01/healthcheck/{HealthCheckId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the comment for a specified hosted zone.
     @Sendable
     public func updateHostedZoneComment(_ input: UpdateHostedZoneCommentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHostedZoneCommentResponse {
-        return try await self.client.execute(operation: "UpdateHostedZoneComment", path: "/2013-04-01/hostedzone/{Id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateHostedZoneComment", 
+            path: "/2013-04-01/hostedzone/{Id}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the comment for a specified traffic policy version.
     @Sendable
     public func updateTrafficPolicyComment(_ input: UpdateTrafficPolicyCommentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTrafficPolicyCommentResponse {
-        return try await self.client.execute(operation: "UpdateTrafficPolicyComment", path: "/2013-04-01/trafficpolicy/{Id}/{Version}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTrafficPolicyComment", 
+            path: "/2013-04-01/trafficpolicy/{Id}/{Version}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the resource record sets in a specified hosted zone that were created based on
@@ -937,7 +1420,14 @@ public struct Route53: AWSService {
     /// 					with the root resource record set name.
     @Sendable
     public func updateTrafficPolicyInstance(_ input: UpdateTrafficPolicyInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTrafficPolicyInstanceResponse {
-        return try await self.client.execute(operation: "UpdateTrafficPolicyInstance", path: "/2013-04-01/trafficpolicyinstance/{Id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTrafficPolicyInstance", 
+            path: "/2013-04-01/trafficpolicyinstance/{Id}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

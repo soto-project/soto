@@ -79,79 +79,170 @@ public struct Keyspaces: AWSService {
     /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region.  CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace  by using the GetKeyspace operation. For more information, see Creating keyspaces in the Amazon Keyspaces Developer Guide.
     @Sendable
     public func createKeyspace(_ input: CreateKeyspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKeyspaceResponse {
-        return try await self.client.execute(operation: "CreateKeyspace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateKeyspace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The CreateTable operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique.  CreateTable is an asynchronous operation. When the request is received, the status of the table is set to CREATING. You can monitor the creation status of the new table by using the GetTable  operation, which returns the current status of the table. You can start using a table when the status is ACTIVE. For more information, see Creating tables in the Amazon Keyspaces Developer Guide.
     @Sendable
     public func createTable(_ input: CreateTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTableResponse {
-        return try await self.client.execute(operation: "CreateTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The DeleteKeyspace operation deletes a keyspace and all of its tables.
     @Sendable
     public func deleteKeyspace(_ input: DeleteKeyspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKeyspaceResponse {
-        return try await self.client.execute(operation: "DeleteKeyspace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteKeyspace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The DeleteTable operation deletes a table and all of its data. After a DeleteTable request is received,  the specified table is in the DELETING state until Amazon Keyspaces completes the deletion. If the table  is in the ACTIVE state, you can delete it. If a table is either in the CREATING or UPDATING states, then  Amazon Keyspaces returns a ResourceInUseException. If the specified table does not exist, Amazon Keyspaces returns a ResourceNotFoundException. If the table is already in the DELETING state, no error is returned.
     @Sendable
     public func deleteTable(_ input: DeleteTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTableResponse {
-        return try await self.client.execute(operation: "DeleteTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the name and the Amazon Resource Name (ARN) of the specified table.
     @Sendable
     public func getKeyspace(_ input: GetKeyspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKeyspaceResponse {
-        return try await self.client.execute(operation: "GetKeyspace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetKeyspace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the table, including the table's name and current status, the keyspace name,  configuration settings, and metadata. To read table metadata using GetTable, Select action  permissions for the table and system tables are required to complete the operation.
     @Sendable
     public func getTable(_ input: GetTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableResponse {
-        return try await self.client.execute(operation: "GetTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of keyspaces.
     @Sendable
     public func listKeyspaces(_ input: ListKeyspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKeyspacesResponse {
-        return try await self.client.execute(operation: "ListKeyspaces", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListKeyspaces", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of tables for a specified keyspace.
     @Sendable
     public func listTables(_ input: ListTablesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTablesResponse {
-        return try await self.client.execute(operation: "ListTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTables", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all tags associated with the specified Amazon Keyspaces resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Restores the specified table to the specified point in time within the earliest_restorable_timestamp and the current time. For more information about restore points, see   Time window for PITR continuous backups in the Amazon Keyspaces Developer Guide. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, Amazon Keyspaces restores your source table's schema and data to the state  based on the selected timestamp (day:hour:minute:second) to a new table. The Time to Live (TTL) settings are also restored to the state based on the selected timestamp. In addition to the table's schema, data, and TTL settings, RestoreTable restores the capacity mode, encryption, and point-in-time recovery settings from the source table.  Unlike the table's schema data and TTL settings, which are restored based on the selected timestamp,  these settings are always restored based on the table's settings as of the current time or when the table was deleted. You can also overwrite these settings during restore:   Read/write capacity mode   Provisioned throughput capacity settings   Point-in-time (PITR) settings   Tags   For more  information, see PITR restore settings in the Amazon Keyspaces Developer Guide. Note that the following settings are not restored, and you must configure them manually for the new table:   Automatic scaling policies (for tables that use provisioned capacity mode)   Identity and Access Management (IAM) policies   Amazon CloudWatch metrics and alarms
     @Sendable
     public func restoreTable(_ input: RestoreTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreTableResponse {
-        return try await self.client.execute(operation: "RestoreTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RestoreTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a set of tags with a Amazon Keyspaces resource. You can then  activate these user-defined tags so that they appear on the Cost Management Console for cost allocation tracking. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide. For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags,  see Amazon Keyspaces resource access based on tags in the Amazon Keyspaces Developer Guide.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the association of tags from a Amazon Keyspaces resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds new columns to the table or updates one of the table's settings, for example capacity mode, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
     @Sendable
     public func updateTable(_ input: UpdateTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTableResponse {
-        return try await self.client.execute(operation: "UpdateTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

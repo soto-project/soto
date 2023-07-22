@@ -97,7 +97,14 @@ public struct ConfigService: AWSService {
     /// 			If there are no unprocessed resources, the operation returns an empty unprocessedResourceIdentifiers list.     The API does not return results for deleted resources.   The API does not return tags and relationships.
     @Sendable
     public func batchGetAggregateResourceConfig(_ input: BatchGetAggregateResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetAggregateResourceConfigResponse {
-        return try await self.client.execute(operation: "BatchGetAggregateResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetAggregateResourceConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the BaseConfigurationItem for one or more requested resources.
@@ -111,14 +118,28 @@ public struct ConfigService: AWSService {
     /// 						response.
     @Sendable
     public func batchGetResourceConfig(_ input: BatchGetResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetResourceConfigResponse {
-        return try await self.client.execute(operation: "BatchGetResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetResourceConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the authorization granted to the specified
     /// 			configuration aggregator account in a specified region.
     @Sendable
     public func deleteAggregationAuthorization(_ input: DeleteAggregationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteAggregationAuthorization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAggregationAuthorization", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified Config rule and all of its evaluation
@@ -130,14 +151,28 @@ public struct ConfigService: AWSService {
     /// 				DescribeConfigRules request.
     @Sendable
     public func deleteConfigRule(_ input: DeleteConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConfigRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified configuration aggregator and the
     /// 			aggregated data associated with the aggregator.
     @Sendable
     public func deleteConfigurationAggregator(_ input: DeleteConfigurationAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteConfigurationAggregator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConfigurationAggregator", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the configuration recorder. After the configuration recorder is deleted, Config will
@@ -150,7 +185,14 @@ public struct ConfigService: AWSService {
     /// 			you create a new configuration recorder.
     @Sendable
     public func deleteConfigurationRecorder(_ input: DeleteConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConfigurationRecorder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that
@@ -158,14 +200,28 @@ public struct ConfigService: AWSService {
     /// 			You cannot update a conformance pack while it is in this state.
     @Sendable
     public func deleteConformancePack(_ input: DeleteConformancePackRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConformancePack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the
     /// 			configuration recorder by using the StopConfigurationRecorder action.
     @Sendable
     public func deleteDeliveryChannel(_ input: DeleteDeliveryChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteDeliveryChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDeliveryChannel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the evaluation results for the specified Config
@@ -174,7 +230,14 @@ public struct ConfigService: AWSService {
     /// 			your Amazon Web Services resources against the rule.
     @Sendable
     public func deleteEvaluationResults(_ input: DeleteEvaluationResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEvaluationResultsResponse {
-        return try await self.client.execute(operation: "DeleteEvaluationResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEvaluationResults", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization.  Only a management account and a delegated administrator account can delete an organization Config rule.
@@ -183,7 +246,14 @@ public struct ConfigService: AWSService {
     /// 			You cannot update a rule while it is in this state.
     @Sendable
     public func deleteOrganizationConfigRule(_ input: DeleteOrganizationConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteOrganizationConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteOrganizationConfigRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified organization conformance pack and all of the Config rules and remediation actions from
@@ -193,46 +263,95 @@ public struct ConfigService: AWSService {
     /// 				You cannot update a conformance pack while it is in this state.
     @Sendable
     public func deleteOrganizationConformancePack(_ input: DeleteOrganizationConformancePackRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteOrganizationConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteOrganizationConformancePack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes pending authorization requests for a specified
     /// 			aggregator account in a specified region.
     @Sendable
     public func deletePendingAggregationRequest(_ input: DeletePendingAggregationRequestRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeletePendingAggregationRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePendingAggregationRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the remediation configuration.
     @Sendable
     public func deleteRemediationConfiguration(_ input: DeleteRemediationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRemediationConfigurationResponse {
-        return try await self.client.execute(operation: "DeleteRemediationConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRemediationConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes one or more remediation exceptions mentioned in the resource keys.  Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource.
     /// 			Remediation exceptions blocks auto-remediation until the exception is cleared.
     @Sendable
     public func deleteRemediationExceptions(_ input: DeleteRemediationExceptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRemediationExceptionsResponse {
-        return try await self.client.execute(operation: "DeleteRemediationExceptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRemediationExceptions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Records the configuration state for a custom resource that has been deleted.  This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History.
     ///
     @Sendable
     public func deleteResourceConfig(_ input: DeleteResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResourceConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the retention configuration.
     @Sendable
     public func deleteRetentionConfiguration(_ input: DeleteRetentionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteRetentionConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRetentionConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
     @Sendable
     public func deleteStoredQuery(_ input: DeleteStoredQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStoredQueryResponse {
-        return try await self.client.execute(operation: "DeleteStoredQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteStoredQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Schedules delivery of a configuration snapshot to the Amazon S3
@@ -243,7 +362,14 @@ public struct ConfigService: AWSService {
     /// 					failed.
     @Sendable
     public func deliverConfigSnapshot(_ input: DeliverConfigSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeliverConfigSnapshotResponse {
-        return try await self.client.execute(operation: "DeliverConfigSnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeliverConfigSnapshot", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of compliant and noncompliant rules with the
@@ -253,21 +379,42 @@ public struct ConfigService: AWSService {
     /// 				page.
     @Sendable
     public func describeAggregateComplianceByConfigRules(_ input: DescribeAggregateComplianceByConfigRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAggregateComplianceByConfigRulesResponse {
-        return try await self.client.execute(operation: "DescribeAggregateComplianceByConfigRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAggregateComplianceByConfigRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each
     /// 			conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data.  The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     @Sendable
     public func describeAggregateComplianceByConformancePacks(_ input: DescribeAggregateComplianceByConformancePacksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAggregateComplianceByConformancePacksResponse {
-        return try await self.client.execute(operation: "DescribeAggregateComplianceByConformancePacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAggregateComplianceByConformancePacks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of authorizations granted to various aggregator
     /// 			accounts and regions.
     @Sendable
     public func describeAggregationAuthorizations(_ input: DescribeAggregationAuthorizationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAggregationAuthorizationsResponse {
-        return try await self.client.execute(operation: "DescribeAggregationAuthorizations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAggregationAuthorizations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Indicates whether the specified Config rules are compliant.
@@ -292,7 +439,14 @@ public struct ConfigService: AWSService {
     /// 					the rule's scope.
     @Sendable
     public func describeComplianceByConfigRule(_ input: DescribeComplianceByConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeComplianceByConfigRuleResponse {
-        return try await self.client.execute(operation: "DescribeComplianceByConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeComplianceByConfigRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Indicates whether the specified Amazon Web Services resources are compliant. If
@@ -317,27 +471,55 @@ public struct ConfigService: AWSService {
     /// 					the rule's scope.
     @Sendable
     public func describeComplianceByResource(_ input: DescribeComplianceByResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeComplianceByResourceResponse {
-        return try await self.client.execute(operation: "DescribeComplianceByResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeComplianceByResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns status information for each of your Config managed rules. The status includes information such as the last time Config invoked the rule, the last time Config failed to invoke
     /// 			the rule, and the related error for the last failure.
     @Sendable
     public func describeConfigRuleEvaluationStatus(_ input: DescribeConfigRuleEvaluationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigRuleEvaluationStatusResponse {
-        return try await self.client.execute(operation: "DescribeConfigRuleEvaluationStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConfigRuleEvaluationStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns details about your Config rules.
     @Sendable
     public func describeConfigRules(_ input: DescribeConfigRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigRulesResponse {
-        return try await self.client.execute(operation: "DescribeConfigRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConfigRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns status information for sources within an aggregator.
     /// 			The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
     @Sendable
     public func describeConfigurationAggregatorSourcesStatus(_ input: DescribeConfigurationAggregatorSourcesStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationAggregatorSourcesStatusResponse {
-        return try await self.client.execute(operation: "DescribeConfigurationAggregatorSourcesStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConfigurationAggregatorSourcesStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the details of one or more configuration aggregators.
@@ -346,7 +528,14 @@ public struct ConfigService: AWSService {
     /// 			with the account.
     @Sendable
     public func describeConfigurationAggregators(_ input: DescribeConfigurationAggregatorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationAggregatorsResponse {
-        return try await self.client.execute(operation: "DescribeConfigurationAggregators", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConfigurationAggregators", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the current status of the specified configuration
@@ -356,7 +545,14 @@ public struct ConfigService: AWSService {
     /// 				For a detailed status of recording events over time, add your Config events to Amazon CloudWatch metrics and use CloudWatch metrics.
     @Sendable
     public func describeConfigurationRecorderStatus(_ input: DescribeConfigurationRecorderStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationRecorderStatusResponse {
-        return try await self.client.execute(operation: "DescribeConfigurationRecorderStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConfigurationRecorderStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the details for the specified configuration recorders.
@@ -365,25 +561,53 @@ public struct ConfigService: AWSService {
     /// 			account.  You can specify only one configuration recorder for each Amazon Web Services Region for each account.
     @Sendable
     public func describeConfigurationRecorders(_ input: DescribeConfigurationRecordersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationRecordersResponse {
-        return try await self.client.execute(operation: "DescribeConfigurationRecorders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConfigurationRecorders", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns compliance details for each rule in that conformance pack.  You must provide exact rule names.
     @Sendable
     public func describeConformancePackCompliance(_ input: DescribeConformancePackComplianceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConformancePackComplianceResponse {
-        return try await self.client.execute(operation: "DescribeConformancePackCompliance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConformancePackCompliance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides one or more conformance packs deployment status.  If there are no conformance packs then you will see an empty result.
     @Sendable
     public func describeConformancePackStatus(_ input: DescribeConformancePackStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConformancePackStatusResponse {
-        return try await self.client.execute(operation: "DescribeConformancePackStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConformancePackStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of one or more conformance packs.
     @Sendable
     public func describeConformancePacks(_ input: DescribeConformancePacksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConformancePacksResponse {
-        return try await self.client.execute(operation: "DescribeConformancePacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConformancePacks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the current status of the specified delivery channel.
@@ -393,7 +617,14 @@ public struct ConfigService: AWSService {
     /// 				region in your account.
     @Sendable
     public func describeDeliveryChannelStatus(_ input: DescribeDeliveryChannelStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeliveryChannelStatusResponse {
-        return try await self.client.execute(operation: "DescribeDeliveryChannelStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDeliveryChannelStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns details about the specified delivery channel. If a
@@ -402,7 +633,14 @@ public struct ConfigService: AWSService {
     /// 				region in your account.
     @Sendable
     public func describeDeliveryChannels(_ input: DescribeDeliveryChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeliveryChannelsResponse {
-        return try await self.client.execute(operation: "DescribeDeliveryChannels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDeliveryChannels", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides organization Config rule deployment status for an organization.  The status is not considered successful until organization Config rule is successfully deployed in all the member
@@ -411,7 +649,14 @@ public struct ConfigService: AWSService {
     /// 			It is only applicable, when you request all the organization Config rules.
     @Sendable
     public func describeOrganizationConfigRuleStatuses(_ input: DescribeOrganizationConfigRuleStatusesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigRuleStatusesResponse {
-        return try await self.client.execute(operation: "DescribeOrganizationConfigRuleStatuses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeOrganizationConfigRuleStatuses", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of organization Config rules.   When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization Config rule names.
@@ -427,7 +672,14 @@ public struct ConfigService: AWSService {
     /// 				those APIs.
     @Sendable
     public func describeOrganizationConfigRules(_ input: DescribeOrganizationConfigRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigRulesResponse {
-        return try await self.client.execute(operation: "DescribeOrganizationConfigRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeOrganizationConfigRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides organization conformance pack deployment status for an organization.   The status is not considered successful until organization conformance pack is successfully
@@ -436,7 +688,14 @@ public struct ConfigService: AWSService {
     /// 				They are only applicable, when you request all the organization conformance packs.
     @Sendable
     public func describeOrganizationConformancePackStatuses(_ input: DescribeOrganizationConformancePackStatusesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConformancePackStatusesResponse {
-        return try await self.client.execute(operation: "DescribeOrganizationConformancePackStatuses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeOrganizationConformancePackStatuses", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of organization conformance packs.   When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable,
@@ -452,19 +711,40 @@ public struct ConfigService: AWSService {
     /// 				those APIs.
     @Sendable
     public func describeOrganizationConformancePacks(_ input: DescribeOrganizationConformancePacksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConformancePacksResponse {
-        return try await self.client.execute(operation: "DescribeOrganizationConformancePacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeOrganizationConformancePacks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all pending aggregation requests.
     @Sendable
     public func describePendingAggregationRequests(_ input: DescribePendingAggregationRequestsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePendingAggregationRequestsResponse {
-        return try await self.client.execute(operation: "DescribePendingAggregationRequests", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePendingAggregationRequests", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the details of one or more remediation configurations.
     @Sendable
     public func describeRemediationConfigurations(_ input: DescribeRemediationConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRemediationConfigurationsResponse {
-        return try await self.client.execute(operation: "DescribeRemediationConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRemediationConfigurations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted.
@@ -472,14 +752,28 @@ public struct ConfigService: AWSService {
     /// 				Remediation exceptions blocks auto-remediation until the exception is cleared. When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
     @Sendable
     public func describeRemediationExceptions(_ input: DescribeRemediationExceptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRemediationExceptionsResponse {
-        return try await self.client.execute(operation: "DescribeRemediationExceptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRemediationExceptions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a detailed view of a Remediation Execution for a set of resources including state, timestamps for when steps for the remediation execution occur, and any error messages for steps that have failed.
     /// 			When you specify the limit and the next token, you receive a paginated response.
     @Sendable
     public func describeRemediationExecutionStatus(_ input: DescribeRemediationExecutionStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRemediationExecutionStatusResponse {
-        return try await self.client.execute(operation: "DescribeRemediationExecutionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRemediationExecutionStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the details of one or more retention configurations. If
@@ -489,7 +783,14 @@ public struct ConfigService: AWSService {
     /// 				configuration per region in your account.
     @Sendable
     public func describeRetentionConfigurations(_ input: DescribeRetentionConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRetentionConfigurationsResponse {
-        return try await self.client.execute(operation: "DescribeRetentionConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRetentionConfigurations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the evaluation results for the specified Config
@@ -500,7 +801,14 @@ public struct ConfigService: AWSService {
     /// 				page.
     @Sendable
     public func getAggregateComplianceDetailsByConfigRule(_ input: GetAggregateComplianceDetailsByConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAggregateComplianceDetailsByConfigRuleResponse {
-        return try await self.client.execute(operation: "GetAggregateComplianceDetailsByConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAggregateComplianceDetailsByConfigRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the number of compliant and noncompliant rules for one
@@ -509,26 +817,54 @@ public struct ConfigService: AWSService {
     /// 				page.
     @Sendable
     public func getAggregateConfigRuleComplianceSummary(_ input: GetAggregateConfigRuleComplianceSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAggregateConfigRuleComplianceSummaryResponse {
-        return try await self.client.execute(operation: "GetAggregateConfigRuleComplianceSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAggregateConfigRuleComplianceSummary", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region.  The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     @Sendable
     public func getAggregateConformancePackComplianceSummary(_ input: GetAggregateConformancePackComplianceSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAggregateConformancePackComplianceSummaryResponse {
-        return try await self.client.execute(operation: "GetAggregateConformancePackComplianceSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAggregateConformancePackComplianceSummary", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the resource counts across accounts and regions that are present in your Config aggregator. You can request the resource counts by providing filters and GroupByKey. For example, if the input contains accountID 12345678910 and region us-east-1 in filters, the API returns the count of resources in account ID 12345678910 and region us-east-1.
     /// 			If the input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts for all source accounts that are present in your aggregator.
     @Sendable
     public func getAggregateDiscoveredResourceCounts(_ input: GetAggregateDiscoveredResourceCountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAggregateDiscoveredResourceCountsResponse {
-        return try await self.client.execute(operation: "GetAggregateDiscoveredResourceCounts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAggregateDiscoveredResourceCounts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns configuration item that is aggregated for your specific resource in a specific source account and region.
     @Sendable
     public func getAggregateResourceConfig(_ input: GetAggregateResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAggregateResourceConfigResponse {
-        return try await self.client.execute(operation: "GetAggregateResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAggregateResourceConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the evaluation results for the specified Config
@@ -537,7 +873,14 @@ public struct ConfigService: AWSService {
     /// 			resource complies with the rule.
     @Sendable
     public func getComplianceDetailsByConfigRule(_ input: GetComplianceDetailsByConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComplianceDetailsByConfigRuleResponse {
-        return try await self.client.execute(operation: "GetComplianceDetailsByConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetComplianceDetailsByConfigRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the evaluation results for the specified Amazon Web Services resource.
@@ -546,14 +889,27 @@ public struct ConfigService: AWSService {
     /// 			complies with each rule.
     @Sendable
     public func getComplianceDetailsByResource(_ input: GetComplianceDetailsByResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComplianceDetailsByResourceResponse {
-        return try await self.client.execute(operation: "GetComplianceDetailsByResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetComplianceDetailsByResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the number of Config rules that are compliant and
     /// 			noncompliant, up to a maximum of 25 for each.
     @Sendable
     public func getComplianceSummaryByConfigRule(logger: Logger = AWSClient.loggingDisabled) async throws -> GetComplianceSummaryByConfigRuleResponse {
-        return try await self.client.execute(operation: "GetComplianceSummaryByConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger)
+        return try await self.client.execute(
+            operation: "GetComplianceSummaryByConfigRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
     }
 
     /// Returns the number of resources that are compliant and the
@@ -562,25 +918,53 @@ public struct ConfigService: AWSService {
     /// 			number returned is 100.
     @Sendable
     public func getComplianceSummaryByResourceType(_ input: GetComplianceSummaryByResourceTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComplianceSummaryByResourceTypeResponse {
-        return try await self.client.execute(operation: "GetComplianceSummaryByResourceType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetComplianceSummaryByResourceType", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
     @Sendable
     public func getConformancePackComplianceDetails(_ input: GetConformancePackComplianceDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConformancePackComplianceDetailsResponse {
-        return try await self.client.execute(operation: "GetConformancePackComplianceDetails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConformancePackComplianceDetails", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
     @Sendable
     public func getConformancePackComplianceSummary(_ input: GetConformancePackComplianceSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConformancePackComplianceSummaryResponse {
-        return try await self.client.execute(operation: "GetConformancePackComplianceSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConformancePackComplianceSummary", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the policy definition containing the logic for your Config Custom Policy rule.
     @Sendable
     public func getCustomRulePolicy(_ input: GetCustomRulePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomRulePolicyResponse {
-        return try await self.client.execute(operation: "GetCustomRulePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCustomRulePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the resource types, the number of each resource type,
@@ -605,25 +989,53 @@ public struct ConfigService: AWSService {
     ///
     @Sendable
     public func getDiscoveredResourceCounts(_ input: GetDiscoveredResourceCountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDiscoveredResourceCountsResponse {
-        return try await self.client.execute(operation: "GetDiscoveredResourceCounts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDiscoveredResourceCounts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns detailed status for each member account within an organization for a given organization Config rule.
     @Sendable
     public func getOrganizationConfigRuleDetailedStatus(_ input: GetOrganizationConfigRuleDetailedStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrganizationConfigRuleDetailedStatusResponse {
-        return try await self.client.execute(operation: "GetOrganizationConfigRuleDetailedStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetOrganizationConfigRuleDetailedStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns detailed status for each member account within an organization for a given organization conformance pack.
     @Sendable
     public func getOrganizationConformancePackDetailedStatus(_ input: GetOrganizationConformancePackDetailedStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrganizationConformancePackDetailedStatusResponse {
-        return try await self.client.execute(operation: "GetOrganizationConformancePackDetailedStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetOrganizationConformancePackDetailedStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the policy definition containing the logic for your organization Config Custom Policy rule.
     @Sendable
     public func getOrganizationCustomRulePolicy(_ input: GetOrganizationCustomRulePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrganizationCustomRulePolicyResponse {
-        return try await self.client.execute(operation: "GetOrganizationCustomRulePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetOrganizationCustomRulePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of ConfigurationItems for the specified resource.
@@ -644,7 +1056,14 @@ public struct ConfigService: AWSService {
     /// 				nextToken.
     @Sendable
     public func getResourceConfigHistory(_ input: GetResourceConfigHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceConfigHistoryResponse {
-        return try await self.client.execute(operation: "GetResourceConfigHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourceConfigHistory", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run.
@@ -653,13 +1072,27 @@ public struct ConfigService: AWSService {
     /// 			For more information, see the  Examples section.
     @Sendable
     public func getResourceEvaluationSummary(_ input: GetResourceEvaluationSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceEvaluationSummaryResponse {
-        return try await self.client.execute(operation: "GetResourceEvaluationSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourceEvaluationSummary", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the details of a specific stored query.
     @Sendable
     public func getStoredQuery(_ input: GetStoredQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStoredQueryResponse {
-        return try await self.client.execute(operation: "GetStoredQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetStoredQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Accepts a resource type and returns a list of resource identifiers that are aggregated for a specific resource type across accounts and regions.
@@ -667,7 +1100,14 @@ public struct ConfigService: AWSService {
     /// 			You can narrow the results to include only resources that have specific resource IDs, or a resource name, or source account ID, or source region. For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type AWS::EC2::Instance then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
     @Sendable
     public func listAggregateDiscoveredResources(_ input: ListAggregateDiscoveredResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAggregateDiscoveredResourcesResponse {
-        return try await self.client.execute(operation: "ListAggregateDiscoveredResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAggregateDiscoveredResources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of conformance pack compliance scores.
@@ -676,7 +1116,14 @@ public struct ConfigService: AWSService {
     /// 			the level of compliance in your conformance packs.  Conformance packs with no evaluation results will have a compliance score of INSUFFICIENT_DATA.
     @Sendable
     public func listConformancePackComplianceScores(_ input: ListConformancePackComplianceScoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConformancePackComplianceScoresResponse {
-        return try await self.client.execute(operation: "ListConformancePackComplianceScores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConformancePackComplianceScores", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Accepts a resource type and returns a list of resource
@@ -694,25 +1141,53 @@ public struct ConfigService: AWSService {
     /// 				nextToken parameter.
     @Sendable
     public func listDiscoveredResources(_ input: ListDiscoveredResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDiscoveredResourcesResponse {
-        return try await self.client.execute(operation: "ListDiscoveredResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDiscoveredResources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of proactive resource evaluations.
     @Sendable
     public func listResourceEvaluations(_ input: ListResourceEvaluationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceEvaluationsResponse {
-        return try await self.client.execute(operation: "ListResourceEvaluations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResourceEvaluations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
     @Sendable
     public func listStoredQueries(_ input: ListStoredQueriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStoredQueriesResponse {
-        return try await self.client.execute(operation: "ListStoredQueries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListStoredQueries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the tags for Config resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Authorizes the aggregator account and region to collect data
@@ -720,7 +1195,14 @@ public struct ConfigService: AWSService {
     /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     @Sendable
     public func putAggregationAuthorization(_ input: PutAggregationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAggregationAuthorizationResponse {
-        return try await self.client.execute(operation: "PutAggregationAuthorization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutAggregationAuthorization", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or updates an Config rule to evaluate if your
@@ -755,7 +1237,14 @@ public struct ConfigService: AWSService {
     /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     @Sendable
     public func putConfigRule(_ input: PutConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutConfigRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates and updates the configuration aggregator with the
@@ -768,7 +1257,14 @@ public struct ConfigService: AWSService {
     /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     @Sendable
     public func putConfigurationAggregator(_ input: PutConfigurationAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConfigurationAggregatorResponse {
-        return try await self.client.execute(operation: "PutConfigurationAggregator", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutConfigurationAggregator", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new configuration recorder to record configuration changes for specified resource types. You can also use this action to change the roleARN
@@ -779,7 +1275,14 @@ public struct ConfigService: AWSService {
     /// 				types.
     @Sendable
     public func putConfigurationRecorder(_ input: PutConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutConfigurationRecorder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across an organization.
@@ -788,7 +1291,14 @@ public struct ConfigService: AWSService {
     /// 		The service-linked role is created only when the role does not exist in your account.   You must specify only one of the follow parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.
     @Sendable
     public func putConformancePack(_ input: PutConformancePackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConformancePackResponse {
-        return try await self.client.execute(operation: "PutConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutConformancePack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a delivery channel object to deliver configuration
@@ -803,7 +1313,14 @@ public struct ConfigService: AWSService {
     /// 				account.
     @Sendable
     public func putDeliveryChannel(_ input: PutDeliveryChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutDeliveryChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutDeliveryChannel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Used by an Lambda function to deliver evaluation results to
@@ -811,14 +1328,28 @@ public struct ConfigService: AWSService {
     /// 			that is invoked by an Config rule.
     @Sendable
     public func putEvaluations(_ input: PutEvaluationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEvaluationsResponse {
-        return try await self.client.execute(operation: "PutEvaluations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutEvaluations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Add or updates the evaluations for process checks.
     /// 			This API checks if the rule is a process check when the name of the Config rule is provided.
     @Sendable
     public func putExternalEvaluation(_ input: PutExternalEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutExternalEvaluationResponse {
-        return try await self.client.execute(operation: "PutExternalEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutExternalEvaluation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web Services resources comply with your
@@ -845,7 +1376,14 @@ public struct ConfigService: AWSService {
     /// 			specify the Amazon Resource Name (ARN) that Lambda assigns to the function.  Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization. Make sure to specify one of either OrganizationCustomPolicyRuleMetadata for Custom Policy rules, OrganizationCustomRuleMetadata for Custom Lambda rules, or OrganizationManagedRuleMetadata for managed rules.
     @Sendable
     public func putOrganizationConfigRule(_ input: PutOrganizationConfigRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutOrganizationConfigRuleResponse {
-        return try await self.client.execute(operation: "PutOrganizationConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutOrganizationConfigRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account,
@@ -861,7 +1399,14 @@ public struct ConfigService: AWSService {
     /// 				You cannot update a conformance pack while it is in this state.
     @Sendable
     public func putOrganizationConformancePack(_ input: PutOrganizationConformancePackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutOrganizationConformancePackResponse {
-        return try await self.client.execute(operation: "PutOrganizationConformancePack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutOrganizationConformancePack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or updates the remediation configuration with a specific Config rule with the
@@ -873,7 +1418,14 @@ public struct ConfigService: AWSService {
     /// 				the rules deployed by conformance packs, and rules deployed by Amazon Web Services Security Hub.   For manual remediation configuration, you need to provide a value for automationAssumeRole or use a value in the assumeRolefield  to remediate your resources. The SSM automation document can use either as long as it maps to a valid parameter. However, for automatic remediation configuration, the only valid assumeRole field value is AutomationAssumeRole and you need to provide a value for AutomationAssumeRole to remediate your resources.
     @Sendable
     public func putRemediationConfigurations(_ input: PutRemediationConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRemediationConfigurationsResponse {
-        return try await self.client.execute(operation: "PutRemediationConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutRemediationConfigurations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// A remediation exception is when a specified resource is no longer considered for auto-remediation.
@@ -887,7 +1439,14 @@ public struct ConfigService: AWSService {
     /// 			see Concepts | Config  Rules in the Config Developer Guide.
     @Sendable
     public func putRemediationExceptions(_ input: PutRemediationExceptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRemediationExceptionsResponse {
-        return try await self.client.execute(operation: "PutRemediationExceptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutRemediationExceptions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Records the configuration state for the resource provided in the request.
@@ -897,7 +1456,14 @@ public struct ConfigService: AWSService {
     /// 				 Write-only schema properites are not recorded as part of the published configuration item.
     @Sendable
     public func putResourceConfig(_ input: PutResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutResourceConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates and updates the retention configuration with details
@@ -910,7 +1476,14 @@ public struct ConfigService: AWSService {
     /// 				configuration per region in your account.
     @Sendable
     public func putRetentionConfiguration(_ input: PutRetentionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRetentionConfigurationResponse {
-        return try await self.client.execute(operation: "PutRetentionConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutRetentionConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Saves a new query or updates an existing saved query. The QueryName must be unique for a single Amazon Web Services account and a single Amazon Web Services Region.
@@ -918,7 +1491,14 @@ public struct ConfigService: AWSService {
     /// 			Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     @Sendable
     public func putStoredQuery(_ input: PutStoredQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutStoredQueryResponse {
-        return try await self.client.execute(operation: "PutStoredQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutStoredQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Accepts a structured query language (SQL) SELECT command and an aggregator to query configuration state of Amazon Web Services resources across multiple accounts and regions,
@@ -928,14 +1508,28 @@ public struct ConfigService: AWSService {
     /// 				and do not specify the MaxResults or the Limit query parameters, the default page size is set to 25.
     @Sendable
     public func selectAggregateResourceConfig(_ input: SelectAggregateResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SelectAggregateResourceConfigResponse {
-        return try await self.client.execute(operation: "SelectAggregateResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SelectAggregateResourceConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Accepts a structured query language (SQL) SELECT command, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the
     /// 			 Query Components section in the Config Developer Guide.
     @Sendable
     public func selectResourceConfig(_ input: SelectResourceConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SelectResourceConfigResponse {
-        return try await self.client.execute(operation: "SelectResourceConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SelectResourceConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Runs an on-demand evaluation for the specified Config rules
@@ -963,7 +1557,14 @@ public struct ConfigService: AWSService {
     /// 					every 24 hours.
     @Sendable
     public func startConfigRulesEvaluation(_ input: StartConfigRulesEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartConfigRulesEvaluationResponse {
-        return try await self.client.execute(operation: "StartConfigRulesEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartConfigRulesEvaluation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts recording configurations of the Amazon Web Services resources you have
@@ -971,13 +1572,27 @@ public struct ConfigService: AWSService {
     /// 			successfully start the configuration recorder.
     @Sendable
     public func startConfigurationRecorder(_ input: StartConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "StartConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartConfigurationRecorder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Runs an on-demand remediation for the specified Config rules against the last known remediation configuration. It runs an execution against the current state of your resources. Remediation execution is asynchronous. You can specify up to 100 resource keys per request. An existing StartRemediationExecution call for the specified resource keys must complete before you can call the API again.
     @Sendable
     public func startRemediationExecution(_ input: StartRemediationExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRemediationExecutionResponse {
-        return try await self.client.execute(operation: "StartRemediationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartRemediationExecution", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules.
@@ -988,26 +1603,54 @@ public struct ConfigService: AWSService {
     /// 			and Amazon Web Services resource and property types reference in the CloudFormation User Guide.
     @Sendable
     public func startResourceEvaluation(_ input: StartResourceEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartResourceEvaluationResponse {
-        return try await self.client.execute(operation: "StartResourceEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartResourceEvaluation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops recording configurations of the Amazon Web Services resources you have selected to record in your Amazon Web Services account.
     @Sendable
     public func stopConfigurationRecorder(_ input: StopConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "StopConfigurationRecorder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopConfigurationRecorder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed.
     /// 			If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes specified tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

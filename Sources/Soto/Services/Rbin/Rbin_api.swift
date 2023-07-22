@@ -79,61 +79,131 @@ public struct Rbin: AWSService {
     /// Creates a Recycle Bin retention rule. For more information, see  Create Recycle Bin retention rules in the Amazon Elastic Compute Cloud User Guide.
     @Sendable
     public func createRule(_ input: CreateRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuleResponse {
-        return try await self.client.execute(operation: "CreateRule", path: "/rules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRule", 
+            path: "/rules", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a Recycle Bin retention rule. For more information, see  Delete Recycle Bin retention rules in the Amazon Elastic Compute Cloud User Guide.
     @Sendable
     public func deleteRule(_ input: DeleteRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRuleResponse {
-        return try await self.client.execute(operation: "DeleteRule", path: "/rules/{Identifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRule", 
+            path: "/rules/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a Recycle Bin retention rule.
     @Sendable
     public func getRule(_ input: GetRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRuleResponse {
-        return try await self.client.execute(operation: "GetRule", path: "/rules/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRule", 
+            path: "/rules/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Recycle Bin retention rules in the Region.
     @Sendable
     public func listRules(_ input: ListRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRulesResponse {
-        return try await self.client.execute(operation: "ListRules", path: "/list-rules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRules", 
+            path: "/list-rules", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags assigned to a retention rule.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Locks a retention rule. A locked retention rule can't be modified or deleted.
     @Sendable
     public func lockRule(_ input: LockRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LockRuleResponse {
-        return try await self.client.execute(operation: "LockRule", path: "/rules/{Identifier}/lock", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "LockRule", 
+            path: "/rules/{Identifier}/lock", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assigns tags to the specified retention rule.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted  only after the unlock delay period expires.
     @Sendable
     public func unlockRule(_ input: UnlockRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UnlockRuleResponse {
-        return try await self.client.execute(operation: "UnlockRule", path: "/rules/{Identifier}/unlock", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UnlockRule", 
+            path: "/rules/{Identifier}/unlock", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Unassigns a tag from a retention rule.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing Recycle Bin retention rule. You can update a retention rule's description,  resource tags, and retention period at any time after creation. You can't update a retention rule's  resource type after creation. For more information, see  Update Recycle Bin retention rules in the Amazon Elastic Compute Cloud User Guide.
     @Sendable
     public func updateRule(_ input: UpdateRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRuleResponse {
-        return try await self.client.execute(operation: "UpdateRule", path: "/rules/{Identifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRule", 
+            path: "/rules/{Identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -66,115 +66,248 @@ public struct SageMakerGeospatial: AWSService {
     /// Use this operation to delete an Earth Observation job.
     @Sendable
     public func deleteEarthObservationJob(_ input: DeleteEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEarthObservationJobOutput {
-        return try await self.client.execute(operation: "DeleteEarthObservationJob", path: "/earth-observation-jobs/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEarthObservationJob", 
+            path: "/earth-observation-jobs/{Arn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use this operation to delete a Vector Enrichment job.
     @Sendable
     public func deleteVectorEnrichmentJob(_ input: DeleteVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVectorEnrichmentJobOutput {
-        return try await self.client.execute(operation: "DeleteVectorEnrichmentJob", path: "/vector-enrichment-jobs/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVectorEnrichmentJob", 
+            path: "/vector-enrichment-jobs/{Arn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
     @Sendable
     public func exportEarthObservationJob(_ input: ExportEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportEarthObservationJobOutput {
-        return try await self.client.execute(operation: "ExportEarthObservationJob", path: "/export-earth-observation-job", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ExportEarthObservationJob", 
+            path: "/export-earth-observation-job", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
     @Sendable
     public func exportVectorEnrichmentJob(_ input: ExportVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportVectorEnrichmentJobOutput {
-        return try await self.client.execute(operation: "ExportVectorEnrichmentJob", path: "/export-vector-enrichment-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ExportVectorEnrichmentJob", 
+            path: "/export-vector-enrichment-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the details for a previously initiated Earth Observation job.
     @Sendable
     public func getEarthObservationJob(_ input: GetEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEarthObservationJobOutput {
-        return try await self.client.execute(operation: "GetEarthObservationJob", path: "/earth-observation-jobs/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetEarthObservationJob", 
+            path: "/earth-observation-jobs/{Arn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use this operation to get details of a specific raster data collection.
     @Sendable
     public func getRasterDataCollection(_ input: GetRasterDataCollectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRasterDataCollectionOutput {
-        return try await self.client.execute(operation: "GetRasterDataCollection", path: "/raster-data-collection/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRasterDataCollection", 
+            path: "/raster-data-collection/{Arn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a web mercator tile for the given Earth Observation job.
     @Sendable
     public func getTile(_ input: GetTileInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTileOutput {
-        return try await self.client.execute(operation: "GetTile", path: "/tile/{z}/{x}/{y}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTile", 
+            path: "/tile/{z}/{x}/{y}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Name (ARN).
     @Sendable
     public func getVectorEnrichmentJob(_ input: GetVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVectorEnrichmentJobOutput {
-        return try await self.client.execute(operation: "GetVectorEnrichmentJob", path: "/vector-enrichment-jobs/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVectorEnrichmentJob", 
+            path: "/vector-enrichment-jobs/{Arn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
     @Sendable
     public func listEarthObservationJobs(_ input: ListEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEarthObservationJobOutput {
-        return try await self.client.execute(operation: "ListEarthObservationJobs", path: "/list-earth-observation-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEarthObservationJobs", 
+            path: "/list-earth-observation-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use this operation to get raster data collections.
     @Sendable
     public func listRasterDataCollections(_ input: ListRasterDataCollectionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRasterDataCollectionsOutput {
-        return try await self.client.execute(operation: "ListRasterDataCollections", path: "/raster-data-collections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRasterDataCollections", 
+            path: "/raster-data-collections", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags attached to the resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of vector enrichment jobs.
     @Sendable
     public func listVectorEnrichmentJobs(_ input: ListVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVectorEnrichmentJobOutput {
-        return try await self.client.execute(operation: "ListVectorEnrichmentJobs", path: "/list-vector-enrichment-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVectorEnrichmentJobs", 
+            path: "/list-vector-enrichment-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
     @Sendable
     public func searchRasterDataCollection(_ input: SearchRasterDataCollectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchRasterDataCollectionOutput {
-        return try await self.client.execute(operation: "SearchRasterDataCollection", path: "/search-raster-data-collection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchRasterDataCollection", 
+            path: "/search-raster-data-collection", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use this operation to create an Earth observation job.
     @Sendable
     public func startEarthObservationJob(_ input: StartEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartEarthObservationJobOutput {
-        return try await self.client.execute(operation: "StartEarthObservationJob", path: "/earth-observation-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartEarthObservationJob", 
+            path: "/earth-observation-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a Vector Enrichment job for the supplied job type.  Currently, there are two supported job types: reverse geocoding and map matching.
     @Sendable
     public func startVectorEnrichmentJob(_ input: StartVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartVectorEnrichmentJobOutput {
-        return try await self.client.execute(operation: "StartVectorEnrichmentJob", path: "/vector-enrichment-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartVectorEnrichmentJob", 
+            path: "/vector-enrichment-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use this operation to stop an existing earth observation job.
     @Sendable
     public func stopEarthObservationJob(_ input: StopEarthObservationJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopEarthObservationJobOutput {
-        return try await self.client.execute(operation: "StopEarthObservationJob", path: "/earth-observation-jobs/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopEarthObservationJob", 
+            path: "/earth-observation-jobs/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops the  Vector Enrichment job for a given job ARN.
     @Sendable
     public func stopVectorEnrichmentJob(_ input: StopVectorEnrichmentJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopVectorEnrichmentJobOutput {
-        return try await self.client.execute(operation: "StopVectorEnrichmentJob", path: "/vector-enrichment-jobs/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopVectorEnrichmentJob", 
+            path: "/vector-enrichment-jobs/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The resource you want to tag.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The resource you want to untag.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

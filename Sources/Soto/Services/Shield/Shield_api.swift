@@ -77,7 +77,14 @@ public struct Shield: AWSService {
     /// Authorizes the Shield Response Team (SRT) to access the specified Amazon S3 bucket containing log data such as Application Load Balancer access logs, CloudFront logs, or logs from third party sources. You can associate up to 10 Amazon S3 buckets with your subscription. To use the services of the SRT and make an AssociateDRTLogBucket request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
     @Sendable
     public func associateDRTLogBucket(_ input: AssociateDRTLogBucketRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDRTLogBucketResponse {
-        return try await self.client.execute(operation: "AssociateDRTLogBucket", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateDRTLogBucket", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Authorizes the Shield Response Team (SRT) using the specified role, to access your Amazon Web Services account to assist with DDoS attack mitigation during potential attacks. This enables the SRT to inspect your WAF configuration and create or update WAF rules and web ACLs. You can associate only one RoleArn with your subscription. If you submit an AssociateDRTRole request for an account that already has an associated role, the new RoleArn will replace the existing RoleArn.  Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to the role that you'll specify in the request. You can access this policy in the IAM console at AWSShieldDRTAccessPolicy. For more information see Adding and removing IAM identity permissions. The role must also trust the service principal
@@ -85,211 +92,456 @@ public struct Shield: AWSService {
     ///  The SRT will have access only to your WAF and Shield resources. By submitting this request, you authorize the SRT to inspect your WAF and Shield configuration and create and update WAF rules and web ACLs on your behalf. The SRT takes these actions only if explicitly authorized by you. You must have the iam:PassRole permission to make an AssociateDRTRole request. For more information, see Granting a user permissions to pass a role to an Amazon Web Services service.  To use the services of the SRT and make an AssociateDRTRole request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
     @Sendable
     public func associateDRTRole(_ input: AssociateDRTRoleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDRTRoleResponse {
-        return try await self.client.execute(operation: "AssociateDRTRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateDRTRole", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds health-based detection to the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response.   You define the health check in Route 53 and then associate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the WAF Developer Guide.
     @Sendable
     public func associateHealthCheck(_ input: AssociateHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateHealthCheckResponse {
-        return try await self.client.execute(operation: "AssociateHealthCheck", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateHealthCheck", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Initializes proactive engagement and sets the list of contacts for the Shield Response Team (SRT) to use. You must provide at least one phone number in the emergency contact list.  After you have initialized proactive engagement using this call, to disable or enable proactive engagement, use the calls DisableProactiveEngagement and EnableProactiveEngagement.    This call defines the list of email addresses and phone numbers that the SRT can use to contact you for escalations to the SRT and to initiate proactive customer support. The contacts that you provide in the request replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it to this call.
     @Sendable
     public func associateProactiveEngagementDetails(_ input: AssociateProactiveEngagementDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateProactiveEngagementDetailsResponse {
-        return try await self.client.execute(operation: "AssociateProactiveEngagementDetails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateProactiveEngagementDetails", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables Shield Advanced for a specific Amazon Web Services resource. The resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted zone, Global Accelerator standard accelerator, Elastic IP Address, Application Load Balancer, or a Classic Load Balancer. You can protect Amazon EC2 instances and Network Load Balancers by association with protected Amazon EC2 Elastic IP addresses. You can add protection to only a single resource with each CreateProtection request. You can add protection to multiple resources at once through the Shield Advanced console at https://console.aws.amazon.com/wafv2/shieldv2#/. For more information see Getting Started with Shield Advanced and Adding Shield Advanced protection to Amazon Web Services resources.
     @Sendable
     public func createProtection(_ input: CreateProtectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProtectionResponse {
-        return try await self.client.execute(operation: "CreateProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProtection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
     @Sendable
     public func createProtectionGroup(_ input: CreateProtectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProtectionGroupResponse {
-        return try await self.client.execute(operation: "CreateProtectionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProtectionGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Activates Shield Advanced for an account.  For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account, regardless of whether the payer account itself is subscribed.    When you initially create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period.  You can change this by submitting an UpdateSubscription request.
     @Sendable
     public func createSubscription(_ input: CreateSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubscriptionResponse {
-        return try await self.client.execute(operation: "CreateSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSubscription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an Shield Advanced Protection.
     @Sendable
     public func deleteProtection(_ input: DeleteProtectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProtectionResponse {
-        return try await self.client.execute(operation: "DeleteProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteProtection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified protection group.
     @Sendable
     public func deleteProtectionGroup(_ input: DeleteProtectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProtectionGroupResponse {
-        return try await self.client.execute(operation: "DeleteProtectionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteProtectionGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes Shield Advanced from an account. Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
     @Sendable
     public func deleteSubscription(_ input: DeleteSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSubscriptionResponse {
-        return try await self.client.execute(operation: "DeleteSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSubscription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the details of a DDoS attack.
     @Sendable
     public func describeAttack(_ input: DescribeAttackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAttackResponse {
-        return try await self.client.execute(operation: "DescribeAttack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAttack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides information about the number and type of attacks Shield has detected in the last year for all resources that belong to your account, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers. The operation returns data for the time range of midnight UTC, one year ago, to midnight UTC, today. For example, if the current time is 2020-10-26 15:39:32 PDT, equal to 2020-10-26 22:39:32 UTC, then the time range for the attack data returned is from 2019-10-26 00:00:00 UTC to 2020-10-26 00:00:00 UTC.  The time range indicates the period covered by the attack statistics data items.
     @Sendable
     public func describeAttackStatistics(_ input: DescribeAttackStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAttackStatisticsResponse {
-        return try await self.client.execute(operation: "DescribeAttackStatistics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAttackStatistics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the current role and list of Amazon S3 log buckets used by the Shield Response Team (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
     @Sendable
     public func describeDRTAccess(_ input: DescribeDRTAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDRTAccessResponse {
-        return try await self.client.execute(operation: "DescribeDRTAccess", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDRTAccess", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
     @Sendable
     public func describeEmergencyContactSettings(_ input: DescribeEmergencyContactSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEmergencyContactSettingsResponse {
-        return try await self.client.execute(operation: "DescribeEmergencyContactSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEmergencyContactSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the details of a Protection object.
     @Sendable
     public func describeProtection(_ input: DescribeProtectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProtectionResponse {
-        return try await self.client.execute(operation: "DescribeProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProtection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the specification for the specified protection group.
     @Sendable
     public func describeProtectionGroup(_ input: DescribeProtectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProtectionGroupResponse {
-        return try await self.client.execute(operation: "DescribeProtectionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProtectionGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides details about the Shield Advanced subscription for an account.
     @Sendable
     public func describeSubscription(_ input: DescribeSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSubscriptionResponse {
-        return try await self.client.execute(operation: "DescribeSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSubscription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disable the Shield Advanced automatic application layer DDoS mitigation feature for the protected resource. This stops Shield Advanced from creating, verifying, and applying WAF rules for attacks that it detects for the resource.
     @Sendable
     public func disableApplicationLayerAutomaticResponse(_ input: DisableApplicationLayerAutomaticResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableApplicationLayerAutomaticResponseResponse {
-        return try await self.client.execute(operation: "DisableApplicationLayerAutomaticResponse", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableApplicationLayerAutomaticResponse", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive customer support.
     @Sendable
     public func disableProactiveEngagement(_ input: DisableProactiveEngagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableProactiveEngagementResponse {
-        return try await self.client.execute(operation: "DisableProactiveEngagement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableProactiveEngagement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously.
     @Sendable
     public func disassociateDRTLogBucket(_ input: DisassociateDRTLogBucketRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateDRTLogBucketResponse {
-        return try await self.client.execute(operation: "DisassociateDRTLogBucket", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateDRTLogBucket", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
     @Sendable
     public func disassociateDRTRole(_ input: DisassociateDRTRoleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateDRTRoleResponse {
-        return try await self.client.execute(operation: "DisassociateDRTRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateDRTRole", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response.  You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the WAF Developer Guide.
     @Sendable
     public func disassociateHealthCheck(_ input: DisassociateHealthCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateHealthCheckResponse {
-        return try await self.client.execute(operation: "DisassociateHealthCheck", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateHealthCheck", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enable the Shield Advanced automatic application layer DDoS mitigation for the protected resource.   This feature is available for Amazon CloudFront distributions and Application Load Balancers only.  This causes Shield Advanced to create, verify, and apply WAF rules for DDoS attacks that it detects for the resource. Shield Advanced applies the rules in a Shield rule group inside the web ACL that you've associated with the resource. For information about how automatic mitigation works and the requirements for using it, see Shield Advanced automatic application layer DDoS mitigation.  Don't use this action to make changes to automatic mitigation settings when it's already enabled for a resource. Instead, use UpdateApplicationLayerAutomaticResponse.  To use this feature, you must associate a web ACL with the protected resource. The web ACL must be created using the latest version of WAF (v2). You can associate the web ACL through the Shield Advanced console at https://console.aws.amazon.com/wafv2/shieldv2#/. For more information, see Getting Started with Shield Advanced. You can also associate the web ACL to the resource through the WAF console or the WAF API, but you must manage Shield Advanced automatic mitigation through Shield Advanced. For information about WAF, see WAF Developer Guide.
     @Sendable
     public func enableApplicationLayerAutomaticResponse(_ input: EnableApplicationLayerAutomaticResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableApplicationLayerAutomaticResponseResponse {
-        return try await self.client.execute(operation: "EnableApplicationLayerAutomaticResponse", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableApplicationLayerAutomaticResponse", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support.
     @Sendable
     public func enableProactiveEngagement(_ input: EnableProactiveEngagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableProactiveEngagementResponse {
-        return try await self.client.execute(operation: "EnableProactiveEngagement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableProactiveEngagement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the SubscriptionState, either Active or Inactive.
     @Sendable
     public func getSubscriptionState(_ input: GetSubscriptionStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSubscriptionStateResponse {
-        return try await self.client.execute(operation: "GetSubscriptionState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSubscriptionState", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period.
     @Sendable
     public func listAttacks(_ input: ListAttacksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAttacksResponse {
-        return try await self.client.execute(operation: "ListAttacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAttacks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves ProtectionGroup objects for the account. You can retrieve all protection groups or you can provide  filtering criteria and retrieve just the subset of protection groups that match the criteria.
     @Sendable
     public func listProtectionGroups(_ input: ListProtectionGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProtectionGroupsResponse {
-        return try await self.client.execute(operation: "ListProtectionGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProtectionGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves Protection objects for the account. You can retrieve all protections or you can provide  filtering criteria and retrieve just the subset of protections that match the criteria.
     @Sendable
     public func listProtections(_ input: ListProtectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProtectionsResponse {
-        return try await self.client.execute(operation: "ListProtections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProtections", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the resources that are included in the protection group.
     @Sendable
     public func listResourcesInProtectionGroup(_ input: ListResourcesInProtectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourcesInProtectionGroupResponse {
-        return try await self.client.execute(operation: "ListResourcesInProtectionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResourcesInProtectionGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in Shield.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or updates tags for a resource in Shield.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from a resource in Shield.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing Shield Advanced automatic application layer DDoS mitigation configuration for the specified resource.
     @Sendable
     public func updateApplicationLayerAutomaticResponse(_ input: UpdateApplicationLayerAutomaticResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationLayerAutomaticResponseResponse {
-        return try await self.client.execute(operation: "UpdateApplicationLayerAutomaticResponse", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateApplicationLayerAutomaticResponse", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the details of the list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
     @Sendable
     public func updateEmergencyContactSettings(_ input: UpdateEmergencyContactSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEmergencyContactSettingsResponse {
-        return try await self.client.execute(operation: "UpdateEmergencyContactSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEmergencyContactSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing protection group. A protection group is a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
     @Sendable
     public func updateProtectionGroup(_ input: UpdateProtectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProtectionGroupResponse {
-        return try await self.client.execute(operation: "UpdateProtectionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateProtectionGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the details of an existing subscription. Only enter values for parameters you want to change. Empty parameters are not updated.  For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account, regardless of whether the payer account itself is subscribed.
     @Sendable
     public func updateSubscription(_ input: UpdateSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSubscriptionResponse {
-        return try await self.client.execute(operation: "UpdateSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSubscription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

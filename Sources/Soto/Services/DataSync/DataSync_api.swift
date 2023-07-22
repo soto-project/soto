@@ -78,343 +78,755 @@ public struct DataSync: AWSService {
     /// Creates an Amazon Web Services resource for an on-premises storage system that you want DataSync Discovery to collect information about.
     @Sendable
     public func addStorageSystem(_ input: AddStorageSystemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddStorageSystemResponse {
-        return try await self.client.execute(operation: "AddStorageSystem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger)
+        return try await self.client.execute(
+            operation: "AddStorageSystem", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "discovery-", 
+            logger: logger
+        )
     }
 
     /// Stops an DataSync task execution that's in progress. The transfer of some files are abruptly interrupted. File contents that're transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution using the same task and allow it to finish, file content on the destination will be complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, DataSync successfully completes the transfer when you start the next task execution.
     @Sendable
     public func cancelTaskExecution(_ input: CancelTaskExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelTaskExecutionResponse {
-        return try await self.client.execute(operation: "CancelTaskExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelTaskExecution", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Activates an DataSync agent that you have deployed in your storage environment. The activation process associates your agent with your account. In the activation process, you specify information such as the Amazon Web Services Region that you want to activate the agent in. You activate the agent in the Amazon Web Services Region where your target locations (in Amazon S3 or Amazon EFS) reside. Your tasks are created in this Amazon Web Services Region. You can activate the agent in a VPC (virtual private cloud) or provide the agent access to a VPC endpoint so you can run tasks without going over the public internet. You can use an agent for more than one location. If a task uses multiple agents, all of them need to have status AVAILABLE for the task to run. If you use multiple agents for a source location, the status of all the agents must be AVAILABLE for the task to run.  Agents are automatically updated by Amazon Web Services on a regular basis, using a mechanism that ensures minimal interruption to your tasks.
     @Sendable
     public func createAgent(_ input: CreateAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentResponse {
-        return try await self.client.execute(operation: "CreateAgent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAgent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an endpoint for an Amazon EFS file system that DataSync can access for a transfer. For more information, see Creating a location for Amazon EFS.
     @Sendable
     public func createLocationEfs(_ input: CreateLocationEfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationEfsResponse {
-        return try await self.client.execute(operation: "CreateLocationEfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLocationEfs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an endpoint for an Amazon FSx for Lustre file system.
     @Sendable
     public func createLocationFsxLustre(_ input: CreateLocationFsxLustreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationFsxLustreResponse {
-        return try await self.client.execute(operation: "CreateLocationFsxLustre", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLocationFsxLustre", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an endpoint for an Amazon FSx for NetApp ONTAP file system that DataSync can access for a transfer. For more information, see Creating a location for FSx for ONTAP.
     @Sendable
     public func createLocationFsxOntap(_ input: CreateLocationFsxOntapRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationFsxOntapResponse {
-        return try await self.client.execute(operation: "CreateLocationFsxOntap", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLocationFsxOntap", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an endpoint for an Amazon FSx for OpenZFS file system that DataSync can access for a transfer. For more information, see Creating a location for FSx for OpenZFS.  Request parameters related to SMB aren't supported with the CreateLocationFsxOpenZfs operation.
     @Sendable
     public func createLocationFsxOpenZfs(_ input: CreateLocationFsxOpenZfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationFsxOpenZfsResponse {
-        return try await self.client.execute(operation: "CreateLocationFsxOpenZfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLocationFsxOpenZfs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an endpoint for an Amazon FSx for Windows File Server file system.
     @Sendable
     public func createLocationFsxWindows(_ input: CreateLocationFsxWindowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationFsxWindowsResponse {
-        return try await self.client.execute(operation: "CreateLocationFsxWindows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLocationFsxWindows", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an endpoint for a Hadoop Distributed File System (HDFS).
     @Sendable
     public func createLocationHdfs(_ input: CreateLocationHdfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationHdfsResponse {
-        return try await self.client.execute(operation: "CreateLocationHdfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLocationHdfs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Defines a file system on a Network File System (NFS) server that can be read from or written to.
     @Sendable
     public func createLocationNfs(_ input: CreateLocationNfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationNfsResponse {
-        return try await self.client.execute(operation: "CreateLocationNfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLocationNfs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an endpoint for an object storage system that DataSync can access for a transfer. For more information, see Creating a location for object storage.
     @Sendable
     public func createLocationObjectStorage(_ input: CreateLocationObjectStorageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationObjectStorageResponse {
-        return try await self.client.execute(operation: "CreateLocationObjectStorage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLocationObjectStorage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// A location is an endpoint for an Amazon S3 bucket. DataSync can use the location as a source or destination for copying data.  Before you create your location, make sure that you read the following sections:    Storage class considerations with Amazon S3 locations     Evaluating S3 request costs when using DataSync     For more information, see Creating an Amazon S3 location.
     @Sendable
     public func createLocationS3(_ input: CreateLocationS3Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationS3Response {
-        return try await self.client.execute(operation: "CreateLocationS3", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLocationS3", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an endpoint for a Server Message Block (SMB) file server that DataSync can access for a transfer. For more information, see Creating an SMB location.
     @Sendable
     public func createLocationSmb(_ input: CreateLocationSmbRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationSmbResponse {
-        return try await self.client.execute(operation: "CreateLocationSmb", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLocationSmb", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, a destination location, and the preferences for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options).  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
     @Sendable
     public func createTask(_ input: CreateTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTaskResponse {
-        return try await self.client.execute(operation: "CreateTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an agent. To specify which agent to delete, use the Amazon Resource Name (ARN) of the agent in your request. The operation disassociates the agent from your Amazon Web Services account. However, it doesn't delete the agent virtual machine (VM) from your on-premises environment.
     @Sendable
     public func deleteAgent(_ input: DeleteAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentResponse {
-        return try await self.client.execute(operation: "DeleteAgent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAgent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the configuration of a location used by DataSync.
     @Sendable
     public func deleteLocation(_ input: DeleteLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLocationResponse {
-        return try await self.client.execute(operation: "DeleteLocation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteLocation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an DataSync task.
     @Sendable
     public func deleteTask(_ input: DeleteTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTaskResponse {
-        return try await self.client.execute(operation: "DeleteTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata about an DataSync agent, such as its name, endpoint type, and status.
     @Sendable
     public func describeAgent(_ input: DescribeAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAgentResponse {
-        return try await self.client.execute(operation: "DescribeAgent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAgent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a DataSync discovery job.
     @Sendable
     public func describeDiscoveryJob(_ input: DescribeDiscoveryJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDiscoveryJobResponse {
-        return try await self.client.execute(operation: "DescribeDiscoveryJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDiscoveryJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "discovery-", 
+            logger: logger
+        )
     }
 
     /// Returns metadata about your DataSync location for an Amazon EFS file system.
     @Sendable
     public func describeLocationEfs(_ input: DescribeLocationEfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationEfsResponse {
-        return try await self.client.execute(operation: "DescribeLocationEfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLocationEfs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides details about how an DataSync location for an Amazon FSx for Lustre file system is configured.
     @Sendable
     public func describeLocationFsxLustre(_ input: DescribeLocationFsxLustreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationFsxLustreResponse {
-        return try await self.client.execute(operation: "DescribeLocationFsxLustre", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLocationFsxLustre", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides details about how an DataSync location for an Amazon FSx for NetApp ONTAP file system is configured.  If your location uses SMB, the DescribeLocationFsxOntap operation doesn't actually return a Password.
     @Sendable
     public func describeLocationFsxOntap(_ input: DescribeLocationFsxOntapRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationFsxOntapResponse {
-        return try await self.client.execute(operation: "DescribeLocationFsxOntap", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLocationFsxOntap", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides details about how an DataSync location for an Amazon FSx for OpenZFS file system is configured.  Response elements related to SMB aren't supported with the DescribeLocationFsxOpenZfs operation.
     @Sendable
     public func describeLocationFsxOpenZfs(_ input: DescribeLocationFsxOpenZfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationFsxOpenZfsResponse {
-        return try await self.client.execute(operation: "DescribeLocationFsxOpenZfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLocationFsxOpenZfs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata about an Amazon FSx for Windows File Server location, such as information about its path.
     @Sendable
     public func describeLocationFsxWindows(_ input: DescribeLocationFsxWindowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationFsxWindowsResponse {
-        return try await self.client.execute(operation: "DescribeLocationFsxWindows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLocationFsxWindows", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata, such as the authentication information about the Hadoop Distributed File System (HDFS) location.
     @Sendable
     public func describeLocationHdfs(_ input: DescribeLocationHdfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationHdfsResponse {
-        return try await self.client.execute(operation: "DescribeLocationHdfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLocationHdfs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata, such as the path information, about an NFS location.
     @Sendable
     public func describeLocationNfs(_ input: DescribeLocationNfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationNfsResponse {
-        return try await self.client.execute(operation: "DescribeLocationNfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLocationNfs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata about your DataSync location for an object storage system.
     @Sendable
     public func describeLocationObjectStorage(_ input: DescribeLocationObjectStorageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationObjectStorageResponse {
-        return try await self.client.execute(operation: "DescribeLocationObjectStorage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLocationObjectStorage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata, such as bucket name, about an Amazon S3 bucket location.
     @Sendable
     public func describeLocationS3(_ input: DescribeLocationS3Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationS3Response {
-        return try await self.client.execute(operation: "DescribeLocationS3", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLocationS3", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata, such as the path and user information about an SMB location.
     @Sendable
     public func describeLocationSmb(_ input: DescribeLocationSmbRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLocationSmbResponse {
-        return try await self.client.execute(operation: "DescribeLocationSmb", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLocationSmb", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about an on-premises storage system that you're using with DataSync Discovery.
     @Sendable
     public func describeStorageSystem(_ input: DescribeStorageSystemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStorageSystemResponse {
-        return try await self.client.execute(operation: "DescribeStorageSystem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeStorageSystem", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "discovery-", 
+            logger: logger
+        )
     }
 
     /// Returns information, including performance data and capacity usage, which DataSync Discovery collects about a specific resource in your-premises storage system.
     @Sendable
     public func describeStorageSystemResourceMetrics(_ input: DescribeStorageSystemResourceMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStorageSystemResourceMetricsResponse {
-        return try await self.client.execute(operation: "DescribeStorageSystemResourceMetrics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeStorageSystemResourceMetrics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "discovery-", 
+            logger: logger
+        )
     }
 
     /// Returns information that DataSync Discovery collects about resources in your on-premises storage system.
     @Sendable
     public func describeStorageSystemResources(_ input: DescribeStorageSystemResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStorageSystemResourcesResponse {
-        return try await self.client.execute(operation: "DescribeStorageSystemResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeStorageSystemResources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "discovery-", 
+            logger: logger
+        )
     }
 
     /// Returns metadata about a task.
     @Sendable
     public func describeTask(_ input: DescribeTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTaskResponse {
-        return try await self.client.execute(operation: "DescribeTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns detailed metadata about a task that is being executed.
     @Sendable
     public func describeTaskExecution(_ input: DescribeTaskExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTaskExecutionResponse {
-        return try await self.client.execute(operation: "DescribeTaskExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTaskExecution", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates recommendations about where to migrate your data to in Amazon Web Services. Recommendations are generated based on information that DataSync Discovery collects about your on-premises storage system's resources. For more information, see Recommendations provided by DataSync Discovery. Once generated, you can view your recommendations by using the DescribeStorageSystemResources operation.  If your discovery job completes successfully, you don't need to use this operation. DataSync Discovery generates the recommendations for you automatically.
     @Sendable
     public func generateRecommendations(_ input: GenerateRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateRecommendationsResponse {
-        return try await self.client.execute(operation: "GenerateRecommendations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger)
+        return try await self.client.execute(
+            operation: "GenerateRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "discovery-", 
+            logger: logger
+        )
     }
 
     /// Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request. With pagination, you can reduce the number of agents returned in a response. If you get a truncated list of agents in a response, the response contains a marker that you can specify in your next request to fetch the next page of agents.  ListAgents is eventually consistent. This means the result of running the operation might not reflect that you just created or deleted an agent. For example, if you create an agent with CreateAgent and then immediately run ListAgents, that agent might not show up in the list right away. In situations like this, you can always confirm whether an agent has been created (or deleted) by using DescribeAgent.
     @Sendable
     public func listAgents(_ input: ListAgentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentsResponse {
-        return try await self.client.execute(operation: "ListAgents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAgents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a list of the existing discovery jobs in the Amazon Web Services Region and Amazon Web Services account where you're using DataSync Discovery.
     @Sendable
     public func listDiscoveryJobs(_ input: ListDiscoveryJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDiscoveryJobsResponse {
-        return try await self.client.execute(operation: "ListDiscoveryJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListDiscoveryJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "discovery-", 
+            logger: logger
+        )
     }
 
     /// Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
     @Sendable
     public func listLocations(_ input: ListLocationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLocationsResponse {
-        return try await self.client.execute(operation: "ListLocations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListLocations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the on-premises storage systems that you're using with DataSync Discovery.
     @Sendable
     public func listStorageSystems(_ input: ListStorageSystemsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStorageSystemsResponse {
-        return try await self.client.execute(operation: "ListStorageSystems", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListStorageSystems", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "discovery-", 
+            logger: logger
+        )
     }
 
     /// Returns all the tags associated with an Amazon Web Services resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of executed tasks.
     @Sendable
     public func listTaskExecutions(_ input: ListTaskExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTaskExecutionsResponse {
-        return try await self.client.execute(operation: "ListTaskExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTaskExecutions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the DataSync tasks you created.
     @Sendable
     public func listTasks(_ input: ListTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTasksResponse {
-        return try await self.client.execute(operation: "ListTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTasks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Permanently removes a storage system resource from DataSync Discovery, including the associated discovery jobs, collected data, and recommendations.
     @Sendable
     public func removeStorageSystem(_ input: RemoveStorageSystemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveStorageSystemResponse {
-        return try await self.client.execute(operation: "RemoveStorageSystem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveStorageSystem", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "discovery-", 
+            logger: logger
+        )
     }
 
     /// Runs a DataSync discovery job on your on-premises storage system. If you haven't added the storage system to DataSync Discovery yet, do this first by using the AddStorageSystem operation.
     @Sendable
     public func startDiscoveryJob(_ input: StartDiscoveryJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDiscoveryJobResponse {
-        return try await self.client.execute(operation: "StartDiscoveryJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger)
+        return try await self.client.execute(
+            operation: "StartDiscoveryJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "discovery-", 
+            logger: logger
+        )
     }
 
     /// Starts an DataSync task. For each task, you can only run one task execution at a time. There are several phases to a task execution. For more information, see Task execution statuses.  If you're planning to transfer data to or from an Amazon S3 location, review how DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
     @Sendable
     public func startTaskExecution(_ input: StartTaskExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTaskExecutionResponse {
-        return try await self.client.execute(operation: "StartTaskExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartTaskExecution", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a running DataSync discovery job. You can stop a discovery job anytime. A job that's stopped before it's scheduled to end likely will provide you some information about your on-premises storage system resources. To get recommendations for a stopped job, you must use the GenerateRecommendations operation.
     @Sendable
     public func stopDiscoveryJob(_ input: StopDiscoveryJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopDiscoveryJobResponse {
-        return try await self.client.execute(operation: "StopDiscoveryJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger)
+        return try await self.client.execute(
+            operation: "StopDiscoveryJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "discovery-", 
+            logger: logger
+        )
     }
 
     /// Applies a tag to an Amazon Web Services resource. Tags are key-value pairs that can help you manage, filter, and search for your resources. These include DataSync resources, such as locations, tasks, and task executions.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from an Amazon Web Services resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the name of an agent.
     @Sendable
     public func updateAgent(_ input: UpdateAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentResponse {
-        return try await self.client.execute(operation: "UpdateAgent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAgent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Edits a DataSync discovery job configuration.
     @Sendable
     public func updateDiscoveryJob(_ input: UpdateDiscoveryJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDiscoveryJobResponse {
-        return try await self.client.execute(operation: "UpdateDiscoveryJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDiscoveryJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "discovery-", 
+            logger: logger
+        )
     }
 
     /// Updates some parameters of a previously created location for a Hadoop Distributed File System cluster.
     @Sendable
     public func updateLocationHdfs(_ input: UpdateLocationHdfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationHdfsResponse {
-        return try await self.client.execute(operation: "UpdateLocationHdfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLocationHdfs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates some of the parameters of a previously created location for Network File System (NFS) access. For information about creating an NFS location, see Creating a location for NFS.
     @Sendable
     public func updateLocationNfs(_ input: UpdateLocationNfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationNfsResponse {
-        return try await self.client.execute(operation: "UpdateLocationNfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLocationNfs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates some parameters of an existing object storage location that DataSync accesses for a transfer. For information about creating a self-managed object storage location, see Creating a location for object storage.
     @Sendable
     public func updateLocationObjectStorage(_ input: UpdateLocationObjectStorageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationObjectStorageResponse {
-        return try await self.client.execute(operation: "UpdateLocationObjectStorage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLocationObjectStorage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates some of the parameters of a previously created location for Server Message Block (SMB) file system access. For information about creating an SMB location, see Creating a location for SMB.
     @Sendable
     public func updateLocationSmb(_ input: UpdateLocationSmbRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationSmbResponse {
-        return try await self.client.execute(operation: "UpdateLocationSmb", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLocationSmb", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies some configurations of an on-premises storage system resource that you're using with DataSync Discovery.
     @Sendable
     public func updateStorageSystem(_ input: UpdateStorageSystemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStorageSystemResponse {
-        return try await self.client.execute(operation: "UpdateStorageSystem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "discovery-", logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateStorageSystem", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "discovery-", 
+            logger: logger
+        )
     }
 
     /// Updates the metadata associated with a task.
     @Sendable
     public func updateTask(_ input: UpdateTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTaskResponse {
-        return try await self.client.execute(operation: "UpdateTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies a running DataSync task.  Currently, the only Option that you can modify with UpdateTaskExecution is  BytesPerSecond , which throttles bandwidth for a running or queued task.
     @Sendable
     public func updateTaskExecution(_ input: UpdateTaskExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTaskExecutionResponse {
-        return try await self.client.execute(operation: "UpdateTaskExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTaskExecution", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

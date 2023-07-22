@@ -66,313 +66,677 @@ public struct VPCLattice: AWSService {
     /// Updates the listener rules in a batch. You can use this operation to change the priority of listener rules. This can be useful when bulk updating or swapping rule priority.
     @Sendable
     public func batchUpdateRule(_ input: BatchUpdateRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateRuleResponse {
-        return try await self.client.execute(operation: "BatchUpdateRule", path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}/rules", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchUpdateRule", 
+            path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}/rules", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kinesis Data Firehose. The service network owner can use the access logs to audit the services in the network. The service network owner will only see access logs from clients and services that are associated with their service network. Access log entries represent traffic originated from VPCs associated with that network. For more information, see Access logs in the Amazon VPC Lattice User Guide.
     @Sendable
     public func createAccessLogSubscription(_ input: CreateAccessLogSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessLogSubscriptionResponse {
-        return try await self.client.execute(operation: "CreateAccessLogSubscription", path: "/accesslogsubscriptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAccessLogSubscription", 
+            path: "/accesslogsubscriptions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a listener for a service. Before you start using your Amazon VPC Lattice service, you must add one or more listeners. A listener is a process that checks for connection requests to your services. For more information, see Listeners in the Amazon VPC Lattice User Guide.
     @Sendable
     public func createListener(_ input: CreateListenerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateListenerResponse {
-        return try await self.client.execute(operation: "CreateListener", path: "/services/{serviceIdentifier}/listeners", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateListener", 
+            path: "/services/{serviceIdentifier}/listeners", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. For more information, see Listener rules in the Amazon VPC Lattice User Guide.
     @Sendable
     public func createRule(_ input: CreateRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuleResponse {
-        return try await self.client.execute(operation: "CreateRule", path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}/rules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRule", 
+            path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}/rules", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a service. A service is any software application that can run on instances containers, or serverless functions within an account or virtual private cloud (VPC). For more information, see Services in the Amazon VPC Lattice User Guide.
     @Sendable
     public func createService(_ input: CreateServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceResponse {
-        return try await self.client.execute(operation: "CreateService", path: "/services", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateService", 
+            path: "/services", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a service network. A service network is a logical boundary for a collection of services. You can associate services and VPCs with a service network. For more information, see Service networks in the Amazon VPC Lattice User Guide.
     @Sendable
     public func createServiceNetwork(_ input: CreateServiceNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceNetworkResponse {
-        return try await self.client.execute(operation: "CreateServiceNetwork", path: "/servicenetworks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateServiceNetwork", 
+            path: "/servicenetworks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a service with a service network. You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller must own either the service or the service network. As a result of this operation, the association is created in the service network account and the association owner account.
     @Sendable
     public func createServiceNetworkServiceAssociation(_ input: CreateServiceNetworkServiceAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceNetworkServiceAssociationResponse {
-        return try await self.client.execute(operation: "CreateServiceNetworkServiceAssociation", path: "/servicenetworkserviceassociations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateServiceNetworkServiceAssociation", 
+            path: "/servicenetworkserviceassociations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see Manage VPC associations in the Amazon VPC Lattice User Guide. You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recreating it. As a result of this operation, the association gets created in the service network account and the VPC owner account. If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
     @Sendable
     public func createServiceNetworkVpcAssociation(_ input: CreateServiceNetworkVpcAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceNetworkVpcAssociationResponse {
-        return try await self.client.execute(operation: "CreateServiceNetworkVpcAssociation", path: "/servicenetworkvpcassociations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateServiceNetworkVpcAssociation", 
+            path: "/servicenetworkvpcassociations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a target group. A target group is a collection of targets, or compute resources, that run your application or service. A target group can only be used by a single service. For more information, see Target groups in the Amazon VPC Lattice User Guide.
     @Sendable
     public func createTargetGroup(_ input: CreateTargetGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTargetGroupResponse {
-        return try await self.client.execute(operation: "CreateTargetGroup", path: "/targetgroups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTargetGroup", 
+            path: "/targetgroups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified access log subscription.
     @Sendable
     public func deleteAccessLogSubscription(_ input: DeleteAccessLogSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccessLogSubscriptionResponse {
-        return try await self.client.execute(operation: "DeleteAccessLogSubscription", path: "/accesslogsubscriptions/{accessLogSubscriptionIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAccessLogSubscription", 
+            path: "/accesslogsubscriptions/{accessLogSubscriptionIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified auth policy. If an auth is set to AWS_IAM and the auth policy is deleted, all requests will be denied by default. If you are trying to remove the auth policy completely, you must set the auth_type to NONE. If auth is enabled on the resource, but no auth policy is set, all requests will be denied.
     @Sendable
     public func deleteAuthPolicy(_ input: DeleteAuthPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAuthPolicyResponse {
-        return try await self.client.execute(operation: "DeleteAuthPolicy", path: "/authpolicy/{resourceIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAuthPolicy", 
+            path: "/authpolicy/{resourceIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified listener.
     @Sendable
     public func deleteListener(_ input: DeleteListenerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteListenerResponse {
-        return try await self.client.execute(operation: "DeleteListener", path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteListener", 
+            path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified resource policy.
     @Sendable
     public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
-        return try await self.client.execute(operation: "DeleteResourcePolicy", path: "/resourcepolicy/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/resourcepolicy/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. You can delete additional listener rules, but you cannot delete the default rule. For more information, see Listener rules in the Amazon VPC Lattice User Guide.
     @Sendable
     public func deleteRule(_ input: DeleteRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRuleResponse {
-        return try await self.client.execute(operation: "DeleteRule", path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}/rules/{ruleIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRule", 
+            path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}/rules/{ruleIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a service. A service can't be deleted if it's associated with a service network. If you delete a service, all resources related to the service, such as the resource policy, auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For more information, see Delete a service in the Amazon VPC Lattice User Guide.
     @Sendable
     public func deleteService(_ input: DeleteServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceResponse {
-        return try await self.client.execute(operation: "DeleteService", path: "/services/{serviceIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteService", 
+            path: "/services/{serviceIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see Delete a service network in the Amazon VPC Lattice User Guide.
     @Sendable
     public func deleteServiceNetwork(_ input: DeleteServiceNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceNetworkResponse {
-        return try await self.client.execute(operation: "DeleteServiceNetwork", path: "/servicenetworks/{serviceNetworkIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteServiceNetwork", 
+            path: "/servicenetworks/{serviceNetworkIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the association between a specified service and the specific service network. This request will fail if an association is still in progress.
     @Sendable
     public func deleteServiceNetworkServiceAssociation(_ input: DeleteServiceNetworkServiceAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceNetworkServiceAssociationResponse {
-        return try await self.client.execute(operation: "DeleteServiceNetworkServiceAssociation", path: "/servicenetworkserviceassociations/{serviceNetworkServiceAssociationIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteServiceNetworkServiceAssociation", 
+            path: "/servicenetworkserviceassociations/{serviceNetworkServiceAssociationIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates the VPC from the service network. You can't disassociate the VPC if there is a create or update association in progress.
     @Sendable
     public func deleteServiceNetworkVpcAssociation(_ input: DeleteServiceNetworkVpcAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceNetworkVpcAssociationResponse {
-        return try await self.client.execute(operation: "DeleteServiceNetworkVpcAssociation", path: "/servicenetworkvpcassociations/{serviceNetworkVpcAssociationIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteServiceNetworkVpcAssociation", 
+            path: "/servicenetworkvpcassociations/{serviceNetworkVpcAssociationIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a target group. You can't delete a target group if it is used in a listener rule or if the target group creation is in progress.
     @Sendable
     public func deleteTargetGroup(_ input: DeleteTargetGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTargetGroupResponse {
-        return try await self.client.execute(operation: "DeleteTargetGroup", path: "/targetgroups/{targetGroupIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTargetGroup", 
+            path: "/targetgroups/{targetGroupIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deregisters the specified targets from the specified target group.
     @Sendable
     public func deregisterTargets(_ input: DeregisterTargetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterTargetsResponse {
-        return try await self.client.execute(operation: "DeregisterTargets", path: "/targetgroups/{targetGroupIdentifier}/deregistertargets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeregisterTargets", 
+            path: "/targetgroups/{targetGroupIdentifier}/deregistertargets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the specified access log subscription.
     @Sendable
     public func getAccessLogSubscription(_ input: GetAccessLogSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessLogSubscriptionResponse {
-        return try await self.client.execute(operation: "GetAccessLogSubscription", path: "/accesslogsubscriptions/{accessLogSubscriptionIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAccessLogSubscription", 
+            path: "/accesslogsubscriptions/{accessLogSubscriptionIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the auth policy for the specified service or service network.
     @Sendable
     public func getAuthPolicy(_ input: GetAuthPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAuthPolicyResponse {
-        return try await self.client.execute(operation: "GetAuthPolicy", path: "/authpolicy/{resourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAuthPolicy", 
+            path: "/authpolicy/{resourceIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the specified listener for the specified service.
     @Sendable
     public func getListener(_ input: GetListenerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetListenerResponse {
-        return try await self.client.execute(operation: "GetListener", path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetListener", 
+            path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
     @Sendable
     public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
-        return try await self.client.execute(operation: "GetResourcePolicy", path: "/resourcepolicy/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/resourcepolicy/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about listener rules. You can also retrieve information about the default listener rule. For more information, see Listener rules in the Amazon VPC Lattice User Guide.
     @Sendable
     public func getRule(_ input: GetRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRuleResponse {
-        return try await self.client.execute(operation: "GetRule", path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}/rules/{ruleIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRule", 
+            path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}/rules/{ruleIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the specified service.
     @Sendable
     public func getService(_ input: GetServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceResponse {
-        return try await self.client.execute(operation: "GetService", path: "/services/{serviceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetService", 
+            path: "/services/{serviceIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the specified service network.
     @Sendable
     public func getServiceNetwork(_ input: GetServiceNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceNetworkResponse {
-        return try await self.client.execute(operation: "GetServiceNetwork", path: "/servicenetworks/{serviceNetworkIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetServiceNetwork", 
+            path: "/servicenetworks/{serviceNetworkIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the specified association between a service network and a service.
     @Sendable
     public func getServiceNetworkServiceAssociation(_ input: GetServiceNetworkServiceAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceNetworkServiceAssociationResponse {
-        return try await self.client.execute(operation: "GetServiceNetworkServiceAssociation", path: "/servicenetworkserviceassociations/{serviceNetworkServiceAssociationIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetServiceNetworkServiceAssociation", 
+            path: "/servicenetworkserviceassociations/{serviceNetworkServiceAssociationIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the association between a service network and a VPC.
     @Sendable
     public func getServiceNetworkVpcAssociation(_ input: GetServiceNetworkVpcAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceNetworkVpcAssociationResponse {
-        return try await self.client.execute(operation: "GetServiceNetworkVpcAssociation", path: "/servicenetworkvpcassociations/{serviceNetworkVpcAssociationIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetServiceNetworkVpcAssociation", 
+            path: "/servicenetworkvpcassociations/{serviceNetworkVpcAssociationIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the specified target group.
     @Sendable
     public func getTargetGroup(_ input: GetTargetGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTargetGroupResponse {
-        return try await self.client.execute(operation: "GetTargetGroup", path: "/targetgroups/{targetGroupIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTargetGroup", 
+            path: "/targetgroups/{targetGroupIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all access log subscriptions for the specified service network or service.
     @Sendable
     public func listAccessLogSubscriptions(_ input: ListAccessLogSubscriptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessLogSubscriptionsResponse {
-        return try await self.client.execute(operation: "ListAccessLogSubscriptions", path: "/accesslogsubscriptions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAccessLogSubscriptions", 
+            path: "/accesslogsubscriptions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the listeners for the specified service.
     @Sendable
     public func listListeners(_ input: ListListenersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListListenersResponse {
-        return try await self.client.execute(operation: "ListListeners", path: "/services/{serviceIdentifier}/listeners", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListListeners", 
+            path: "/services/{serviceIdentifier}/listeners", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the rules for the listener.
     @Sendable
     public func listRules(_ input: ListRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRulesResponse {
-        return try await self.client.execute(operation: "ListRules", path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}/rules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRules", 
+            path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}/rules", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the associations between the service network and the service. You can filter the list either by service or service network. You must provide either the service network identifier or the service identifier. Every association in Amazon VPC Lattice is given a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource that is shared with another account, the association will include the local account ID as the prefix in the ARN for each account the resource is shared with.
     @Sendable
     public func listServiceNetworkServiceAssociations(_ input: ListServiceNetworkServiceAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceNetworkServiceAssociationsResponse {
-        return try await self.client.execute(operation: "ListServiceNetworkServiceAssociations", path: "/servicenetworkserviceassociations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListServiceNetworkServiceAssociations", 
+            path: "/servicenetworkserviceassociations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the service network and VPC associations. You can filter the list either by VPC or service network. You must provide either the service network identifier or the VPC identifier.
     @Sendable
     public func listServiceNetworkVpcAssociations(_ input: ListServiceNetworkVpcAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceNetworkVpcAssociationsResponse {
-        return try await self.client.execute(operation: "ListServiceNetworkVpcAssociations", path: "/servicenetworkvpcassociations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListServiceNetworkVpcAssociations", 
+            path: "/servicenetworkvpcassociations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the service networks owned by the caller account or shared with the caller account. Also includes the account ID in the ARN to show which account owns the service network.
     @Sendable
     public func listServiceNetworks(_ input: ListServiceNetworksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceNetworksResponse {
-        return try await self.client.execute(operation: "ListServiceNetworks", path: "/servicenetworks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListServiceNetworks", 
+            path: "/servicenetworks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the services owned by the caller account or shared with the caller account.
     @Sendable
     public func listServices(_ input: ListServicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServicesResponse {
-        return try await self.client.execute(operation: "ListServices", path: "/services", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListServices", 
+            path: "/services", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags for the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists your target groups. You can narrow your search by using the filters below in your request.
     @Sendable
     public func listTargetGroups(_ input: ListTargetGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTargetGroupsResponse {
-        return try await self.client.execute(operation: "ListTargetGroups", path: "/targetgroups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTargetGroups", 
+            path: "/targetgroups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the targets for the target group. By default, all targets are included. You can use this API to check the health status of targets. You can also ﬁlter the results by target.
     @Sendable
     public func listTargets(_ input: ListTargetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTargetsResponse {
-        return try await self.client.execute(operation: "ListTargets", path: "/targetgroups/{targetGroupIdentifier}/listtargets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTargets", 
+            path: "/targetgroups/{targetGroupIdentifier}/listtargets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates the auth policy. The policy string in JSON must not contain newlines or blank lines.
     @Sendable
     public func putAuthPolicy(_ input: PutAuthPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAuthPolicyResponse {
-        return try await self.client.execute(operation: "PutAuthPolicy", path: "/authpolicy/{resourceIdentifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutAuthPolicy", 
+            path: "/authpolicy/{resourceIdentifier}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition statements as the Amazon Web Services Resource Access Manager permission for sharing services and service networks.
     @Sendable
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
-        return try await self.client.execute(operation: "PutResourcePolicy", path: "/resourcepolicy/{resourceArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/resourcepolicy/{resourceArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers the targets with the target group. If it's a Lambda target, you can only have one target in a target group.
     @Sendable
     public func registerTargets(_ input: RegisterTargetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterTargetsResponse {
-        return try await self.client.execute(operation: "RegisterTargets", path: "/targetgroups/{targetGroupIdentifier}/registertargets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterTargets", 
+            path: "/targetgroups/{targetGroupIdentifier}/registertargets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds the specified tags to the specified resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified tags from the specified resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified access log subscription.
     @Sendable
     public func updateAccessLogSubscription(_ input: UpdateAccessLogSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccessLogSubscriptionResponse {
-        return try await self.client.execute(operation: "UpdateAccessLogSubscription", path: "/accesslogsubscriptions/{accessLogSubscriptionIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAccessLogSubscription", 
+            path: "/accesslogsubscriptions/{accessLogSubscriptionIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified listener for the specified service.
     @Sendable
     public func updateListener(_ input: UpdateListenerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateListenerResponse {
-        return try await self.client.execute(operation: "UpdateListener", path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateListener", 
+            path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use UpdateListener.
     @Sendable
     public func updateRule(_ input: UpdateRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRuleResponse {
-        return try await self.client.execute(operation: "UpdateRule", path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}/rules/{ruleIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRule", 
+            path: "/services/{serviceIdentifier}/listeners/{listenerIdentifier}/rules/{ruleIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified service.
     @Sendable
     public func updateService(_ input: UpdateServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceResponse {
-        return try await self.client.execute(operation: "UpdateService", path: "/services/{serviceIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateService", 
+            path: "/services/{serviceIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified service network.
     @Sendable
     public func updateServiceNetwork(_ input: UpdateServiceNetworkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceNetworkResponse {
-        return try await self.client.execute(operation: "UpdateServiceNetwork", path: "/servicenetworks/{serviceNetworkIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateServiceNetwork", 
+            path: "/servicenetworks/{serviceNetworkIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
     @Sendable
     public func updateServiceNetworkVpcAssociation(_ input: UpdateServiceNetworkVpcAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceNetworkVpcAssociationResponse {
-        return try await self.client.execute(operation: "UpdateServiceNetworkVpcAssociation", path: "/servicenetworkvpcassociations/{serviceNetworkVpcAssociationIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateServiceNetworkVpcAssociation", 
+            path: "/servicenetworkvpcassociations/{serviceNetworkVpcAssociationIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified target group.
     @Sendable
     public func updateTargetGroup(_ input: UpdateTargetGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTargetGroupResponse {
-        return try await self.client.execute(operation: "UpdateTargetGroup", path: "/targetgroups/{targetGroupIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTargetGroup", 
+            path: "/targetgroups/{targetGroupIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -78,109 +78,235 @@ public struct Grafana: AWSService {
     /// Assigns a Grafana Enterprise license to a workspace. Upgrading to Grafana Enterprise incurs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise.
     @Sendable
     public func associateLicense(_ input: AssociateLicenseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateLicenseResponse {
-        return try await self.client.execute(operation: "AssociateLicense", path: "/workspaces/{workspaceId}/licenses/{licenseType}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateLicense", 
+            path: "/workspaces/{workspaceId}/licenses/{licenseType}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a workspace. In a workspace, you can create Grafana dashboards and visualizations to analyze your metrics, logs, and traces. You don't have to build, package, or deploy any hardware to run the Grafana server. Don't use CreateWorkspace to modify an existing workspace. Instead, use UpdateWorkspace.
     @Sendable
     public func createWorkspace(_ input: CreateWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspaceResponse {
-        return try await self.client.execute(operation: "CreateWorkspace", path: "/workspaces", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorkspace", 
+            path: "/workspaces", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests.
     @Sendable
     public func createWorkspaceApiKey(_ input: CreateWorkspaceApiKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspaceApiKeyResponse {
-        return try await self.client.execute(operation: "CreateWorkspaceApiKey", path: "/workspaces/{workspaceId}/apikeys", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorkspaceApiKey", 
+            path: "/workspaces/{workspaceId}/apikeys", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an Amazon Managed Grafana workspace.
     @Sendable
     public func deleteWorkspace(_ input: DeleteWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkspaceResponse {
-        return try await self.client.execute(operation: "DeleteWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWorkspace", 
+            path: "/workspaces/{workspaceId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a Grafana API key for the workspace.
     @Sendable
     public func deleteWorkspaceApiKey(_ input: DeleteWorkspaceApiKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkspaceApiKeyResponse {
-        return try await self.client.execute(operation: "DeleteWorkspaceApiKey", path: "/workspaces/{workspaceId}/apikeys/{keyName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWorkspaceApiKey", 
+            path: "/workspaces/{workspaceId}/apikeys/{keyName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays information about one Amazon Managed Grafana workspace.
     @Sendable
     public func describeWorkspace(_ input: DescribeWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspaceResponse {
-        return try await self.client.execute(operation: "DescribeWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeWorkspace", 
+            path: "/workspaces/{workspaceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays information about the authentication methods used in one Amazon Managed Grafana workspace.
     @Sendable
     public func describeWorkspaceAuthentication(_ input: DescribeWorkspaceAuthenticationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspaceAuthenticationResponse {
-        return try await self.client.execute(operation: "DescribeWorkspaceAuthentication", path: "/workspaces/{workspaceId}/authentication", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeWorkspaceAuthentication", 
+            path: "/workspaces/{workspaceId}/authentication", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the current configuration string for the given workspace.
     @Sendable
     public func describeWorkspaceConfiguration(_ input: DescribeWorkspaceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspaceConfigurationResponse {
-        return try await self.client.execute(operation: "DescribeWorkspaceConfiguration", path: "/workspaces/{workspaceId}/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeWorkspaceConfiguration", 
+            path: "/workspaces/{workspaceId}/configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the Grafana Enterprise license from a workspace.
     @Sendable
     public func disassociateLicense(_ input: DisassociateLicenseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateLicenseResponse {
-        return try await self.client.execute(operation: "DisassociateLicense", path: "/workspaces/{workspaceId}/licenses/{licenseType}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateLicense", 
+            path: "/workspaces/{workspaceId}/licenses/{licenseType}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the users and groups who have the Grafana Admin and Editor roles in this workspace. If you use this operation without specifying userId or groupId, the operation returns the roles of all users and groups. If you specify a userId or a groupId, only the roles for that user or group are returned. If you do this, you can specify only one userId or one groupId.
     @Sendable
     public func listPermissions(_ input: ListPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPermissionsResponse {
-        return try await self.client.execute(operation: "ListPermissions", path: "/workspaces/{workspaceId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPermissions", 
+            path: "/workspaces/{workspaceId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The ListTagsForResource operation returns the tags that are associated with the Amazon Managed Service for Grafana resource specified by the resourceArn. Currently, the only resource that can be tagged is a workspace.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use DescribeWorkspace.
     @Sendable
     public func listWorkspaces(_ input: ListWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkspacesResponse {
-        return try await self.client.execute(operation: "ListWorkspaces", path: "/workspaces", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkspaces", 
+            path: "/workspaces", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The TagResource operation associates tags with an Amazon Managed Grafana resource. Currently, the only resource that can be tagged is workspaces.  If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The UntagResource operation removes the association of the tag with the Amazon Managed Grafana resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates which users in a workspace have the Grafana Admin or Editor roles.
     @Sendable
     public func updatePermissions(_ input: UpdatePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePermissionsResponse {
-        return try await self.client.execute(operation: "UpdatePermissions", path: "/workspaces/{workspaceId}/permissions", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePermissions", 
+            path: "/workspaces/{workspaceId}/permissions", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies an existing Amazon Managed Grafana workspace. If you use this operation and omit any optional parameters, the existing values of those parameters are not changed. To modify the user authentication methods that the workspace uses, such as SAML or IAM Identity Center, use UpdateWorkspaceAuthentication. To modify which users in the workspace have the Admin and Editor Grafana roles, use UpdatePermissions.
     @Sendable
     public func updateWorkspace(_ input: UpdateWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkspaceResponse {
-        return try await self.client.execute(operation: "UpdateWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorkspace", 
+            path: "/workspaces/{workspaceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use this operation to define the identity provider (IdP) that this workspace authenticates users from, using SAML. You can also map SAML assertion attributes to workspace user information and define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace.  Changes to the authentication method for a workspace may take a few minutes to take effect.
     @Sendable
     public func updateWorkspaceAuthentication(_ input: UpdateWorkspaceAuthenticationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkspaceAuthenticationResponse {
-        return try await self.client.execute(operation: "UpdateWorkspaceAuthentication", path: "/workspaces/{workspaceId}/authentication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorkspaceAuthentication", 
+            path: "/workspaces/{workspaceId}/authentication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the configuration string for the given workspace
     @Sendable
     public func updateWorkspaceConfiguration(_ input: UpdateWorkspaceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkspaceConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateWorkspaceConfiguration", path: "/workspaces/{workspaceId}/configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorkspaceConfiguration", 
+            path: "/workspaces/{workspaceId}/configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

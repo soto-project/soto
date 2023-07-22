@@ -72,55 +72,118 @@ public struct Account: AWSService {
     /// Deletes the specified alternate contact from an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an  Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations.  For more information, see Enabling trusted access for  Amazon Web Services Account Management.
     @Sendable
     public func deleteAlternateContact(_ input: DeleteAlternateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteAlternateContact", path: "/deleteAlternateContact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAlternateContact", 
+            path: "/deleteAlternateContact", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables (opts-out) a particular Region for an account.
     @Sendable
     public func disableRegion(_ input: DisableRegionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisableRegion", path: "/disableRegion", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableRegion", 
+            path: "/disableRegion", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables (opts-in) a particular Region for an account.
     @Sendable
     public func enableRegion(_ input: EnableRegionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "EnableRegion", path: "/enableRegion", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableRegion", 
+            path: "/enableRegion", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an  Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations.  For more information, see Enabling trusted access for  Amazon Web Services Account Management.
     @Sendable
     public func getAlternateContact(_ input: GetAlternateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAlternateContactResponse {
-        return try await self.client.execute(operation: "GetAlternateContact", path: "/getAlternateContact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAlternateContact", 
+            path: "/getAlternateContact", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the primary contact information of an Amazon Web Services account. For complete details about how to use the primary contact operations, see Update the primary and alternate contact information.
     @Sendable
     public func getContactInformation(_ input: GetContactInformationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContactInformationResponse {
-        return try await self.client.execute(operation: "GetContactInformation", path: "/getContactInformation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetContactInformation", 
+            path: "/getContactInformation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the opt-in status of a particular Region.
     @Sendable
     public func getRegionOptStatus(_ input: GetRegionOptStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegionOptStatusResponse {
-        return try await self.client.execute(operation: "GetRegionOptStatus", path: "/getRegionOptStatus", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRegionOptStatus", 
+            path: "/getRegionOptStatus", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the region-opt-status-contains parameter.
     @Sendable
     public func listRegions(_ input: ListRegionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRegionsResponse {
-        return try await self.client.execute(operation: "ListRegions", path: "/listRegions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRegions", 
+            path: "/listRegions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an  Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations.  For more information, see Enabling trusted access for  Amazon Web Services Account Management.
     @Sendable
     public func putAlternateContact(_ input: PutAlternateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutAlternateContact", path: "/putAlternateContact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutAlternateContact", 
+            path: "/putAlternateContact", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the primary contact information of an Amazon Web Services account. For complete details about how to use the primary contact operations, see Update the primary and alternate contact information.
     @Sendable
     public func putContactInformation(_ input: PutContactInformationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutContactInformation", path: "/putContactInformation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutContactInformation", 
+            path: "/putContactInformation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

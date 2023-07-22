@@ -73,115 +73,248 @@ public struct IdentityStore: AWSService {
     /// Creates a group within the specified identity store.
     @Sendable
     public func createGroup(_ input: CreateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGroupResponse {
-        return try await self.client.execute(operation: "CreateGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a relationship between a member and a group. The following identifiers must be specified: GroupId, IdentityStoreId, and MemberId.
     @Sendable
     public func createGroupMembership(_ input: CreateGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGroupMembershipResponse {
-        return try await self.client.execute(operation: "CreateGroupMembership", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateGroupMembership", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a user within the specified identity store.
     @Sendable
     public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserResponse {
-        return try await self.client.execute(operation: "CreateUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a group within an identity store given GroupId.
     @Sendable
     public func deleteGroup(_ input: DeleteGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGroupResponse {
-        return try await self.client.execute(operation: "DeleteGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a membership within a group given MembershipId.
     @Sendable
     public func deleteGroupMembership(_ input: DeleteGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGroupMembershipResponse {
-        return try await self.client.execute(operation: "DeleteGroupMembership", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteGroupMembership", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a user within an identity store given UserId.
     @Sendable
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserResponse {
-        return try await self.client.execute(operation: "DeleteUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the group metadata and attributes from GroupId in an identity store.
     @Sendable
     public func describeGroup(_ input: DescribeGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGroupResponse {
-        return try await self.client.execute(operation: "DescribeGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves membership metadata and attributes from MembershipId in an identity store.
     @Sendable
     public func describeGroupMembership(_ input: DescribeGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGroupMembershipResponse {
-        return try await self.client.execute(operation: "DescribeGroupMembership", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeGroupMembership", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the user metadata and attributes from the UserId in an identity store.
     @Sendable
     public func describeUser(_ input: DescribeUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserResponse {
-        return try await self.client.execute(operation: "DescribeUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves GroupId in an identity store.
     @Sendable
     public func getGroupId(_ input: GetGroupIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGroupIdResponse {
-        return try await self.client.execute(operation: "GetGroupId", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetGroupId", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the MembershipId in an identity store.
     @Sendable
     public func getGroupMembershipId(_ input: GetGroupMembershipIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGroupMembershipIdResponse {
-        return try await self.client.execute(operation: "GetGroupMembershipId", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetGroupMembershipId", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the UserId in an identity store.
     @Sendable
     public func getUserId(_ input: GetUserIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUserIdResponse {
-        return try await self.client.execute(operation: "GetUserId", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUserId", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups.
     @Sendable
     public func isMemberInGroups(_ input: IsMemberInGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> IsMemberInGroupsResponse {
-        return try await self.client.execute(operation: "IsMemberInGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "IsMemberInGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
     @Sendable
     public func listGroupMemberships(_ input: ListGroupMembershipsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupMembershipsResponse {
-        return try await self.client.execute(operation: "ListGroupMemberships", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGroupMemberships", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
     @Sendable
     public func listGroupMembershipsForMember(_ input: ListGroupMembershipsForMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupMembershipsForMemberResponse {
-        return try await self.client.execute(operation: "ListGroupMembershipsForMember", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGroupMembershipsForMember", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all groups in the identity store. Returns a paginated list of complete Group objects.  Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.
     @Sendable
     public func listGroups(_ input: ListGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupsResponse {
-        return try await self.client.execute(operation: "ListGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all users in the identity store. Returns a paginated list of complete User objects.  Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.
     @Sendable
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersResponse {
-        return try await self.client.execute(operation: "ListUsers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListUsers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// For the specified group in the specified identity store, updates the group metadata and attributes.
     @Sendable
     public func updateGroup(_ input: UpdateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGroupResponse {
-        return try await self.client.execute(operation: "UpdateGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// For the specified user in the specified identity store, updates the user metadata and attributes.
     @Sendable
     public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserResponse {
-        return try await self.client.execute(operation: "UpdateUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

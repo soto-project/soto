@@ -76,133 +76,287 @@ public struct MQ: AWSService {
     /// Creates a broker. Note: This API is asynchronous. To create a broker, you must either use the AmazonMQFullAccess IAM policy or include the following EC2 permissions in your IAM policy. ec2:CreateNetworkInterface This permission is required to allow Amazon MQ to create an elastic network interface (ENI) on behalf of your account. ec2:CreateNetworkInterfacePermission This permission is required to attach the ENI to the broker instance. ec2:DeleteNetworkInterface ec2:DeleteNetworkInterfacePermission ec2:DetachNetworkInterface ec2:DescribeInternetGateways ec2:DescribeNetworkInterfaces ec2:DescribeNetworkInterfacePermissions ec2:DescribeRouteTables ec2:DescribeSecurityGroups ec2:DescribeSubnets ec2:DescribeVpcs For more information, see Create an IAM User and Get Your AWS Credentials and Never Modify or Delete the Amazon MQ Elastic Network Interface in the Amazon MQ Developer Guide.
     @Sendable
     public func createBroker(_ input: CreateBrokerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBrokerResponse {
-        return try await self.client.execute(operation: "CreateBroker", path: "/v1/brokers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateBroker", 
+            path: "/v1/brokers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
     @Sendable
     public func createConfiguration(_ input: CreateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfigurationResponse {
-        return try await self.client.execute(operation: "CreateConfiguration", path: "/v1/configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateConfiguration", 
+            path: "/v1/configurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Add a tag to a resource.
     @Sendable
     public func createTags(_ input: CreateTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "CreateTags", path: "/v1/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTags", 
+            path: "/v1/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an ActiveMQ user.
     @Sendable
     public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserResponse {
-        return try await self.client.execute(operation: "CreateUser", path: "/v1/brokers/{BrokerId}/users/{Username}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUser", 
+            path: "/v1/brokers/{BrokerId}/users/{Username}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a broker. Note: This API is asynchronous.
     @Sendable
     public func deleteBroker(_ input: DeleteBrokerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBrokerResponse {
-        return try await self.client.execute(operation: "DeleteBroker", path: "/v1/brokers/{BrokerId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBroker", 
+            path: "/v1/brokers/{BrokerId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a tag from a resource.
     @Sendable
     public func deleteTags(_ input: DeleteTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteTags", path: "/v1/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTags", 
+            path: "/v1/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an ActiveMQ user.
     @Sendable
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserResponse {
-        return try await self.client.execute(operation: "DeleteUser", path: "/v1/brokers/{BrokerId}/users/{Username}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUser", 
+            path: "/v1/brokers/{BrokerId}/users/{Username}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the specified broker.
     @Sendable
     public func describeBroker(_ input: DescribeBrokerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBrokerResponse {
-        return try await self.client.execute(operation: "DescribeBroker", path: "/v1/brokers/{BrokerId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBroker", 
+            path: "/v1/brokers/{BrokerId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe available engine types and versions.
     @Sendable
     public func describeBrokerEngineTypes(_ input: DescribeBrokerEngineTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBrokerEngineTypesResponse {
-        return try await self.client.execute(operation: "DescribeBrokerEngineTypes", path: "/v1/broker-engine-types", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBrokerEngineTypes", 
+            path: "/v1/broker-engine-types", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe available broker instance options.
     @Sendable
     public func describeBrokerInstanceOptions(_ input: DescribeBrokerInstanceOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBrokerInstanceOptionsResponse {
-        return try await self.client.execute(operation: "DescribeBrokerInstanceOptions", path: "/v1/broker-instance-options", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBrokerInstanceOptions", 
+            path: "/v1/broker-instance-options", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the specified configuration.
     @Sendable
     public func describeConfiguration(_ input: DescribeConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationResponse {
-        return try await self.client.execute(operation: "DescribeConfiguration", path: "/v1/configurations/{ConfigurationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConfiguration", 
+            path: "/v1/configurations/{ConfigurationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the specified configuration revision for the specified configuration.
     @Sendable
     public func describeConfigurationRevision(_ input: DescribeConfigurationRevisionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConfigurationRevisionResponse {
-        return try await self.client.execute(operation: "DescribeConfigurationRevision", path: "/v1/configurations/{ConfigurationId}/revisions/{ConfigurationRevision}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConfigurationRevision", 
+            path: "/v1/configurations/{ConfigurationId}/revisions/{ConfigurationRevision}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about an ActiveMQ user.
     @Sendable
     public func describeUser(_ input: DescribeUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserResponse {
-        return try await self.client.execute(operation: "DescribeUser", path: "/v1/brokers/{BrokerId}/users/{Username}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeUser", 
+            path: "/v1/brokers/{BrokerId}/users/{Username}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all brokers.
     @Sendable
     public func listBrokers(_ input: ListBrokersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBrokersResponse {
-        return try await self.client.execute(operation: "ListBrokers", path: "/v1/brokers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBrokers", 
+            path: "/v1/brokers", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all revisions for the specified configuration.
     @Sendable
     public func listConfigurationRevisions(_ input: ListConfigurationRevisionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationRevisionsResponse {
-        return try await self.client.execute(operation: "ListConfigurationRevisions", path: "/v1/configurations/{ConfigurationId}/revisions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConfigurationRevisions", 
+            path: "/v1/configurations/{ConfigurationId}/revisions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all configurations.
     @Sendable
     public func listConfigurations(_ input: ListConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationsResponse {
-        return try await self.client.execute(operation: "ListConfigurations", path: "/v1/configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConfigurations", 
+            path: "/v1/configurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists tags for a resource.
     @Sendable
     public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsResponse {
-        return try await self.client.execute(operation: "ListTags", path: "/v1/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTags", 
+            path: "/v1/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all ActiveMQ users.
     @Sendable
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersResponse {
-        return try await self.client.execute(operation: "ListUsers", path: "/v1/brokers/{BrokerId}/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListUsers", 
+            path: "/v1/brokers/{BrokerId}/users", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Reboots a broker. Note: This API is asynchronous.
     @Sendable
     public func rebootBroker(_ input: RebootBrokerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RebootBrokerResponse {
-        return try await self.client.execute(operation: "RebootBroker", path: "/v1/brokers/{BrokerId}/reboot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RebootBroker", 
+            path: "/v1/brokers/{BrokerId}/reboot", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a pending configuration change to a broker.
     @Sendable
     public func updateBroker(_ input: UpdateBrokerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBrokerResponse {
-        return try await self.client.execute(operation: "UpdateBroker", path: "/v1/brokers/{BrokerId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBroker", 
+            path: "/v1/brokers/{BrokerId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified configuration.
     @Sendable
     public func updateConfiguration(_ input: UpdateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateConfiguration", path: "/v1/configurations/{ConfigurationId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateConfiguration", 
+            path: "/v1/configurations/{ConfigurationId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the information for an ActiveMQ user.
     @Sendable
     public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserResponse {
-        return try await self.client.execute(operation: "UpdateUser", path: "/v1/brokers/{BrokerId}/users/{Username}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUser", 
+            path: "/v1/brokers/{BrokerId}/users/{Username}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

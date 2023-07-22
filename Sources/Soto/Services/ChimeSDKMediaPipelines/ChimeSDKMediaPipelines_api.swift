@@ -73,115 +73,248 @@ public struct ChimeSDKMediaPipelines: AWSService {
     /// Creates a media pipeline.
     @Sendable
     public func createMediaCapturePipeline(_ input: CreateMediaCapturePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMediaCapturePipelineResponse {
-        return try await self.client.execute(operation: "CreateMediaCapturePipeline", path: "/sdk-media-capture-pipelines", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMediaCapturePipeline", 
+            path: "/sdk-media-capture-pipelines", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a media concatenation pipeline.
     @Sendable
     public func createMediaConcatenationPipeline(_ input: CreateMediaConcatenationPipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMediaConcatenationPipelineResponse {
-        return try await self.client.execute(operation: "CreateMediaConcatenationPipeline", path: "/sdk-media-concatenation-pipelines", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMediaConcatenationPipeline", 
+            path: "/sdk-media-concatenation-pipelines", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a media insights pipeline.
     @Sendable
     public func createMediaInsightsPipeline(_ input: CreateMediaInsightsPipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMediaInsightsPipelineResponse {
-        return try await self.client.execute(operation: "CreateMediaInsightsPipeline", path: "/media-insights-pipelines", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMediaInsightsPipeline", 
+            path: "/media-insights-pipelines", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// A structure that contains the static configurations for a media insights pipeline.
     @Sendable
     public func createMediaInsightsPipelineConfiguration(_ input: CreateMediaInsightsPipelineConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMediaInsightsPipelineConfigurationResponse {
-        return try await self.client.execute(operation: "CreateMediaInsightsPipelineConfiguration", path: "/media-insights-pipeline-configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMediaInsightsPipelineConfiguration", 
+            path: "/media-insights-pipeline-configurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a media live connector pipeline in an Amazon Chime SDK meeting.
     @Sendable
     public func createMediaLiveConnectorPipeline(_ input: CreateMediaLiveConnectorPipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMediaLiveConnectorPipelineResponse {
-        return try await self.client.execute(operation: "CreateMediaLiveConnectorPipeline", path: "/sdk-media-live-connector-pipelines", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMediaLiveConnectorPipeline", 
+            path: "/sdk-media-live-connector-pipelines", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the media pipeline.
     @Sendable
     public func deleteMediaCapturePipeline(_ input: DeleteMediaCapturePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteMediaCapturePipeline", path: "/sdk-media-capture-pipelines/{MediaPipelineId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMediaCapturePipeline", 
+            path: "/sdk-media-capture-pipelines/{MediaPipelineId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified configuration settings.
     @Sendable
     public func deleteMediaInsightsPipelineConfiguration(_ input: DeleteMediaInsightsPipelineConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteMediaInsightsPipelineConfiguration", path: "/media-insights-pipeline-configurations/{Identifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMediaInsightsPipelineConfiguration", 
+            path: "/media-insights-pipeline-configurations/{Identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the media pipeline.
     @Sendable
     public func deleteMediaPipeline(_ input: DeleteMediaPipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteMediaPipeline", path: "/sdk-media-pipelines/{MediaPipelineId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMediaPipeline", 
+            path: "/sdk-media-pipelines/{MediaPipelineId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets an existing media pipeline.
     @Sendable
     public func getMediaCapturePipeline(_ input: GetMediaCapturePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMediaCapturePipelineResponse {
-        return try await self.client.execute(operation: "GetMediaCapturePipeline", path: "/sdk-media-capture-pipelines/{MediaPipelineId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMediaCapturePipeline", 
+            path: "/sdk-media-capture-pipelines/{MediaPipelineId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the configuration settings for a media insights pipeline.
     @Sendable
     public func getMediaInsightsPipelineConfiguration(_ input: GetMediaInsightsPipelineConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMediaInsightsPipelineConfigurationResponse {
-        return try await self.client.execute(operation: "GetMediaInsightsPipelineConfiguration", path: "/media-insights-pipeline-configurations/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMediaInsightsPipelineConfiguration", 
+            path: "/media-insights-pipeline-configurations/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets an existing media pipeline.
     @Sendable
     public func getMediaPipeline(_ input: GetMediaPipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMediaPipelineResponse {
-        return try await self.client.execute(operation: "GetMediaPipeline", path: "/sdk-media-pipelines/{MediaPipelineId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMediaPipeline", 
+            path: "/sdk-media-pipelines/{MediaPipelineId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of media pipelines.
     @Sendable
     public func listMediaCapturePipelines(_ input: ListMediaCapturePipelinesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMediaCapturePipelinesResponse {
-        return try await self.client.execute(operation: "ListMediaCapturePipelines", path: "/sdk-media-capture-pipelines", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMediaCapturePipelines", 
+            path: "/sdk-media-capture-pipelines", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the available media insights pipeline configurations.
     @Sendable
     public func listMediaInsightsPipelineConfigurations(_ input: ListMediaInsightsPipelineConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMediaInsightsPipelineConfigurationsResponse {
-        return try await self.client.execute(operation: "ListMediaInsightsPipelineConfigurations", path: "/media-insights-pipeline-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMediaInsightsPipelineConfigurations", 
+            path: "/media-insights-pipeline-configurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of media pipelines.
     @Sendable
     public func listMediaPipelines(_ input: ListMediaPipelinesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMediaPipelinesResponse {
-        return try await self.client.execute(operation: "ListMediaPipelines", path: "/sdk-media-pipelines", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMediaPipelines", 
+            path: "/sdk-media-pipelines", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags available for a media pipeline.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags?operation=tag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags?operation=tag-resource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes any tags from a media pipeline.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags?operation=untag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags?operation=untag-resource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the media insights pipeline's configuration settings.
     @Sendable
     public func updateMediaInsightsPipelineConfiguration(_ input: UpdateMediaInsightsPipelineConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMediaInsightsPipelineConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateMediaInsightsPipelineConfiguration", path: "/media-insights-pipeline-configurations/{Identifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMediaInsightsPipelineConfiguration", 
+            path: "/media-insights-pipeline-configurations/{Identifier}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the status of a media insights pipeline.
     @Sendable
     public func updateMediaInsightsPipelineStatus(_ input: UpdateMediaInsightsPipelineStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateMediaInsightsPipelineStatus", path: "/media-insights-pipeline-status/{Identifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMediaInsightsPipelineStatus", 
+            path: "/media-insights-pipeline-status/{Identifier}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

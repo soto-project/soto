@@ -68,31 +68,66 @@ public struct MediaStoreData: AWSService {
     /// Deletes an object at the specified path.
     @Sendable
     public func deleteObject(_ input: DeleteObjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteObjectResponse {
-        return try await self.client.execute(operation: "DeleteObject", path: "/{Path+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteObject", 
+            path: "/{Path+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the headers for an object at the specified path.
     @Sendable
     public func describeObject(_ input: DescribeObjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeObjectResponse {
-        return try await self.client.execute(operation: "DescribeObject", path: "/{Path+}", httpMethod: .HEAD, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeObject", 
+            path: "/{Path+}", 
+            httpMethod: .HEAD, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
     @Sendable
     public func getObject(_ input: GetObjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetObjectResponse {
-        return try await self.client.execute(operation: "GetObject", path: "/{Path+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetObject", 
+            path: "/{Path+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a list of metadata entries about folders and objects in the specified folder.
     @Sendable
     public func listItems(_ input: ListItemsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListItemsResponse {
-        return try await self.client.execute(operation: "ListItems", path: "/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListItems", 
+            path: "/", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
     @Sendable
     public func putObject(_ input: PutObjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutObjectResponse {
-        return try await self.client.execute(operation: "PutObject", path: "/{Path+}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutObject", 
+            path: "/{Path+}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

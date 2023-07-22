@@ -77,157 +77,339 @@ public struct Outposts: AWSService {
     /// Cancels the specified order for an Outpost.
     @Sendable
     public func cancelOrder(_ input: CancelOrderInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelOrderOutput {
-        return try await self.client.execute(operation: "CancelOrder", path: "/orders/{OrderId}/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelOrder", 
+            path: "/orders/{OrderId}/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an order for an Outpost.
     @Sendable
     public func createOrder(_ input: CreateOrderInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOrderOutput {
-        return try await self.client.execute(operation: "CreateOrder", path: "/orders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateOrder", 
+            path: "/orders", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an Outpost. You can specify either an Availability one or an AZ ID.
     @Sendable
     public func createOutpost(_ input: CreateOutpostInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOutpostOutput {
-        return try await self.client.execute(operation: "CreateOutpost", path: "/outposts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateOutpost", 
+            path: "/outposts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Creates a site for an Outpost.
     @Sendable
     public func createSite(_ input: CreateSiteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSiteOutput {
-        return try await self.client.execute(operation: "CreateSite", path: "/sites", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSite", 
+            path: "/sites", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified Outpost.
     @Sendable
     public func deleteOutpost(_ input: DeleteOutpostInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteOutpostOutput {
-        return try await self.client.execute(operation: "DeleteOutpost", path: "/outposts/{OutpostId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteOutpost", 
+            path: "/outposts/{OutpostId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified site.
     @Sendable
     public func deleteSite(_ input: DeleteSiteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSiteOutput {
-        return try await self.client.execute(operation: "DeleteSite", path: "/sites/{SiteId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSite", 
+            path: "/sites/{SiteId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified catalog item.
     @Sendable
     public func getCatalogItem(_ input: GetCatalogItemInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCatalogItemOutput {
-        return try await self.client.execute(operation: "GetCatalogItem", path: "/catalog/item/{CatalogItemId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCatalogItem", 
+            path: "/catalog/item/{CatalogItemId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///   Amazon Web Services uses this action to install Outpost servers.  Gets information about the specified connection.   Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For  more information, see  Amazon Web Services managed policies for Amazon Web Services Outposts and  Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide.
     @Sendable
     public func getConnection(_ input: GetConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionResponse {
-        return try await self.client.execute(operation: "GetConnection", path: "/connections/{ConnectionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConnection", 
+            path: "/connections/{ConnectionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified order.
     @Sendable
     public func getOrder(_ input: GetOrderInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOrderOutput {
-        return try await self.client.execute(operation: "GetOrder", path: "/orders/{OrderId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetOrder", 
+            path: "/orders/{OrderId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified Outpost.
     @Sendable
     public func getOutpost(_ input: GetOutpostInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOutpostOutput {
-        return try await self.client.execute(operation: "GetOutpost", path: "/outposts/{OutpostId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetOutpost", 
+            path: "/outposts/{OutpostId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the instance types for the specified Outpost.
     @Sendable
     public func getOutpostInstanceTypes(_ input: GetOutpostInstanceTypesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOutpostInstanceTypesOutput {
-        return try await self.client.execute(operation: "GetOutpostInstanceTypes", path: "/outposts/{OutpostId}/instanceTypes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetOutpostInstanceTypes", 
+            path: "/outposts/{OutpostId}/instanceTypes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified Outpost site.
     @Sendable
     public func getSite(_ input: GetSiteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSiteOutput {
-        return try await self.client.execute(operation: "GetSite", path: "/sites/{SiteId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSite", 
+            path: "/sites/{SiteId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Gets the site address of the specified site.
     @Sendable
     public func getSiteAddress(_ input: GetSiteAddressInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSiteAddressOutput {
-        return try await self.client.execute(operation: "GetSiteAddress", path: "/sites/{SiteId}/address", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSiteAddress", 
+            path: "/sites/{SiteId}/address", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     @Sendable
     public func listAssets(_ input: ListAssetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetsOutput {
-        return try await self.client.execute(operation: "ListAssets", path: "/outposts/{OutpostIdentifier}/assets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAssets", 
+            path: "/outposts/{OutpostIdentifier}/assets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the items in the catalog. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     @Sendable
     public func listCatalogItems(_ input: ListCatalogItemsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCatalogItemsOutput {
-        return try await self.client.execute(operation: "ListCatalogItems", path: "/catalog/items", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCatalogItems", 
+            path: "/catalog/items", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Outpost orders for your Amazon Web Services account.
     @Sendable
     public func listOrders(_ input: ListOrdersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrdersOutput {
-        return try await self.client.execute(operation: "ListOrders", path: "/list-orders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOrders", 
+            path: "/list-orders", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Outposts for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     @Sendable
     public func listOutposts(_ input: ListOutpostsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOutpostsOutput {
-        return try await self.client.execute(operation: "ListOutposts", path: "/outposts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOutposts", 
+            path: "/outposts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific results. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     @Sendable
     public func listSites(_ input: ListSitesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSitesOutput {
-        return try await self.client.execute(operation: "ListSites", path: "/sites", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSites", 
+            path: "/sites", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags for the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///   Amazon Web Services uses this action to install Outpost servers.  Starts the connection required for Outpost server installation.   Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For  more information, see  Amazon Web Services managed policies for Amazon Web Services Outposts and  Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide.
     @Sendable
     public func startConnection(_ input: StartConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartConnectionResponse {
-        return try await self.client.execute(operation: "StartConnection", path: "/connections", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartConnection", 
+            path: "/connections", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds tags to the specified resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from the specified resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Updates an Outpost.
     @Sendable
     public func updateOutpost(_ input: UpdateOutpostInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOutpostOutput {
-        return try await self.client.execute(operation: "UpdateOutpost", path: "/outposts/{OutpostId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateOutpost", 
+            path: "/outposts/{OutpostId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified site.
     @Sendable
     public func updateSite(_ input: UpdateSiteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSiteOutput {
-        return try await self.client.execute(operation: "UpdateSite", path: "/sites/{SiteId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSite", 
+            path: "/sites/{SiteId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the address of the specified site. You can't update a site address if there is an order in progress. You must wait for the order to complete or cancel the order. You can update the operating address before you place an order at the site, or after all Outposts that belong to the site have been deactivated.
     @Sendable
     public func updateSiteAddress(_ input: UpdateSiteAddressInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSiteAddressOutput {
-        return try await self.client.execute(operation: "UpdateSiteAddress", path: "/sites/{SiteId}/address", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSiteAddress", 
+            path: "/sites/{SiteId}/address", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the physical and logistical details for a rack at a site. For more information about hardware requirements for racks, see Network  readiness checklist in the Amazon Web Services Outposts User Guide.  To update a rack at a site with an order of IN_PROGRESS, you must wait for the order to complete or cancel the order.
     @Sendable
     public func updateSiteRackPhysicalProperties(_ input: UpdateSiteRackPhysicalPropertiesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSiteRackPhysicalPropertiesOutput {
-        return try await self.client.execute(operation: "UpdateSiteRackPhysicalProperties", path: "/sites/{SiteId}/rackPhysicalProperties", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSiteRackPhysicalProperties", 
+            path: "/sites/{SiteId}/rackPhysicalProperties", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

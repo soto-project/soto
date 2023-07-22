@@ -66,181 +66,391 @@ public struct LookoutMetrics: AWSService {
     /// Activates an anomaly detector.
     @Sendable
     public func activateAnomalyDetector(_ input: ActivateAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateAnomalyDetectorResponse {
-        return try await self.client.execute(operation: "ActivateAnomalyDetector", path: "/ActivateAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ActivateAnomalyDetector", 
+            path: "/ActivateAnomalyDetector", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Runs a backtest for anomaly detection for the specified resource.
     @Sendable
     public func backTestAnomalyDetector(_ input: BackTestAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BackTestAnomalyDetectorResponse {
-        return try await self.client.execute(operation: "BackTestAnomalyDetector", path: "/BackTestAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BackTestAnomalyDetector", 
+            path: "/BackTestAnomalyDetector", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an alert for an anomaly detector.
     @Sendable
     public func createAlert(_ input: CreateAlertRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAlertResponse {
-        return try await self.client.execute(operation: "CreateAlert", path: "/CreateAlert", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAlert", 
+            path: "/CreateAlert", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an anomaly detector.
     @Sendable
     public func createAnomalyDetector(_ input: CreateAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAnomalyDetectorResponse {
-        return try await self.client.execute(operation: "CreateAnomalyDetector", path: "/CreateAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAnomalyDetector", 
+            path: "/CreateAnomalyDetector", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a dataset.
     @Sendable
     public func createMetricSet(_ input: CreateMetricSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMetricSetResponse {
-        return try await self.client.execute(operation: "CreateMetricSet", path: "/CreateMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMetricSet", 
+            path: "/CreateMetricSet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deactivates an anomaly detector.
     @Sendable
     public func deactivateAnomalyDetector(_ input: DeactivateAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeactivateAnomalyDetectorResponse {
-        return try await self.client.execute(operation: "DeactivateAnomalyDetector", path: "/DeactivateAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeactivateAnomalyDetector", 
+            path: "/DeactivateAnomalyDetector", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an alert.
     @Sendable
     public func deleteAlert(_ input: DeleteAlertRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAlertResponse {
-        return try await self.client.execute(operation: "DeleteAlert", path: "/DeleteAlert", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAlert", 
+            path: "/DeleteAlert", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a detector. Deleting an anomaly detector will delete all of its corresponding resources including any configured datasets and alerts.
     @Sendable
     public func deleteAnomalyDetector(_ input: DeleteAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAnomalyDetectorResponse {
-        return try await self.client.execute(operation: "DeleteAnomalyDetector", path: "/DeleteAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAnomalyDetector", 
+            path: "/DeleteAnomalyDetector", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an alert. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     @Sendable
     public func describeAlert(_ input: DescribeAlertRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAlertResponse {
-        return try await self.client.execute(operation: "DescribeAlert", path: "/DescribeAlert", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAlert", 
+            path: "/DescribeAlert", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the status of the specified anomaly detection jobs.
     @Sendable
     public func describeAnomalyDetectionExecutions(_ input: DescribeAnomalyDetectionExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAnomalyDetectionExecutionsResponse {
-        return try await self.client.execute(operation: "DescribeAnomalyDetectionExecutions", path: "/DescribeAnomalyDetectionExecutions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAnomalyDetectionExecutions", 
+            path: "/DescribeAnomalyDetectionExecutions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     @Sendable
     public func describeAnomalyDetector(_ input: DescribeAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAnomalyDetectorResponse {
-        return try await self.client.execute(operation: "DescribeAnomalyDetector", path: "/DescribeAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAnomalyDetector", 
+            path: "/DescribeAnomalyDetector", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a dataset. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     @Sendable
     public func describeMetricSet(_ input: DescribeMetricSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetricSetResponse {
-        return try await self.client.execute(operation: "DescribeMetricSet", path: "/DescribeMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeMetricSet", 
+            path: "/DescribeMetricSet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Detects an Amazon S3 dataset's file format, interval, and offset.
     @Sendable
     public func detectMetricSetConfig(_ input: DetectMetricSetConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectMetricSetConfigResponse {
-        return try await self.client.execute(operation: "DetectMetricSetConfig", path: "/DetectMetricSetConfig", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DetectMetricSetConfig", 
+            path: "/DetectMetricSetConfig", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns details about a group of anomalous metrics.
     @Sendable
     public func getAnomalyGroup(_ input: GetAnomalyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAnomalyGroupResponse {
-        return try await self.client.execute(operation: "GetAnomalyGroup", path: "/GetAnomalyGroup", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAnomalyGroup", 
+            path: "/GetAnomalyGroup", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns details about the requested data quality metrics.
     @Sendable
     public func getDataQualityMetrics(_ input: GetDataQualityMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataQualityMetricsResponse {
-        return try await self.client.execute(operation: "GetDataQualityMetrics", path: "/GetDataQualityMetrics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDataQualityMetrics", 
+            path: "/GetDataQualityMetrics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get feedback for an anomaly group.
     @Sendable
     public func getFeedback(_ input: GetFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFeedbackResponse {
-        return try await self.client.execute(operation: "GetFeedback", path: "/GetFeedback", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFeedback", 
+            path: "/GetFeedback", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a selection of sample records from an Amazon S3 datasource.
     @Sendable
     public func getSampleData(_ input: GetSampleDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSampleDataResponse {
-        return try await self.client.execute(operation: "GetSampleData", path: "/GetSampleData", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSampleData", 
+            path: "/GetSampleData", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the alerts attached to a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     @Sendable
     public func listAlerts(_ input: ListAlertsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAlertsResponse {
-        return try await self.client.execute(operation: "ListAlerts", path: "/ListAlerts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAlerts", 
+            path: "/ListAlerts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     @Sendable
     public func listAnomalyDetectors(_ input: ListAnomalyDetectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnomalyDetectorsResponse {
-        return try await self.client.execute(operation: "ListAnomalyDetectors", path: "/ListAnomalyDetectors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAnomalyDetectors", 
+            path: "/ListAnomalyDetectors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of measures that are potential causes or effects of an anomaly group.
     @Sendable
     public func listAnomalyGroupRelatedMetrics(_ input: ListAnomalyGroupRelatedMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnomalyGroupRelatedMetricsResponse {
-        return try await self.client.execute(operation: "ListAnomalyGroupRelatedMetrics", path: "/ListAnomalyGroupRelatedMetrics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAnomalyGroupRelatedMetrics", 
+            path: "/ListAnomalyGroupRelatedMetrics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of anomaly groups.
     @Sendable
     public func listAnomalyGroupSummaries(_ input: ListAnomalyGroupSummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnomalyGroupSummariesResponse {
-        return try await self.client.execute(operation: "ListAnomalyGroupSummaries", path: "/ListAnomalyGroupSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAnomalyGroupSummaries", 
+            path: "/ListAnomalyGroupSummaries", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of anomalous metrics for a measure in an anomaly group.
     @Sendable
     public func listAnomalyGroupTimeSeries(_ input: ListAnomalyGroupTimeSeriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnomalyGroupTimeSeriesResponse {
-        return try await self.client.execute(operation: "ListAnomalyGroupTimeSeries", path: "/ListAnomalyGroupTimeSeries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAnomalyGroupTimeSeries", 
+            path: "/ListAnomalyGroupTimeSeries", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the datasets in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     @Sendable
     public func listMetricSets(_ input: ListMetricSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMetricSetsResponse {
-        return try await self.client.execute(operation: "ListMetricSets", path: "/ListMetricSets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMetricSets", 
+            path: "/ListMetricSets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of tags for a detector, dataset, or alert.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Add feedback for an anomalous metric.
     @Sendable
     public func putFeedback(_ input: PutFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutFeedbackResponse {
-        return try await self.client.execute(operation: "PutFeedback", path: "/PutFeedback", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutFeedback", 
+            path: "/PutFeedback", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds tags to a detector, dataset, or alert.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from a detector, dataset, or alert.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Make changes to an existing alert.
     @Sendable
     public func updateAlert(_ input: UpdateAlertRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAlertResponse {
-        return try await self.client.execute(operation: "UpdateAlert", path: "/UpdateAlert", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAlert", 
+            path: "/UpdateAlert", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a detector. After activation, you can only change a detector's ingestion delay and description.
     @Sendable
     public func updateAnomalyDetector(_ input: UpdateAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnomalyDetectorResponse {
-        return try await self.client.execute(operation: "UpdateAnomalyDetector", path: "/UpdateAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAnomalyDetector", 
+            path: "/UpdateAnomalyDetector", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a dataset.
     @Sendable
     public func updateMetricSet(_ input: UpdateMetricSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMetricSetResponse {
-        return try await self.client.execute(operation: "UpdateMetricSet", path: "/UpdateMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMetricSet", 
+            path: "/UpdateMetricSet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -115,7 +115,14 @@ public struct Route53RecoveryCluster: AWSService {
     /// 					routing controls in Route 53 ARC
     @Sendable
     public func getRoutingControlState(_ input: GetRoutingControlStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRoutingControlStateResponse {
-        return try await self.client.execute(operation: "GetRoutingControlState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRoutingControlState", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List routing control names and Amazon Resource Names (ARNs), as well as the routing control
@@ -139,7 +146,14 @@ public struct Route53RecoveryCluster: AWSService {
     /// 				routing controls in Route 53 ARC
     @Sendable
     public func listRoutingControls(_ input: ListRoutingControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRoutingControlsResponse {
-        return try await self.client.execute(operation: "ListRoutingControls", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRoutingControls", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Set the state of the routing control to reroute traffic. You can set the value to be On or
@@ -165,7 +179,14 @@ public struct Route53RecoveryCluster: AWSService {
     /// 					Viewing and updating routing control states     Working with routing controls overall
     @Sendable
     public func updateRoutingControlState(_ input: UpdateRoutingControlStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRoutingControlStateResponse {
-        return try await self.client.execute(operation: "UpdateRoutingControlState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRoutingControlState", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Set multiple routing control states. You can set the value for each state to be On or Off.
@@ -190,7 +211,14 @@ public struct Route53RecoveryCluster: AWSService {
     /// 					Viewing and updating routing control states     Working with routing controls overall
     @Sendable
     public func updateRoutingControlStates(_ input: UpdateRoutingControlStatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRoutingControlStatesResponse {
-        return try await self.client.execute(operation: "UpdateRoutingControlStates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRoutingControlStates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

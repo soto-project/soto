@@ -67,481 +67,1041 @@ public struct WorkMail: AWSService {
     /// Adds a member (user or group) to the resource's set of delegates.
     @Sendable
     public func associateDelegateToResource(_ input: AssociateDelegateToResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDelegateToResourceResponse {
-        return try await self.client.execute(operation: "AssociateDelegateToResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateDelegateToResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a member (user or group) to the group's set.
     @Sendable
     public func associateMemberToGroup(_ input: AssociateMemberToGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateMemberToGroupResponse {
-        return try await self.client.execute(operation: "AssociateMemberToGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateMemberToGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assumes an impersonation role for the given WorkMail organization. This method returns an authentication token you can use to make impersonated calls.
     @Sendable
     public func assumeImpersonationRole(_ input: AssumeImpersonationRoleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssumeImpersonationRoleResponse {
-        return try await self.client.execute(operation: "AssumeImpersonationRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssumeImpersonationRole", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels a mailbox export job.  If the mailbox export job is near completion, it might not be possible to cancel it.
     @Sendable
     public func cancelMailboxExportJob(_ input: CancelMailboxExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelMailboxExportJobResponse {
-        return try await self.client.execute(operation: "CancelMailboxExportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelMailboxExportJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds an alias to the set of a given member (user or group) of WorkMail.
     @Sendable
     public func createAlias(_ input: CreateAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAliasResponse {
-        return try await self.client.execute(operation: "CreateAlias", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAlias", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an AvailabilityConfiguration for the given WorkMail organization and domain.
     @Sendable
     public func createAvailabilityConfiguration(_ input: CreateAvailabilityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAvailabilityConfigurationResponse {
-        return try await self.client.execute(operation: "CreateAvailabilityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAvailabilityConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a group that can be used in WorkMail by calling the RegisterToWorkMail operation.
     @Sendable
     public func createGroup(_ input: CreateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGroupResponse {
-        return try await self.client.execute(operation: "CreateGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an impersonation role for the given WorkMail organization.  Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries also complete successfully without performing any further actions.
     @Sendable
     public func createImpersonationRole(_ input: CreateImpersonationRoleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImpersonationRoleResponse {
-        return try await self.client.execute(operation: "CreateImpersonationRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateImpersonationRole", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new mobile device access rule for the specified WorkMail organization.
     @Sendable
     public func createMobileDeviceAccessRule(_ input: CreateMobileDeviceAccessRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMobileDeviceAccessRuleResponse {
-        return try await self.client.execute(operation: "CreateMobileDeviceAccessRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMobileDeviceAccessRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new WorkMail organization. Optionally, you can choose to associate an existing AWS Directory Service directory with your organization. If an AWS Directory Service directory ID is specified, the organization alias must match the directory alias. If you choose not to associate an existing directory with your organization, then we create a new WorkMail directory for you. For more information, see Adding an organization in the WorkMail Administrator Guide. You can associate multiple email domains with an organization, then choose your default email domain from the WorkMail console. You can also associate a domain that is managed in an Amazon Route 53 public hosted zone. For more information, see Adding a domain and Choosing the default domain in the WorkMail Administrator Guide. Optionally, you can use a customer managed key from AWS Key Management Service (AWS KMS) to encrypt email for your organization. If you don't associate an AWS KMS key, WorkMail creates a default, AWS managed key for you.
     @Sendable
     public func createOrganization(_ input: CreateOrganizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOrganizationResponse {
-        return try await self.client.execute(operation: "CreateOrganization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateOrganization", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new WorkMail resource.
     @Sendable
     public func createResource(_ input: CreateResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceResponse {
-        return try await self.client.execute(operation: "CreateResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a user who can be used in WorkMail by calling the RegisterToWorkMail operation.
     @Sendable
     public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserResponse {
-        return try await self.client.execute(operation: "CreateUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an access control rule for the specified WorkMail organization.  Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     @Sendable
     public func deleteAccessControlRule(_ input: DeleteAccessControlRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccessControlRuleResponse {
-        return try await self.client.execute(operation: "DeleteAccessControlRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAccessControlRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Remove one or more specified aliases from a set of aliases for a given user.
     @Sendable
     public func deleteAlias(_ input: DeleteAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAliasResponse {
-        return try await self.client.execute(operation: "DeleteAlias", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAlias", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the AvailabilityConfiguration for the given WorkMail organization and domain.
     @Sendable
     public func deleteAvailabilityConfiguration(_ input: DeleteAvailabilityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAvailabilityConfigurationResponse {
-        return try await self.client.execute(operation: "DeleteAvailabilityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAvailabilityConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the email monitoring configuration for a specified organization.
     @Sendable
     public func deleteEmailMonitoringConfiguration(_ input: DeleteEmailMonitoringConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEmailMonitoringConfigurationResponse {
-        return try await self.client.execute(operation: "DeleteEmailMonitoringConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEmailMonitoringConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a group from WorkMail.
     @Sendable
     public func deleteGroup(_ input: DeleteGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGroupResponse {
-        return try await self.client.execute(operation: "DeleteGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an impersonation role for the given WorkMail organization.
     @Sendable
     public func deleteImpersonationRole(_ input: DeleteImpersonationRoleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImpersonationRoleResponse {
-        return try await self.client.execute(operation: "DeleteImpersonationRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteImpersonationRole", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes permissions granted to a member (user or group).
     @Sendable
     public func deleteMailboxPermissions(_ input: DeleteMailboxPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMailboxPermissionsResponse {
-        return try await self.client.execute(operation: "DeleteMailboxPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMailboxPermissions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the mobile device access override for the given WorkMail organization, user, and device.  Deleting already deleted and non-existing overrides does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     @Sendable
     public func deleteMobileDeviceAccessOverride(_ input: DeleteMobileDeviceAccessOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMobileDeviceAccessOverrideResponse {
-        return try await self.client.execute(operation: "DeleteMobileDeviceAccessOverride", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMobileDeviceAccessOverride", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a mobile device access rule for the specified WorkMail organization.  Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     @Sendable
     public func deleteMobileDeviceAccessRule(_ input: DeleteMobileDeviceAccessRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMobileDeviceAccessRuleResponse {
-        return try await self.client.execute(operation: "DeleteMobileDeviceAccessRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMobileDeviceAccessRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an WorkMail organization and all underlying AWS resources managed by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the WorkMail Administrator Guide.
     @Sendable
     public func deleteOrganization(_ input: DeleteOrganizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteOrganizationResponse {
-        return try await self.client.execute(operation: "DeleteOrganization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteOrganization", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified resource.
     @Sendable
     public func deleteResource(_ input: DeleteResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourceResponse {
-        return try await self.client.execute(operation: "DeleteResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified retention policy from the specified organization.
     @Sendable
     public func deleteRetentionPolicy(_ input: DeleteRetentionPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRetentionPolicyResponse {
-        return try await self.client.execute(operation: "DeleteRetentionPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRetentionPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a user from WorkMail and all subsequent systems. Before you can delete a user, the user state must be DISABLED. Use the DescribeUser action to confirm the user state. Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes for 30 days before they are permanently removed.
     @Sendable
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserResponse {
-        return try await self.client.execute(operation: "DeleteUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Mark a user, group, or resource as no longer used in WorkMail. This action disassociates the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days before they are permanently removed. The functionality in the console is Disable.
     @Sendable
     public func deregisterFromWorkMail(_ input: DeregisterFromWorkMailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterFromWorkMailResponse {
-        return try await self.client.execute(operation: "DeregisterFromWorkMail", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeregisterFromWorkMail", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a domain from WorkMail, stops email routing to WorkMail, and removes the authorization allowing WorkMail use. SES keeps the domain because other applications may use it. You must first  remove any email address used by WorkMail entities before you remove the domain.
     @Sendable
     public func deregisterMailDomain(_ input: DeregisterMailDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterMailDomainResponse {
-        return try await self.client.execute(operation: "DeregisterMailDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeregisterMailDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the current email monitoring configuration for a specified organization.
     @Sendable
     public func describeEmailMonitoringConfiguration(_ input: DescribeEmailMonitoringConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEmailMonitoringConfigurationResponse {
-        return try await self.client.execute(operation: "DescribeEmailMonitoringConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEmailMonitoringConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the data available for the group.
     @Sendable
     public func describeGroup(_ input: DescribeGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGroupResponse {
-        return try await self.client.execute(operation: "DescribeGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the settings in a DMARC policy for a specified organization.
     @Sendable
     public func describeInboundDmarcSettings(_ input: DescribeInboundDmarcSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInboundDmarcSettingsResponse {
-        return try await self.client.execute(operation: "DescribeInboundDmarcSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeInboundDmarcSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the current status of a mailbox export job.
     @Sendable
     public func describeMailboxExportJob(_ input: DescribeMailboxExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMailboxExportJobResponse {
-        return try await self.client.execute(operation: "DescribeMailboxExportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeMailboxExportJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides more information regarding a given organization based on its identifier.
     @Sendable
     public func describeOrganization(_ input: DescribeOrganizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationResponse {
-        return try await self.client.execute(operation: "DescribeOrganization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeOrganization", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the data available for the resource.
     @Sendable
     public func describeResource(_ input: DescribeResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeResourceResponse {
-        return try await self.client.execute(operation: "DescribeResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides information regarding the user.
     @Sendable
     public func describeUser(_ input: DescribeUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserResponse {
-        return try await self.client.execute(operation: "DescribeUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a member from the resource's set of delegates.
     @Sendable
     public func disassociateDelegateFromResource(_ input: DisassociateDelegateFromResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateDelegateFromResourceResponse {
-        return try await self.client.execute(operation: "DisassociateDelegateFromResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateDelegateFromResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a member from a group.
     @Sendable
     public func disassociateMemberFromGroup(_ input: DisassociateMemberFromGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateMemberFromGroupResponse {
-        return try await self.client.execute(operation: "DisassociateMemberFromGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateMemberFromGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the effects of an organization's access control rules as they apply to a specified IPv4 address, access protocol action, and  user ID or impersonation role ID. You must provide either the user ID or impersonation role ID. Impersonation role ID can only be used with Action EWS.
     @Sendable
     public func getAccessControlEffect(_ input: GetAccessControlEffectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessControlEffectResponse {
-        return try await self.client.execute(operation: "GetAccessControlEffect", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAccessControlEffect", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the default retention policy details for the specified organization.
     @Sendable
     public func getDefaultRetentionPolicy(_ input: GetDefaultRetentionPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultRetentionPolicyResponse {
-        return try await self.client.execute(operation: "GetDefaultRetentionPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDefaultRetentionPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the impersonation role details for the given WorkMail organization.
     @Sendable
     public func getImpersonationRole(_ input: GetImpersonationRoleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImpersonationRoleResponse {
-        return try await self.client.execute(operation: "GetImpersonationRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetImpersonationRole", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Tests whether the given impersonation role can impersonate a target user.
     @Sendable
     public func getImpersonationRoleEffect(_ input: GetImpersonationRoleEffectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImpersonationRoleEffectResponse {
-        return try await self.client.execute(operation: "GetImpersonationRoleEffect", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetImpersonationRoleEffect", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details for a mail domain, including domain records required to configure your domain with recommended security.
     @Sendable
     public func getMailDomain(_ input: GetMailDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMailDomainResponse {
-        return try await self.client.execute(operation: "GetMailDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMailDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Requests a user's mailbox details for a specified organization and user.
     @Sendable
     public func getMailboxDetails(_ input: GetMailboxDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMailboxDetailsResponse {
-        return try await self.client.execute(operation: "GetMailboxDetails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMailboxDetails", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Simulates the effect of the mobile device access rules for the given attributes of a sample access event. Use this method to test the effects of the current set of mobile device access  rules for the WorkMail organization for a particular user's attributes.
     @Sendable
     public func getMobileDeviceAccessEffect(_ input: GetMobileDeviceAccessEffectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMobileDeviceAccessEffectResponse {
-        return try await self.client.execute(operation: "GetMobileDeviceAccessEffect", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMobileDeviceAccessEffect", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the mobile device access override for the given WorkMail organization, user, and device.
     @Sendable
     public func getMobileDeviceAccessOverride(_ input: GetMobileDeviceAccessOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMobileDeviceAccessOverrideResponse {
-        return try await self.client.execute(operation: "GetMobileDeviceAccessOverride", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMobileDeviceAccessOverride", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the access control rules for the specified organization.
     @Sendable
     public func listAccessControlRules(_ input: ListAccessControlRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessControlRulesResponse {
-        return try await self.client.execute(operation: "ListAccessControlRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAccessControlRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a paginated call to list the aliases associated with a given entity.
     @Sendable
     public func listAliases(_ input: ListAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAliasesResponse {
-        return try await self.client.execute(operation: "ListAliases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAliases", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all the AvailabilityConfiguration's for the given WorkMail organization.
     @Sendable
     public func listAvailabilityConfigurations(_ input: ListAvailabilityConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAvailabilityConfigurationsResponse {
-        return try await self.client.execute(operation: "ListAvailabilityConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAvailabilityConfigurations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns an overview of the members of a group. Users and groups can be members of a group.
     @Sendable
     public func listGroupMembers(_ input: ListGroupMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupMembersResponse {
-        return try await self.client.execute(operation: "ListGroupMembers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGroupMembers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns summaries of the organization's groups.
     @Sendable
     public func listGroups(_ input: ListGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupsResponse {
-        return try await self.client.execute(operation: "ListGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the impersonation roles for the given WorkMail organization.
     @Sendable
     public func listImpersonationRoles(_ input: ListImpersonationRolesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImpersonationRolesResponse {
-        return try await self.client.execute(operation: "ListImpersonationRoles", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImpersonationRoles", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the mail domains in a given WorkMail organization.
     @Sendable
     public func listMailDomains(_ input: ListMailDomainsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMailDomainsResponse {
-        return try await self.client.execute(operation: "ListMailDomains", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMailDomains", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the mailbox export jobs started for the specified organization within the last seven days.
     @Sendable
     public func listMailboxExportJobs(_ input: ListMailboxExportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMailboxExportJobsResponse {
-        return try await self.client.execute(operation: "ListMailboxExportJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMailboxExportJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the mailbox permissions associated with a user, group, or resource mailbox.
     @Sendable
     public func listMailboxPermissions(_ input: ListMailboxPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMailboxPermissionsResponse {
-        return try await self.client.execute(operation: "ListMailboxPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMailboxPermissions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
     @Sendable
     public func listMobileDeviceAccessOverrides(_ input: ListMobileDeviceAccessOverridesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMobileDeviceAccessOverridesResponse {
-        return try await self.client.execute(operation: "ListMobileDeviceAccessOverrides", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMobileDeviceAccessOverrides", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the mobile device access rules for the specified WorkMail organization.
     @Sendable
     public func listMobileDeviceAccessRules(_ input: ListMobileDeviceAccessRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMobileDeviceAccessRulesResponse {
-        return try await self.client.execute(operation: "ListMobileDeviceAccessRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMobileDeviceAccessRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns summaries of the customer's organizations.
     @Sendable
     public func listOrganizations(_ input: ListOrganizationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationsResponse {
-        return try await self.client.execute(operation: "ListOrganizations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOrganizations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
     @Sendable
     public func listResourceDelegates(_ input: ListResourceDelegatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceDelegatesResponse {
-        return try await self.client.execute(operation: "ListResourceDelegates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResourceDelegates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns summaries of the organization's resources.
     @Sendable
     public func listResources(_ input: ListResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourcesResponse {
-        return try await self.client.execute(operation: "ListResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags applied to an WorkMail organization resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns summaries of the organization's users.
     @Sendable
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersResponse {
-        return try await self.client.execute(operation: "ListUsers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListUsers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a new access control rule for the specified organization. The rule allows or denies access to the organization for the specified IPv4 addresses, access protocol actions, user IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces the older rule.
     @Sendable
     public func putAccessControlRule(_ input: PutAccessControlRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccessControlRuleResponse {
-        return try await self.client.execute(operation: "PutAccessControlRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutAccessControlRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates the email monitoring configuration for a specified organization.
     @Sendable
     public func putEmailMonitoringConfiguration(_ input: PutEmailMonitoringConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEmailMonitoringConfigurationResponse {
-        return try await self.client.execute(operation: "PutEmailMonitoringConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutEmailMonitoringConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables or disables a DMARC policy for a given organization.
     @Sendable
     public func putInboundDmarcSettings(_ input: PutInboundDmarcSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutInboundDmarcSettingsResponse {
-        return try await self.client.execute(operation: "PutInboundDmarcSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutInboundDmarcSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets permissions for a user, group, or resource. This replaces any pre-existing permissions.
     @Sendable
     public func putMailboxPermissions(_ input: PutMailboxPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutMailboxPermissionsResponse {
-        return try await self.client.execute(operation: "PutMailboxPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutMailboxPermissions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates a mobile device access override for the given WorkMail organization, user, and device.
     @Sendable
     public func putMobileDeviceAccessOverride(_ input: PutMobileDeviceAccessOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutMobileDeviceAccessOverrideResponse {
-        return try await self.client.execute(operation: "PutMobileDeviceAccessOverride", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutMobileDeviceAccessOverride", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Puts a retention policy to the specified organization.
     @Sendable
     public func putRetentionPolicy(_ input: PutRetentionPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRetentionPolicyResponse {
-        return try await self.client.execute(operation: "PutRetentionPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutRetentionPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers a new domain in WorkMail and SES, and configures it for use by WorkMail. Emails received by SES for this domain are routed to the specified WorkMail organization, and WorkMail has  permanent permission to use the specified domain for sending your users' emails.
     @Sendable
     public func registerMailDomain(_ input: RegisterMailDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterMailDomainResponse {
-        return try await self.client.execute(operation: "RegisterMailDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterMailDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers an existing and disabled user, group, or resource for WorkMail use by associating a mailbox and calendaring capabilities. It performs no change if the user, group, or resource is enabled and fails if the user, group, or resource is deleted. This operation results in the accumulation of costs. For more information, see Pricing. The equivalent console functionality for this operation is Enable. Users can either be created by calling the CreateUser API operation or they can be synchronized from your directory. For more information, see DeregisterFromWorkMail.
     @Sendable
     public func registerToWorkMail(_ input: RegisterToWorkMailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterToWorkMailResponse {
-        return try await self.client.execute(operation: "RegisterToWorkMail", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterToWorkMail", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Allows the administrator to reset the password for a user.
     @Sendable
     public func resetPassword(_ input: ResetPasswordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetPasswordResponse {
-        return try await self.client.execute(operation: "ResetPassword", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ResetPassword", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a mailbox export job to export MIME-format email messages and calendar items from the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Exporting mailbox content in the WorkMail Administrator Guide.
     @Sendable
     public func startMailboxExportJob(_ input: StartMailboxExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMailboxExportJobResponse {
-        return try await self.client.execute(operation: "StartMailboxExportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartMailboxExportJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Applies the specified tags to the specified WorkMailorganization resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a SourceArn or SourceAccount header.    The request must contain either one provider definition (EwsProvider or LambdaProvider) or the DomainName parameter. If the DomainName parameter is provided, the configuration stored under the DomainName will be tested.
     @Sendable
     public func testAvailabilityConfiguration(_ input: TestAvailabilityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestAvailabilityConfigurationResponse {
-        return try await self.client.execute(operation: "TestAvailabilityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TestAvailabilityConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Untags the specified tags from the specified WorkMail organization resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing AvailabilityConfiguration for the given WorkMail organization and domain.
     @Sendable
     public func updateAvailabilityConfiguration(_ input: UpdateAvailabilityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAvailabilityConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateAvailabilityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAvailabilityConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the default mail domain for an organization. The default mail domain is used by the WorkMail AWS Console to suggest an email address when enabling a mail user. You can only have one default domain.
     @Sendable
     public func updateDefaultMailDomain(_ input: UpdateDefaultMailDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDefaultMailDomainResponse {
-        return try await self.client.execute(operation: "UpdateDefaultMailDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDefaultMailDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an impersonation role for the given WorkMail organization.
     @Sendable
     public func updateImpersonationRole(_ input: UpdateImpersonationRoleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateImpersonationRoleResponse {
-        return try await self.client.execute(operation: "UpdateImpersonationRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateImpersonationRole", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a user's current mailbox quota for a specified organization and user.
     @Sendable
     public func updateMailboxQuota(_ input: UpdateMailboxQuotaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMailboxQuotaResponse {
-        return try await self.client.execute(operation: "UpdateMailboxQuota", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMailboxQuota", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a mobile device access rule for the specified WorkMail organization.
     @Sendable
     public func updateMobileDeviceAccessRule(_ input: UpdateMobileDeviceAccessRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMobileDeviceAccessRuleResponse {
-        return try await self.client.execute(operation: "UpdateMobileDeviceAccessRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMobileDeviceAccessRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the primary email for a user, group, or resource. The current email is moved into the list of aliases (or swapped between an existing alias and the current primary email), and the email provided in the input is promoted as the primary.
     @Sendable
     public func updatePrimaryEmailAddress(_ input: UpdatePrimaryEmailAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePrimaryEmailAddressResponse {
-        return try await self.client.execute(operation: "UpdatePrimaryEmailAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePrimaryEmailAddress", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates data for the resource. To have the latest information, it must be preceded by a DescribeResource call. The dataset in the request should be the one expected when performing another DescribeResource call.
     @Sendable
     public func updateResource(_ input: UpdateResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceResponse {
-        return try await self.client.execute(operation: "UpdateResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

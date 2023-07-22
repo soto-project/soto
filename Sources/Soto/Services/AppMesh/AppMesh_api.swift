@@ -108,229 +108,495 @@ public struct AppMesh: AWSService {
     /// Creates a gateway route. A gateway route is attached to a virtual gateway and routes traffic to an existing virtual service. If a route matches a request, it can distribute traffic to a target virtual service. For more information about gateway routes, see Gateway routes.
     @Sendable
     public func createGatewayRoute(_ input: CreateGatewayRouteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGatewayRouteOutput {
-        return try await self.client.execute(operation: "CreateGatewayRoute", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateGatewayRoute", 
+            path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a service mesh. A service mesh is a logical boundary for network traffic between services that are represented by resources within the mesh. After you create your service mesh, you can create virtual services, virtual nodes, virtual routers, and routes to distribute traffic between the applications in your mesh. For more information about service meshes, see Service meshes.
     @Sendable
     public func createMesh(_ input: CreateMeshInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMeshOutput {
-        return try await self.client.execute(operation: "CreateMesh", path: "/v20190125/meshes", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMesh", 
+            path: "/v20190125/meshes", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a route that is associated with a virtual router. You can route several different protocols and define a retry policy for a route. Traffic can be routed to one or more virtual nodes. For more information about routes, see Routes.
     @Sendable
     public func createRoute(_ input: CreateRouteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRouteOutput {
-        return try await self.client.execute(operation: "CreateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRoute", 
+            path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a virtual gateway. A virtual gateway allows resources outside your mesh to communicate to resources that are inside your mesh. The virtual gateway represents an Envoy proxy running in an Amazon ECS task, in a Kubernetes service, or on an Amazon EC2 instance. Unlike a virtual node, which represents an Envoy running with an application, a virtual gateway represents Envoy deployed by itself. For more information about virtual gateways, see Virtual gateways.
     @Sendable
     public func createVirtualGateway(_ input: CreateVirtualGatewayInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVirtualGatewayOutput {
-        return try await self.client.execute(operation: "CreateVirtualGateway", path: "/v20190125/meshes/{meshName}/virtualGateways", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVirtualGateway", 
+            path: "/v20190125/meshes/{meshName}/virtualGateways", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a virtual node within a service mesh. A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS service or a Kubernetes deployment. When you create a virtual node, you can specify the service discovery information for your task group, and whether the proxy running in a task group will communicate with other proxies using Transport Layer Security (TLS). You define a listener for any inbound traffic that your virtual node expects. Any virtual service that your virtual node expects to communicate to is specified as a backend. The response metadata for your new virtual node contains the arn that is associated with the virtual node. Set this value to the full ARN; for example, arn:aws:appmesh:us-west-2:123456789012:myMesh/default/virtualNode/myApp) as the APPMESH_RESOURCE_ARN environment variable for your task group's Envoy proxy container in your task definition or pod spec. This is then mapped to the node.id and node.cluster Envoy parameters.  By default, App Mesh uses the name of the resource you specified in APPMESH_RESOURCE_ARN when Envoy is referring to itself in metrics and traces. You can override this behavior by setting the APPMESH_RESOURCE_CLUSTER environment variable with your own name.  For more information about virtual nodes, see Virtual nodes. You must be using 1.15.0 or later of the Envoy image when setting these variables. For more information aboutApp Mesh Envoy variables, see Envoy image in the App Mesh User Guide.
     @Sendable
     public func createVirtualNode(_ input: CreateVirtualNodeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVirtualNodeOutput {
-        return try await self.client.execute(operation: "CreateVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVirtualNode", 
+            path: "/v20190125/meshes/{meshName}/virtualNodes", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router receives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming requests to different virtual nodes. For more information about virtual routers, see Virtual routers.
     @Sendable
     public func createVirtualRouter(_ input: CreateVirtualRouterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVirtualRouterOutput {
-        return try await self.client.execute(operation: "CreateVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVirtualRouter", 
+            path: "/v20190125/meshes/{meshName}/virtualRouters", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a virtual service within a service mesh. A virtual service is an abstraction of a real service that is provided by a virtual node directly or indirectly by means of a virtual router. Dependent services call your virtual service by its virtualServiceName, and those requests are routed to the virtual node or virtual router that is specified as the provider for the virtual service. For more information about virtual services, see Virtual services.
     @Sendable
     public func createVirtualService(_ input: CreateVirtualServiceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVirtualServiceOutput {
-        return try await self.client.execute(operation: "CreateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVirtualService", 
+            path: "/v20190125/meshes/{meshName}/virtualServices", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing gateway route.
     @Sendable
     public func deleteGatewayRoute(_ input: DeleteGatewayRouteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGatewayRouteOutput {
-        return try await self.client.execute(operation: "DeleteGatewayRoute", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteGatewayRoute", 
+            path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing service mesh. You must delete all resources (virtual services, routes, virtual routers, and virtual nodes) in the service mesh before you can delete the mesh itself.
     @Sendable
     public func deleteMesh(_ input: DeleteMeshInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMeshOutput {
-        return try await self.client.execute(operation: "DeleteMesh", path: "/v20190125/meshes/{meshName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMesh", 
+            path: "/v20190125/meshes/{meshName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing route.
     @Sendable
     public func deleteRoute(_ input: DeleteRouteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRouteOutput {
-        return try await self.client.execute(operation: "DeleteRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRoute", 
+            path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway routes are associated to it.
     @Sendable
     public func deleteVirtualGateway(_ input: DeleteVirtualGatewayInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVirtualGatewayOutput {
-        return try await self.client.execute(operation: "DeleteVirtualGateway", path: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVirtualGateway", 
+            path: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing virtual node. You must delete any virtual services that list a virtual node as a service provider before you can delete the virtual node itself.
     @Sendable
     public func deleteVirtualNode(_ input: DeleteVirtualNodeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVirtualNodeOutput {
-        return try await self.client.execute(operation: "DeleteVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVirtualNode", 
+            path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing virtual router. You must delete any routes associated with the virtual router before you can delete the router itself.
     @Sendable
     public func deleteVirtualRouter(_ input: DeleteVirtualRouterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVirtualRouterOutput {
-        return try await self.client.execute(operation: "DeleteVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVirtualRouter", 
+            path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing virtual service.
     @Sendable
     public func deleteVirtualService(_ input: DeleteVirtualServiceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVirtualServiceOutput {
-        return try await self.client.execute(operation: "DeleteVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVirtualService", 
+            path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing gateway route.
     @Sendable
     public func describeGatewayRoute(_ input: DescribeGatewayRouteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGatewayRouteOutput {
-        return try await self.client.execute(operation: "DescribeGatewayRoute", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeGatewayRoute", 
+            path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing service mesh.
     @Sendable
     public func describeMesh(_ input: DescribeMeshInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMeshOutput {
-        return try await self.client.execute(operation: "DescribeMesh", path: "/v20190125/meshes/{meshName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeMesh", 
+            path: "/v20190125/meshes/{meshName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing route.
     @Sendable
     public func describeRoute(_ input: DescribeRouteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRouteOutput {
-        return try await self.client.execute(operation: "DescribeRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRoute", 
+            path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing virtual gateway.
     @Sendable
     public func describeVirtualGateway(_ input: DescribeVirtualGatewayInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVirtualGatewayOutput {
-        return try await self.client.execute(operation: "DescribeVirtualGateway", path: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeVirtualGateway", 
+            path: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing virtual node.
     @Sendable
     public func describeVirtualNode(_ input: DescribeVirtualNodeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVirtualNodeOutput {
-        return try await self.client.execute(operation: "DescribeVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeVirtualNode", 
+            path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing virtual router.
     @Sendable
     public func describeVirtualRouter(_ input: DescribeVirtualRouterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVirtualRouterOutput {
-        return try await self.client.execute(operation: "DescribeVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeVirtualRouter", 
+            path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing virtual service.
     @Sendable
     public func describeVirtualService(_ input: DescribeVirtualServiceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVirtualServiceOutput {
-        return try await self.client.execute(operation: "DescribeVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeVirtualService", 
+            path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of existing gateway routes that are associated to a virtual gateway.
     @Sendable
     public func listGatewayRoutes(_ input: ListGatewayRoutesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGatewayRoutesOutput {
-        return try await self.client.execute(operation: "ListGatewayRoutes", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGatewayRoutes", 
+            path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of existing service meshes.
     @Sendable
     public func listMeshes(_ input: ListMeshesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMeshesOutput {
-        return try await self.client.execute(operation: "ListMeshes", path: "/v20190125/meshes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMeshes", 
+            path: "/v20190125/meshes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of existing routes in a service mesh.
     @Sendable
     public func listRoutes(_ input: ListRoutesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRoutesOutput {
-        return try await self.client.execute(operation: "ListRoutes", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRoutes", 
+            path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the tags for an App Mesh resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/v20190125/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/v20190125/tags", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of existing virtual gateways in a service mesh.
     @Sendable
     public func listVirtualGateways(_ input: ListVirtualGatewaysInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVirtualGatewaysOutput {
-        return try await self.client.execute(operation: "ListVirtualGateways", path: "/v20190125/meshes/{meshName}/virtualGateways", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVirtualGateways", 
+            path: "/v20190125/meshes/{meshName}/virtualGateways", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of existing virtual nodes.
     @Sendable
     public func listVirtualNodes(_ input: ListVirtualNodesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVirtualNodesOutput {
-        return try await self.client.execute(operation: "ListVirtualNodes", path: "/v20190125/meshes/{meshName}/virtualNodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVirtualNodes", 
+            path: "/v20190125/meshes/{meshName}/virtualNodes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of existing virtual routers in a service mesh.
     @Sendable
     public func listVirtualRouters(_ input: ListVirtualRoutersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVirtualRoutersOutput {
-        return try await self.client.execute(operation: "ListVirtualRouters", path: "/v20190125/meshes/{meshName}/virtualRouters", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVirtualRouters", 
+            path: "/v20190125/meshes/{meshName}/virtualRouters", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of existing virtual services in a service mesh.
     @Sendable
     public func listVirtualServices(_ input: ListVirtualServicesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVirtualServicesOutput {
-        return try await self.client.execute(operation: "ListVirtualServices", path: "/v20190125/meshes/{meshName}/virtualServices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVirtualServices", 
+            path: "/v20190125/meshes/{meshName}/virtualServices", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted.
     @Sendable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
-        return try await self.client.execute(operation: "TagResource", path: "/v20190125/tag", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/v20190125/tag", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes specified tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
-        return try await self.client.execute(operation: "UntagResource", path: "/v20190125/untag", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/v20190125/untag", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing gateway route that is associated to a specified virtual gateway in a service mesh.
     @Sendable
     public func updateGatewayRoute(_ input: UpdateGatewayRouteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewayRouteOutput {
-        return try await self.client.execute(operation: "UpdateGatewayRoute", path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateGatewayRoute", 
+            path: "/v20190125/meshes/{meshName}/virtualGateway/{virtualGatewayName}/gatewayRoutes/{gatewayRouteName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing service mesh.
     @Sendable
     public func updateMesh(_ input: UpdateMeshInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMeshOutput {
-        return try await self.client.execute(operation: "UpdateMesh", path: "/v20190125/meshes/{meshName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMesh", 
+            path: "/v20190125/meshes/{meshName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing route for a specified service mesh and virtual router.
     @Sendable
     public func updateRoute(_ input: UpdateRouteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRouteOutput {
-        return try await self.client.execute(operation: "UpdateRoute", path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRoute", 
+            path: "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing virtual gateway in a specified service mesh.
     @Sendable
     public func updateVirtualGateway(_ input: UpdateVirtualGatewayInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVirtualGatewayOutput {
-        return try await self.client.execute(operation: "UpdateVirtualGateway", path: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVirtualGateway", 
+            path: "/v20190125/meshes/{meshName}/virtualGateways/{virtualGatewayName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing virtual node in a specified service mesh.
     @Sendable
     public func updateVirtualNode(_ input: UpdateVirtualNodeInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVirtualNodeOutput {
-        return try await self.client.execute(operation: "UpdateVirtualNode", path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVirtualNode", 
+            path: "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing virtual router in a specified service mesh.
     @Sendable
     public func updateVirtualRouter(_ input: UpdateVirtualRouterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVirtualRouterOutput {
-        return try await self.client.execute(operation: "UpdateVirtualRouter", path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVirtualRouter", 
+            path: "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing virtual service in a specified service mesh.
     @Sendable
     public func updateVirtualService(_ input: UpdateVirtualServiceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVirtualServiceOutput {
-        return try await self.client.execute(operation: "UpdateVirtualService", path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVirtualService", 
+            path: "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

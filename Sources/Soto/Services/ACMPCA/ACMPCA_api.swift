@@ -102,7 +102,14 @@ public struct ACMPCA: AWSService {
     /// 			CRLs.
     @Sendable
     public func createCertificateAuthority(_ input: CreateCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCertificateAuthorityResponse {
-        return try await self.client.execute(operation: "CreateCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCertificateAuthority", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an audit report that lists every time that your CA private key is used. The
@@ -112,7 +119,14 @@ public struct ACMPCA: AWSService {
     /// 				Reports.  You can generate a maximum of one report every 30 minutes.
     @Sendable
     public func createCertificateAuthorityAuditReport(_ input: CreateCertificateAuthorityAuditReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCertificateAuthorityAuditReportResponse {
-        return try await self.client.execute(operation: "CreateCertificateAuthorityAuditReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCertificateAuthorityAuditReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants one or more permissions on a private CA to the Certificate Manager (ACM) service
@@ -129,7 +143,14 @@ public struct ACMPCA: AWSService {
     /// 			Based Policy with Amazon Web Services Private CA.
     @Sendable
     public func createPermission(_ input: CreatePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "CreatePermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePermission", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a private certificate authority (CA). You must provide the Amazon Resource
@@ -148,7 +169,14 @@ public struct ACMPCA: AWSService {
     /// 			eligible CA, call the RestoreCertificateAuthority action.
     @Sendable
     public func deleteCertificateAuthority(_ input: DeleteCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCertificateAuthority", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Revokes permissions on a private CA granted to the Certificate Manager (ACM) service principal
@@ -166,7 +194,14 @@ public struct ACMPCA: AWSService {
     /// 			Based Policy with Amazon Web Services Private CA.
     @Sendable
     public func deletePermission(_ input: DeletePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeletePermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePermission", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the resource-based policy attached to a private CA. Deletion will remove any
@@ -185,7 +220,14 @@ public struct ACMPCA: AWSService {
     /// 			Access.
     @Sendable
     public func deletePolicy(_ input: DeletePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeletePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists information about your private certificate authority (CA) or one that has been
@@ -201,7 +243,14 @@ public struct ACMPCA: AWSService {
     /// 					restoration period is also included in this action's output.
     @Sendable
     public func describeCertificateAuthority(_ input: DescribeCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCertificateAuthorityResponse {
-        return try await self.client.execute(operation: "DescribeCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCertificateAuthority", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists information about a specific audit report created by calling the CreateCertificateAuthorityAuditReport action. Audit information is created
@@ -210,7 +259,14 @@ public struct ACMPCA: AWSService {
     /// 				RevokeCertificate action.
     @Sendable
     public func describeCertificateAuthorityAuditReport(_ input: DescribeCertificateAuthorityAuditReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCertificateAuthorityAuditReportResponse {
-        return try await self.client.execute(operation: "DescribeCertificateAuthorityAuditReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCertificateAuthorityAuditReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a certificate from your private CA or one that has been shared with you. The
@@ -223,7 +279,14 @@ public struct ACMPCA: AWSService {
     /// 			CA.
     @Sendable
     public func getCertificate(_ input: GetCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCertificateResponse {
-        return try await self.client.execute(operation: "GetCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCertificate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the certificate and certificate chain for your private certificate authority
@@ -232,7 +295,14 @@ public struct ACMPCA: AWSService {
     /// 			chain signs the one before it.
     @Sendable
     public func getCertificateAuthorityCertificate(_ input: GetCertificateAuthorityCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCertificateAuthorityCertificateResponse {
-        return try await self.client.execute(operation: "GetCertificateAuthorityCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCertificateAuthorityCertificate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the certificate signing request (CSR) for your private certificate authority
@@ -242,7 +312,14 @@ public struct ACMPCA: AWSService {
     /// 			base64 PEM-encoded string.
     @Sendable
     public func getCertificateAuthorityCsr(_ input: GetCertificateAuthorityCsrRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCertificateAuthorityCsrResponse {
-        return try await self.client.execute(operation: "GetCertificateAuthorityCsr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCertificateAuthorityCsr", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the resource-based policy attached to a private CA. If either the private CA
@@ -259,7 +336,14 @@ public struct ACMPCA: AWSService {
     /// 			Access.
     @Sendable
     public func getPolicy(_ input: GetPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyResponse {
-        return try await self.client.execute(operation: "GetPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Imports a signed private CA certificate into Amazon Web Services Private CA. This action is used when you
@@ -279,7 +363,14 @@ public struct ACMPCA: AWSService {
     /// 			imported CA certificate or chain.   Name constraints   Policy constraints   CRL distribution points   Authority information access   Freshest CRL   Any other extension
     @Sendable
     public func importCertificateAuthorityCertificate(_ input: ImportCertificateAuthorityCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "ImportCertificateAuthorityCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportCertificateAuthorityCertificate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Uses your private certificate authority (CA), or one that has been shared with you, to
@@ -289,13 +380,27 @@ public struct ACMPCA: AWSService {
     /// 				certificates that you issue by using Amazon Web Services Private CA.
     @Sendable
     public func issueCertificate(_ input: IssueCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> IssueCertificateResponse {
-        return try await self.client.execute(operation: "IssueCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "IssueCertificate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the private certificate authorities that you created by using the CreateCertificateAuthority action.
     @Sendable
     public func listCertificateAuthorities(_ input: ListCertificateAuthoritiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCertificateAuthoritiesResponse {
-        return try await self.client.execute(operation: "ListCertificateAuthorities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCertificateAuthorities", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all permissions on a private CA, if any, granted to the Certificate Manager (ACM) service
@@ -312,7 +417,14 @@ public struct ACMPCA: AWSService {
     /// 			Based Policy with Amazon Web Services Private CA.
     @Sendable
     public func listPermissions(_ input: ListPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPermissionsResponse {
-        return try await self.client.execute(operation: "ListPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPermissions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags, if any, that are associated with your private CA or one that has been
@@ -321,7 +433,14 @@ public struct ACMPCA: AWSService {
     /// 			action to add one or more tags to your CA. Call the UntagCertificateAuthority action to remove tags.
     @Sendable
     public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsResponse {
-        return try await self.client.execute(operation: "ListTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attaches a resource-based policy to a private CA.  A policy can also be applied by sharing a private CA through Amazon Web Services Resource Access
@@ -338,7 +457,14 @@ public struct ACMPCA: AWSService {
     /// 			Access.
     @Sendable
     public func putPolicy(_ input: PutPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Restores a certificate authority (CA) that is in the DELETED state. You
@@ -354,7 +480,14 @@ public struct ACMPCA: AWSService {
     /// 			the restoration period has ended.
     @Sendable
     public func restoreCertificateAuthority(_ input: RestoreCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RestoreCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RestoreCertificateAuthority", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Revokes a certificate that was issued inside Amazon Web Services Private CA. If you enable a certificate
@@ -369,7 +502,14 @@ public struct ACMPCA: AWSService {
     /// 			information, see CreateCertificateAuthorityAuditReport.  You cannot revoke a root CA self-signed certificate.
     @Sendable
     public func revokeCertificate(_ input: RevokeCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RevokeCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RevokeCertificate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds one or more tags to your private CA. Tags are labels that you can use to identify
@@ -386,7 +526,14 @@ public struct ACMPCA: AWSService {
     /// 					at the time of creation.
     @Sendable
     public func tagCertificateAuthority(_ input: TagCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagCertificateAuthority", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Remove one or more tags from your private CA. A tag consists of a key-value pair. If
@@ -396,7 +543,14 @@ public struct ACMPCA: AWSService {
     /// 			associated with your CA.
     @Sendable
     public func untagCertificateAuthority(_ input: UntagCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagCertificateAuthority", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the status or configuration of a private certificate authority (CA). Your
@@ -406,7 +560,14 @@ public struct ACMPCA: AWSService {
     /// 						policies for CRLs in Amazon S3.
     @Sendable
     public func updateCertificateAuthority(_ input: UpdateCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateCertificateAuthority", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCertificateAuthority", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

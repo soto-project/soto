@@ -67,97 +67,209 @@ public struct IoT1ClickProjects: AWSService {
     /// Associates a physical device with a placement.
     @Sendable
     public func associateDeviceWithPlacement(_ input: AssociateDeviceWithPlacementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDeviceWithPlacementResponse {
-        return try await self.client.execute(operation: "AssociateDeviceWithPlacement", path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateDeviceWithPlacement", 
+            path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an empty placement.
     @Sendable
     public func createPlacement(_ input: CreatePlacementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePlacementResponse {
-        return try await self.client.execute(operation: "CreatePlacement", path: "/projects/{projectName}/placements", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePlacement", 
+            path: "/projects/{projectName}/placements", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an empty project with a placement template. A project contains zero or more placements that adhere to the placement template defined in the project.
     @Sendable
     public func createProject(_ input: CreateProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProjectResponse {
-        return try await self.client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProject", 
+            path: "/projects", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a placement. To delete a placement, it must not have any devices associated with it.  When you delete a placement, all associated data becomes irretrievable.
     @Sendable
     public func deletePlacement(_ input: DeletePlacementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePlacementResponse {
-        return try await self.client.execute(operation: "DeletePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePlacement", 
+            path: "/projects/{projectName}/placements/{placementName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a project. To delete a project, it must not have any placements associated with it.  When you delete a project, all associated data becomes irretrievable.
     @Sendable
     public func deleteProject(_ input: DeleteProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProjectResponse {
-        return try await self.client.execute(operation: "DeleteProject", path: "/projects/{projectName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteProject", 
+            path: "/projects/{projectName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a placement in a project.
     @Sendable
     public func describePlacement(_ input: DescribePlacementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePlacementResponse {
-        return try await self.client.execute(operation: "DescribePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePlacement", 
+            path: "/projects/{projectName}/placements/{placementName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns an object describing a project.
     @Sendable
     public func describeProject(_ input: DescribeProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProjectResponse {
-        return try await self.client.execute(operation: "DescribeProject", path: "/projects/{projectName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProject", 
+            path: "/projects/{projectName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a physical device from a placement.
     @Sendable
     public func disassociateDeviceFromPlacement(_ input: DisassociateDeviceFromPlacementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateDeviceFromPlacementResponse {
-        return try await self.client.execute(operation: "DisassociateDeviceFromPlacement", path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateDeviceFromPlacement", 
+            path: "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns an object enumerating the devices in a placement.
     @Sendable
     public func getDevicesInPlacement(_ input: GetDevicesInPlacementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDevicesInPlacementResponse {
-        return try await self.client.execute(operation: "GetDevicesInPlacement", path: "/projects/{projectName}/placements/{placementName}/devices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDevicesInPlacement", 
+            path: "/projects/{projectName}/placements/{placementName}/devices", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the placement(s) of a project.
     @Sendable
     public func listPlacements(_ input: ListPlacementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPlacementsResponse {
-        return try await self.client.execute(operation: "ListPlacements", path: "/projects/{projectName}/placements", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPlacements", 
+            path: "/projects/{projectName}/placements", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
     @Sendable
     public func listProjects(_ input: ListProjectsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProjectsResponse {
-        return try await self.client.execute(operation: "ListProjects", path: "/projects", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProjects", 
+            path: "/projects", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags (metadata key/value pairs) which you have assigned to the resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or modifies tags for a resource. Tags are key/value pairs (metadata) that can be used to manage a resource. For more information, see AWS Tagging Strategies.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags (metadata key/value pairs) from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a placement with the given attributes. To clear an attribute, pass an empty value (i.e., "").
     @Sendable
     public func updatePlacement(_ input: UpdatePlacementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePlacementResponse {
-        return try await self.client.execute(operation: "UpdatePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePlacement", 
+            path: "/projects/{projectName}/placements/{placementName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a project associated with your AWS account and region. With the exception of device template names, you can pass just the values that need to be updated because the update request will change only the values that are provided. To clear a value, pass the empty string (i.e., "").
     @Sendable
     public func updateProject(_ input: UpdateProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProjectResponse {
-        return try await self.client.execute(operation: "UpdateProject", path: "/projects/{projectName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateProject", 
+            path: "/projects/{projectName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

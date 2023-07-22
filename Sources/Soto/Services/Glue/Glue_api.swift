@@ -77,1213 +77,2627 @@ public struct Glue: AWSService {
     /// Creates one or more partitions in a batch operation.
     @Sendable
     public func batchCreatePartition(_ input: BatchCreatePartitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreatePartitionResponse {
-        return try await self.client.execute(operation: "BatchCreatePartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchCreatePartition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a list of connection definitions from the Data Catalog.
     @Sendable
     public func batchDeleteConnection(_ input: BatchDeleteConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteConnectionResponse {
-        return try await self.client.execute(operation: "BatchDeleteConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDeleteConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes one or more partitions in a batch operation.
     @Sendable
     public func batchDeletePartition(_ input: BatchDeletePartitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeletePartitionResponse {
-        return try await self.client.execute(operation: "BatchDeletePartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDeletePartition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes multiple tables at once.  After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table.
     @Sendable
     public func batchDeleteTable(_ input: BatchDeleteTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteTableResponse {
-        return try await self.client.execute(operation: "BatchDeleteTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDeleteTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified batch of versions of a table.
     @Sendable
     public func batchDeleteTableVersion(_ input: BatchDeleteTableVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteTableVersionResponse {
-        return try await self.client.execute(operation: "BatchDeleteTableVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDeleteTableVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about a list of blueprints.
     @Sendable
     public func batchGetBlueprints(_ input: BatchGetBlueprintsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetBlueprintsResponse {
-        return try await self.client.execute(operation: "BatchGetBlueprints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetBlueprints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     @Sendable
     public func batchGetCrawlers(_ input: BatchGetCrawlersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetCrawlersResponse {
-        return try await self.client.execute(operation: "BatchGetCrawlers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetCrawlers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the details for the custom patterns specified by a list of names.
     @Sendable
     public func batchGetCustomEntityTypes(_ input: BatchGetCustomEntityTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetCustomEntityTypesResponse {
-        return try await self.client.execute(operation: "BatchGetCustomEntityTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetCustomEntityTypes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of data quality results for the specified result IDs.
     @Sendable
     public func batchGetDataQualityResult(_ input: BatchGetDataQualityResultRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetDataQualityResultResponse {
-        return try await self.client.execute(operation: "BatchGetDataQualityResult", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetDataQualityResult", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     @Sendable
     public func batchGetDevEndpoints(_ input: BatchGetDevEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetDevEndpointsResponse {
-        return try await self.client.execute(operation: "BatchGetDevEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetDevEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     @Sendable
     public func batchGetJobs(_ input: BatchGetJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetJobsResponse {
-        return try await self.client.execute(operation: "BatchGetJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves partitions in a batch request.
     @Sendable
     public func batchGetPartition(_ input: BatchGetPartitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetPartitionResponse {
-        return try await self.client.execute(operation: "BatchGetPartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetPartition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of resource metadata for a given list of trigger names. After calling the ListTriggers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     @Sendable
     public func batchGetTriggers(_ input: BatchGetTriggersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetTriggersResponse {
-        return try await self.client.execute(operation: "BatchGetTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetTriggers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     @Sendable
     public func batchGetWorkflows(_ input: BatchGetWorkflowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetWorkflowsResponse {
-        return try await self.client.execute(operation: "BatchGetWorkflows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetWorkflows", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops one or more job runs for a specified job definition.
     @Sendable
     public func batchStopJobRun(_ input: BatchStopJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchStopJobRunResponse {
-        return try await self.client.execute(operation: "BatchStopJobRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchStopJobRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates one or more partitions in a batch operation.
     @Sendable
     public func batchUpdatePartition(_ input: BatchUpdatePartitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdatePartitionResponse {
-        return try await self.client.execute(operation: "BatchUpdatePartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchUpdatePartition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels the specified recommendation run that was being used to generate rules.
     @Sendable
     public func cancelDataQualityRuleRecommendationRun(_ input: CancelDataQualityRuleRecommendationRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelDataQualityRuleRecommendationRunResponse {
-        return try await self.client.execute(operation: "CancelDataQualityRuleRecommendationRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelDataQualityRuleRecommendationRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels a run where a ruleset is being evaluated against a data source.
     @Sendable
     public func cancelDataQualityRulesetEvaluationRun(_ input: CancelDataQualityRulesetEvaluationRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelDataQualityRulesetEvaluationRunResponse {
-        return try await self.client.execute(operation: "CancelDataQualityRulesetEvaluationRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelDataQualityRulesetEvaluationRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's TransformID and the task run's TaskRunId.
     @Sendable
     public func cancelMLTaskRun(_ input: CancelMLTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelMLTaskRunResponse {
-        return try await self.client.execute(operation: "CancelMLTaskRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelMLTaskRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels the statement.
     @Sendable
     public func cancelStatement(_ input: CancelStatementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelStatementResponse {
-        return try await self.client.execute(operation: "CancelStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelStatement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using DataFormat as the format. Since it does not take a schema set name, no compatibility checks are performed.
     @Sendable
     public func checkSchemaVersionValidity(_ input: CheckSchemaVersionValidityInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CheckSchemaVersionValidityResponse {
-        return try await self.client.execute(operation: "CheckSchemaVersionValidity", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CheckSchemaVersionValidity", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers a blueprint with Glue.
     @Sendable
     public func createBlueprint(_ input: CreateBlueprintRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBlueprintResponse {
-        return try await self.client.execute(operation: "CreateBlueprint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateBlueprint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
     @Sendable
     public func createClassifier(_ input: CreateClassifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClassifierResponse {
-        return try await self.client.execute(operation: "CreateClassifier", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateClassifier", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a connection definition in the Data Catalog.
     @Sendable
     public func createConnection(_ input: CreateConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectionResponse {
-        return try await self.client.execute(operation: "CreateConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field.
     @Sendable
     public func createCrawler(_ input: CreateCrawlerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCrawlerResponse {
-        return try await self.client.execute(operation: "CreateCrawler", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCrawler", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a custom pattern that is used to detect sensitive data across the columns and rows of your structured data. Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked.
     @Sendable
     public func createCustomEntityType(_ input: CreateCustomEntityTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomEntityTypeResponse {
-        return try await self.client.execute(operation: "CreateCustomEntityType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCustomEntityType", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a data quality ruleset with DQDL rules applied to a specified Glue table. You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide.
     @Sendable
     public func createDataQualityRuleset(_ input: CreateDataQualityRulesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataQualityRulesetResponse {
-        return try await self.client.execute(operation: "CreateDataQualityRuleset", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDataQualityRuleset", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new database in a Data Catalog.
     @Sendable
     public func createDatabase(_ input: CreateDatabaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatabaseResponse {
-        return try await self.client.execute(operation: "CreateDatabase", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new development endpoint.
     @Sendable
     public func createDevEndpoint(_ input: CreateDevEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDevEndpointResponse {
-        return try await self.client.execute(operation: "CreateDevEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDevEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new job definition.
     @Sendable
     public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobResponse {
-        return try await self.client.execute(operation: "CreateJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an Glue machine learning transform. This operation creates the transform and all the necessary parameters to train it. Call this operation as the first step in the process of using a machine learning transform (such as the FindMatches transform) for deduplicating data. You can provide an optional Description, in addition to the parameters that you want to use for your algorithm. You must also specify certain parameters for the tasks that Glue runs on your behalf as part of learning from your data and creating a high-quality machine learning transform. These parameters include Role, and optionally, AllocatedCapacity, Timeout, and MaxRetries. For more information, see Jobs.
     @Sendable
     public func createMLTransform(_ input: CreateMLTransformRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMLTransformResponse {
-        return try await self.client.execute(operation: "CreateMLTransform", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMLTransform", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new partition.
     @Sendable
     public func createPartition(_ input: CreatePartitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePartitionResponse {
-        return try await self.client.execute(operation: "CreatePartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePartition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a specified partition index in an existing table.
     @Sendable
     public func createPartitionIndex(_ input: CreatePartitionIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePartitionIndexResponse {
-        return try await self.client.execute(operation: "CreatePartitionIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePartitionIndex", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new registry which may be used to hold a collection of schemas.
     @Sendable
     public func createRegistry(_ input: CreateRegistryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRegistryResponse {
-        return try await self.client.execute(operation: "CreateRegistry", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRegistry", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new schema set and registers the schema definition. Returns an error if the schema set already exists without actually registering the version. When the schema set is created, a version checkpoint will be set to the first version. Compatibility mode "DISABLED" restricts any additional schema versions from being added after the first schema version. For all other compatibility modes, validation of compatibility settings will be applied only from the second version onwards when the RegisterSchemaVersion API is used. When this API is called without a RegistryId, this will create an entry for a "default-registry" in the registry database tables, if it is not already present.
     @Sendable
     public func createSchema(_ input: CreateSchemaInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSchemaResponse {
-        return try await self.client.execute(operation: "CreateSchema", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSchema", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Transforms a directed acyclic graph (DAG) into code.
     @Sendable
     public func createScript(_ input: CreateScriptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScriptResponse {
-        return try await self.client.execute(operation: "CreateScript", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateScript", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints.
     @Sendable
     public func createSecurityConfiguration(_ input: CreateSecurityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSecurityConfigurationResponse {
-        return try await self.client.execute(operation: "CreateSecurityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSecurityConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new session.
     @Sendable
     public func createSession(_ input: CreateSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSessionResponse {
-        return try await self.client.execute(operation: "CreateSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new table definition in the Data Catalog.
     @Sendable
     public func createTable(_ input: CreateTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTableResponse {
-        return try await self.client.execute(operation: "CreateTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new trigger.
     @Sendable
     public func createTrigger(_ input: CreateTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTriggerResponse {
-        return try await self.client.execute(operation: "CreateTrigger", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTrigger", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new function definition in the Data Catalog.
     @Sendable
     public func createUserDefinedFunction(_ input: CreateUserDefinedFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserDefinedFunctionResponse {
-        return try await self.client.execute(operation: "CreateUserDefinedFunction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUserDefinedFunction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new workflow.
     @Sendable
     public func createWorkflow(_ input: CreateWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkflowResponse {
-        return try await self.client.execute(operation: "CreateWorkflow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorkflow", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing blueprint.
     @Sendable
     public func deleteBlueprint(_ input: DeleteBlueprintRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBlueprintResponse {
-        return try await self.client.execute(operation: "DeleteBlueprint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBlueprint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a classifier from the Data Catalog.
     @Sendable
     public func deleteClassifier(_ input: DeleteClassifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClassifierResponse {
-        return try await self.client.execute(operation: "DeleteClassifier", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteClassifier", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete the partition column statistics of a column. The Identity and Access Management (IAM) permission required for this operation is DeletePartition.
     @Sendable
     public func deleteColumnStatisticsForPartition(_ input: DeleteColumnStatisticsForPartitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteColumnStatisticsForPartitionResponse {
-        return try await self.client.execute(operation: "DeleteColumnStatisticsForPartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteColumnStatisticsForPartition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is DeleteTable.
     @Sendable
     public func deleteColumnStatisticsForTable(_ input: DeleteColumnStatisticsForTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteColumnStatisticsForTableResponse {
-        return try await self.client.execute(operation: "DeleteColumnStatisticsForTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteColumnStatisticsForTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a connection from the Data Catalog.
     @Sendable
     public func deleteConnection(_ input: DeleteConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConnectionResponse {
-        return try await self.client.execute(operation: "DeleteConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a specified crawler from the Glue Data Catalog, unless the crawler state is RUNNING.
     @Sendable
     public func deleteCrawler(_ input: DeleteCrawlerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCrawlerResponse {
-        return try await self.client.execute(operation: "DeleteCrawler", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCrawler", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a custom pattern by specifying its name.
     @Sendable
     public func deleteCustomEntityType(_ input: DeleteCustomEntityTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomEntityTypeResponse {
-        return try await self.client.execute(operation: "DeleteCustomEntityType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCustomEntityType", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a data quality ruleset.
     @Sendable
     public func deleteDataQualityRuleset(_ input: DeleteDataQualityRulesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataQualityRulesetResponse {
-        return try await self.client.execute(operation: "DeleteDataQualityRuleset", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDataQualityRuleset", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a specified database from a Data Catalog.  After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase, use DeleteTableVersion or BatchDeleteTableVersion, DeletePartition or BatchDeletePartition, DeleteUserDefinedFunction, and DeleteTable or BatchDeleteTable, to delete any resources that belong to the database.
     @Sendable
     public func deleteDatabase(_ input: DeleteDatabaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDatabaseResponse {
-        return try await self.client.execute(operation: "DeleteDatabase", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified development endpoint.
     @Sendable
     public func deleteDevEndpoint(_ input: DeleteDevEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDevEndpointResponse {
-        return try await self.client.execute(operation: "DeleteDevEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDevEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified job definition. If the job definition is not found, no exception is thrown.
     @Sendable
     public func deleteJob(_ input: DeleteJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteJobResponse {
-        return try await self.client.execute(operation: "DeleteJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an Glue machine learning transform. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. If you no longer need a transform, you can delete it by calling DeleteMLTransforms. However, any Glue jobs that still reference the deleted transform will no longer succeed.
     @Sendable
     public func deleteMLTransform(_ input: DeleteMLTransformRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMLTransformResponse {
-        return try await self.client.execute(operation: "DeleteMLTransform", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMLTransform", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified partition.
     @Sendable
     public func deletePartition(_ input: DeletePartitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePartitionResponse {
-        return try await self.client.execute(operation: "DeletePartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePartition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified partition index from an existing table.
     @Sendable
     public func deletePartitionIndex(_ input: DeletePartitionIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePartitionIndexResponse {
-        return try await self.client.execute(operation: "DeletePartitionIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePartitionIndex", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the GetRegistry API after the asynchronous call. Deleting a registry will deactivate all online operations for the registry such as the UpdateRegistry, CreateSchema, UpdateSchema, and RegisterSchemaVersion APIs.
     @Sendable
     public func deleteRegistry(_ input: DeleteRegistryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRegistryResponse {
-        return try await self.client.execute(operation: "DeleteRegistry", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRegistry", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified policy.
     @Sendable
     public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
-        return try await self.client.execute(operation: "DeleteResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call GetSchema API after the asynchronous call. Deleting a registry will deactivate all online operations for the schema, such as the GetSchemaByDefinition, and RegisterSchemaVersion APIs.
     @Sendable
     public func deleteSchema(_ input: DeleteSchemaInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSchemaResponse {
-        return try await self.client.execute(operation: "DeleteSchema", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSchema", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Remove versions from the specified schema. A version number or range may be supplied. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned.  Calling the GetSchemaVersions API after this call will list the status of the deleted versions. When the range of version numbers contain check pointed version, the API will return a 409 conflict and will not proceed with the deletion. You have to remove the checkpoint first using the DeleteSchemaCheckpoint API before using this API. You cannot use the DeleteSchemaVersions API to delete the first schema version in the schema set. The first schema version can only be deleted by the DeleteSchema API. This operation will also delete the attached SchemaVersionMetadata under the schema versions. Hard deletes will be enforced on the database. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned.
     @Sendable
     public func deleteSchemaVersions(_ input: DeleteSchemaVersionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSchemaVersionsResponse {
-        return try await self.client.execute(operation: "DeleteSchemaVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSchemaVersions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified security configuration.
     @Sendable
     public func deleteSecurityConfiguration(_ input: DeleteSecurityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSecurityConfigurationResponse {
-        return try await self.client.execute(operation: "DeleteSecurityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSecurityConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the session.
     @Sendable
     public func deleteSession(_ input: DeleteSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSessionResponse {
-        return try await self.client.execute(operation: "DeleteSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a table definition from the Data Catalog.  After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table.
     @Sendable
     public func deleteTable(_ input: DeleteTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTableResponse {
-        return try await self.client.execute(operation: "DeleteTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified version of a table.
     @Sendable
     public func deleteTableVersion(_ input: DeleteTableVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTableVersionResponse {
-        return try await self.client.execute(operation: "DeleteTableVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTableVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified trigger. If the trigger is not found, no exception is thrown.
     @Sendable
     public func deleteTrigger(_ input: DeleteTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTriggerResponse {
-        return try await self.client.execute(operation: "DeleteTrigger", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTrigger", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing function definition from the Data Catalog.
     @Sendable
     public func deleteUserDefinedFunction(_ input: DeleteUserDefinedFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserDefinedFunctionResponse {
-        return try await self.client.execute(operation: "DeleteUserDefinedFunction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUserDefinedFunction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a workflow.
     @Sendable
     public func deleteWorkflow(_ input: DeleteWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkflowResponse {
-        return try await self.client.execute(operation: "DeleteWorkflow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWorkflow", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the details of a blueprint.
     @Sendable
     public func getBlueprint(_ input: GetBlueprintRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBlueprintResponse {
-        return try await self.client.execute(operation: "GetBlueprint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBlueprint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the details of a blueprint run.
     @Sendable
     public func getBlueprintRun(_ input: GetBlueprintRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBlueprintRunResponse {
-        return try await self.client.execute(operation: "GetBlueprintRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBlueprintRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the details of blueprint runs for a specified blueprint.
     @Sendable
     public func getBlueprintRuns(_ input: GetBlueprintRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBlueprintRunsResponse {
-        return try await self.client.execute(operation: "GetBlueprintRuns", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBlueprintRuns", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the status of a migration operation.
     @Sendable
     public func getCatalogImportStatus(_ input: GetCatalogImportStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCatalogImportStatusResponse {
-        return try await self.client.execute(operation: "GetCatalogImportStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCatalogImportStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve a classifier by name.
     @Sendable
     public func getClassifier(_ input: GetClassifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClassifierResponse {
-        return try await self.client.execute(operation: "GetClassifier", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetClassifier", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all classifier objects in the Data Catalog.
     @Sendable
     public func getClassifiers(_ input: GetClassifiersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClassifiersResponse {
-        return try await self.client.execute(operation: "GetClassifiers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetClassifiers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetPartition.
     @Sendable
     public func getColumnStatisticsForPartition(_ input: GetColumnStatisticsForPartitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetColumnStatisticsForPartitionResponse {
-        return try await self.client.execute(operation: "GetColumnStatisticsForPartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetColumnStatisticsForPartition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetTable.
     @Sendable
     public func getColumnStatisticsForTable(_ input: GetColumnStatisticsForTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetColumnStatisticsForTableResponse {
-        return try await self.client.execute(operation: "GetColumnStatisticsForTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetColumnStatisticsForTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a connection definition from the Data Catalog.
     @Sendable
     public func getConnection(_ input: GetConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionResponse {
-        return try await self.client.execute(operation: "GetConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of connection definitions from the Data Catalog.
     @Sendable
     public func getConnections(_ input: GetConnectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionsResponse {
-        return try await self.client.execute(operation: "GetConnections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConnections", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves metadata for a specified crawler.
     @Sendable
     public func getCrawler(_ input: GetCrawlerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCrawlerResponse {
-        return try await self.client.execute(operation: "GetCrawler", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCrawler", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves metrics about specified crawlers.
     @Sendable
     public func getCrawlerMetrics(_ input: GetCrawlerMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCrawlerMetricsResponse {
-        return try await self.client.execute(operation: "GetCrawlerMetrics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCrawlerMetrics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves metadata for all crawlers defined in the customer account.
     @Sendable
     public func getCrawlers(_ input: GetCrawlersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCrawlersResponse {
-        return try await self.client.execute(operation: "GetCrawlers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCrawlers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the details of a custom pattern by specifying its name.
     @Sendable
     public func getCustomEntityType(_ input: GetCustomEntityTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomEntityTypeResponse {
-        return try await self.client.execute(operation: "GetCustomEntityType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCustomEntityType", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the security configuration for a specified catalog.
     @Sendable
     public func getDataCatalogEncryptionSettings(_ input: GetDataCatalogEncryptionSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataCatalogEncryptionSettingsResponse {
-        return try await self.client.execute(operation: "GetDataCatalogEncryptionSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDataCatalogEncryptionSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the result of a data quality rule evaluation.
     @Sendable
     public func getDataQualityResult(_ input: GetDataQualityResultRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataQualityResultResponse {
-        return try await self.client.execute(operation: "GetDataQualityResult", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDataQualityResult", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the specified recommendation run that was used to generate rules.
     @Sendable
     public func getDataQualityRuleRecommendationRun(_ input: GetDataQualityRuleRecommendationRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataQualityRuleRecommendationRunResponse {
-        return try await self.client.execute(operation: "GetDataQualityRuleRecommendationRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDataQualityRuleRecommendationRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns an existing ruleset by identifier or name.
     @Sendable
     public func getDataQualityRuleset(_ input: GetDataQualityRulesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataQualityRulesetResponse {
-        return try await self.client.execute(operation: "GetDataQualityRuleset", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDataQualityRuleset", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a specific run where a ruleset is evaluated against a data source.
     @Sendable
     public func getDataQualityRulesetEvaluationRun(_ input: GetDataQualityRulesetEvaluationRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataQualityRulesetEvaluationRunResponse {
-        return try await self.client.execute(operation: "GetDataQualityRulesetEvaluationRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDataQualityRulesetEvaluationRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the definition of a specified database.
     @Sendable
     public func getDatabase(_ input: GetDatabaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDatabaseResponse {
-        return try await self.client.execute(operation: "GetDatabase", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves all databases defined in a given Data Catalog.
     @Sendable
     public func getDatabases(_ input: GetDatabasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDatabasesResponse {
-        return try await self.client.execute(operation: "GetDatabases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDatabases", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Transforms a Python script into a directed acyclic graph (DAG).
     @Sendable
     public func getDataflowGraph(_ input: GetDataflowGraphRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataflowGraphResponse {
-        return try await self.client.execute(operation: "GetDataflowGraph", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDataflowGraph", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about a specified development endpoint.  When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address, and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
     @Sendable
     public func getDevEndpoint(_ input: GetDevEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDevEndpointResponse {
-        return try await self.client.execute(operation: "GetDevEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDevEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves all the development endpoints in this Amazon Web Services account.  When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
     @Sendable
     public func getDevEndpoints(_ input: GetDevEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDevEndpointsResponse {
-        return try await self.client.execute(operation: "GetDevEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDevEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves an existing job definition.
     @Sendable
     public func getJob(_ input: GetJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobResponse {
-        return try await self.client.execute(operation: "GetJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information on a job bookmark entry. For more information about enabling and using job bookmarks, see:    Tracking processed data using job bookmarks     Job parameters used by Glue     Job structure
     @Sendable
     public func getJobBookmark(_ input: GetJobBookmarkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobBookmarkResponse {
-        return try await self.client.execute(operation: "GetJobBookmark", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetJobBookmark", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the metadata for a given job run.
     @Sendable
     public func getJobRun(_ input: GetJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobRunResponse {
-        return try await self.client.execute(operation: "GetJobRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetJobRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves metadata for all runs of a given job definition.
     @Sendable
     public func getJobRuns(_ input: GetJobRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobRunsResponse {
-        return try await self.client.execute(operation: "GetJobRuns", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetJobRuns", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves all current job definitions.
     @Sendable
     public func getJobs(_ input: GetJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobsResponse {
-        return try await self.client.execute(operation: "GetJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details for a specific task run on a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can check the stats of any task run by calling GetMLTaskRun with the TaskRunID and its parent transform's TransformID.
     @Sendable
     public func getMLTaskRun(_ input: GetMLTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMLTaskRunResponse {
-        return try await self.client.execute(operation: "GetMLTaskRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMLTaskRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated.
     @Sendable
     public func getMLTaskRuns(_ input: GetMLTaskRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMLTaskRunsResponse {
-        return try await self.client.execute(operation: "GetMLTaskRuns", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMLTaskRuns", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets an Glue machine learning transform artifact and all its corresponding metadata. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. You can retrieve their metadata by calling GetMLTransform.
     @Sendable
     public func getMLTransform(_ input: GetMLTransformRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMLTransformResponse {
-        return try await self.client.execute(operation: "GetMLTransform", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMLTransform", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a sortable, filterable list of existing Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue, and you can retrieve their metadata by calling GetMLTransforms.
     @Sendable
     public func getMLTransforms(_ input: GetMLTransformsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMLTransformsResponse {
-        return try await self.client.execute(operation: "GetMLTransforms", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMLTransforms", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates mappings.
     @Sendable
     public func getMapping(_ input: GetMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMappingResponse {
-        return try await self.client.execute(operation: "GetMapping", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMapping", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about a specified partition.
     @Sendable
     public func getPartition(_ input: GetPartitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPartitionResponse {
-        return try await self.client.execute(operation: "GetPartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPartition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the partition indexes associated with a table.
     @Sendable
     public func getPartitionIndexes(_ input: GetPartitionIndexesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPartitionIndexesResponse {
-        return try await self.client.execute(operation: "GetPartitionIndexes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPartitionIndexes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the partitions in a table.
     @Sendable
     public func getPartitions(_ input: GetPartitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPartitionsResponse {
-        return try await self.client.execute(operation: "GetPartitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPartitions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets code to perform a specified mapping.
     @Sendable
     public func getPlan(_ input: GetPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPlanResponse {
-        return try await self.client.execute(operation: "GetPlan", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the specified registry in detail.
     @Sendable
     public func getRegistry(_ input: GetRegistryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegistryResponse {
-        return try await self.client.execute(operation: "GetRegistry", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRegistry", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the resource policies set on individual resources by Resource Access Manager during cross-account permission grants. Also retrieves the Data Catalog resource policy. If you enabled metadata encryption in Data Catalog settings, and you do not have permission on the KMS key, the operation can't return the Data Catalog resource policy.
     @Sendable
     public func getResourcePolicies(_ input: GetResourcePoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePoliciesResponse {
-        return try await self.client.execute(operation: "GetResourcePolicies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourcePolicies", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a specified resource policy.
     @Sendable
     public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
-        return try await self.client.execute(operation: "GetResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the specified schema in detail.
     @Sendable
     public func getSchema(_ input: GetSchemaInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSchemaResponse {
-        return try await self.client.execute(operation: "GetSchema", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSchema", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a schema by the SchemaDefinition. The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the SchemaName or ARN (or the default registry, if none is supplied), that schema’s metadata is returned. Otherwise, a 404 or NotFound error is returned. Schema versions in Deleted statuses will not be included in the results.
     @Sendable
     public func getSchemaByDefinition(_ input: GetSchemaByDefinitionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSchemaByDefinitionResponse {
-        return try await self.client.execute(operation: "GetSchemaByDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSchemaByDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the specified schema by its unique ID assigned when a version of the schema is created or registered. Schema versions in Deleted status will not be included in the results.
     @Sendable
     public func getSchemaVersion(_ input: GetSchemaVersionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSchemaVersionResponse {
-        return try await self.client.execute(operation: "GetSchemaVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSchemaVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Fetches the schema version difference in the specified difference type between two stored schema versions in the Schema Registry. This API allows you to compare two schema versions between two schema definitions under the same schema.
     @Sendable
     public func getSchemaVersionsDiff(_ input: GetSchemaVersionsDiffInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSchemaVersionsDiffResponse {
-        return try await self.client.execute(operation: "GetSchemaVersionsDiff", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSchemaVersionsDiff", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a specified security configuration.
     @Sendable
     public func getSecurityConfiguration(_ input: GetSecurityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSecurityConfigurationResponse {
-        return try await self.client.execute(operation: "GetSecurityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSecurityConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of all security configurations.
     @Sendable
     public func getSecurityConfigurations(_ input: GetSecurityConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSecurityConfigurationsResponse {
-        return try await self.client.execute(operation: "GetSecurityConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSecurityConfigurations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the session.
     @Sendable
     public func getSession(_ input: GetSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionResponse {
-        return try await self.client.execute(operation: "GetSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the statement.
     @Sendable
     public func getStatement(_ input: GetStatementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStatementResponse {
-        return try await self.client.execute(operation: "GetStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetStatement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the Table definition in a Data Catalog for a specified table.
     @Sendable
     public func getTable(_ input: GetTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableResponse {
-        return try await self.client.execute(operation: "GetTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a specified version of a table.
     @Sendable
     public func getTableVersion(_ input: GetTableVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableVersionResponse {
-        return try await self.client.execute(operation: "GetTableVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTableVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of strings that identify available versions of a specified table.
     @Sendable
     public func getTableVersions(_ input: GetTableVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableVersionsResponse {
-        return try await self.client.execute(operation: "GetTableVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTableVersions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the definitions of some or all of the tables in a given Database.
     @Sendable
     public func getTables(_ input: GetTablesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTablesResponse {
-        return try await self.client.execute(operation: "GetTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTables", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of tags associated with a resource.
     @Sendable
     public func getTags(_ input: GetTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTagsResponse {
-        return try await self.client.execute(operation: "GetTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the definition of a trigger.
     @Sendable
     public func getTrigger(_ input: GetTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTriggerResponse {
-        return try await self.client.execute(operation: "GetTrigger", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTrigger", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets all the triggers associated with a job.
     @Sendable
     public func getTriggers(_ input: GetTriggersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTriggersResponse {
-        return try await self.client.execute(operation: "GetTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTriggers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves partition metadata from the Data Catalog that contains unfiltered  metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartition.
     @Sendable
     public func getUnfilteredPartitionMetadata(_ input: GetUnfilteredPartitionMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUnfilteredPartitionMetadataResponse {
-        return try await self.client.execute(operation: "GetUnfilteredPartitionMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUnfilteredPartitionMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves partition metadata from the Data Catalog that contains unfiltered  metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions.
     @Sendable
     public func getUnfilteredPartitionsMetadata(_ input: GetUnfilteredPartitionsMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUnfilteredPartitionsMetadataResponse {
-        return try await self.client.execute(operation: "GetUnfilteredPartitionsMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUnfilteredPartitionsMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves table metadata from the Data Catalog that contains unfiltered  metadata. For IAM authorization, the public IAM action associated with this API is glue:GetTable.
     @Sendable
     public func getUnfilteredTableMetadata(_ input: GetUnfilteredTableMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUnfilteredTableMetadataResponse {
-        return try await self.client.execute(operation: "GetUnfilteredTableMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUnfilteredTableMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a specified function definition from the Data Catalog.
     @Sendable
     public func getUserDefinedFunction(_ input: GetUserDefinedFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUserDefinedFunctionResponse {
-        return try await self.client.execute(operation: "GetUserDefinedFunction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUserDefinedFunction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves multiple function definitions from the Data Catalog.
     @Sendable
     public func getUserDefinedFunctions(_ input: GetUserDefinedFunctionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUserDefinedFunctionsResponse {
-        return try await self.client.execute(operation: "GetUserDefinedFunctions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUserDefinedFunctions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves resource metadata for a workflow.
     @Sendable
     public func getWorkflow(_ input: GetWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowResponse {
-        return try await self.client.execute(operation: "GetWorkflow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorkflow", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the metadata for a given workflow run.
     @Sendable
     public func getWorkflowRun(_ input: GetWorkflowRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowRunResponse {
-        return try await self.client.execute(operation: "GetWorkflowRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorkflowRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the workflow run properties which were set during the run.
     @Sendable
     public func getWorkflowRunProperties(_ input: GetWorkflowRunPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowRunPropertiesResponse {
-        return try await self.client.execute(operation: "GetWorkflowRunProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorkflowRunProperties", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves metadata for all runs of a given workflow.
     @Sendable
     public func getWorkflowRuns(_ input: GetWorkflowRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowRunsResponse {
-        return try await self.client.execute(operation: "GetWorkflowRuns", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorkflowRuns", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Imports an existing Amazon Athena Data Catalog to Glue.
     @Sendable
     public func importCatalogToGlue(_ input: ImportCatalogToGlueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportCatalogToGlueResponse {
-        return try await self.client.execute(operation: "ImportCatalogToGlue", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportCatalogToGlue", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the blueprint names in an account.
     @Sendable
     public func listBlueprints(_ input: ListBlueprintsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBlueprintsResponse {
-        return try await self.client.execute(operation: "ListBlueprints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBlueprints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     @Sendable
     public func listCrawlers(_ input: ListCrawlersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCrawlersResponse {
-        return try await self.client.execute(operation: "ListCrawlers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCrawlers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns all the crawls of a specified crawler. Returns only the crawls that have occurred since the launch date of the crawler history feature, and only retains up to 12 months of crawls. Older crawls will not be returned. You may use this API to:   Retrive all the crawls of a specified crawler.   Retrieve all the crawls of a specified crawler within a limited count.   Retrieve all the crawls of a specified crawler in a specific time range.   Retrieve all the crawls of a specified crawler with a particular state, crawl ID, or DPU hour value.
     @Sendable
     public func listCrawls(_ input: ListCrawlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCrawlsResponse {
-        return try await self.client.execute(operation: "ListCrawls", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCrawls", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the custom patterns that have been created.
     @Sendable
     public func listCustomEntityTypes(_ input: ListCustomEntityTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomEntityTypesResponse {
-        return try await self.client.execute(operation: "ListCustomEntityTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCustomEntityTypes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns all data quality execution results for your account.
     @Sendable
     public func listDataQualityResults(_ input: ListDataQualityResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataQualityResultsResponse {
-        return try await self.client.execute(operation: "ListDataQualityResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDataQualityResults", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the recommendation runs meeting the filter criteria.
     @Sendable
     public func listDataQualityRuleRecommendationRuns(_ input: ListDataQualityRuleRecommendationRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataQualityRuleRecommendationRunsResponse {
-        return try await self.client.execute(operation: "ListDataQualityRuleRecommendationRuns", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDataQualityRuleRecommendationRuns", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data source.
     @Sendable
     public func listDataQualityRulesetEvaluationRuns(_ input: ListDataQualityRulesetEvaluationRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataQualityRulesetEvaluationRunsResponse {
-        return try await self.client.execute(operation: "ListDataQualityRulesetEvaluationRuns", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDataQualityRulesetEvaluationRuns", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a paginated list of rulesets for the specified list of Glue tables.
     @Sendable
     public func listDataQualityRulesets(_ input: ListDataQualityRulesetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataQualityRulesetsResponse {
-        return try await self.client.execute(operation: "ListDataQualityRulesets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDataQualityRulesets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     @Sendable
     public func listDevEndpoints(_ input: ListDevEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDevEndpointsResponse {
-        return try await self.client.execute(operation: "ListDevEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDevEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     @Sendable
     public func listJobs(_ input: ListJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobsResponse {
-        return try await self.client.execute(operation: "ListJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Retrieves a sortable, filterable list of existing Glue machine learning transforms in this Amazon Web Services account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only resources with the tags are retrieved.
     @Sendable
     public func listMLTransforms(_ input: ListMLTransformsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMLTransformsResponse {
-        return try await self.client.execute(operation: "ListMLTransforms", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMLTransforms", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of registries that you have created, with minimal registry information. Registries in the Deleting status will not be included in the results. Empty results will be returned if there are no registries available.
     @Sendable
     public func listRegistries(_ input: ListRegistriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRegistriesResponse {
-        return try await self.client.execute(operation: "ListRegistries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRegistries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
     @Sendable
     public func listSchemaVersions(_ input: ListSchemaVersionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSchemaVersionsResponse {
-        return try await self.client.execute(operation: "ListSchemaVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSchemaVersions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be returned if there are no schemas available. When the RegistryId is not provided, all the schemas across registries will be part of the API response.
     @Sendable
     public func listSchemas(_ input: ListSchemasInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSchemasResponse {
-        return try await self.client.execute(operation: "ListSchemas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSchemas", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve a list of sessions.
     @Sendable
     public func listSessions(_ input: ListSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSessionsResponse {
-        return try await self.client.execute(operation: "ListSessions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSessions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists statements for the session.
     @Sendable
     public func listStatements(_ input: ListStatementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStatementsResponse {
-        return try await self.client.execute(operation: "ListStatements", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListStatements", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     @Sendable
     public func listTriggers(_ input: ListTriggersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTriggersResponse {
-        return try await self.client.execute(operation: "ListTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTriggers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists names of workflows created in the account.
     @Sendable
     public func listWorkflows(_ input: ListWorkflowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkflowsResponse {
-        return try await self.client.execute(operation: "ListWorkflows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkflows", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.
     @Sendable
     public func putDataCatalogEncryptionSettings(_ input: PutDataCatalogEncryptionSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDataCatalogEncryptionSettingsResponse {
-        return try await self.client.execute(operation: "PutDataCatalogEncryptionSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutDataCatalogEncryptionSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets the Data Catalog resource policy for access control.
     @Sendable
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
-        return try await self.client.execute(operation: "PutResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Puts the metadata key value pair for a specified schema version ID. A maximum of 10 key value pairs will be allowed per schema version. They can be added over one or more calls.
     @Sendable
     public func putSchemaVersionMetadata(_ input: PutSchemaVersionMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutSchemaVersionMetadataResponse {
-        return try await self.client.execute(operation: "PutSchemaVersionMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutSchemaVersionMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
     @Sendable
     public func putWorkflowRunProperties(_ input: PutWorkflowRunPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutWorkflowRunPropertiesResponse {
-        return try await self.client.execute(operation: "PutWorkflowRunProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutWorkflowRunProperties", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Queries for the schema version metadata information.
     @Sendable
     public func querySchemaVersionMetadata(_ input: QuerySchemaVersionMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> QuerySchemaVersionMetadataResponse {
-        return try await self.client.execute(operation: "QuerySchemaVersionMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "QuerySchemaVersionMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a new version to the existing schema. Returns an error if new version of schema does not meet the compatibility requirements of the schema set. This API will not create a new schema set and will return a 404 error if the schema set is not already present in the Schema Registry. If this is the first schema definition to be registered in the Schema Registry, this API will store the schema version and return immediately. Otherwise, this call has the potential to run longer than other operations due to compatibility modes. You can call the GetSchemaVersion API with the SchemaVersionId to check compatibility modes. If the same schema definition is already stored in Schema Registry as a version, the schema ID of the existing schema is returned to the caller.
     @Sendable
     public func registerSchemaVersion(_ input: RegisterSchemaVersionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterSchemaVersionResponse {
-        return try await self.client.execute(operation: "RegisterSchemaVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterSchemaVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a key value pair from the schema version metadata for the specified schema version ID.
     @Sendable
     public func removeSchemaVersionMetadata(_ input: RemoveSchemaVersionMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveSchemaVersionMetadataResponse {
-        return try await self.client.execute(operation: "RemoveSchemaVersionMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveSchemaVersionMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Resets a bookmark entry. For more information about enabling and using job bookmarks, see:    Tracking processed data using job bookmarks     Job parameters used by Glue     Job structure
     @Sendable
     public func resetJobBookmark(_ input: ResetJobBookmarkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetJobBookmarkResponse {
-        return try await self.client.execute(operation: "ResetJobBookmark", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ResetJobBookmark", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run.
     @Sendable
     public func resumeWorkflowRun(_ input: ResumeWorkflowRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResumeWorkflowRunResponse {
-        return try await self.client.execute(operation: "ResumeWorkflowRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ResumeWorkflowRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Executes the statement.
     @Sendable
     public func runStatement(_ input: RunStatementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RunStatementResponse {
-        return try await self.client.execute(operation: "RunStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RunStatement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.  You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
     @Sendable
     public func searchTables(_ input: SearchTablesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchTablesResponse {
-        return try await self.client.execute(operation: "SearchTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchTables", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a new run of the specified blueprint.
     @Sendable
     public func startBlueprintRun(_ input: StartBlueprintRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBlueprintRunResponse {
-        return try await self.client.execute(operation: "StartBlueprintRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartBlueprintRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a CrawlerRunningException.
     @Sendable
     public func startCrawler(_ input: StartCrawlerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCrawlerResponse {
-        return try await self.client.execute(operation: "StartCrawler", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartCrawler", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes the schedule state of the specified crawler to SCHEDULED, unless the crawler is already running or the schedule state is already SCHEDULED.
     @Sendable
     public func startCrawlerSchedule(_ input: StartCrawlerScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCrawlerScheduleResponse {
-        return try await self.client.execute(operation: "StartCrawlerSchedule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartCrawlerSchedule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking.
     @Sendable
     public func startDataQualityRuleRecommendationRun(_ input: StartDataQualityRuleRecommendationRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDataQualityRuleRecommendationRunResponse {
-        return try await self.client.execute(operation: "StartDataQualityRuleRecommendationRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartDataQualityRuleRecommendationRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the GetDataQualityResult API.
     @Sendable
     public func startDataQualityRulesetEvaluationRun(_ input: StartDataQualityRulesetEvaluationRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDataQualityRulesetEvaluationRunResponse {
-        return try await self.client.execute(operation: "StartDataQualityRulesetEvaluationRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartDataQualityRulesetEvaluationRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use StartExportLabelsTaskRun when you want to work with all of your existing labels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Storage Service (Amazon S3) path to export the labels to. The operation returns a TaskRunId. You can check on the status of your task run by calling the GetMLTaskRun API.
     @Sendable
     public func startExportLabelsTaskRun(_ input: StartExportLabelsTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartExportLabelsTaskRunResponse {
-        return try await self.client.execute(operation: "StartExportLabelsTaskRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartExportLabelsTaskRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables you to provide additional labels (examples of truth) to be used to teach the machine learning transform and improve its quality. This API operation is generally used as part of the active learning workflow that starts with the StartMLLabelingSetGenerationTaskRun call and that ultimately results in improving the quality of your machine learning transform.  After the StartMLLabelingSetGenerationTaskRun finishes, Glue machine learning will have generated a series of questions for humans to answer. (Answering these questions is often called 'labeling' in the machine learning workflows). In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, users upload their answers/labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform use the new and improved labels and perform a higher-quality transformation. By default, StartMLLabelingSetGenerationTaskRun continually learns from and combines all labels that you upload unless you set Replace to true. If you set Replace to true, StartImportLabelsTaskRun deletes and forgets all previously uploaded labels and learns only from the exact set that you upload. Replacing labels can be helpful if you realize that you previously uploaded incorrect labels, and you believe that they are having a negative effect on your transform quality. You can check on the status of your task run by calling the GetMLTaskRun operation.
     @Sendable
     public func startImportLabelsTaskRun(_ input: StartImportLabelsTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImportLabelsTaskRunResponse {
-        return try await self.client.execute(operation: "StartImportLabelsTaskRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartImportLabelsTaskRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a job run using a job definition.
     @Sendable
     public func startJobRun(_ input: StartJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartJobRunResponse {
-        return try await self.client.execute(operation: "StartJobRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartJobRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a task to estimate the quality of the transform.  When you provide label sets as examples of truth, Glue machine learning uses some of those examples to learn from them. The rest of the labels are used as a test to estimate quality. Returns a unique identifier for the run. You can call GetMLTaskRun to get more information about the stats of the EvaluationTaskRun.
     @Sendable
     public func startMLEvaluationTaskRun(_ input: StartMLEvaluationTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMLEvaluationTaskRunResponse {
-        return try await self.client.execute(operation: "StartMLEvaluationTaskRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartMLEvaluationTaskRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?”  After the labeling process is finished, you can upload your labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform will use the new and improved labels and perform a higher-quality transformation.
     @Sendable
     public func startMLLabelingSetGenerationTaskRun(_ input: StartMLLabelingSetGenerationTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMLLabelingSetGenerationTaskRunResponse {
-        return try await self.client.execute(operation: "StartMLLabelingSetGenerationTaskRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartMLLabelingSetGenerationTaskRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an existing trigger. See Triggering Jobs for information about how different types of trigger are started.
     @Sendable
     public func startTrigger(_ input: StartTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTriggerResponse {
-        return try await self.client.execute(operation: "StartTrigger", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartTrigger", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a new run of the specified workflow.
     @Sendable
     public func startWorkflowRun(_ input: StartWorkflowRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartWorkflowRunResponse {
-        return try await self.client.execute(operation: "StartWorkflowRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartWorkflowRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// If the specified crawler is running, stops the crawl.
     @Sendable
     public func stopCrawler(_ input: StopCrawlerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopCrawlerResponse {
-        return try await self.client.execute(operation: "StopCrawler", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopCrawler", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets the schedule state of the specified crawler to NOT_SCHEDULED, but does not stop the crawler if it is already running.
     @Sendable
     public func stopCrawlerSchedule(_ input: StopCrawlerScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopCrawlerScheduleResponse {
-        return try await self.client.execute(operation: "StopCrawlerSchedule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopCrawlerSchedule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops the session.
     @Sendable
     public func stopSession(_ input: StopSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopSessionResponse {
-        return try await self.client.execute(operation: "StopSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a specified trigger.
     @Sendable
     public func stopTrigger(_ input: StopTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopTriggerResponse {
-        return try await self.client.execute(operation: "StopTrigger", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopTrigger", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops the execution of the specified workflow run.
     @Sendable
     public func stopWorkflowRun(_ input: StopWorkflowRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopWorkflowRunResponse {
-        return try await self.client.execute(operation: "StopWorkflowRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopWorkflowRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds tags to a resource. A tag is a label you can assign to an Amazon Web Services resource. In Glue, you can tag only certain resources. For information about what resources you can tag, see Amazon Web Services Tags in Glue.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a registered blueprint.
     @Sendable
     public func updateBlueprint(_ input: UpdateBlueprintRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBlueprintResponse {
-        return try await self.client.execute(operation: "UpdateBlueprint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBlueprint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).
     @Sendable
     public func updateClassifier(_ input: UpdateClassifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClassifierResponse {
-        return try await self.client.execute(operation: "UpdateClassifier", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateClassifier", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdatePartition.
     @Sendable
     public func updateColumnStatisticsForPartition(_ input: UpdateColumnStatisticsForPartitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateColumnStatisticsForPartitionResponse {
-        return try await self.client.execute(operation: "UpdateColumnStatisticsForPartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateColumnStatisticsForPartition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdateTable.
     @Sendable
     public func updateColumnStatisticsForTable(_ input: UpdateColumnStatisticsForTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateColumnStatisticsForTableResponse {
-        return try await self.client.execute(operation: "UpdateColumnStatisticsForTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateColumnStatisticsForTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a connection definition in the Data Catalog.
     @Sendable
     public func updateConnection(_ input: UpdateConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectionResponse {
-        return try await self.client.execute(operation: "UpdateConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a crawler. If a crawler is running, you must stop it using StopCrawler before updating it.
     @Sendable
     public func updateCrawler(_ input: UpdateCrawlerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCrawlerResponse {
-        return try await self.client.execute(operation: "UpdateCrawler", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCrawler", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the schedule of a crawler using a cron expression.
     @Sendable
     public func updateCrawlerSchedule(_ input: UpdateCrawlerScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCrawlerScheduleResponse {
-        return try await self.client.execute(operation: "UpdateCrawlerSchedule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCrawlerSchedule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified data quality ruleset.
     @Sendable
     public func updateDataQualityRuleset(_ input: UpdateDataQualityRulesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataQualityRulesetResponse {
-        return try await self.client.execute(operation: "UpdateDataQualityRuleset", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDataQualityRuleset", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing database definition in a Data Catalog.
     @Sendable
     public func updateDatabase(_ input: UpdateDatabaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDatabaseResponse {
-        return try await self.client.execute(operation: "UpdateDatabase", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a specified development endpoint.
     @Sendable
     public func updateDevEndpoint(_ input: UpdateDevEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDevEndpointResponse {
-        return try await self.client.execute(operation: "UpdateDevEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDevEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing job definition. The previous job definition is completely overwritten by this information.
     @Sendable
     public func updateJob(_ input: UpdateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateJobResponse {
-        return try await self.client.execute(operation: "UpdateJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Synchronizes a job from the source control repository. This operation takes the job artifacts that are located in the remote repository and updates the Glue internal stores with these artifacts. This API supports optional parameters which take in the repository information.
     @Sendable
     public func updateJobFromSourceControl(_ input: UpdateJobFromSourceControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateJobFromSourceControlResponse {
-        return try await self.client.execute(operation: "UpdateJobFromSourceControl", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateJobFromSourceControl", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing machine learning transform. Call this operation to tune the algorithm parameters to achieve better results. After calling this operation, you can call the StartMLEvaluationTaskRun operation to assess how well your new parameters achieved your goals (such as improving the quality of your machine learning transform, or making it more cost-effective).
     @Sendable
     public func updateMLTransform(_ input: UpdateMLTransformRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMLTransformResponse {
-        return try await self.client.execute(operation: "UpdateMLTransform", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMLTransform", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a partition.
     @Sendable
     public func updatePartition(_ input: UpdatePartitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePartitionResponse {
-        return try await self.client.execute(operation: "UpdatePartition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePartition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not modify any of the schemas within the registry.
     @Sendable
     public func updateRegistry(_ input: UpdateRegistryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRegistryResponse {
-        return try await self.client.execute(operation: "UpdateRegistry", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRegistry", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate compatibility for the entire set of schema versions with the new compatibility setting. If the value for Compatibility is provided, the VersionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compatibility is optional and this can be used to set/reset a checkpoint for the schema. This update will happen only if the schema is in the AVAILABLE state.
     @Sendable
     public func updateSchema(_ input: UpdateSchemaInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSchemaResponse {
-        return try await self.client.execute(operation: "UpdateSchema", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSchema", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a commit to the remote repository that is configured on the job. This API supports optional parameters which take in the repository information.
     @Sendable
     public func updateSourceControlFromJob(_ input: UpdateSourceControlFromJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSourceControlFromJobResponse {
-        return try await self.client.execute(operation: "UpdateSourceControlFromJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSourceControlFromJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a metadata table in the Data Catalog.
     @Sendable
     public func updateTable(_ input: UpdateTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTableResponse {
-        return try await self.client.execute(operation: "UpdateTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTable", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a trigger definition.
     @Sendable
     public func updateTrigger(_ input: UpdateTriggerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTriggerResponse {
-        return try await self.client.execute(operation: "UpdateTrigger", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTrigger", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing function definition in the Data Catalog.
     @Sendable
     public func updateUserDefinedFunction(_ input: UpdateUserDefinedFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserDefinedFunctionResponse {
-        return try await self.client.execute(operation: "UpdateUserDefinedFunction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUserDefinedFunction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing workflow.
     @Sendable
     public func updateWorkflow(_ input: UpdateWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkflowResponse {
-        return try await self.client.execute(operation: "UpdateWorkflow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorkflow", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

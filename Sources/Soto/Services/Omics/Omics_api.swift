@@ -80,433 +80,1009 @@ public struct Omics: AWSService {
     ///  Stops a multipart upload.
     @Sendable
     public func abortMultipartReadSetUpload(_ input: AbortMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AbortMultipartReadSetUploadResponse {
-        return try await self.client.execute(operation: "AbortMultipartReadSetUpload", path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/abort", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "AbortMultipartReadSetUpload", 
+            path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/abort", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Deletes one or more read sets.
     @Sendable
     public func batchDeleteReadSet(_ input: BatchDeleteReadSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteReadSetResponse {
-        return try await self.client.execute(operation: "BatchDeleteReadSet", path: "/sequencestore/{sequenceStoreId}/readset/batch/delete", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDeleteReadSet", 
+            path: "/sequencestore/{sequenceStoreId}/readset/batch/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Cancels an annotation import job.
     @Sendable
     public func cancelAnnotationImportJob(_ input: CancelAnnotationImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelAnnotationImportResponse {
-        return try await self.client.execute(operation: "CancelAnnotationImportJob", path: "/import/annotation/{jobId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "CancelAnnotationImportJob", 
+            path: "/import/annotation/{jobId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Cancels a run.
     @Sendable
     public func cancelRun(_ input: CancelRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "CancelRun", path: "/run/{id}/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "CancelRun", 
+            path: "/run/{id}/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Cancels a variant import job.
     @Sendable
     public func cancelVariantImportJob(_ input: CancelVariantImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelVariantImportResponse {
-        return try await self.client.execute(operation: "CancelVariantImportJob", path: "/import/variant/{jobId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "CancelVariantImportJob", 
+            path: "/import/variant/{jobId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     ///  Concludes a multipart upload once you have uploaded all the components.
     @Sendable
     public func completeMultipartReadSetUpload(_ input: CompleteMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CompleteMultipartReadSetUploadResponse {
-        return try await self.client.execute(operation: "CompleteMultipartReadSetUpload", path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/complete", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "CompleteMultipartReadSetUpload", 
+            path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/complete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "storage-", 
+            logger: logger
+        )
     }
 
     /// Creates an annotation store.
     @Sendable
     public func createAnnotationStore(_ input: CreateAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAnnotationStoreResponse {
-        return try await self.client.execute(operation: "CreateAnnotationStore", path: "/annotationStore", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAnnotationStore", 
+            path: "/annotationStore", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     ///  Begins a multipart read set upload.
     @Sendable
     public func createMultipartReadSetUpload(_ input: CreateMultipartReadSetUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultipartReadSetUploadResponse {
-        return try await self.client.execute(operation: "CreateMultipartReadSetUpload", path: "/sequencestore/{sequenceStoreId}/upload", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMultipartReadSetUpload", 
+            path: "/sequencestore/{sequenceStoreId}/upload", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Creates a reference store.
     @Sendable
     public func createReferenceStore(_ input: CreateReferenceStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReferenceStoreResponse {
-        return try await self.client.execute(operation: "CreateReferenceStore", path: "/referencestore", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateReferenceStore", 
+            path: "/referencestore", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Creates a run group.
     @Sendable
     public func createRunGroup(_ input: CreateRunGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRunGroupResponse {
-        return try await self.client.execute(operation: "CreateRunGroup", path: "/runGroup", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRunGroup", 
+            path: "/runGroup", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Creates a sequence store.
     @Sendable
     public func createSequenceStore(_ input: CreateSequenceStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSequenceStoreResponse {
-        return try await self.client.execute(operation: "CreateSequenceStore", path: "/sequencestore", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSequenceStore", 
+            path: "/sequencestore", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Creates a variant store.
     @Sendable
     public func createVariantStore(_ input: CreateVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVariantStoreResponse {
-        return try await self.client.execute(operation: "CreateVariantStore", path: "/variantStore", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVariantStore", 
+            path: "/variantStore", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Creates a workflow.
     @Sendable
     public func createWorkflow(_ input: CreateWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkflowResponse {
-        return try await self.client.execute(operation: "CreateWorkflow", path: "/workflow", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorkflow", 
+            path: "/workflow", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Deletes an annotation store.
     @Sendable
     public func deleteAnnotationStore(_ input: DeleteAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAnnotationStoreResponse {
-        return try await self.client.execute(operation: "DeleteAnnotationStore", path: "/annotationStore/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAnnotationStore", 
+            path: "/annotationStore/{name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Deletes a genome reference.
     @Sendable
     public func deleteReference(_ input: DeleteReferenceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReferenceResponse {
-        return try await self.client.execute(operation: "DeleteReference", path: "/referencestore/{referenceStoreId}/reference/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReference", 
+            path: "/referencestore/{referenceStoreId}/reference/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Deletes a genome reference store.
     @Sendable
     public func deleteReferenceStore(_ input: DeleteReferenceStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReferenceStoreResponse {
-        return try await self.client.execute(operation: "DeleteReferenceStore", path: "/referencestore/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReferenceStore", 
+            path: "/referencestore/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Deletes a workflow run.
     @Sendable
     public func deleteRun(_ input: DeleteRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteRun", path: "/run/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRun", 
+            path: "/run/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Deletes a workflow run group.
     @Sendable
     public func deleteRunGroup(_ input: DeleteRunGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteRunGroup", path: "/runGroup/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRunGroup", 
+            path: "/runGroup/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Deletes a sequence store.
     @Sendable
     public func deleteSequenceStore(_ input: DeleteSequenceStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSequenceStoreResponse {
-        return try await self.client.execute(operation: "DeleteSequenceStore", path: "/sequencestore/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSequenceStore", 
+            path: "/sequencestore/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Deletes a variant store.
     @Sendable
     public func deleteVariantStore(_ input: DeleteVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVariantStoreResponse {
-        return try await self.client.execute(operation: "DeleteVariantStore", path: "/variantStore/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVariantStore", 
+            path: "/variantStore/{name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Deletes a workflow.
     @Sendable
     public func deleteWorkflow(_ input: DeleteWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteWorkflow", path: "/workflow/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWorkflow", 
+            path: "/workflow/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Gets information about an annotation import job.
     @Sendable
     public func getAnnotationImportJob(_ input: GetAnnotationImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAnnotationImportResponse {
-        return try await self.client.execute(operation: "GetAnnotationImportJob", path: "/import/annotation/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetAnnotationImportJob", 
+            path: "/import/annotation/{jobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Gets information about an annotation store.
     @Sendable
     public func getAnnotationStore(_ input: GetAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAnnotationStoreResponse {
-        return try await self.client.execute(operation: "GetAnnotationStore", path: "/annotationStore/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetAnnotationStore", 
+            path: "/annotationStore/{name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Gets a file from a read set.
     @Sendable
     public func getReadSet(_ input: GetReadSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReadSetResponse {
-        return try await self.client.execute(operation: "GetReadSet", path: "/sequencestore/{sequenceStoreId}/readset/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetReadSet", 
+            path: "/sequencestore/{sequenceStoreId}/readset/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "storage-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a read set activation job.
     @Sendable
     public func getReadSetActivationJob(_ input: GetReadSetActivationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReadSetActivationJobResponse {
-        return try await self.client.execute(operation: "GetReadSetActivationJob", path: "/sequencestore/{sequenceStoreId}/activationjob/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetReadSetActivationJob", 
+            path: "/sequencestore/{sequenceStoreId}/activationjob/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a read set export job.
     @Sendable
     public func getReadSetExportJob(_ input: GetReadSetExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReadSetExportJobResponse {
-        return try await self.client.execute(operation: "GetReadSetExportJob", path: "/sequencestore/{sequenceStoreId}/exportjob/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetReadSetExportJob", 
+            path: "/sequencestore/{sequenceStoreId}/exportjob/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a read set import job.
     @Sendable
     public func getReadSetImportJob(_ input: GetReadSetImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReadSetImportJobResponse {
-        return try await self.client.execute(operation: "GetReadSetImportJob", path: "/sequencestore/{sequenceStoreId}/importjob/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetReadSetImportJob", 
+            path: "/sequencestore/{sequenceStoreId}/importjob/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Gets details about a read set.
     @Sendable
     public func getReadSetMetadata(_ input: GetReadSetMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReadSetMetadataResponse {
-        return try await self.client.execute(operation: "GetReadSetMetadata", path: "/sequencestore/{sequenceStoreId}/readset/{id}/metadata", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetReadSetMetadata", 
+            path: "/sequencestore/{sequenceStoreId}/readset/{id}/metadata", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Gets a reference file.
     @Sendable
     public func getReference(_ input: GetReferenceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReferenceResponse {
-        return try await self.client.execute(operation: "GetReference", path: "/referencestore/{referenceStoreId}/reference/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetReference", 
+            path: "/referencestore/{referenceStoreId}/reference/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "storage-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a reference import job.
     @Sendable
     public func getReferenceImportJob(_ input: GetReferenceImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReferenceImportJobResponse {
-        return try await self.client.execute(operation: "GetReferenceImportJob", path: "/referencestore/{referenceStoreId}/importjob/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetReferenceImportJob", 
+            path: "/referencestore/{referenceStoreId}/importjob/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a genome reference's metadata.
     @Sendable
     public func getReferenceMetadata(_ input: GetReferenceMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReferenceMetadataResponse {
-        return try await self.client.execute(operation: "GetReferenceMetadata", path: "/referencestore/{referenceStoreId}/reference/{id}/metadata", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetReferenceMetadata", 
+            path: "/referencestore/{referenceStoreId}/reference/{id}/metadata", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a reference store.
     @Sendable
     public func getReferenceStore(_ input: GetReferenceStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReferenceStoreResponse {
-        return try await self.client.execute(operation: "GetReferenceStore", path: "/referencestore/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetReferenceStore", 
+            path: "/referencestore/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a workflow run.
     @Sendable
     public func getRun(_ input: GetRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRunResponse {
-        return try await self.client.execute(operation: "GetRun", path: "/run/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetRun", 
+            path: "/run/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a workflow run group.
     @Sendable
     public func getRunGroup(_ input: GetRunGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRunGroupResponse {
-        return try await self.client.execute(operation: "GetRunGroup", path: "/runGroup/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetRunGroup", 
+            path: "/runGroup/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a workflow run task.
     @Sendable
     public func getRunTask(_ input: GetRunTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRunTaskResponse {
-        return try await self.client.execute(operation: "GetRunTask", path: "/run/{id}/task/{taskId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetRunTask", 
+            path: "/run/{id}/task/{taskId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a sequence store.
     @Sendable
     public func getSequenceStore(_ input: GetSequenceStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSequenceStoreResponse {
-        return try await self.client.execute(operation: "GetSequenceStore", path: "/sequencestore/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetSequenceStore", 
+            path: "/sequencestore/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a variant import job.
     @Sendable
     public func getVariantImportJob(_ input: GetVariantImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVariantImportResponse {
-        return try await self.client.execute(operation: "GetVariantImportJob", path: "/import/variant/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetVariantImportJob", 
+            path: "/import/variant/{jobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a variant store.
     @Sendable
     public func getVariantStore(_ input: GetVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVariantStoreResponse {
-        return try await self.client.execute(operation: "GetVariantStore", path: "/variantStore/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetVariantStore", 
+            path: "/variantStore/{name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Gets information about a workflow.
     @Sendable
     public func getWorkflow(_ input: GetWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowResponse {
-        return try await self.client.execute(operation: "GetWorkflow", path: "/workflow/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorkflow", 
+            path: "/workflow/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of annotation import jobs.
     @Sendable
     public func listAnnotationImportJobs(_ input: ListAnnotationImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnnotationImportJobsResponse {
-        return try await self.client.execute(operation: "ListAnnotationImportJobs", path: "/import/annotations", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListAnnotationImportJobs", 
+            path: "/import/annotations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of annotation stores.
     @Sendable
     public func listAnnotationStores(_ input: ListAnnotationStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnnotationStoresResponse {
-        return try await self.client.execute(operation: "ListAnnotationStores", path: "/annotationStores", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListAnnotationStores", 
+            path: "/annotationStores", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     ///  Lists all multipart read set uploads and their statuses.
     @Sendable
     public func listMultipartReadSetUploads(_ input: ListMultipartReadSetUploadsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMultipartReadSetUploadsResponse {
-        return try await self.client.execute(operation: "ListMultipartReadSetUploads", path: "/sequencestore/{sequenceStoreId}/uploads", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListMultipartReadSetUploads", 
+            path: "/sequencestore/{sequenceStoreId}/uploads", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of read set activation jobs.
     @Sendable
     public func listReadSetActivationJobs(_ input: ListReadSetActivationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReadSetActivationJobsResponse {
-        return try await self.client.execute(operation: "ListReadSetActivationJobs", path: "/sequencestore/{sequenceStoreId}/activationjobs", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListReadSetActivationJobs", 
+            path: "/sequencestore/{sequenceStoreId}/activationjobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of read set export jobs.
     @Sendable
     public func listReadSetExportJobs(_ input: ListReadSetExportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReadSetExportJobsResponse {
-        return try await self.client.execute(operation: "ListReadSetExportJobs", path: "/sequencestore/{sequenceStoreId}/exportjobs", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListReadSetExportJobs", 
+            path: "/sequencestore/{sequenceStoreId}/exportjobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of read set import jobs.
     @Sendable
     public func listReadSetImportJobs(_ input: ListReadSetImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReadSetImportJobsResponse {
-        return try await self.client.execute(operation: "ListReadSetImportJobs", path: "/sequencestore/{sequenceStoreId}/importjobs", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListReadSetImportJobs", 
+            path: "/sequencestore/{sequenceStoreId}/importjobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     ///  This operation will list all parts in a requested multipart upload for a sequence store.
     @Sendable
     public func listReadSetUploadParts(_ input: ListReadSetUploadPartsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReadSetUploadPartsResponse {
-        return try await self.client.execute(operation: "ListReadSetUploadParts", path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/parts", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListReadSetUploadParts", 
+            path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/parts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of read sets.
     @Sendable
     public func listReadSets(_ input: ListReadSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReadSetsResponse {
-        return try await self.client.execute(operation: "ListReadSets", path: "/sequencestore/{sequenceStoreId}/readsets", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListReadSets", 
+            path: "/sequencestore/{sequenceStoreId}/readsets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of reference import jobs.
     @Sendable
     public func listReferenceImportJobs(_ input: ListReferenceImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReferenceImportJobsResponse {
-        return try await self.client.execute(operation: "ListReferenceImportJobs", path: "/referencestore/{referenceStoreId}/importjobs", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListReferenceImportJobs", 
+            path: "/referencestore/{referenceStoreId}/importjobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of reference stores.
     @Sendable
     public func listReferenceStores(_ input: ListReferenceStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReferenceStoresResponse {
-        return try await self.client.execute(operation: "ListReferenceStores", path: "/referencestores", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListReferenceStores", 
+            path: "/referencestores", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of references.
     @Sendable
     public func listReferences(_ input: ListReferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReferencesResponse {
-        return try await self.client.execute(operation: "ListReferences", path: "/referencestore/{referenceStoreId}/references", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListReferences", 
+            path: "/referencestore/{referenceStoreId}/references", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of run groups.
     @Sendable
     public func listRunGroups(_ input: ListRunGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRunGroupsResponse {
-        return try await self.client.execute(operation: "ListRunGroups", path: "/runGroup", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListRunGroups", 
+            path: "/runGroup", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of tasks for a run.
     @Sendable
     public func listRunTasks(_ input: ListRunTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRunTasksResponse {
-        return try await self.client.execute(operation: "ListRunTasks", path: "/run/{id}/task", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListRunTasks", 
+            path: "/run/{id}/task", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of runs.
     @Sendable
     public func listRuns(_ input: ListRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRunsResponse {
-        return try await self.client.execute(operation: "ListRuns", path: "/run", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListRuns", 
+            path: "/run", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of sequence stores.
     @Sendable
     public func listSequenceStores(_ input: ListSequenceStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSequenceStoresResponse {
-        return try await self.client.execute(operation: "ListSequenceStores", path: "/sequencestores", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListSequenceStores", 
+            path: "/sequencestores", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of tags for a resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "tags-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "tags-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of variant import jobs.
     @Sendable
     public func listVariantImportJobs(_ input: ListVariantImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVariantImportJobsResponse {
-        return try await self.client.execute(operation: "ListVariantImportJobs", path: "/import/variants", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListVariantImportJobs", 
+            path: "/import/variants", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of variant stores.
     @Sendable
     public func listVariantStores(_ input: ListVariantStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVariantStoresResponse {
-        return try await self.client.execute(operation: "ListVariantStores", path: "/variantStores", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListVariantStores", 
+            path: "/variantStores", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of workflows.
     @Sendable
     public func listWorkflows(_ input: ListWorkflowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkflowsResponse {
-        return try await self.client.execute(operation: "ListWorkflows", path: "/workflow", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkflows", 
+            path: "/workflow", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Starts an annotation import job.
     @Sendable
     public func startAnnotationImportJob(_ input: StartAnnotationImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAnnotationImportResponse {
-        return try await self.client.execute(operation: "StartAnnotationImportJob", path: "/import/annotation", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "StartAnnotationImportJob", 
+            path: "/import/annotation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Activates an archived read set. To reduce storage charges, Amazon Omics archives unused read sets after 30 days.
     @Sendable
     public func startReadSetActivationJob(_ input: StartReadSetActivationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartReadSetActivationJobResponse {
-        return try await self.client.execute(operation: "StartReadSetActivationJob", path: "/sequencestore/{sequenceStoreId}/activationjob", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "StartReadSetActivationJob", 
+            path: "/sequencestore/{sequenceStoreId}/activationjob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Exports a read set to Amazon S3.
     @Sendable
     public func startReadSetExportJob(_ input: StartReadSetExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartReadSetExportJobResponse {
-        return try await self.client.execute(operation: "StartReadSetExportJob", path: "/sequencestore/{sequenceStoreId}/exportjob", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "StartReadSetExportJob", 
+            path: "/sequencestore/{sequenceStoreId}/exportjob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Starts a read set import job.
     @Sendable
     public func startReadSetImportJob(_ input: StartReadSetImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartReadSetImportJobResponse {
-        return try await self.client.execute(operation: "StartReadSetImportJob", path: "/sequencestore/{sequenceStoreId}/importjob", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "StartReadSetImportJob", 
+            path: "/sequencestore/{sequenceStoreId}/importjob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Starts a reference import job.
     @Sendable
     public func startReferenceImportJob(_ input: StartReferenceImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartReferenceImportJobResponse {
-        return try await self.client.execute(operation: "StartReferenceImportJob", path: "/referencestore/{referenceStoreId}/importjob", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "control-storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "StartReferenceImportJob", 
+            path: "/referencestore/{referenceStoreId}/importjob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "control-storage-", 
+            logger: logger
+        )
     }
 
     /// Starts a run.
     @Sendable
     public func startRun(_ input: StartRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRunResponse {
-        return try await self.client.execute(operation: "StartRun", path: "/run", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "StartRun", 
+            path: "/run", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Starts a variant import job.
     @Sendable
     public func startVariantImportJob(_ input: StartVariantImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartVariantImportResponse {
-        return try await self.client.execute(operation: "StartVariantImportJob", path: "/import/variant", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "StartVariantImportJob", 
+            path: "/import/variant", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Tags a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "tags-", logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "tags-", 
+            logger: logger
+        )
     }
 
     /// Removes tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "tags-", logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "tags-", 
+            logger: logger
+        )
     }
 
     /// Updates an annotation store.
     @Sendable
     public func updateAnnotationStore(_ input: UpdateAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnnotationStoreResponse {
-        return try await self.client.execute(operation: "UpdateAnnotationStore", path: "/annotationStore/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAnnotationStore", 
+            path: "/annotationStore/{name}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Updates a run group.
     @Sendable
     public func updateRunGroup(_ input: UpdateRunGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateRunGroup", path: "/runGroup/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRunGroup", 
+            path: "/runGroup/{id}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     /// Updates a variant store.
     @Sendable
     public func updateVariantStore(_ input: UpdateVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVariantStoreResponse {
-        return try await self.client.execute(operation: "UpdateVariantStore", path: "/variantStore/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "analytics-", logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVariantStore", 
+            path: "/variantStore/{name}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "analytics-", 
+            logger: logger
+        )
     }
 
     /// Updates a workflow.
     @Sendable
     public func updateWorkflow(_ input: UpdateWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateWorkflow", path: "/workflow/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "workflows-", logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorkflow", 
+            path: "/workflow/{id}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "workflows-", 
+            logger: logger
+        )
     }
 
     ///  This operation uploads a specific part of a read set. If you upload a new part using a previously used part number, the previously uploaded part will be overwritten.
     @Sendable
     public func uploadReadSetPart(_ input: UploadReadSetPartRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UploadReadSetPartResponse {
-        return try await self.client.execute(operation: "UploadReadSetPart", path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/part", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "storage-", logger: logger)
+        return try await self.client.execute(
+            operation: "UploadReadSetPart", 
+            path: "/sequencestore/{sequenceStoreId}/upload/{uploadId}/part", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "storage-", 
+            logger: logger
+        )
     }
 }
 

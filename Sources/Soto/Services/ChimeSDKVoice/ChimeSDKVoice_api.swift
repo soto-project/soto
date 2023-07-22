@@ -74,559 +74,1207 @@ public struct ChimeSDKVoice: AWSService {
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector.
     @Sendable
     public func associatePhoneNumbersWithVoiceConnector(_ input: AssociatePhoneNumbersWithVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociatePhoneNumbersWithVoiceConnectorResponse {
-        return try await self.client.execute(operation: "AssociatePhoneNumbersWithVoiceConnector", path: "/voice-connectors/{VoiceConnectorId}?operation=associate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociatePhoneNumbersWithVoiceConnector", 
+            path: "/voice-connectors/{VoiceConnectorId}?operation=associate-phone-numbers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector group.
     @Sendable
     public func associatePhoneNumbersWithVoiceConnectorGroup(_ input: AssociatePhoneNumbersWithVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
-        return try await self.client.execute(operation: "AssociatePhoneNumbersWithVoiceConnectorGroup", path: "/voice-connector-groups/{VoiceConnectorGroupId}?operation=associate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociatePhoneNumbersWithVoiceConnectorGroup", 
+            path: "/voice-connector-groups/{VoiceConnectorGroupId}?operation=associate-phone-numbers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Moves phone numbers into the  Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors before they can be deleted.   Phone numbers remain in the  Deletion queue for 7 days before they are deleted permanently.
     @Sendable
     public func batchDeletePhoneNumber(_ input: BatchDeletePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeletePhoneNumberResponse {
-        return try await self.client.execute(operation: "BatchDeletePhoneNumber", path: "/phone-numbers?operation=batch-delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDeletePhoneNumber", 
+            path: "/phone-numbers?operation=batch-delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates one or more phone numbers.
     @Sendable
     public func batchUpdatePhoneNumber(_ input: BatchUpdatePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdatePhoneNumberResponse {
-        return try await self.client.execute(operation: "BatchUpdatePhoneNumber", path: "/phone-numbers?operation=batch-update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchUpdatePhoneNumber", 
+            path: "/phone-numbers?operation=batch-update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type.
     @Sendable
     public func createPhoneNumberOrder(_ input: CreatePhoneNumberOrderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePhoneNumberOrderResponse {
-        return try await self.client.execute(operation: "CreatePhoneNumberOrder", path: "/phone-number-orders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePhoneNumberOrder", 
+            path: "/phone-number-orders", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector for  the specified participant phone numbers.
     @Sendable
     public func createProxySession(_ input: CreateProxySessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProxySessionResponse {
-        return try await self.client.execute(operation: "CreateProxySession", path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProxySession", 
+            path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a SIP media application. For more information about SIP media applications, see Managing SIP media applications  and rules in the Amazon Chime SDK Administrator Guide.
     @Sendable
     public func createSipMediaApplication(_ input: CreateSipMediaApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSipMediaApplicationResponse {
-        return try await self.client.execute(operation: "CreateSipMediaApplication", path: "/sip-media-applications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSipMediaApplication", 
+            path: "/sip-media-applications", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an outbound call to a phone number from the phone number specified  in the request, and it invokes the endpoint of the specified  sipMediaApplicationId.
     @Sendable
     public func createSipMediaApplicationCall(_ input: CreateSipMediaApplicationCallRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSipMediaApplicationCallResponse {
-        return try await self.client.execute(operation: "CreateSipMediaApplicationCall", path: "/sip-media-applications/{SipMediaApplicationId}/calls", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSipMediaApplicationCall", 
+            path: "/sip-media-applications/{SipMediaApplicationId}/calls", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a SIP rule, which can be used to run a SIP media application as a target for a specific trigger type. For more information about SIP rules, see Managing SIP media applications  and rules in the Amazon Chime SDK Administrator Guide.
     @Sendable
     public func createSipRule(_ input: CreateSipRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSipRuleResponse {
-        return try await self.client.execute(operation: "CreateSipRule", path: "/sip-rules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSipRule", 
+            path: "/sip-rules", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an Amazon Chime SDK Voice Connector. For more information about  Voice Connectors, see Managing Amazon Chime SDK Voice Connector groups in the Amazon Chime SDK Administrator Guide.
     @Sendable
     public func createVoiceConnector(_ input: CreateVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVoiceConnectorResponse {
-        return try await self.client.execute(operation: "CreateVoiceConnector", path: "/voice-connectors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVoiceConnector", 
+            path: "/voice-connectors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an Amazon Chime SDK Voice Connector group under the administrator's  AWS account. You can associate Amazon Chime SDK Voice Connectors with the  Voice Connector group by including VoiceConnectorItems in the  request.  You can include Voice Connectors from different AWS Regions in your group.  This creates a fault tolerant mechanism for fallback in case of availability events.
     @Sendable
     public func createVoiceConnectorGroup(_ input: CreateVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVoiceConnectorGroupResponse {
-        return try await self.client.execute(operation: "CreateVoiceConnectorGroup", path: "/voice-connector-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVoiceConnectorGroup", 
+            path: "/voice-connector-groups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a voice profile, which consists of an enrolled user and their latest voice print.  Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the   AWS service terms for the Amazon Chime SDK.  For more information about voice profiles and voice analytics, see Using Amazon Chime SDK Voice Analytics  in the Amazon Chime SDK Developer Guide.
     @Sendable
     public func createVoiceProfile(_ input: CreateVoiceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVoiceProfileResponse {
-        return try await self.client.execute(operation: "CreateVoiceProfile", path: "/voice-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVoiceProfile", 
+            path: "/voice-profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a voice profile domain, a collection of voice profiles, their voice prints, and encrypted enrollment audio.  Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the   AWS service terms for the Amazon Chime SDK.  For more information about voice profile domains, see Using Amazon Chime SDK Voice Analytics  in the Amazon Chime SDK Developer Guide.
     @Sendable
     public func createVoiceProfileDomain(_ input: CreateVoiceProfileDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVoiceProfileDomainResponse {
-        return try await self.client.execute(operation: "CreateVoiceProfileDomain", path: "/voice-profile-domains", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVoiceProfileDomain", 
+            path: "/voice-profile-domains", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Moves the specified phone number into the  Deletion queue. A phone number must  be disassociated from any users or Amazon Chime SDK Voice Connectors before it can be  deleted. Deleted phone numbers remain in the  Deletion queue queue for 7 days before  they are deleted permanently.
     @Sendable
     public func deletePhoneNumber(_ input: DeletePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeletePhoneNumber", path: "/phone-numbers/{PhoneNumberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePhoneNumber", 
+            path: "/phone-numbers/{PhoneNumberId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified proxy session from the specified Amazon Chime SDK Voice  Connector.
     @Sendable
     public func deleteProxySession(_ input: DeleteProxySessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteProxySession", path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions/{ProxySessionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteProxySession", 
+            path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions/{ProxySessionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a SIP media application.
     @Sendable
     public func deleteSipMediaApplication(_ input: DeleteSipMediaApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteSipMediaApplication", path: "/sip-media-applications/{SipMediaApplicationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSipMediaApplication", 
+            path: "/sip-media-applications/{SipMediaApplicationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a SIP rule.
     @Sendable
     public func deleteSipRule(_ input: DeleteSipRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteSipRule", path: "/sip-rules/{SipRuleId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSipRule", 
+            path: "/sip-rules/{SipRuleId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an Amazon Chime SDK Voice Connector. Any phone numbers associated  with the Amazon Chime SDK Voice Connector must be disassociated from it before it  can be deleted.
     @Sendable
     public func deleteVoiceConnector(_ input: DeleteVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVoiceConnector", path: "/voice-connectors/{VoiceConnectorId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVoiceConnector", 
+            path: "/voice-connectors/{VoiceConnectorId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the emergency calling details from the specified Amazon Chime SDK Voice  Connector.
     @Sendable
     public func deleteVoiceConnectorEmergencyCallingConfiguration(_ input: DeleteVoiceConnectorEmergencyCallingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/emergency-calling-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVoiceConnectorEmergencyCallingConfiguration", 
+            path: "/voice-connectors/{VoiceConnectorId}/emergency-calling-configuration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnectorItems  and phone numbers associated with the group must be removed before it can be  deleted.
     @Sendable
     public func deleteVoiceConnectorGroup(_ input: DeleteVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVoiceConnectorGroup", path: "/voice-connector-groups/{VoiceConnectorGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVoiceConnectorGroup", 
+            path: "/voice-connector-groups/{VoiceConnectorGroupId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the origination settings for the specified Amazon Chime SDK Voice Connector.   If emergency calling is configured for the Voice Connector, it must be  deleted prior to deleting the origination settings.
     @Sendable
     public func deleteVoiceConnectorOrigination(_ input: DeleteVoiceConnectorOriginationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVoiceConnectorOrigination", path: "/voice-connectors/{VoiceConnectorId}/origination", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVoiceConnectorOrigination", 
+            path: "/voice-connectors/{VoiceConnectorId}/origination", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.
     @Sendable
     public func deleteVoiceConnectorProxy(_ input: DeleteVoiceConnectorProxyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVoiceConnectorProxy", path: "/voice-connectors/{VoiceConnectorId}/programmable-numbers/proxy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVoiceConnectorProxy", 
+            path: "/voice-connectors/{VoiceConnectorId}/programmable-numbers/proxy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a Voice Connector's streaming configuration.
     @Sendable
     public func deleteVoiceConnectorStreamingConfiguration(_ input: DeleteVoiceConnectorStreamingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/streaming-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVoiceConnectorStreamingConfiguration", 
+            path: "/voice-connectors/{VoiceConnectorId}/streaming-configuration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the termination settings for the specified Amazon Chime SDK Voice Connector.  If emergency calling is configured for the Voice Connector, it must be  deleted prior to deleting the termination settings.
     @Sendable
     public func deleteVoiceConnectorTermination(_ input: DeleteVoiceConnectorTerminationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVoiceConnectorTermination", path: "/voice-connectors/{VoiceConnectorId}/termination", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVoiceConnectorTermination", 
+            path: "/voice-connectors/{VoiceConnectorId}/termination", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified SIP credentials used by your equipment to  authenticate during call termination.
     @Sendable
     public func deleteVoiceConnectorTerminationCredentials(_ input: DeleteVoiceConnectorTerminationCredentialsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVoiceConnectorTerminationCredentials", path: "/voice-connectors/{VoiceConnectorId}/termination/credentials?operation=delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVoiceConnectorTerminationCredentials", 
+            path: "/voice-connectors/{VoiceConnectorId}/termination/credentials?operation=delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a voice profile, including its voice print and enrollment data. WARNING: This action is not reversible.
     @Sendable
     public func deleteVoiceProfile(_ input: DeleteVoiceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVoiceProfile", path: "/voice-profiles/{VoiceProfileId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVoiceProfile", 
+            path: "/voice-profiles/{VoiceProfileId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes all voice profiles in the domain. WARNING: This action is not reversible.
     @Sendable
     public func deleteVoiceProfileDomain(_ input: DeleteVoiceProfileDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVoiceProfileDomain", path: "/voice-profile-domains/{VoiceProfileDomainId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVoiceProfileDomain", 
+            path: "/voice-profile-domains/{VoiceProfileDomainId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates the specified phone numbers from the specified  Amazon Chime SDK Voice Connector.
     @Sendable
     public func disassociatePhoneNumbersFromVoiceConnector(_ input: DisassociatePhoneNumbersFromVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociatePhoneNumbersFromVoiceConnectorResponse {
-        return try await self.client.execute(operation: "DisassociatePhoneNumbersFromVoiceConnector", path: "/voice-connectors/{VoiceConnectorId}?operation=disassociate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociatePhoneNumbersFromVoiceConnector", 
+            path: "/voice-connectors/{VoiceConnectorId}?operation=disassociate-phone-numbers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice  Connector group.
     @Sendable
     public func disassociatePhoneNumbersFromVoiceConnectorGroup(_ input: DisassociatePhoneNumbersFromVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociatePhoneNumbersFromVoiceConnectorGroupResponse {
-        return try await self.client.execute(operation: "DisassociatePhoneNumbersFromVoiceConnectorGroup", path: "/voice-connector-groups/{VoiceConnectorGroupId}?operation=disassociate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociatePhoneNumbersFromVoiceConnectorGroup", 
+            path: "/voice-connector-groups/{VoiceConnectorGroupId}?operation=disassociate-phone-numbers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
     @Sendable
     public func getGlobalSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> GetGlobalSettingsResponse {
-        return try await self.client.execute(operation: "GetGlobalSettings", path: "/settings", httpMethod: .GET, serviceConfig: self.config, logger: logger)
+        return try await self.client.execute(
+            operation: "GetGlobalSettings", 
+            path: "/settings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
     }
 
     /// Retrieves details for the specified phone number ID, such as associations,  capabilities, and product type.
     @Sendable
     public func getPhoneNumber(_ input: GetPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPhoneNumberResponse {
-        return try await self.client.execute(operation: "GetPhoneNumber", path: "/phone-numbers/{PhoneNumberId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPhoneNumber", 
+            path: "/phone-numbers/{PhoneNumberId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves details for the specified phone number order, such as the order  creation timestamp, phone numbers in E.164 format, product type, and  order status.
     @Sendable
     public func getPhoneNumberOrder(_ input: GetPhoneNumberOrderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPhoneNumberOrderResponse {
-        return try await self.client.execute(operation: "GetPhoneNumberOrder", path: "/phone-number-orders/{PhoneNumberOrderId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPhoneNumberOrder", 
+            path: "/phone-number-orders/{PhoneNumberOrderId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the phone number settings for the administrator's AWS account,  such as the default outbound calling name.
     @Sendable
     public func getPhoneNumberSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> GetPhoneNumberSettingsResponse {
-        return try await self.client.execute(operation: "GetPhoneNumberSettings", path: "/settings/phone-number", httpMethod: .GET, serviceConfig: self.config, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPhoneNumberSettings", 
+            path: "/settings/phone-number", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
     }
 
     /// Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.
     @Sendable
     public func getProxySession(_ input: GetProxySessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProxySessionResponse {
-        return try await self.client.execute(operation: "GetProxySession", path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions/{ProxySessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetProxySession", 
+            path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions/{ProxySessionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the information for a SIP media application, including name,  AWS Region, and endpoints.
     @Sendable
     public func getSipMediaApplication(_ input: GetSipMediaApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSipMediaApplicationResponse {
-        return try await self.client.execute(operation: "GetSipMediaApplication", path: "/sip-media-applications/{SipMediaApplicationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSipMediaApplication", 
+            path: "/sip-media-applications/{SipMediaApplicationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the Alexa Skill configuration for the SIP media application.
     @Sendable
     public func getSipMediaApplicationAlexaSkillConfiguration(_ input: GetSipMediaApplicationAlexaSkillConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSipMediaApplicationAlexaSkillConfigurationResponse {
-        return try await self.client.execute(operation: "GetSipMediaApplicationAlexaSkillConfiguration", path: "/sip-media-applications/{SipMediaApplicationId}/alexa-skill-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSipMediaApplicationAlexaSkillConfiguration", 
+            path: "/sip-media-applications/{SipMediaApplicationId}/alexa-skill-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the logging configuration for the specified SIP media application.
     @Sendable
     public func getSipMediaApplicationLoggingConfiguration(_ input: GetSipMediaApplicationLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSipMediaApplicationLoggingConfigurationResponse {
-        return try await self.client.execute(operation: "GetSipMediaApplicationLoggingConfiguration", path: "/sip-media-applications/{SipMediaApplicationId}/logging-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSipMediaApplicationLoggingConfiguration", 
+            path: "/sip-media-applications/{SipMediaApplicationId}/logging-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and  target endpoints.
     @Sendable
     public func getSipRule(_ input: GetSipRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSipRuleResponse {
-        return try await self.client.execute(operation: "GetSipRule", path: "/sip-rules/{SipRuleId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSipRule", 
+            path: "/sip-rules/{SipRuleId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the details of the specified speaker search task.
     @Sendable
     public func getSpeakerSearchTask(_ input: GetSpeakerSearchTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSpeakerSearchTaskResponse {
-        return try await self.client.execute(operation: "GetSpeakerSearchTask", path: "/voice-connectors/{VoiceConnectorId}/speaker-search-tasks/{SpeakerSearchTaskId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSpeakerSearchTask", 
+            path: "/voice-connectors/{VoiceConnectorId}/speaker-search-tasks/{SpeakerSearchTaskId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector, such as  timestamps,name, outbound host, and encryption requirements.
     @Sendable
     public func getVoiceConnector(_ input: GetVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceConnectorResponse {
-        return try await self.client.execute(operation: "GetVoiceConnector", path: "/voice-connectors/{VoiceConnectorId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVoiceConnector", 
+            path: "/voice-connectors/{VoiceConnectorId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the emergency calling configuration details for the specified Voice Connector.
     @Sendable
     public func getVoiceConnectorEmergencyCallingConfiguration(_ input: GetVoiceConnectorEmergencyCallingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceConnectorEmergencyCallingConfigurationResponse {
-        return try await self.client.execute(operation: "GetVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/emergency-calling-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVoiceConnectorEmergencyCallingConfiguration", 
+            path: "/voice-connectors/{VoiceConnectorId}/emergency-calling-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector group,  such as timestamps,name, and associated VoiceConnectorItems.
     @Sendable
     public func getVoiceConnectorGroup(_ input: GetVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceConnectorGroupResponse {
-        return try await self.client.execute(operation: "GetVoiceConnectorGroup", path: "/voice-connector-groups/{VoiceConnectorGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVoiceConnectorGroup", 
+            path: "/voice-connector-groups/{VoiceConnectorGroupId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the logging configuration settings for the specified Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
     @Sendable
     public func getVoiceConnectorLoggingConfiguration(_ input: GetVoiceConnectorLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceConnectorLoggingConfigurationResponse {
-        return try await self.client.execute(operation: "GetVoiceConnectorLoggingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/logging-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVoiceConnectorLoggingConfiguration", 
+            path: "/voice-connectors/{VoiceConnectorId}/logging-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the origination settings for the specified Voice Connector.
     @Sendable
     public func getVoiceConnectorOrigination(_ input: GetVoiceConnectorOriginationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceConnectorOriginationResponse {
-        return try await self.client.execute(operation: "GetVoiceConnectorOrigination", path: "/voice-connectors/{VoiceConnectorId}/origination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVoiceConnectorOrigination", 
+            path: "/voice-connectors/{VoiceConnectorId}/origination", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice  Connector.
     @Sendable
     public func getVoiceConnectorProxy(_ input: GetVoiceConnectorProxyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceConnectorProxyResponse {
-        return try await self.client.execute(operation: "GetVoiceConnectorProxy", path: "/voice-connectors/{VoiceConnectorId}/programmable-numbers/proxy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVoiceConnectorProxy", 
+            path: "/voice-connectors/{VoiceConnectorId}/programmable-numbers/proxy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the streaming configuration details for the specified Amazon Chime SDK  Voice Connector. Shows whether media streaming is enabled for sending to Amazon  Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
     @Sendable
     public func getVoiceConnectorStreamingConfiguration(_ input: GetVoiceConnectorStreamingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceConnectorStreamingConfigurationResponse {
-        return try await self.client.execute(operation: "GetVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/streaming-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVoiceConnectorStreamingConfiguration", 
+            path: "/voice-connectors/{VoiceConnectorId}/streaming-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the termination setting details for the specified Voice Connector.
     @Sendable
     public func getVoiceConnectorTermination(_ input: GetVoiceConnectorTerminationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceConnectorTerminationResponse {
-        return try await self.client.execute(operation: "GetVoiceConnectorTermination", path: "/voice-connectors/{VoiceConnectorId}/termination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVoiceConnectorTermination", 
+            path: "/voice-connectors/{VoiceConnectorId}/termination", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the last time a SIP OPTIONS ping  was received from your SIP infrastructure for the specified Amazon Chime SDK Voice  Connector.
     @Sendable
     public func getVoiceConnectorTerminationHealth(_ input: GetVoiceConnectorTerminationHealthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceConnectorTerminationHealthResponse {
-        return try await self.client.execute(operation: "GetVoiceConnectorTerminationHealth", path: "/voice-connectors/{VoiceConnectorId}/termination/health", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVoiceConnectorTerminationHealth", 
+            path: "/voice-connectors/{VoiceConnectorId}/termination/health", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the details of the specified voice profile.
     @Sendable
     public func getVoiceProfile(_ input: GetVoiceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceProfileResponse {
-        return try await self.client.execute(operation: "GetVoiceProfile", path: "/voice-profiles/{VoiceProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVoiceProfile", 
+            path: "/voice-profiles/{VoiceProfileId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the details of the specified voice profile domain.
     @Sendable
     public func getVoiceProfileDomain(_ input: GetVoiceProfileDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceProfileDomainResponse {
-        return try await self.client.execute(operation: "GetVoiceProfileDomain", path: "/voice-profile-domains/{VoiceProfileDomainId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVoiceProfileDomain", 
+            path: "/voice-profile-domains/{VoiceProfileDomainId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the details of a voice tone analysis task.
     @Sendable
     public func getVoiceToneAnalysisTask(_ input: GetVoiceToneAnalysisTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceToneAnalysisTaskResponse {
-        return try await self.client.execute(operation: "GetVoiceToneAnalysisTask", path: "/voice-connectors/{VoiceConnectorId}/voice-tone-analysis-tasks/{VoiceToneAnalysisTaskId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVoiceToneAnalysisTask", 
+            path: "/voice-connectors/{VoiceConnectorId}/voice-tone-analysis-tasks/{VoiceToneAnalysisTaskId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the available AWS Regions in which you can create an Amazon Chime SDK Voice Connector.
     @Sendable
     public func listAvailableVoiceConnectorRegions(logger: Logger = AWSClient.loggingDisabled) async throws -> ListAvailableVoiceConnectorRegionsResponse {
-        return try await self.client.execute(operation: "ListAvailableVoiceConnectorRegions", path: "/voice-connector-regions", httpMethod: .GET, serviceConfig: self.config, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAvailableVoiceConnectorRegions", 
+            path: "/voice-connector-regions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
     }
 
     /// Lists the phone numbers for an administrator's Amazon Chime SDK account.
     @Sendable
     public func listPhoneNumberOrders(_ input: ListPhoneNumberOrdersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPhoneNumberOrdersResponse {
-        return try await self.client.execute(operation: "ListPhoneNumberOrders", path: "/phone-number-orders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPhoneNumberOrders", 
+            path: "/phone-number-orders", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the phone numbers for the specified Amazon Chime SDK account,  Amazon Chime SDK user, Amazon Chime SDK Voice Connector, or Amazon Chime SDK Voice  Connector group.
     @Sendable
     public func listPhoneNumbers(_ input: ListPhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPhoneNumbersResponse {
-        return try await self.client.execute(operation: "ListPhoneNumbers", path: "/phone-numbers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPhoneNumbers", 
+            path: "/phone-numbers", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.
     @Sendable
     public func listProxySessions(_ input: ListProxySessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProxySessionsResponse {
-        return try await self.client.execute(operation: "ListProxySessions", path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProxySessions", 
+            path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the SIP media applications  under the administrator's AWS account.
     @Sendable
     public func listSipMediaApplications(_ input: ListSipMediaApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSipMediaApplicationsResponse {
-        return try await self.client.execute(operation: "ListSipMediaApplications", path: "/sip-media-applications", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSipMediaApplications", 
+            path: "/sip-media-applications", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the SIP rules under the administrator's AWS account.
     @Sendable
     public func listSipRules(_ input: ListSipRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSipRulesResponse {
-        return try await self.client.execute(operation: "ListSipRules", path: "/sip-rules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSipRules", 
+            path: "/sip-rules", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the countries that you can order phone numbers from.
     @Sendable
     public func listSupportedPhoneNumberCountries(_ input: ListSupportedPhoneNumberCountriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSupportedPhoneNumberCountriesResponse {
-        return try await self.client.execute(operation: "ListSupportedPhoneNumberCountries", path: "/phone-number-countries", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSupportedPhoneNumberCountries", 
+            path: "/phone-number-countries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the tags in a given resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Amazon Chime SDK Voice Connector groups in the administrator's AWS  account.
     @Sendable
     public func listVoiceConnectorGroups(_ input: ListVoiceConnectorGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVoiceConnectorGroupsResponse {
-        return try await self.client.execute(operation: "ListVoiceConnectorGroups", path: "/voice-connector-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVoiceConnectorGroups", 
+            path: "/voice-connector-groups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the SIP credentials for the specified Amazon Chime SDK Voice Connector.
     @Sendable
     public func listVoiceConnectorTerminationCredentials(_ input: ListVoiceConnectorTerminationCredentialsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVoiceConnectorTerminationCredentialsResponse {
-        return try await self.client.execute(operation: "ListVoiceConnectorTerminationCredentials", path: "/voice-connectors/{VoiceConnectorId}/termination/credentials", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVoiceConnectorTerminationCredentials", 
+            path: "/voice-connectors/{VoiceConnectorId}/termination/credentials", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Amazon Chime SDK Voice Connectors in the administrators  AWS account.
     @Sendable
     public func listVoiceConnectors(_ input: ListVoiceConnectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVoiceConnectorsResponse {
-        return try await self.client.execute(operation: "ListVoiceConnectors", path: "/voice-connectors", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVoiceConnectors", 
+            path: "/voice-connectors", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the specified voice profile domains in the administrator's AWS account.
     @Sendable
     public func listVoiceProfileDomains(_ input: ListVoiceProfileDomainsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVoiceProfileDomainsResponse {
-        return try await self.client.execute(operation: "ListVoiceProfileDomains", path: "/voice-profile-domains", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVoiceProfileDomains", 
+            path: "/voice-profile-domains", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the voice profiles in a voice profile domain.
     @Sendable
     public func listVoiceProfiles(_ input: ListVoiceProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVoiceProfilesResponse {
-        return try await self.client.execute(operation: "ListVoiceProfiles", path: "/voice-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVoiceProfiles", 
+            path: "/voice-profiles", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the Alexa Skill configuration for the SIP media application.
     @Sendable
     public func putSipMediaApplicationAlexaSkillConfiguration(_ input: PutSipMediaApplicationAlexaSkillConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutSipMediaApplicationAlexaSkillConfigurationResponse {
-        return try await self.client.execute(operation: "PutSipMediaApplicationAlexaSkillConfiguration", path: "/sip-media-applications/{SipMediaApplicationId}/alexa-skill-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutSipMediaApplicationAlexaSkillConfiguration", 
+            path: "/sip-media-applications/{SipMediaApplicationId}/alexa-skill-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the logging configuration for the specified SIP media application.
     @Sendable
     public func putSipMediaApplicationLoggingConfiguration(_ input: PutSipMediaApplicationLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutSipMediaApplicationLoggingConfigurationResponse {
-        return try await self.client.execute(operation: "PutSipMediaApplicationLoggingConfiguration", path: "/sip-media-applications/{SipMediaApplicationId}/logging-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutSipMediaApplicationLoggingConfiguration", 
+            path: "/sip-media-applications/{SipMediaApplicationId}/logging-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a Voice Connector's emergency calling configuration.
     @Sendable
     public func putVoiceConnectorEmergencyCallingConfiguration(_ input: PutVoiceConnectorEmergencyCallingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutVoiceConnectorEmergencyCallingConfigurationResponse {
-        return try await self.client.execute(operation: "PutVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/emergency-calling-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutVoiceConnectorEmergencyCallingConfiguration", 
+            path: "/voice-connectors/{VoiceConnectorId}/emergency-calling-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a Voice Connector's logging configuration.
     @Sendable
     public func putVoiceConnectorLoggingConfiguration(_ input: PutVoiceConnectorLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutVoiceConnectorLoggingConfigurationResponse {
-        return try await self.client.execute(operation: "PutVoiceConnectorLoggingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/logging-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutVoiceConnectorLoggingConfiguration", 
+            path: "/voice-connectors/{VoiceConnectorId}/logging-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a Voice Connector's origination settings.
     @Sendable
     public func putVoiceConnectorOrigination(_ input: PutVoiceConnectorOriginationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutVoiceConnectorOriginationResponse {
-        return try await self.client.execute(operation: "PutVoiceConnectorOrigination", path: "/voice-connectors/{VoiceConnectorId}/origination", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutVoiceConnectorOrigination", 
+            path: "/voice-connectors/{VoiceConnectorId}/origination", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.
     @Sendable
     public func putVoiceConnectorProxy(_ input: PutVoiceConnectorProxyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutVoiceConnectorProxyResponse {
-        return try await self.client.execute(operation: "PutVoiceConnectorProxy", path: "/voice-connectors/{VoiceConnectorId}/programmable-numbers/proxy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutVoiceConnectorProxy", 
+            path: "/voice-connectors/{VoiceConnectorId}/programmable-numbers/proxy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a Voice Connector's streaming configuration settings.
     @Sendable
     public func putVoiceConnectorStreamingConfiguration(_ input: PutVoiceConnectorStreamingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutVoiceConnectorStreamingConfigurationResponse {
-        return try await self.client.execute(operation: "PutVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{VoiceConnectorId}/streaming-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutVoiceConnectorStreamingConfiguration", 
+            path: "/voice-connectors/{VoiceConnectorId}/streaming-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a Voice Connector's termination settings.
     @Sendable
     public func putVoiceConnectorTermination(_ input: PutVoiceConnectorTerminationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutVoiceConnectorTerminationResponse {
-        return try await self.client.execute(operation: "PutVoiceConnectorTermination", path: "/voice-connectors/{VoiceConnectorId}/termination", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutVoiceConnectorTermination", 
+            path: "/voice-connectors/{VoiceConnectorId}/termination", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a Voice Connector's termination credentials.
     @Sendable
     public func putVoiceConnectorTerminationCredentials(_ input: PutVoiceConnectorTerminationCredentialsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutVoiceConnectorTerminationCredentials", path: "/voice-connectors/{VoiceConnectorId}/termination/credentials?operation=put", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutVoiceConnectorTerminationCredentials", 
+            path: "/voice-connectors/{VoiceConnectorId}/termination/credentials?operation=put", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Restores a deleted phone number.
     @Sendable
     public func restorePhoneNumber(_ input: RestorePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestorePhoneNumberResponse {
-        return try await self.client.execute(operation: "RestorePhoneNumber", path: "/phone-numbers/{PhoneNumberId}?operation=restore", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RestorePhoneNumber", 
+            path: "/phone-numbers/{PhoneNumberId}?operation=restore", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches the provisioned phone numbers in an organization.
     @Sendable
     public func searchAvailablePhoneNumbers(_ input: SearchAvailablePhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAvailablePhoneNumbersResponse {
-        return try await self.client.execute(operation: "SearchAvailablePhoneNumbers", path: "/search?type=phone-numbers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchAvailablePhoneNumbers", 
+            path: "/search?type=phone-numbers", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a speaker search task.  Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the   AWS service terms for the Amazon Chime SDK.
     @Sendable
     public func startSpeakerSearchTask(_ input: StartSpeakerSearchTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSpeakerSearchTaskResponse {
-        return try await self.client.execute(operation: "StartSpeakerSearchTask", path: "/voice-connectors/{VoiceConnectorId}/speaker-search-tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartSpeakerSearchTask", 
+            path: "/voice-connectors/{VoiceConnectorId}/speaker-search-tasks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a voice tone analysis task. For more information about voice tone analysis, see  Using Amazon Chime SDK voice analytics  in the Amazon Chime SDK Developer Guide.  Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the  AWS service terms for the Amazon Chime SDK.
     @Sendable
     public func startVoiceToneAnalysisTask(_ input: StartVoiceToneAnalysisTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartVoiceToneAnalysisTaskResponse {
-        return try await self.client.execute(operation: "StartVoiceToneAnalysisTask", path: "/voice-connectors/{VoiceConnectorId}/voice-tone-analysis-tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartVoiceToneAnalysisTask", 
+            path: "/voice-connectors/{VoiceConnectorId}/voice-tone-analysis-tasks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a speaker search task.
     @Sendable
     public func stopSpeakerSearchTask(_ input: StopSpeakerSearchTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "StopSpeakerSearchTask", path: "/voice-connectors/{VoiceConnectorId}/speaker-search-tasks/{SpeakerSearchTaskId}?operation=stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopSpeakerSearchTask", 
+            path: "/voice-connectors/{VoiceConnectorId}/speaker-search-tasks/{SpeakerSearchTaskId}?operation=stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a voice tone analysis task.
     @Sendable
     public func stopVoiceToneAnalysisTask(_ input: StopVoiceToneAnalysisTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "StopVoiceToneAnalysisTask", path: "/voice-connectors/{VoiceConnectorId}/voice-tone-analysis-tasks/{VoiceToneAnalysisTaskId}?operation=stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopVoiceToneAnalysisTask", 
+            path: "/voice-connectors/{VoiceConnectorId}/voice-tone-analysis-tasks/{VoiceToneAnalysisTaskId}?operation=stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a tag to the specified resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags?operation=tag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags?operation=tag-resource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags?operation=untag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags?operation=untag-resource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
     @Sendable
     public func updateGlobalSettings(_ input: UpdateGlobalSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateGlobalSettings", path: "/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateGlobalSettings", 
+            path: "/settings", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates phone number details, such as product type or calling name, for the  specified phone number ID. You can update one phone number detail at a time. For  example, you can update either the product type or the calling name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media  Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending  updates to outbound calling names must be complete before you can request another  update.
     @Sendable
     public func updatePhoneNumber(_ input: UpdatePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePhoneNumberResponse {
-        return try await self.client.execute(operation: "UpdatePhoneNumber", path: "/phone-numbers/{PhoneNumberId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePhoneNumber", 
+            path: "/phone-numbers/{PhoneNumberId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the phone number settings for the administrator's AWS account, such  as the default outbound calling name. You can update the default outbound calling  name once every seven days. Outbound calling names can take up to 72 hours to  update.
     @Sendable
     public func updatePhoneNumberSettings(_ input: UpdatePhoneNumberSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdatePhoneNumberSettings", path: "/settings/phone-number", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePhoneNumberSettings", 
+            path: "/settings/phone-number", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified proxy session details, such as voice or SMS capabilities.
     @Sendable
     public func updateProxySession(_ input: UpdateProxySessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProxySessionResponse {
-        return try await self.client.execute(operation: "UpdateProxySession", path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions/{ProxySessionId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateProxySession", 
+            path: "/voice-connectors/{VoiceConnectorId}/proxy-sessions/{ProxySessionId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the details of the specified SIP media application.
     @Sendable
     public func updateSipMediaApplication(_ input: UpdateSipMediaApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSipMediaApplicationResponse {
-        return try await self.client.execute(operation: "UpdateSipMediaApplication", path: "/sip-media-applications/{SipMediaApplicationId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSipMediaApplication", 
+            path: "/sip-media-applications/{SipMediaApplicationId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Invokes the AWS Lambda function associated with the SIP media application and  transaction ID in an update request. The Lambda function can then return a new set  of actions.
     @Sendable
     public func updateSipMediaApplicationCall(_ input: UpdateSipMediaApplicationCallRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSipMediaApplicationCallResponse {
-        return try await self.client.execute(operation: "UpdateSipMediaApplicationCall", path: "/sip-media-applications/{SipMediaApplicationId}/calls/{TransactionId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSipMediaApplicationCall", 
+            path: "/sip-media-applications/{SipMediaApplicationId}/calls/{TransactionId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the details of the specified SIP rule.
     @Sendable
     public func updateSipRule(_ input: UpdateSipRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSipRuleResponse {
-        return try await self.client.execute(operation: "UpdateSipRule", path: "/sip-rules/{SipRuleId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSipRule", 
+            path: "/sip-rules/{SipRuleId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the details for the specified Amazon Chime SDK Voice Connector.
     @Sendable
     public func updateVoiceConnector(_ input: UpdateVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVoiceConnectorResponse {
-        return try await self.client.execute(operation: "UpdateVoiceConnector", path: "/voice-connectors/{VoiceConnectorId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVoiceConnector", 
+            path: "/voice-connectors/{VoiceConnectorId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the settings for the specified Amazon Chime SDK Voice Connector group.
     @Sendable
     public func updateVoiceConnectorGroup(_ input: UpdateVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVoiceConnectorGroupResponse {
-        return try await self.client.execute(operation: "UpdateVoiceConnectorGroup", path: "/voice-connector-groups/{VoiceConnectorGroupId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVoiceConnectorGroup", 
+            path: "/voice-connector-groups/{VoiceConnectorGroupId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified voice profile’s voice print and refreshes its expiration timestamp.  As a condition of using this feature, you acknowledge that the collection, use, storage, and retention of  your caller’s biometric identifiers and biometric information (“biometric data”) in the form of a digital voiceprint  requires the caller’s informed consent via a written release. Such consent is required under various state laws,  including biometrics laws in Illinois, Texas, Washington and other state privacy laws. You must provide a written release to each caller through a process that clearly reflects each caller’s informed  consent before using Amazon Chime SDK Voice Insights service, as required under the terms of your agreement  with AWS governing your use of the service.
     @Sendable
     public func updateVoiceProfile(_ input: UpdateVoiceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVoiceProfileResponse {
-        return try await self.client.execute(operation: "UpdateVoiceProfile", path: "/voice-profiles/{VoiceProfileId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVoiceProfile", 
+            path: "/voice-profiles/{VoiceProfileId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the settings for the specified voice profile domain.
     @Sendable
     public func updateVoiceProfileDomain(_ input: UpdateVoiceProfileDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVoiceProfileDomainResponse {
-        return try await self.client.execute(operation: "UpdateVoiceProfileDomain", path: "/voice-profile-domains/{VoiceProfileDomainId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVoiceProfileDomain", 
+            path: "/voice-profile-domains/{VoiceProfileDomainId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice  Connectors. You can use validated addresses in a Presence Information Data Format  Location Object file that you include in SIP requests. That helps ensure that addresses  are routed to the appropriate Public Safety Answering Point.
     @Sendable
     public func validateE911Address(_ input: ValidateE911AddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ValidateE911AddressResponse {
-        return try await self.client.execute(operation: "ValidateE911Address", path: "/emergency-calling/address", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ValidateE911Address", 
+            path: "/emergency-calling/address", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -76,660 +76,1423 @@ public struct IoTWireless: AWSService {
     /// Associates a partner account with your AWS account.
     @Sendable
     public func associateAwsAccountWithPartnerAccount(_ input: AssociateAwsAccountWithPartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateAwsAccountWithPartnerAccountResponse {
-        return try await self.client.execute(operation: "AssociateAwsAccountWithPartnerAccount", path: "/partner-accounts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateAwsAccountWithPartnerAccount", 
+            path: "/partner-accounts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associate a multicast group with a FUOTA task.
     @Sendable
     public func associateMulticastGroupWithFuotaTask(_ input: AssociateMulticastGroupWithFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateMulticastGroupWithFuotaTaskResponse {
-        return try await self.client.execute(operation: "AssociateMulticastGroupWithFuotaTask", path: "/fuota-tasks/{Id}/multicast-group", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateMulticastGroupWithFuotaTask", 
+            path: "/fuota-tasks/{Id}/multicast-group", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associate a wireless device with a FUOTA task.
     @Sendable
     public func associateWirelessDeviceWithFuotaTask(_ input: AssociateWirelessDeviceWithFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateWirelessDeviceWithFuotaTaskResponse {
-        return try await self.client.execute(operation: "AssociateWirelessDeviceWithFuotaTask", path: "/fuota-tasks/{Id}/wireless-device", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateWirelessDeviceWithFuotaTask", 
+            path: "/fuota-tasks/{Id}/wireless-device", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a wireless device with a multicast group.
     @Sendable
     public func associateWirelessDeviceWithMulticastGroup(_ input: AssociateWirelessDeviceWithMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateWirelessDeviceWithMulticastGroupResponse {
-        return try await self.client.execute(operation: "AssociateWirelessDeviceWithMulticastGroup", path: "/multicast-groups/{Id}/wireless-device", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateWirelessDeviceWithMulticastGroup", 
+            path: "/multicast-groups/{Id}/wireless-device", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a wireless device with a thing.
     @Sendable
     public func associateWirelessDeviceWithThing(_ input: AssociateWirelessDeviceWithThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateWirelessDeviceWithThingResponse {
-        return try await self.client.execute(operation: "AssociateWirelessDeviceWithThing", path: "/wireless-devices/{Id}/thing", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateWirelessDeviceWithThing", 
+            path: "/wireless-devices/{Id}/thing", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a wireless gateway with a certificate.
     @Sendable
     public func associateWirelessGatewayWithCertificate(_ input: AssociateWirelessGatewayWithCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateWirelessGatewayWithCertificateResponse {
-        return try await self.client.execute(operation: "AssociateWirelessGatewayWithCertificate", path: "/wireless-gateways/{Id}/certificate", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateWirelessGatewayWithCertificate", 
+            path: "/wireless-gateways/{Id}/certificate", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a wireless gateway with a thing.
     @Sendable
     public func associateWirelessGatewayWithThing(_ input: AssociateWirelessGatewayWithThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateWirelessGatewayWithThingResponse {
-        return try await self.client.execute(operation: "AssociateWirelessGatewayWithThing", path: "/wireless-gateways/{Id}/thing", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateWirelessGatewayWithThing", 
+            path: "/wireless-gateways/{Id}/thing", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels an existing multicast group session.
     @Sendable
     public func cancelMulticastGroupSession(_ input: CancelMulticastGroupSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelMulticastGroupSessionResponse {
-        return try await self.client.execute(operation: "CancelMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelMulticastGroupSession", 
+            path: "/multicast-groups/{Id}/session", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new destination that maps a device message to an AWS IoT rule.
     @Sendable
     public func createDestination(_ input: CreateDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDestinationResponse {
-        return try await self.client.execute(operation: "CreateDestination", path: "/destinations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDestination", 
+            path: "/destinations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new device profile.
     @Sendable
     public func createDeviceProfile(_ input: CreateDeviceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDeviceProfileResponse {
-        return try await self.client.execute(operation: "CreateDeviceProfile", path: "/device-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDeviceProfile", 
+            path: "/device-profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a FUOTA task.
     @Sendable
     public func createFuotaTask(_ input: CreateFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFuotaTaskResponse {
-        return try await self.client.execute(operation: "CreateFuotaTask", path: "/fuota-tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFuotaTask", 
+            path: "/fuota-tasks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a multicast group.
     @Sendable
     public func createMulticastGroup(_ input: CreateMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMulticastGroupResponse {
-        return try await self.client.execute(operation: "CreateMulticastGroup", path: "/multicast-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMulticastGroup", 
+            path: "/multicast-groups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new network analyzer configuration.
     @Sendable
     public func createNetworkAnalyzerConfiguration(_ input: CreateNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNetworkAnalyzerConfigurationResponse {
-        return try await self.client.execute(operation: "CreateNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateNetworkAnalyzerConfiguration", 
+            path: "/network-analyzer-configurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new service profile.
     @Sendable
     public func createServiceProfile(_ input: CreateServiceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceProfileResponse {
-        return try await self.client.execute(operation: "CreateServiceProfile", path: "/service-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateServiceProfile", 
+            path: "/service-profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provisions a wireless device.
     @Sendable
     public func createWirelessDevice(_ input: CreateWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWirelessDeviceResponse {
-        return try await self.client.execute(operation: "CreateWirelessDevice", path: "/wireless-devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWirelessDevice", 
+            path: "/wireless-devices", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provisions a wireless gateway.
     @Sendable
     public func createWirelessGateway(_ input: CreateWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWirelessGatewayResponse {
-        return try await self.client.execute(operation: "CreateWirelessGateway", path: "/wireless-gateways", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWirelessGateway", 
+            path: "/wireless-gateways", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a task for a wireless gateway.
     @Sendable
     public func createWirelessGatewayTask(_ input: CreateWirelessGatewayTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWirelessGatewayTaskResponse {
-        return try await self.client.execute(operation: "CreateWirelessGatewayTask", path: "/wireless-gateways/{Id}/tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWirelessGatewayTask", 
+            path: "/wireless-gateways/{Id}/tasks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a gateway task definition.
     @Sendable
     public func createWirelessGatewayTaskDefinition(_ input: CreateWirelessGatewayTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWirelessGatewayTaskDefinitionResponse {
-        return try await self.client.execute(operation: "CreateWirelessGatewayTaskDefinition", path: "/wireless-gateway-task-definitions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWirelessGatewayTaskDefinition", 
+            path: "/wireless-gateway-task-definitions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a destination.
     @Sendable
     public func deleteDestination(_ input: DeleteDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDestinationResponse {
-        return try await self.client.execute(operation: "DeleteDestination", path: "/destinations/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDestination", 
+            path: "/destinations/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a device profile.
     @Sendable
     public func deleteDeviceProfile(_ input: DeleteDeviceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDeviceProfileResponse {
-        return try await self.client.execute(operation: "DeleteDeviceProfile", path: "/device-profiles/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDeviceProfile", 
+            path: "/device-profiles/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a FUOTA task.
     @Sendable
     public func deleteFuotaTask(_ input: DeleteFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFuotaTaskResponse {
-        return try await self.client.execute(operation: "DeleteFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFuotaTask", 
+            path: "/fuota-tasks/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a multicast group if it is not in use by a fuota task.
     @Sendable
     public func deleteMulticastGroup(_ input: DeleteMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMulticastGroupResponse {
-        return try await self.client.execute(operation: "DeleteMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMulticastGroup", 
+            path: "/multicast-groups/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a network analyzer configuration.
     @Sendable
     public func deleteNetworkAnalyzerConfiguration(_ input: DeleteNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkAnalyzerConfigurationResponse {
-        return try await self.client.execute(operation: "DeleteNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteNetworkAnalyzerConfiguration", 
+            path: "/network-analyzer-configurations/{ConfigurationName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Remove queued messages from the downlink queue.
     @Sendable
     public func deleteQueuedMessages(_ input: DeleteQueuedMessagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteQueuedMessagesResponse {
-        return try await self.client.execute(operation: "DeleteQueuedMessages", path: "/wireless-devices/{Id}/data", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteQueuedMessages", 
+            path: "/wireless-devices/{Id}/data", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a service profile.
     @Sendable
     public func deleteServiceProfile(_ input: DeleteServiceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceProfileResponse {
-        return try await self.client.execute(operation: "DeleteServiceProfile", path: "/service-profiles/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteServiceProfile", 
+            path: "/service-profiles/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a wireless device.
     @Sendable
     public func deleteWirelessDevice(_ input: DeleteWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWirelessDeviceResponse {
-        return try await self.client.execute(operation: "DeleteWirelessDevice", path: "/wireless-devices/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWirelessDevice", 
+            path: "/wireless-devices/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete an import task.
     @Sendable
     public func deleteWirelessDeviceImportTask(_ input: DeleteWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWirelessDeviceImportTaskResponse {
-        return try await self.client.execute(operation: "DeleteWirelessDeviceImportTask", path: "/wireless_device_import_task/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWirelessDeviceImportTask", 
+            path: "/wireless_device_import_task/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a wireless gateway.
     @Sendable
     public func deleteWirelessGateway(_ input: DeleteWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWirelessGatewayResponse {
-        return try await self.client.execute(operation: "DeleteWirelessGateway", path: "/wireless-gateways/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWirelessGateway", 
+            path: "/wireless-gateways/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a wireless gateway task.
     @Sendable
     public func deleteWirelessGatewayTask(_ input: DeleteWirelessGatewayTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWirelessGatewayTaskResponse {
-        return try await self.client.execute(operation: "DeleteWirelessGatewayTask", path: "/wireless-gateways/{Id}/tasks", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWirelessGatewayTask", 
+            path: "/wireless-gateways/{Id}/tasks", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress.
     @Sendable
     public func deleteWirelessGatewayTaskDefinition(_ input: DeleteWirelessGatewayTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWirelessGatewayTaskDefinitionResponse {
-        return try await self.client.execute(operation: "DeleteWirelessGatewayTaskDefinition", path: "/wireless-gateway-task-definitions/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWirelessGatewayTaskDefinition", 
+            path: "/wireless-gateway-task-definitions/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deregister a wireless device from AWS IoT Wireless.
     @Sendable
     public func deregisterWirelessDevice(_ input: DeregisterWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterWirelessDeviceResponse {
-        return try await self.client.execute(operation: "DeregisterWirelessDevice", path: "/wireless-devices/{Identifier}/deregister", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeregisterWirelessDevice", 
+            path: "/wireless-devices/{Identifier}/deregister", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType are null, disassociates your AWS account from all partner accounts.
     @Sendable
     public func disassociateAwsAccountFromPartnerAccount(_ input: DisassociateAwsAccountFromPartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateAwsAccountFromPartnerAccountResponse {
-        return try await self.client.execute(operation: "DisassociateAwsAccountFromPartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateAwsAccountFromPartnerAccount", 
+            path: "/partner-accounts/{PartnerAccountId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a multicast group from a fuota task.
     @Sendable
     public func disassociateMulticastGroupFromFuotaTask(_ input: DisassociateMulticastGroupFromFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateMulticastGroupFromFuotaTaskResponse {
-        return try await self.client.execute(operation: "DisassociateMulticastGroupFromFuotaTask", path: "/fuota-tasks/{Id}/multicast-groups/{MulticastGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateMulticastGroupFromFuotaTask", 
+            path: "/fuota-tasks/{Id}/multicast-groups/{MulticastGroupId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a wireless device from a FUOTA task.
     @Sendable
     public func disassociateWirelessDeviceFromFuotaTask(_ input: DisassociateWirelessDeviceFromFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateWirelessDeviceFromFuotaTaskResponse {
-        return try await self.client.execute(operation: "DisassociateWirelessDeviceFromFuotaTask", path: "/fuota-tasks/{Id}/wireless-devices/{WirelessDeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateWirelessDeviceFromFuotaTask", 
+            path: "/fuota-tasks/{Id}/wireless-devices/{WirelessDeviceId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a wireless device from a multicast group.
     @Sendable
     public func disassociateWirelessDeviceFromMulticastGroup(_ input: DisassociateWirelessDeviceFromMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateWirelessDeviceFromMulticastGroupResponse {
-        return try await self.client.execute(operation: "DisassociateWirelessDeviceFromMulticastGroup", path: "/multicast-groups/{Id}/wireless-devices/{WirelessDeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateWirelessDeviceFromMulticastGroup", 
+            path: "/multicast-groups/{Id}/wireless-devices/{WirelessDeviceId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a wireless device from its currently associated thing.
     @Sendable
     public func disassociateWirelessDeviceFromThing(_ input: DisassociateWirelessDeviceFromThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateWirelessDeviceFromThingResponse {
-        return try await self.client.execute(operation: "DisassociateWirelessDeviceFromThing", path: "/wireless-devices/{Id}/thing", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateWirelessDeviceFromThing", 
+            path: "/wireless-devices/{Id}/thing", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a wireless gateway from its currently associated certificate.
     @Sendable
     public func disassociateWirelessGatewayFromCertificate(_ input: DisassociateWirelessGatewayFromCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateWirelessGatewayFromCertificateResponse {
-        return try await self.client.execute(operation: "DisassociateWirelessGatewayFromCertificate", path: "/wireless-gateways/{Id}/certificate", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateWirelessGatewayFromCertificate", 
+            path: "/wireless-gateways/{Id}/certificate", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a wireless gateway from its currently associated thing.
     @Sendable
     public func disassociateWirelessGatewayFromThing(_ input: DisassociateWirelessGatewayFromThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateWirelessGatewayFromThingResponse {
-        return try await self.client.execute(operation: "DisassociateWirelessGatewayFromThing", path: "/wireless-gateways/{Id}/thing", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateWirelessGatewayFromThing", 
+            path: "/wireless-gateways/{Id}/thing", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a destination.
     @Sendable
     public func getDestination(_ input: GetDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDestinationResponse {
-        return try await self.client.execute(operation: "GetDestination", path: "/destinations/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDestination", 
+            path: "/destinations/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a device profile.
     @Sendable
     public func getDeviceProfile(_ input: GetDeviceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeviceProfileResponse {
-        return try await self.client.execute(operation: "GetDeviceProfile", path: "/device-profiles/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeviceProfile", 
+            path: "/device-profiles/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the event configuration based on resource types.
     @Sendable
     public func getEventConfigurationByResourceTypes(_ input: GetEventConfigurationByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEventConfigurationByResourceTypesResponse {
-        return try await self.client.execute(operation: "GetEventConfigurationByResourceTypes", path: "/event-configurations-resource-types", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetEventConfigurationByResourceTypes", 
+            path: "/event-configurations-resource-types", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a FUOTA task.
     @Sendable
     public func getFuotaTask(_ input: GetFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFuotaTaskResponse {
-        return try await self.client.execute(operation: "GetFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFuotaTask", 
+            path: "/fuota-tasks/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns current default log levels or log levels by resource types. Based on resource types, log levels can be for wireless device log options or wireless gateway log options.
     @Sendable
     public func getLogLevelsByResourceTypes(_ input: GetLogLevelsByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLogLevelsByResourceTypesResponse {
-        return try await self.client.execute(operation: "GetLogLevelsByResourceTypes", path: "/log-levels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetLogLevelsByResourceTypes", 
+            path: "/log-levels", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a multicast group.
     @Sendable
     public func getMulticastGroup(_ input: GetMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMulticastGroupResponse {
-        return try await self.client.execute(operation: "GetMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMulticastGroup", 
+            path: "/multicast-groups/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a multicast group session.
     @Sendable
     public func getMulticastGroupSession(_ input: GetMulticastGroupSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMulticastGroupSessionResponse {
-        return try await self.client.execute(operation: "GetMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMulticastGroupSession", 
+            path: "/multicast-groups/{Id}/session", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get network analyzer configuration.
     @Sendable
     public func getNetworkAnalyzerConfiguration(_ input: GetNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkAnalyzerConfigurationResponse {
-        return try await self.client.execute(operation: "GetNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetNetworkAnalyzerConfiguration", 
+            path: "/network-analyzer-configurations/{ConfigurationName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
     @Sendable
     public func getPartnerAccount(_ input: GetPartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPartnerAccountResponse {
-        return try await self.client.execute(operation: "GetPartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPartnerAccount", 
+            path: "/partner-accounts/{PartnerAccountId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the position information for a given resource.  This action is no longer supported. Calls to retrieve the position information should use the GetResourcePosition API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     @Sendable
     public func getPosition(_ input: GetPositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPositionResponse {
-        return try await self.client.execute(operation: "GetPosition", path: "/positions/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPosition", 
+            path: "/positions/{ResourceIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get position configuration for a given resource.  This action is no longer supported. Calls to retrieve the position configuration should use the GetResourcePosition API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     @Sendable
     public func getPositionConfiguration(_ input: GetPositionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPositionConfigurationResponse {
-        return try await self.client.execute(operation: "GetPositionConfiguration", path: "/position-configurations/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPositionConfiguration", 
+            path: "/position-configurations/{ResourceIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors.
     @Sendable
     public func getPositionEstimate(_ input: GetPositionEstimateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPositionEstimateResponse {
-        return try await self.client.execute(operation: "GetPositionEstimate", path: "/position-estimate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPositionEstimate", 
+            path: "/position-estimate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the event configuration for a particular resource identifier.
     @Sendable
     public func getResourceEventConfiguration(_ input: GetResourceEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceEventConfigurationResponse {
-        return try await self.client.execute(operation: "GetResourceEventConfiguration", path: "/event-configurations/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourceEventConfiguration", 
+            path: "/event-configurations/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
     @Sendable
     public func getResourceLogLevel(_ input: GetResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceLogLevelResponse {
-        return try await self.client.execute(operation: "GetResourceLogLevel", path: "/log-levels/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourceLogLevel", 
+            path: "/log-levels/{ResourceIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the  World Geodetic System (WGS84).
     @Sendable
     public func getResourcePosition(_ input: GetResourcePositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePositionResponse {
-        return try await self.client.execute(operation: "GetResourcePosition", path: "/resource-positions/{ResourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourcePosition", 
+            path: "/resource-positions/{ResourceIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
     @Sendable
     public func getServiceEndpoint(_ input: GetServiceEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceEndpointResponse {
-        return try await self.client.execute(operation: "GetServiceEndpoint", path: "/service-endpoint", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetServiceEndpoint", 
+            path: "/service-endpoint", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a service profile.
     @Sendable
     public func getServiceProfile(_ input: GetServiceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceProfileResponse {
-        return try await self.client.execute(operation: "GetServiceProfile", path: "/service-profiles/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetServiceProfile", 
+            path: "/service-profiles/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a wireless device.
     @Sendable
     public func getWirelessDevice(_ input: GetWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessDeviceResponse {
-        return try await self.client.execute(operation: "GetWirelessDevice", path: "/wireless-devices/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWirelessDevice", 
+            path: "/wireless-devices/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get information about an import task and count of device onboarding summary information for the import task.
     @Sendable
     public func getWirelessDeviceImportTask(_ input: GetWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessDeviceImportTaskResponse {
-        return try await self.client.execute(operation: "GetWirelessDeviceImportTask", path: "/wireless_device_import_task/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWirelessDeviceImportTask", 
+            path: "/wireless_device_import_task/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets operating information about a wireless device.
     @Sendable
     public func getWirelessDeviceStatistics(_ input: GetWirelessDeviceStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessDeviceStatisticsResponse {
-        return try await self.client.execute(operation: "GetWirelessDeviceStatistics", path: "/wireless-devices/{WirelessDeviceId}/statistics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWirelessDeviceStatistics", 
+            path: "/wireless-devices/{WirelessDeviceId}/statistics", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a wireless gateway.
     @Sendable
     public func getWirelessGateway(_ input: GetWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessGatewayResponse {
-        return try await self.client.execute(operation: "GetWirelessGateway", path: "/wireless-gateways/{Identifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWirelessGateway", 
+            path: "/wireless-gateways/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the ID of the certificate that is currently associated with a wireless gateway.
     @Sendable
     public func getWirelessGatewayCertificate(_ input: GetWirelessGatewayCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessGatewayCertificateResponse {
-        return try await self.client.execute(operation: "GetWirelessGatewayCertificate", path: "/wireless-gateways/{Id}/certificate", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWirelessGatewayCertificate", 
+            path: "/wireless-gateways/{Id}/certificate", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the firmware version and other information about a wireless gateway.
     @Sendable
     public func getWirelessGatewayFirmwareInformation(_ input: GetWirelessGatewayFirmwareInformationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessGatewayFirmwareInformationResponse {
-        return try await self.client.execute(operation: "GetWirelessGatewayFirmwareInformation", path: "/wireless-gateways/{Id}/firmware-information", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWirelessGatewayFirmwareInformation", 
+            path: "/wireless-gateways/{Id}/firmware-information", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets operating information about a wireless gateway.
     @Sendable
     public func getWirelessGatewayStatistics(_ input: GetWirelessGatewayStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessGatewayStatisticsResponse {
-        return try await self.client.execute(operation: "GetWirelessGatewayStatistics", path: "/wireless-gateways/{WirelessGatewayId}/statistics", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWirelessGatewayStatistics", 
+            path: "/wireless-gateways/{WirelessGatewayId}/statistics", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a wireless gateway task.
     @Sendable
     public func getWirelessGatewayTask(_ input: GetWirelessGatewayTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessGatewayTaskResponse {
-        return try await self.client.execute(operation: "GetWirelessGatewayTask", path: "/wireless-gateways/{Id}/tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWirelessGatewayTask", 
+            path: "/wireless-gateways/{Id}/tasks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a wireless gateway task definition.
     @Sendable
     public func getWirelessGatewayTaskDefinition(_ input: GetWirelessGatewayTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWirelessGatewayTaskDefinitionResponse {
-        return try await self.client.execute(operation: "GetWirelessGatewayTaskDefinition", path: "/wireless-gateway-task-definitions/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWirelessGatewayTaskDefinition", 
+            path: "/wireless-gateway-task-definitions/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the destinations registered to your AWS account.
     @Sendable
     public func listDestinations(_ input: ListDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDestinationsResponse {
-        return try await self.client.execute(operation: "ListDestinations", path: "/destinations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDestinations", 
+            path: "/destinations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the device profiles registered to your AWS account.
     @Sendable
     public func listDeviceProfiles(_ input: ListDeviceProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeviceProfilesResponse {
-        return try await self.client.execute(operation: "ListDeviceProfiles", path: "/device-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDeviceProfiles", 
+            path: "/device-profiles", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the Sidewalk devices in an import task and their onboarding status.
     @Sendable
     public func listDevicesForWirelessDeviceImportTask(_ input: ListDevicesForWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDevicesForWirelessDeviceImportTaskResponse {
-        return try await self.client.execute(operation: "ListDevicesForWirelessDeviceImportTask", path: "/wireless_device_import_task", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDevicesForWirelessDeviceImportTask", 
+            path: "/wireless_device_import_task", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List event configurations where at least one event topic has been enabled.
     @Sendable
     public func listEventConfigurations(_ input: ListEventConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEventConfigurationsResponse {
-        return try await self.client.execute(operation: "ListEventConfigurations", path: "/event-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEventConfigurations", 
+            path: "/event-configurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the FUOTA tasks registered to your AWS account.
     @Sendable
     public func listFuotaTasks(_ input: ListFuotaTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFuotaTasksResponse {
-        return try await self.client.execute(operation: "ListFuotaTasks", path: "/fuota-tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFuotaTasks", 
+            path: "/fuota-tasks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the multicast groups registered to your AWS account.
     @Sendable
     public func listMulticastGroups(_ input: ListMulticastGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMulticastGroupsResponse {
-        return try await self.client.execute(operation: "ListMulticastGroups", path: "/multicast-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMulticastGroups", 
+            path: "/multicast-groups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all multicast groups associated with a fuota task.
     @Sendable
     public func listMulticastGroupsByFuotaTask(_ input: ListMulticastGroupsByFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMulticastGroupsByFuotaTaskResponse {
-        return try await self.client.execute(operation: "ListMulticastGroupsByFuotaTask", path: "/fuota-tasks/{Id}/multicast-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMulticastGroupsByFuotaTask", 
+            path: "/fuota-tasks/{Id}/multicast-groups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the network analyzer configurations.
     @Sendable
     public func listNetworkAnalyzerConfigurations(_ input: ListNetworkAnalyzerConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkAnalyzerConfigurationsResponse {
-        return try await self.client.execute(operation: "ListNetworkAnalyzerConfigurations", path: "/network-analyzer-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNetworkAnalyzerConfigurations", 
+            path: "/network-analyzer-configurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the partner accounts associated with your AWS account.
     @Sendable
     public func listPartnerAccounts(_ input: ListPartnerAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPartnerAccountsResponse {
-        return try await self.client.execute(operation: "ListPartnerAccounts", path: "/partner-accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPartnerAccounts", 
+            path: "/partner-accounts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List position configurations for a given resource, such as positioning solvers.  This action is no longer supported. Calls to retrieve position information should use the GetResourcePosition API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     @Sendable
     public func listPositionConfigurations(_ input: ListPositionConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPositionConfigurationsResponse {
-        return try await self.client.execute(operation: "ListPositionConfigurations", path: "/position-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPositionConfigurations", 
+            path: "/position-configurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List queued messages in the downlink queue.
     @Sendable
     public func listQueuedMessages(_ input: ListQueuedMessagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueuedMessagesResponse {
-        return try await self.client.execute(operation: "ListQueuedMessages", path: "/wireless-devices/{Id}/data", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListQueuedMessages", 
+            path: "/wireless-devices/{Id}/data", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the service profiles registered to your AWS account.
     @Sendable
     public func listServiceProfiles(_ input: ListServiceProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceProfilesResponse {
-        return try await self.client.execute(operation: "ListServiceProfiles", path: "/service-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListServiceProfiles", 
+            path: "/service-profiles", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags (metadata) you have assigned to the resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List wireless devices that have been added to an import task.
     @Sendable
     public func listWirelessDeviceImportTasks(_ input: ListWirelessDeviceImportTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWirelessDeviceImportTasksResponse {
-        return try await self.client.execute(operation: "ListWirelessDeviceImportTasks", path: "/wireless_device_import_tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWirelessDeviceImportTasks", 
+            path: "/wireless_device_import_tasks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the wireless devices registered to your AWS account.
     @Sendable
     public func listWirelessDevices(_ input: ListWirelessDevicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWirelessDevicesResponse {
-        return try await self.client.execute(operation: "ListWirelessDevices", path: "/wireless-devices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWirelessDevices", 
+            path: "/wireless-devices", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the wireless gateway tasks definitions registered to your AWS account.
     @Sendable
     public func listWirelessGatewayTaskDefinitions(_ input: ListWirelessGatewayTaskDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWirelessGatewayTaskDefinitionsResponse {
-        return try await self.client.execute(operation: "ListWirelessGatewayTaskDefinitions", path: "/wireless-gateway-task-definitions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWirelessGatewayTaskDefinitions", 
+            path: "/wireless-gateway-task-definitions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the wireless gateways registered to your AWS account.
     @Sendable
     public func listWirelessGateways(_ input: ListWirelessGatewaysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWirelessGatewaysResponse {
-        return try await self.client.execute(operation: "ListWirelessGateways", path: "/wireless-gateways", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWirelessGateways", 
+            path: "/wireless-gateways", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Put position configuration for a given resource.  This action is no longer supported. Calls to update the position configuration should use the UpdateResourcePosition API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     @Sendable
     public func putPositionConfiguration(_ input: PutPositionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPositionConfigurationResponse {
-        return try await self.client.execute(operation: "PutPositionConfiguration", path: "/position-configurations/{ResourceIdentifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutPositionConfiguration", 
+            path: "/position-configurations/{ResourceIdentifier}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway or a wireless device. A limit of 200 log level override can be set per account.
     @Sendable
     public func putResourceLogLevel(_ input: PutResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourceLogLevelResponse {
-        return try await self.client.execute(operation: "PutResourceLogLevel", path: "/log-levels/{ResourceIdentifier}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutResourceLogLevel", 
+            path: "/log-levels/{ResourceIdentifier}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the log-level overrides for all resources; both wireless devices and wireless gateways.
     @Sendable
     public func resetAllResourceLogLevels(_ input: ResetAllResourceLogLevelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetAllResourceLogLevelsResponse {
-        return try await self.client.execute(operation: "ResetAllResourceLogLevels", path: "/log-levels", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ResetAllResourceLogLevels", 
+            path: "/log-levels", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
     @Sendable
     public func resetResourceLogLevel(_ input: ResetResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetResourceLogLevelResponse {
-        return try await self.client.execute(operation: "ResetResourceLogLevel", path: "/log-levels/{ResourceIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ResetResourceLogLevel", 
+            path: "/log-levels/{ResourceIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sends the specified data to a multicast group.
     @Sendable
     public func sendDataToMulticastGroup(_ input: SendDataToMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendDataToMulticastGroupResponse {
-        return try await self.client.execute(operation: "SendDataToMulticastGroup", path: "/multicast-groups/{Id}/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SendDataToMulticastGroup", 
+            path: "/multicast-groups/{Id}/data", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sends a decrypted application data frame to a device.
     @Sendable
     public func sendDataToWirelessDevice(_ input: SendDataToWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendDataToWirelessDeviceResponse {
-        return try await self.client.execute(operation: "SendDataToWirelessDevice", path: "/wireless-devices/{Id}/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SendDataToWirelessDevice", 
+            path: "/wireless-devices/{Id}/data", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a bulk association of all qualifying wireless devices with a multicast group.
     @Sendable
     public func startBulkAssociateWirelessDeviceWithMulticastGroup(_ input: StartBulkAssociateWirelessDeviceWithMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBulkAssociateWirelessDeviceWithMulticastGroupResponse {
-        return try await self.client.execute(operation: "StartBulkAssociateWirelessDeviceWithMulticastGroup", path: "/multicast-groups/{Id}/bulk", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartBulkAssociateWirelessDeviceWithMulticastGroup", 
+            path: "/multicast-groups/{Id}/bulk", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a bulk disassociatin of all qualifying wireless devices from a multicast group.
     @Sendable
     public func startBulkDisassociateWirelessDeviceFromMulticastGroup(_ input: StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse {
-        return try await self.client.execute(operation: "StartBulkDisassociateWirelessDeviceFromMulticastGroup", path: "/multicast-groups/{Id}/bulk", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartBulkDisassociateWirelessDeviceFromMulticastGroup", 
+            path: "/multicast-groups/{Id}/bulk", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a FUOTA task.
     @Sendable
     public func startFuotaTask(_ input: StartFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFuotaTaskResponse {
-        return try await self.client.execute(operation: "StartFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartFuotaTask", 
+            path: "/fuota-tasks/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a multicast group session.
     @Sendable
     public func startMulticastGroupSession(_ input: StartMulticastGroupSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMulticastGroupSessionResponse {
-        return try await self.client.execute(operation: "StartMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartMulticastGroupSession", 
+            path: "/multicast-groups/{Id}/session", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Start import task for a single wireless device.
     @Sendable
     public func startSingleWirelessDeviceImportTask(_ input: StartSingleWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSingleWirelessDeviceImportTaskResponse {
-        return try await self.client.execute(operation: "StartSingleWirelessDeviceImportTask", path: "/wireless_single_device_import_task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartSingleWirelessDeviceImportTask", 
+            path: "/wireless_single_device_import_task", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file.
     @Sendable
     public func startWirelessDeviceImportTask(_ input: StartWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartWirelessDeviceImportTaskResponse {
-        return try await self.client.execute(operation: "StartWirelessDeviceImportTask", path: "/wireless_device_import_task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartWirelessDeviceImportTask", 
+            path: "/wireless_device_import_task", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a tag to a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Simulates a provisioned device by sending an uplink data payload of Hello.
     @Sendable
     public func testWirelessDevice(_ input: TestWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestWirelessDeviceResponse {
-        return try await self.client.execute(operation: "TestWirelessDevice", path: "/wireless-devices/{Id}/test", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TestWirelessDevice", 
+            path: "/wireless-devices/{Id}/test", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates properties of a destination.
     @Sendable
     public func updateDestination(_ input: UpdateDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDestinationResponse {
-        return try await self.client.execute(operation: "UpdateDestination", path: "/destinations/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDestination", 
+            path: "/destinations/{Name}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the event configuration based on resource types.
     @Sendable
     public func updateEventConfigurationByResourceTypes(_ input: UpdateEventConfigurationByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEventConfigurationByResourceTypesResponse {
-        return try await self.client.execute(operation: "UpdateEventConfigurationByResourceTypes", path: "/event-configurations-resource-types", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEventConfigurationByResourceTypes", 
+            path: "/event-configurations-resource-types", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates properties of a FUOTA task.
     @Sendable
     public func updateFuotaTask(_ input: UpdateFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFuotaTaskResponse {
-        return try await self.client.execute(operation: "UpdateFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFuotaTask", 
+            path: "/fuota-tasks/{Id}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Set default log level, or log levels by resource types. This can be for wireless device log options or wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
     @Sendable
     public func updateLogLevelsByResourceTypes(_ input: UpdateLogLevelsByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLogLevelsByResourceTypesResponse {
-        return try await self.client.execute(operation: "UpdateLogLevelsByResourceTypes", path: "/log-levels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLogLevelsByResourceTypes", 
+            path: "/log-levels", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates properties of a multicast group session.
     @Sendable
     public func updateMulticastGroup(_ input: UpdateMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMulticastGroupResponse {
-        return try await self.client.execute(operation: "UpdateMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMulticastGroup", 
+            path: "/multicast-groups/{Id}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update network analyzer configuration.
     @Sendable
     public func updateNetworkAnalyzerConfiguration(_ input: UpdateNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNetworkAnalyzerConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateNetworkAnalyzerConfiguration", 
+            path: "/network-analyzer-configurations/{ConfigurationName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates properties of a partner account.
     @Sendable
     public func updatePartnerAccount(_ input: UpdatePartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePartnerAccountResponse {
-        return try await self.client.execute(operation: "UpdatePartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePartnerAccount", 
+            path: "/partner-accounts/{PartnerAccountId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the position information of a resource.  This action is no longer supported. Calls to update the position information should use the UpdateResourcePosition API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     @Sendable
     public func updatePosition(_ input: UpdatePositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePositionResponse {
-        return try await self.client.execute(operation: "UpdatePosition", path: "/positions/{ResourceIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePosition", 
+            path: "/positions/{ResourceIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the event configuration for a particular resource identifier.
     @Sendable
     public func updateResourceEventConfiguration(_ input: UpdateResourceEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceEventConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateResourceEventConfiguration", path: "/event-configurations/{Identifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateResourceEventConfiguration", 
+            path: "/event-configurations/{Identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the  World Geodetic System (WGS84).
     @Sendable
     public func updateResourcePosition(_ input: UpdateResourcePositionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourcePositionResponse {
-        return try await self.client.execute(operation: "UpdateResourcePosition", path: "/resource-positions/{ResourceIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateResourcePosition", 
+            path: "/resource-positions/{ResourceIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates properties of a wireless device.
     @Sendable
     public func updateWirelessDevice(_ input: UpdateWirelessDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWirelessDeviceResponse {
-        return try await self.client.execute(operation: "UpdateWirelessDevice", path: "/wireless-devices/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWirelessDevice", 
+            path: "/wireless-devices/{Id}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update an import task to add more devices to the task.
     @Sendable
     public func updateWirelessDeviceImportTask(_ input: UpdateWirelessDeviceImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWirelessDeviceImportTaskResponse {
-        return try await self.client.execute(operation: "UpdateWirelessDeviceImportTask", path: "/wireless_device_import_task/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWirelessDeviceImportTask", 
+            path: "/wireless_device_import_task/{Id}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates properties of a wireless gateway.
     @Sendable
     public func updateWirelessGateway(_ input: UpdateWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWirelessGatewayResponse {
-        return try await self.client.execute(operation: "UpdateWirelessGateway", path: "/wireless-gateways/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWirelessGateway", 
+            path: "/wireless-gateways/{Id}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

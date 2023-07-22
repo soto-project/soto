@@ -67,7 +67,14 @@ public struct ConnectContactLens: AWSService {
     /// Provides a list of analysis segments for a real-time analysis session.
     @Sendable
     public func listRealtimeContactAnalysisSegments(_ input: ListRealtimeContactAnalysisSegmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRealtimeContactAnalysisSegmentsResponse {
-        return try await self.client.execute(operation: "ListRealtimeContactAnalysisSegments", path: "/realtime-contact-analysis/analysis-segments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRealtimeContactAnalysisSegments", 
+            path: "/realtime-contact-analysis/analysis-segments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

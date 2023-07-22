@@ -102,25 +102,53 @@ public struct Budgets: AWSService {
     ///
     @Sendable
     public func createBudget(_ input: CreateBudgetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBudgetResponse {
-        return try await self.client.execute(operation: "CreateBudget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateBudget", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Creates a budget action.
     @Sendable
     public func createBudgetAction(_ input: CreateBudgetActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBudgetActionResponse {
-        return try await self.client.execute(operation: "CreateBudgetAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateBudgetAction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a notification. You must create the budget before you create the associated notification.
     @Sendable
     public func createNotification(_ input: CreateNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNotificationResponse {
-        return try await self.client.execute(operation: "CreateNotification", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateNotification", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
     @Sendable
     public func createSubscriber(_ input: CreateSubscriberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubscriberResponse {
-        return try await self.client.execute(operation: "CreateSubscriber", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSubscriber", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a budget. You can delete your budget at any time.
@@ -129,13 +157,27 @@ public struct Budgets: AWSService {
     ///
     @Sendable
     public func deleteBudget(_ input: DeleteBudgetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBudgetResponse {
-        return try await self.client.execute(operation: "DeleteBudget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBudget", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Deletes a budget action.
     @Sendable
     public func deleteBudgetAction(_ input: DeleteBudgetActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBudgetActionResponse {
-        return try await self.client.execute(operation: "DeleteBudgetAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBudgetAction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a notification.
@@ -144,7 +186,14 @@ public struct Budgets: AWSService {
     ///
     @Sendable
     public func deleteNotification(_ input: DeleteNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNotificationResponse {
-        return try await self.client.execute(operation: "DeleteNotification", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteNotification", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a subscriber.
@@ -153,7 +202,14 @@ public struct Budgets: AWSService {
     ///
     @Sendable
     public func deleteSubscriber(_ input: DeleteSubscriberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSubscriberResponse {
-        return try await self.client.execute(operation: "DeleteSubscriber", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSubscriber", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a budget.
@@ -162,44 +218,93 @@ public struct Budgets: AWSService {
     ///
     @Sendable
     public func describeBudget(_ input: DescribeBudgetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBudgetResponse {
-        return try await self.client.execute(operation: "DescribeBudget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBudget", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Describes a budget action detail.
     @Sendable
     public func describeBudgetAction(_ input: DescribeBudgetActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBudgetActionResponse {
-        return try await self.client.execute(operation: "DescribeBudgetAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBudgetAction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Describes a budget action history detail.
     @Sendable
     public func describeBudgetActionHistories(_ input: DescribeBudgetActionHistoriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBudgetActionHistoriesResponse {
-        return try await self.client.execute(operation: "DescribeBudgetActionHistories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBudgetActionHistories", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Describes all of the budget actions for an account.
     @Sendable
     public func describeBudgetActionsForAccount(_ input: DescribeBudgetActionsForAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBudgetActionsForAccountResponse {
-        return try await self.client.execute(operation: "DescribeBudgetActionsForAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBudgetActionsForAccount", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Describes all of the budget actions for a budget.
     @Sendable
     public func describeBudgetActionsForBudget(_ input: DescribeBudgetActionsForBudgetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBudgetActionsForBudgetResponse {
-        return try await self.client.execute(operation: "DescribeBudgetActionsForBudget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBudgetActionsForBudget", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// 			Lists the budget names and notifications that are associated with an account.
     ///
     @Sendable
     public func describeBudgetNotificationsForAccount(_ input: DescribeBudgetNotificationsForAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBudgetNotificationsForAccountResponse {
-        return try await self.client.execute(operation: "DescribeBudgetNotificationsForAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBudgetNotificationsForAccount", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
     @Sendable
     public func describeBudgetPerformanceHistory(_ input: DescribeBudgetPerformanceHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBudgetPerformanceHistoryResponse {
-        return try await self.client.execute(operation: "DescribeBudgetPerformanceHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBudgetPerformanceHistory", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the budgets that are associated with an account.
@@ -208,25 +313,53 @@ public struct Budgets: AWSService {
     ///
     @Sendable
     public func describeBudgets(_ input: DescribeBudgetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBudgetsResponse {
-        return try await self.client.execute(operation: "DescribeBudgets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBudgets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the notifications that are associated with a budget.
     @Sendable
     public func describeNotificationsForBudget(_ input: DescribeNotificationsForBudgetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNotificationsForBudgetResponse {
-        return try await self.client.execute(operation: "DescribeNotificationsForBudget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeNotificationsForBudget", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the subscribers that are associated with a notification.
     @Sendable
     public func describeSubscribersForNotification(_ input: DescribeSubscribersForNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSubscribersForNotificationResponse {
-        return try await self.client.execute(operation: "DescribeSubscribersForNotification", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSubscribersForNotification", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Executes a budget action.
     @Sendable
     public func executeBudgetAction(_ input: ExecuteBudgetActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteBudgetActionResponse {
-        return try await self.client.execute(operation: "ExecuteBudgetAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ExecuteBudgetAction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until Amazon Web Services has new usage data to use for forecasting.
@@ -235,25 +368,53 @@ public struct Budgets: AWSService {
     ///
     @Sendable
     public func updateBudget(_ input: UpdateBudgetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBudgetResponse {
-        return try await self.client.execute(operation: "UpdateBudget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBudget", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Updates a budget action.
     @Sendable
     public func updateBudgetAction(_ input: UpdateBudgetActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBudgetActionResponse {
-        return try await self.client.execute(operation: "UpdateBudgetAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBudgetAction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a notification.
     @Sendable
     public func updateNotification(_ input: UpdateNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNotificationResponse {
-        return try await self.client.execute(operation: "UpdateNotification", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateNotification", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a subscriber.
     @Sendable
     public func updateSubscriber(_ input: UpdateSubscriberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSubscriberResponse {
-        return try await self.client.execute(operation: "UpdateSubscriber", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSubscriber", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

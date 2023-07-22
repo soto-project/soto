@@ -67,25 +67,53 @@ public struct SageMakerFeatureStoreRuntime: AWSService {
     /// Retrieves a batch of Records from a FeatureGroup.
     @Sendable
     public func batchGetRecord(_ input: BatchGetRecordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetRecordResponse {
-        return try await self.client.execute(operation: "BatchGetRecord", path: "/BatchGetRecord", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetRecord", 
+            path: "/BatchGetRecord", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a Record from a FeatureGroup in the OnlineStore. Feature Store supports both SOFT_DELETE and HARD_DELETE. For SOFT_DELETE (default), feature columns are set to null and the record is no longer retrievable by GetRecord or BatchGetRecord. For HARD_DELETE, the complete Record is removed from the OnlineStore. In both cases, Feature Store appends the deleted record marker to the OfflineStore with feature values set to null, is_deleted value set to True, and EventTime set to the delete input EventTime. Note that the EventTime specified in DeleteRecord should be set later than the EventTime of the existing record in the OnlineStore for that RecordIdentifer. If it is not, the deletion does not occur:   For SOFT_DELETE, the existing (undeleted) record remains in the OnlineStore, though the delete record marker is still written to the OfflineStore.    HARD_DELETE returns EventTime: 400 ValidationException to indicate that the delete operation failed. No delete record marker is written to the OfflineStore.
     @Sendable
     public func deleteRecord(_ input: DeleteRecordRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteRecord", path: "/FeatureGroup/{FeatureGroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRecord", 
+            path: "/FeatureGroup/{FeatureGroupName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use for OnlineStore serving from a FeatureStore. Only the latest records stored in the OnlineStore can be retrieved. If no Record with RecordIdentifierValue is found, then an empty result is returned.
     @Sendable
     public func getRecord(_ input: GetRecordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecordResponse {
-        return try await self.client.execute(operation: "GetRecord", path: "/FeatureGroup/{FeatureGroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRecord", 
+            path: "/FeatureGroup/{FeatureGroupName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Used for data ingestion into the FeatureStore. The PutRecord API writes to both the OnlineStore and OfflineStore. If the record is the latest record for the recordIdentifier, the record is written to both the OnlineStore and OfflineStore. If the record is a historic record, it is written only to the OfflineStore.
     @Sendable
     public func putRecord(_ input: PutRecordRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutRecord", path: "/FeatureGroup/{FeatureGroupName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutRecord", 
+            path: "/FeatureGroup/{FeatureGroupName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

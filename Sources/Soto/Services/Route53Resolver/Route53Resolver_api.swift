@@ -89,7 +89,14 @@ public struct Route53Resolver: AWSService {
     /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC.
     @Sendable
     public func associateFirewallRuleGroup(_ input: AssociateFirewallRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateFirewallRuleGroupResponse {
-        return try await self.client.execute(operation: "AssociateFirewallRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateFirewallRuleGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more than one IP address,
@@ -98,7 +105,14 @@ public struct Route53Resolver: AWSService {
     ///
     @Sendable
     public func associateResolverEndpointIpAddress(_ input: AssociateResolverEndpointIpAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateResolverEndpointIpAddressResponse {
-        return try await self.client.execute(operation: "AssociateResolverEndpointIpAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateResolverEndpointIpAddress", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs
@@ -108,7 +122,14 @@ public struct Route53Resolver: AWSService {
     ///
     @Sendable
     public func associateResolverQueryLogConfig(_ input: AssociateResolverQueryLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateResolverQueryLogConfigResponse {
-        return try await self.client.execute(operation: "AssociateResolverQueryLogConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateResolverQueryLogConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries
@@ -117,25 +138,53 @@ public struct Route53Resolver: AWSService {
     /// 			CreateResolverRule.
     @Sendable
     public func associateResolverRule(_ input: AssociateResolverRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateResolverRuleResponse {
-        return try await self.client.execute(operation: "AssociateResolverRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateResolverRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using ImportFirewallDomains, or with domain strings, using UpdateFirewallDomains.
     @Sendable
     public func createFirewallDomainList(_ input: CreateFirewallDomainListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFirewallDomainListResponse {
-        return try await self.client.execute(operation: "CreateFirewallDomainList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFirewallDomainList", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a single DNS Firewall rule in the specified rule group, using the specified domain list.
     @Sendable
     public func createFirewallRule(_ input: CreateFirewallRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFirewallRuleResponse {
-        return try await self.client.execute(operation: "CreateFirewallRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFirewallRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an empty DNS Firewall rule group for filtering DNS network traffic in a VPC. You can add rules to the new rule group  by calling CreateFirewallRule.
     @Sendable
     public func createFirewallRuleGroup(_ input: CreateFirewallRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFirewallRuleGroupResponse {
-        return try await self.client.execute(operation: "CreateFirewallRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFirewallRuleGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound:   An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC
@@ -143,7 +192,14 @@ public struct Route53Resolver: AWSService {
     /// 				to your network.
     @Sendable
     public func createResolverEndpoint(_ input: CreateResolverEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResolverEndpointResponse {
-        return try await self.client.execute(operation: "CreateResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateResolverEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs.
@@ -153,32 +209,67 @@ public struct Route53Resolver: AWSService {
     /// 			VPCs that are associated with the configuration.
     @Sendable
     public func createResolverQueryLogConfig(_ input: CreateResolverQueryLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResolverQueryLogConfigResponse {
-        return try await self.client.execute(operation: "CreateResolverQueryLogConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateResolverQueryLogConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries pass through,
     /// 			one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
     @Sendable
     public func createResolverRule(_ input: CreateResolverRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResolverRuleResponse {
-        return try await self.client.execute(operation: "CreateResolverRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateResolverRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified domain list.
     @Sendable
     public func deleteFirewallDomainList(_ input: DeleteFirewallDomainListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFirewallDomainListResponse {
-        return try await self.client.execute(operation: "DeleteFirewallDomainList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFirewallDomainList", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified firewall rule.
     @Sendable
     public func deleteFirewallRule(_ input: DeleteFirewallRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFirewallRuleResponse {
-        return try await self.client.execute(operation: "DeleteFirewallRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFirewallRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified firewall rule group.
     @Sendable
     public func deleteFirewallRuleGroup(_ input: DeleteFirewallRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFirewallRuleGroupResponse {
-        return try await self.client.execute(operation: "DeleteFirewallRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFirewallRuleGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound
@@ -186,7 +277,14 @@ public struct Route53Resolver: AWSService {
     /// 				to the DNS service for the specified VPC.    Outbound: DNS queries from a VPC are no longer routed to your network.
     @Sendable
     public func deleteResolverEndpoint(_ input: DeleteResolverEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResolverEndpointResponse {
-        return try await self.client.execute(operation: "DeleteResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResolverEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are
@@ -198,7 +296,14 @@ public struct Route53Resolver: AWSService {
     /// 			disassociated from the configuration.
     @Sendable
     public func deleteResolverQueryLogConfig(_ input: DeleteResolverQueryLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResolverQueryLogConfigResponse {
-        return try await self.client.execute(operation: "DeleteResolverQueryLogConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResolverQueryLogConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a Resolver rule. Before you can delete a Resolver rule, you must disassociate it from all the VPCs that you
@@ -206,13 +311,27 @@ public struct Route53Resolver: AWSService {
     /// 			DisassociateResolverRule.
     @Sendable
     public func deleteResolverRule(_ input: DeleteResolverRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResolverRuleResponse {
-        return try await self.client.execute(operation: "DeleteResolverRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResolverRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC.
     @Sendable
     public func disassociateFirewallRuleGroup(_ input: DisassociateFirewallRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFirewallRuleGroupResponse {
-        return try await self.client.execute(operation: "DisassociateFirewallRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateFirewallRuleGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to remove more than one IP address,
@@ -221,7 +340,14 @@ public struct Route53Resolver: AWSService {
     ///
     @Sendable
     public func disassociateResolverEndpointIpAddress(_ input: DisassociateResolverEndpointIpAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateResolverEndpointIpAddressResponse {
-        return try await self.client.execute(operation: "DisassociateResolverEndpointIpAddress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateResolverEndpointIpAddress", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a VPC from a query logging configuration.  Before you can delete a query logging configuration, you must first disassociate all VPCs
@@ -230,206 +356,430 @@ public struct Route53Resolver: AWSService {
     /// 				configuration in the following ways:   The accounts that you shared the configuration with can disassociate VPCs from the configuration.   You can stop sharing the configuration.
     @Sendable
     public func disassociateResolverQueryLogConfig(_ input: DisassociateResolverQueryLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateResolverQueryLogConfigResponse {
-        return try await self.client.execute(operation: "DisassociateResolverQueryLogConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateResolverQueryLogConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the association between a specified Resolver rule and a specified VPC.  If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the
     /// 				domain name that you specified in the Resolver rule.
     @Sendable
     public func disassociateResolverRule(_ input: DisassociateResolverRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateResolverRuleResponse {
-        return try await self.client.execute(operation: "DisassociateResolverRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateResolverRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the configuration of the firewall behavior provided by DNS Firewall for a
     /// 			single VPC from Amazon Virtual Private Cloud (Amazon VPC).
     @Sendable
     public func getFirewallConfig(_ input: GetFirewallConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFirewallConfigResponse {
-        return try await self.client.execute(operation: "GetFirewallConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFirewallConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the specified firewall domain list.
     @Sendable
     public func getFirewallDomainList(_ input: GetFirewallDomainListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFirewallDomainListResponse {
-        return try await self.client.execute(operation: "GetFirewallDomainList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFirewallDomainList", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the specified firewall rule group.
     @Sendable
     public func getFirewallRuleGroup(_ input: GetFirewallRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFirewallRuleGroupResponse {
-        return try await self.client.execute(operation: "GetFirewallRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFirewallRuleGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a firewall rule group association, which enables DNS filtering for a VPC with one rule group. A VPC can have more than one firewall rule group association, and a rule group can be associated with more than one VPC.
     @Sendable
     public func getFirewallRuleGroupAssociation(_ input: GetFirewallRuleGroupAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFirewallRuleGroupAssociationResponse {
-        return try await self.client.execute(operation: "GetFirewallRuleGroupAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFirewallRuleGroupAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the 	specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
     @Sendable
     public func getFirewallRuleGroupPolicy(_ input: GetFirewallRuleGroupPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFirewallRuleGroupPolicyResponse {
-        return try await self.client.execute(operation: "GetFirewallRuleGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFirewallRuleGroupPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from
     /// 				Amazon Virtual Private Cloud.
     @Sendable
     public func getResolverConfig(_ input: GetResolverConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResolverConfigResponse {
-        return try await self.client.execute(operation: "GetResolverConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResolverConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets DNSSEC validation information for a specified resource.
     @Sendable
     public func getResolverDnssecConfig(_ input: GetResolverDnssecConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResolverDnssecConfigResponse {
-        return try await self.client.execute(operation: "GetResolverDnssecConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResolverDnssecConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the
     /// 			current status of the endpoint.
     @Sendable
     public func getResolverEndpoint(_ input: GetResolverEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResolverEndpointResponse {
-        return try await self.client.execute(operation: "GetResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResolverEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a specified Resolver query logging configuration, such as the number of VPCs that the configuration
     /// 			is logging queries for and the location that logs are sent to.
     @Sendable
     public func getResolverQueryLogConfig(_ input: GetResolverQueryLogConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResolverQueryLogConfigResponse {
-        return try await self.client.execute(operation: "GetResolverQueryLogConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResolverQueryLogConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a specified association between a Resolver query logging configuration and an Amazon VPC. When you associate a VPC
     /// 			with a query logging configuration, Resolver logs DNS queries that originate in that VPC.
     @Sendable
     public func getResolverQueryLogConfigAssociation(_ input: GetResolverQueryLogConfigAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResolverQueryLogConfigAssociationResponse {
-        return try await self.client.execute(operation: "GetResolverQueryLogConfigAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResolverQueryLogConfigAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a query logging policy. A query logging policy specifies the Resolver query logging
     /// 			operations and resources that you want to allow another Amazon Web Services account to be able to use.
     @Sendable
     public func getResolverQueryLogConfigPolicy(_ input: GetResolverQueryLogConfigPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResolverQueryLogConfigPolicyResponse {
-        return try await self.client.execute(operation: "GetResolverQueryLogConfigPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResolverQueryLogConfigPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a specified Resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the
     /// 			outbound Resolver endpoint that the rule is associated with.
     @Sendable
     public func getResolverRule(_ input: GetResolverRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResolverRuleResponse {
-        return try await self.client.execute(operation: "GetResolverRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResolverRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about an association between a specified Resolver rule and a VPC. You associate a Resolver rule and a VPC using
     /// 			AssociateResolverRule.
     @Sendable
     public func getResolverRuleAssociation(_ input: GetResolverRuleAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResolverRuleAssociationResponse {
-        return try await self.client.execute(operation: "GetResolverRuleAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResolverRuleAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share
     /// 			with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use.
     @Sendable
     public func getResolverRulePolicy(_ input: GetResolverRulePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResolverRulePolicyResponse {
-        return try await self.client.execute(operation: "GetResolverRulePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResolverRulePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Imports domain names from a file into a domain list, for use in a DNS firewall rule group.  Each domain specification in your domain list must satisfy the following
     /// 	requirements:    It can optionally start with * (asterisk).   With the exception of the optional starting asterisk, it must only contain 	   the following characters: A-Z, a-z, 	   0-9, - (hyphen).   It must be from 1-255 characters in length.
     @Sendable
     public func importFirewallDomains(_ input: ImportFirewallDomainsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportFirewallDomainsResponse {
-        return try await self.client.execute(operation: "ImportFirewallDomains", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportFirewallDomains", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the firewall configurations that you have defined. DNS Firewall uses the configurations to manage firewall behavior for your VPCs.  A single call might return only a partial list of the configurations. For information, see MaxResults.
     @Sendable
     public func listFirewallConfigs(_ input: ListFirewallConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFirewallConfigsResponse {
-        return try await self.client.execute(operation: "ListFirewallConfigs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFirewallConfigs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the firewall domain lists that you have defined. For each firewall domain list, you can retrieve the domains that are defined for a list by calling ListFirewallDomains.  A single call to this list operation might return only a partial list of the domain lists. For information, see MaxResults.
     @Sendable
     public func listFirewallDomainLists(_ input: ListFirewallDomainListsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFirewallDomainListsResponse {
-        return try await self.client.execute(operation: "ListFirewallDomainLists", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFirewallDomainLists", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the domains that you have defined for the specified firewall domain list.   A single call might return only a partial list of the domains. For information, see MaxResults.
     @Sendable
     public func listFirewallDomains(_ input: ListFirewallDomainsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFirewallDomainsResponse {
-        return try await self.client.execute(operation: "ListFirewallDomains", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFirewallDomains", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group.  A single call might return only a partial list of the associations. For information, see MaxResults.
     @Sendable
     public func listFirewallRuleGroupAssociations(_ input: ListFirewallRuleGroupAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFirewallRuleGroupAssociationsResponse {
-        return try await self.client.execute(operation: "ListFirewallRuleGroupAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFirewallRuleGroupAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the minimal high-level information for the rule groups that you have defined.   A single call might return only a partial list of the rule groups. For information, see MaxResults.
     @Sendable
     public func listFirewallRuleGroups(_ input: ListFirewallRuleGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFirewallRuleGroupsResponse {
-        return try await self.client.execute(operation: "ListFirewallRuleGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFirewallRuleGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.  A single call might return only a partial list of the rules. For information, see MaxResults.
     @Sendable
     public func listFirewallRules(_ input: ListFirewallRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFirewallRulesResponse {
-        return try await self.client.execute(operation: "ListFirewallRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFirewallRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the Resolver configurations that you have defined.
     /// 			Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
     @Sendable
     public func listResolverConfigs(_ input: ListResolverConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResolverConfigsResponse {
-        return try await self.client.execute(operation: "ListResolverConfigs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResolverConfigs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
     @Sendable
     public func listResolverDnssecConfigs(_ input: ListResolverDnssecConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResolverDnssecConfigsResponse {
-        return try await self.client.execute(operation: "ListResolverDnssecConfigs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResolverDnssecConfigs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the IP addresses for a specified Resolver endpoint.
     @Sendable
     public func listResolverEndpointIpAddresses(_ input: ListResolverEndpointIpAddressesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResolverEndpointIpAddressesResponse {
-        return try await self.client.execute(operation: "ListResolverEndpointIpAddresses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResolverEndpointIpAddresses", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the Resolver endpoints that were created using the current Amazon Web Services account.
     @Sendable
     public func listResolverEndpoints(_ input: ListResolverEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResolverEndpointsResponse {
-        return try await self.client.execute(operation: "ListResolverEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResolverEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists information about associations between Amazon VPCs and query logging configurations.
     @Sendable
     public func listResolverQueryLogConfigAssociations(_ input: ListResolverQueryLogConfigAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResolverQueryLogConfigAssociationsResponse {
-        return try await self.client.execute(operation: "ListResolverQueryLogConfigAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResolverQueryLogConfigAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save
     /// 			DNS query logs and specifies the VPCs that you want to log queries for.
     @Sendable
     public func listResolverQueryLogConfigs(_ input: ListResolverQueryLogConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResolverQueryLogConfigsResponse {
-        return try await self.client.execute(operation: "ListResolverQueryLogConfigs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResolverQueryLogConfigs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account.
     @Sendable
     public func listResolverRuleAssociations(_ input: ListResolverRuleAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResolverRuleAssociationsResponse {
-        return try await self.client.execute(operation: "ListResolverRuleAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResolverRuleAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Resolver rules that were created using the current Amazon Web Services account.
     @Sendable
     public func listResolverRules(_ input: ListResolverRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResolverRulesResponse {
-        return try await self.client.execute(operation: "ListResolverRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResolverRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags that you associated with the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attaches an Identity and Access Management (Amazon Web Services IAM) policy for sharing the rule
@@ -437,85 +787,176 @@ public struct Route53Resolver: AWSService {
     /// 			(RAM).
     @Sendable
     public func putFirewallRuleGroupPolicy(_ input: PutFirewallRuleGroupPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutFirewallRuleGroupPolicyResponse {
-        return try await self.client.execute(operation: "PutFirewallRuleGroupPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutFirewallRuleGroupPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Specifies an Amazon Web Services account that you want to share a query logging configuration with, the query logging configuration that you want to share,
     /// 			and the operations that you want the account to be able to perform on the configuration.
     @Sendable
     public func putResolverQueryLogConfigPolicy(_ input: PutResolverQueryLogConfigPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResolverQueryLogConfigPolicyResponse {
-        return try await self.client.execute(operation: "PutResolverQueryLogConfigPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutResolverQueryLogConfigPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Specifies an Amazon Web Services rule that you want to share with another account, the account that you want to share the rule with,
     /// 			and the operations that you want the account to be able to perform on the rule.
     @Sendable
     public func putResolverRulePolicy(_ input: PutResolverRulePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResolverRulePolicyResponse {
-        return try await self.client.execute(operation: "PutResolverRulePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutResolverRulePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds one or more tags to a specified resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from a specified resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the configuration of the firewall behavior provided by DNS Firewall for a single
     /// 			VPC from Amazon Virtual Private Cloud (Amazon VPC).
     @Sendable
     public func updateFirewallConfig(_ input: UpdateFirewallConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFirewallConfigResponse {
-        return try await self.client.execute(operation: "UpdateFirewallConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFirewallConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the firewall domain list from an array of domain specifications.
     @Sendable
     public func updateFirewallDomains(_ input: UpdateFirewallDomainsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFirewallDomainsResponse {
-        return try await self.client.execute(operation: "UpdateFirewallDomains", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFirewallDomains", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified firewall rule.
     @Sendable
     public func updateFirewallRule(_ input: UpdateFirewallRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFirewallRuleResponse {
-        return try await self.client.execute(operation: "UpdateFirewallRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFirewallRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS filtering for the VPC.
     @Sendable
     public func updateFirewallRuleGroupAssociation(_ input: UpdateFirewallRuleGroupAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFirewallRuleGroupAssociationResponse {
-        return try await self.client.execute(operation: "UpdateFirewallRuleGroupAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFirewallRuleGroupAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
     /// 				Amazon Virtual Private Cloud.
     @Sendable
     public func updateResolverConfig(_ input: UpdateResolverConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResolverConfigResponse {
-        return try await self.client.execute(operation: "UpdateResolverConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateResolverConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.
     @Sendable
     public func updateResolverDnssecConfig(_ input: UpdateResolverDnssecConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResolverDnssecConfigResponse {
-        return try await self.client.execute(operation: "UpdateResolverDnssecConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateResolverDnssecConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the name, or enpoint type for an inbound or an outbound Resolver endpoint.
     /// 			You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
     @Sendable
     public func updateResolverEndpoint(_ input: UpdateResolverEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResolverEndpointResponse {
-        return try await self.client.execute(operation: "UpdateResolverEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateResolverEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates settings for a specified Resolver rule. ResolverRuleId is required, and all other parameters are optional.
     /// 			If you don't specify a parameter, it retains its current value.
     @Sendable
     public func updateResolverRule(_ input: UpdateResolverRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResolverRuleResponse {
-        return try await self.client.execute(operation: "UpdateResolverRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateResolverRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

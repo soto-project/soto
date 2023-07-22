@@ -68,37 +68,79 @@ public struct AutoScalingPlans: AWSService {
     /// Creates a scaling plan.
     @Sendable
     public func createScalingPlan(_ input: CreateScalingPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScalingPlanResponse {
-        return try await self.client.execute(operation: "CreateScalingPlan", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateScalingPlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified scaling plan. Deleting a scaling plan deletes the underlying ScalingInstruction for all of the scalable resources that are covered by the plan. If the plan has launched resources or has scaling activities in progress, you must delete those resources separately.
     @Sendable
     public func deleteScalingPlan(_ input: DeleteScalingPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteScalingPlanResponse {
-        return try await self.client.execute(operation: "DeleteScalingPlan", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteScalingPlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the scalable resources in the specified scaling plan.
     @Sendable
     public func describeScalingPlanResources(_ input: DescribeScalingPlanResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeScalingPlanResourcesResponse {
-        return try await self.client.execute(operation: "DescribeScalingPlanResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeScalingPlanResources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes one or more of your scaling plans.
     @Sendable
     public func describeScalingPlans(_ input: DescribeScalingPlansRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeScalingPlansResponse {
-        return try await self.client.execute(operation: "DescribeScalingPlans", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeScalingPlans", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the forecast data for a scalable resource. Capacity forecasts are represented as predicted values, or data points, that are calculated using historical data points from a specified CloudWatch load metric. Data points are available for up to 56 days.
     @Sendable
     public func getScalingPlanResourceForecastData(_ input: GetScalingPlanResourceForecastDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetScalingPlanResourceForecastDataResponse {
-        return try await self.client.execute(operation: "GetScalingPlanResourceForecastData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetScalingPlanResourceForecastData", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified scaling plan. You cannot update a scaling plan if it is in the process of being created, updated, or deleted.
     @Sendable
     public func updateScalingPlan(_ input: UpdateScalingPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateScalingPlanResponse {
-        return try await self.client.execute(operation: "UpdateScalingPlan", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateScalingPlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

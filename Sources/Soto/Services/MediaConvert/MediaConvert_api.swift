@@ -79,169 +79,365 @@ public struct MediaConvert: AWSService {
     /// Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
     @Sendable
     public func associateCertificate(_ input: AssociateCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateCertificateResponse {
-        return try await self.client.execute(operation: "AssociateCertificate", path: "/2017-08-29/certificates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateCertificate", 
+            path: "/2017-08-29/certificates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Permanently cancel a job. Once you have canceled a job, you can't start it again.
     @Sendable
     public func cancelJob(_ input: CancelJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelJobResponse {
-        return try await self.client.execute(operation: "CancelJob", path: "/2017-08-29/jobs/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelJob", 
+            path: "/2017-08-29/jobs/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     @Sendable
     public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobResponse {
-        return try await self.client.execute(operation: "CreateJob", path: "/2017-08-29/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateJob", 
+            path: "/2017-08-29/jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     @Sendable
     public func createJobTemplate(_ input: CreateJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobTemplateResponse {
-        return try await self.client.execute(operation: "CreateJobTemplate", path: "/2017-08-29/jobTemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateJobTemplate", 
+            path: "/2017-08-29/jobTemplates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     @Sendable
     public func createPreset(_ input: CreatePresetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePresetResponse {
-        return try await self.client.execute(operation: "CreatePreset", path: "/2017-08-29/presets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePreset", 
+            path: "/2017-08-29/presets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
     @Sendable
     public func createQueue(_ input: CreateQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQueueResponse {
-        return try await self.client.execute(operation: "CreateQueue", path: "/2017-08-29/queues", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateQueue", 
+            path: "/2017-08-29/queues", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Permanently delete a job template you have created.
     @Sendable
     public func deleteJobTemplate(_ input: DeleteJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteJobTemplateResponse {
-        return try await self.client.execute(operation: "DeleteJobTemplate", path: "/2017-08-29/jobTemplates/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteJobTemplate", 
+            path: "/2017-08-29/jobTemplates/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Permanently delete a policy that you created.
     @Sendable
     public func deletePolicy(_ input: DeletePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePolicyResponse {
-        return try await self.client.execute(operation: "DeletePolicy", path: "/2017-08-29/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePolicy", 
+            path: "/2017-08-29/policy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Permanently delete a preset you have created.
     @Sendable
     public func deletePreset(_ input: DeletePresetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePresetResponse {
-        return try await self.client.execute(operation: "DeletePreset", path: "/2017-08-29/presets/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePreset", 
+            path: "/2017-08-29/presets/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Permanently delete a queue you have created.
     @Sendable
     public func deleteQueue(_ input: DeleteQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteQueueResponse {
-        return try await self.client.execute(operation: "DeleteQueue", path: "/2017-08-29/queues/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteQueue", 
+            path: "/2017-08-29/queues/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Send an request with an empty body to the regional API endpoint to get your account API endpoint.
     @Sendable
     public func describeEndpoints(_ input: DescribeEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointsResponse {
-        return try await self.client.execute(operation: "DescribeEndpoints", path: "/2017-08-29/endpoints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEndpoints", 
+            path: "/2017-08-29/endpoints", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
     @Sendable
     public func disassociateCertificate(_ input: DisassociateCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateCertificateResponse {
-        return try await self.client.execute(operation: "DisassociateCertificate", path: "/2017-08-29/certificates/{Arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateCertificate", 
+            path: "/2017-08-29/certificates/{Arn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve the JSON for a specific completed transcoding job.
     @Sendable
     public func getJob(_ input: GetJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobResponse {
-        return try await self.client.execute(operation: "GetJob", path: "/2017-08-29/jobs/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetJob", 
+            path: "/2017-08-29/jobs/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve the JSON for a specific job template.
     @Sendable
     public func getJobTemplate(_ input: GetJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobTemplateResponse {
-        return try await self.client.execute(operation: "GetJobTemplate", path: "/2017-08-29/jobTemplates/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetJobTemplate", 
+            path: "/2017-08-29/jobTemplates/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve the JSON for your policy.
     @Sendable
     public func getPolicy(_ input: GetPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyResponse {
-        return try await self.client.execute(operation: "GetPolicy", path: "/2017-08-29/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPolicy", 
+            path: "/2017-08-29/policy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve the JSON for a specific preset.
     @Sendable
     public func getPreset(_ input: GetPresetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPresetResponse {
-        return try await self.client.execute(operation: "GetPreset", path: "/2017-08-29/presets/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPreset", 
+            path: "/2017-08-29/presets/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve the JSON for a specific queue.
     @Sendable
     public func getQueue(_ input: GetQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueueResponse {
-        return try await self.client.execute(operation: "GetQueue", path: "/2017-08-29/queues/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetQueue", 
+            path: "/2017-08-29/queues/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
     @Sendable
     public func listJobTemplates(_ input: ListJobTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobTemplatesResponse {
-        return try await self.client.execute(operation: "ListJobTemplates", path: "/2017-08-29/jobTemplates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListJobTemplates", 
+            path: "/2017-08-29/jobTemplates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
     @Sendable
     public func listJobs(_ input: ListJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobsResponse {
-        return try await self.client.execute(operation: "ListJobs", path: "/2017-08-29/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListJobs", 
+            path: "/2017-08-29/jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
     @Sendable
     public func listPresets(_ input: ListPresetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPresetsResponse {
-        return try await self.client.execute(operation: "ListPresets", path: "/2017-08-29/presets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPresets", 
+            path: "/2017-08-29/presets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
     @Sendable
     public func listQueues(_ input: ListQueuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueuesResponse {
-        return try await self.client.execute(operation: "ListQueues", path: "/2017-08-29/queues", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListQueues", 
+            path: "/2017-08-29/queues", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve the tags for a MediaConvert resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/2017-08-29/tags/{Arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/2017-08-29/tags/{Arn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     @Sendable
     public func putPolicy(_ input: PutPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPolicyResponse {
-        return try await self.client.execute(operation: "PutPolicy", path: "/2017-08-29/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutPolicy", 
+            path: "/2017-08-29/policy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/2017-08-29/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/2017-08-29/tags", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/2017-08-29/tags/{Arn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/2017-08-29/tags/{Arn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modify one of your existing job templates.
     @Sendable
     public func updateJobTemplate(_ input: UpdateJobTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateJobTemplateResponse {
-        return try await self.client.execute(operation: "UpdateJobTemplate", path: "/2017-08-29/jobTemplates/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateJobTemplate", 
+            path: "/2017-08-29/jobTemplates/{Name}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modify one of your existing presets.
     @Sendable
     public func updatePreset(_ input: UpdatePresetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePresetResponse {
-        return try await self.client.execute(operation: "UpdatePreset", path: "/2017-08-29/presets/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePreset", 
+            path: "/2017-08-29/presets/{Name}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modify one of your existing queues.
     @Sendable
     public func updateQueue(_ input: UpdateQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQueueResponse {
-        return try await self.client.execute(operation: "UpdateQueue", path: "/2017-08-29/queues/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateQueue", 
+            path: "/2017-08-29/queues/{Name}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

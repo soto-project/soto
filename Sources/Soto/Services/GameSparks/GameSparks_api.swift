@@ -64,199 +64,430 @@ public struct GameSparks: AWSService {
     ///  Creates a new game with an empty configuration. After creating your game, you can update the configuration using UpdateGameConfiguration or ImportGameConfiguration.
     @Sendable
     public func createGame(_ input: CreateGameRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGameResult {
-        return try await self.client.execute(operation: "CreateGame", path: "/game", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateGame", 
+            path: "/game", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a snapshot of the game configuration.
     @Sendable
     public func createSnapshot(_ input: CreateSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSnapshotResult {
-        return try await self.client.execute(operation: "CreateSnapshot", path: "/game/{GameName}/snapshot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSnapshot", 
+            path: "/game/{GameName}/snapshot", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new stage for stage-by-stage game development and deployment.
     @Sendable
     public func createStage(_ input: CreateStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStageResult {
-        return try await self.client.execute(operation: "CreateStage", path: "/game/{GameName}/stage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateStage", 
+            path: "/game/{GameName}/stage", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a game.
     @Sendable
     public func deleteGame(_ input: DeleteGameRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGameResult {
-        return try await self.client.execute(operation: "DeleteGame", path: "/game/{GameName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteGame", 
+            path: "/game/{GameName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a stage from a game, along with the associated game runtime.
     @Sendable
     public func deleteStage(_ input: DeleteStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStageResult {
-        return try await self.client.execute(operation: "DeleteStage", path: "/game/{GameName}/stage/{StageName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteStage", 
+            path: "/game/{GameName}/stage/{StageName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disconnects a player from the game runtime.  If a player has multiple connections, this operation attempts to close all of them.
     @Sendable
     public func disconnectPlayer(_ input: DisconnectPlayerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisconnectPlayerResult {
-        return try await self.client.execute(operation: "DisconnectPlayer", path: "/runtime/game/{GameName}/stage/{StageName}/player/{PlayerId}/disconnect", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisconnectPlayer", 
+            path: "/runtime/game/{GameName}/stage/{StageName}/player/{PlayerId}/disconnect", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Exports a game configuration snapshot.
     @Sendable
     public func exportSnapshot(_ input: ExportSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportSnapshotResult {
-        return try await self.client.execute(operation: "ExportSnapshot", path: "/game/{GameName}/snapshot/{SnapshotId}/export", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ExportSnapshot", 
+            path: "/game/{GameName}/snapshot/{SnapshotId}/export", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details about a specified extension.
     @Sendable
     public func getExtension(_ input: GetExtensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetExtensionResult {
-        return try await self.client.execute(operation: "GetExtension", path: "/extension/{Namespace}/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetExtension", 
+            path: "/extension/{Namespace}/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details about a specified extension version.
     @Sendable
     public func getExtensionVersion(_ input: GetExtensionVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetExtensionVersionResult {
-        return try await self.client.execute(operation: "GetExtensionVersion", path: "/extension/{Namespace}/{Name}/version/{ExtensionVersion}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetExtensionVersion", 
+            path: "/extension/{Namespace}/{Name}/version/{ExtensionVersion}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details about a game.
     @Sendable
     public func getGame(_ input: GetGameRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGameResult {
-        return try await self.client.execute(operation: "GetGame", path: "/game/{GameName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetGame", 
+            path: "/game/{GameName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the configuration of the game.
     @Sendable
     public func getGameConfiguration(_ input: GetGameConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGameConfigurationResult {
-        return try await self.client.execute(operation: "GetGameConfiguration", path: "/game/{GameName}/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetGameConfiguration", 
+            path: "/game/{GameName}/configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details about a job that is generating code for a snapshot.
     @Sendable
     public func getGeneratedCodeJob(_ input: GetGeneratedCodeJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGeneratedCodeJobResult {
-        return try await self.client.execute(operation: "GetGeneratedCodeJob", path: "/game/{GameName}/snapshot/{SnapshotId}/generated-sdk-code-job/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetGeneratedCodeJob", 
+            path: "/game/{GameName}/snapshot/{SnapshotId}/generated-sdk-code-job/{JobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the status of a player's connection to the game runtime.  It's possible for a single player to have multiple connections to the game runtime. If a player is not connected, this operation returns an empty list.
     @Sendable
     public func getPlayerConnectionStatus(_ input: GetPlayerConnectionStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPlayerConnectionStatusResult {
-        return try await self.client.execute(operation: "GetPlayerConnectionStatus", path: "/runtime/game/{GameName}/stage/{StageName}/player/{PlayerId}/connection", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPlayerConnectionStatus", 
+            path: "/runtime/game/{GameName}/stage/{StageName}/player/{PlayerId}/connection", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a copy of the game configuration in a snapshot.
     @Sendable
     public func getSnapshot(_ input: GetSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSnapshotResult {
-        return try await self.client.execute(operation: "GetSnapshot", path: "/game/{GameName}/snapshot/{SnapshotId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSnapshot", 
+            path: "/game/{GameName}/snapshot/{SnapshotId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a stage.
     @Sendable
     public func getStage(_ input: GetStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStageResult {
-        return try await self.client.execute(operation: "GetStage", path: "/game/{GameName}/stage/{StageName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetStage", 
+            path: "/game/{GameName}/stage/{StageName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a stage deployment.
     @Sendable
     public func getStageDeployment(_ input: GetStageDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStageDeploymentResult {
-        return try await self.client.execute(operation: "GetStageDeployment", path: "/game/{GameName}/stage/{StageName}/deployment", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetStageDeployment", 
+            path: "/game/{GameName}/stage/{StageName}/deployment", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Imports a game configuration.  This operation replaces the current configuration of the game with the provided input. This is not a reversible operation. If you want to preserve the previous configuration, use CreateSnapshot to make a new snapshot before importing.
     @Sendable
     public func importGameConfiguration(_ input: ImportGameConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportGameConfigurationResult {
-        return try await self.client.execute(operation: "ImportGameConfiguration", path: "/game/{GameName}/configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportGameConfiguration", 
+            path: "/game/{GameName}/configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a paginated list of available versions for the extension.  Each time an API change is made to an extension, the version is incremented. The list retrieved by this operation shows the versions that are currently available.
     @Sendable
     public func listExtensionVersions(_ input: ListExtensionVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExtensionVersionsResult {
-        return try await self.client.execute(operation: "ListExtensionVersions", path: "/extension/{Namespace}/{Name}/version", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListExtensionVersions", 
+            path: "/extension/{Namespace}/{Name}/version", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a paginated list of available extensions.  Extensions provide features that games can use from scripts.
     @Sendable
     public func listExtensions(_ input: ListExtensionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExtensionsResult {
-        return try await self.client.execute(operation: "ListExtensions", path: "/extension", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListExtensions", 
+            path: "/extension", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a paginated list of games.
     @Sendable
     public func listGames(_ input: ListGamesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGamesResult {
-        return try await self.client.execute(operation: "ListGames", path: "/game", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGames", 
+            path: "/game", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a paginated list of code generation jobs for a snapshot.
     @Sendable
     public func listGeneratedCodeJobs(_ input: ListGeneratedCodeJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGeneratedCodeJobsResult {
-        return try await self.client.execute(operation: "ListGeneratedCodeJobs", path: "/game/{GameName}/snapshot/{SnapshotId}/generated-sdk-code-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGeneratedCodeJobs", 
+            path: "/game/{GameName}/snapshot/{SnapshotId}/generated-sdk-code-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a paginated list of snapshot summaries from the game.
     @Sendable
     public func listSnapshots(_ input: ListSnapshotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSnapshotsResult {
-        return try await self.client.execute(operation: "ListSnapshots", path: "/game/{GameName}/snapshot", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSnapshots", 
+            path: "/game/{GameName}/snapshot", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a paginated list of stage deployment summaries from the game.
     @Sendable
     public func listStageDeployments(_ input: ListStageDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStageDeploymentsResult {
-        return try await self.client.execute(operation: "ListStageDeployments", path: "/game/{GameName}/stage/{StageName}/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListStageDeployments", 
+            path: "/game/{GameName}/stage/{StageName}/deployments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a paginated list of stage summaries from the game.
     @Sendable
     public func listStages(_ input: ListStagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStagesResult {
-        return try await self.client.execute(operation: "ListStages", path: "/game/{GameName}/stage", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListStages", 
+            path: "/game/{GameName}/stage", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags associated with a GameSparks resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResult {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Starts an asynchronous process that generates client code for system-defined and custom messages. The resulting code is collected as a .zip file and uploaded to a pre-signed Amazon S3 URL.
     @Sendable
     public func startGeneratedCodeJob(_ input: StartGeneratedCodeJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartGeneratedCodeJobResult {
-        return try await self.client.execute(operation: "StartGeneratedCodeJob", path: "/game/{GameName}/snapshot/{SnapshotId}/generated-sdk-code-job", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartGeneratedCodeJob", 
+            path: "/game/{GameName}/snapshot/{SnapshotId}/generated-sdk-code-job", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deploys a snapshot to the stage and creates a new game runtime.  After you call this operation, you can check the deployment status by using GetStageDeployment.   If there are any players connected to the previous game runtime, then both runtimes persist. Existing connections to the previous runtime are maintained. When players disconnect and reconnect, they connect to the new runtime. After there are no connections to the previous game runtime, it is deleted.
     @Sendable
     public func startStageDeployment(_ input: StartStageDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartStageDeploymentResult {
-        return try await self.client.execute(operation: "StartStageDeployment", path: "/game/{GameName}/stage/{StageName}/deployment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartStageDeployment", 
+            path: "/game/{GameName}/stage/{StageName}/deployment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds tags to a GameSparks resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResult {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from a GameSparks resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResult {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates details of the game.
     @Sendable
     public func updateGame(_ input: UpdateGameRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGameResult {
-        return try await self.client.execute(operation: "UpdateGame", path: "/game/{GameName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateGame", 
+            path: "/game/{GameName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates one or more sections of the game configuration.
     @Sendable
     public func updateGameConfiguration(_ input: UpdateGameConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGameConfigurationResult {
-        return try await self.client.execute(operation: "UpdateGameConfiguration", path: "/game/{GameName}/configuration", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateGameConfiguration", 
+            path: "/game/{GameName}/configuration", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the metadata of a GameSparks snapshot.
     @Sendable
     public func updateSnapshot(_ input: UpdateSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSnapshotResult {
-        return try await self.client.execute(operation: "UpdateSnapshot", path: "/game/{GameName}/snapshot/{SnapshotId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSnapshot", 
+            path: "/game/{GameName}/snapshot/{SnapshotId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the metadata of a stage.
     @Sendable
     public func updateStage(_ input: UpdateStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStageResult {
-        return try await self.client.execute(operation: "UpdateStage", path: "/game/{GameName}/stage/{StageName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateStage", 
+            path: "/game/{GameName}/stage/{StageName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -78,277 +78,599 @@ public struct CloudTrail: AWSService {
     /// Adds one or more tags to a trail, event data store, or channel, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region in which the trail or event data store was created (also known as its home Region).
     @Sendable
     public func addTags(_ input: AddTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddTagsResponse {
-        return try await self.client.execute(operation: "AddTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddTags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels a query if the query is not in a terminated state, such as CANCELLED, FAILED, TIMED_OUT, or FINISHED. You must specify an ARN value for EventDataStore. The ID of the query that you want to cancel is also required. When you run CancelQuery, the query status might show as CANCELLED even if the operation is not yet finished.
     @Sendable
     public func cancelQuery(_ input: CancelQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelQueryResponse {
-        return try await self.client.execute(operation: "CancelQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a channel for CloudTrail to ingest events from a partner or external source.  After you create a channel, a CloudTrail Lake event data store can log events  from the partner or source that you specify.
     @Sendable
     public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChannelResponse {
-        return try await self.client.execute(operation: "CreateChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateChannel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new event data store.
     @Sendable
     public func createEventDataStore(_ input: CreateEventDataStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEventDataStoreResponse {
-        return try await self.client.execute(operation: "CreateEventDataStore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEventDataStore", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a trail that specifies the settings for delivery of log data to an Amazon S3 bucket.
     @Sendable
     public func createTrail(_ input: CreateTrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrailResponse {
-        return try await self.client.execute(operation: "CreateTrail", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTrail", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a channel.
     @Sendable
     public func deleteChannel(_ input: DeleteChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChannelResponse {
-        return try await self.client.execute(operation: "DeleteChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteChannel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables the event data store specified by EventDataStore, which accepts an event data store ARN. After you run DeleteEventDataStore, the event data store enters a PENDING_DELETION state, and is automatically deleted after a wait period of seven days. TerminationProtectionEnabled must be set to False on the event data store; this operation cannot work if TerminationProtectionEnabled is True. After you run DeleteEventDataStore on an event data store, you cannot run ListQueries, DescribeQuery, or GetQueryResults on queries that are using an event data store in a PENDING_DELETION state. An event data store in the PENDING_DELETION state does not incur costs.
     @Sendable
     public func deleteEventDataStore(_ input: DeleteEventDataStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEventDataStoreResponse {
-        return try await self.client.execute(operation: "DeleteEventDataStore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEventDataStore", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Deletes the resource-based policy attached to the CloudTrail channel.
     @Sendable
     public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
-        return try await self.client.execute(operation: "DeleteResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a trail. This operation must be called from the Region in which the trail was created. DeleteTrail cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions.
     @Sendable
     public func deleteTrail(_ input: DeleteTrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTrailResponse {
-        return try await self.client.execute(operation: "DeleteTrail", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTrail", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes CloudTrail delegated administrator permissions from a member account in an organization.
     @Sendable
     public func deregisterOrganizationDelegatedAdmin(_ input: DeregisterOrganizationDelegatedAdminRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterOrganizationDelegatedAdminResponse {
-        return try await self.client.execute(operation: "DeregisterOrganizationDelegatedAdmin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeregisterOrganizationDelegatedAdmin", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. You must specify an ARN for EventDataStore, and a value for QueryID.
     @Sendable
     public func describeQuery(_ input: DescribeQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQueryResponse {
-        return try await self.client.execute(operation: "DescribeQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves settings for one or more trails associated with the current Region for your account.
     @Sendable
     public func describeTrails(_ input: DescribeTrailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTrailsResponse {
-        return try await self.client.execute(operation: "DescribeTrails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTrails", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns information about a specific channel.
     @Sendable
     public func getChannel(_ input: GetChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChannelResponse {
-        return try await self.client.execute(operation: "GetChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetChannel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about an event data store specified as either an ARN or the ID portion of the ARN.
     @Sendable
     public func getEventDataStore(_ input: GetEventDataStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEventDataStoreResponse {
-        return try await self.client.execute(operation: "GetEventDataStore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetEventDataStore", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following:   If your event selector includes read-only events, write-only events, or all events. This applies to both management events and data events.   If your event selector includes management events.   If your event selector includes data events, the resources on which you are logging data events.   For more information about logging management and data events, see the following topics in the CloudTrail User Guide:    Logging management events     Logging data events
     @Sendable
     public func getEventSelectors(_ input: GetEventSelectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEventSelectorsResponse {
-        return try await self.client.execute(operation: "GetEventSelectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetEventSelectors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns information about a specific import.
     @Sendable
     public func getImport(_ input: GetImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImportResponse {
-        return try await self.client.execute(operation: "GetImport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetImport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the settings for the Insights event selectors that you configured for your trail. GetInsightSelectors shows if CloudTrail Insights event logging is enabled on the trail, and if it is, which insight types are enabled. If you run GetInsightSelectors on a trail that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException  For more information, see Logging CloudTrail Insights Events for Trails  in the CloudTrail User Guide.
     @Sendable
     public func getInsightSelectors(_ input: GetInsightSelectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInsightSelectorsResponse {
-        return try await self.client.execute(operation: "GetInsightSelectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetInsightSelectors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation, and an ARN for EventDataStore.
     @Sendable
     public func getQueryResults(_ input: GetQueryResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryResultsResponse {
-        return try await self.client.execute(operation: "GetQueryResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetQueryResults", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Retrieves the JSON text of the resource-based policy document attached to the CloudTrail channel.
     @Sendable
     public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
-        return try await self.client.execute(operation: "GetResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns settings information for a specified trail.
     @Sendable
     public func getTrail(_ input: GetTrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrailResponse {
-        return try await self.client.execute(operation: "GetTrail", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTrail", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a JSON-formatted list of information about the specified trail. Fields include information on delivery errors, Amazon SNS and Amazon S3 errors, and start and stop logging times for each trail. This operation returns trail status from a single Region. To return trail status from all Regions, you must call the operation on each Region.
     @Sendable
     public func getTrailStatus(_ input: GetTrailStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrailStatusResponse {
-        return try await self.client.execute(operation: "GetTrailStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTrailStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Lists the channels in the current account, and their source names.
     @Sendable
     public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelsResponse {
-        return try await self.client.execute(operation: "ListChannels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListChannels", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about all event data stores in the account, in the current Region.
     @Sendable
     public func listEventDataStores(_ input: ListEventDataStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEventDataStoresResponse {
-        return try await self.client.execute(operation: "ListEventDataStores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEventDataStores", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns a list of failures for the specified import.
     @Sendable
     public func listImportFailures(_ input: ListImportFailuresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportFailuresResponse {
-        return try await self.client.execute(operation: "ListImportFailures", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImportFailures", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns information on all imports, or a select set of imports by ImportStatus or Destination.
     @Sendable
     public func listImports(_ input: ListImportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportsResponse {
-        return try await self.client.execute(operation: "ListImports", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImports", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns all public keys whose private keys were used to sign the digest files within the specified time range. The public key is needed to validate digest files that were signed with its corresponding private key.  CloudTrail uses different private and public key pairs per Region. Each digest file is signed with a private key unique to its Region. When you validate a digest file from a specific Region, you must look in the same Region for its corresponding public key.
     @Sendable
     public func listPublicKeys(_ input: ListPublicKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPublicKeysResponse {
-        return try await self.client.execute(operation: "ListPublicKeys", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPublicKeys", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for EventDataStore. Optionally, to shorten the list of results, you can specify a time range, formatted as timestamps, by adding StartTime and EndTime parameters, and a QueryStatus value. Valid values for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
     @Sendable
     public func listQueries(_ input: ListQueriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueriesResponse {
-        return try await self.client.execute(operation: "ListQueries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListQueries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags for the specified trails, event data stores, or channels in the current Region.
     @Sendable
     public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsResponse {
-        return try await self.client.execute(operation: "ListTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists trails that are in the current account.
     @Sendable
     public func listTrails(_ input: ListTrailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrailsResponse {
-        return try await self.client.execute(operation: "ListTrails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTrails", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Looks up management events or CloudTrail Insights events that are captured by CloudTrail. You can look up events that occurred in a Region within the last 90 days. Lookup supports the following attributes for management events:   Amazon Web Services access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   Lookup supports the following attributes for Insights events:   Event ID   Event name   Event source   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to two per second, per account, per Region. If this limit is exceeded, a throttling error occurs.
     @Sendable
     public func lookupEvents(_ input: LookupEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LookupEventsResponse {
-        return try await self.client.execute(operation: "LookupEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "LookupEvents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Configures an event selector or advanced event selectors for your trail. Use event selectors or advanced event selectors to specify management and data event settings for your trail. If you want your trail to log Insights events, be sure the event selector  enables logging of the Insights event types you want configured for your trail. For more information about logging Insights events, see Logging Insights events for trails in the CloudTrail User Guide. By default, trails created without specific event selectors are configured to log all read and write management events, and no data events. When an event occurs in your account, CloudTrail evaluates the event selectors or advanced event selectors in all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event. Example   You create an event selector for a trail and specify that you want write-only events.   The EC2 GetConsoleOutput and RunInstances API operations occur in your account.   CloudTrail evaluates whether the events match your event selectors.   The RunInstances is a write-only event and it matches your event selector. The trail logs the event.   The GetConsoleOutput is a read-only event that doesn't match your event selector. The trail doesn't log the event.    The PutEventSelectors operation must be called from the Region in which the trail was created; otherwise, an InvalidHomeRegionException exception is thrown. You can configure up to five event selectors for each trail. For more information, see Logging management events, Logging data events, and Quotas in CloudTrail in the CloudTrail User Guide. You can add advanced event selectors, and conditions for your advanced event selectors, up to a maximum of 500 values for all conditions and selectors on a trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. For more information about advanced event selectors, see Logging data events in the CloudTrail User Guide.
     @Sendable
     public func putEventSelectors(_ input: PutEventSelectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEventSelectorsResponse {
-        return try await self.client.execute(operation: "PutEventSelectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutEventSelectors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lets you enable Insights event logging by specifying the Insights selectors that you want to enable on an existing trail. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of insight types. The valid Insights event types in this release are ApiErrorRateInsight and ApiCallRateInsight. To log CloudTrail Insights events on API call volume, the trail must log write management events. To log CloudTrail Insights events on API error rate, the trail must log read or write management events. You can call GetEventSelectors on a trail  to check whether the trail logs management events.
     @Sendable
     public func putInsightSelectors(_ input: PutInsightSelectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutInsightSelectorsResponse {
-        return try await self.client.execute(operation: "PutInsightSelectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutInsightSelectors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Attaches a resource-based permission policy to a CloudTrail channel that is used for an integration with an event source outside of Amazon Web Services. For more information about resource-based policies, see  CloudTrail resource-based policy examples  in the CloudTrail User Guide.
     @Sendable
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
-        return try await self.client.execute(operation: "PutResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers an organization’s member account as the CloudTrail delegated administrator.
     @Sendable
     public func registerOrganizationDelegatedAdmin(_ input: RegisterOrganizationDelegatedAdminRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterOrganizationDelegatedAdminResponse {
-        return try await self.client.execute(operation: "RegisterOrganizationDelegatedAdmin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterOrganizationDelegatedAdmin", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified tags from a trail, event data store, or channel.
     @Sendable
     public func removeTags(_ input: RemoveTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveTagsResponse {
-        return try await self.client.execute(operation: "RemoveTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveTags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Restores a deleted event data store specified by EventDataStore, which accepts an event data store ARN. You can only restore a deleted event data store within the seven-day wait period after deletion. Restoring an event data store can take several minutes, depending on the size of the event data store.
     @Sendable
     public func restoreEventDataStore(_ input: RestoreEventDataStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreEventDataStoreResponse {
-        return try await self.client.execute(operation: "RestoreEventDataStore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RestoreEventDataStore", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To start ingestion, the event data store Status must be STOPPED_INGESTION  and the eventCategory must be Management, Data, or ConfigurationItem.
     @Sendable
     public func startEventDataStoreIngestion(_ input: StartEventDataStoreIngestionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartEventDataStoreIngestionResponse {
-        return try await self.client.execute(operation: "StartEventDataStoreIngestion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartEventDataStoreIngestion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Starts an import of logged trail events from a source S3 bucket to a destination event data store. By default, CloudTrail only imports events contained in the S3 bucket's CloudTrail prefix and the prefixes inside the CloudTrail prefix, and does not check prefixes for other Amazon Web Services services. If you want to import CloudTrail events contained in another prefix, you must include the prefix in the S3LocationUri. For more considerations about importing trail events, see Considerations.  When you start a new import, the Destinations and ImportSource parameters are required. Before starting a new import, disable any access control lists (ACLs) attached to the source S3 bucket. For more information about disabling ACLs, see Controlling ownership of objects and disabling ACLs for your bucket.  When you retry an import, the ImportID parameter is required.   If the destination event data store is for an organization, you must use the management account to import trail events. You cannot use the delegated administrator account for the organization.
     @Sendable
     public func startImport(_ input: StartImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImportResponse {
-        return try await self.client.execute(operation: "StartImport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartImport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts the recording of Amazon Web Services API calls and log file delivery for a trail. For a trail that is enabled in all Regions, this operation must be called from the Region in which the trail was created. This operation cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions.
     @Sendable
     public func startLogging(_ input: StartLoggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartLoggingResponse {
-        return try await self.client.execute(operation: "StartLogging", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartLogging", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a CloudTrail Lake query. The required QueryStatement parameter provides your SQL query, enclosed in single quotation marks. Use the optional DeliveryS3Uri parameter to deliver the query results to an S3 bucket.
     @Sendable
     public func startQuery(_ input: StartQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQueryResponse {
-        return try await self.client.execute(operation: "StartQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To stop ingestion, the event data store Status must be ENABLED  and the eventCategory must be Management, Data, or ConfigurationItem.
     @Sendable
     public func stopEventDataStoreIngestion(_ input: StopEventDataStoreIngestionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopEventDataStoreIngestionResponse {
-        return try await self.client.execute(operation: "StopEventDataStoreIngestion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopEventDataStoreIngestion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Stops a specified import.
     @Sendable
     public func stopImport(_ input: StopImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopImportResponse {
-        return try await self.client.execute(operation: "StopImport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopImport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Suspends the recording of Amazon Web Services API calls and log file delivery for the specified trail. Under most circumstances, there is no need to use this action. You can update a trail without stopping it first. This action is the only way to stop recording. For a trail enabled in all Regions, this operation must be called from the Region in which the trail was created, or an InvalidHomeRegionException will occur. This operation cannot be called on the shadow trails (replicated trails in other Regions) of a trail enabled in all Regions.
     @Sendable
     public func stopLogging(_ input: StopLoggingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopLoggingResponse {
-        return try await self.client.execute(operation: "StopLogging", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopLogging", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a channel specified by a required channel ARN or UUID.
     @Sendable
     public func updateChannel(_ input: UpdateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelResponse {
-        return try await self.client.execute(operation: "UpdateChannel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateChannel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers between 90 and 2557. By default, TerminationProtection is enabled. For event data stores for CloudTrail events, AdvancedEventSelectors includes or excludes management and data events in your event data store. For more information about AdvancedEventSelectors, see PutEventSelectorsRequest$AdvancedEventSelectors.  For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that type in your event data store.
     @Sendable
     public func updateEventDataStore(_ input: UpdateEventDataStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEventDataStoreResponse {
-        return try await self.client.execute(operation: "UpdateEventDataStore", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEventDataStore", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates trail settings that control what events you are logging, and how to handle log files. Changes to a trail do not require stopping the CloudTrail service. Use this action to designate an existing bucket for log delivery. If the existing bucket has previously been a target for CloudTrail log files, an IAM policy exists for the bucket. UpdateTrail must be called from the Region in which the trail was created; otherwise, an InvalidHomeRegionException is thrown.
     @Sendable
     public func updateTrail(_ input: UpdateTrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTrailResponse {
-        return try await self.client.execute(operation: "UpdateTrail", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTrail", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

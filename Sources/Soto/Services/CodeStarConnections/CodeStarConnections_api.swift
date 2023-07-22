@@ -67,73 +67,157 @@ public struct CodeStarConnections: AWSService {
     /// Creates a connection that can then be given to other AWS services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
     @Sendable
     public func createConnection(_ input: CreateConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectionOutput {
-        return try await self.client.execute(operation: "CreateConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a resource that represents the infrastructure where a third-party provider is installed. The host is used when you create connections to an installed third-party provider type, such as GitHub Enterprise Server. You create one host for all connections to that provider.  A host created through the CLI or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by setting up the host in the console.
     @Sendable
     public func createHost(_ input: CreateHostInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHostOutput {
-        return try await self.client.execute(operation: "CreateHost", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateHost", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The connection to be deleted.
     @Sendable
     public func deleteConnection(_ input: DeleteConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConnectionOutput {
-        return try await self.client.execute(operation: "DeleteConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The host to be deleted. Before you delete a host, all connections associated to the host must be deleted.  A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state.
     @Sendable
     public func deleteHost(_ input: DeleteHostInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteHostOutput {
-        return try await self.client.execute(operation: "DeleteHost", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteHost", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the connection ARN and details such as status, owner, and provider type.
     @Sendable
     public func getConnection(_ input: GetConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionOutput {
-        return try await self.client.execute(operation: "GetConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the host ARN and details such as status, provider type, endpoint, and, if applicable, the VPC configuration.
     @Sendable
     public func getHost(_ input: GetHostInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHostOutput {
-        return try await self.client.execute(operation: "GetHost", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetHost", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the connections associated with your account.
     @Sendable
     public func listConnections(_ input: ListConnectionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectionsOutput {
-        return try await self.client.execute(operation: "ListConnections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConnections", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the hosts associated with your account.
     @Sendable
     public func listHosts(_ input: ListHostsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHostsOutput {
-        return try await self.client.execute(operation: "ListHosts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListHosts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     @Sendable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from an AWS resource.
     @Sendable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a specified host with the provided configurations.
     @Sendable
     public func updateHost(_ input: UpdateHostInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHostOutput {
-        return try await self.client.execute(operation: "UpdateHost", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateHost", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

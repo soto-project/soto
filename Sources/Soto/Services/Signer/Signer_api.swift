@@ -88,7 +88,14 @@ public struct Signer: AWSService {
     /// Adds cross-account permissions to a signing profile.
     @Sendable
     public func addProfilePermission(_ input: AddProfilePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddProfilePermissionResponse {
-        return try await self.client.execute(operation: "AddProfilePermission", path: "/signing-profiles/{profileName}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddProfilePermission", 
+            path: "/signing-profiles/{profileName}/permissions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes the state of an ACTIVE signing profile to CANCELED.
@@ -97,7 +104,14 @@ public struct Signer: AWSService {
     /// 			cancelation.
     @Sendable
     public func cancelSigningProfile(_ input: CancelSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "CancelSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelSigningProfile", 
+            path: "/signing-profiles/{profileName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a specific code signing job. You specify the job by using the
@@ -105,7 +119,14 @@ public struct Signer: AWSService {
     /// 			operation.
     @Sendable
     public func describeSigningJob(_ input: DescribeSigningJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSigningJobResponse {
-        return try await self.client.execute(operation: "DescribeSigningJob", path: "/signing-jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSigningJob", 
+            path: "/signing-jobs/{jobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the
@@ -113,25 +134,54 @@ public struct Signer: AWSService {
     /// 			certificate.
     @Sendable
     public func getRevocationStatus(_ input: GetRevocationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRevocationStatusResponse {
-        return try await self.client.execute(operation: "GetRevocationStatus", path: "/revocations", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "verification.", logger: logger)
+        return try await self.client.execute(
+            operation: "GetRevocationStatus", 
+            path: "/revocations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "verification.", 
+            logger: logger
+        )
     }
 
     /// Returns information on a specific signing platform.
     @Sendable
     public func getSigningPlatform(_ input: GetSigningPlatformRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSigningPlatformResponse {
-        return try await self.client.execute(operation: "GetSigningPlatform", path: "/signing-platforms/{platformId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSigningPlatform", 
+            path: "/signing-platforms/{platformId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information on a specific signing profile.
     @Sendable
     public func getSigningProfile(_ input: GetSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSigningProfileResponse {
-        return try await self.client.execute(operation: "GetSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSigningProfile", 
+            path: "/signing-profiles/{profileName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the cross-account permissions associated with a signing profile.
     @Sendable
     public func listProfilePermissions(_ input: ListProfilePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProfilePermissionsResponse {
-        return try await self.client.execute(operation: "ListProfilePermissions", path: "/signing-profiles/{profileName}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProfilePermissions", 
+            path: "/signing-profiles/{profileName}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all your signing jobs. You can use the maxResults parameter to
@@ -143,7 +193,14 @@ public struct Signer: AWSService {
     /// 			parameter until all of your signing jobs have been returned.
     @Sendable
     public func listSigningJobs(_ input: ListSigningJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSigningJobsResponse {
-        return try await self.client.execute(operation: "ListSigningJobs", path: "/signing-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSigningJobs", 
+            path: "/signing-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all signing platforms available in code signing that match the request parameters. If
@@ -155,7 +212,14 @@ public struct Signer: AWSService {
     /// 			returned.
     @Sendable
     public func listSigningPlatforms(_ input: ListSigningPlatformsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSigningPlatformsResponse {
-        return try await self.client.execute(operation: "ListSigningPlatforms", path: "/signing-platforms", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSigningPlatforms", 
+            path: "/signing-platforms", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all available signing profiles in your AWS account. Returns only profiles with
@@ -168,13 +232,27 @@ public struct Signer: AWSService {
     /// 			signing jobs have been returned.
     @Sendable
     public func listSigningProfiles(_ input: ListSigningProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSigningProfilesResponse {
-        return try await self.client.execute(operation: "ListSigningProfiles", path: "/signing-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSigningProfiles", 
+            path: "/signing-profiles", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the tags associated with a signing profile resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a signing profile. A signing profile is a code signing template that can be used to
@@ -182,20 +260,41 @@ public struct Signer: AWSService {
     ///
     @Sendable
     public func putSigningProfile(_ input: PutSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutSigningProfileResponse {
-        return try await self.client.execute(operation: "PutSigningProfile", path: "/signing-profiles/{profileName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutSigningProfile", 
+            path: "/signing-profiles/{profileName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes cross-account permissions from a signing profile.
     @Sendable
     public func removeProfilePermission(_ input: RemoveProfilePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveProfilePermissionResponse {
-        return try await self.client.execute(operation: "RemoveProfilePermission", path: "/signing-profiles/{profileName}/permissions/{statementId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveProfilePermission", 
+            path: "/signing-profiles/{profileName}/permissions/{statementId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes the state of a signing job to REVOKED. This indicates that the signature is no
     /// 			longer valid.
     @Sendable
     public func revokeSignature(_ input: RevokeSignatureRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RevokeSignature", path: "/signing-jobs/{jobId}/revoke", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RevokeSignature", 
+            path: "/signing-jobs/{jobId}/revoke", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes the state of a signing profile to REVOKED. This indicates that signatures
@@ -203,14 +302,28 @@ public struct Signer: AWSService {
     /// 			valid.
     @Sendable
     public func revokeSigningProfile(_ input: RevokeSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RevokeSigningProfile", path: "/signing-profiles/{profileName}/revoke", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RevokeSigningProfile", 
+            path: "/signing-profiles/{profileName}/revoke", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Signs a binary
     /// 			payload and returns a signature envelope.
     @Sendable
     public func signPayload(_ input: SignPayloadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SignPayloadResponse {
-        return try await self.client.execute(operation: "SignPayload", path: "/signing-jobs/with-payload", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SignPayload", 
+            path: "/signing-jobs/with-payload", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Initiates a signing job to be performed on the code provided. Signing jobs are
@@ -236,7 +349,14 @@ public struct Signer: AWSService {
     /// 		       For a Java example that shows how to use this action, see StartSigningJob.
     @Sendable
     public func startSigningJob(_ input: StartSigningJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSigningJobResponse {
-        return try await self.client.execute(operation: "StartSigningJob", path: "/signing-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartSigningJob", 
+            path: "/signing-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds one or more tags to a signing profile. Tags are labels that you can use to
@@ -245,14 +365,28 @@ public struct Signer: AWSService {
     /// 			the tag, use a key-value pair.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from a signing profile. To remove the tags, specify a list of
     /// 			tag keys.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

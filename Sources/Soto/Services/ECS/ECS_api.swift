@@ -92,7 +92,14 @@ public struct ECS: AWSService {
     /// 			supports.
     @Sendable
     public func createCapacityProvider(_ input: CreateCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCapacityProviderResponse {
-        return try await self.client.execute(operation: "CreateCapacityProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCapacityProvider", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new Amazon ECS cluster. By default, your account receives a default
@@ -105,7 +112,14 @@ public struct ECS: AWSService {
     /// 					service-linked roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterResponse {
-        return try await self.client.execute(operation: "CreateCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Runs and maintains your desired number of tasks from a specified task definition. If
@@ -168,7 +182,14 @@ public struct ECS: AWSService {
     /// 				task placement in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func createService(_ input: CreateServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceResponse {
-        return try await self.client.execute(operation: "CreateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateService", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a task set in the specified cluster and service. This is used when a service
@@ -177,20 +198,41 @@ public struct ECS: AWSService {
     /// 				types in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func createTaskSet(_ input: CreateTaskSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTaskSetResponse {
-        return try await self.client.execute(operation: "CreateTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTaskSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables an account setting for a specified  user, role, or the root user for
     /// 			an account.
     @Sendable
     public func deleteAccountSetting(_ input: DeleteAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAccountSettingResponse {
-        return try await self.client.execute(operation: "DeleteAccountSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAccountSetting", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes one or more custom attributes from an Amazon ECS resource.
     @Sendable
     public func deleteAttributes(_ input: DeleteAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAttributesResponse {
-        return try await self.client.execute(operation: "DeleteAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAttributes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified capacity provider.  The FARGATE and FARGATE_SPOT capacity providers are
@@ -206,7 +248,14 @@ public struct ECS: AWSService {
     /// 			a capacity provider from a cluster, you can either use PutClusterCapacityProviders or delete the cluster.
     @Sendable
     public func deleteCapacityProvider(_ input: DeleteCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCapacityProviderResponse {
-        return try await self.client.execute(operation: "DeleteCapacityProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCapacityProvider", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified cluster. The cluster transitions to the INACTIVE
@@ -216,7 +265,14 @@ public struct ECS: AWSService {
     /// 			it. You can list the container instances in a cluster with ListContainerInstances and deregister them with DeregisterContainerInstance.
     @Sendable
     public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterResponse {
-        return try await self.client.execute(operation: "DeleteCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified service within a cluster. You can delete a service if you have no
@@ -236,7 +292,14 @@ public struct ECS: AWSService {
     /// 				error.
     @Sendable
     public func deleteService(_ input: DeleteServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceResponse {
-        return try await self.client.execute(operation: "DeleteService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteService", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes one or more task definitions. You must deregister a task definition revision before you delete it. For more information,
@@ -251,14 +314,28 @@ public struct ECS: AWSService {
     /// 			all the associated tasks and services have been terminated.
     @Sendable
     public func deleteTaskDefinitions(_ input: DeleteTaskDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTaskDefinitionsResponse {
-        return try await self.client.execute(operation: "DeleteTaskDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTaskDefinitions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified task set within a service. This is used when a service uses the
     /// 				EXTERNAL deployment controller type. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func deleteTaskSet(_ input: DeleteTaskSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTaskSetResponse {
-        return try await self.client.execute(operation: "DeleteTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTaskSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deregisters an Amazon ECS container instance from the specified cluster. This instance is
@@ -272,7 +349,14 @@ public struct ECS: AWSService {
     /// 				disconnected agents aren't automatically deregistered when terminated).
     @Sendable
     public func deregisterContainerInstance(_ input: DeregisterContainerInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterContainerInstanceResponse {
-        return try await self.client.execute(operation: "DeregisterContainerInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeregisterContainerInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deregisters the specified task definition by family and revision. Upon deregistration, the
@@ -290,32 +374,67 @@ public struct ECS: AWSService {
     /// 			see DeleteTaskDefinitions.
     @Sendable
     public func deregisterTaskDefinition(_ input: DeregisterTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterTaskDefinitionResponse {
-        return try await self.client.execute(operation: "DeregisterTaskDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeregisterTaskDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes one or more of your capacity providers.
     @Sendable
     public func describeCapacityProviders(_ input: DescribeCapacityProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityProvidersResponse {
-        return try await self.client.execute(operation: "DescribeCapacityProviders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCapacityProviders", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes one or more of your clusters.
     @Sendable
     public func describeClusters(_ input: DescribeClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClustersResponse {
-        return try await self.client.execute(operation: "DescribeClusters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeClusters", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes one or more container instances. Returns metadata about each container
     /// 			instance requested.
     @Sendable
     public func describeContainerInstances(_ input: DescribeContainerInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContainerInstancesResponse {
-        return try await self.client.execute(operation: "DescribeContainerInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeContainerInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the specified services running in your cluster.
     @Sendable
     public func describeServices(_ input: DescribeServicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServicesResponse {
-        return try await self.client.execute(operation: "DescribeServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeServices", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a task definition. You can specify a family and
@@ -325,7 +444,14 @@ public struct ECS: AWSService {
     /// 				or service references them.
     @Sendable
     public func describeTaskDefinition(_ input: DescribeTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTaskDefinitionResponse {
-        return try await self.client.execute(operation: "DescribeTaskDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTaskDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the task sets in the specified cluster and service. This is used when a
@@ -334,19 +460,40 @@ public struct ECS: AWSService {
     /// 				Types in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func describeTaskSets(_ input: DescribeTaskSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTaskSetsResponse {
-        return try await self.client.execute(operation: "DescribeTaskSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTaskSets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a specified task or tasks. Currently, stopped tasks appear in the returned results for at least one hour.
     @Sendable
     public func describeTasks(_ input: DescribeTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTasksResponse {
-        return try await self.client.execute(operation: "DescribeTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTasks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Returns an endpoint for the Amazon ECS agent to poll for updates.
     @Sendable
     public func discoverPollEndpoint(_ input: DiscoverPollEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DiscoverPollEndpointResponse {
-        return try await self.client.execute(operation: "DiscoverPollEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DiscoverPollEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Runs a command remotely on a container within a task. If you use a condition key in your IAM policy to refine the conditions for the policy
@@ -356,19 +503,40 @@ public struct ECS: AWSService {
     /// 			debugging in the Amazon ECS Developer Guide.
     @Sendable
     public func executeCommand(_ input: ExecuteCommandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteCommandResponse {
-        return try await self.client.execute(operation: "ExecuteCommand", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ExecuteCommand", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the protection status of tasks in an Amazon ECS service.
     @Sendable
     public func getTaskProtection(_ input: GetTaskProtectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTaskProtectionResponse {
-        return try await self.client.execute(operation: "GetTaskProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTaskProtection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the account settings for a specified principal.
     @Sendable
     public func listAccountSettings(_ input: ListAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountSettingsResponse {
-        return try await self.client.execute(operation: "ListAccountSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAccountSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the attributes for Amazon ECS resources within a specified target type and cluster.
@@ -380,13 +548,27 @@ public struct ECS: AWSService {
     /// 				(ecs.os-type=linux).
     @Sendable
     public func listAttributes(_ input: ListAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAttributesResponse {
-        return try await self.client.execute(operation: "ListAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAttributes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of existing clusters.
     @Sendable
     public func listClusters(_ input: ListClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClustersResponse {
-        return try await self.client.execute(operation: "ListClusters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListClusters", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of container instances in a specified cluster. You can filter the
@@ -394,14 +576,28 @@ public struct ECS: AWSService {
     /// 			statements inside the filter parameter. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func listContainerInstances(_ input: ListContainerInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContainerInstancesResponse {
-        return try await self.client.execute(operation: "ListContainerInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListContainerInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of services. You can filter the results by cluster, launch type, and
     /// 			scheduling strategy.
     @Sendable
     public func listServices(_ input: ListServicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServicesResponse {
-        return try await self.client.execute(operation: "ListServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListServices", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation lists all of the services that are associated with a Cloud Map
@@ -411,13 +607,27 @@ public struct ECS: AWSService {
     /// 				ListServices. For more information, see Service Connect in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func listServicesByNamespace(_ input: ListServicesByNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServicesByNamespaceResponse {
-        return try await self.client.execute(operation: "ListServicesByNamespace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListServicesByNamespace", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the tags for an Amazon ECS resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of task definition families that are registered to your account. This
@@ -428,7 +638,14 @@ public struct ECS: AWSService {
     /// 				familyPrefix parameter.
     @Sendable
     public func listTaskDefinitionFamilies(_ input: ListTaskDefinitionFamiliesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTaskDefinitionFamiliesResponse {
-        return try await self.client.execute(operation: "ListTaskDefinitionFamilies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTaskDefinitionFamilies", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of task definitions that are registered to your account. You can filter
@@ -436,7 +653,14 @@ public struct ECS: AWSService {
     /// 			with the status parameter.
     @Sendable
     public func listTaskDefinitions(_ input: ListTaskDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTaskDefinitionsResponse {
-        return try await self.client.execute(operation: "ListTaskDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTaskDefinitions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of tasks. You can filter the results by cluster, task definition
@@ -445,7 +669,14 @@ public struct ECS: AWSService {
     /// 			appear in the returned results for at least one hour.
     @Sendable
     public func listTasks(_ input: ListTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTasksResponse {
-        return try await self.client.execute(operation: "ListTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTasks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies an account setting. Account settings are set on a per-Region basis. If you change the root user account setting, the default settings are reset for  users
@@ -477,7 +708,14 @@ public struct ECS: AWSService {
     /// 					Guide.
     @Sendable
     public func putAccountSetting(_ input: PutAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountSettingResponse {
-        return try await self.client.execute(operation: "PutAccountSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutAccountSetting", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies an account setting for all users on an account for whom no individual
@@ -485,7 +723,14 @@ public struct ECS: AWSService {
     /// 			basis.
     @Sendable
     public func putAccountSettingDefault(_ input: PutAccountSettingDefaultRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountSettingDefaultResponse {
-        return try await self.client.execute(operation: "PutAccountSettingDefault", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutAccountSettingDefault", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create or update an attribute on an Amazon ECS resource. If the attribute doesn't exist,
@@ -494,7 +739,14 @@ public struct ECS: AWSService {
     /// 			see Attributes in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func putAttributes(_ input: PutAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAttributesResponse {
-        return try await self.client.execute(operation: "PutAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutAttributes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies the available capacity providers and the default capacity provider strategy
@@ -511,14 +763,28 @@ public struct ECS: AWSService {
     /// 			strategy.
     @Sendable
     public func putClusterCapacityProviders(_ input: PutClusterCapacityProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutClusterCapacityProvidersResponse {
-        return try await self.client.execute(operation: "PutClusterCapacityProviders", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutClusterCapacityProviders", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Registers an EC2 instance into the specified cluster. This instance becomes available
     /// 			to place containers on.
     @Sendable
     public func registerContainerInstance(_ input: RegisterContainerInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterContainerInstanceResponse {
-        return try await self.client.execute(operation: "RegisterContainerInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterContainerInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers a new task definition from the supplied family and
@@ -539,7 +805,14 @@ public struct ECS: AWSService {
     /// 			in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func registerTaskDefinition(_ input: RegisterTaskDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterTaskDefinitionResponse {
-        return try await self.client.execute(operation: "RegisterTaskDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterTaskDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a new task using the specified task definition. You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places
@@ -560,7 +833,14 @@ public struct ECS: AWSService {
     /// 					minutes of wait time.
     @Sendable
     public func runTask(_ input: RunTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RunTaskResponse {
-        return try await self.client.execute(operation: "RunTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RunTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a new task from the specified task definition on the specified container
@@ -568,7 +848,14 @@ public struct ECS: AWSService {
     /// 			information, see Scheduling Tasks in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func startTask(_ input: StartTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTaskResponse {
-        return try await self.client.execute(operation: "StartTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a running task. Any tags associated with the task will be deleted. When StopTask is called on a task, the equivalent of docker
@@ -582,25 +869,53 @@ public struct ECS: AWSService {
     /// 				Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func stopTask(_ input: StopTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopTaskResponse {
-        return try await self.client.execute(operation: "StopTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Sent to acknowledge that an attachment changed states.
     @Sendable
     public func submitAttachmentStateChanges(_ input: SubmitAttachmentStateChangesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubmitAttachmentStateChangesResponse {
-        return try await self.client.execute(operation: "SubmitAttachmentStateChanges", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SubmitAttachmentStateChanges", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Sent to acknowledge that a container changed states.
     @Sendable
     public func submitContainerStateChange(_ input: SubmitContainerStateChangeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubmitContainerStateChangeResponse {
-        return try await self.client.execute(operation: "SubmitContainerStateChange", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SubmitContainerStateChange", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Sent to acknowledge that a task changed states.
     @Sendable
     public func submitTaskStateChange(_ input: SubmitTaskStateChangeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubmitTaskStateChangeResponse {
-        return try await self.client.execute(operation: "SubmitTaskStateChange", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SubmitTaskStateChange", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates the specified tags to a resource with the specified
@@ -609,31 +924,66 @@ public struct ECS: AWSService {
     /// 			associated with that resource are deleted as well.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes specified tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies the parameters for a capacity provider.
     @Sendable
     public func updateCapacityProvider(_ input: UpdateCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCapacityProviderResponse {
-        return try await self.client.execute(operation: "UpdateCapacityProvider", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCapacityProvider", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the cluster.
     @Sendable
     public func updateCluster(_ input: UpdateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterResponse {
-        return try await self.client.execute(operation: "UpdateCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies the settings to use for a cluster.
     @Sendable
     public func updateClusterSettings(_ input: UpdateClusterSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterSettingsResponse {
-        return try await self.client.execute(operation: "UpdateClusterSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateClusterSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the Amazon ECS container agent on a specified container instance. Updating the
@@ -650,7 +1000,14 @@ public struct ECS: AWSService {
     /// 			updating the Amazon ECS container agent on other operating systems, see Manually updating the Amazon ECS container agent in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func updateContainerAgent(_ input: UpdateContainerAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContainerAgentResponse {
-        return try await self.client.execute(operation: "UpdateContainerAgent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateContainerAgent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies the status of an Amazon ECS container instance. Once a container instance has reached an ACTIVE state, you can change the
@@ -687,7 +1044,14 @@ public struct ECS: AWSService {
     /// 			can begin scheduling tasks on the instance again.
     @Sendable
     public func updateContainerInstancesState(_ input: UpdateContainerInstancesStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContainerInstancesStateResponse {
-        return try await self.client.execute(operation: "UpdateContainerInstancesState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateContainerInstancesState", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies the parameters of a service. For services using the rolling update (ECS) you can update the desired
@@ -756,7 +1120,14 @@ public struct ECS: AWSService {
     /// 				service-linked role. For more information, see Service-linked roles in the Amazon Elastic Container Service Developer Guide.    loadBalancers,     serviceRegistries
     @Sendable
     public func updateService(_ input: UpdateServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceResponse {
-        return try await self.client.execute(operation: "UpdateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateService", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies which task set in a service is the primary task set. Any parameters that are
@@ -766,7 +1137,14 @@ public struct ECS: AWSService {
     /// 				Types in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func updateServicePrimaryTaskSet(_ input: UpdateServicePrimaryTaskSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServicePrimaryTaskSetResponse {
-        return try await self.client.execute(operation: "UpdateServicePrimaryTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateServicePrimaryTaskSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the protection status of a task. You can set protectionEnabled to
@@ -787,7 +1165,14 @@ public struct ECS: AWSService {
     /// 				the Task scale-in protection endpoint.
     @Sendable
     public func updateTaskProtection(_ input: UpdateTaskProtectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTaskProtectionResponse {
-        return try await self.client.execute(operation: "UpdateTaskProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTaskProtection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies a task set. This is used when a service uses the EXTERNAL
@@ -795,7 +1180,14 @@ public struct ECS: AWSService {
     /// 				Types in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     public func updateTaskSet(_ input: UpdateTaskSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTaskSetResponse {
-        return try await self.client.execute(operation: "UpdateTaskSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTaskSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

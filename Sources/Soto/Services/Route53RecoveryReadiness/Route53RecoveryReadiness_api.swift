@@ -66,193 +66,417 @@ public struct Route53RecoveryReadiness: AWSService {
     /// Creates a cell in an account.
     @Sendable
     public func createCell(_ input: CreateCellRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCellResponse {
-        return try await self.client.execute(operation: "CreateCell", path: "/cells", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCell", 
+            path: "/cells", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account.
     @Sendable
     public func createCrossAccountAuthorization(_ input: CreateCrossAccountAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCrossAccountAuthorizationResponse {
-        return try await self.client.execute(operation: "CreateCrossAccountAuthorization", path: "/crossaccountauthorizations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCrossAccountAuthorization", 
+            path: "/crossaccountauthorizations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check.
     @Sendable
     public func createReadinessCheck(_ input: CreateReadinessCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReadinessCheckResponse {
-        return try await self.client.execute(operation: "CreateReadinessCheck", path: "/readinesschecks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateReadinessCheck", 
+            path: "/readinesschecks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application.
     @Sendable
     public func createRecoveryGroup(_ input: CreateRecoveryGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRecoveryGroupResponse {
-        return try await self.client.execute(operation: "CreateRecoveryGroup", path: "/recoverygroups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRecoveryGroup", 
+            path: "/recoverygroups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a resource set. A resource set is a set of resources of one type that span multiple cells. You can associate a resource set with a readiness check to monitor the resources for failover readiness.
     @Sendable
     public func createResourceSet(_ input: CreateResourceSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceSetResponse {
-        return try await self.client.execute(operation: "CreateResourceSet", path: "/resourcesets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateResourceSet", 
+            path: "/resourcesets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a cell. When successful, the response code is 204, with no response body.
     @Sendable
     public func deleteCell(_ input: DeleteCellRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteCell", path: "/cells/{CellName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCell", 
+            path: "/cells/{CellName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes cross account readiness authorization.
     @Sendable
     public func deleteCrossAccountAuthorization(_ input: DeleteCrossAccountAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCrossAccountAuthorizationResponse {
-        return try await self.client.execute(operation: "DeleteCrossAccountAuthorization", path: "/crossaccountauthorizations/{CrossAccountAuthorization}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCrossAccountAuthorization", 
+            path: "/crossaccountauthorizations/{CrossAccountAuthorization}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a readiness check.
     @Sendable
     public func deleteReadinessCheck(_ input: DeleteReadinessCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteReadinessCheck", path: "/readinesschecks/{ReadinessCheckName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReadinessCheck", 
+            path: "/readinesschecks/{ReadinessCheckName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a recovery group.
     @Sendable
     public func deleteRecoveryGroup(_ input: DeleteRecoveryGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteRecoveryGroup", path: "/recoverygroups/{RecoveryGroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRecoveryGroup", 
+            path: "/recoverygroups/{RecoveryGroupName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a resource set.
     @Sendable
     public func deleteResourceSet(_ input: DeleteResourceSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteResourceSet", path: "/resourcesets/{ResourceSetName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResourceSet", 
+            path: "/resourcesets/{ResourceSetName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group.
     @Sendable
     public func getArchitectureRecommendations(_ input: GetArchitectureRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetArchitectureRecommendationsResponse {
-        return try await self.client.execute(operation: "GetArchitectureRecommendations", path: "/recoverygroups/{RecoveryGroupName}/architectureRecommendations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetArchitectureRecommendations", 
+            path: "/recoverygroups/{RecoveryGroupName}/architectureRecommendations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a cell including cell name, cell Amazon Resource Name (ARN), ARNs of nested cells for this cell, and a list of those cell ARNs with their associated recovery group ARNs.
     @Sendable
     public func getCell(_ input: GetCellRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCellResponse {
-        return try await self.client.execute(operation: "GetCell", path: "/cells/{CellName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCell", 
+            path: "/cells/{CellName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
     @Sendable
     public func getCellReadinessSummary(_ input: GetCellReadinessSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCellReadinessSummaryResponse {
-        return try await self.client.execute(operation: "GetCellReadinessSummary", path: "/cellreadiness/{CellName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCellReadinessSummary", 
+            path: "/cellreadiness/{CellName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details about a readiness check.
     @Sendable
     public func getReadinessCheck(_ input: GetReadinessCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReadinessCheckResponse {
-        return try await self.client.execute(operation: "GetReadinessCheck", path: "/readinesschecks/{ReadinessCheckName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetReadinessCheck", 
+            path: "/readinesschecks/{ReadinessCheckName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
     @Sendable
     public func getReadinessCheckResourceStatus(_ input: GetReadinessCheckResourceStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReadinessCheckResourceStatusResponse {
-        return try await self.client.execute(operation: "GetReadinessCheckResourceStatus", path: "/readinesschecks/{ReadinessCheckName}/resource/{ResourceIdentifier}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetReadinessCheckResourceStatus", 
+            path: "/readinesschecks/{ReadinessCheckName}/resource/{ResourceIdentifier}/status", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
     @Sendable
     public func getReadinessCheckStatus(_ input: GetReadinessCheckStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReadinessCheckStatusResponse {
-        return try await self.client.execute(operation: "GetReadinessCheckStatus", path: "/readinesschecks/{ReadinessCheckName}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetReadinessCheckStatus", 
+            path: "/readinesschecks/{ReadinessCheckName}/status", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details about a recovery group, including a list of the cells that are included in it.
     @Sendable
     public func getRecoveryGroup(_ input: GetRecoveryGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecoveryGroupResponse {
-        return try await self.client.execute(operation: "GetRecoveryGroup", path: "/recoverygroups/{RecoveryGroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRecoveryGroup", 
+            path: "/recoverygroups/{RecoveryGroupName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
     @Sendable
     public func getRecoveryGroupReadinessSummary(_ input: GetRecoveryGroupReadinessSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecoveryGroupReadinessSummaryResponse {
-        return try await self.client.execute(operation: "GetRecoveryGroupReadinessSummary", path: "/recoverygroupreadiness/{RecoveryGroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRecoveryGroupReadinessSummary", 
+            path: "/recoverygroupreadiness/{RecoveryGroupName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays the details about a resource set, including a list of the resources in the set.
     @Sendable
     public func getResourceSet(_ input: GetResourceSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceSetResponse {
-        return try await self.client.execute(operation: "GetResourceSet", path: "/resourcesets/{ResourceSetName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourceSet", 
+            path: "/resourcesets/{ResourceSetName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the cells for an account.
     @Sendable
     public func listCells(_ input: ListCellsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCellsResponse {
-        return try await self.client.execute(operation: "ListCells", path: "/cells", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCells", 
+            path: "/cells", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the cross-account readiness authorizations that are in place for an account.
     @Sendable
     public func listCrossAccountAuthorizations(_ input: ListCrossAccountAuthorizationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCrossAccountAuthorizationsResponse {
-        return try await self.client.execute(operation: "ListCrossAccountAuthorizations", path: "/crossaccountauthorizations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCrossAccountAuthorizations", 
+            path: "/crossaccountauthorizations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the readiness checks for an account.
     @Sendable
     public func listReadinessChecks(_ input: ListReadinessChecksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReadinessChecksResponse {
-        return try await self.client.execute(operation: "ListReadinessChecks", path: "/readinesschecks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListReadinessChecks", 
+            path: "/readinesschecks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the recovery groups in an account.
     @Sendable
     public func listRecoveryGroups(_ input: ListRecoveryGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecoveryGroupsResponse {
-        return try await self.client.execute(operation: "ListRecoveryGroups", path: "/recoverygroups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRecoveryGroups", 
+            path: "/recoverygroups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the resource sets in an account.
     @Sendable
     public func listResourceSets(_ input: ListResourceSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceSetsResponse {
-        return try await self.client.execute(operation: "ListResourceSets", path: "/resourcesets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResourceSets", 
+            path: "/resourcesets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all readiness rules, or lists the readiness rules for a specific resource type.
     @Sendable
     public func listRules(_ input: ListRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRulesResponse {
-        return try await self.client.execute(operation: "ListRules", path: "/rules", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRules", 
+            path: "/rules", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags for a resource.
     @Sendable
     public func listTagsForResources(_ input: ListTagsForResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourcesResponse {
-        return try await self.client.execute(operation: "ListTagsForResources", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResources", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a tag to a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a tag from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a cell to replace the list of nested cells with a new list of nested cells.
     @Sendable
     public func updateCell(_ input: UpdateCellRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCellResponse {
-        return try await self.client.execute(operation: "UpdateCell", path: "/cells/{CellName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCell", 
+            path: "/cells/{CellName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a readiness check.
     @Sendable
     public func updateReadinessCheck(_ input: UpdateReadinessCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateReadinessCheckResponse {
-        return try await self.client.execute(operation: "UpdateReadinessCheck", path: "/readinesschecks/{ReadinessCheckName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateReadinessCheck", 
+            path: "/readinesschecks/{ReadinessCheckName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a recovery group.
     @Sendable
     public func updateRecoveryGroup(_ input: UpdateRecoveryGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRecoveryGroupResponse {
-        return try await self.client.execute(operation: "UpdateRecoveryGroup", path: "/recoverygroups/{RecoveryGroupName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRecoveryGroup", 
+            path: "/recoverygroups/{RecoveryGroupName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a resource set.
     @Sendable
     public func updateResourceSet(_ input: UpdateResourceSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceSetResponse {
-        return try await self.client.execute(operation: "UpdateResourceSet", path: "/resourcesets/{ResourceSetName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateResourceSet", 
+            path: "/resourcesets/{ResourceSetName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

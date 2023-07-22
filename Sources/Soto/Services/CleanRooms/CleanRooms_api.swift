@@ -66,223 +66,482 @@ public struct CleanRooms: AWSService {
     /// Retrieves multiple schemas by their identifiers.
     @Sendable
     public func batchGetSchema(_ input: BatchGetSchemaInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetSchemaOutput {
-        return try await self.client.execute(operation: "BatchGetSchema", path: "/collaborations/{collaborationIdentifier}/batch-schema", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetSchema", 
+            path: "/collaborations/{collaborationIdentifier}/batch-schema", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new collaboration.
     @Sendable
     public func createCollaboration(_ input: CreateCollaborationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCollaborationOutput {
-        return try await self.client.execute(operation: "CreateCollaboration", path: "/collaborations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCollaboration", 
+            path: "/collaborations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new configured table resource.
     @Sendable
     public func createConfiguredTable(_ input: CreateConfiguredTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfiguredTableOutput {
-        return try await self.client.execute(operation: "CreateConfiguredTable", path: "/configuredTables", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateConfiguredTable", 
+            path: "/configuredTables", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new analysis rule for a configured table. Currently, only one analysis rule can be created for a given configured table.
     @Sendable
     public func createConfiguredTableAnalysisRule(_ input: CreateConfiguredTableAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfiguredTableAnalysisRuleOutput {
-        return try await self.client.execute(operation: "CreateConfiguredTableAnalysisRule", path: "/configuredTables/{configuredTableIdentifier}/analysisRule", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateConfiguredTableAnalysisRule", 
+            path: "/configuredTables/{configuredTableIdentifier}/analysisRule", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a configured table association. A configured table association links a configured table with a collaboration.
     @Sendable
     public func createConfiguredTableAssociation(_ input: CreateConfiguredTableAssociationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfiguredTableAssociationOutput {
-        return try await self.client.execute(operation: "CreateConfiguredTableAssociation", path: "/memberships/{membershipIdentifier}/configuredTableAssociations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateConfiguredTableAssociation", 
+            path: "/memberships/{membershipIdentifier}/configuredTableAssociations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a membership for a specific collaboration identifier and joins the collaboration.
     @Sendable
     public func createMembership(_ input: CreateMembershipInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMembershipOutput {
-        return try await self.client.execute(operation: "CreateMembership", path: "/memberships", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMembership", 
+            path: "/memberships", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a collaboration. It can only be called by the collaboration owner.
     @Sendable
     public func deleteCollaboration(_ input: DeleteCollaborationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCollaborationOutput {
-        return try await self.client.execute(operation: "DeleteCollaboration", path: "/collaborations/{collaborationIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCollaboration", 
+            path: "/collaborations/{collaborationIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a configured table.
     @Sendable
     public func deleteConfiguredTable(_ input: DeleteConfiguredTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfiguredTableOutput {
-        return try await self.client.execute(operation: "DeleteConfiguredTable", path: "/configuredTables/{configuredTableIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConfiguredTable", 
+            path: "/configuredTables/{configuredTableIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a configured table analysis rule.
     @Sendable
     public func deleteConfiguredTableAnalysisRule(_ input: DeleteConfiguredTableAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfiguredTableAnalysisRuleOutput {
-        return try await self.client.execute(operation: "DeleteConfiguredTableAnalysisRule", path: "/configuredTables/{configuredTableIdentifier}/analysisRule/{analysisRuleType}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConfiguredTableAnalysisRule", 
+            path: "/configuredTables/{configuredTableIdentifier}/analysisRule/{analysisRuleType}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a configured table association.
     @Sendable
     public func deleteConfiguredTableAssociation(_ input: DeleteConfiguredTableAssociationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfiguredTableAssociationOutput {
-        return try await self.client.execute(operation: "DeleteConfiguredTableAssociation", path: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConfiguredTableAssociation", 
+            path: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
     @Sendable
     public func deleteMember(_ input: DeleteMemberInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMemberOutput {
-        return try await self.client.execute(operation: "DeleteMember", path: "/collaborations/{collaborationIdentifier}/member/{accountId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMember", 
+            path: "/collaborations/{collaborationIdentifier}/member/{accountId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified membership. All resources under a membership must be deleted.
     @Sendable
     public func deleteMembership(_ input: DeleteMembershipInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMembershipOutput {
-        return try await self.client.execute(operation: "DeleteMembership", path: "/memberships/{membershipIdentifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMembership", 
+            path: "/memberships/{membershipIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata about a collaboration.
     @Sendable
     public func getCollaboration(_ input: GetCollaborationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCollaborationOutput {
-        return try await self.client.execute(operation: "GetCollaboration", path: "/collaborations/{collaborationIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCollaboration", 
+            path: "/collaborations/{collaborationIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a configured table.
     @Sendable
     public func getConfiguredTable(_ input: GetConfiguredTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfiguredTableOutput {
-        return try await self.client.execute(operation: "GetConfiguredTable", path: "/configuredTables/{configuredTableIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConfiguredTable", 
+            path: "/configuredTables/{configuredTableIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a configured table analysis rule.
     @Sendable
     public func getConfiguredTableAnalysisRule(_ input: GetConfiguredTableAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfiguredTableAnalysisRuleOutput {
-        return try await self.client.execute(operation: "GetConfiguredTableAnalysisRule", path: "/configuredTables/{configuredTableIdentifier}/analysisRule/{analysisRuleType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConfiguredTableAnalysisRule", 
+            path: "/configuredTables/{configuredTableIdentifier}/analysisRule/{analysisRuleType}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a configured table association.
     @Sendable
     public func getConfiguredTableAssociation(_ input: GetConfiguredTableAssociationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfiguredTableAssociationOutput {
-        return try await self.client.execute(operation: "GetConfiguredTableAssociation", path: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConfiguredTableAssociation", 
+            path: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a specified membership for an identifier.
     @Sendable
     public func getMembership(_ input: GetMembershipInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMembershipOutput {
-        return try await self.client.execute(operation: "GetMembership", path: "/memberships/{membershipIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMembership", 
+            path: "/memberships/{membershipIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns query processing metadata.
     @Sendable
     public func getProtectedQuery(_ input: GetProtectedQueryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProtectedQueryOutput {
-        return try await self.client.execute(operation: "GetProtectedQuery", path: "/memberships/{membershipIdentifier}/protectedQueries/{protectedQueryIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetProtectedQuery", 
+            path: "/memberships/{membershipIdentifier}/protectedQueries/{protectedQueryIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the schema for a relation within a collaboration.
     @Sendable
     public func getSchema(_ input: GetSchemaInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSchemaOutput {
-        return try await self.client.execute(operation: "GetSchema", path: "/collaborations/{collaborationIdentifier}/schemas/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSchema", 
+            path: "/collaborations/{collaborationIdentifier}/schemas/{name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a schema analysis rule.
     @Sendable
     public func getSchemaAnalysisRule(_ input: GetSchemaAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSchemaAnalysisRuleOutput {
-        return try await self.client.execute(operation: "GetSchemaAnalysisRule", path: "/collaborations/{collaborationIdentifier}/schemas/{name}/analysisRule/{type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSchemaAnalysisRule", 
+            path: "/collaborations/{collaborationIdentifier}/schemas/{name}/analysisRule/{type}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists collaborations the caller owns, is active in, or has been invited to.
     @Sendable
     public func listCollaborations(_ input: ListCollaborationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCollaborationsOutput {
-        return try await self.client.execute(operation: "ListCollaborations", path: "/collaborations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCollaborations", 
+            path: "/collaborations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists configured table associations for a membership.
     @Sendable
     public func listConfiguredTableAssociations(_ input: ListConfiguredTableAssociationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfiguredTableAssociationsOutput {
-        return try await self.client.execute(operation: "ListConfiguredTableAssociations", path: "/memberships/{membershipIdentifier}/configuredTableAssociations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConfiguredTableAssociations", 
+            path: "/memberships/{membershipIdentifier}/configuredTableAssociations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists configured tables.
     @Sendable
     public func listConfiguredTables(_ input: ListConfiguredTablesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfiguredTablesOutput {
-        return try await self.client.execute(operation: "ListConfiguredTables", path: "/configuredTables", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConfiguredTables", 
+            path: "/configuredTables", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all members within a collaboration.
     @Sendable
     public func listMembers(_ input: ListMembersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMembersOutput {
-        return try await self.client.execute(operation: "ListMembers", path: "/collaborations/{collaborationIdentifier}/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMembers", 
+            path: "/collaborations/{collaborationIdentifier}/members", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all memberships resources within the caller's account.
     @Sendable
     public func listMemberships(_ input: ListMembershipsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMembershipsOutput {
-        return try await self.client.execute(operation: "ListMemberships", path: "/memberships", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMemberships", 
+            path: "/memberships", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists protected queries, sorted by the most recent query.
     @Sendable
     public func listProtectedQueries(_ input: ListProtectedQueriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProtectedQueriesOutput {
-        return try await self.client.execute(operation: "ListProtectedQueries", path: "/memberships/{membershipIdentifier}/protectedQueries", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProtectedQueries", 
+            path: "/memberships/{membershipIdentifier}/protectedQueries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the schemas for relations within a collaboration.
     @Sendable
     public func listSchemas(_ input: ListSchemasInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSchemasOutput {
-        return try await self.client.execute(operation: "ListSchemas", path: "/collaborations/{collaborationIdentifier}/schemas", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSchemas", 
+            path: "/collaborations/{collaborationIdentifier}/schemas", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all of the tags that have been added to a resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a protected query that is started by AWS Clean Rooms.
     @Sendable
     public func startProtectedQuery(_ input: StartProtectedQueryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartProtectedQueryOutput {
-        return try await self.client.execute(operation: "StartProtectedQuery", path: "/memberships/{membershipIdentifier}/protectedQueries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartProtectedQuery", 
+            path: "/memberships/{membershipIdentifier}/protectedQueries", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Tags a resource.
     @Sendable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a tag or list of tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates collaboration metadata and can only be called by the collaboration owner.
     @Sendable
     public func updateCollaboration(_ input: UpdateCollaborationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCollaborationOutput {
-        return try await self.client.execute(operation: "UpdateCollaboration", path: "/collaborations/{collaborationIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCollaboration", 
+            path: "/collaborations/{collaborationIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a configured table.
     @Sendable
     public func updateConfiguredTable(_ input: UpdateConfiguredTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfiguredTableOutput {
-        return try await self.client.execute(operation: "UpdateConfiguredTable", path: "/configuredTables/{configuredTableIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateConfiguredTable", 
+            path: "/configuredTables/{configuredTableIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a configured table analysis rule.
     @Sendable
     public func updateConfiguredTableAnalysisRule(_ input: UpdateConfiguredTableAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfiguredTableAnalysisRuleOutput {
-        return try await self.client.execute(operation: "UpdateConfiguredTableAnalysisRule", path: "/configuredTables/{configuredTableIdentifier}/analysisRule/{analysisRuleType}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateConfiguredTableAnalysisRule", 
+            path: "/configuredTables/{configuredTableIdentifier}/analysisRule/{analysisRuleType}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a configured table association.
     @Sendable
     public func updateConfiguredTableAssociation(_ input: UpdateConfiguredTableAssociationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfiguredTableAssociationOutput {
-        return try await self.client.execute(operation: "UpdateConfiguredTableAssociation", path: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateConfiguredTableAssociation", 
+            path: "/memberships/{membershipIdentifier}/configuredTableAssociations/{configuredTableAssociationIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a membership.
     @Sendable
     public func updateMembership(_ input: UpdateMembershipInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMembershipOutput {
-        return try await self.client.execute(operation: "UpdateMembership", path: "/memberships/{membershipIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMembership", 
+            path: "/memberships/{membershipIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the processing of a currently running query.
     @Sendable
     public func updateProtectedQuery(_ input: UpdateProtectedQueryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProtectedQueryOutput {
-        return try await self.client.execute(operation: "UpdateProtectedQuery", path: "/memberships/{membershipIdentifier}/protectedQueries/{protectedQueryIdentifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateProtectedQuery", 
+            path: "/memberships/{membershipIdentifier}/protectedQueries/{protectedQueryIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

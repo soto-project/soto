@@ -66,433 +66,936 @@ public struct Backup: AWSService {
     /// This action removes the specified legal hold on a recovery point.  This action can only be performed by a user with sufficient permissions.
     @Sendable
     public func cancelLegalHold(_ input: CancelLegalHoldInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelLegalHoldOutput {
-        return try await self.client.execute(operation: "CancelLegalHold", path: "/legal-holds/{LegalHoldId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelLegalHold", 
+            path: "/legal-holds/{LegalHoldId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a backup plan using a backup plan name and backup rules. A backup plan is a document that contains information that Backup uses to schedule tasks that create recovery points for resources. If you call CreateBackupPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     @Sendable
     public func createBackupPlan(_ input: CreateBackupPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBackupPlanOutput {
-        return try await self.client.execute(operation: "CreateBackupPlan", path: "/backup/plans", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateBackupPlan", 
+            path: "/backup/plans", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a JSON document that specifies a set of resources to assign to a backup plan. For examples, see Assigning resources programmatically.
     @Sendable
     public func createBackupSelection(_ input: CreateBackupSelectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBackupSelectionOutput {
-        return try await self.client.execute(operation: "CreateBackupSelection", path: "/backup/plans/{BackupPlanId}/selections", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateBackupSelection", 
+            path: "/backup/plans/{BackupPlanId}/selections", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a logical container where backups are stored. A CreateBackupVault request includes a name, optionally one or more resource tags, an encryption key, and a request ID.  Do not include sensitive data, such as passport numbers, in the name of a backup vault.
     @Sendable
     public func createBackupVault(_ input: CreateBackupVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBackupVaultOutput {
-        return try await self.client.execute(operation: "CreateBackupVault", path: "/backup-vaults/{BackupVaultName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateBackupVault", 
+            path: "/backup-vaults/{BackupVaultName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a framework with one or more controls. A framework is a collection of controls that you can use to evaluate your backup practices. By using pre-built customizable controls to define your policies, you can evaluate whether your backup practices comply with your policies and which resources are not yet in compliance.
     @Sendable
     public func createFramework(_ input: CreateFrameworkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFrameworkOutput {
-        return try await self.client.execute(operation: "CreateFramework", path: "/audit/frameworks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFramework", 
+            path: "/audit/frameworks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This action creates a legal hold on a recovery point (backup). A legal hold  is a restraint on altering or deleting a backup until an authorized user cancels the  legal hold. Any actions to delete or disassociate a recovery point will fail with  an error if one or more active legal holds are on the recovery point.
     @Sendable
     public func createLegalHold(_ input: CreateLegalHoldInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLegalHoldOutput {
-        return try await self.client.execute(operation: "CreateLegalHold", path: "/legal-holds", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLegalHold", 
+            path: "/legal-holds", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a report plan. A report plan is a document that contains information about the contents of the report and where Backup will deliver it. If you call CreateReportPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     @Sendable
     public func createReportPlan(_ input: CreateReportPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReportPlanOutput {
-        return try await self.client.execute(operation: "CreateReportPlan", path: "/audit/report-plans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateReportPlan", 
+            path: "/audit/report-plans", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a backup plan. A backup plan can only be deleted after all associated selections of resources have been deleted. Deleting a backup plan deletes the current version of a backup plan. Previous versions, if any, will still exist.
     @Sendable
     public func deleteBackupPlan(_ input: DeleteBackupPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBackupPlanOutput {
-        return try await self.client.execute(operation: "DeleteBackupPlan", path: "/backup/plans/{BackupPlanId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBackupPlan", 
+            path: "/backup/plans/{BackupPlanId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the resource selection associated with a backup plan that is specified by the SelectionId.
     @Sendable
     public func deleteBackupSelection(_ input: DeleteBackupSelectionInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteBackupSelection", path: "/backup/plans/{BackupPlanId}/selections/{SelectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBackupSelection", 
+            path: "/backup/plans/{BackupPlanId}/selections/{SelectionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the backup vault identified by its name. A vault can be deleted only if it is empty.
     @Sendable
     public func deleteBackupVault(_ input: DeleteBackupVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteBackupVault", path: "/backup-vaults/{BackupVaultName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBackupVault", 
+            path: "/backup-vaults/{BackupVaultName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the policy document that manages permissions on a backup vault.
     @Sendable
     public func deleteBackupVaultAccessPolicy(_ input: DeleteBackupVaultAccessPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteBackupVaultAccessPolicy", path: "/backup-vaults/{BackupVaultName}/access-policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBackupVaultAccessPolicy", 
+            path: "/backup-vaults/{BackupVaultName}/access-policy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes Backup Vault Lock from a backup vault specified by a backup vault name. If the Vault Lock configuration is immutable, then you cannot delete Vault Lock using API operations, and you will receive an InvalidRequestException if you attempt to do so. For more information, see Vault Lock in the Backup Developer Guide.
     @Sendable
     public func deleteBackupVaultLockConfiguration(_ input: DeleteBackupVaultLockConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteBackupVaultLockConfiguration", path: "/backup-vaults/{BackupVaultName}/vault-lock", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBackupVaultLockConfiguration", 
+            path: "/backup-vaults/{BackupVaultName}/vault-lock", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes event notifications for the specified backup vault.
     @Sendable
     public func deleteBackupVaultNotifications(_ input: DeleteBackupVaultNotificationsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteBackupVaultNotifications", path: "/backup-vaults/{BackupVaultName}/notification-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBackupVaultNotifications", 
+            path: "/backup-vaults/{BackupVaultName}/notification-configuration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the framework specified by a framework name.
     @Sendable
     public func deleteFramework(_ input: DeleteFrameworkInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteFramework", path: "/audit/frameworks/{FrameworkName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFramework", 
+            path: "/audit/frameworks/{FrameworkName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the recovery point specified by a recovery point ID. If the recovery point ID belongs to a continuous backup, calling this endpoint deletes the existing continuous backup and stops future continuous backup. When an IAM role's permissions are insufficient to call this API, the service sends back an HTTP 200 response with an empty HTTP body, but the recovery point is not deleted. Instead, it enters an EXPIRED state.  EXPIRED recovery points can be deleted with this API once the IAM role has the iam:CreateServiceLinkedRole action. To learn more about adding this role, see   Troubleshooting manual deletions. If the user or role is deleted or the permission within the role is removed,  the deletion will not be successful and will enter an EXPIRED state.
     @Sendable
     public func deleteRecoveryPoint(_ input: DeleteRecoveryPointInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteRecoveryPoint", path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRecoveryPoint", 
+            path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the report plan specified by a report plan name.
     @Sendable
     public func deleteReportPlan(_ input: DeleteReportPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteReportPlan", path: "/audit/report-plans/{ReportPlanName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReportPlan", 
+            path: "/audit/report-plans/{ReportPlanName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns backup job details for the specified BackupJobId.
     @Sendable
     public func describeBackupJob(_ input: DescribeBackupJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBackupJobOutput {
-        return try await self.client.execute(operation: "DescribeBackupJob", path: "/backup-jobs/{BackupJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBackupJob", 
+            path: "/backup-jobs/{BackupJobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata about a backup vault specified by its name.
     @Sendable
     public func describeBackupVault(_ input: DescribeBackupVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBackupVaultOutput {
-        return try await self.client.execute(operation: "DescribeBackupVault", path: "/backup-vaults/{BackupVaultName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBackupVault", 
+            path: "/backup-vaults/{BackupVaultName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata associated with creating a copy of a resource.
     @Sendable
     public func describeCopyJob(_ input: DescribeCopyJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCopyJobOutput {
-        return try await self.client.execute(operation: "DescribeCopyJob", path: "/copy-jobs/{CopyJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCopyJob", 
+            path: "/copy-jobs/{CopyJobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the framework details for the specified FrameworkName.
     @Sendable
     public func describeFramework(_ input: DescribeFrameworkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFrameworkOutput {
-        return try await self.client.execute(operation: "DescribeFramework", path: "/audit/frameworks/{FrameworkName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFramework", 
+            path: "/audit/frameworks/{FrameworkName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not a member of an Organizations organization. Example: describe-global-settings --region us-west-2
     @Sendable
     public func describeGlobalSettings(_ input: DescribeGlobalSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGlobalSettingsOutput {
-        return try await self.client.execute(operation: "DescribeGlobalSettings", path: "/global-settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeGlobalSettings", 
+            path: "/global-settings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the Amazon Web Services service type of the saved resource.
     @Sendable
     public func describeProtectedResource(_ input: DescribeProtectedResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProtectedResourceOutput {
-        return try await self.client.execute(operation: "DescribeProtectedResource", path: "/resources/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProtectedResource", 
+            path: "/resources/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata associated with a recovery point, including ID, status, encryption, and lifecycle.
     @Sendable
     public func describeRecoveryPoint(_ input: DescribeRecoveryPointInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRecoveryPointOutput {
-        return try await self.client.execute(operation: "DescribeRecoveryPoint", path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRecoveryPoint", 
+            path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the current service opt-in settings for the Region. If service opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to protect that service's resources in this Region.
     @Sendable
     public func describeRegionSettings(_ input: DescribeRegionSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRegionSettingsOutput {
-        return try await self.client.execute(operation: "DescribeRegionSettings", path: "/account-settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRegionSettings", 
+            path: "/account-settings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the details associated with creating a report as specified by its ReportJobId.
     @Sendable
     public func describeReportJob(_ input: DescribeReportJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReportJobOutput {
-        return try await self.client.execute(operation: "DescribeReportJob", path: "/audit/report-jobs/{ReportJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReportJob", 
+            path: "/audit/report-jobs/{ReportJobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all report plans for an Amazon Web Services account and Amazon Web Services Region.
     @Sendable
     public func describeReportPlan(_ input: DescribeReportPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReportPlanOutput {
-        return try await self.client.execute(operation: "DescribeReportPlan", path: "/audit/report-plans/{ReportPlanName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReportPlan", 
+            path: "/audit/report-plans/{ReportPlanName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata associated with a restore job that is specified by a job ID.
     @Sendable
     public func describeRestoreJob(_ input: DescribeRestoreJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRestoreJobOutput {
-        return try await self.client.execute(operation: "DescribeRestoreJob", path: "/restore-jobs/{RestoreJobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRestoreJob", 
+            path: "/restore-jobs/{RestoreJobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your original backup plan. Does not support snapshot backup recovery points.
     @Sendable
     public func disassociateRecoveryPoint(_ input: DisassociateRecoveryPointInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisassociateRecoveryPoint", path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateRecoveryPoint", 
+            path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/disassociate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This action to a specific child (nested) recovery point removes the relationship  between the specified recovery point and its parent (composite) recovery point.
     @Sendable
     public func disassociateRecoveryPointFromParent(_ input: DisassociateRecoveryPointFromParentInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisassociateRecoveryPointFromParent", path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/parentAssociation", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateRecoveryPointFromParent", 
+            path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/parentAssociation", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the backup plan that is specified by the plan ID as a backup template.
     @Sendable
     public func exportBackupPlanTemplate(_ input: ExportBackupPlanTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportBackupPlanTemplateOutput {
-        return try await self.client.execute(operation: "ExportBackupPlanTemplate", path: "/backup/plans/{BackupPlanId}/toTemplate", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ExportBackupPlanTemplate", 
+            path: "/backup/plans/{BackupPlanId}/toTemplate", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns BackupPlan details for the specified BackupPlanId. The details are the body of a backup plan in JSON format, in addition to plan metadata.
     @Sendable
     public func getBackupPlan(_ input: GetBackupPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBackupPlanOutput {
-        return try await self.client.execute(operation: "GetBackupPlan", path: "/backup/plans/{BackupPlanId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBackupPlan", 
+            path: "/backup/plans/{BackupPlanId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a valid JSON document specifying a backup plan or an error.
     @Sendable
     public func getBackupPlanFromJSON(_ input: GetBackupPlanFromJSONInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBackupPlanFromJSONOutput {
-        return try await self.client.execute(operation: "GetBackupPlanFromJSON", path: "/backup/template/json/toPlan", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBackupPlanFromJSON", 
+            path: "/backup/template/json/toPlan", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the template specified by its templateId as a backup plan.
     @Sendable
     public func getBackupPlanFromTemplate(_ input: GetBackupPlanFromTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBackupPlanFromTemplateOutput {
-        return try await self.client.execute(operation: "GetBackupPlanFromTemplate", path: "/backup/template/plans/{BackupPlanTemplateId}/toPlan", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBackupPlanFromTemplate", 
+            path: "/backup/template/plans/{BackupPlanTemplateId}/toPlan", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns selection metadata and a document in JSON format that specifies a list of resources that are associated with a backup plan.
     @Sendable
     public func getBackupSelection(_ input: GetBackupSelectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBackupSelectionOutput {
-        return try await self.client.execute(operation: "GetBackupSelection", path: "/backup/plans/{BackupPlanId}/selections/{SelectionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBackupSelection", 
+            path: "/backup/plans/{BackupPlanId}/selections/{SelectionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the access policy document that is associated with the named backup vault.
     @Sendable
     public func getBackupVaultAccessPolicy(_ input: GetBackupVaultAccessPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBackupVaultAccessPolicyOutput {
-        return try await self.client.execute(operation: "GetBackupVaultAccessPolicy", path: "/backup-vaults/{BackupVaultName}/access-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBackupVaultAccessPolicy", 
+            path: "/backup-vaults/{BackupVaultName}/access-policy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns event notifications for the specified backup vault.
     @Sendable
     public func getBackupVaultNotifications(_ input: GetBackupVaultNotificationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBackupVaultNotificationsOutput {
-        return try await self.client.execute(operation: "GetBackupVaultNotifications", path: "/backup-vaults/{BackupVaultName}/notification-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBackupVaultNotifications", 
+            path: "/backup-vaults/{BackupVaultName}/notification-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This action returns details for a specified legal hold. The details are the  body of a legal hold in JSON format, in addition to metadata.
     @Sendable
     public func getLegalHold(_ input: GetLegalHoldInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLegalHoldOutput {
-        return try await self.client.execute(operation: "GetLegalHold", path: "/legal-holds/{LegalHoldId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetLegalHold", 
+            path: "/legal-holds/{LegalHoldId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a set of metadata key-value pairs that were used to create the backup.
     @Sendable
     public func getRecoveryPointRestoreMetadata(_ input: GetRecoveryPointRestoreMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecoveryPointRestoreMetadataOutput {
-        return try await self.client.execute(operation: "GetRecoveryPointRestoreMetadata", path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/restore-metadata", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRecoveryPointRestoreMetadata", 
+            path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}/restore-metadata", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the Amazon Web Services resource types supported by Backup.
     @Sendable
     public func getSupportedResourceTypes(logger: Logger = AWSClient.loggingDisabled) async throws -> GetSupportedResourceTypesOutput {
-        return try await self.client.execute(operation: "GetSupportedResourceTypes", path: "/supported-resource-types", httpMethod: .GET, serviceConfig: self.config, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSupportedResourceTypes", 
+            path: "/supported-resource-types", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
     }
 
     /// Returns a list of existing backup jobs for an authenticated account for the last 30 days. For a longer period of time, consider using these monitoring tools.
     @Sendable
     public func listBackupJobs(_ input: ListBackupJobsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackupJobsOutput {
-        return try await self.client.execute(operation: "ListBackupJobs", path: "/backup-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBackupJobs", 
+            path: "/backup-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata of your saved backup plan templates, including the template ID, name, and the creation and deletion dates.
     @Sendable
     public func listBackupPlanTemplates(_ input: ListBackupPlanTemplatesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackupPlanTemplatesOutput {
-        return try await self.client.execute(operation: "ListBackupPlanTemplates", path: "/backup/template/plans", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBackupPlanTemplates", 
+            path: "/backup/template/plans", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns version metadata of your backup plans, including Amazon Resource Names (ARNs), backup plan IDs, creation and deletion dates, plan names, and version IDs.
     @Sendable
     public func listBackupPlanVersions(_ input: ListBackupPlanVersionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackupPlanVersionsOutput {
-        return try await self.client.execute(operation: "ListBackupPlanVersions", path: "/backup/plans/{BackupPlanId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBackupPlanVersions", 
+            path: "/backup/plans/{BackupPlanId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all active backup plans for an authenticated account. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
     @Sendable
     public func listBackupPlans(_ input: ListBackupPlansInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackupPlansOutput {
-        return try await self.client.execute(operation: "ListBackupPlans", path: "/backup/plans", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBackupPlans", 
+            path: "/backup/plans", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns an array containing metadata of the resources associated with the target backup plan.
     @Sendable
     public func listBackupSelections(_ input: ListBackupSelectionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackupSelectionsOutput {
-        return try await self.client.execute(operation: "ListBackupSelections", path: "/backup/plans/{BackupPlanId}/selections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBackupSelections", 
+            path: "/backup/plans/{BackupPlanId}/selections", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of recovery point storage containers along with information about them.
     @Sendable
     public func listBackupVaults(_ input: ListBackupVaultsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackupVaultsOutput {
-        return try await self.client.execute(operation: "ListBackupVaults", path: "/backup-vaults", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBackupVaults", 
+            path: "/backup-vaults", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns metadata about your copy jobs.
     @Sendable
     public func listCopyJobs(_ input: ListCopyJobsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCopyJobsOutput {
-        return try await self.client.execute(operation: "ListCopyJobs", path: "/copy-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCopyJobs", 
+            path: "/copy-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region.
     @Sendable
     public func listFrameworks(_ input: ListFrameworksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFrameworksOutput {
-        return try await self.client.execute(operation: "ListFrameworks", path: "/audit/frameworks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFrameworks", 
+            path: "/audit/frameworks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This action returns metadata about active and previous legal holds.
     @Sendable
     public func listLegalHolds(_ input: ListLegalHoldsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLegalHoldsOutput {
-        return try await self.client.execute(operation: "ListLegalHolds", path: "/legal-holds", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListLegalHolds", 
+            path: "/legal-holds", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     @Sendable
     public func listProtectedResources(_ input: ListProtectedResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProtectedResourcesOutput {
-        return try await self.client.execute(operation: "ListProtectedResources", path: "/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProtectedResources", 
+            path: "/resources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns detailed information about the recovery points stored in a backup vault.
     @Sendable
     public func listRecoveryPointsByBackupVault(_ input: ListRecoveryPointsByBackupVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecoveryPointsByBackupVaultOutput {
-        return try await self.client.execute(operation: "ListRecoveryPointsByBackupVault", path: "/backup-vaults/{BackupVaultName}/recovery-points", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRecoveryPointsByBackupVault", 
+            path: "/backup-vaults/{BackupVaultName}/recovery-points", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This action returns recovery point ARNs (Amazon Resource Names) of the  specified legal hold.
     @Sendable
     public func listRecoveryPointsByLegalHold(_ input: ListRecoveryPointsByLegalHoldInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecoveryPointsByLegalHoldOutput {
-        return try await self.client.execute(operation: "ListRecoveryPointsByLegalHold", path: "/legal-holds/{LegalHoldId}/recovery-points", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRecoveryPointsByLegalHold", 
+            path: "/legal-holds/{LegalHoldId}/recovery-points", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns detailed information about all the recovery points of the type specified by a resource Amazon Resource Name (ARN).  For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
     @Sendable
     public func listRecoveryPointsByResource(_ input: ListRecoveryPointsByResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecoveryPointsByResourceOutput {
-        return try await self.client.execute(operation: "ListRecoveryPointsByResource", path: "/resources/{ResourceArn}/recovery-points", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRecoveryPointsByResource", 
+            path: "/resources/{ResourceArn}/recovery-points", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns details about your report jobs.
     @Sendable
     public func listReportJobs(_ input: ListReportJobsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReportJobsOutput {
-        return try await self.client.execute(operation: "ListReportJobs", path: "/audit/report-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListReportJobs", 
+            path: "/audit/report-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of your report plans. For detailed information about a single report plan, use DescribeReportPlan.
     @Sendable
     public func listReportPlans(_ input: ListReportPlansInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReportPlansOutput {
-        return try await self.client.execute(operation: "ListReportPlans", path: "/audit/report-plans", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListReportPlans", 
+            path: "/audit/report-plans", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of jobs that Backup initiated to restore a saved resource, including details about the recovery process.
     @Sendable
     public func listRestoreJobs(_ input: ListRestoreJobsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRestoreJobsOutput {
-        return try await self.client.execute(operation: "ListRestoreJobs", path: "/restore-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRestoreJobs", 
+            path: "/restore-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.  ListTags only works for resource types that support full Backup management of their backups. Those resource types are listed in the "Full Backup management" section of the  Feature availability by resource table.
     @Sendable
     public func listTags(_ input: ListTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsOutput {
-        return try await self.client.execute(operation: "ListTags", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTags", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets a resource-based policy that is used to manage access permissions on the target backup vault. Requires a backup vault name and an access policy document in JSON format.
     @Sendable
     public func putBackupVaultAccessPolicy(_ input: PutBackupVaultAccessPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutBackupVaultAccessPolicy", path: "/backup-vaults/{BackupVaultName}/access-policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutBackupVaultAccessPolicy", 
+            path: "/backup-vaults/{BackupVaultName}/access-policy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Applies Backup Vault Lock to a backup vault, preventing attempts to delete any recovery point stored in or created in a backup vault. Vault Lock also prevents attempts to update the lifecycle policy that controls the retention period of any recovery point currently stored in a backup vault. If specified, Vault Lock enforces a minimum and maximum retention period for future backup and copy jobs that target a backup vault.  Backup Vault Lock has been assessed by Cohasset Associates for use in environments  that are subject to SEC 17a-4, CFTC, and FINRA regulations. For more information about  how Backup Vault Lock relates to these regulations, see the  Cohasset Associates  Compliance Assessment.
     @Sendable
     public func putBackupVaultLockConfiguration(_ input: PutBackupVaultLockConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutBackupVaultLockConfiguration", path: "/backup-vaults/{BackupVaultName}/vault-lock", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutBackupVaultLockConfiguration", 
+            path: "/backup-vaults/{BackupVaultName}/vault-lock", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Turns on notifications on a backup vault for the specified topic and events.
     @Sendable
     public func putBackupVaultNotifications(_ input: PutBackupVaultNotificationsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutBackupVaultNotifications", path: "/backup-vaults/{BackupVaultName}/notification-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutBackupVaultNotifications", 
+            path: "/backup-vaults/{BackupVaultName}/notification-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an on-demand backup job for the specified resource.
     @Sendable
     public func startBackupJob(_ input: StartBackupJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBackupJobOutput {
-        return try await self.client.execute(operation: "StartBackupJob", path: "/backup-jobs", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartBackupJob", 
+            path: "/backup-jobs", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups.
     @Sendable
     public func startCopyJob(_ input: StartCopyJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCopyJobOutput {
-        return try await self.client.execute(operation: "StartCopyJob", path: "/copy-jobs", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartCopyJob", 
+            path: "/copy-jobs", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an on-demand report job for the specified report plan.
     @Sendable
     public func startReportJob(_ input: StartReportJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartReportJobOutput {
-        return try await self.client.execute(operation: "StartReportJob", path: "/audit/report-jobs/{ReportPlanName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartReportJob", 
+            path: "/audit/report-jobs/{ReportPlanName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Recovers the saved resource identified by an Amazon Resource Name (ARN).
     @Sendable
     public func startRestoreJob(_ input: StartRestoreJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRestoreJobOutput {
-        return try await self.client.execute(operation: "StartRestoreJob", path: "/restore-jobs", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartRestoreJob", 
+            path: "/restore-jobs", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, FSx for ONTAP , Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora,  and Amazon Neptune.
     @Sendable
     public func stopBackupJob(_ input: StopBackupJobInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "StopBackupJob", path: "/backup-jobs/{BackupJobId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopBackupJob", 
+            path: "/backup-jobs/{BackupJobId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN).
     @Sendable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a set of key-value pairs from a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN)
     @Sendable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/untag/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/untag/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing backup plan identified by its backupPlanId with the input document in JSON format. The new version is uniquely identified by a VersionId.
     @Sendable
     public func updateBackupPlan(_ input: UpdateBackupPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBackupPlanOutput {
-        return try await self.client.execute(operation: "UpdateBackupPlan", path: "/backup/plans/{BackupPlanId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBackupPlan", 
+            path: "/backup/plans/{BackupPlanId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing framework identified by its FrameworkName with the input document in JSON format.
     @Sendable
     public func updateFramework(_ input: UpdateFrameworkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFrameworkOutput {
-        return try await self.client.execute(operation: "UpdateFramework", path: "/audit/frameworks/{FrameworkName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFramework", 
+            path: "/audit/frameworks/{FrameworkName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings.
     @Sendable
     public func updateGlobalSettings(_ input: UpdateGlobalSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateGlobalSettings", path: "/global-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateGlobalSettings", 
+            path: "/global-settings", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage"  section of the   Feature availability by resource table. Backup ignores this expression for other resource types. This operation does not support continuous backups.
     @Sendable
     public func updateRecoveryPointLifecycle(_ input: UpdateRecoveryPointLifecycleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRecoveryPointLifecycleOutput {
-        return try await self.client.execute(operation: "UpdateRecoveryPointLifecycle", path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRecoveryPointLifecycle", 
+            path: "/backup-vaults/{BackupVaultName}/recovery-points/{RecoveryPointArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the current service opt-in settings for the Region. If service-opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to protect that service's resources in this Region. Use the DescribeRegionSettings API to determine the resource types that are supported.
     @Sendable
     public func updateRegionSettings(_ input: UpdateRegionSettingsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateRegionSettings", path: "/account-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRegionSettings", 
+            path: "/account-settings", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing report plan identified by its ReportPlanName with the input document in JSON format.
     @Sendable
     public func updateReportPlan(_ input: UpdateReportPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateReportPlanOutput {
-        return try await self.client.execute(operation: "UpdateReportPlan", path: "/audit/report-plans/{ReportPlanName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateReportPlan", 
+            path: "/audit/report-plans/{ReportPlanName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

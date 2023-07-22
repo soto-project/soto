@@ -66,145 +66,313 @@ public struct MediaPackageV2: AWSService {
     /// Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels in the same AWS Region in different channel groups.
     @Sendable
     public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChannelResponse {
-        return try await self.client.execute(operation: "CreateChannel", path: "/channelGroup/{ChannelGroupName}/channel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateChannel", 
+            path: "/channelGroup/{ChannelGroupName}/channel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides predictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can create only one channel group with each request.
     @Sendable
     public func createChannelGroup(_ input: CreateChannelGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChannelGroupResponse {
-        return try await self.client.execute(operation: "CreateChannelGroup", path: "/channelGroup", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateChannelGroup", 
+            path: "/channelGroup", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon CloudFront) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request.
     @Sendable
     public func createOriginEndpoint(_ input: CreateOriginEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOriginEndpointResponse {
-        return try await self.client.execute(operation: "CreateOriginEndpoint", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateOriginEndpoint", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a channel to stop AWS Elemental MediaPackage from receiving further content. You must delete the channel's origin endpoints before you can delete the channel.
     @Sendable
     public func deleteChannel(_ input: DeleteChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChannelResponse {
-        return try await self.client.execute(operation: "DeleteChannel", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteChannel", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a channel group. You must delete the channel group's channels and origin endpoints before you can delete the channel group. If you delete a channel group, you'll lose access to the egress domain and will have to create a new channel group to replace it.
     @Sendable
     public func deleteChannelGroup(_ input: DeleteChannelGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChannelGroupResponse {
-        return try await self.client.execute(operation: "DeleteChannelGroup", path: "/channelGroup/{ChannelGroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteChannelGroup", 
+            path: "/channelGroup/{ChannelGroupName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a channel policy.
     @Sendable
     public func deleteChannelPolicy(_ input: DeleteChannelPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChannelPolicyResponse {
-        return try await self.client.execute(operation: "DeleteChannelPolicy", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteChannelPolicy", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/policy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Origin endpoints can serve content until they're deleted. Delete the endpoint if it should no longer respond to playback requests. You must delete all endpoints from a channel before you can delete the channel.
     @Sendable
     public func deleteOriginEndpoint(_ input: DeleteOriginEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteOriginEndpointResponse {
-        return try await self.client.execute(operation: "DeleteOriginEndpoint", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteOriginEndpoint", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete an origin endpoint policy.
     @Sendable
     public func deleteOriginEndpointPolicy(_ input: DeleteOriginEndpointPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteOriginEndpointPolicyResponse {
-        return try await self.client.execute(operation: "DeleteOriginEndpointPolicy", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteOriginEndpointPolicy", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/policy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the specified channel that's configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
     @Sendable
     public func getChannel(_ input: GetChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChannelResponse {
-        return try await self.client.execute(operation: "GetChannel", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetChannel", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the specified channel group that's configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
     @Sendable
     public func getChannelGroup(_ input: GetChannelGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChannelGroupResponse {
-        return try await self.client.execute(operation: "GetChannelGroup", path: "/channelGroup/{ChannelGroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetChannelGroup", 
+            path: "/channelGroup/{ChannelGroupName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the specified channel policy that's configured in AWS Elemental MediaPackage. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources.
     @Sendable
     public func getChannelPolicy(_ input: GetChannelPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChannelPolicyResponse {
-        return try await self.client.execute(operation: "GetChannelPolicy", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetChannelPolicy", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/policy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the specified origin endpoint that's configured in AWS Elemental MediaPackage to obtain its playback URL and to view the packaging settings that it's currently using.
     @Sendable
     public func getOriginEndpoint(_ input: GetOriginEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOriginEndpointResponse {
-        return try await self.client.execute(operation: "GetOriginEndpoint", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetOriginEndpoint", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the specified origin endpoint policy that's configured in AWS Elemental MediaPackage.
     @Sendable
     public func getOriginEndpointPolicy(_ input: GetOriginEndpointPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOriginEndpointPolicyResponse {
-        return try await self.client.execute(operation: "GetOriginEndpointPolicy", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetOriginEndpointPolicy", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/policy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves all channel groups that are configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
     @Sendable
     public func listChannelGroups(_ input: ListChannelGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelGroupsResponse {
-        return try await self.client.execute(operation: "ListChannelGroups", path: "/channelGroup", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListChannelGroups", 
+            path: "/channelGroup", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
     @Sendable
     public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelsResponse {
-        return try await self.client.execute(operation: "ListChannels", path: "/channelGroup/{ChannelGroupName}/channel", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListChannels", 
+            path: "/channelGroup/{ChannelGroupName}/channel", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves all origin endpoints in a specific channel that are configured in AWS Elemental MediaPackage.
     @Sendable
     public func listOriginEndpoints(_ input: ListOriginEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOriginEndpointsResponse {
-        return try await self.client.execute(operation: "ListOriginEndpoints", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOriginEndpoints", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags assigned to a resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attaches an IAM policy to the specified channel. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources. You can attach only one policy with each request.
     @Sendable
     public func putChannelPolicy(_ input: PutChannelPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutChannelPolicyResponse {
-        return try await self.client.execute(operation: "PutChannelPolicy", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutChannelPolicy", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/policy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with each request.
     @Sendable
     public func putOriginEndpointPolicy(_ input: PutOriginEndpointPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutOriginEndpointPolicyResponse {
-        return try await self.client.execute(operation: "PutOriginEndpointPolicy", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutOriginEndpointPolicy", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/policy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assigns one of more tags (key-value pairs) to the specified MediaPackage resource. Tags can help you organize and categorize your resources. You can also use them to scope user  permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag  key for the resource, this tag is appended to the list of tags associated with the resource. If you  specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from the specified resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the specified channel. You can edit if MediaPackage sends ingest or egress access logs to the CloudWatch log group, if content will be encrypted, the description on a channel, and your channel's policy settings. You can't edit the name of the channel or CloudFront distribution details. Any edits you make that impact the video output may not be reflected for a few minutes.
     @Sendable
     public func updateChannel(_ input: UpdateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelResponse {
-        return try await self.client.execute(operation: "UpdateChannel", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateChannel", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the specified channel group. You can edit the description on a channel group for easier identification later from the AWS Elemental MediaPackage console. You can't edit the name of the channel group. Any edits you make that impact the video output may not be reflected for a few minutes.
     @Sendable
     public func updateChannelGroup(_ input: UpdateChannelGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelGroupResponse {
-        return try await self.client.execute(operation: "UpdateChannelGroup", path: "/channelGroup/{ChannelGroupName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateChannelGroup", 
+            path: "/channelGroup/{ChannelGroupName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the specified origin endpoint. Edit the packaging preferences on an endpoint to optimize the viewing experience. You can't edit the name of the endpoint. Any edits you make that impact the video output may not be reflected for a few minutes.
     @Sendable
     public func updateOriginEndpoint(_ input: UpdateOriginEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOriginEndpointResponse {
-        return try await self.client.execute(operation: "UpdateOriginEndpoint", path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateOriginEndpoint", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

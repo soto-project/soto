@@ -66,358 +66,757 @@ public struct RoboMaker: AWSService {
     /// Deletes one or more worlds in a batch operation.
     @Sendable
     public func batchDeleteWorlds(_ input: BatchDeleteWorldsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteWorldsResponse {
-        return try await self.client.execute(operation: "BatchDeleteWorlds", path: "/batchDeleteWorlds", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDeleteWorlds", 
+            path: "/batchDeleteWorlds", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes one or more simulation jobs.
     @Sendable
     public func batchDescribeSimulationJob(_ input: BatchDescribeSimulationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDescribeSimulationJobResponse {
-        return try await self.client.execute(operation: "BatchDescribeSimulationJob", path: "/batchDescribeSimulationJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDescribeSimulationJob", 
+            path: "/batchDescribeSimulationJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels the specified deployment job.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func cancelDeploymentJob(_ input: CancelDeploymentJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelDeploymentJobResponse {
-        return try await self.client.execute(operation: "CancelDeploymentJob", path: "/cancelDeploymentJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelDeploymentJob", 
+            path: "/cancelDeploymentJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels the specified simulation job.
     @Sendable
     public func cancelSimulationJob(_ input: CancelSimulationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelSimulationJobResponse {
-        return try await self.client.execute(operation: "CancelSimulationJob", path: "/cancelSimulationJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelSimulationJob", 
+            path: "/cancelSimulationJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch.
     @Sendable
     public func cancelSimulationJobBatch(_ input: CancelSimulationJobBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelSimulationJobBatchResponse {
-        return try await self.client.execute(operation: "CancelSimulationJobBatch", path: "/cancelSimulationJobBatch", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelSimulationJobBatch", 
+            path: "/cancelSimulationJobBatch", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels the specified export job.
     @Sendable
     public func cancelWorldExportJob(_ input: CancelWorldExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelWorldExportJobResponse {
-        return try await self.client.execute(operation: "CancelWorldExportJob", path: "/cancelWorldExportJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelWorldExportJob", 
+            path: "/cancelWorldExportJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels the specified world generator job.
     @Sendable
     public func cancelWorldGenerationJob(_ input: CancelWorldGenerationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelWorldGenerationJobResponse {
-        return try await self.client.execute(operation: "CancelWorldGenerationJob", path: "/cancelWorldGenerationJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelWorldGenerationJob", 
+            path: "/cancelWorldGenerationJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deploys a specific version of a robot application to robots in a fleet.  This API is no longer supported and will throw an error if used.  The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see Creating a Robot Application Version.   After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func createDeploymentJob(_ input: CreateDeploymentJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDeploymentJobResponse {
-        return try await self.client.execute(operation: "CreateDeploymentJob", path: "/createDeploymentJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDeploymentJob", 
+            path: "/createDeploymentJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a fleet, a logical group of robots running the same robot application.  This API is no longer supported and will throw an error if used.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func createFleet(_ input: CreateFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFleetResponse {
-        return try await self.client.execute(operation: "CreateFleet", path: "/createFleet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFleet", 
+            path: "/createFleet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a robot.  This API is no longer supported and will throw an error if used.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func createRobot(_ input: CreateRobotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRobotResponse {
-        return try await self.client.execute(operation: "CreateRobot", path: "/createRobot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRobot", 
+            path: "/createRobot", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a robot application.
     @Sendable
     public func createRobotApplication(_ input: CreateRobotApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRobotApplicationResponse {
-        return try await self.client.execute(operation: "CreateRobotApplication", path: "/createRobotApplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRobotApplication", 
+            path: "/createRobotApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a version of a robot application.
     @Sendable
     public func createRobotApplicationVersion(_ input: CreateRobotApplicationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRobotApplicationVersionResponse {
-        return try await self.client.execute(operation: "CreateRobotApplicationVersion", path: "/createRobotApplicationVersion", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRobotApplicationVersion", 
+            path: "/createRobotApplicationVersion", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a simulation application.
     @Sendable
     public func createSimulationApplication(_ input: CreateSimulationApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSimulationApplicationResponse {
-        return try await self.client.execute(operation: "CreateSimulationApplication", path: "/createSimulationApplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSimulationApplication", 
+            path: "/createSimulationApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a simulation application with a specific revision id.
     @Sendable
     public func createSimulationApplicationVersion(_ input: CreateSimulationApplicationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSimulationApplicationVersionResponse {
-        return try await self.client.execute(operation: "CreateSimulationApplicationVersion", path: "/createSimulationApplicationVersion", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSimulationApplicationVersion", 
+            path: "/createSimulationApplicationVersion", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a simulation job.  After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.
     @Sendable
     public func createSimulationJob(_ input: CreateSimulationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSimulationJobResponse {
-        return try await self.client.execute(operation: "CreateSimulationJob", path: "/createSimulationJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSimulationJob", 
+            path: "/createSimulationJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a world export job.
     @Sendable
     public func createWorldExportJob(_ input: CreateWorldExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorldExportJobResponse {
-        return try await self.client.execute(operation: "CreateWorldExportJob", path: "/createWorldExportJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorldExportJob", 
+            path: "/createWorldExportJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates worlds using the specified template.
     @Sendable
     public func createWorldGenerationJob(_ input: CreateWorldGenerationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorldGenerationJobResponse {
-        return try await self.client.execute(operation: "CreateWorldGenerationJob", path: "/createWorldGenerationJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorldGenerationJob", 
+            path: "/createWorldGenerationJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a world template.
     @Sendable
     public func createWorldTemplate(_ input: CreateWorldTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorldTemplateResponse {
-        return try await self.client.execute(operation: "CreateWorldTemplate", path: "/createWorldTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorldTemplate", 
+            path: "/createWorldTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a fleet.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func deleteFleet(_ input: DeleteFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFleetResponse {
-        return try await self.client.execute(operation: "DeleteFleet", path: "/deleteFleet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFleet", 
+            path: "/deleteFleet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a robot.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func deleteRobot(_ input: DeleteRobotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRobotResponse {
-        return try await self.client.execute(operation: "DeleteRobot", path: "/deleteRobot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRobot", 
+            path: "/deleteRobot", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a robot application.
     @Sendable
     public func deleteRobotApplication(_ input: DeleteRobotApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRobotApplicationResponse {
-        return try await self.client.execute(operation: "DeleteRobotApplication", path: "/deleteRobotApplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRobotApplication", 
+            path: "/deleteRobotApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a simulation application.
     @Sendable
     public func deleteSimulationApplication(_ input: DeleteSimulationApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSimulationApplicationResponse {
-        return try await self.client.execute(operation: "DeleteSimulationApplication", path: "/deleteSimulationApplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSimulationApplication", 
+            path: "/deleteSimulationApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a world template.
     @Sendable
     public func deleteWorldTemplate(_ input: DeleteWorldTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorldTemplateResponse {
-        return try await self.client.execute(operation: "DeleteWorldTemplate", path: "/deleteWorldTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWorldTemplate", 
+            path: "/deleteWorldTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deregisters a robot.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func deregisterRobot(_ input: DeregisterRobotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterRobotResponse {
-        return try await self.client.execute(operation: "DeregisterRobot", path: "/deregisterRobot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeregisterRobot", 
+            path: "/deregisterRobot", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a deployment job.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func describeDeploymentJob(_ input: DescribeDeploymentJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeploymentJobResponse {
-        return try await self.client.execute(operation: "DescribeDeploymentJob", path: "/describeDeploymentJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDeploymentJob", 
+            path: "/describeDeploymentJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a fleet.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func describeFleet(_ input: DescribeFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetResponse {
-        return try await self.client.execute(operation: "DescribeFleet", path: "/describeFleet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFleet", 
+            path: "/describeFleet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a robot.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func describeRobot(_ input: DescribeRobotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRobotResponse {
-        return try await self.client.execute(operation: "DescribeRobot", path: "/describeRobot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRobot", 
+            path: "/describeRobot", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a robot application.
     @Sendable
     public func describeRobotApplication(_ input: DescribeRobotApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRobotApplicationResponse {
-        return try await self.client.execute(operation: "DescribeRobotApplication", path: "/describeRobotApplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRobotApplication", 
+            path: "/describeRobotApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a simulation application.
     @Sendable
     public func describeSimulationApplication(_ input: DescribeSimulationApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSimulationApplicationResponse {
-        return try await self.client.execute(operation: "DescribeSimulationApplication", path: "/describeSimulationApplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSimulationApplication", 
+            path: "/describeSimulationApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a simulation job.
     @Sendable
     public func describeSimulationJob(_ input: DescribeSimulationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSimulationJobResponse {
-        return try await self.client.execute(operation: "DescribeSimulationJob", path: "/describeSimulationJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSimulationJob", 
+            path: "/describeSimulationJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a simulation job batch.
     @Sendable
     public func describeSimulationJobBatch(_ input: DescribeSimulationJobBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSimulationJobBatchResponse {
-        return try await self.client.execute(operation: "DescribeSimulationJobBatch", path: "/describeSimulationJobBatch", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSimulationJobBatch", 
+            path: "/describeSimulationJobBatch", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a world.
     @Sendable
     public func describeWorld(_ input: DescribeWorldRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorldResponse {
-        return try await self.client.execute(operation: "DescribeWorld", path: "/describeWorld", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeWorld", 
+            path: "/describeWorld", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a world export job.
     @Sendable
     public func describeWorldExportJob(_ input: DescribeWorldExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorldExportJobResponse {
-        return try await self.client.execute(operation: "DescribeWorldExportJob", path: "/describeWorldExportJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeWorldExportJob", 
+            path: "/describeWorldExportJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a world generation job.
     @Sendable
     public func describeWorldGenerationJob(_ input: DescribeWorldGenerationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorldGenerationJobResponse {
-        return try await self.client.execute(operation: "DescribeWorldGenerationJob", path: "/describeWorldGenerationJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeWorldGenerationJob", 
+            path: "/describeWorldGenerationJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a world template.
     @Sendable
     public func describeWorldTemplate(_ input: DescribeWorldTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorldTemplateResponse {
-        return try await self.client.execute(operation: "DescribeWorldTemplate", path: "/describeWorldTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeWorldTemplate", 
+            path: "/describeWorldTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the world template body.
     @Sendable
     public func getWorldTemplateBody(_ input: GetWorldTemplateBodyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorldTemplateBodyResponse {
-        return try await self.client.execute(operation: "GetWorldTemplateBody", path: "/getWorldTemplateBody", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorldTemplateBody", 
+            path: "/getWorldTemplateBody", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func listDeploymentJobs(_ input: ListDeploymentJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentJobsResponse {
-        return try await self.client.execute(operation: "ListDeploymentJobs", path: "/listDeploymentJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDeploymentJobs", 
+            path: "/listDeploymentJobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func listFleets(_ input: ListFleetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFleetsResponse {
-        return try await self.client.execute(operation: "ListFleets", path: "/listFleets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFleets", 
+            path: "/listFleets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
     @Sendable
     public func listRobotApplications(_ input: ListRobotApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRobotApplicationsResponse {
-        return try await self.client.execute(operation: "ListRobotApplications", path: "/listRobotApplications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRobotApplications", 
+            path: "/listRobotApplications", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of robots. You can optionally provide filters to retrieve specific robots.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func listRobots(_ input: ListRobotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRobotsResponse {
-        return try await self.client.execute(operation: "ListRobots", path: "/listRobots", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRobots", 
+            path: "/listRobots", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
     @Sendable
     public func listSimulationApplications(_ input: ListSimulationApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSimulationApplicationsResponse {
-        return try await self.client.execute(operation: "ListSimulationApplications", path: "/listSimulationApplications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSimulationApplications", 
+            path: "/listSimulationApplications", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs.
     @Sendable
     public func listSimulationJobBatches(_ input: ListSimulationJobBatchesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSimulationJobBatchesResponse {
-        return try await self.client.execute(operation: "ListSimulationJobBatches", path: "/listSimulationJobBatches", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSimulationJobBatches", 
+            path: "/listSimulationJobBatches", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
     @Sendable
     public func listSimulationJobs(_ input: ListSimulationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSimulationJobsResponse {
-        return try await self.client.execute(operation: "ListSimulationJobs", path: "/listSimulationJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSimulationJobs", 
+            path: "/listSimulationJobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all tags on a AWS RoboMaker resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists world export jobs.
     @Sendable
     public func listWorldExportJobs(_ input: ListWorldExportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorldExportJobsResponse {
-        return try await self.client.execute(operation: "ListWorldExportJobs", path: "/listWorldExportJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorldExportJobs", 
+            path: "/listWorldExportJobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists world generator jobs.
     @Sendable
     public func listWorldGenerationJobs(_ input: ListWorldGenerationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorldGenerationJobsResponse {
-        return try await self.client.execute(operation: "ListWorldGenerationJobs", path: "/listWorldGenerationJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorldGenerationJobs", 
+            path: "/listWorldGenerationJobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists world templates.
     @Sendable
     public func listWorldTemplates(_ input: ListWorldTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorldTemplatesResponse {
-        return try await self.client.execute(operation: "ListWorldTemplates", path: "/listWorldTemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorldTemplates", 
+            path: "/listWorldTemplates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists worlds.
     @Sendable
     public func listWorlds(_ input: ListWorldsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorldsResponse {
-        return try await self.client.execute(operation: "ListWorlds", path: "/listWorlds", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorlds", 
+            path: "/listWorlds", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers a robot with a fleet.  This API is no longer supported and will throw an error if used.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func registerRobot(_ input: RegisterRobotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterRobotResponse {
-        return try await self.client.execute(operation: "RegisterRobot", path: "/registerRobot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterRobot", 
+            path: "/registerRobot", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Restarts a running simulation job.
     @Sendable
     public func restartSimulationJob(_ input: RestartSimulationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestartSimulationJobResponse {
-        return try await self.client.execute(operation: "RestartSimulationJob", path: "/restartSimulationJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RestartSimulationJob", 
+            path: "/restartSimulationJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a new simulation job batch. The batch is defined using one or more SimulationJobRequest objects.
     @Sendable
     public func startSimulationJobBatch(_ input: StartSimulationJobBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSimulationJobBatchResponse {
-        return try await self.client.execute(operation: "StartSimulationJobBatch", path: "/startSimulationJobBatch", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartSimulationJobBatch", 
+            path: "/startSimulationJobBatch", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     public func syncDeploymentJob(_ input: SyncDeploymentJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SyncDeploymentJobResponse {
-        return try await self.client.execute(operation: "SyncDeploymentJob", path: "/syncDeploymentJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SyncDeploymentJob", 
+            path: "/syncDeploymentJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings.  For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use  TagResource .
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a robot application.
     @Sendable
     public func updateRobotApplication(_ input: UpdateRobotApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRobotApplicationResponse {
-        return try await self.client.execute(operation: "UpdateRobotApplication", path: "/updateRobotApplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRobotApplication", 
+            path: "/updateRobotApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a simulation application.
     @Sendable
     public func updateSimulationApplication(_ input: UpdateSimulationApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSimulationApplicationResponse {
-        return try await self.client.execute(operation: "UpdateSimulationApplication", path: "/updateSimulationApplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSimulationApplication", 
+            path: "/updateSimulationApplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a world template.
     @Sendable
     public func updateWorldTemplate(_ input: UpdateWorldTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorldTemplateResponse {
-        return try await self.client.execute(operation: "UpdateWorldTemplate", path: "/updateWorldTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorldTemplate", 
+            path: "/updateWorldTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -66,169 +66,365 @@ public struct MigrationHubOrchestrator: AWSService {
     /// Create a workflow to orchestrate your migrations.
     @Sendable
     public func createWorkflow(_ input: CreateMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMigrationWorkflowResponse {
-        return try await self.client.execute(operation: "CreateWorkflow", path: "/migrationworkflow/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorkflow", 
+            path: "/migrationworkflow/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a step in the migration workflow.
     @Sendable
     public func createWorkflowStep(_ input: CreateWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkflowStepResponse {
-        return try await self.client.execute(operation: "CreateWorkflowStep", path: "/workflowstep", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorkflowStep", 
+            path: "/workflowstep", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a step group in a migration workflow.
     @Sendable
     public func createWorkflowStepGroup(_ input: CreateWorkflowStepGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkflowStepGroupResponse {
-        return try await self.client.execute(operation: "CreateWorkflowStepGroup", path: "/workflowstepgroups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorkflowStepGroup", 
+            path: "/workflowstepgroups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator console to delete it.
     @Sendable
     public func deleteWorkflow(_ input: DeleteMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMigrationWorkflowResponse {
-        return try await self.client.execute(operation: "DeleteWorkflow", path: "/migrationworkflow/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWorkflow", 
+            path: "/migrationworkflow/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a step in a migration workflow. Pause the workflow to delete a running step.
     @Sendable
     public func deleteWorkflowStep(_ input: DeleteWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkflowStepResponse {
-        return try await self.client.execute(operation: "DeleteWorkflowStep", path: "/workflowstep/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWorkflowStep", 
+            path: "/workflowstep/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a step group in a migration workflow.
     @Sendable
     public func deleteWorkflowStepGroup(_ input: DeleteWorkflowStepGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkflowStepGroupResponse {
-        return try await self.client.execute(operation: "DeleteWorkflowStepGroup", path: "/workflowstepgroup/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWorkflowStepGroup", 
+            path: "/workflowstepgroup/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the template you want to use for creating a migration workflow.
     @Sendable
     public func getTemplate(_ input: GetMigrationWorkflowTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMigrationWorkflowTemplateResponse {
-        return try await self.client.execute(operation: "GetTemplate", path: "/migrationworkflowtemplate/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTemplate", 
+            path: "/migrationworkflowtemplate/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get a specific step in a template.
     @Sendable
     public func getTemplateStep(_ input: GetTemplateStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTemplateStepResponse {
-        return try await self.client.execute(operation: "GetTemplateStep", path: "/templatestep/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTemplateStep", 
+            path: "/templatestep/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get a step group in a template.
     @Sendable
     public func getTemplateStepGroup(_ input: GetTemplateStepGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTemplateStepGroupResponse {
-        return try await self.client.execute(operation: "GetTemplateStepGroup", path: "/templates/{templateId}/stepgroups/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTemplateStepGroup", 
+            path: "/templates/{templateId}/stepgroups/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get migration workflow.
     @Sendable
     public func getWorkflow(_ input: GetMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMigrationWorkflowResponse {
-        return try await self.client.execute(operation: "GetWorkflow", path: "/migrationworkflow/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorkflow", 
+            path: "/migrationworkflow/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get a step in the migration workflow.
     @Sendable
     public func getWorkflowStep(_ input: GetWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowStepResponse {
-        return try await self.client.execute(operation: "GetWorkflowStep", path: "/workflowstep/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorkflowStep", 
+            path: "/workflowstep/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the step group of a migration workflow.
     @Sendable
     public func getWorkflowStepGroup(_ input: GetWorkflowStepGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowStepGroupResponse {
-        return try await self.client.execute(operation: "GetWorkflowStepGroup", path: "/workflowstepgroup/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorkflowStepGroup", 
+            path: "/workflowstepgroup/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List AWS Migration Hub Orchestrator plugins.
     @Sendable
     public func listPlugins(_ input: ListPluginsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPluginsResponse {
-        return try await self.client.execute(operation: "ListPlugins", path: "/plugins", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPlugins", 
+            path: "/plugins", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the tags added to a resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the step groups in a template.
     @Sendable
     public func listTemplateStepGroups(_ input: ListTemplateStepGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplateStepGroupsResponse {
-        return try await self.client.execute(operation: "ListTemplateStepGroups", path: "/templatestepgroups/{templateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTemplateStepGroups", 
+            path: "/templatestepgroups/{templateId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the steps in a template.
     @Sendable
     public func listTemplateSteps(_ input: ListTemplateStepsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplateStepsResponse {
-        return try await self.client.execute(operation: "ListTemplateSteps", path: "/templatesteps", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTemplateSteps", 
+            path: "/templatesteps", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the templates available in Migration Hub Orchestrator to create a migration workflow.
     @Sendable
     public func listTemplates(_ input: ListMigrationWorkflowTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMigrationWorkflowTemplatesResponse {
-        return try await self.client.execute(operation: "ListTemplates", path: "/migrationworkflowtemplates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTemplates", 
+            path: "/migrationworkflowtemplates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the step groups in a migration workflow.
     @Sendable
     public func listWorkflowStepGroups(_ input: ListWorkflowStepGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkflowStepGroupsResponse {
-        return try await self.client.execute(operation: "ListWorkflowStepGroups", path: "/workflowstepgroups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkflowStepGroups", 
+            path: "/workflowstepgroups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the steps in a workflow.
     @Sendable
     public func listWorkflowSteps(_ input: ListWorkflowStepsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkflowStepsResponse {
-        return try await self.client.execute(operation: "ListWorkflowSteps", path: "/workflow/{workflowId}/workflowstepgroups/{stepGroupId}/workflowsteps", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkflowSteps", 
+            path: "/workflow/{workflowId}/workflowstepgroups/{stepGroupId}/workflowsteps", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the migration workflows.
     @Sendable
     public func listWorkflows(_ input: ListMigrationWorkflowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMigrationWorkflowsResponse {
-        return try await self.client.execute(operation: "ListWorkflows", path: "/migrationworkflows", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkflows", 
+            path: "/migrationworkflows", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retry a failed step in a migration workflow.
     @Sendable
     public func retryWorkflowStep(_ input: RetryWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetryWorkflowStepResponse {
-        return try await self.client.execute(operation: "RetryWorkflowStep", path: "/retryworkflowstep/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RetryWorkflowStep", 
+            path: "/retryworkflowstep/{id}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Start a migration workflow.
     @Sendable
     public func startWorkflow(_ input: StartMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMigrationWorkflowResponse {
-        return try await self.client.execute(operation: "StartWorkflow", path: "/migrationworkflow/{id}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartWorkflow", 
+            path: "/migrationworkflow/{id}/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stop an ongoing migration workflow.
     @Sendable
     public func stopWorkflow(_ input: StopMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopMigrationWorkflowResponse {
-        return try await self.client.execute(operation: "StopWorkflow", path: "/migrationworkflow/{id}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopWorkflow", 
+            path: "/migrationworkflow/{id}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Tag a resource by specifying its Amazon Resource Name (ARN).
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the tags for a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update a migration workflow.
     @Sendable
     public func updateWorkflow(_ input: UpdateMigrationWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMigrationWorkflowResponse {
-        return try await self.client.execute(operation: "UpdateWorkflow", path: "/migrationworkflow/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorkflow", 
+            path: "/migrationworkflow/{id}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update a step in a migration workflow.
     @Sendable
     public func updateWorkflowStep(_ input: UpdateWorkflowStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkflowStepResponse {
-        return try await self.client.execute(operation: "UpdateWorkflowStep", path: "/workflowstep/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorkflowStep", 
+            path: "/workflowstep/{id}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the step group in a migration workflow.
     @Sendable
     public func updateWorkflowStepGroup(_ input: UpdateWorkflowStepGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkflowStepGroupResponse {
-        return try await self.client.execute(operation: "UpdateWorkflowStepGroup", path: "/workflowstepgroup/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorkflowStepGroup", 
+            path: "/workflowstepgroup/{id}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -91,7 +91,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func createByteMatchSet(_ input: CreateByteMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateByteMatchSetResponse {
-        return try await self.client.execute(operation: "CreateByteMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateByteMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Creates an GeoMatchSet, which you use to specify which web requests you want to allow or block based on the country
@@ -104,7 +111,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func createGeoMatchSet(_ input: CreateGeoMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGeoMatchSetResponse {
-        return try await self.client.execute(operation: "CreateGeoMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateGeoMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -117,7 +131,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func createIPSet(_ input: CreateIPSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIPSetResponse {
-        return try await self.client.execute(operation: "CreateIPSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateIPSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Creates a RateBasedRule. The RateBasedRule contains a RateLimit, which specifies the maximum number of requests that AWS WAF allows from a specified IP address in a five-minute period.   The RateBasedRule also contains the IPSet objects, ByteMatchSet objects, and other predicates that identify the requests that you want to count or block if these requests exceed the RateLimit. If you add more than one predicate to a RateBasedRule, a request not only must exceed the RateLimit, but it also must match all the conditions to be counted or blocked. For example, suppose you add the following to a RateBasedRule:   An IPSet that matches the IP address 192.0.2.44/32    A ByteMatchSet that matches BadBot in the User-Agent header   Further, you specify a RateLimit of 1,000. You then add the RateBasedRule to a WebACL and specify that you want to block requests that meet the conditions in the rule. For a request to be blocked, it must come from the IP address 192.0.2.44 and the User-Agent header in the request must contain the value BadBot. Further, requests that match these two conditions must be received at a rate of more than 1,000 requests every five minutes. If both conditions are met and the rate is exceeded, AWS WAF blocks the requests. If the rate drops below 1,000 for a five-minute period, AWS WAF no longer blocks the requests.
@@ -129,20 +150,41 @@ public struct WAF: AWSService {
     /// 		  To create and configure a RateBasedRule, perform the following steps:   Create and update the predicates that you want to include in the rule. For more information, see CreateByteMatchSet, CreateIPSet, and CreateSqlInjectionMatchSet.   Use GetChangeToken to get the change token that you provide in the ChangeToken parameter of a CreateRule request.   Submit a CreateRateBasedRule request.   Use GetChangeToken to get the change token that you provide in the ChangeToken parameter of an UpdateRule request.   Submit an UpdateRateBasedRule request to specify the predicates that you want to include in the rule.   Create and update a WebACL that contains the RateBasedRule. For more information, see CreateWebACL.   For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
     @Sendable
     public func createRateBasedRule(_ input: CreateRateBasedRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRateBasedRuleResponse {
-        return try await self.client.execute(operation: "CreateRateBasedRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRateBasedRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Creates a RegexMatchSet. You then use UpdateRegexMatchSet to identify the part of a  web request that you want AWS WAF to inspect, such as the values of the User-Agent header or the query string.  For example, you can create a RegexMatchSet that contains a RegexMatchTuple that looks for any requests with User-Agent headers  that match a RegexPatternSet with pattern B[a@]dB[o0]t. You can then configure AWS WAF to reject those requests. To create and configure a RegexMatchSet, perform the following steps:   Use GetChangeToken to get the change token that you provide in the ChangeToken parameter of a  CreateRegexMatchSet request.   Submit a CreateRegexMatchSet request.   Use GetChangeToken to get the change token that you provide in the ChangeToken parameter of an  UpdateRegexMatchSet request.   Submit an UpdateRegexMatchSet request to specify the part of the request that you want AWS WAF to inspect  (for example, the header or the URI) and the value, using a RegexPatternSet, that you want AWS WAF to watch for.   For more information about how to use the AWS WAF API to allow or block HTTP requests, see the  AWS WAF Developer Guide.
     @Sendable
     public func createRegexMatchSet(_ input: CreateRegexMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRegexMatchSetResponse {
-        return try await self.client.execute(operation: "CreateRegexMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRegexMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Creates a RegexPatternSet. You then use UpdateRegexPatternSet to specify the regular expression (regex) pattern that you want AWS WAF to search for, such as B[a@]dB[o0]t. You can then configure AWS WAF to reject those requests.
     /// 		       To create and configure a RegexPatternSet, perform the following steps:   Use GetChangeToken to get the change token that you provide in the ChangeToken parameter of a  CreateRegexPatternSet request.   Submit a CreateRegexPatternSet request.   Use GetChangeToken to get the change token that you provide in the ChangeToken parameter of an  UpdateRegexPatternSet request.   Submit an UpdateRegexPatternSet request to specify the string that you want AWS WAF to watch for.   For more information about how to use the AWS WAF API to allow or block HTTP requests, see the  AWS WAF Developer Guide.
     @Sendable
     public func createRegexPatternSet(_ input: CreateRegexPatternSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRegexPatternSetResponse {
-        return try await self.client.execute(operation: "CreateRegexPatternSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRegexPatternSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -160,7 +202,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func createRule(_ input: CreateRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuleResponse {
-        return try await self.client.execute(operation: "CreateRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Creates a RuleGroup. A rule group is a collection of predefined rules that you add to a web ACL. You use UpdateRuleGroup to add rules to the rule group.
@@ -168,7 +217,14 @@ public struct WAF: AWSService {
     /// 	          Three rule groups per account. You can request an increase to this limit by contacting customer support.   One rule group per web ACL.   Ten rules per rule group.   For more information about how to use the AWS WAF API to allow or block HTTP requests, see the  AWS WAF Developer Guide.
     @Sendable
     public func createRuleGroup(_ input: CreateRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuleGroupResponse {
-        return try await self.client.execute(operation: "CreateRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRuleGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -185,7 +241,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func createSizeConstraintSet(_ input: CreateSizeConstraintSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSizeConstraintSetResponse {
-        return try await self.client.execute(operation: "CreateSizeConstraintSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSizeConstraintSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -200,7 +263,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func createSqlInjectionMatchSet(_ input: CreateSqlInjectionMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSqlInjectionMatchSetResponse {
-        return try await self.client.execute(operation: "CreateSqlInjectionMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSqlInjectionMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -219,13 +289,27 @@ public struct WAF: AWSService {
     /// 		       For more information about how to use the AWS WAF API, see the AWS WAF Developer Guide.
     @Sendable
     public func createWebACL(_ input: CreateWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWebACLResponse {
-        return try await self.client.execute(operation: "CreateWebACL", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWebACL", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an AWS CloudFormation WAFV2 template for the specified web ACL in the specified Amazon S3 bucket.  Then, in CloudFormation, you create a stack from the template, to create the web ACL and its resources in AWS WAFV2.  Use this to migrate your AWS WAF Classic web ACL to the latest version of AWS WAF. This is part of a larger migration procedure for web ACLs from AWS WAF Classic to the latest version of AWS WAF.  For the full procedure, including caveats and manual steps to complete  the migration and switch over to the new web ACL, see   Migrating your AWS WAF Classic resources to AWS WAF in the AWS WAF      Developer Guide.
     @Sendable
     public func createWebACLMigrationStack(_ input: CreateWebACLMigrationStackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWebACLMigrationStackResponse {
-        return try await self.client.execute(operation: "CreateWebACLMigrationStack", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWebACLMigrationStack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -240,7 +324,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func createXssMatchSet(_ input: CreateXssMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateXssMatchSetResponse {
-        return try await self.client.execute(operation: "CreateXssMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateXssMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -252,7 +343,14 @@ public struct WAF: AWSService {
     /// 				DeleteByteMatchSet request.   Submit a DeleteByteMatchSet request.
     @Sendable
     public func deleteByteMatchSet(_ input: DeleteByteMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteByteMatchSetResponse {
-        return try await self.client.execute(operation: "DeleteByteMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteByteMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Permanently deletes a GeoMatchSet. You can't delete a GeoMatchSet if it's still used in any Rules or
@@ -263,7 +361,14 @@ public struct WAF: AWSService {
     /// 				DeleteGeoMatchSet request.   Submit a DeleteGeoMatchSet request.
     @Sendable
     public func deleteGeoMatchSet(_ input: DeleteGeoMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGeoMatchSetResponse {
-        return try await self.client.execute(operation: "DeleteGeoMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteGeoMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -275,25 +380,53 @@ public struct WAF: AWSService {
     /// 				DeleteIPSet request.   Submit a DeleteIPSet request.
     @Sendable
     public func deleteIPSet(_ input: DeleteIPSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIPSetResponse {
-        return try await self.client.execute(operation: "DeleteIPSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteIPSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Permanently deletes the LoggingConfiguration from the specified web ACL.
     @Sendable
     public func deleteLoggingConfiguration(_ input: DeleteLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLoggingConfigurationResponse {
-        return try await self.client.execute(operation: "DeleteLoggingConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteLoggingConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Permanently deletes an IAM policy from the specified RuleGroup. The user making the request must be the owner of the RuleGroup.
     @Sendable
     public func deletePermissionPolicy(_ input: DeletePermissionPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePermissionPolicyResponse {
-        return try await self.client.execute(operation: "DeletePermissionPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePermissionPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Permanently deletes a RateBasedRule. You can't delete a rule if it's still used in any WebACL objects or if it still includes any predicates, such as ByteMatchSet objects. If you just want to remove a rule from a WebACL, use UpdateWebACL. To permanently delete a RateBasedRule from AWS WAF, perform the following steps:   Update the RateBasedRule to remove predicates, if any. For more information, see UpdateRateBasedRule.   Use GetChangeToken to get the change token that you provide in the ChangeToken parameter of a DeleteRateBasedRule request.   Submit a DeleteRateBasedRule request.
     @Sendable
     public func deleteRateBasedRule(_ input: DeleteRateBasedRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRateBasedRuleResponse {
-        return try await self.client.execute(operation: "DeleteRateBasedRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRateBasedRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Permanently deletes a RegexMatchSet. You can't delete a RegexMatchSet if it's still used in any Rules  or if it still includes any RegexMatchTuples objects (any filters).
@@ -303,13 +436,27 @@ public struct WAF: AWSService {
     /// 				DeleteRegexMatchSet request.   Submit a DeleteRegexMatchSet request.
     @Sendable
     public func deleteRegexMatchSet(_ input: DeleteRegexMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRegexMatchSetResponse {
-        return try await self.client.execute(operation: "DeleteRegexMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRegexMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Permanently deletes a RegexPatternSet. You can't delete a RegexPatternSet if it's still used in any RegexMatchSet  or if the RegexPatternSet is not empty.
     @Sendable
     public func deleteRegexPatternSet(_ input: DeleteRegexPatternSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRegexPatternSetResponse {
-        return try await self.client.execute(operation: "DeleteRegexPatternSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRegexPatternSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -321,13 +468,27 @@ public struct WAF: AWSService {
     /// 				DeleteRule request.   Submit a DeleteRule request.
     @Sendable
     public func deleteRule(_ input: DeleteRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRuleResponse {
-        return try await self.client.execute(operation: "DeleteRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Permanently deletes a RuleGroup. You can't delete a RuleGroup if it's still used in any WebACL  objects or if it still includes any rules. If you just want to remove a RuleGroup from a WebACL, use UpdateWebACL. To permanently delete a RuleGroup from AWS WAF, perform the following steps:   Update the RuleGroup to remove rules, if any. For more information, see UpdateRuleGroup.   Use GetChangeToken to get the change token that you provide in the ChangeToken parameter of a  DeleteRuleGroup request.   Submit a DeleteRuleGroup request.
     @Sendable
     public func deleteRuleGroup(_ input: DeleteRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRuleGroupResponse {
-        return try await self.client.execute(operation: "DeleteRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRuleGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -339,7 +500,14 @@ public struct WAF: AWSService {
     /// 				DeleteSizeConstraintSet request.   Submit a DeleteSizeConstraintSet request.
     @Sendable
     public func deleteSizeConstraintSet(_ input: DeleteSizeConstraintSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSizeConstraintSetResponse {
-        return try await self.client.execute(operation: "DeleteSizeConstraintSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSizeConstraintSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -352,7 +520,14 @@ public struct WAF: AWSService {
     /// 				DeleteSqlInjectionMatchSet request.   Submit a DeleteSqlInjectionMatchSet request.
     @Sendable
     public func deleteSqlInjectionMatchSet(_ input: DeleteSqlInjectionMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSqlInjectionMatchSetResponse {
-        return try await self.client.execute(operation: "DeleteSqlInjectionMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSqlInjectionMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -362,7 +537,14 @@ public struct WAF: AWSService {
     /// 				DeleteWebACL request.   Submit a DeleteWebACL request.
     @Sendable
     public func deleteWebACL(_ input: DeleteWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWebACLResponse {
-        return try await self.client.execute(operation: "DeleteWebACL", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWebACL", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -375,14 +557,28 @@ public struct WAF: AWSService {
     /// 				DeleteXssMatchSet request.   Submit a DeleteXssMatchSet request.
     @Sendable
     public func deleteXssMatchSet(_ input: DeleteXssMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteXssMatchSetResponse {
-        return try await self.client.execute(operation: "DeleteXssMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteXssMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns the ByteMatchSet specified by ByteMatchSetId.
     @Sendable
     public func getByteMatchSet(_ input: GetByteMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetByteMatchSetResponse {
-        return try await self.client.execute(operation: "GetByteMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetByteMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -395,7 +591,14 @@ public struct WAF: AWSService {
     /// 			status of your change token.
     @Sendable
     public func getChangeToken(_ input: GetChangeTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChangeTokenResponse {
-        return try await self.client.execute(operation: "GetChangeToken", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetChangeToken", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -405,70 +608,147 @@ public struct WAF: AWSService {
     /// 				in a call to create, update, or delete an AWS WAF object.    PENDING: AWS WAF is propagating the create, update, or delete request to all AWS WAF servers.    INSYNC: Propagation is complete.
     @Sendable
     public func getChangeTokenStatus(_ input: GetChangeTokenStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChangeTokenStatusResponse {
-        return try await self.client.execute(operation: "GetChangeTokenStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetChangeTokenStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns the GeoMatchSet that is specified by GeoMatchSetId.
     @Sendable
     public func getGeoMatchSet(_ input: GetGeoMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGeoMatchSetResponse {
-        return try await self.client.execute(operation: "GetGeoMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetGeoMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns the IPSet that is specified by IPSetId.
     @Sendable
     public func getIPSet(_ input: GetIPSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIPSetResponse {
-        return try await self.client.execute(operation: "GetIPSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetIPSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns the LoggingConfiguration for the specified web ACL.
     @Sendable
     public func getLoggingConfiguration(_ input: GetLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLoggingConfigurationResponse {
-        return try await self.client.execute(operation: "GetLoggingConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetLoggingConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns the IAM policy attached to the RuleGroup.
     @Sendable
     public func getPermissionPolicy(_ input: GetPermissionPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPermissionPolicyResponse {
-        return try await self.client.execute(operation: "GetPermissionPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPermissionPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns the RateBasedRule that is specified by the RuleId that you included in the GetRateBasedRule request.
     @Sendable
     public func getRateBasedRule(_ input: GetRateBasedRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRateBasedRuleResponse {
-        return try await self.client.execute(operation: "GetRateBasedRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRateBasedRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns an array of IP addresses currently being blocked by the RateBasedRule that is specified by the RuleId. The maximum number of managed keys that will be blocked is 10,000. If more than 10,000 addresses exceed the rate limit, the 10,000 addresses with the highest rates will be blocked.
     @Sendable
     public func getRateBasedRuleManagedKeys(_ input: GetRateBasedRuleManagedKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRateBasedRuleManagedKeysResponse {
-        return try await self.client.execute(operation: "GetRateBasedRuleManagedKeys", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRateBasedRuleManagedKeys", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns the RegexMatchSet specified by RegexMatchSetId.
     @Sendable
     public func getRegexMatchSet(_ input: GetRegexMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegexMatchSetResponse {
-        return try await self.client.execute(operation: "GetRegexMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRegexMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns the RegexPatternSet specified by RegexPatternSetId.
     @Sendable
     public func getRegexPatternSet(_ input: GetRegexPatternSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegexPatternSetResponse {
-        return try await self.client.execute(operation: "GetRegexPatternSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRegexPatternSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns the Rule that is specified by the RuleId that you included in the GetRule request.
     @Sendable
     public func getRule(_ input: GetRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRuleResponse {
-        return try await self.client.execute(operation: "GetRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns the RuleGroup that is specified by the RuleGroupId that you included in the GetRuleGroup request.
     /// 	        To view the rules in a rule group, use ListActivatedRulesInRuleGroup.
     @Sendable
     public func getRuleGroup(_ input: GetRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRuleGroupResponse {
-        return try await self.client.execute(operation: "GetRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRuleGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -478,138 +758,285 @@ public struct WAF: AWSService {
     /// 			returns an updated time range. This new time range indicates the actual period during which AWS WAF selected the requests in the sample.
     @Sendable
     public func getSampledRequests(_ input: GetSampledRequestsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSampledRequestsResponse {
-        return try await self.client.execute(operation: "GetSampledRequests", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSampledRequests", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns the SizeConstraintSet specified by SizeConstraintSetId.
     @Sendable
     public func getSizeConstraintSet(_ input: GetSizeConstraintSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSizeConstraintSetResponse {
-        return try await self.client.execute(operation: "GetSizeConstraintSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSizeConstraintSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns the SqlInjectionMatchSet that is specified by SqlInjectionMatchSetId.
     @Sendable
     public func getSqlInjectionMatchSet(_ input: GetSqlInjectionMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSqlInjectionMatchSetResponse {
-        return try await self.client.execute(operation: "GetSqlInjectionMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSqlInjectionMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns the WebACL that is specified by WebACLId.
     @Sendable
     public func getWebACL(_ input: GetWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWebACLResponse {
-        return try await self.client.execute(operation: "GetWebACL", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWebACL", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns the XssMatchSet that is specified by XssMatchSetId.
     @Sendable
     public func getXssMatchSet(_ input: GetXssMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetXssMatchSetResponse {
-        return try await self.client.execute(operation: "GetXssMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetXssMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns an array of ActivatedRule objects.
     @Sendable
     public func listActivatedRulesInRuleGroup(_ input: ListActivatedRulesInRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListActivatedRulesInRuleGroupResponse {
-        return try await self.client.execute(operation: "ListActivatedRulesInRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListActivatedRulesInRuleGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns an array of ByteMatchSetSummary objects.
     @Sendable
     public func listByteMatchSets(_ input: ListByteMatchSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListByteMatchSetsResponse {
-        return try await self.client.execute(operation: "ListByteMatchSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListByteMatchSets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns an array of GeoMatchSetSummary objects in the response.
     @Sendable
     public func listGeoMatchSets(_ input: ListGeoMatchSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGeoMatchSetsResponse {
-        return try await self.client.execute(operation: "ListGeoMatchSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGeoMatchSets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns an array of IPSetSummary objects in the response.
     @Sendable
     public func listIPSets(_ input: ListIPSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIPSetsResponse {
-        return try await self.client.execute(operation: "ListIPSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListIPSets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns an array of LoggingConfiguration objects.
     @Sendable
     public func listLoggingConfigurations(_ input: ListLoggingConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLoggingConfigurationsResponse {
-        return try await self.client.execute(operation: "ListLoggingConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListLoggingConfigurations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns an array of RuleSummary objects.
     @Sendable
     public func listRateBasedRules(_ input: ListRateBasedRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRateBasedRulesResponse {
-        return try await self.client.execute(operation: "ListRateBasedRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRateBasedRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns an array of RegexMatchSetSummary objects.
     @Sendable
     public func listRegexMatchSets(_ input: ListRegexMatchSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRegexMatchSetsResponse {
-        return try await self.client.execute(operation: "ListRegexMatchSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRegexMatchSets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns an array of RegexPatternSetSummary objects.
     @Sendable
     public func listRegexPatternSets(_ input: ListRegexPatternSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRegexPatternSetsResponse {
-        return try await self.client.execute(operation: "ListRegexPatternSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRegexPatternSets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns an array of RuleGroup objects.
     @Sendable
     public func listRuleGroups(_ input: ListRuleGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRuleGroupsResponse {
-        return try await self.client.execute(operation: "ListRuleGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRuleGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns an array of RuleSummary objects.
     @Sendable
     public func listRules(_ input: ListRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRulesResponse {
-        return try await self.client.execute(operation: "ListRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns an array of SizeConstraintSetSummary objects.
     @Sendable
     public func listSizeConstraintSets(_ input: ListSizeConstraintSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSizeConstraintSetsResponse {
-        return try await self.client.execute(operation: "ListSizeConstraintSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSizeConstraintSets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns an array of SqlInjectionMatchSet objects.
     @Sendable
     public func listSqlInjectionMatchSets(_ input: ListSqlInjectionMatchSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSqlInjectionMatchSetsResponse {
-        return try await self.client.execute(operation: "ListSqlInjectionMatchSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSqlInjectionMatchSets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Returns an array of RuleGroup objects that you are subscribed to.
     @Sendable
     public func listSubscribedRuleGroups(_ input: ListSubscribedRuleGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSubscribedRuleGroupsResponse {
-        return try await self.client.execute(operation: "ListSubscribedRuleGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSubscribedRuleGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Retrieves the tags associated with the specified AWS resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a resource. Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns an array of WebACLSummary objects in the response.
     @Sendable
     public func listWebACLs(_ input: ListWebACLsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWebACLsResponse {
-        return try await self.client.execute(operation: "ListWebACLs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWebACLs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     /// 		       Returns an array of XssMatchSet objects.
     @Sendable
     public func listXssMatchSets(_ input: ListXssMatchSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListXssMatchSetsResponse {
-        return try await self.client.execute(operation: "ListXssMatchSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListXssMatchSets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Associates a LoggingConfiguration with a specified web ACL.
@@ -620,25 +1047,53 @@ public struct WAF: AWSService {
     /// 	   When you successfully enable logging using a PutLoggingConfiguration request, AWS WAF will create a service linked role with the necessary permissions to write logs to the Amazon Kinesis Data Firehose.  For more information, see Logging Web ACL Traffic Information in the AWS WAF Developer Guide.
     @Sendable
     public func putLoggingConfiguration(_ input: PutLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutLoggingConfigurationResponse {
-        return try await self.client.execute(operation: "PutLoggingConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutLoggingConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Attaches an IAM policy to the specified resource. The only supported use for this action is to share a RuleGroup across accounts. The PutPermissionPolicy is subject to the following restrictions:   You can attach only one policy with each PutPermissionPolicy request.   The policy must include an Effect, Action and Principal.      Effect must specify Allow.   The Action in the policy must be waf:UpdateWebACL, waf-regional:UpdateWebACL, waf:GetRuleGroup and waf-regional:GetRuleGroup . Any extra or wildcard actions in the policy will be rejected.   The policy cannot include a Resource parameter.   The ARN in the request must be a valid WAF RuleGroup ARN and the RuleGroup must exist in the same region.   The user making the request must be the owner of the RuleGroup.   Your policy must be composed using IAM Policy version 2012-10-17.   For more information, see IAM Policies.      An example of a valid policy parameter is shown in the Examples section below.
     @Sendable
     public func putPermissionPolicy(_ input: PutPermissionPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPermissionPolicyResponse {
-        return try await self.client.execute(operation: "PutPermissionPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutPermissionPolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Associates tags with the specified AWS resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a resource. Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can use this action to tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -657,7 +1112,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func updateByteMatchSet(_ input: UpdateByteMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateByteMatchSetResponse {
-        return try await self.client.execute(operation: "UpdateByteMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateByteMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Inserts or deletes GeoMatchConstraint objects in an GeoMatchSet. For each GeoMatchConstraint object,
@@ -675,13 +1137,27 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func updateGeoMatchSet(_ input: UpdateGeoMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGeoMatchSetResponse {
-        return try await self.client.execute(operation: "UpdateGeoMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateGeoMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Inserts or deletes IPSetDescriptor objects in an IPSet. For each IPSetDescriptor object, you specify the following values:    Whether to insert or delete the object from the array. If you want to change an IPSetDescriptor object, you delete the existing object and add a new one.   The IP address version, IPv4 or IPv6.    The IP address in CIDR notation, for example, 192.0.2.0/24 (for the range of IP addresses from 192.0.2.0 to 192.0.2.255) or 192.0.2.44/32 (for the individual IP address 192.0.2.44).    AWS WAF supports IPv4 address ranges: /8 and any range between /16 through /32. AWS WAF supports IPv6 address ranges: /24, /32, /48, /56, /64, and /128. For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. IPv6 addresses can be represented using any of the following formats:   1111:0000:0000:0000:0000:0000:0000:0111/128   1111:0:0:0:0:0:0:0111/128   1111::0111/128   1111::111/128   You use an IPSet to specify which web requests you want to allow or block based on the IP addresses that the requests originated from. For example, if you're receiving a lot of requests from one or a small number of IP addresses and you want to block the requests, you can create an IPSet that specifies those IP addresses, and then configure AWS WAF to block the requests.  To create and configure an IPSet, perform the following steps:   Submit a CreateIPSet request.   Use GetChangeToken to get the change token that you provide in the ChangeToken parameter of an UpdateIPSet request.   Submit an UpdateIPSet request to specify the IP addresses that you want AWS WAF to watch for.   When you update an IPSet, you specify the IP addresses that you want to add and/or the IP addresses that you want to delete. If you want to change an IP address, you delete the existing IP address and add the new one. You can insert a maximum of 1000 addresses in a single request. For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
     @Sendable
     public func updateIPSet(_ input: UpdateIPSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIPSetResponse {
-        return try await self.client.execute(operation: "UpdateIPSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateIPSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Inserts or deletes Predicate objects in a rule and updates the RateLimit in the rule.  Each Predicate object identifies a predicate, such as a ByteMatchSet or an IPSet, that specifies the web requests that you want to block or count. The RateLimit specifies the number of requests every five minutes that triggers the rule. If you add more than one predicate to a RateBasedRule, a request must match all the predicates and exceed the RateLimit to be counted or blocked. For example, suppose you add the following to a RateBasedRule:   An IPSet that matches the IP address 192.0.2.44/32    A ByteMatchSet that matches BadBot in the User-Agent header   Further, you specify a RateLimit of 1,000. You then add the RateBasedRule to a WebACL and specify that you want to block requests that satisfy the rule. For a request to be blocked, it must come from the IP address 192.0.2.44 and the User-Agent header in the request must contain the value BadBot. Further, requests that match these two conditions much be received at a rate of more than 1,000 every five minutes. If the rate drops below this limit, AWS WAF no longer blocks the requests.
@@ -691,7 +1167,14 @@ public struct WAF: AWSService {
     /// 			    A ByteMatchSet with FieldToMatch of URI    A PositionalConstraint of STARTS_WITH    A TargetString of login    Further, you specify a RateLimit of 1,000. By adding this RateBasedRule to a WebACL, you could limit requests to your login page without affecting the rest of your site.
     @Sendable
     public func updateRateBasedRule(_ input: UpdateRateBasedRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRateBasedRuleResponse {
-        return try await self.client.execute(operation: "UpdateRateBasedRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRateBasedRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Inserts or deletes RegexMatchTuple objects (filters) in a RegexMatchSet. For each RegexMatchSetUpdate object,
@@ -707,7 +1190,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func updateRegexMatchSet(_ input: UpdateRegexMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRegexMatchSetResponse {
-        return try await self.client.execute(operation: "UpdateRegexMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRegexMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Inserts or deletes RegexPatternString objects in a RegexPatternSet. For each RegexPatternString object,
@@ -730,7 +1220,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func updateRegexPatternSet(_ input: UpdateRegexPatternSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRegexPatternSetResponse {
-        return try await self.client.execute(operation: "UpdateRegexPatternSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRegexPatternSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -748,7 +1245,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func updateRule(_ input: UpdateRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRuleResponse {
-        return try await self.client.execute(operation: "UpdateRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   Inserts or deletes ActivatedRule objects in a RuleGroup.
@@ -756,7 +1260,14 @@ public struct WAF: AWSService {
     /// 	  	   	 To create and configure a RuleGroup, perform the following steps:   Create and update the Rules that you want to include in the RuleGroup. See CreateRule.   Use GetChangeToken to get the change token that you provide in the ChangeToken parameter of an  UpdateRuleGroup request.   Submit an UpdateRuleGroup request to add Rules to the RuleGroup.   Create and update a WebACL that contains the RuleGroup. See CreateWebACL.   If you want to replace one Rule with another, you delete the existing one and  add the new one.		 For more information about how to use the AWS WAF API to allow or block HTTP requests, see the  AWS WAF Developer Guide.
     @Sendable
     public func updateRuleGroup(_ input: UpdateRuleGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRuleGroupResponse {
-        return try await self.client.execute(operation: "UpdateRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRuleGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -779,7 +1290,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func updateSizeConstraintSet(_ input: UpdateSizeConstraintSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSizeConstraintSetResponse {
-        return try await self.client.execute(operation: "UpdateSizeConstraintSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSizeConstraintSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -799,7 +1317,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func updateSqlInjectionMatchSet(_ input: UpdateSqlInjectionMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSqlInjectionMatchSetResponse {
-        return try await self.client.execute(operation: "UpdateSqlInjectionMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSqlInjectionMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -818,7 +1343,14 @@ public struct WAF: AWSService {
     /// 		       For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
     @Sendable
     public func updateWebACL(_ input: UpdateWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWebACLResponse {
-        return try await self.client.execute(operation: "UpdateWebACL", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWebACL", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.
@@ -837,7 +1369,14 @@ public struct WAF: AWSService {
     /// 			AWS WAF Developer Guide.
     @Sendable
     public func updateXssMatchSet(_ input: UpdateXssMatchSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateXssMatchSetResponse {
-        return try await self.client.execute(operation: "UpdateXssMatchSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateXssMatchSet", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

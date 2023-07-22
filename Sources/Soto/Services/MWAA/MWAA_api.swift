@@ -66,67 +66,155 @@ public struct MWAA: AWSService {
     /// Creates a CLI token for the Airflow CLI. To learn more, see Creating an Apache Airflow CLI token.
     @Sendable
     public func createCliToken(_ input: CreateCliTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCliTokenResponse {
-        return try await self.client.execute(operation: "CreateCliToken", path: "/clitoken/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "env.", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCliToken", 
+            path: "/clitoken/{Name}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "env.", 
+            logger: logger
+        )
     }
 
     /// Creates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     @Sendable
     public func createEnvironment(_ input: CreateEnvironmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentOutput {
-        return try await self.client.execute(operation: "CreateEnvironment", path: "/environments/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEnvironment", 
+            path: "/environments/{Name}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Creates a web login token for the Airflow Web UI. To learn more, see Creating an Apache Airflow web login token.
     @Sendable
     public func createWebLoginToken(_ input: CreateWebLoginTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWebLoginTokenResponse {
-        return try await self.client.execute(operation: "CreateWebLoginToken", path: "/webtoken/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "env.", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWebLoginToken", 
+            path: "/webtoken/{Name}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "env.", 
+            logger: logger
+        )
     }
 
     /// Deletes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     @Sendable
     public func deleteEnvironment(_ input: DeleteEnvironmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentOutput {
-        return try await self.client.execute(operation: "DeleteEnvironment", path: "/environments/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEnvironment", 
+            path: "/environments/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     @Sendable
     public func getEnvironment(_ input: GetEnvironmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnvironmentOutput {
-        return try await self.client.execute(operation: "GetEnvironment", path: "/environments/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "GetEnvironment", 
+            path: "/environments/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
     @Sendable
     public func listEnvironments(_ input: ListEnvironmentsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentsOutput {
-        return try await self.client.execute(operation: "ListEnvironments", path: "/environments", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "ListEnvironments", 
+            path: "/environments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, "Environment": "Staging".
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     ///  Internal only. Publishes environment health metrics to Amazon CloudWatch.
     @Sendable
     public func publishMetrics(_ input: PublishMetricsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PublishMetricsOutput {
-        return try await self.client.execute(operation: "PublishMetrics", path: "/metrics/environments/{EnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "ops.", logger: logger)
+        return try await self.client.execute(
+            operation: "PublishMetrics", 
+            path: "/metrics/environments/{EnvironmentName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "ops.", 
+            logger: logger
+        )
     }
 
     /// Associates key-value tag pairs to your Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     @Sendable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Removes key-value tag pairs associated to your Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, "Environment": "Staging".
     @Sendable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     @Sendable
     public func updateEnvironment(_ input: UpdateEnvironmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentOutput {
-        return try await self.client.execute(operation: "UpdateEnvironment", path: "/environments/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEnvironment", 
+            path: "/environments/{Name}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 }
 

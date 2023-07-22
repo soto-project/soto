@@ -75,193 +75,417 @@ public struct M2: AWSService {
     /// Cancels the running of a specific batch job execution.
     @Sendable
     public func cancelBatchJobExecution(_ input: CancelBatchJobExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelBatchJobExecutionResponse {
-        return try await self.client.execute(operation: "CancelBatchJobExecution", path: "/applications/{applicationId}/batch-job-executions/{executionId}/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelBatchJobExecution", 
+            path: "/applications/{applicationId}/batch-job-executions/{executionId}/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new application with given parameters. Requires an existing runtime environment and application definition file.
     @Sendable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResponse {
-        return try await self.client.execute(operation: "CreateApplication", path: "/applications", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateApplication", 
+            path: "/applications", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a data set import task for a specific application.
     @Sendable
     public func createDataSetImportTask(_ input: CreateDataSetImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSetImportTaskResponse {
-        return try await self.client.execute(operation: "CreateDataSetImportTask", path: "/applications/{applicationId}/dataset-import-task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDataSetImportTask", 
+            path: "/applications/{applicationId}/dataset-import-task", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates and starts a deployment to deploy an application into a runtime environment.
     @Sendable
     public func createDeployment(_ input: CreateDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDeploymentResponse {
-        return try await self.client.execute(operation: "CreateDeployment", path: "/applications/{applicationId}/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDeployment", 
+            path: "/applications/{applicationId}/deployments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a runtime environment for a given runtime engine.
     @Sendable
     public func createEnvironment(_ input: CreateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentResponse {
-        return try await self.client.execute(operation: "CreateEnvironment", path: "/environments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEnvironment", 
+            path: "/environments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specific application. You cannot delete a running application.
     @Sendable
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationResponse {
-        return try await self.client.execute(operation: "DeleteApplication", path: "/applications/{applicationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteApplication", 
+            path: "/applications/{applicationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly.
     @Sendable
     public func deleteApplicationFromEnvironment(_ input: DeleteApplicationFromEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationFromEnvironmentResponse {
-        return try await self.client.execute(operation: "DeleteApplicationFromEnvironment", path: "/applications/{applicationId}/environment/{environmentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteApplicationFromEnvironment", 
+            path: "/applications/{applicationId}/environment/{environmentId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specific runtime environment. The environment cannot contain deployed applications. If it does, you must delete those applications before you delete the environment.
     @Sendable
     public func deleteEnvironment(_ input: DeleteEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentResponse {
-        return try await self.client.execute(operation: "DeleteEnvironment", path: "/environments/{environmentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEnvironment", 
+            path: "/environments/{environmentId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the details of a specific application.
     @Sendable
     public func getApplication(_ input: GetApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationResponse {
-        return try await self.client.execute(operation: "GetApplication", path: "/applications/{applicationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetApplication", 
+            path: "/applications/{applicationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns details about a specific version of a specific application.
     @Sendable
     public func getApplicationVersion(_ input: GetApplicationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationVersionResponse {
-        return try await self.client.execute(operation: "GetApplicationVersion", path: "/applications/{applicationId}/versions/{applicationVersion}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetApplicationVersion", 
+            path: "/applications/{applicationId}/versions/{applicationVersion}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the details of a specific batch job execution for a specific application.
     @Sendable
     public func getBatchJobExecution(_ input: GetBatchJobExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBatchJobExecutionResponse {
-        return try await self.client.execute(operation: "GetBatchJobExecution", path: "/applications/{applicationId}/batch-job-executions/{executionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBatchJobExecution", 
+            path: "/applications/{applicationId}/batch-job-executions/{executionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the details of a specific data set.
     @Sendable
     public func getDataSetDetails(_ input: GetDataSetDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataSetDetailsResponse {
-        return try await self.client.execute(operation: "GetDataSetDetails", path: "/applications/{applicationId}/datasets/{dataSetName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDataSetDetails", 
+            path: "/applications/{applicationId}/datasets/{dataSetName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the status of a data set import task initiated with the CreateDataSetImportTask operation.
     @Sendable
     public func getDataSetImportTask(_ input: GetDataSetImportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataSetImportTaskResponse {
-        return try await self.client.execute(operation: "GetDataSetImportTask", path: "/applications/{applicationId}/dataset-import-tasks/{taskId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDataSetImportTask", 
+            path: "/applications/{applicationId}/dataset-import-tasks/{taskId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details of a specific deployment with a given deployment identifier.
     @Sendable
     public func getDeployment(_ input: GetDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeploymentResponse {
-        return try await self.client.execute(operation: "GetDeployment", path: "/applications/{applicationId}/deployments/{deploymentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeployment", 
+            path: "/applications/{applicationId}/deployments/{deploymentId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a specific runtime environment.
     @Sendable
     public func getEnvironment(_ input: GetEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnvironmentResponse {
-        return try await self.client.execute(operation: "GetEnvironment", path: "/environments/{environmentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetEnvironment", 
+            path: "/environments/{environmentId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the application versions for a specific application.
     @Sendable
     public func listApplicationVersions(_ input: ListApplicationVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationVersionsResponse {
-        return try await self.client.execute(operation: "ListApplicationVersions", path: "/applications/{applicationId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApplicationVersions", 
+            path: "/applications/{applicationId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific runtime environment in a query parameter to see all applications associated with that environment.
     @Sendable
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsResponse {
-        return try await self.client.execute(operation: "ListApplications", path: "/applications", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApplications", 
+            path: "/applications", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. You can use the batch job definitions in the list to start a batch job.
     @Sendable
     public func listBatchJobDefinitions(_ input: ListBatchJobDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBatchJobDefinitionsResponse {
-        return try await self.client.execute(operation: "ListBatchJobDefinitions", path: "/applications/{applicationId}/batch-job-definitions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBatchJobDefinitions", 
+            path: "/applications/{applicationId}/batch-job-definitions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists historical, current, and scheduled batch job executions for a specific application.
     @Sendable
     public func listBatchJobExecutions(_ input: ListBatchJobExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBatchJobExecutionsResponse {
-        return try await self.client.execute(operation: "ListBatchJobExecutions", path: "/applications/{applicationId}/batch-job-executions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBatchJobExecutions", 
+            path: "/applications/{applicationId}/batch-job-executions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the data set imports for the specified application.
     @Sendable
     public func listDataSetImportHistory(_ input: ListDataSetImportHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSetImportHistoryResponse {
-        return try await self.client.execute(operation: "ListDataSetImportHistory", path: "/applications/{applicationId}/dataset-import-tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDataSetImportHistory", 
+            path: "/applications/{applicationId}/dataset-import-tasks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on runtime environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using CreateDataSetImportTask.
     @Sendable
     public func listDataSets(_ input: ListDataSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSetsResponse {
-        return try await self.client.execute(operation: "ListDataSets", path: "/applications/{applicationId}/datasets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDataSets", 
+            path: "/applications/{applicationId}/datasets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all deployments of a specific application. A deployment is a combination of a specific application and a specific version of that application. Each deployment is mapped to a particular application version.
     @Sendable
     public func listDeployments(_ input: ListDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentsResponse {
-        return try await self.client.execute(operation: "ListDeployments", path: "/applications/{applicationId}/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDeployments", 
+            path: "/applications/{applicationId}/deployments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the available engine versions.
     @Sendable
     public func listEngineVersions(_ input: ListEngineVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEngineVersionsResponse {
-        return try await self.client.execute(operation: "ListEngineVersions", path: "/engine-versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEngineVersions", 
+            path: "/engine-versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the runtime environments.
     @Sendable
     public func listEnvironments(_ input: ListEnvironmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentsResponse {
-        return try await self.client.execute(operation: "ListEnvironments", path: "/environments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEnvironments", 
+            path: "/environments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags for the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an application that is currently stopped.
     @Sendable
     public func startApplication(_ input: StartApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartApplicationResponse {
-        return try await self.client.execute(operation: "StartApplication", path: "/applications/{applicationId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartApplication", 
+            path: "/applications/{applicationId}/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a batch job and returns the unique identifier of this execution of the batch job. The associated application must be running in order to start the batch job.
     @Sendable
     public func startBatchJob(_ input: StartBatchJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBatchJobResponse {
-        return try await self.client.execute(operation: "StartBatchJob", path: "/applications/{applicationId}/batch-job", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartBatchJob", 
+            path: "/applications/{applicationId}/batch-job", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a running application.
     @Sendable
     public func stopApplication(_ input: StopApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopApplicationResponse {
-        return try await self.client.execute(operation: "StopApplication", path: "/applications/{applicationId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopApplication", 
+            path: "/applications/{applicationId}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds one or more tags to the specified resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from the specified resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an application and creates a new version.
     @Sendable
     public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationResponse {
-        return try await self.client.execute(operation: "UpdateApplication", path: "/applications/{applicationId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateApplication", 
+            path: "/applications/{applicationId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the configuration details for a specific runtime environment.
     @Sendable
     public func updateEnvironment(_ input: UpdateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentResponse {
-        return try await self.client.execute(operation: "UpdateEnvironment", path: "/environments/{environmentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEnvironment", 
+            path: "/environments/{environmentId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

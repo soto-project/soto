@@ -77,541 +77,1171 @@ public struct ServiceCatalog: AWSService {
     /// Accepts an offer to share the specified portfolio.
     @Sendable
     public func acceptPortfolioShare(_ input: AcceptPortfolioShareInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptPortfolioShareOutput {
-        return try await self.client.execute(operation: "AcceptPortfolioShare", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AcceptPortfolioShare", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates the specified budget with the specified resource.
     @Sendable
     public func associateBudgetWithResource(_ input: AssociateBudgetWithResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateBudgetWithResourceOutput {
-        return try await self.client.execute(operation: "AssociateBudgetWithResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateBudgetWithResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates the specified principal ARN with the specified portfolio. If you share the portfolio with principal name sharing enabled, the PrincipalARN association is  included in the share.  The PortfolioID, PrincipalARN, and PrincipalType parameters are required.  You can associate a maximum of 10 Principals with a portfolio using PrincipalType as IAM_PATTERN   When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is  then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin,  but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal  name association for the portfolio. Although this user may not know which principal names are associated through  Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then  Service Catalog recommends using PrincipalType as IAM. With this configuration,  the PrincipalARN must already exist in the recipient account before it can be associated.
     @Sendable
     public func associatePrincipalWithPortfolio(_ input: AssociatePrincipalWithPortfolioInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociatePrincipalWithPortfolioOutput {
-        return try await self.client.execute(operation: "AssociatePrincipalWithPortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociatePrincipalWithPortfolio", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates the specified product with the specified portfolio. A delegated admin is authorized to invoke this command.
     @Sendable
     public func associateProductWithPortfolio(_ input: AssociateProductWithPortfolioInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateProductWithPortfolioOutput {
-        return try await self.client.execute(operation: "AssociateProductWithPortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateProductWithPortfolio", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a self-service action with a provisioning artifact.
     @Sendable
     public func associateServiceActionWithProvisioningArtifact(_ input: AssociateServiceActionWithProvisioningArtifactInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateServiceActionWithProvisioningArtifactOutput {
-        return try await self.client.execute(operation: "AssociateServiceActionWithProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateServiceActionWithProvisioningArtifact", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associate the specified TagOption with the specified portfolio or product.
     @Sendable
     public func associateTagOptionWithResource(_ input: AssociateTagOptionWithResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateTagOptionWithResourceOutput {
-        return try await self.client.execute(operation: "AssociateTagOptionWithResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateTagOptionWithResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates multiple self-service actions with provisioning artifacts.
     @Sendable
     public func batchAssociateServiceActionWithProvisioningArtifact(_ input: BatchAssociateServiceActionWithProvisioningArtifactInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAssociateServiceActionWithProvisioningArtifactOutput {
-        return try await self.client.execute(operation: "BatchAssociateServiceActionWithProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchAssociateServiceActionWithProvisioningArtifact", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a batch of self-service actions from the specified provisioning artifact.
     @Sendable
     public func batchDisassociateServiceActionFromProvisioningArtifact(_ input: BatchDisassociateServiceActionFromProvisioningArtifactInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisassociateServiceActionFromProvisioningArtifactOutput {
-        return try await self.client.execute(operation: "BatchDisassociateServiceActionFromProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDisassociateServiceActionFromProvisioningArtifact", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same Region or another Region. If you copy a product to another account, you must first share the product in a portfolio using CreatePortfolioShare. This operation is performed asynchronously. To track the progress of the operation, use DescribeCopyProductStatus.
     @Sendable
     public func copyProduct(_ input: CopyProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyProductOutput {
-        return try await self.client.execute(operation: "CopyProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CopyProduct", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a constraint. A delegated admin is authorized to invoke this command.
     @Sendable
     public func createConstraint(_ input: CreateConstraintInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConstraintOutput {
-        return try await self.client.execute(operation: "CreateConstraint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateConstraint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a portfolio. A delegated admin is authorized to invoke this command.
     @Sendable
     public func createPortfolio(_ input: CreatePortfolioInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePortfolioOutput {
-        return try await self.client.execute(operation: "CreatePortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePortfolio", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares.  AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You can't share a shared resource, including portfolios that contain a shared product. If the portfolio share with the specified account or organization node already exists, this action will have no effect  and will not return an error. To update an existing share, you must use the  UpdatePortfolioShare API instead.   When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is  then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin,  but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal  name association for the portfolio. Although this user may not know which principal names are associated through  Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then  Service Catalog recommends using PrincipalType as IAM. With this configuration,  the PrincipalARN must already exist in the recipient account before it can be associated.
     @Sendable
     public func createPortfolioShare(_ input: CreatePortfolioShareInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePortfolioShareOutput {
-        return try await self.client.execute(operation: "CreatePortfolioShare", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePortfolioShare", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a product. A delegated admin is authorized to invoke this command. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
     @Sendable
     public func createProduct(_ input: CreateProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProductOutput {
-        return try await self.client.execute(operation: "CreateProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProduct", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a plan. A plan includes the list of resources to be   created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan for each provisioned product. To create a plan for an existing  provisioned product, the product status must be AVAILABLE or TAINTED. To view the resource changes in the change set, use DescribeProvisionedProductPlan. To create or modify the provisioned product, use ExecuteProvisionedProductPlan.
     @Sendable
     public func createProvisionedProductPlan(_ input: CreateProvisionedProductPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProvisionedProductPlanOutput {
-        return try await self.client.execute(operation: "CreateProvisionedProductPlan", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProvisionedProductPlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a provisioning artifact (also known as a version) for the specified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
     @Sendable
     public func createProvisioningArtifact(_ input: CreateProvisioningArtifactInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProvisioningArtifactOutput {
-        return try await self.client.execute(operation: "CreateProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProvisioningArtifact", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a self-service action.
     @Sendable
     public func createServiceAction(_ input: CreateServiceActionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceActionOutput {
-        return try await self.client.execute(operation: "CreateServiceAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateServiceAction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a TagOption.
     @Sendable
     public func createTagOption(_ input: CreateTagOptionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTagOptionOutput {
-        return try await self.client.execute(operation: "CreateTagOption", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTagOption", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified constraint. A delegated admin is authorized to invoke this command.
     @Sendable
     public func deleteConstraint(_ input: DeleteConstraintInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConstraintOutput {
-        return try await self.client.execute(operation: "DeleteConstraint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConstraint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified portfolio. You cannot delete a portfolio if it was shared with you or if it has associated  products, users, constraints, or shared accounts. A delegated admin is authorized to invoke this command.
     @Sendable
     public func deletePortfolio(_ input: DeletePortfolioInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePortfolioOutput {
-        return try await self.client.execute(operation: "DeletePortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePortfolio", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the management account of an organization or by a delegated administrator. Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
     @Sendable
     public func deletePortfolioShare(_ input: DeletePortfolioShareInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePortfolioShareOutput {
-        return try await self.client.execute(operation: "DeletePortfolioShare", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePortfolioShare", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified product. You cannot delete a product if it was shared with you or is associated with a portfolio. A delegated admin is authorized to invoke this command.
     @Sendable
     public func deleteProduct(_ input: DeleteProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProductOutput {
-        return try await self.client.execute(operation: "DeleteProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteProduct", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified plan.
     @Sendable
     public func deleteProvisionedProductPlan(_ input: DeleteProvisionedProductPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProvisionedProductPlanOutput {
-        return try await self.client.execute(operation: "DeleteProvisionedProductPlan", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteProvisionedProductPlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified provisioning artifact (also known as a version) for the specified product. You cannot delete a provisioning artifact associated with a product that was shared with you.  You cannot delete the last provisioning artifact for a product, because a product must have at  least one provisioning artifact.
     @Sendable
     public func deleteProvisioningArtifact(_ input: DeleteProvisioningArtifactInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProvisioningArtifactOutput {
-        return try await self.client.execute(operation: "DeleteProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteProvisioningArtifact", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a self-service action.
     @Sendable
     public func deleteServiceAction(_ input: DeleteServiceActionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServiceActionOutput {
-        return try await self.client.execute(operation: "DeleteServiceAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteServiceAction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified TagOption. You cannot delete a TagOption if it is associated with a product or portfolio.
     @Sendable
     public func deleteTagOption(_ input: DeleteTagOptionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTagOptionOutput {
-        return try await self.client.execute(operation: "DeleteTagOption", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTagOption", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified constraint.
     @Sendable
     public func describeConstraint(_ input: DescribeConstraintInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConstraintOutput {
-        return try await self.client.execute(operation: "DescribeConstraint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConstraint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the status of the specified copy product operation.
     @Sendable
     public func describeCopyProductStatus(_ input: DescribeCopyProductStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCopyProductStatusOutput {
-        return try await self.client.execute(operation: "DescribeCopyProductStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCopyProductStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified portfolio. A delegated admin is authorized to invoke this command.
     @Sendable
     public func describePortfolio(_ input: DescribePortfolioInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePortfolioOutput {
-        return try await self.client.execute(operation: "DescribePortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePortfolio", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the status of the specified portfolio share operation. This API can only be called by the management account in the organization or by a delegated admin.
     @Sendable
     public func describePortfolioShareStatus(_ input: DescribePortfolioShareStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePortfolioShareStatusOutput {
-        return try await self.client.execute(operation: "DescribePortfolioShareStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePortfolioShareStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required.
     @Sendable
     public func describePortfolioShares(_ input: DescribePortfolioSharesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePortfolioSharesOutput {
-        return try await self.client.execute(operation: "DescribePortfolioShares", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePortfolioShares", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified product.   Running this operation  with administrator access  results  in a failure.  DescribeProductAsAdmin should be used instead.
     @Sendable
     public func describeProduct(_ input: DescribeProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProductOutput {
-        return try await self.client.execute(operation: "DescribeProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProduct", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified product. This operation is run with administrator access.
     @Sendable
     public func describeProductAsAdmin(_ input: DescribeProductAsAdminInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProductAsAdminOutput {
-        return try await self.client.execute(operation: "DescribeProductAsAdmin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProductAsAdmin", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified product.
     @Sendable
     public func describeProductView(_ input: DescribeProductViewInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProductViewOutput {
-        return try await self.client.execute(operation: "DescribeProductView", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProductView", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified provisioned product.
     @Sendable
     public func describeProvisionedProduct(_ input: DescribeProvisionedProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProvisionedProductOutput {
-        return try await self.client.execute(operation: "DescribeProvisionedProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProvisionedProduct", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the resource changes for the specified plan.
     @Sendable
     public func describeProvisionedProductPlan(_ input: DescribeProvisionedProductPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProvisionedProductPlanOutput {
-        return try await self.client.execute(operation: "DescribeProvisionedProductPlan", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProvisionedProductPlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified provisioning artifact (also known as a version) for the specified product.
     @Sendable
     public func describeProvisioningArtifact(_ input: DescribeProvisioningArtifactInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProvisioningArtifactOutput {
-        return try await self.client.execute(operation: "DescribeProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProvisioningArtifact", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the configuration required to provision the specified product using the specified provisioning artifact. If the output contains a TagOption key with an empty list of values, there is a TagOption conflict for that key. The end user cannot take action to fix the conflict, and launch is not blocked. In subsequent calls to ProvisionProduct, do not include conflicted TagOption keys as tags, or this causes the error  "Parameter validation failed: Missing required parameter in Tags[N]:Value".  Tag the provisioned product with the value sc-tagoption-conflict-portfolioId-productId.
     @Sendable
     public func describeProvisioningParameters(_ input: DescribeProvisioningParametersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProvisioningParametersOutput {
-        return try await self.client.execute(operation: "DescribeProvisioningParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProvisioningParameters", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified request operation. Use this operation after calling a request operation (for example, ProvisionProduct,  TerminateProvisionedProduct, or UpdateProvisionedProduct).   If a provisioned product was transferred to a new owner using UpdateProvisionedProductProperties, the new owner  will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to  use ListRecordHistory to see the product's history from when he was the owner.
     @Sendable
     public func describeRecord(_ input: DescribeRecordInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRecordOutput {
-        return try await self.client.execute(operation: "DescribeRecord", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRecord", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a self-service action.
     @Sendable
     public func describeServiceAction(_ input: DescribeServiceActionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceActionOutput {
-        return try await self.client.execute(operation: "DescribeServiceAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeServiceAction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Finds the default parameters for a specific self-service action on a specific provisioned product and returns a map of the results to the user.
     @Sendable
     public func describeServiceActionExecutionParameters(_ input: DescribeServiceActionExecutionParametersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceActionExecutionParametersOutput {
-        return try await self.client.execute(operation: "DescribeServiceActionExecutionParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeServiceActionExecutionParameters", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the specified TagOption.
     @Sendable
     public func describeTagOption(_ input: DescribeTagOptionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTagOptionOutput {
-        return try await self.client.execute(operation: "DescribeTagOption", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTagOption", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disable portfolio sharing through the Organizations service. This command will not delete your current shares, but prevents you from creating new shares throughout your organization. Current shares are not kept in sync with your organization structure if the structure changes after calling this API. Only the management account in the organization can call this API. You cannot call this API if there are active delegated administrators in the organization. Note that a delegated administrator is not authorized to invoke DisableAWSOrganizationsAccess.  If you share an Service Catalog portfolio in an organization within  Organizations, and then disable Organizations access for Service Catalog,  the portfolio access permissions will not sync with the latest changes to the organization  structure. Specifically, accounts that you removed from the organization after  disabling Service Catalog access will retain access to the previously shared portfolio.
     @Sendable
     public func disableAWSOrganizationsAccess(_ input: DisableAWSOrganizationsAccessInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableAWSOrganizationsAccessOutput {
-        return try await self.client.execute(operation: "DisableAWSOrganizationsAccess", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableAWSOrganizationsAccess", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates the specified budget from the specified resource.
     @Sendable
     public func disassociateBudgetFromResource(_ input: DisassociateBudgetFromResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateBudgetFromResourceOutput {
-        return try await self.client.execute(operation: "DisassociateBudgetFromResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateBudgetFromResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a previously associated principal ARN from a specified portfolio. The PrincipalType and PrincipalARN must match the  AssociatePrincipalWithPortfolio call request details. For example, to disassociate an association created with a PrincipalARN of PrincipalType IAM you must use the PrincipalType IAM when calling DisassociatePrincipalFromPortfolio.  For portfolios that have been shared with principal name sharing enabled: after disassociating a principal, share recipient accounts will no longer be able to provision products in this portfolio using a role matching the name  of the associated principal.  For more information, review associate-principal-with-portfolio  in the Amazon Web Services CLI Command Reference.   If you disassociate a principal from a portfolio, with PrincipalType as IAM, the same principal will  still have access to the portfolio if it matches one of the associated principals of type IAM_PATTERN.  To fully remove access for a principal, verify all the associated Principals of type IAM_PATTERN,  and then ensure you disassociate any IAM_PATTERN principals that match the principal  whose access you are removing.
     @Sendable
     public func disassociatePrincipalFromPortfolio(_ input: DisassociatePrincipalFromPortfolioInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociatePrincipalFromPortfolioOutput {
-        return try await self.client.execute(operation: "DisassociatePrincipalFromPortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociatePrincipalFromPortfolio", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates the specified product from the specified portfolio.  A delegated admin is authorized to invoke this command.
     @Sendable
     public func disassociateProductFromPortfolio(_ input: DisassociateProductFromPortfolioInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateProductFromPortfolioOutput {
-        return try await self.client.execute(operation: "DisassociateProductFromPortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateProductFromPortfolio", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates the specified self-service action association from the specified provisioning artifact.
     @Sendable
     public func disassociateServiceActionFromProvisioningArtifact(_ input: DisassociateServiceActionFromProvisioningArtifactInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateServiceActionFromProvisioningArtifactOutput {
-        return try await self.client.execute(operation: "DisassociateServiceActionFromProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateServiceActionFromProvisioningArtifact", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates the specified TagOption from the specified resource.
     @Sendable
     public func disassociateTagOptionFromResource(_ input: DisassociateTagOptionFromResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateTagOptionFromResourceOutput {
-        return try await self.client.execute(operation: "DisassociateTagOptionFromResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateTagOptionFromResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enable portfolio sharing feature through Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the management account in the organization. When you call this API, Service Catalog calls organizations:EnableAWSServiceAccess on your behalf so that your shares stay in sync with any changes in your Organizations structure. Note that a delegated administrator is not authorized to invoke EnableAWSOrganizationsAccess.  If you have previously disabled Organizations access for Service Catalog, and then  enable access again, the portfolio access permissions might not sync with the latest changes to  the organization structure. Specifically, accounts that you removed from the organization after  disabling Service Catalog access, and before you enabled access again, can retain access to the  previously shared portfolio. As a result, an account that has been removed from the organization  might still be able to create or manage Amazon Web Services resources when it is no longer  authorized to do so. Amazon Web Services is working to resolve this issue.
     @Sendable
     public func enableAWSOrganizationsAccess(_ input: EnableAWSOrganizationsAccessInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableAWSOrganizationsAccessOutput {
-        return try await self.client.execute(operation: "EnableAWSOrganizationsAccess", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableAWSOrganizationsAccess", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provisions or modifies a product based on the resource changes for the specified plan.
     @Sendable
     public func executeProvisionedProductPlan(_ input: ExecuteProvisionedProductPlanInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteProvisionedProductPlanOutput {
-        return try await self.client.execute(operation: "ExecuteProvisionedProductPlan", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ExecuteProvisionedProductPlan", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Executes a self-service action against a provisioned product.
     @Sendable
     public func executeProvisionedProductServiceAction(_ input: ExecuteProvisionedProductServiceActionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteProvisionedProductServiceActionOutput {
-        return try await self.client.execute(operation: "ExecuteProvisionedProductServiceAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ExecuteProvisionedProductServiceAction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the Access Status for Organizations portfolio share feature. This API can only be called by the management account in the organization or by a delegated admin.
     @Sendable
     public func getAWSOrganizationsAccessStatus(_ input: GetAWSOrganizationsAccessStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAWSOrganizationsAccessStatusOutput {
-        return try await self.client.execute(operation: "GetAWSOrganizationsAccessStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAWSOrganizationsAccessStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API takes either a ProvisonedProductId or a ProvisionedProductName, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
     @Sendable
     public func getProvisionedProductOutputs(_ input: GetProvisionedProductOutputsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProvisionedProductOutputsOutput {
-        return try await self.client.execute(operation: "GetProvisionedProductOutputs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetProvisionedProductOutputs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Requests the import  of a resource  as an Service Catalog provisioned product  that is associated  to an Service Catalog product and provisioning artifact.  Once imported,  all supported governance actions are supported  on the provisioned product.   Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets, and non-root nested stacks are not supported.   The CloudFormation stack must have one  of the following statuses  to be imported: CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE, and IMPORT_ROLLBACK_COMPLETE.   Import  of the resource requires  that the CloudFormation stack template matches the associated Service Catalog product provisioning artifact.    When you import an existing CloudFormation stack  into a portfolio,  constraints  that are associated  with the product  aren't applied  during the import process.   The constraints are applied  after you call UpdateProvisionedProduct  for the provisioned product.    The user or role  that performs this operation  must have the cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions.
     @Sendable
     public func importAsProvisionedProduct(_ input: ImportAsProvisionedProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportAsProvisionedProductOutput {
-        return try await self.client.execute(operation: "ImportAsProvisionedProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportAsProvisionedProduct", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all imported portfolios for which account-to-account shares were accepted by this account. By specifying the PortfolioShareType, you can list portfolios for which organizational shares were accepted by this account.
     @Sendable
     public func listAcceptedPortfolioShares(_ input: ListAcceptedPortfolioSharesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAcceptedPortfolioSharesOutput {
-        return try await self.client.execute(operation: "ListAcceptedPortfolioShares", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAcceptedPortfolioShares", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the budgets associated to the specified resource.
     @Sendable
     public func listBudgetsForResource(_ input: ListBudgetsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBudgetsForResourceOutput {
-        return try await self.client.execute(operation: "ListBudgetsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBudgetsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the constraints for the specified portfolio and product.
     @Sendable
     public func listConstraintsForPortfolio(_ input: ListConstraintsForPortfolioInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConstraintsForPortfolioOutput {
-        return try await self.client.execute(operation: "ListConstraintsForPortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConstraintsForPortfolio", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Lists the paths  to the specified product.  A path describes how the user gets access  to a specified product and is necessary  when provisioning a product.  A path also determines the constraints  that are put on a product.  A path is dependent  on a specific product, porfolio, and principal.    When provisioning a product  that's been added  to a portfolio,  you must grant your user, group, or role access  to the portfolio.  For more information,  see Granting users access  in the Service Catalog User Guide.
     @Sendable
     public func listLaunchPaths(_ input: ListLaunchPathsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLaunchPathsOutput {
-        return try await self.client.execute(operation: "ListLaunchPaths", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListLaunchPaths", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the organization nodes that have access to the specified portfolio. This API can only be called by the management account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
     @Sendable
     public func listOrganizationPortfolioAccess(_ input: ListOrganizationPortfolioAccessInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationPortfolioAccessOutput {
-        return try await self.client.execute(operation: "ListOrganizationPortfolioAccess", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOrganizationPortfolioAccess", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the account IDs that have access to the specified portfolio. A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
     @Sendable
     public func listPortfolioAccess(_ input: ListPortfolioAccessInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPortfolioAccessOutput {
-        return try await self.client.execute(operation: "ListPortfolioAccess", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPortfolioAccess", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all portfolios in the catalog.
     @Sendable
     public func listPortfolios(_ input: ListPortfoliosInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPortfoliosOutput {
-        return try await self.client.execute(operation: "ListPortfolios", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPortfolios", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all portfolios that the specified product is associated with.
     @Sendable
     public func listPortfoliosForProduct(_ input: ListPortfoliosForProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPortfoliosForProductOutput {
-        return try await self.client.execute(operation: "ListPortfoliosForProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPortfoliosForProduct", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all PrincipalARNs and corresponding PrincipalTypes associated with the specified portfolio.
     @Sendable
     public func listPrincipalsForPortfolio(_ input: ListPrincipalsForPortfolioInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPrincipalsForPortfolioOutput {
-        return try await self.client.execute(operation: "ListPrincipalsForPortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPrincipalsForPortfolio", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the plans for the specified provisioned product or all plans to which the user has access.
     @Sendable
     public func listProvisionedProductPlans(_ input: ListProvisionedProductPlansInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProvisionedProductPlansOutput {
-        return try await self.client.execute(operation: "ListProvisionedProductPlans", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProvisionedProductPlans", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all provisioning artifacts (also known as versions) for the specified product.
     @Sendable
     public func listProvisioningArtifacts(_ input: ListProvisioningArtifactsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProvisioningArtifactsOutput {
-        return try await self.client.execute(operation: "ListProvisioningArtifacts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProvisioningArtifacts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all provisioning artifacts (also known as versions) for the specified self-service action.
     @Sendable
     public func listProvisioningArtifactsForServiceAction(_ input: ListProvisioningArtifactsForServiceActionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProvisioningArtifactsForServiceActionOutput {
-        return try await self.client.execute(operation: "ListProvisioningArtifactsForServiceAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProvisioningArtifactsForServiceAction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the specified requests or all performed requests.
     @Sendable
     public func listRecordHistory(_ input: ListRecordHistoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecordHistoryOutput {
-        return try await self.client.execute(operation: "ListRecordHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRecordHistory", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the resources associated with the specified TagOption.
     @Sendable
     public func listResourcesForTagOption(_ input: ListResourcesForTagOptionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourcesForTagOptionOutput {
-        return try await self.client.execute(operation: "ListResourcesForTagOption", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResourcesForTagOption", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all self-service actions.
     @Sendable
     public func listServiceActions(_ input: ListServiceActionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceActionsOutput {
-        return try await self.client.execute(operation: "ListServiceActions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListServiceActions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
     @Sendable
     public func listServiceActionsForProvisioningArtifact(_ input: ListServiceActionsForProvisioningArtifactInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceActionsForProvisioningArtifactOutput {
-        return try await self.client.execute(operation: "ListServiceActionsForProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListServiceActionsForProvisioningArtifact", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns summary information about stack instances that are associated with the specified CFN_STACKSET type provisioned product. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region.
     @Sendable
     public func listStackInstancesForProvisionedProduct(_ input: ListStackInstancesForProvisionedProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStackInstancesForProvisionedProductOutput {
-        return try await self.client.execute(operation: "ListStackInstancesForProvisionedProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListStackInstancesForProvisionedProduct", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the specified TagOptions or all TagOptions.
     @Sendable
     public func listTagOptions(_ input: ListTagOptionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagOptionsOutput {
-        return try await self.client.execute(operation: "ListTagOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagOptions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Notifies the result  of the provisioning engine execution.
     @Sendable
     public func notifyProvisionProductEngineWorkflowResult(_ input: NotifyProvisionProductEngineWorkflowResultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> NotifyProvisionProductEngineWorkflowResultOutput {
-        return try await self.client.execute(operation: "NotifyProvisionProductEngineWorkflowResult", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "NotifyProvisionProductEngineWorkflowResult", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Notifies the result  of the terminate engine execution.
     @Sendable
     public func notifyTerminateProvisionedProductEngineWorkflowResult(_ input: NotifyTerminateProvisionedProductEngineWorkflowResultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> NotifyTerminateProvisionedProductEngineWorkflowResultOutput {
-        return try await self.client.execute(operation: "NotifyTerminateProvisionedProductEngineWorkflowResult", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "NotifyTerminateProvisionedProductEngineWorkflowResult", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Notifies the result  of the update engine execution.
     @Sendable
     public func notifyUpdateProvisionedProductEngineWorkflowResult(_ input: NotifyUpdateProvisionedProductEngineWorkflowResultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> NotifyUpdateProvisionedProductEngineWorkflowResultOutput {
-        return try await self.client.execute(operation: "NotifyUpdateProvisionedProductEngineWorkflowResult", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "NotifyUpdateProvisionedProductEngineWorkflowResult", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Provisions the specified product.   A provisioned product is a resourced instance  of a product.  For example,  provisioning a product  that's based  on an CloudFormation template  launches an CloudFormation stack and its underlying resources. You can check the status  of this request  using DescribeRecord.   If the request contains a tag key  with an empty list  of values,  there's a tag conflict  for that key.  Don't include conflicted keys  as tags,  or this will cause the error "Parameter validation failed: Missing required parameter in Tags[N]:Value".    When provisioning a product  that's been added  to a portfolio,  you must grant your user, group, or role access  to the portfolio.  For more information,  see Granting users access  in the Service Catalog User Guide.
     @Sendable
     public func provisionProduct(_ input: ProvisionProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ProvisionProductOutput {
-        return try await self.client.execute(operation: "ProvisionProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ProvisionProduct", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Rejects an offer to share the specified portfolio.
     @Sendable
     public func rejectPortfolioShare(_ input: RejectPortfolioShareInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectPortfolioShareOutput {
-        return try await self.client.execute(operation: "RejectPortfolioShare", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RejectPortfolioShare", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the provisioned products that are available (not terminated). To use additional filtering, see SearchProvisionedProducts.
     @Sendable
     public func scanProvisionedProducts(_ input: ScanProvisionedProductsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ScanProvisionedProductsOutput {
-        return try await self.client.execute(operation: "ScanProvisionedProducts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ScanProvisionedProducts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the products to which the caller has access.
     @Sendable
     public func searchProducts(_ input: SearchProductsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchProductsOutput {
-        return try await self.client.execute(operation: "SearchProducts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchProducts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the products for the specified portfolio or all products.
     @Sendable
     public func searchProductsAsAdmin(_ input: SearchProductsAsAdminInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchProductsAsAdminOutput {
-        return try await self.client.execute(operation: "SearchProductsAsAdmin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchProductsAsAdmin", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the provisioned products that meet the specified criteria.
     @Sendable
     public func searchProvisionedProducts(_ input: SearchProvisionedProductsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchProvisionedProductsOutput {
-        return try await self.client.execute(operation: "SearchProvisionedProducts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchProvisionedProducts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Terminates the specified provisioned product. This operation does not delete any records associated with the provisioned product. You can check the status of this request using DescribeRecord.
     @Sendable
     public func terminateProvisionedProduct(_ input: TerminateProvisionedProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateProvisionedProductOutput {
-        return try await self.client.execute(operation: "TerminateProvisionedProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TerminateProvisionedProduct", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified constraint.
     @Sendable
     public func updateConstraint(_ input: UpdateConstraintInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConstraintOutput {
-        return try await self.client.execute(operation: "UpdateConstraint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateConstraint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified portfolio. You cannot update a product that was shared with you.
     @Sendable
     public func updatePortfolio(_ input: UpdatePortfolioInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePortfolioOutput {
-        return try await self.client.execute(operation: "UpdatePortfolio", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePortfolio", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing  or Principal sharing for an existing portfolio share.  The portfolio share cannot be updated if the CreatePortfolioShare operation is IN_PROGRESS, as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be COMPLETED. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an external account and an organization node, and both shares need to be updated, you must invoke UpdatePortfolioShare separately for each share type.  This API cannot be used for removing the portfolio share. You must use DeletePortfolioShare API for that action.   When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is  then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin,  but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal  name association for the portfolio. Although this user may not know which principal names are associated through  Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then  Service Catalog recommends using PrincipalType as IAM. With this configuration,  the PrincipalARN must already exist in the recipient account before it can be associated.
     @Sendable
     public func updatePortfolioShare(_ input: UpdatePortfolioShareInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePortfolioShareOutput {
-        return try await self.client.execute(operation: "UpdatePortfolioShare", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePortfolioShare", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified product.
     @Sendable
     public func updateProduct(_ input: UpdateProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProductOutput {
-        return try await self.client.execute(operation: "UpdateProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateProduct", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Requests updates to the configuration of the specified provisioned product. If there are tags associated with the object, they cannot be updated or added. Depending on the specific updates requested, this operation can update with no interruption, with some interruption, or replace the provisioned product entirely. You can check the status of this request using DescribeRecord.
     @Sendable
     public func updateProvisionedProduct(_ input: UpdateProvisionedProductInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProvisionedProductOutput {
-        return try await self.client.execute(operation: "UpdateProvisionedProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateProvisionedProduct", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Requests updates to the properties of the specified provisioned product.
     @Sendable
     public func updateProvisionedProductProperties(_ input: UpdateProvisionedProductPropertiesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProvisionedProductPropertiesOutput {
-        return try await self.client.execute(operation: "UpdateProvisionedProductProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateProvisionedProductProperties", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified provisioning artifact (also known as a version) for the specified product. You cannot update a provisioning artifact for a product that was shared with you.
     @Sendable
     public func updateProvisioningArtifact(_ input: UpdateProvisioningArtifactInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProvisioningArtifactOutput {
-        return try await self.client.execute(operation: "UpdateProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateProvisioningArtifact", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a self-service action.
     @Sendable
     public func updateServiceAction(_ input: UpdateServiceActionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServiceActionOutput {
-        return try await self.client.execute(operation: "UpdateServiceAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateServiceAction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified TagOption.
     @Sendable
     public func updateTagOption(_ input: UpdateTagOptionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTagOptionOutput {
-        return try await self.client.execute(operation: "UpdateTagOption", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTagOption", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

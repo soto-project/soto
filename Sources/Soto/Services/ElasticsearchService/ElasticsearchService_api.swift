@@ -77,301 +77,650 @@ public struct ElasticsearchService: AWSService {
     /// Allows the destination domain owner to accept an inbound cross-cluster search connection request.
     @Sendable
     public func acceptInboundCrossClusterSearchConnection(_ input: AcceptInboundCrossClusterSearchConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptInboundCrossClusterSearchConnectionResponse {
-        return try await self.client.execute(operation: "AcceptInboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/inboundConnection/{CrossClusterSearchConnectionId}/accept", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AcceptInboundCrossClusterSearchConnection", 
+            path: "/2015-01-01/es/ccs/inboundConnection/{CrossClusterSearchConnectionId}/accept", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags.  See  Tagging Amazon Elasticsearch Service Domains for more information.
     @Sendable
     public func addTags(_ input: AddTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AddTags", path: "/2015-01-01/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddTags", 
+            path: "/2015-01-01/tags", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a package with an Amazon ES domain.
     @Sendable
     public func associatePackage(_ input: AssociatePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociatePackageResponse {
-        return try await self.client.execute(operation: "AssociatePackage", path: "/2015-01-01/packages/associate/{PackageID}/{DomainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociatePackage", 
+            path: "/2015-01-01/packages/associate/{PackageID}/{DomainName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     @Sendable
     public func authorizeVpcEndpointAccess(_ input: AuthorizeVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AuthorizeVpcEndpointAccessResponse {
-        return try await self.client.execute(operation: "AuthorizeVpcEndpointAccess", path: "/2015-01-01/es/domain/{DomainName}/authorizeVpcEndpointAccess", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AuthorizeVpcEndpointAccess", 
+            path: "/2015-01-01/es/domain/{DomainName}/authorizeVpcEndpointAccess", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state.
     @Sendable
     public func cancelElasticsearchServiceSoftwareUpdate(_ input: CancelElasticsearchServiceSoftwareUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelElasticsearchServiceSoftwareUpdateResponse {
-        return try await self.client.execute(operation: "CancelElasticsearchServiceSoftwareUpdate", path: "/2015-01-01/es/serviceSoftwareUpdate/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelElasticsearchServiceSoftwareUpdate", 
+            path: "/2015-01-01/es/serviceSoftwareUpdate/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new Elasticsearch domain. For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide.
     @Sendable
     public func createElasticsearchDomain(_ input: CreateElasticsearchDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateElasticsearchDomainResponse {
-        return try await self.client.execute(operation: "CreateElasticsearchDomain", path: "/2015-01-01/es/domain", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateElasticsearchDomain", 
+            path: "/2015-01-01/es/domain", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new cross-cluster search connection from a source domain to a destination domain.
     @Sendable
     public func createOutboundCrossClusterSearchConnection(_ input: CreateOutboundCrossClusterSearchConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOutboundCrossClusterSearchConnectionResponse {
-        return try await self.client.execute(operation: "CreateOutboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/outboundConnection", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateOutboundCrossClusterSearchConnection", 
+            path: "/2015-01-01/es/ccs/outboundConnection", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a package for use with Amazon ES domains.
     @Sendable
     public func createPackage(_ input: CreatePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePackageResponse {
-        return try await self.client.execute(operation: "CreatePackage", path: "/2015-01-01/packages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePackage", 
+            path: "/2015-01-01/packages", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
     @Sendable
     public func createVpcEndpoint(_ input: CreateVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVpcEndpointResponse {
-        return try await self.client.execute(operation: "CreateVpcEndpoint", path: "/2015-01-01/es/vpcEndpoints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVpcEndpoint", 
+            path: "/2015-01-01/es/vpcEndpoints", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
     @Sendable
     public func deleteElasticsearchDomain(_ input: DeleteElasticsearchDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteElasticsearchDomainResponse {
-        return try await self.client.execute(operation: "DeleteElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteElasticsearchDomain", 
+            path: "/2015-01-01/es/domain/{DomainName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See Deleting Elasticsearch Service Role in VPC Endpoints for Amazon Elasticsearch Service Domains.
     @Sendable
     public func deleteElasticsearchServiceRole(logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteElasticsearchServiceRole", path: "/2015-01-01/es/role", httpMethod: .DELETE, serviceConfig: self.config, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteElasticsearchServiceRole", 
+            path: "/2015-01-01/es/role", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
     }
 
     /// Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
     @Sendable
     public func deleteInboundCrossClusterSearchConnection(_ input: DeleteInboundCrossClusterSearchConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInboundCrossClusterSearchConnectionResponse {
-        return try await self.client.execute(operation: "DeleteInboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/inboundConnection/{CrossClusterSearchConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteInboundCrossClusterSearchConnection", 
+            path: "/2015-01-01/es/ccs/inboundConnection/{CrossClusterSearchConnectionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Allows the source domain owner to delete an existing outbound cross-cluster search connection.
     @Sendable
     public func deleteOutboundCrossClusterSearchConnection(_ input: DeleteOutboundCrossClusterSearchConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteOutboundCrossClusterSearchConnectionResponse {
-        return try await self.client.execute(operation: "DeleteOutboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/outboundConnection/{CrossClusterSearchConnectionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteOutboundCrossClusterSearchConnection", 
+            path: "/2015-01-01/es/ccs/outboundConnection/{CrossClusterSearchConnectionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete the package.
     @Sendable
     public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePackageResponse {
-        return try await self.client.execute(operation: "DeletePackage", path: "/2015-01-01/packages/{PackageID}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePackage", 
+            path: "/2015-01-01/packages/{PackageID}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
     @Sendable
     public func deleteVpcEndpoint(_ input: DeleteVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVpcEndpointResponse {
-        return try await self.client.execute(operation: "DeleteVpcEndpoint", path: "/2015-01-01/es/vpcEndpoints/{VpcEndpointId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVpcEndpoint", 
+            path: "/2015-01-01/es/vpcEndpoints/{VpcEndpointId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
     @Sendable
     public func describeDomainAutoTunes(_ input: DescribeDomainAutoTunesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDomainAutoTunesResponse {
-        return try await self.client.execute(operation: "DescribeDomainAutoTunes", path: "/2015-01-01/es/domain/{DomainName}/autoTunes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDomainAutoTunes", 
+            path: "/2015-01-01/es/domain/{DomainName}/autoTunes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the current blue/green deployment happening on a domain, including a change ID, status, and progress stages.
     @Sendable
     public func describeDomainChangeProgress(_ input: DescribeDomainChangeProgressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDomainChangeProgressResponse {
-        return try await self.client.execute(operation: "DescribeDomainChangeProgress", path: "/2015-01-01/es/domain/{DomainName}/progress", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDomainChangeProgress", 
+            path: "/2015-01-01/es/domain/{DomainName}/progress", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
     @Sendable
     public func describeElasticsearchDomain(_ input: DescribeElasticsearchDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeElasticsearchDomainResponse {
-        return try await self.client.execute(operation: "DescribeElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeElasticsearchDomain", 
+            path: "/2015-01-01/es/domain/{DomainName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
     @Sendable
     public func describeElasticsearchDomainConfig(_ input: DescribeElasticsearchDomainConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeElasticsearchDomainConfigResponse {
-        return try await self.client.execute(operation: "DescribeElasticsearchDomainConfig", path: "/2015-01-01/es/domain/{DomainName}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeElasticsearchDomainConfig", 
+            path: "/2015-01-01/es/domain/{DomainName}/config", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
     @Sendable
     public func describeElasticsearchDomains(_ input: DescribeElasticsearchDomainsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeElasticsearchDomainsResponse {
-        return try await self.client.execute(operation: "DescribeElasticsearchDomains", path: "/2015-01-01/es/domain-info", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeElasticsearchDomains", 
+            path: "/2015-01-01/es/domain-info", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the  DomainName  to know what Limits are supported for modifying.
     @Sendable
     public func describeElasticsearchInstanceTypeLimits(_ input: DescribeElasticsearchInstanceTypeLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeElasticsearchInstanceTypeLimitsResponse {
-        return try await self.client.execute(operation: "DescribeElasticsearchInstanceTypeLimits", path: "/2015-01-01/es/instanceTypeLimits/{ElasticsearchVersion}/{InstanceType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeElasticsearchInstanceTypeLimits", 
+            path: "/2015-01-01/es/instanceTypeLimits/{ElasticsearchVersion}/{InstanceType}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the inbound cross-cluster search connections for a destination domain.
     @Sendable
     public func describeInboundCrossClusterSearchConnections(_ input: DescribeInboundCrossClusterSearchConnectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInboundCrossClusterSearchConnectionsResponse {
-        return try await self.client.execute(operation: "DescribeInboundCrossClusterSearchConnections", path: "/2015-01-01/es/ccs/inboundConnection/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeInboundCrossClusterSearchConnections", 
+            path: "/2015-01-01/es/ccs/inboundConnection/search", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the outbound cross-cluster search connections for a source domain.
     @Sendable
     public func describeOutboundCrossClusterSearchConnections(_ input: DescribeOutboundCrossClusterSearchConnectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOutboundCrossClusterSearchConnectionsResponse {
-        return try await self.client.execute(operation: "DescribeOutboundCrossClusterSearchConnections", path: "/2015-01-01/es/ccs/outboundConnection/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeOutboundCrossClusterSearchConnections", 
+            path: "/2015-01-01/es/ccs/outboundConnection/search", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
     @Sendable
     public func describePackages(_ input: DescribePackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackagesResponse {
-        return try await self.client.execute(operation: "DescribePackages", path: "/2015-01-01/packages/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePackages", 
+            path: "/2015-01-01/packages/describe", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists available reserved Elasticsearch instance offerings.
     @Sendable
     public func describeReservedElasticsearchInstanceOfferings(_ input: DescribeReservedElasticsearchInstanceOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedElasticsearchInstanceOfferingsResponse {
-        return try await self.client.execute(operation: "DescribeReservedElasticsearchInstanceOfferings", path: "/2015-01-01/es/reservedInstanceOfferings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReservedElasticsearchInstanceOfferings", 
+            path: "/2015-01-01/es/reservedInstanceOfferings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about reserved Elasticsearch instances for this account.
     @Sendable
     public func describeReservedElasticsearchInstances(_ input: DescribeReservedElasticsearchInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedElasticsearchInstancesResponse {
-        return try await self.client.execute(operation: "DescribeReservedElasticsearchInstances", path: "/2015-01-01/es/reservedInstances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReservedElasticsearchInstances", 
+            path: "/2015-01-01/es/reservedInstances", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
     @Sendable
     public func describeVpcEndpoints(_ input: DescribeVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVpcEndpointsResponse {
-        return try await self.client.execute(operation: "DescribeVpcEndpoints", path: "/2015-01-01/es/vpcEndpoints/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeVpcEndpoints", 
+            path: "/2015-01-01/es/vpcEndpoints/describe", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Dissociates a package from the Amazon ES domain.
     @Sendable
     public func dissociatePackage(_ input: DissociatePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DissociatePackageResponse {
-        return try await self.client.execute(operation: "DissociatePackage", path: "/2015-01-01/packages/dissociate/{PackageID}/{DomainName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DissociatePackage", 
+            path: "/2015-01-01/packages/dissociate/{PackageID}/{DomainName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a  DomainName  to get all upgrade compatible Elasticsearch versions for that specific domain.
     @Sendable
     public func getCompatibleElasticsearchVersions(_ input: GetCompatibleElasticsearchVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCompatibleElasticsearchVersionsResponse {
-        return try await self.client.execute(operation: "GetCompatibleElasticsearchVersions", path: "/2015-01-01/es/compatibleVersions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCompatibleElasticsearchVersions", 
+            path: "/2015-01-01/es/compatibleVersions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of versions of the package, along with their creation time and commit message.
     @Sendable
     public func getPackageVersionHistory(_ input: GetPackageVersionHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPackageVersionHistoryResponse {
-        return try await self.client.execute(operation: "GetPackageVersionHistory", path: "/2015-01-01/packages/{PackageID}/history", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPackageVersionHistory", 
+            path: "/2015-01-01/packages/{PackageID}/history", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the complete history of the last 10 upgrades that were performed on the domain.
     @Sendable
     public func getUpgradeHistory(_ input: GetUpgradeHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUpgradeHistoryResponse {
-        return try await self.client.execute(operation: "GetUpgradeHistory", path: "/2015-01-01/es/upgradeDomain/{DomainName}/history", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUpgradeHistory", 
+            path: "/2015-01-01/es/upgradeDomain/{DomainName}/history", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
     @Sendable
     public func getUpgradeStatus(_ input: GetUpgradeStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUpgradeStatusResponse {
-        return try await self.client.execute(operation: "GetUpgradeStatus", path: "/2015-01-01/es/upgradeDomain/{DomainName}/status", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUpgradeStatus", 
+            path: "/2015-01-01/es/upgradeDomain/{DomainName}/status", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the name of all Elasticsearch domains owned by the current user's account.
     @Sendable
     public func listDomainNames(_ input: ListDomainNamesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainNamesResponse {
-        return try await self.client.execute(operation: "ListDomainNames", path: "/2015-01-01/domain", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDomainNames", 
+            path: "/2015-01-01/domain", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all Amazon ES domains associated with the package.
     @Sendable
     public func listDomainsForPackage(_ input: ListDomainsForPackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainsForPackageResponse {
-        return try await self.client.execute(operation: "ListDomainsForPackage", path: "/2015-01-01/packages/{PackageID}/domains", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDomainsForPackage", 
+            path: "/2015-01-01/packages/{PackageID}/domains", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all Elasticsearch instance types that are supported for given ElasticsearchVersion
     @Sendable
     public func listElasticsearchInstanceTypes(_ input: ListElasticsearchInstanceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListElasticsearchInstanceTypesResponse {
-        return try await self.client.execute(operation: "ListElasticsearchInstanceTypes", path: "/2015-01-01/es/instanceTypes/{ElasticsearchVersion}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListElasticsearchInstanceTypes", 
+            path: "/2015-01-01/es/instanceTypes/{ElasticsearchVersion}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all supported Elasticsearch versions
     @Sendable
     public func listElasticsearchVersions(_ input: ListElasticsearchVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListElasticsearchVersionsResponse {
-        return try await self.client.execute(operation: "ListElasticsearchVersions", path: "/2015-01-01/es/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListElasticsearchVersions", 
+            path: "/2015-01-01/es/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all packages associated with the Amazon ES domain.
     @Sendable
     public func listPackagesForDomain(_ input: ListPackagesForDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackagesForDomainResponse {
-        return try await self.client.execute(operation: "ListPackagesForDomain", path: "/2015-01-01/domain/{DomainName}/packages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPackagesForDomain", 
+            path: "/2015-01-01/domain/{DomainName}/packages", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns all tags for the given Elasticsearch domain.
     @Sendable
     public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsResponse {
-        return try await self.client.execute(operation: "ListTags", path: "/2015-01-01/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTags", 
+            path: "/2015-01-01/tags", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about each  principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     @Sendable
     public func listVpcEndpointAccess(_ input: ListVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVpcEndpointAccessResponse {
-        return try await self.client.execute(operation: "ListVpcEndpointAccess", path: "/2015-01-01/es/domain/{DomainName}/listVpcEndpointAccess", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVpcEndpointAccess", 
+            path: "/2015-01-01/es/domain/{DomainName}/listVpcEndpointAccess", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
     @Sendable
     public func listVpcEndpoints(_ input: ListVpcEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVpcEndpointsResponse {
-        return try await self.client.execute(operation: "ListVpcEndpoints", path: "/2015-01-01/es/vpcEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVpcEndpoints", 
+            path: "/2015-01-01/es/vpcEndpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
     @Sendable
     public func listVpcEndpointsForDomain(_ input: ListVpcEndpointsForDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVpcEndpointsForDomainResponse {
-        return try await self.client.execute(operation: "ListVpcEndpointsForDomain", path: "/2015-01-01/es/domain/{DomainName}/vpcEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVpcEndpointsForDomain", 
+            path: "/2015-01-01/es/domain/{DomainName}/vpcEndpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Allows you to purchase reserved Elasticsearch instances.
     @Sendable
     public func purchaseReservedElasticsearchInstanceOffering(_ input: PurchaseReservedElasticsearchInstanceOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PurchaseReservedElasticsearchInstanceOfferingResponse {
-        return try await self.client.execute(operation: "PurchaseReservedElasticsearchInstanceOffering", path: "/2015-01-01/es/purchaseReservedInstanceOffering", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PurchaseReservedElasticsearchInstanceOffering", 
+            path: "/2015-01-01/es/purchaseReservedInstanceOffering", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Allows the destination domain owner to reject an inbound cross-cluster search connection request.
     @Sendable
     public func rejectInboundCrossClusterSearchConnection(_ input: RejectInboundCrossClusterSearchConnectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectInboundCrossClusterSearchConnectionResponse {
-        return try await self.client.execute(operation: "RejectInboundCrossClusterSearchConnection", path: "/2015-01-01/es/ccs/inboundConnection/{CrossClusterSearchConnectionId}/reject", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RejectInboundCrossClusterSearchConnection", 
+            path: "/2015-01-01/es/ccs/inboundConnection/{CrossClusterSearchConnectionId}/reject", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified set of tags from the specified Elasticsearch domain.
     @Sendable
     public func removeTags(_ input: RemoveTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RemoveTags", path: "/2015-01-01/tags-removal", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveTags", 
+            path: "/2015-01-01/tags-removal", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
     @Sendable
     public func revokeVpcEndpointAccess(_ input: RevokeVpcEndpointAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RevokeVpcEndpointAccessResponse {
-        return try await self.client.execute(operation: "RevokeVpcEndpointAccess", path: "/2015-01-01/es/domain/{DomainName}/revokeVpcEndpointAccess", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RevokeVpcEndpointAccess", 
+            path: "/2015-01-01/es/domain/{DomainName}/revokeVpcEndpointAccess", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Schedules a service software update for an Amazon ES domain.
     @Sendable
     public func startElasticsearchServiceSoftwareUpdate(_ input: StartElasticsearchServiceSoftwareUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartElasticsearchServiceSoftwareUpdateResponse {
-        return try await self.client.execute(operation: "StartElasticsearchServiceSoftwareUpdate", path: "/2015-01-01/es/serviceSoftwareUpdate/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartElasticsearchServiceSoftwareUpdate", 
+            path: "/2015-01-01/es/serviceSoftwareUpdate/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
     @Sendable
     public func updateElasticsearchDomainConfig(_ input: UpdateElasticsearchDomainConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateElasticsearchDomainConfigResponse {
-        return try await self.client.execute(operation: "UpdateElasticsearchDomainConfig", path: "/2015-01-01/es/domain/{DomainName}/config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateElasticsearchDomainConfig", 
+            path: "/2015-01-01/es/domain/{DomainName}/config", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a package for use with Amazon ES domains.
     @Sendable
     public func updatePackage(_ input: UpdatePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePackageResponse {
-        return try await self.client.execute(operation: "UpdatePackage", path: "/2015-01-01/packages/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePackage", 
+            path: "/2015-01-01/packages/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
     @Sendable
     public func updateVpcEndpoint(_ input: UpdateVpcEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVpcEndpointResponse {
-        return try await self.client.execute(operation: "UpdateVpcEndpoint", path: "/2015-01-01/es/vpcEndpoints/update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVpcEndpoint", 
+            path: "/2015-01-01/es/vpcEndpoints/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
     @Sendable
     public func upgradeElasticsearchDomain(_ input: UpgradeElasticsearchDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpgradeElasticsearchDomainResponse {
-        return try await self.client.execute(operation: "UpgradeElasticsearchDomain", path: "/2015-01-01/es/upgradeDomain", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpgradeElasticsearchDomain", 
+            path: "/2015-01-01/es/upgradeDomain", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

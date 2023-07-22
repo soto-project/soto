@@ -67,49 +67,105 @@ public struct PinpointSMSVoice: AWSService {
     /// Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
     @Sendable
     public func createConfigurationSet(_ input: CreateConfigurationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfigurationSetResponse {
-        return try await self.client.execute(operation: "CreateConfigurationSet", path: "/v1/sms-voice/configuration-sets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateConfigurationSet", 
+            path: "/v1/sms-voice/configuration-sets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a new event destination in a configuration set.
     @Sendable
     public func createConfigurationSetEventDestination(_ input: CreateConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfigurationSetEventDestinationResponse {
-        return try await self.client.execute(operation: "CreateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateConfigurationSetEventDestination", 
+            path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing configuration set.
     @Sendable
     public func deleteConfigurationSet(_ input: DeleteConfigurationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfigurationSetResponse {
-        return try await self.client.execute(operation: "DeleteConfigurationSet", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConfigurationSet", 
+            path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an event destination in a configuration set.
     @Sendable
     public func deleteConfigurationSetEventDestination(_ input: DeleteConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfigurationSetEventDestinationResponse {
-        return try await self.client.execute(operation: "DeleteConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConfigurationSetEventDestination", 
+            path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
     @Sendable
     public func getConfigurationSetEventDestinations(_ input: GetConfigurationSetEventDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationSetEventDestinationsResponse {
-        return try await self.client.execute(operation: "GetConfigurationSetEventDestinations", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetConfigurationSetEventDestinations", 
+            path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all of the configuration sets associated with your Amazon Pinpoint account in the current region.
     @Sendable
     public func listConfigurationSets(_ input: ListConfigurationSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationSetsResponse {
-        return try await self.client.execute(operation: "ListConfigurationSets", path: "/v1/sms-voice/configuration-sets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConfigurationSets", 
+            path: "/v1/sms-voice/configuration-sets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a new voice message and send it to a recipient's phone number.
     @Sendable
     public func sendVoiceMessage(_ input: SendVoiceMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendVoiceMessageResponse {
-        return try await self.client.execute(operation: "SendVoiceMessage", path: "/v1/sms-voice/voice/message", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SendVoiceMessage", 
+            path: "/v1/sms-voice/voice/message", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
     @Sendable
     public func updateConfigurationSetEventDestination(_ input: UpdateConfigurationSetEventDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfigurationSetEventDestinationResponse {
-        return try await self.client.execute(operation: "UpdateConfigurationSetEventDestination", path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateConfigurationSetEventDestination", 
+            path: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

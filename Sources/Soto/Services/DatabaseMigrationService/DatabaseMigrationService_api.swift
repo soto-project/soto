@@ -81,415 +81,897 @@ public struct DatabaseMigrationService: AWSService {
     /// Adds metadata tags to an DMS resource, including replication instance, endpoint, subnet group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS. For more information, see  Tag data type description.
     @Sendable
     public func addTagsToResource(_ input: AddTagsToResourceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> AddTagsToResourceResponse {
-        return try await self.client.execute(operation: "AddTagsToResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddTagsToResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Applies a pending maintenance action to a resource (for example, to a replication instance).
     @Sendable
     public func applyPendingMaintenanceAction(_ input: ApplyPendingMaintenanceActionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ApplyPendingMaintenanceActionResponse {
-        return try await self.client.execute(operation: "ApplyPendingMaintenanceAction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ApplyPendingMaintenanceAction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts the analysis of up to 20 source databases to recommend target engines for each source database. This is a batch version of StartRecommendations. The result of analysis of each source database is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     @Sendable
     public func batchStartRecommendations(_ input: BatchStartRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchStartRecommendationsResponse {
-        return try await self.client.execute(operation: "BatchStartRecommendations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchStartRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels a single premigration assessment run. This operation prevents any individual assessments from running if they haven't started running. It also attempts to cancel any individual assessments that are currently running.
     @Sendable
     public func cancelReplicationTaskAssessmentRun(_ input: CancelReplicationTaskAssessmentRunMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelReplicationTaskAssessmentRunResponse {
-        return try await self.client.execute(operation: "CancelReplicationTaskAssessmentRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelReplicationTaskAssessmentRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an endpoint using the provided settings.  For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the CreateEndpoint API call. Specifying DatabaseName when you create a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
     @Sendable
     public func createEndpoint(_ input: CreateEndpointMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEndpointResponse {
-        return try await self.client.execute(operation: "CreateEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Creates an DMS event notification subscription.  You can specify the type of source (SourceType) you want to be notified of, provide a list of DMS source IDs (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. If you specify both the SourceType and SourceIds, such as SourceType = replication-instance and SourceIdentifier = my-replinstance, you will be notified of all the replication instance events for the specified source. If you specify a SourceType but don't specify a SourceIdentifier, you receive notice of the events for that source type for all your DMS sources. If you don't specify either SourceType nor SourceIdentifier, you will be notified of events generated from all DMS sources belonging to your customer account. For more information about DMS events, see Working with Events and Notifications in the Database Migration Service User Guide.
     @Sendable
     public func createEventSubscription(_ input: CreateEventSubscriptionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEventSubscriptionResponse {
-        return try await self.client.execute(operation: "CreateEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEventSubscription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a Fleet Advisor collector using the specified parameters.
     @Sendable
     public func createFleetAdvisorCollector(_ input: CreateFleetAdvisorCollectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFleetAdvisorCollectorResponse {
-        return try await self.client.execute(operation: "CreateFleetAdvisorCollector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFleetAdvisorCollector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API. For information on the required permissions, see  IAM Permissions Needed to Use DMS.
     @Sendable
     public func createReplicationInstance(_ input: CreateReplicationInstanceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplicationInstanceResponse {
-        return try await self.client.execute(operation: "CreateReplicationInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateReplicationInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception.
     @Sendable
     public func createReplicationSubnetGroup(_ input: CreateReplicationSubnetGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplicationSubnetGroupResponse {
-        return try await self.client.execute(operation: "CreateReplicationSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateReplicationSubnetGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a replication task using the specified parameters.
     @Sendable
     public func createReplicationTask(_ input: CreateReplicationTaskMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplicationTaskResponse {
-        return try await self.client.execute(operation: "CreateReplicationTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateReplicationTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified certificate.
     @Sendable
     public func deleteCertificate(_ input: DeleteCertificateMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCertificateResponse {
-        return try await self.client.execute(operation: "DeleteCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCertificate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the connection between a replication instance and an endpoint.
     @Sendable
     public func deleteConnection(_ input: DeleteConnectionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConnectionResponse {
-        return try await self.client.execute(operation: "DeleteConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified endpoint.  All tasks associated with the endpoint must be deleted before you can delete the endpoint.
     @Sendable
     public func deleteEndpoint(_ input: DeleteEndpointMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEndpointResponse {
-        return try await self.client.execute(operation: "DeleteEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Deletes an DMS event subscription.
     @Sendable
     public func deleteEventSubscription(_ input: DeleteEventSubscriptionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEventSubscriptionResponse {
-        return try await self.client.execute(operation: "DeleteEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEventSubscription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified Fleet Advisor collector.
     @Sendable
     public func deleteFleetAdvisorCollector(_ input: DeleteCollectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteFleetAdvisorCollector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFleetAdvisorCollector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified Fleet Advisor collector databases.
     @Sendable
     public func deleteFleetAdvisorDatabases(_ input: DeleteFleetAdvisorDatabasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFleetAdvisorDatabasesResponse {
-        return try await self.client.execute(operation: "DeleteFleetAdvisorDatabases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFleetAdvisorDatabases", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified replication instance.  You must delete any migration tasks that are associated with the replication instance before you can delete it.
     @Sendable
     public func deleteReplicationInstance(_ input: DeleteReplicationInstanceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReplicationInstanceResponse {
-        return try await self.client.execute(operation: "DeleteReplicationInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReplicationInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a subnet group.
     @Sendable
     public func deleteReplicationSubnetGroup(_ input: DeleteReplicationSubnetGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReplicationSubnetGroupResponse {
-        return try await self.client.execute(operation: "DeleteReplicationSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReplicationSubnetGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified replication task.
     @Sendable
     public func deleteReplicationTask(_ input: DeleteReplicationTaskMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReplicationTaskResponse {
-        return try await self.client.execute(operation: "DeleteReplicationTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReplicationTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the record of a single premigration assessment run. This operation removes all metadata that DMS maintains about this assessment run. However, the operation leaves untouched all information about this assessment run that is stored in your Amazon S3 bucket.
     @Sendable
     public func deleteReplicationTaskAssessmentRun(_ input: DeleteReplicationTaskAssessmentRunMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReplicationTaskAssessmentRunResponse {
-        return try await self.client.execute(operation: "DeleteReplicationTaskAssessmentRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReplicationTaskAssessmentRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all of the DMS attributes for a customer account. These attributes include DMS quotas for the account and a unique account identifier in a particular DMS region. DMS quotas include a list of resource quotas supported by the account, such as the number of replication instances allowed. The description for each resource quota, includes the quota name, current usage toward that quota, and the quota's maximum value. DMS uses the unique account identifier to name each artifact used by DMS in the given region. This command does not take any parameters.
     @Sendable
     public func describeAccountAttributes(_ input: DescribeAccountAttributesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountAttributesResponse {
-        return try await self.client.execute(operation: "DescribeAccountAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAccountAttributes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a list of individual assessments that you can specify for a new premigration assessment run, given one or more parameters. If you specify an existing migration task, this operation provides the default individual assessments you can specify for that task. Otherwise, the specified parameters model elements of a possible migration task on which to base a premigration assessment run. To use these migration task modeling parameters, you must specify an existing replication instance, a source database engine, a target database engine, and a migration type. This combination of parameters potentially limits the default individual assessments available for an assessment run created for a corresponding migration task. If you specify no parameters, this operation provides a list of all possible individual assessments that you can specify for an assessment run. If you specify any one of the task modeling parameters, you must specify all of them or the operation cannot provide a list of individual assessments. The only parameter that you can specify alone is for an existing migration task. The specified task definition then determines the default list of individual assessments that you can specify in an assessment run for the task.
     @Sendable
     public func describeApplicableIndividualAssessments(_ input: DescribeApplicableIndividualAssessmentsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicableIndividualAssessmentsResponse {
-        return try await self.client.execute(operation: "DescribeApplicableIndividualAssessments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeApplicableIndividualAssessments", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a description of the certificate.
     @Sendable
     public func describeCertificates(_ input: DescribeCertificatesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCertificatesResponse {
-        return try await self.client.execute(operation: "DescribeCertificates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeCertificates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the status of the connections that have been made between the replication instance and an endpoint. Connections are created when you test an endpoint.
     @Sendable
     public func describeConnections(_ input: DescribeConnectionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConnectionsResponse {
-        return try await self.client.execute(operation: "DescribeConnections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeConnections", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the possible endpoint settings available  when you create an endpoint for a specific database engine.
     @Sendable
     public func describeEndpointSettings(_ input: DescribeEndpointSettingsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointSettingsResponse {
-        return try await self.client.execute(operation: "DescribeEndpointSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEndpointSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the type of endpoints available.
     @Sendable
     public func describeEndpointTypes(_ input: DescribeEndpointTypesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointTypesResponse {
-        return try await self.client.execute(operation: "DescribeEndpointTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEndpointTypes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the endpoints for your account in the current region.
     @Sendable
     public func describeEndpoints(_ input: DescribeEndpointsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointsResponse {
-        return try await self.client.execute(operation: "DescribeEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in Working with Events and Notifications in the Database Migration Service User Guide.
     @Sendable
     public func describeEventCategories(_ input: DescribeEventCategoriesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventCategoriesResponse {
-        return try await self.client.execute(operation: "DescribeEventCategories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEventCategories", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status.  If you specify SubscriptionName, this action lists the description for that subscription.
     @Sendable
     public func describeEventSubscriptions(_ input: DescribeEventSubscriptionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventSubscriptionsResponse {
-        return try await self.client.execute(operation: "DescribeEventSubscriptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEventSubscriptions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see Working with Events and Notifications in the Database Migration Service User Guide.
     @Sendable
     public func describeEvents(_ input: DescribeEventsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventsResponse {
-        return try await self.client.execute(operation: "DescribeEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEvents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the Fleet Advisor collectors in your account.
     @Sendable
     public func describeFleetAdvisorCollectors(_ input: DescribeFleetAdvisorCollectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetAdvisorCollectorsResponse {
-        return try await self.client.execute(operation: "DescribeFleetAdvisorCollectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFleetAdvisorCollectors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of Fleet Advisor databases in your account.
     @Sendable
     public func describeFleetAdvisorDatabases(_ input: DescribeFleetAdvisorDatabasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetAdvisorDatabasesResponse {
-        return try await self.client.execute(operation: "DescribeFleetAdvisorDatabases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFleetAdvisorDatabases", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors.
     @Sendable
     public func describeFleetAdvisorLsaAnalysis(_ input: DescribeFleetAdvisorLsaAnalysisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetAdvisorLsaAnalysisResponse {
-        return try await self.client.execute(operation: "DescribeFleetAdvisorLsaAnalysis", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFleetAdvisorLsaAnalysis", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
     @Sendable
     public func describeFleetAdvisorSchemaObjectSummary(_ input: DescribeFleetAdvisorSchemaObjectSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetAdvisorSchemaObjectSummaryResponse {
-        return try await self.client.execute(operation: "DescribeFleetAdvisorSchemaObjectSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFleetAdvisorSchemaObjectSummary", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of schemas detected by Fleet Advisor Collectors in your account.
     @Sendable
     public func describeFleetAdvisorSchemas(_ input: DescribeFleetAdvisorSchemasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFleetAdvisorSchemasResponse {
-        return try await self.client.execute(operation: "DescribeFleetAdvisorSchemas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFleetAdvisorSchemas", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the replication instance types that can be created in the specified region.
     @Sendable
     public func describeOrderableReplicationInstances(_ input: DescribeOrderableReplicationInstancesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrderableReplicationInstancesResponse {
-        return try await self.client.execute(operation: "DescribeOrderableReplicationInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeOrderableReplicationInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// For internal use only
     @Sendable
     public func describePendingMaintenanceActions(_ input: DescribePendingMaintenanceActionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePendingMaintenanceActionsResponse {
-        return try await self.client.execute(operation: "DescribePendingMaintenanceActions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePendingMaintenanceActions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a paginated list of limitations for recommendations of target Amazon Web Services engines.
     @Sendable
     public func describeRecommendationLimitations(_ input: DescribeRecommendationLimitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRecommendationLimitationsResponse {
-        return try await self.client.execute(operation: "DescribeRecommendationLimitations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRecommendationLimitations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a paginated list of target engine recommendations for your source databases.
     @Sendable
     public func describeRecommendations(_ input: DescribeRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRecommendationsResponse {
-        return try await self.client.execute(operation: "DescribeRecommendations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the status of the RefreshSchemas operation.
     @Sendable
     public func describeRefreshSchemasStatus(_ input: DescribeRefreshSchemasStatusMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRefreshSchemasStatusResponse {
-        return try await self.client.execute(operation: "DescribeRefreshSchemasStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRefreshSchemasStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the task logs for the specified task.
     @Sendable
     public func describeReplicationInstanceTaskLogs(_ input: DescribeReplicationInstanceTaskLogsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationInstanceTaskLogsResponse {
-        return try await self.client.execute(operation: "DescribeReplicationInstanceTaskLogs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReplicationInstanceTaskLogs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about replication instances for your account in the current region.
     @Sendable
     public func describeReplicationInstances(_ input: DescribeReplicationInstancesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationInstancesResponse {
-        return try await self.client.execute(operation: "DescribeReplicationInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReplicationInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the replication subnet groups.
     @Sendable
     public func describeReplicationSubnetGroups(_ input: DescribeReplicationSubnetGroupsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationSubnetGroupsResponse {
-        return try await self.client.execute(operation: "DescribeReplicationSubnetGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReplicationSubnetGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account.  This action always returns the latest results. For more information about DMS task assessments, see   Creating a task assessment report in the Database Migration Service User Guide.
     @Sendable
     public func describeReplicationTaskAssessmentResults(_ input: DescribeReplicationTaskAssessmentResultsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationTaskAssessmentResultsResponse {
-        return try await self.client.execute(operation: "DescribeReplicationTaskAssessmentResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReplicationTaskAssessmentResults", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a paginated list of premigration assessment runs based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, replication instances, and assessment run status values.  This operation doesn't return information about individual assessments. For this information, see the DescribeReplicationTaskIndividualAssessments operation.
     @Sendable
     public func describeReplicationTaskAssessmentRuns(_ input: DescribeReplicationTaskAssessmentRunsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationTaskAssessmentRunsResponse {
-        return try await self.client.execute(operation: "DescribeReplicationTaskAssessmentRuns", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReplicationTaskAssessmentRuns", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a paginated list of individual assessments based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, and assessment status values.
     @Sendable
     public func describeReplicationTaskIndividualAssessments(_ input: DescribeReplicationTaskIndividualAssessmentsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationTaskIndividualAssessmentsResponse {
-        return try await self.client.execute(operation: "DescribeReplicationTaskIndividualAssessments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReplicationTaskIndividualAssessments", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about replication tasks for your account in the current region.
     @Sendable
     public func describeReplicationTasks(_ input: DescribeReplicationTasksMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationTasksResponse {
-        return try await self.client.execute(operation: "DescribeReplicationTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReplicationTasks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the schema for the specified endpoint.
     @Sendable
     public func describeSchemas(_ input: DescribeSchemasMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSchemasResponse {
-        return try await self.client.execute(operation: "DescribeSchemas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSchemas", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted. Note that the "last updated" column the DMS console only indicates the time that DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table.
     @Sendable
     public func describeTableStatistics(_ input: DescribeTableStatisticsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTableStatisticsResponse {
-        return try await self.client.execute(operation: "DescribeTableStatistics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTableStatistics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Uploads the specified certificate.
     @Sendable
     public func importCertificate(_ input: ImportCertificateMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportCertificateResponse {
-        return try await self.client.execute(operation: "ImportCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportCertificate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all metadata tags attached to an DMS resource, including  replication instance, endpoint, subnet group, and migration task.  For more information, see  Tag data type description.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies the specified endpoint.  For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on the ModifyEndpoint API call. Specifying DatabaseName when you modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
     @Sendable
     public func modifyEndpoint(_ input: ModifyEndpointMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyEndpointResponse {
-        return try await self.client.execute(operation: "ModifyEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ModifyEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies an existing DMS event notification subscription.
     @Sendable
     public func modifyEventSubscription(_ input: ModifyEventSubscriptionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyEventSubscriptionResponse {
-        return try await self.client.execute(operation: "ModifyEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ModifyEventSubscription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window.
     @Sendable
     public func modifyReplicationInstance(_ input: ModifyReplicationInstanceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyReplicationInstanceResponse {
-        return try await self.client.execute(operation: "ModifyReplicationInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ModifyReplicationInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies the settings for the specified replication subnet group.
     @Sendable
     public func modifyReplicationSubnetGroup(_ input: ModifyReplicationSubnetGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyReplicationSubnetGroupResponse {
-        return try await self.client.execute(operation: "ModifyReplicationSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ModifyReplicationSubnetGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies the specified replication task. You can't modify the task endpoints. The task must be stopped before you can modify it.  For more information about DMS tasks, see Working with Migration Tasks in the Database Migration Service User Guide.
     @Sendable
     public func modifyReplicationTask(_ input: ModifyReplicationTaskMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyReplicationTaskResponse {
-        return try await self.client.execute(operation: "ModifyReplicationTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ModifyReplicationTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Moves a replication task from its current replication instance to a different target replication instance using the specified parameters. The target replication instance must be created with the same or later DMS version as the current replication instance.
     @Sendable
     public func moveReplicationTask(_ input: MoveReplicationTaskMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> MoveReplicationTaskResponse {
-        return try await self.client.execute(operation: "MoveReplicationTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "MoveReplicationTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Reboots a replication instance. Rebooting results in a momentary outage, until the replication instance becomes available again.
     @Sendable
     public func rebootReplicationInstance(_ input: RebootReplicationInstanceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RebootReplicationInstanceResponse {
-        return try await self.client.execute(operation: "RebootReplicationInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RebootReplicationInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Populates the schema for the specified endpoint. This is an asynchronous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus operation.
     @Sendable
     public func refreshSchemas(_ input: RefreshSchemasMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RefreshSchemasResponse {
-        return try await self.client.execute(operation: "RefreshSchemas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RefreshSchemas", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Reloads the target database table with the source data.  You can only use this operation with a task in the RUNNING state, otherwise the service will throw an InvalidResourceStateFault exception.
     @Sendable
     public func reloadTables(_ input: ReloadTablesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ReloadTablesResponse {
-        return try await self.client.execute(operation: "ReloadTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ReloadTables", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes metadata tags from an DMS resource, including replication instance,  endpoint, subnet group, and migration task. For more information, see   Tag  data type description.
     @Sendable
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveTagsFromResourceResponse {
-        return try await self.client.execute(operation: "RemoveTagsFromResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveTagsFromResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
     @Sendable
     public func runFleetAdvisorLsaAnalysis(logger: Logger = AWSClient.loggingDisabled) async throws -> RunFleetAdvisorLsaAnalysisResponse {
-        return try await self.client.execute(operation: "RunFleetAdvisorLsaAnalysis", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger)
+        return try await self.client.execute(
+            operation: "RunFleetAdvisorLsaAnalysis", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
     }
 
     /// Starts the analysis of your source database to provide recommendations of target engines. You can create recommendations for multiple source databases using BatchStartRecommendations.
     @Sendable
     public func startRecommendations(_ input: StartRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "StartRecommendations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts the replication task. For more information about DMS tasks, see Working with Migration Tasks  in the Database Migration Service User Guide.
     @Sendable
     public func startReplicationTask(_ input: StartReplicationTaskMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartReplicationTaskResponse {
-        return try await self.client.execute(operation: "StartReplicationTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartReplicationTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Starts the replication task assessment for unsupported data types in the source database.  You can only use this operation for a task if the following conditions are true:   The task must be in the stopped state.   The task must have successful connections to the source and target.   If either of these conditions are not met, an InvalidResourceStateFault error will result.  For information about DMS task assessments, see  Creating a task assessment report in the Database Migration Service User Guide.
     @Sendable
     public func startReplicationTaskAssessment(_ input: StartReplicationTaskAssessmentMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartReplicationTaskAssessmentResponse {
-        return try await self.client.execute(operation: "StartReplicationTaskAssessment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartReplicationTaskAssessment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a new premigration assessment run for one or more individual assessments of a migration task. The assessments that you can specify depend on the source and target database engine and the migration type defined for the given task. To run this operation, your migration task must already be created. After you run this operation, you can review the status of each individual assessment. You can also run the migration task manually after the assessment run and its individual assessments complete.
     @Sendable
     public func startReplicationTaskAssessmentRun(_ input: StartReplicationTaskAssessmentRunMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartReplicationTaskAssessmentRunResponse {
-        return try await self.client.execute(operation: "StartReplicationTaskAssessmentRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartReplicationTaskAssessmentRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops the replication task.
     @Sendable
     public func stopReplicationTask(_ input: StopReplicationTaskMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StopReplicationTaskResponse {
-        return try await self.client.execute(operation: "StopReplicationTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopReplicationTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Tests the connection between the replication instance and the endpoint.
     @Sendable
     public func testConnection(_ input: TestConnectionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> TestConnectionResponse {
-        return try await self.client.execute(operation: "TestConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TestConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions only when all your replication instance versions are 3.4.6 or higher. If any replication instances are from versions earlier than 3.4.6, the operation raises an error and tells you to upgrade these instances to version 3.4.6 or higher. To enable migration regardless of version, set the Force option to true. However, if you don't upgrade instances earlier than version 3.4.6, some types of events might not be available when you use Amazon EventBridge. To call this operation, make sure that you have certain permissions added to your user account. For more information, see Migrating event subscriptions to Amazon EventBridge in the Amazon Web Services Database Migration Service User Guide.
     @Sendable
     public func updateSubscriptionsToEventBridge(_ input: UpdateSubscriptionsToEventBridgeMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSubscriptionsToEventBridgeResponse {
-        return try await self.client.execute(operation: "UpdateSubscriptionsToEventBridge", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSubscriptionsToEventBridge", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -66,127 +66,274 @@ public struct Amp: AWSService {
     /// Create an alert manager definition.
     @Sendable
     public func createAlertManagerDefinition(_ input: CreateAlertManagerDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAlertManagerDefinitionResponse {
-        return try await self.client.execute(operation: "CreateAlertManagerDefinition", path: "/workspaces/{workspaceId}/alertmanager/definition", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAlertManagerDefinition", 
+            path: "/workspaces/{workspaceId}/alertmanager/definition", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create logging configuration.
     @Sendable
     public func createLoggingConfiguration(_ input: CreateLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLoggingConfigurationResponse {
-        return try await self.client.execute(operation: "CreateLoggingConfiguration", path: "/workspaces/{workspaceId}/logging", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLoggingConfiguration", 
+            path: "/workspaces/{workspaceId}/logging", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a rule group namespace.
     @Sendable
     public func createRuleGroupsNamespace(_ input: CreateRuleGroupsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuleGroupsNamespaceResponse {
-        return try await self.client.execute(operation: "CreateRuleGroupsNamespace", path: "/workspaces/{workspaceId}/rulegroupsnamespaces", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRuleGroupsNamespace", 
+            path: "/workspaces/{workspaceId}/rulegroupsnamespaces", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new AMP workspace.
     @Sendable
     public func createWorkspace(_ input: CreateWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspaceResponse {
-        return try await self.client.execute(operation: "CreateWorkspace", path: "/workspaces", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorkspace", 
+            path: "/workspaces", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an alert manager definition.
     @Sendable
     public func deleteAlertManagerDefinition(_ input: DeleteAlertManagerDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteAlertManagerDefinition", path: "/workspaces/{workspaceId}/alertmanager/definition", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAlertManagerDefinition", 
+            path: "/workspaces/{workspaceId}/alertmanager/definition", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete logging configuration.
     @Sendable
     public func deleteLoggingConfiguration(_ input: DeleteLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteLoggingConfiguration", path: "/workspaces/{workspaceId}/logging", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteLoggingConfiguration", 
+            path: "/workspaces/{workspaceId}/logging", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a rule groups namespace.
     @Sendable
     public func deleteRuleGroupsNamespace(_ input: DeleteRuleGroupsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteRuleGroupsNamespace", path: "/workspaces/{workspaceId}/rulegroupsnamespaces/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRuleGroupsNamespace", 
+            path: "/workspaces/{workspaceId}/rulegroupsnamespaces/{name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an AMP workspace.
     @Sendable
     public func deleteWorkspace(_ input: DeleteWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWorkspace", 
+            path: "/workspaces/{workspaceId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an alert manager definition.
     @Sendable
     public func describeAlertManagerDefinition(_ input: DescribeAlertManagerDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAlertManagerDefinitionResponse {
-        return try await self.client.execute(operation: "DescribeAlertManagerDefinition", path: "/workspaces/{workspaceId}/alertmanager/definition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAlertManagerDefinition", 
+            path: "/workspaces/{workspaceId}/alertmanager/definition", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes logging configuration.
     @Sendable
     public func describeLoggingConfiguration(_ input: DescribeLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLoggingConfigurationResponse {
-        return try await self.client.execute(operation: "DescribeLoggingConfiguration", path: "/workspaces/{workspaceId}/logging", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLoggingConfiguration", 
+            path: "/workspaces/{workspaceId}/logging", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe a rule groups namespace.
     @Sendable
     public func describeRuleGroupsNamespace(_ input: DescribeRuleGroupsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRuleGroupsNamespaceResponse {
-        return try await self.client.execute(operation: "DescribeRuleGroupsNamespace", path: "/workspaces/{workspaceId}/rulegroupsnamespaces/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRuleGroupsNamespace", 
+            path: "/workspaces/{workspaceId}/rulegroupsnamespaces/{name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing AMP workspace.
     @Sendable
     public func describeWorkspace(_ input: DescribeWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspaceResponse {
-        return try await self.client.execute(operation: "DescribeWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeWorkspace", 
+            path: "/workspaces/{workspaceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists rule groups namespaces.
     @Sendable
     public func listRuleGroupsNamespaces(_ input: ListRuleGroupsNamespacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRuleGroupsNamespacesResponse {
-        return try await self.client.execute(operation: "ListRuleGroupsNamespaces", path: "/workspaces/{workspaceId}/rulegroupsnamespaces", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRuleGroupsNamespaces", 
+            path: "/workspaces/{workspaceId}/rulegroupsnamespaces", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags you have assigned to the resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all AMP workspaces, including workspaces being created or deleted.
     @Sendable
     public func listWorkspaces(_ input: ListWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkspacesResponse {
-        return try await self.client.execute(operation: "ListWorkspaces", path: "/workspaces", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkspaces", 
+            path: "/workspaces", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update an alert manager definition.
     @Sendable
     public func putAlertManagerDefinition(_ input: PutAlertManagerDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAlertManagerDefinitionResponse {
-        return try await self.client.execute(operation: "PutAlertManagerDefinition", path: "/workspaces/{workspaceId}/alertmanager/definition", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutAlertManagerDefinition", 
+            path: "/workspaces/{workspaceId}/alertmanager/definition", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update a rule groups namespace.
     @Sendable
     public func putRuleGroupsNamespace(_ input: PutRuleGroupsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRuleGroupsNamespaceResponse {
-        return try await self.client.execute(operation: "PutRuleGroupsNamespace", path: "/workspaces/{workspaceId}/rulegroupsnamespaces/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutRuleGroupsNamespace", 
+            path: "/workspaces/{workspaceId}/rulegroupsnamespaces/{name}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates tags for the specified resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes tags from the specified resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update logging configuration.
     @Sendable
     public func updateLoggingConfiguration(_ input: UpdateLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLoggingConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateLoggingConfiguration", path: "/workspaces/{workspaceId}/logging", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLoggingConfiguration", 
+            path: "/workspaces/{workspaceId}/logging", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an AMP workspace alias.
     @Sendable
     public func updateWorkspaceAlias(_ input: UpdateWorkspaceAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateWorkspaceAlias", path: "/workspaces/{workspaceId}/alias", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorkspaceAlias", 
+            path: "/workspaces/{workspaceId}/alias", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

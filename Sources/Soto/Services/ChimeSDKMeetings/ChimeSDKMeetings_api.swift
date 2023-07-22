@@ -75,97 +75,209 @@ public struct ChimeSDKMeetings: AWSService {
     /// Creates up to 100 attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     @Sendable
     public func batchCreateAttendee(_ input: BatchCreateAttendeeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreateAttendeeResponse {
-        return try await self.client.execute(operation: "BatchCreateAttendee", path: "/meetings/{MeetingId}/attendees?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchCreateAttendee", 
+            path: "/meetings/{MeetingId}/attendees?operation=batch-create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates AttendeeCapabilities except the capabilities listed in an ExcludedAttendeeIds table.  You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .  When using capabilities, be aware of these corner cases:   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.   When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
     @Sendable
     public func batchUpdateAttendeeCapabilitiesExcept(_ input: BatchUpdateAttendeeCapabilitiesExceptRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "BatchUpdateAttendeeCapabilitiesExcept", path: "/meetings/{MeetingId}/attendees/capabilities?operation=batch-update-except", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchUpdateAttendeeCapabilitiesExcept", 
+            path: "/meetings/{MeetingId}/attendees/capabilities?operation=batch-update-except", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the  Amazon Chime Developer Guide.
     @Sendable
     public func createAttendee(_ input: CreateAttendeeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAttendeeResponse {
-        return try await self.client.execute(operation: "CreateAttendee", path: "/meetings/{MeetingId}/attendees", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAttendee", 
+            path: "/meetings/{MeetingId}/attendees", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see  Amazon Chime SDK Media Regions in the Amazon Chime Developer Guide. For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the  Amazon Chime Developer Guide.
     @Sendable
     public func createMeeting(_ input: CreateMeetingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMeetingResponse {
-        return try await self.client.execute(operation: "CreateMeeting", path: "/meetings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMeeting", 
+            path: "/meetings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see  Amazon Chime SDK Media Regions in the Amazon Chime Developer Guide. For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     @Sendable
     public func createMeetingWithAttendees(_ input: CreateMeetingWithAttendeesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMeetingWithAttendeesResponse {
-        return try await self.client.execute(operation: "CreateMeetingWithAttendees", path: "/meetings?operation=create-attendees", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMeetingWithAttendees", 
+            path: "/meetings?operation=create-attendees", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their  JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     @Sendable
     public func deleteAttendee(_ input: DeleteAttendeeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteAttendee", path: "/meetings/{MeetingId}/attendees/{AttendeeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAttendee", 
+            path: "/meetings/{MeetingId}/attendees/{AttendeeId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from  joining the meeting. For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the  Amazon Chime Developer Guide.
     @Sendable
     public func deleteMeeting(_ input: DeleteMeetingRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteMeeting", path: "/meetings/{MeetingId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMeeting", 
+            path: "/meetings/{MeetingId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     @Sendable
     public func getAttendee(_ input: GetAttendeeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAttendeeResponse {
-        return try await self.client.execute(operation: "GetAttendee", path: "/meetings/{MeetingId}/attendees/{AttendeeId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAttendee", 
+            path: "/meetings/{MeetingId}/attendees/{AttendeeId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     @Sendable
     public func getMeeting(_ input: GetMeetingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMeetingResponse {
-        return try await self.client.execute(operation: "GetMeeting", path: "/meetings/{MeetingId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMeeting", 
+            path: "/meetings/{MeetingId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see  Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
     @Sendable
     public func listAttendees(_ input: ListAttendeesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAttendeesResponse {
-        return try await self.client.execute(operation: "ListAttendees", path: "/meetings/{MeetingId}/attendees", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAttendees", 
+            path: "/meetings/{MeetingId}/attendees", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the tags available for the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts transcription for the specified meetingId. For more information, refer to  Using Amazon Chime SDK live transcription in the Amazon Chime SDK Developer Guide. If you specify an invalid configuration, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe.   For more information on each parameter and which combinations are valid, refer to the  StartStreamTranscription API in the  Amazon Transcribe Developer Guide.  Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject to the  AWS Service Terms, including the terms specific to the AWS Machine Learning and Artificial Intelligence Services.
     @Sendable
     public func startMeetingTranscription(_ input: StartMeetingTranscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "StartMeetingTranscription", path: "/meetings/{MeetingId}/transcription?operation=start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartMeetingTranscription", 
+            path: "/meetings/{MeetingId}/transcription?operation=start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops transcription for the specified meetingId. For more information, refer to  Using Amazon Chime SDK live transcription in the Amazon Chime SDK Developer Guide.  Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject to the  AWS Service Terms, including the terms specific to the AWS Machine Learning and Artificial Intelligence Services.
     @Sendable
     public func stopMeetingTranscription(_ input: StopMeetingTranscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "StopMeetingTranscription", path: "/meetings/{MeetingId}/transcription?operation=stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopMeetingTranscription", 
+            path: "/meetings/{MeetingId}/transcription?operation=stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The resource that supports tags.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags?operation=tag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags?operation=tag-resource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you  attempt to remove tags from a resource that were already removed. Note the following:   To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information,  see the documentation for the service whose resource you want to untag.   You can only tag resources that are located in the specified AWS Region for the calling AWS account.    Minimum permissions  In addition to the tag:UntagResources permission required by this operation, you must also have the remove tags permission defined by the service that created the resource.  For example, to remove the tags from an Amazon EC2 instance using the UntagResources operation, you must have both of the following permissions:  tag:UntagResource   ChimeSDKMeetings:DeleteTags
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags?operation=untag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags?operation=untag-resource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The capabilities that you want to update.  You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .  When using capabilities, be aware of these corner cases:   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.   When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
     @Sendable
     public func updateAttendeeCapabilities(_ input: UpdateAttendeeCapabilitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAttendeeCapabilitiesResponse {
-        return try await self.client.execute(operation: "UpdateAttendeeCapabilities", path: "/meetings/{MeetingId}/attendees/{AttendeeId}/capabilities", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAttendeeCapabilities", 
+            path: "/meetings/{MeetingId}/attendees/{AttendeeId}/capabilities", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

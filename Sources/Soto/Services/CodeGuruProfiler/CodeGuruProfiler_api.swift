@@ -66,139 +66,300 @@ public struct CodeGuruProfiler: AWSService {
     /// Add up to 2 anomaly notifications channels for a profiling group.
     @Sendable
     public func addNotificationChannels(_ input: AddNotificationChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddNotificationChannelsResponse {
-        return try await self.client.execute(operation: "AddNotificationChannels", path: "/profilingGroups/{profilingGroupName}/notificationConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddNotificationChannels", 
+            path: "/profilingGroups/{profilingGroupName}/notificationConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns the time series of values for a requested list  of frame metrics from a time period.
     @Sendable
     public func batchGetFrameMetricData(_ input: BatchGetFrameMetricDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetFrameMetricDataResponse {
-        return try await self.client.execute(operation: "BatchGetFrameMetricData", path: "/profilingGroups/{profilingGroupName}/frames/-/metrics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetFrameMetricData", 
+            path: "/profilingGroups/{profilingGroupName}/frames/-/metrics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Used by profiler agents to report their current state and to receive remote  configuration updates. For example, ConfigureAgent can be used  to tell an agent whether to profile or not and for how long to return profiling data.
     @Sendable
     public func configureAgent(_ input: ConfigureAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigureAgentResponse {
-        return try await self.client.execute(operation: "ConfigureAgent", path: "/profilingGroups/{profilingGroupName}/configureAgent", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ConfigureAgent", 
+            path: "/profilingGroups/{profilingGroupName}/configureAgent", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a profiling group.
     @Sendable
     public func createProfilingGroup(_ input: CreateProfilingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProfilingGroupResponse {
-        return try await self.client.execute(operation: "CreateProfilingGroup", path: "/profilingGroups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProfilingGroup", 
+            path: "/profilingGroups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a profiling group.
     @Sendable
     public func deleteProfilingGroup(_ input: DeleteProfilingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProfilingGroupResponse {
-        return try await self.client.execute(operation: "DeleteProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteProfilingGroup", 
+            path: "/profilingGroups/{profilingGroupName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns a  ProfilingGroupDescription  object that contains information about the requested profiling group.
     @Sendable
     public func describeProfilingGroup(_ input: DescribeProfilingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProfilingGroupResponse {
-        return try await self.client.execute(operation: "DescribeProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProfilingGroup", 
+            path: "/profilingGroups/{profilingGroupName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns a list of   FindingsReportSummary  objects that contain analysis results for all profiling groups in your AWS account.
     @Sendable
     public func getFindingsReportAccountSummary(_ input: GetFindingsReportAccountSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsReportAccountSummaryResponse {
-        return try await self.client.execute(operation: "GetFindingsReportAccountSummary", path: "/internal/findingsReports", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFindingsReportAccountSummary", 
+            path: "/internal/findingsReports", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the current configuration for anomaly notifications for a profiling group.
     @Sendable
     public func getNotificationConfiguration(_ input: GetNotificationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNotificationConfigurationResponse {
-        return try await self.client.execute(operation: "GetNotificationConfiguration", path: "/profilingGroups/{profilingGroupName}/notificationConfiguration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetNotificationConfiguration", 
+            path: "/profilingGroups/{profilingGroupName}/notificationConfiguration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns the JSON-formatted resource-based policy on a profiling group.
     @Sendable
     public func getPolicy(_ input: GetPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyResponse {
-        return try await self.client.execute(operation: "GetPolicy", path: "/profilingGroups/{profilingGroupName}/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPolicy", 
+            path: "/profilingGroups/{profilingGroupName}/policy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Gets the aggregated profile of a profiling group for a specified time range.  Amazon CodeGuru Profiler collects posted agent profiles for a profiling group  into aggregated profiles.       Because aggregated profiles expire over time GetProfile is not idempotent.     Specify the time range for the requested aggregated profile using 1 or 2 of the following parameters: startTime,  endTime, period. The maximum time range allowed is 7 days. If you specify all 3 parameters,  an exception is thrown. If you specify only period, the latest aggregated profile is returned.     Aggregated profiles are available with aggregation periods of 5 minutes, 1 hour, and 1 day, aligned to  UTC. The aggregation period of an aggregated profile determines how long it is retained. For more  information, see  AggregatedProfileTime . The aggregated profile's aggregation period determines how long   it is retained by CodeGuru Profiler.      If the aggregation period is 5 minutes, the aggregated profile is retained for 15 days.     If the aggregation period is 1 hour, the aggregated profile is retained for 60 days.     If the aggregation period is 1 day, the aggregated profile is retained for 3 years.     There are two use cases for calling GetProfile.    If you want to return an aggregated profile that already exists, use   ListProfileTimes to  view the time ranges of existing aggregated profiles. Use them in a GetProfile request to return a specific,  existing aggregated profile.     If you want to return an aggregated profile for a time range that doesn't align with an existing aggregated profile,  then CodeGuru Profiler makes a best effort to combine existing aggregated profiles from the requested time  range and return them as one aggregated profile.    If aggregated profiles do not exist for the full time range requested, then aggregated profiles for a smaller time range are returned. For example, if the requested time range is from 00:00 to 00:20, and the existing aggregated profiles are from 00:15 and 00:25, then the aggregated profiles from 00:15 to 00:20 are returned.
     @Sendable
     public func getProfile(_ input: GetProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProfileResponse {
-        return try await self.client.execute(operation: "GetProfile", path: "/profilingGroups/{profilingGroupName}/profile", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetProfile", 
+            path: "/profilingGroups/{profilingGroupName}/profile", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns a list of   Recommendation  objects that contain recommendations for a profiling group for a given time period. A list of   Anomaly  objects that contains details about anomalies detected in the profiling group for the same time period is also  returned.
     @Sendable
     public func getRecommendations(_ input: GetRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommendationsResponse {
-        return try await self.client.execute(operation: "GetRecommendations", path: "/internal/profilingGroups/{profilingGroupName}/recommendations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRecommendations", 
+            path: "/internal/profilingGroups/{profilingGroupName}/recommendations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the available reports for a given profiling group and time range.
     @Sendable
     public func listFindingsReports(_ input: ListFindingsReportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFindingsReportsResponse {
-        return try await self.client.execute(operation: "ListFindingsReports", path: "/internal/profilingGroups/{profilingGroupName}/findingsReports", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFindingsReports", 
+            path: "/internal/profilingGroups/{profilingGroupName}/findingsReports", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the start times of the available aggregated profiles of a profiling group  for an aggregation period within the specified time range.
     @Sendable
     public func listProfileTimes(_ input: ListProfileTimesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProfileTimesResponse {
-        return try await self.client.execute(operation: "ListProfileTimes", path: "/profilingGroups/{profilingGroupName}/profileTimes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProfileTimes", 
+            path: "/profilingGroups/{profilingGroupName}/profileTimes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns a list of profiling groups. The profiling groups are returned as   ProfilingGroupDescription  objects.
     @Sendable
     public func listProfilingGroups(_ input: ListProfilingGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProfilingGroupsResponse {
-        return try await self.client.execute(operation: "ListProfilingGroups", path: "/profilingGroups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProfilingGroups", 
+            path: "/profilingGroups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns a list of the tags that are assigned to a specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Submits profiling data to an aggregated profile of a profiling group. To get an   aggregated profile that is created with this profiling data, use   GetProfile .
     @Sendable
     public func postAgentProfile(_ input: PostAgentProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PostAgentProfileResponse {
-        return try await self.client.execute(operation: "PostAgentProfile", path: "/profilingGroups/{profilingGroupName}/agentProfile", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PostAgentProfile", 
+            path: "/profilingGroups/{profilingGroupName}/agentProfile", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Adds permissions to a profiling group's resource-based policy  that are provided using an action group. If a profiling group doesn't have  a resource-based policy, one is created for it using the permissions in the action group and  the roles and users in the principals parameter.   The one supported action group that can be added is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see Resource-based policies in CodeGuru Profiler in the Amazon CodeGuru Profiler User Guide,  ConfigureAgent , and  PostAgentProfile .    The first time you call PutPermission on a profiling group, do not specify a revisionId because  it doesn't have a resource-based policy. Subsequent calls must provide a revisionId to specify  which revision of the resource-based policy to add the permissions to.    The response contains the profiling group's JSON-formatted resource policy.
     @Sendable
     public func putPermission(_ input: PutPermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPermissionResponse {
-        return try await self.client.execute(operation: "PutPermission", path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutPermission", 
+            path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Remove one anomaly notifications channel for a profiling group.
     @Sendable
     public func removeNotificationChannel(_ input: RemoveNotificationChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveNotificationChannelResponse {
-        return try await self.client.execute(operation: "RemoveNotificationChannel", path: "/profilingGroups/{profilingGroupName}/notificationConfiguration/{channelId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveNotificationChannel", 
+            path: "/profilingGroups/{profilingGroupName}/notificationConfiguration/{channelId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Removes permissions from a profiling group's resource-based policy that are provided using an action group. The one supported action group that can be removed is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see Resource-based policies in CodeGuru Profiler in the Amazon CodeGuru Profiler User Guide,  ConfigureAgent , and  PostAgentProfile .
     @Sendable
     public func removePermission(_ input: RemovePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemovePermissionResponse {
-        return try await self.client.execute(operation: "RemovePermission", path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemovePermission", 
+            path: "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sends feedback to CodeGuru Profiler about whether the anomaly detected by the analysis is  useful or not.
     @Sendable
     public func submitFeedback(_ input: SubmitFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubmitFeedbackResponse {
-        return try await self.client.execute(operation: "SubmitFeedback", path: "/internal/profilingGroups/{profilingGroupName}/anomalies/{anomalyInstanceId}/feedback", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SubmitFeedback", 
+            path: "/internal/profilingGroups/{profilingGroupName}/anomalies/{anomalyInstanceId}/feedback", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Use to assign one or more tags to a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Use to remove one or more tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a profiling group.
     @Sendable
     public func updateProfilingGroup(_ input: UpdateProfilingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProfilingGroupResponse {
-        return try await self.client.execute(operation: "UpdateProfilingGroup", path: "/profilingGroups/{profilingGroupName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateProfilingGroup", 
+            path: "/profilingGroups/{profilingGroupName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

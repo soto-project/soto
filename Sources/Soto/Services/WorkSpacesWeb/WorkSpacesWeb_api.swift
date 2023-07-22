@@ -66,349 +66,755 @@ public struct WorkSpacesWeb: AWSService {
     /// Associates a browser settings resource with a web portal.
     @Sendable
     public func associateBrowserSettings(_ input: AssociateBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateBrowserSettingsResponse {
-        return try await self.client.execute(operation: "AssociateBrowserSettings", path: "/portals/{portalArn+}/browserSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateBrowserSettings", 
+            path: "/portals/{portalArn+}/browserSettings", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates an IP access settings resource with a web portal.
     @Sendable
     public func associateIpAccessSettings(_ input: AssociateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateIpAccessSettingsResponse {
-        return try await self.client.execute(operation: "AssociateIpAccessSettings", path: "/portals/{portalArn+}/ipAccessSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateIpAccessSettings", 
+            path: "/portals/{portalArn+}/ipAccessSettings", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a network settings resource with a web portal.
     @Sendable
     public func associateNetworkSettings(_ input: AssociateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateNetworkSettingsResponse {
-        return try await self.client.execute(operation: "AssociateNetworkSettings", path: "/portals/{portalArn+}/networkSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateNetworkSettings", 
+            path: "/portals/{portalArn+}/networkSettings", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a trust store with a web portal.
     @Sendable
     public func associateTrustStore(_ input: AssociateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateTrustStoreResponse {
-        return try await self.client.execute(operation: "AssociateTrustStore", path: "/portals/{portalArn+}/trustStores", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateTrustStore", 
+            path: "/portals/{portalArn+}/trustStores", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a user access logging settings resource with a web portal.
     @Sendable
     public func associateUserAccessLoggingSettings(_ input: AssociateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateUserAccessLoggingSettingsResponse {
-        return try await self.client.execute(operation: "AssociateUserAccessLoggingSettings", path: "/portals/{portalArn+}/userAccessLoggingSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateUserAccessLoggingSettings", 
+            path: "/portals/{portalArn+}/userAccessLoggingSettings", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a user settings resource with a web portal.
     @Sendable
     public func associateUserSettings(_ input: AssociateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateUserSettingsResponse {
-        return try await self.client.execute(operation: "AssociateUserSettings", path: "/portals/{portalArn+}/userSettings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateUserSettings", 
+            path: "/portals/{portalArn+}/userSettings", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
     @Sendable
     public func createBrowserSettings(_ input: CreateBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBrowserSettingsResponse {
-        return try await self.client.execute(operation: "CreateBrowserSettings", path: "/browserSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateBrowserSettings", 
+            path: "/browserSettings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an identity provider resource that is then associated with a web portal.
     @Sendable
     public func createIdentityProvider(_ input: CreateIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIdentityProviderResponse {
-        return try await self.client.execute(operation: "CreateIdentityProvider", path: "/identityProviders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateIdentityProvider", 
+            path: "/identityProviders", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an IP access settings resource that can be associated with a web portal.
     @Sendable
     public func createIpAccessSettings(_ input: CreateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIpAccessSettingsResponse {
-        return try await self.client.execute(operation: "CreateIpAccessSettings", path: "/ipAccessSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateIpAccessSettings", 
+            path: "/ipAccessSettings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
     @Sendable
     public func createNetworkSettings(_ input: CreateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNetworkSettingsResponse {
-        return try await self.client.execute(operation: "CreateNetworkSettings", path: "/networkSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateNetworkSettings", 
+            path: "/networkSettings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a web portal.
     @Sendable
     public func createPortal(_ input: CreatePortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePortalResponse {
-        return try await self.client.execute(operation: "CreatePortal", path: "/portals", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePortal", 
+            path: "/portals", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
     @Sendable
     public func createTrustStore(_ input: CreateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrustStoreResponse {
-        return try await self.client.execute(operation: "CreateTrustStore", path: "/trustStores", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTrustStore", 
+            path: "/trustStores", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a user access logging settings resource that can be associated with a web portal.
     @Sendable
     public func createUserAccessLoggingSettings(_ input: CreateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserAccessLoggingSettingsResponse {
-        return try await self.client.execute(operation: "CreateUserAccessLoggingSettings", path: "/userAccessLoggingSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUserAccessLoggingSettings", 
+            path: "/userAccessLoggingSettings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
     @Sendable
     public func createUserSettings(_ input: CreateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserSettingsResponse {
-        return try await self.client.execute(operation: "CreateUserSettings", path: "/userSettings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUserSettings", 
+            path: "/userSettings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes browser settings.
     @Sendable
     public func deleteBrowserSettings(_ input: DeleteBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBrowserSettingsResponse {
-        return try await self.client.execute(operation: "DeleteBrowserSettings", path: "/browserSettings/{browserSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBrowserSettings", 
+            path: "/browserSettings/{browserSettingsArn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the identity provider.
     @Sendable
     public func deleteIdentityProvider(_ input: DeleteIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIdentityProviderResponse {
-        return try await self.client.execute(operation: "DeleteIdentityProvider", path: "/identityProviders/{identityProviderArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteIdentityProvider", 
+            path: "/identityProviders/{identityProviderArn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes IP access settings.
     @Sendable
     public func deleteIpAccessSettings(_ input: DeleteIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIpAccessSettingsResponse {
-        return try await self.client.execute(operation: "DeleteIpAccessSettings", path: "/ipAccessSettings/{ipAccessSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteIpAccessSettings", 
+            path: "/ipAccessSettings/{ipAccessSettingsArn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes network settings.
     @Sendable
     public func deleteNetworkSettings(_ input: DeleteNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkSettingsResponse {
-        return try await self.client.execute(operation: "DeleteNetworkSettings", path: "/networkSettings/{networkSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteNetworkSettings", 
+            path: "/networkSettings/{networkSettingsArn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a web portal.
     @Sendable
     public func deletePortal(_ input: DeletePortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePortalResponse {
-        return try await self.client.execute(operation: "DeletePortal", path: "/portals/{portalArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePortal", 
+            path: "/portals/{portalArn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the trust store.
     @Sendable
     public func deleteTrustStore(_ input: DeleteTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTrustStoreResponse {
-        return try await self.client.execute(operation: "DeleteTrustStore", path: "/trustStores/{trustStoreArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTrustStore", 
+            path: "/trustStores/{trustStoreArn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes user access logging settings.
     @Sendable
     public func deleteUserAccessLoggingSettings(_ input: DeleteUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserAccessLoggingSettingsResponse {
-        return try await self.client.execute(operation: "DeleteUserAccessLoggingSettings", path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUserAccessLoggingSettings", 
+            path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes user settings.
     @Sendable
     public func deleteUserSettings(_ input: DeleteUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserSettingsResponse {
-        return try await self.client.execute(operation: "DeleteUserSettings", path: "/userSettings/{userSettingsArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUserSettings", 
+            path: "/userSettings/{userSettingsArn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates browser settings from a web portal.
     @Sendable
     public func disassociateBrowserSettings(_ input: DisassociateBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateBrowserSettingsResponse {
-        return try await self.client.execute(operation: "DisassociateBrowserSettings", path: "/portals/{portalArn+}/browserSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateBrowserSettings", 
+            path: "/portals/{portalArn+}/browserSettings", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates IP access settings from a web portal.
     @Sendable
     public func disassociateIpAccessSettings(_ input: DisassociateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateIpAccessSettingsResponse {
-        return try await self.client.execute(operation: "DisassociateIpAccessSettings", path: "/portals/{portalArn+}/ipAccessSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateIpAccessSettings", 
+            path: "/portals/{portalArn+}/ipAccessSettings", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates network settings from a web portal.
     @Sendable
     public func disassociateNetworkSettings(_ input: DisassociateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateNetworkSettingsResponse {
-        return try await self.client.execute(operation: "DisassociateNetworkSettings", path: "/portals/{portalArn+}/networkSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateNetworkSettings", 
+            path: "/portals/{portalArn+}/networkSettings", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a trust store from a web portal.
     @Sendable
     public func disassociateTrustStore(_ input: DisassociateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateTrustStoreResponse {
-        return try await self.client.execute(operation: "DisassociateTrustStore", path: "/portals/{portalArn+}/trustStores", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateTrustStore", 
+            path: "/portals/{portalArn+}/trustStores", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates user access logging settings from a web portal.
     @Sendable
     public func disassociateUserAccessLoggingSettings(_ input: DisassociateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateUserAccessLoggingSettingsResponse {
-        return try await self.client.execute(operation: "DisassociateUserAccessLoggingSettings", path: "/portals/{portalArn+}/userAccessLoggingSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateUserAccessLoggingSettings", 
+            path: "/portals/{portalArn+}/userAccessLoggingSettings", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates user settings from a web portal.
     @Sendable
     public func disassociateUserSettings(_ input: DisassociateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateUserSettingsResponse {
-        return try await self.client.execute(operation: "DisassociateUserSettings", path: "/portals/{portalArn+}/userSettings", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateUserSettings", 
+            path: "/portals/{portalArn+}/userSettings", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets browser settings.
     @Sendable
     public func getBrowserSettings(_ input: GetBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBrowserSettingsResponse {
-        return try await self.client.execute(operation: "GetBrowserSettings", path: "/browserSettings/{browserSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBrowserSettings", 
+            path: "/browserSettings/{browserSettingsArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the identity provider.
     @Sendable
     public func getIdentityProvider(_ input: GetIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIdentityProviderResponse {
-        return try await self.client.execute(operation: "GetIdentityProvider", path: "/identityProviders/{identityProviderArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetIdentityProvider", 
+            path: "/identityProviders/{identityProviderArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the IP access settings.
     @Sendable
     public func getIpAccessSettings(_ input: GetIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIpAccessSettingsResponse {
-        return try await self.client.execute(operation: "GetIpAccessSettings", path: "/ipAccessSettings/{ipAccessSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetIpAccessSettings", 
+            path: "/ipAccessSettings/{ipAccessSettingsArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the network settings.
     @Sendable
     public func getNetworkSettings(_ input: GetNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNetworkSettingsResponse {
-        return try await self.client.execute(operation: "GetNetworkSettings", path: "/networkSettings/{networkSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetNetworkSettings", 
+            path: "/networkSettings/{networkSettingsArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the web portal.
     @Sendable
     public func getPortal(_ input: GetPortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortalResponse {
-        return try await self.client.execute(operation: "GetPortal", path: "/portals/{portalArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPortal", 
+            path: "/portals/{portalArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the service provider metadata.
     @Sendable
     public func getPortalServiceProviderMetadata(_ input: GetPortalServiceProviderMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortalServiceProviderMetadataResponse {
-        return try await self.client.execute(operation: "GetPortalServiceProviderMetadata", path: "/portalIdp/{portalArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPortalServiceProviderMetadata", 
+            path: "/portalIdp/{portalArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the trust store.
     @Sendable
     public func getTrustStore(_ input: GetTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrustStoreResponse {
-        return try await self.client.execute(operation: "GetTrustStore", path: "/trustStores/{trustStoreArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTrustStore", 
+            path: "/trustStores/{trustStoreArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the trust store certificate.
     @Sendable
     public func getTrustStoreCertificate(_ input: GetTrustStoreCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrustStoreCertificateResponse {
-        return try await self.client.execute(operation: "GetTrustStoreCertificate", path: "/trustStores/{trustStoreArn+}/certificate", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTrustStoreCertificate", 
+            path: "/trustStores/{trustStoreArn+}/certificate", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets user access logging settings.
     @Sendable
     public func getUserAccessLoggingSettings(_ input: GetUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUserAccessLoggingSettingsResponse {
-        return try await self.client.execute(operation: "GetUserAccessLoggingSettings", path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUserAccessLoggingSettings", 
+            path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets user settings.
     @Sendable
     public func getUserSettings(_ input: GetUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUserSettingsResponse {
-        return try await self.client.execute(operation: "GetUserSettings", path: "/userSettings/{userSettingsArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUserSettings", 
+            path: "/userSettings/{userSettingsArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of browser settings.
     @Sendable
     public func listBrowserSettings(_ input: ListBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBrowserSettingsResponse {
-        return try await self.client.execute(operation: "ListBrowserSettings", path: "/browserSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBrowserSettings", 
+            path: "/browserSettings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of identity providers for a specific web portal.
     @Sendable
     public func listIdentityProviders(_ input: ListIdentityProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdentityProvidersResponse {
-        return try await self.client.execute(operation: "ListIdentityProviders", path: "/portals/{portalArn+}/identityProviders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListIdentityProviders", 
+            path: "/portals/{portalArn+}/identityProviders", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of IP access settings.
     @Sendable
     public func listIpAccessSettings(_ input: ListIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIpAccessSettingsResponse {
-        return try await self.client.execute(operation: "ListIpAccessSettings", path: "/ipAccessSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListIpAccessSettings", 
+            path: "/ipAccessSettings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of network settings.
     @Sendable
     public func listNetworkSettings(_ input: ListNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkSettingsResponse {
-        return try await self.client.execute(operation: "ListNetworkSettings", path: "/networkSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNetworkSettings", 
+            path: "/networkSettings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list or web portals.
     @Sendable
     public func listPortals(_ input: ListPortalsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPortalsResponse {
-        return try await self.client.execute(operation: "ListPortals", path: "/portals", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPortals", 
+            path: "/portals", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of tags for a resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of trust store certificates.
     @Sendable
     public func listTrustStoreCertificates(_ input: ListTrustStoreCertificatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrustStoreCertificatesResponse {
-        return try await self.client.execute(operation: "ListTrustStoreCertificates", path: "/trustStores/{trustStoreArn+}/certificates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTrustStoreCertificates", 
+            path: "/trustStores/{trustStoreArn+}/certificates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of trust stores.
     @Sendable
     public func listTrustStores(_ input: ListTrustStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrustStoresResponse {
-        return try await self.client.execute(operation: "ListTrustStores", path: "/trustStores", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTrustStores", 
+            path: "/trustStores", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of user access logging settings.
     @Sendable
     public func listUserAccessLoggingSettings(_ input: ListUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserAccessLoggingSettingsResponse {
-        return try await self.client.execute(operation: "ListUserAccessLoggingSettings", path: "/userAccessLoggingSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListUserAccessLoggingSettings", 
+            path: "/userAccessLoggingSettings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of user settings.
     @Sendable
     public func listUserSettings(_ input: ListUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserSettingsResponse {
-        return try await self.client.execute(operation: "ListUserSettings", path: "/userSettings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListUserSettings", 
+            path: "/userSettings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or overwrites one or more tags for the specified resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn+}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn+}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from the specified resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates browser settings.
     @Sendable
     public func updateBrowserSettings(_ input: UpdateBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBrowserSettingsResponse {
-        return try await self.client.execute(operation: "UpdateBrowserSettings", path: "/browserSettings/{browserSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBrowserSettings", 
+            path: "/browserSettings/{browserSettingsArn+}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the identity provider.
     @Sendable
     public func updateIdentityProvider(_ input: UpdateIdentityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIdentityProviderResponse {
-        return try await self.client.execute(operation: "UpdateIdentityProvider", path: "/identityProviders/{identityProviderArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateIdentityProvider", 
+            path: "/identityProviders/{identityProviderArn+}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates IP access settings.
     @Sendable
     public func updateIpAccessSettings(_ input: UpdateIpAccessSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIpAccessSettingsResponse {
-        return try await self.client.execute(operation: "UpdateIpAccessSettings", path: "/ipAccessSettings/{ipAccessSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateIpAccessSettings", 
+            path: "/ipAccessSettings/{ipAccessSettingsArn+}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates network settings.
     @Sendable
     public func updateNetworkSettings(_ input: UpdateNetworkSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNetworkSettingsResponse {
-        return try await self.client.execute(operation: "UpdateNetworkSettings", path: "/networkSettings/{networkSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateNetworkSettings", 
+            path: "/networkSettings/{networkSettingsArn+}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a web portal.
     @Sendable
     public func updatePortal(_ input: UpdatePortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePortalResponse {
-        return try await self.client.execute(operation: "UpdatePortal", path: "/portals/{portalArn+}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePortal", 
+            path: "/portals/{portalArn+}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the trust store.
     @Sendable
     public func updateTrustStore(_ input: UpdateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTrustStoreResponse {
-        return try await self.client.execute(operation: "UpdateTrustStore", path: "/trustStores/{trustStoreArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTrustStore", 
+            path: "/trustStores/{trustStoreArn+}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the user access logging settings.
     @Sendable
     public func updateUserAccessLoggingSettings(_ input: UpdateUserAccessLoggingSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserAccessLoggingSettingsResponse {
-        return try await self.client.execute(operation: "UpdateUserAccessLoggingSettings", path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUserAccessLoggingSettings", 
+            path: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the user settings.
     @Sendable
     public func updateUserSettings(_ input: UpdateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserSettingsResponse {
-        return try await self.client.execute(operation: "UpdateUserSettings", path: "/userSettings/{userSettingsArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUserSettings", 
+            path: "/userSettings/{userSettingsArn+}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

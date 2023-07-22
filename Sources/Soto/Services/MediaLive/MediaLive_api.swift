@@ -73,355 +73,768 @@ public struct MediaLive: AWSService {
     /// Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
     @Sendable
     public func acceptInputDeviceTransfer(_ input: AcceptInputDeviceTransferRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptInputDeviceTransferResponse {
-        return try await self.client.execute(operation: "AcceptInputDeviceTransfer", path: "/prod/inputDevices/{InputDeviceId}/accept", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AcceptInputDeviceTransfer", 
+            path: "/prod/inputDevices/{InputDeviceId}/accept", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts delete of resources.
     @Sendable
     public func batchDelete(_ input: BatchDeleteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteResponse {
-        return try await self.client.execute(operation: "BatchDelete", path: "/prod/batch/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDelete", 
+            path: "/prod/batch/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts existing resources
     @Sendable
     public func batchStart(_ input: BatchStartRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchStartResponse {
-        return try await self.client.execute(operation: "BatchStart", path: "/prod/batch/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchStart", 
+            path: "/prod/batch/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops running resources
     @Sendable
     public func batchStop(_ input: BatchStopRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchStopResponse {
-        return try await self.client.execute(operation: "BatchStop", path: "/prod/batch/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchStop", 
+            path: "/prod/batch/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update a channel schedule
     @Sendable
     public func batchUpdateSchedule(_ input: BatchUpdateScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateScheduleResponse {
-        return try await self.client.execute(operation: "BatchUpdateSchedule", path: "/prod/channels/{ChannelId}/schedule", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchUpdateSchedule", 
+            path: "/prod/channels/{ChannelId}/schedule", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancel an input device transfer that you have requested.
     @Sendable
     public func cancelInputDeviceTransfer(_ input: CancelInputDeviceTransferRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelInputDeviceTransferResponse {
-        return try await self.client.execute(operation: "CancelInputDeviceTransfer", path: "/prod/inputDevices/{InputDeviceId}/cancel", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelInputDeviceTransfer", 
+            path: "/prod/inputDevices/{InputDeviceId}/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Send a request to claim an AWS Elemental device that you have purchased from a third-party vendor. After the request succeeds, you will own the device.
     @Sendable
     public func claimDevice(_ input: ClaimDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClaimDeviceResponse {
-        return try await self.client.execute(operation: "ClaimDevice", path: "/prod/claimDevice", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ClaimDevice", 
+            path: "/prod/claimDevice", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new channel
     @Sendable
     public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChannelResponse {
-        return try await self.client.execute(operation: "CreateChannel", path: "/prod/channels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateChannel", 
+            path: "/prod/channels", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create an input
     @Sendable
     public func createInput(_ input: CreateInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInputResponse {
-        return try await self.client.execute(operation: "CreateInput", path: "/prod/inputs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateInput", 
+            path: "/prod/inputs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a Input Security Group
     @Sendable
     public func createInputSecurityGroup(_ input: CreateInputSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInputSecurityGroupResponse {
-        return try await self.client.execute(operation: "CreateInputSecurityGroup", path: "/prod/inputSecurityGroups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateInputSecurityGroup", 
+            path: "/prod/inputSecurityGroups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a new multiplex.
     @Sendable
     public func createMultiplex(_ input: CreateMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultiplexResponse {
-        return try await self.client.execute(operation: "CreateMultiplex", path: "/prod/multiplexes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMultiplex", 
+            path: "/prod/multiplexes", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a new program in the multiplex.
     @Sendable
     public func createMultiplexProgram(_ input: CreateMultiplexProgramRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultiplexProgramResponse {
-        return try await self.client.execute(operation: "CreateMultiplexProgram", path: "/prod/multiplexes/{MultiplexId}/programs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMultiplexProgram", 
+            path: "/prod/multiplexes/{MultiplexId}/programs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create a partner input
     @Sendable
     public func createPartnerInput(_ input: CreatePartnerInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePartnerInputResponse {
-        return try await self.client.execute(operation: "CreatePartnerInput", path: "/prod/inputs/{InputId}/partners", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePartnerInput", 
+            path: "/prod/inputs/{InputId}/partners", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Create tags for a resource
     @Sendable
     public func createTags(_ input: CreateTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "CreateTags", path: "/prod/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTags", 
+            path: "/prod/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts deletion of channel. The associated outputs are also deleted.
     @Sendable
     public func deleteChannel(_ input: DeleteChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChannelResponse {
-        return try await self.client.execute(operation: "DeleteChannel", path: "/prod/channels/{ChannelId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteChannel", 
+            path: "/prod/channels/{ChannelId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the input end point
     @Sendable
     public func deleteInput(_ input: DeleteInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInputResponse {
-        return try await self.client.execute(operation: "DeleteInput", path: "/prod/inputs/{InputId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteInput", 
+            path: "/prod/inputs/{InputId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an Input Security Group
     @Sendable
     public func deleteInputSecurityGroup(_ input: DeleteInputSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInputSecurityGroupResponse {
-        return try await self.client.execute(operation: "DeleteInputSecurityGroup", path: "/prod/inputSecurityGroups/{InputSecurityGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteInputSecurityGroup", 
+            path: "/prod/inputSecurityGroups/{InputSecurityGroupId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a multiplex. The multiplex must be idle.
     @Sendable
     public func deleteMultiplex(_ input: DeleteMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMultiplexResponse {
-        return try await self.client.execute(operation: "DeleteMultiplex", path: "/prod/multiplexes/{MultiplexId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMultiplex", 
+            path: "/prod/multiplexes/{MultiplexId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete a program from a multiplex.
     @Sendable
     public func deleteMultiplexProgram(_ input: DeleteMultiplexProgramRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMultiplexProgramResponse {
-        return try await self.client.execute(operation: "DeleteMultiplexProgram", path: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMultiplexProgram", 
+            path: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete an expired reservation.
     @Sendable
     public func deleteReservation(_ input: DeleteReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReservationResponse {
-        return try await self.client.execute(operation: "DeleteReservation", path: "/prod/reservations/{ReservationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReservation", 
+            path: "/prod/reservations/{ReservationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Delete all schedule actions on a channel.
     @Sendable
     public func deleteSchedule(_ input: DeleteScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteScheduleResponse {
-        return try await self.client.execute(operation: "DeleteSchedule", path: "/prod/channels/{ChannelId}/schedule", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSchedule", 
+            path: "/prod/channels/{ChannelId}/schedule", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags for a resource
     @Sendable
     public func deleteTags(_ input: DeleteTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteTags", path: "/prod/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTags", 
+            path: "/prod/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details about a channel
     @Sendable
     public func describeChannel(_ input: DescribeChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeChannelResponse {
-        return try await self.client.execute(operation: "DescribeChannel", path: "/prod/channels/{ChannelId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeChannel", 
+            path: "/prod/channels/{ChannelId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Produces details about an input
     @Sendable
     public func describeInput(_ input: DescribeInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInputResponse {
-        return try await self.client.execute(operation: "DescribeInput", path: "/prod/inputs/{InputId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeInput", 
+            path: "/prod/inputs/{InputId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the details for the input device
     @Sendable
     public func describeInputDevice(_ input: DescribeInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInputDeviceResponse {
-        return try await self.client.execute(operation: "DescribeInputDevice", path: "/prod/inputDevices/{InputDeviceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeInputDevice", 
+            path: "/prod/inputDevices/{InputDeviceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the latest thumbnail data for the input device.
     @Sendable
     public func describeInputDeviceThumbnail(_ input: DescribeInputDeviceThumbnailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInputDeviceThumbnailResponse {
-        return try await self.client.execute(operation: "DescribeInputDeviceThumbnail", path: "/prod/inputDevices/{InputDeviceId}/thumbnailData", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeInputDeviceThumbnail", 
+            path: "/prod/inputDevices/{InputDeviceId}/thumbnailData", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Produces a summary of an Input Security Group
     @Sendable
     public func describeInputSecurityGroup(_ input: DescribeInputSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInputSecurityGroupResponse {
-        return try await self.client.execute(operation: "DescribeInputSecurityGroup", path: "/prod/inputSecurityGroups/{InputSecurityGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeInputSecurityGroup", 
+            path: "/prod/inputSecurityGroups/{InputSecurityGroupId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details about a multiplex.
     @Sendable
     public func describeMultiplex(_ input: DescribeMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMultiplexResponse {
-        return try await self.client.execute(operation: "DescribeMultiplex", path: "/prod/multiplexes/{MultiplexId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeMultiplex", 
+            path: "/prod/multiplexes/{MultiplexId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the details for a program in a multiplex.
     @Sendable
     public func describeMultiplexProgram(_ input: DescribeMultiplexProgramRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMultiplexProgramResponse {
-        return try await self.client.execute(operation: "DescribeMultiplexProgram", path: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeMultiplexProgram", 
+            path: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get details for an offering.
     @Sendable
     public func describeOffering(_ input: DescribeOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOfferingResponse {
-        return try await self.client.execute(operation: "DescribeOffering", path: "/prod/offerings/{OfferingId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeOffering", 
+            path: "/prod/offerings/{OfferingId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get details for a reservation.
     @Sendable
     public func describeReservation(_ input: DescribeReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservationResponse {
-        return try await self.client.execute(operation: "DescribeReservation", path: "/prod/reservations/{ReservationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReservation", 
+            path: "/prod/reservations/{ReservationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get a channel schedule
     @Sendable
     public func describeSchedule(_ input: DescribeScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeScheduleResponse {
-        return try await self.client.execute(operation: "DescribeSchedule", path: "/prod/channels/{ChannelId}/schedule", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSchedule", 
+            path: "/prod/channels/{ChannelId}/schedule", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Produces list of channels that have been created
     @Sendable
     public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelsResponse {
-        return try await self.client.execute(operation: "ListChannels", path: "/prod/channels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListChannels", 
+            path: "/prod/channels", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
     @Sendable
     public func listInputDeviceTransfers(_ input: ListInputDeviceTransfersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInputDeviceTransfersResponse {
-        return try await self.client.execute(operation: "ListInputDeviceTransfers", path: "/prod/inputDeviceTransfers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListInputDeviceTransfers", 
+            path: "/prod/inputDeviceTransfers", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List input devices
     @Sendable
     public func listInputDevices(_ input: ListInputDevicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInputDevicesResponse {
-        return try await self.client.execute(operation: "ListInputDevices", path: "/prod/inputDevices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListInputDevices", 
+            path: "/prod/inputDevices", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Produces a list of Input Security Groups for an account
     @Sendable
     public func listInputSecurityGroups(_ input: ListInputSecurityGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInputSecurityGroupsResponse {
-        return try await self.client.execute(operation: "ListInputSecurityGroups", path: "/prod/inputSecurityGroups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListInputSecurityGroups", 
+            path: "/prod/inputSecurityGroups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Produces list of inputs that have been created
     @Sendable
     public func listInputs(_ input: ListInputsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInputsResponse {
-        return try await self.client.execute(operation: "ListInputs", path: "/prod/inputs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListInputs", 
+            path: "/prod/inputs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the programs that currently exist for a specific multiplex.
     @Sendable
     public func listMultiplexPrograms(_ input: ListMultiplexProgramsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMultiplexProgramsResponse {
-        return try await self.client.execute(operation: "ListMultiplexPrograms", path: "/prod/multiplexes/{MultiplexId}/programs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMultiplexPrograms", 
+            path: "/prod/multiplexes/{MultiplexId}/programs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve a list of the existing multiplexes.
     @Sendable
     public func listMultiplexes(_ input: ListMultiplexesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMultiplexesResponse {
-        return try await self.client.execute(operation: "ListMultiplexes", path: "/prod/multiplexes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMultiplexes", 
+            path: "/prod/multiplexes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List offerings available for purchase.
     @Sendable
     public func listOfferings(_ input: ListOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOfferingsResponse {
-        return try await self.client.execute(operation: "ListOfferings", path: "/prod/offerings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOfferings", 
+            path: "/prod/offerings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List purchased reservations.
     @Sendable
     public func listReservations(_ input: ListReservationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReservationsResponse {
-        return try await self.client.execute(operation: "ListReservations", path: "/prod/reservations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListReservations", 
+            path: "/prod/reservations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Produces list of tags that have been created for a resource
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/prod/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/prod/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Purchase an offering and create a reservation.
     @Sendable
     public func purchaseOffering(_ input: PurchaseOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PurchaseOfferingResponse {
-        return try await self.client.execute(operation: "PurchaseOffering", path: "/prod/offerings/{OfferingId}/purchase", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PurchaseOffering", 
+            path: "/prod/offerings/{OfferingId}/purchase", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device’s connection status will change to connected.
     @Sendable
     public func rebootInputDevice(_ input: RebootInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RebootInputDeviceResponse {
-        return try await self.client.execute(operation: "RebootInputDevice", path: "/prod/inputDevices/{InputDeviceId}/reboot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RebootInputDevice", 
+            path: "/prod/inputDevices/{InputDeviceId}/reboot", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Reject the transfer of the specified input device to your AWS account.
     @Sendable
     public func rejectInputDeviceTransfer(_ input: RejectInputDeviceTransferRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectInputDeviceTransferResponse {
-        return try await self.client.execute(operation: "RejectInputDeviceTransfer", path: "/prod/inputDevices/{InputDeviceId}/reject", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RejectInputDeviceTransfer", 
+            path: "/prod/inputDevices/{InputDeviceId}/reject", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an existing channel
     @Sendable
     public func startChannel(_ input: StartChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartChannelResponse {
-        return try await self.client.execute(operation: "StartChannel", path: "/prod/channels/{ChannelId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartChannel", 
+            path: "/prod/channels/{ChannelId}/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
     @Sendable
     public func startInputDeviceMaintenanceWindow(_ input: StartInputDeviceMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartInputDeviceMaintenanceWindowResponse {
-        return try await self.client.execute(operation: "StartInputDeviceMaintenanceWindow", path: "/prod/inputDevices/{InputDeviceId}/startInputDeviceMaintenanceWindow", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartInputDeviceMaintenanceWindow", 
+            path: "/prod/inputDevices/{InputDeviceId}/startInputDeviceMaintenanceWindow", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
     @Sendable
     public func startMultiplex(_ input: StartMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMultiplexResponse {
-        return try await self.client.execute(operation: "StartMultiplex", path: "/prod/multiplexes/{MultiplexId}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartMultiplex", 
+            path: "/prod/multiplexes/{MultiplexId}/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a running channel
     @Sendable
     public func stopChannel(_ input: StopChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopChannelResponse {
-        return try await self.client.execute(operation: "StopChannel", path: "/prod/channels/{ChannelId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopChannel", 
+            path: "/prod/channels/{ChannelId}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a running multiplex. If the multiplex isn't running, this action has no effect.
     @Sendable
     public func stopMultiplex(_ input: StopMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopMultiplexResponse {
-        return try await self.client.execute(operation: "StopMultiplex", path: "/prod/multiplexes/{MultiplexId}/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopMultiplex", 
+            path: "/prod/multiplexes/{MultiplexId}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
     @Sendable
     public func transferInputDevice(_ input: TransferInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TransferInputDeviceResponse {
-        return try await self.client.execute(operation: "TransferInputDevice", path: "/prod/inputDevices/{InputDeviceId}/transfer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TransferInputDevice", 
+            path: "/prod/inputDevices/{InputDeviceId}/transfer", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a channel.
     @Sendable
     public func updateChannel(_ input: UpdateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelResponse {
-        return try await self.client.execute(operation: "UpdateChannel", path: "/prod/channels/{ChannelId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateChannel", 
+            path: "/prod/channels/{ChannelId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes the class of the channel.
     @Sendable
     public func updateChannelClass(_ input: UpdateChannelClassRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelClassResponse {
-        return try await self.client.execute(operation: "UpdateChannelClass", path: "/prod/channels/{ChannelId}/channelClass", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateChannelClass", 
+            path: "/prod/channels/{ChannelId}/channelClass", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an input.
     @Sendable
     public func updateInput(_ input: UpdateInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInputResponse {
-        return try await self.client.execute(operation: "UpdateInput", path: "/prod/inputs/{InputId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateInput", 
+            path: "/prod/inputs/{InputId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the parameters for the input device.
     @Sendable
     public func updateInputDevice(_ input: UpdateInputDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInputDeviceResponse {
-        return try await self.client.execute(operation: "UpdateInputDevice", path: "/prod/inputDevices/{InputDeviceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateInputDevice", 
+            path: "/prod/inputDevices/{InputDeviceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update an Input Security Group's Whilelists.
     @Sendable
     public func updateInputSecurityGroup(_ input: UpdateInputSecurityGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInputSecurityGroupResponse {
-        return try await self.client.execute(operation: "UpdateInputSecurityGroup", path: "/prod/inputSecurityGroups/{InputSecurityGroupId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateInputSecurityGroup", 
+            path: "/prod/inputSecurityGroups/{InputSecurityGroupId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a multiplex.
     @Sendable
     public func updateMultiplex(_ input: UpdateMultiplexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMultiplexResponse {
-        return try await self.client.execute(operation: "UpdateMultiplex", path: "/prod/multiplexes/{MultiplexId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMultiplex", 
+            path: "/prod/multiplexes/{MultiplexId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update a program in a multiplex.
     @Sendable
     public func updateMultiplexProgram(_ input: UpdateMultiplexProgramRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMultiplexProgramResponse {
-        return try await self.client.execute(operation: "UpdateMultiplexProgram", path: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMultiplexProgram", 
+            path: "/prod/multiplexes/{MultiplexId}/programs/{ProgramName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update reservation.
     @Sendable
     public func updateReservation(_ input: UpdateReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateReservationResponse {
-        return try await self.client.execute(operation: "UpdateReservation", path: "/prod/reservations/{ReservationId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateReservation", 
+            path: "/prod/reservations/{ReservationId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

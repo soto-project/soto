@@ -73,265 +73,573 @@ public struct WorkDocs: AWSService {
     /// Aborts the upload of the specified document version that was previously initiated by InitiateDocumentVersionUpload. The client should make this call only when it no longer intends to upload the document version, or fails to do so.
     @Sendable
     public func abortDocumentVersionUpload(_ input: AbortDocumentVersionUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AbortDocumentVersionUpload", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AbortDocumentVersionUpload", 
+            path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Activates the specified user. Only active users can access Amazon WorkDocs.
     @Sendable
     public func activateUser(_ input: ActivateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateUserResponse {
-        return try await self.client.execute(operation: "ActivateUser", path: "/api/v1/users/{UserId}/activation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ActivateUser", 
+            path: "/api/v1/users/{UserId}/activation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions.
     @Sendable
     public func addResourcePermissions(_ input: AddResourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddResourcePermissionsResponse {
-        return try await self.client.execute(operation: "AddResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddResourcePermissions", 
+            path: "/api/v1/resources/{ResourceId}/permissions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a new comment to the specified document version.
     @Sendable
     public func createComment(_ input: CreateCommentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCommentResponse {
-        return try await self.client.execute(operation: "CreateComment", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateComment", 
+            path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds one or more custom properties to the specified resource (a folder, document, or version).
     @Sendable
     public func createCustomMetadata(_ input: CreateCustomMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomMetadataResponse {
-        return try await self.client.execute(operation: "CreateCustomMetadata", path: "/api/v1/resources/{ResourceId}/customMetadata", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCustomMetadata", 
+            path: "/api/v1/resources/{ResourceId}/customMetadata", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a folder with the specified name and parent folder.
     @Sendable
     public func createFolder(_ input: CreateFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFolderResponse {
-        return try await self.client.execute(operation: "CreateFolder", path: "/api/v1/folders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFolder", 
+            path: "/api/v1/folders", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds the specified list of labels to the given resource (a document or folder)
     @Sendable
     public func createLabels(_ input: CreateLabelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLabelsResponse {
-        return try await self.client.execute(operation: "CreateLabels", path: "/api/v1/resources/{ResourceId}/labels", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLabels", 
+            path: "/api/v1/resources/{ResourceId}/labels", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see Setting up notifications for an IAM user or role in the Amazon WorkDocs Developer Guide.
     @Sendable
     public func createNotificationSubscription(_ input: CreateNotificationSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNotificationSubscriptionResponse {
-        return try await self.client.execute(operation: "CreateNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateNotificationSubscription", 
+            path: "/api/v1/organizations/{OrganizationId}/subscriptions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs.
     @Sendable
     public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserResponse {
-        return try await self.client.execute(operation: "CreateUser", path: "/api/v1/users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUser", 
+            path: "/api/v1/users", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deactivates the specified user, which revokes the user's access to Amazon WorkDocs.
     @Sendable
     public func deactivateUser(_ input: DeactivateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeactivateUser", path: "/api/v1/users/{UserId}/activation", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeactivateUser", 
+            path: "/api/v1/users/{UserId}/activation", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified comment from the document version.
     @Sendable
     public func deleteComment(_ input: DeleteCommentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteComment", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment/{CommentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteComment", 
+            path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment/{CommentId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes custom metadata from the specified resource.
     @Sendable
     public func deleteCustomMetadata(_ input: DeleteCustomMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomMetadataResponse {
-        return try await self.client.execute(operation: "DeleteCustomMetadata", path: "/api/v1/resources/{ResourceId}/customMetadata", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCustomMetadata", 
+            path: "/api/v1/resources/{ResourceId}/customMetadata", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Permanently deletes the specified document and its associated metadata.
     @Sendable
     public func deleteDocument(_ input: DeleteDocumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDocument", 
+            path: "/api/v1/documents/{DocumentId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specific version of a document.
     @Sendable
     public func deleteDocumentVersion(_ input: DeleteDocumentVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteDocumentVersion", path: "/api/v1/documentVersions/{DocumentId}/versions/{VersionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDocumentVersion", 
+            path: "/api/v1/documentVersions/{DocumentId}/versions/{VersionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Permanently deletes the specified folder and its contents.
     @Sendable
     public func deleteFolder(_ input: DeleteFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteFolder", path: "/api/v1/folders/{FolderId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFolder", 
+            path: "/api/v1/folders/{FolderId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the contents of the specified folder.
     @Sendable
     public func deleteFolderContents(_ input: DeleteFolderContentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteFolderContents", path: "/api/v1/folders/{FolderId}/contents", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFolderContents", 
+            path: "/api/v1/folders/{FolderId}/contents", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified list of labels from a resource.
     @Sendable
     public func deleteLabels(_ input: DeleteLabelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLabelsResponse {
-        return try await self.client.execute(operation: "DeleteLabels", path: "/api/v1/resources/{ResourceId}/labels", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteLabels", 
+            path: "/api/v1/resources/{ResourceId}/labels", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified subscription from the specified organization.
     @Sendable
     public func deleteNotificationSubscription(_ input: DeleteNotificationSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteNotificationSubscription", path: "/api/v1/organizations/{OrganizationId}/subscriptions/{SubscriptionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteNotificationSubscription", 
+            path: "/api/v1/organizations/{OrganizationId}/subscriptions/{SubscriptionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified user from a Simple AD or Microsoft AD directory.  Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
     @Sendable
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteUser", path: "/api/v1/users/{UserId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUser", 
+            path: "/api/v1/users/{UserId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the user activities in a specified time period.
     @Sendable
     public func describeActivities(_ input: DescribeActivitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeActivitiesResponse {
-        return try await self.client.execute(operation: "DescribeActivities", path: "/api/v1/activities", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeActivities", 
+            path: "/api/v1/activities", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all the comments for the specified document version.
     @Sendable
     public func describeComments(_ input: DescribeCommentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCommentsResponse {
-        return try await self.client.execute(operation: "DescribeComments", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeComments", 
+            path: "/api/v1/documents/{DocumentId}/versions/{VersionId}/comments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the document versions for the specified document. By default, only active versions are returned.
     @Sendable
     public func describeDocumentVersions(_ input: DescribeDocumentVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDocumentVersionsResponse {
-        return try await self.client.execute(operation: "DescribeDocumentVersions", path: "/api/v1/documents/{DocumentId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDocumentVersions", 
+            path: "/api/v1/documents/{DocumentId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
     @Sendable
     public func describeFolderContents(_ input: DescribeFolderContentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFolderContentsResponse {
-        return try await self.client.execute(operation: "DescribeFolderContents", path: "/api/v1/folders/{FolderId}/contents", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFolderContents", 
+            path: "/api/v1/folders/{FolderId}/contents", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the groups specified by the query. Groups are defined by the underlying Active Directory.
     @Sendable
     public func describeGroups(_ input: DescribeGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGroupsResponse {
-        return try await self.client.execute(operation: "DescribeGroups", path: "/api/v1/groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeGroups", 
+            path: "/api/v1/groups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the specified notification subscriptions.
     @Sendable
     public func describeNotificationSubscriptions(_ input: DescribeNotificationSubscriptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNotificationSubscriptionsResponse {
-        return try await self.client.execute(operation: "DescribeNotificationSubscriptions", path: "/api/v1/organizations/{OrganizationId}/subscriptions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeNotificationSubscriptions", 
+            path: "/api/v1/organizations/{OrganizationId}/subscriptions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the permissions of a specified resource.
     @Sendable
     public func describeResourcePermissions(_ input: DescribeResourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeResourcePermissionsResponse {
-        return try await self.client.execute(operation: "DescribeResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeResourcePermissions", 
+            path: "/api/v1/resources/{ResourceId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide.
     @Sendable
     public func describeRootFolders(_ input: DescribeRootFoldersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRootFoldersResponse {
-        return try await self.client.execute(operation: "DescribeRootFolders", path: "/api/v1/me/root", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRootFolders", 
+            path: "/api/v1/me/root", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
     @Sendable
     public func describeUsers(_ input: DescribeUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUsersResponse {
-        return try await self.client.execute(operation: "DescribeUsers", path: "/api/v1/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeUsers", 
+            path: "/api/v1/users", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves details of the current user for whom the authentication token was generated. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see Authentication and Access Control for User Applications in the Amazon WorkDocs Developer Guide.
     @Sendable
     public func getCurrentUser(_ input: GetCurrentUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCurrentUserResponse {
-        return try await self.client.execute(operation: "GetCurrentUser", path: "/api/v1/me", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCurrentUser", 
+            path: "/api/v1/me", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves details of a document.
     @Sendable
     public func getDocument(_ input: GetDocumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDocumentResponse {
-        return try await self.client.execute(operation: "GetDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDocument", 
+            path: "/api/v1/documents/{DocumentId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the path information (the hierarchy from the root folder) for the requested document. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested document and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the names of the parent folders.
     @Sendable
     public func getDocumentPath(_ input: GetDocumentPathRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDocumentPathResponse {
-        return try await self.client.execute(operation: "GetDocumentPath", path: "/api/v1/documents/{DocumentId}/path", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDocumentPath", 
+            path: "/api/v1/documents/{DocumentId}/path", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves version metadata for the specified document.
     @Sendable
     public func getDocumentVersion(_ input: GetDocumentVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDocumentVersionResponse {
-        return try await self.client.execute(operation: "GetDocumentVersion", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDocumentVersion", 
+            path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the metadata of the specified folder.
     @Sendable
     public func getFolder(_ input: GetFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFolderResponse {
-        return try await self.client.execute(operation: "GetFolder", path: "/api/v1/folders/{FolderId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFolder", 
+            path: "/api/v1/folders/{FolderId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names.
     @Sendable
     public func getFolderPath(_ input: GetFolderPathRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFolderPathResponse {
-        return try await self.client.execute(operation: "GetFolderPath", path: "/api/v1/folders/{FolderId}/path", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFolderPath", 
+            path: "/api/v1/folders/{FolderId}/path", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a collection of resources, including folders and documents. The only CollectionType supported is SHARED_WITH_ME.
     @Sendable
     public func getResources(_ input: GetResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcesResponse {
-        return try await self.client.execute(operation: "GetResources", path: "/api/v1/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResources", 
+            path: "/api/v1/resources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new document object and version object. The client specifies the parent folder ID and name of the document to upload. The ID is optionally specified when creating a new version of an existing document. This is the first step to upload a document. Next, upload the document to the URL returned from the call, and then call UpdateDocumentVersion. To cancel the document upload, call AbortDocumentVersionUpload.
     @Sendable
     public func initiateDocumentVersionUpload(_ input: InitiateDocumentVersionUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InitiateDocumentVersionUploadResponse {
-        return try await self.client.execute(operation: "InitiateDocumentVersionUpload", path: "/api/v1/documents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "InitiateDocumentVersionUpload", 
+            path: "/api/v1/documents", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes all the permissions from the specified resource.
     @Sendable
     public func removeAllResourcePermissions(_ input: RemoveAllResourcePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RemoveAllResourcePermissions", path: "/api/v1/resources/{ResourceId}/permissions", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveAllResourcePermissions", 
+            path: "/api/v1/resources/{ResourceId}/permissions", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the permission for the specified principal from the specified resource.
     @Sendable
     public func removeResourcePermission(_ input: RemoveResourcePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RemoveResourcePermission", path: "/api/v1/resources/{ResourceId}/permissions/{PrincipalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveResourcePermission", 
+            path: "/api/v1/resources/{ResourceId}/permissions/{PrincipalId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Recovers a deleted version of an Amazon WorkDocs document.
     @Sendable
     public func restoreDocumentVersions(_ input: RestoreDocumentVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RestoreDocumentVersions", path: "/api/v1/documentVersions/restore/{DocumentId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RestoreDocumentVersions", 
+            path: "/api/v1/documentVersions/restore/{DocumentId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches metadata and the content of folders, documents, document versions, and comments.
     @Sendable
     public func searchResources(_ input: SearchResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchResourcesResponse {
-        return try await self.client.execute(operation: "SearchResources", path: "/api/v1/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchResources", 
+            path: "/api/v1/search", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
     @Sendable
     public func updateDocument(_ input: UpdateDocumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateDocument", path: "/api/v1/documents/{DocumentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDocument", 
+            path: "/api/v1/documents/{DocumentId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes the status of the document version to ACTIVE.  Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by InitiateDocumentVersionUpload.
     @Sendable
     public func updateDocumentVersion(_ input: UpdateDocumentVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateDocumentVersion", path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDocumentVersion", 
+            path: "/api/v1/documents/{DocumentId}/versions/{VersionId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified attributes of the specified folder. The user must have access to both the folder and its parent folder, if applicable.
     @Sendable
     public func updateFolder(_ input: UpdateFolderRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateFolder", path: "/api/v1/folders/{FolderId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFolder", 
+            path: "/api/v1/folders/{FolderId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site.
     @Sendable
     public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserResponse {
-        return try await self.client.execute(operation: "UpdateUser", path: "/api/v1/users/{UserId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUser", 
+            path: "/api/v1/users/{UserId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -66,301 +66,651 @@ public struct MediaConnect: AWSService {
     /// Adds outputs to an existing bridge.
     @Sendable
     public func addBridgeOutputs(_ input: AddBridgeOutputsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddBridgeOutputsResponse {
-        return try await self.client.execute(operation: "AddBridgeOutputs", path: "/v1/bridges/{BridgeArn}/outputs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddBridgeOutputs", 
+            path: "/v1/bridges/{BridgeArn}/outputs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds sources to an existing bridge.
     @Sendable
     public func addBridgeSources(_ input: AddBridgeSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddBridgeSourcesResponse {
-        return try await self.client.execute(operation: "AddBridgeSources", path: "/v1/bridges/{BridgeArn}/sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddBridgeSources", 
+            path: "/v1/bridges/{BridgeArn}/sources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
     @Sendable
     public func addFlowMediaStreams(_ input: AddFlowMediaStreamsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddFlowMediaStreamsResponse {
-        return try await self.client.execute(operation: "AddFlowMediaStreams", path: "/v1/flows/{FlowArn}/mediaStreams", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddFlowMediaStreams", 
+            path: "/v1/flows/{FlowArn}/mediaStreams", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds outputs to an existing flow. You can create up to 50 outputs per flow.
     @Sendable
     public func addFlowOutputs(_ input: AddFlowOutputsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddFlowOutputsResponse {
-        return try await self.client.execute(operation: "AddFlowOutputs", path: "/v1/flows/{FlowArn}/outputs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddFlowOutputs", 
+            path: "/v1/flows/{FlowArn}/outputs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds Sources to flow
     @Sendable
     public func addFlowSources(_ input: AddFlowSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddFlowSourcesResponse {
-        return try await self.client.execute(operation: "AddFlowSources", path: "/v1/flows/{FlowArn}/source", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddFlowSources", 
+            path: "/v1/flows/{FlowArn}/source", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds VPC interfaces to flow
     @Sendable
     public func addFlowVpcInterfaces(_ input: AddFlowVpcInterfacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddFlowVpcInterfacesResponse {
-        return try await self.client.execute(operation: "AddFlowVpcInterfaces", path: "/v1/flows/{FlowArn}/vpcInterfaces", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddFlowVpcInterfaces", 
+            path: "/v1/flows/{FlowArn}/vpcInterfaces", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new bridge. The request must include one source.
     @Sendable
     public func createBridge(_ input: CreateBridgeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBridgeResponse {
-        return try await self.client.execute(operation: "CreateBridge", path: "/v1/bridges", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateBridge", 
+            path: "/v1/bridges", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
     @Sendable
     public func createFlow(_ input: CreateFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFlowResponse {
-        return try await self.client.execute(operation: "CreateFlow", path: "/v1/flows", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFlow", 
+            path: "/v1/flows", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new gateway. The request must include at least one network (up to 4).
     @Sendable
     public func createGateway(_ input: CreateGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGatewayResponse {
-        return try await self.client.execute(operation: "CreateGateway", path: "/v1/gateways", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateGateway", 
+            path: "/v1/gateways", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
     @Sendable
     public func deleteBridge(_ input: DeleteBridgeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBridgeResponse {
-        return try await self.client.execute(operation: "DeleteBridge", path: "/v1/bridges/{BridgeArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBridge", 
+            path: "/v1/bridges/{BridgeArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a flow. Before you can delete a flow, you must stop the flow.
     @Sendable
     public func deleteFlow(_ input: DeleteFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFlowResponse {
-        return try await self.client.execute(operation: "DeleteFlow", path: "/v1/flows/{FlowArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFlow", 
+            path: "/v1/flows/{FlowArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
     @Sendable
     public func deleteGateway(_ input: DeleteGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGatewayResponse {
-        return try await self.client.execute(operation: "DeleteGateway", path: "/v1/gateways/{GatewayArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteGateway", 
+            path: "/v1/gateways/{GatewayArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
     @Sendable
     public func deregisterGatewayInstance(_ input: DeregisterGatewayInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterGatewayInstanceResponse {
-        return try await self.client.execute(operation: "DeregisterGatewayInstance", path: "/v1/gateway-instances/{GatewayInstanceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeregisterGatewayInstance", 
+            path: "/v1/gateway-instances/{GatewayInstanceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays the details of a bridge.
     @Sendable
     public func describeBridge(_ input: DescribeBridgeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBridgeResponse {
-        return try await self.client.execute(operation: "DescribeBridge", path: "/v1/bridges/{BridgeArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBridge", 
+            path: "/v1/bridges/{BridgeArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays the details of a flow. The response includes the flow ARN, name, and Availability Zone, as well as details about the source, outputs, and entitlements.
     @Sendable
     public func describeFlow(_ input: DescribeFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFlowResponse {
-        return try await self.client.execute(operation: "DescribeFlow", path: "/v1/flows/{FlowArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFlow", 
+            path: "/v1/flows/{FlowArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays the details of a gateway. The response includes the gateway ARN, name, and CIDR blocks, as well as details about the networks.
     @Sendable
     public func describeGateway(_ input: DescribeGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGatewayResponse {
-        return try await self.client.execute(operation: "DescribeGateway", path: "/v1/gateways/{GatewayArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeGateway", 
+            path: "/v1/gateways/{GatewayArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays the details of an instance.
     @Sendable
     public func describeGatewayInstance(_ input: DescribeGatewayInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGatewayInstanceResponse {
-        return try await self.client.execute(operation: "DescribeGatewayInstance", path: "/v1/gateway-instances/{GatewayInstanceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeGatewayInstance", 
+            path: "/v1/gateway-instances/{GatewayInstanceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
     @Sendable
     public func describeOffering(_ input: DescribeOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOfferingResponse {
-        return try await self.client.execute(operation: "DescribeOffering", path: "/v1/offerings/{OfferingArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeOffering", 
+            path: "/v1/offerings/{OfferingArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
     @Sendable
     public func describeReservation(_ input: DescribeReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservationResponse {
-        return try await self.client.execute(operation: "DescribeReservation", path: "/v1/reservations/{ReservationArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReservation", 
+            path: "/v1/reservations/{ReservationArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants entitlements to an existing flow.
     @Sendable
     public func grantFlowEntitlements(_ input: GrantFlowEntitlementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GrantFlowEntitlementsResponse {
-        return try await self.client.execute(operation: "GrantFlowEntitlements", path: "/v1/flows/{FlowArn}/entitlements", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GrantFlowEntitlements", 
+            path: "/v1/flows/{FlowArn}/entitlements", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays a list of bridges that are associated with this account and an optionally specified Arn. This request returns a paginated result.
     @Sendable
     public func listBridges(_ input: ListBridgesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBridgesResponse {
-        return try await self.client.execute(operation: "ListBridges", path: "/v1/bridges", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBridges", 
+            path: "/v1/bridges", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
     @Sendable
     public func listEntitlements(_ input: ListEntitlementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEntitlementsResponse {
-        return try await self.client.execute(operation: "ListEntitlements", path: "/v1/entitlements", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEntitlements", 
+            path: "/v1/entitlements", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays a list of flows that are associated with this account. This request returns a paginated result.
     @Sendable
     public func listFlows(_ input: ListFlowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlowsResponse {
-        return try await self.client.execute(operation: "ListFlows", path: "/v1/flows", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFlows", 
+            path: "/v1/flows", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays a list of instances associated with the AWS account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
     @Sendable
     public func listGatewayInstances(_ input: ListGatewayInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGatewayInstancesResponse {
-        return try await self.client.execute(operation: "ListGatewayInstances", path: "/v1/gateway-instances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGatewayInstances", 
+            path: "/v1/gateway-instances", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays a list of gateways that are associated with this account. This request returns a paginated result.
     @Sendable
     public func listGateways(_ input: ListGatewaysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGatewaysResponse {
-        return try await self.client.execute(operation: "ListGateways", path: "/v1/gateways", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGateways", 
+            path: "/v1/gateways", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays a list of all offerings that are available to this account in the current AWS Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
     @Sendable
     public func listOfferings(_ input: ListOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOfferingsResponse {
-        return try await self.client.execute(operation: "ListOfferings", path: "/v1/offerings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOfferings", 
+            path: "/v1/offerings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays a list of all reservations that have been purchased by this account in the current AWS Region. This list includes all reservations in all states (such as active and expired).
     @Sendable
     public func listReservations(_ input: ListReservationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReservationsResponse {
-        return try await self.client.execute(operation: "ListReservations", path: "/v1/reservations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListReservations", 
+            path: "/v1/reservations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all tags on an AWS Elemental MediaConnect resource
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
     @Sendable
     public func purchaseOffering(_ input: PurchaseOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PurchaseOfferingResponse {
-        return try await self.client.execute(operation: "PurchaseOffering", path: "/v1/offerings/{OfferingArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PurchaseOffering", 
+            path: "/v1/offerings/{OfferingArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes an output from a bridge.
     @Sendable
     public func removeBridgeOutput(_ input: RemoveBridgeOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveBridgeOutputResponse {
-        return try await self.client.execute(operation: "RemoveBridgeOutput", path: "/v1/bridges/{BridgeArn}/outputs/{OutputName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveBridgeOutput", 
+            path: "/v1/bridges/{BridgeArn}/outputs/{OutputName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a source from a bridge.
     @Sendable
     public func removeBridgeSource(_ input: RemoveBridgeSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveBridgeSourceResponse {
-        return try await self.client.execute(operation: "RemoveBridgeSource", path: "/v1/bridges/{BridgeArn}/sources/{SourceName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveBridgeSource", 
+            path: "/v1/bridges/{BridgeArn}/sources/{SourceName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
     @Sendable
     public func removeFlowMediaStream(_ input: RemoveFlowMediaStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveFlowMediaStreamResponse {
-        return try await self.client.execute(operation: "RemoveFlowMediaStream", path: "/v1/flows/{FlowArn}/mediaStreams/{MediaStreamName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveFlowMediaStream", 
+            path: "/v1/flows/{FlowArn}/mediaStreams/{MediaStreamName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
     @Sendable
     public func removeFlowOutput(_ input: RemoveFlowOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveFlowOutputResponse {
-        return try await self.client.execute(operation: "RemoveFlowOutput", path: "/v1/flows/{FlowArn}/outputs/{OutputArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveFlowOutput", 
+            path: "/v1/flows/{FlowArn}/outputs/{OutputArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
     @Sendable
     public func removeFlowSource(_ input: RemoveFlowSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveFlowSourceResponse {
-        return try await self.client.execute(operation: "RemoveFlowSource", path: "/v1/flows/{FlowArn}/source/{SourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveFlowSource", 
+            path: "/v1/flows/{FlowArn}/source/{SourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
     @Sendable
     public func removeFlowVpcInterface(_ input: RemoveFlowVpcInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveFlowVpcInterfaceResponse {
-        return try await self.client.execute(operation: "RemoveFlowVpcInterface", path: "/v1/flows/{FlowArn}/vpcInterfaces/{VpcInterfaceName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveFlowVpcInterface", 
+            path: "/v1/flows/{FlowArn}/vpcInterfaces/{VpcInterfaceName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
     @Sendable
     public func revokeFlowEntitlement(_ input: RevokeFlowEntitlementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RevokeFlowEntitlementResponse {
-        return try await self.client.execute(operation: "RevokeFlowEntitlement", path: "/v1/flows/{FlowArn}/entitlements/{EntitlementArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RevokeFlowEntitlement", 
+            path: "/v1/flows/{FlowArn}/entitlements/{EntitlementArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a flow.
     @Sendable
     public func startFlow(_ input: StartFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFlowResponse {
-        return try await self.client.execute(operation: "StartFlow", path: "/v1/flows/start/{FlowArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartFlow", 
+            path: "/v1/flows/start/{FlowArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a flow.
     @Sendable
     public func stopFlow(_ input: StopFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopFlowResponse {
-        return try await self.client.execute(operation: "StopFlow", path: "/v1/flows/stop/{FlowArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopFlow", 
+            path: "/v1/flows/stop/{FlowArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes specified tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the bridge
     @Sendable
     public func updateBridge(_ input: UpdateBridgeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBridgeResponse {
-        return try await self.client.execute(operation: "UpdateBridge", path: "/v1/bridges/{BridgeArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBridge", 
+            path: "/v1/bridges/{BridgeArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing bridge output.
     @Sendable
     public func updateBridgeOutput(_ input: UpdateBridgeOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBridgeOutputResponse {
-        return try await self.client.execute(operation: "UpdateBridgeOutput", path: "/v1/bridges/{BridgeArn}/outputs/{OutputName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBridgeOutput", 
+            path: "/v1/bridges/{BridgeArn}/outputs/{OutputName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing bridge source.
     @Sendable
     public func updateBridgeSource(_ input: UpdateBridgeSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBridgeSourceResponse {
-        return try await self.client.execute(operation: "UpdateBridgeSource", path: "/v1/bridges/{BridgeArn}/sources/{SourceName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBridgeSource", 
+            path: "/v1/bridges/{BridgeArn}/sources/{SourceName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the bridge state
     @Sendable
     public func updateBridgeState(_ input: UpdateBridgeStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBridgeStateResponse {
-        return try await self.client.execute(operation: "UpdateBridgeState", path: "/v1/bridges/{BridgeArn}/state", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBridgeState", 
+            path: "/v1/bridges/{BridgeArn}/state", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates flow
     @Sendable
     public func updateFlow(_ input: UpdateFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowResponse {
-        return try await self.client.execute(operation: "UpdateFlow", path: "/v1/flows/{FlowArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFlow", 
+            path: "/v1/flows/{FlowArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
     @Sendable
     public func updateFlowEntitlement(_ input: UpdateFlowEntitlementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowEntitlementResponse {
-        return try await self.client.execute(operation: "UpdateFlowEntitlement", path: "/v1/flows/{FlowArn}/entitlements/{EntitlementArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFlowEntitlement", 
+            path: "/v1/flows/{FlowArn}/entitlements/{EntitlementArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing media stream.
     @Sendable
     public func updateFlowMediaStream(_ input: UpdateFlowMediaStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowMediaStreamResponse {
-        return try await self.client.execute(operation: "UpdateFlowMediaStream", path: "/v1/flows/{FlowArn}/mediaStreams/{MediaStreamName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFlowMediaStream", 
+            path: "/v1/flows/{FlowArn}/mediaStreams/{MediaStreamName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing flow output.
     @Sendable
     public func updateFlowOutput(_ input: UpdateFlowOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowOutputResponse {
-        return try await self.client.execute(operation: "UpdateFlowOutput", path: "/v1/flows/{FlowArn}/outputs/{OutputArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFlowOutput", 
+            path: "/v1/flows/{FlowArn}/outputs/{OutputArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the source of a flow.
     @Sendable
     public func updateFlowSource(_ input: UpdateFlowSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowSourceResponse {
-        return try await self.client.execute(operation: "UpdateFlowSource", path: "/v1/flows/{FlowArn}/source/{SourceArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFlowSource", 
+            path: "/v1/flows/{FlowArn}/source/{SourceArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the configuration of an existing Gateway Instance.
     @Sendable
     public func updateGatewayInstance(_ input: UpdateGatewayInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewayInstanceResponse {
-        return try await self.client.execute(operation: "UpdateGatewayInstance", path: "/v1/gateway-instances/{GatewayInstanceArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateGatewayInstance", 
+            path: "/v1/gateway-instances/{GatewayInstanceArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

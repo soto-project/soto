@@ -113,409 +113,885 @@ public struct Athena: AWSService {
     /// Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use ListNamedQueriesInput to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a submitted query ID, information about the query ID submitted is listed under UnprocessedNamedQueryId. Named queries differ from executed queries. Use BatchGetQueryExecutionInput to get details about each unique query execution, and ListQueryExecutionsInput to get a list of query execution IDs.
     @Sendable
     public func batchGetNamedQuery(_ input: BatchGetNamedQueryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetNamedQueryOutput {
-        return try await self.client.execute(operation: "BatchGetNamedQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetNamedQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the details of a single prepared statement or a list of up to 256 prepared statements for the array of prepared statement names that you provide. Requires you to have access to the workgroup to which the prepared statements belong. If a prepared statement cannot be retrieved for the name specified, the statement is listed in UnprocessedPreparedStatementNames.
     @Sendable
     public func batchGetPreparedStatement(_ input: BatchGetPreparedStatementInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetPreparedStatementOutput {
-        return try await self.client.execute(operation: "BatchGetPreparedStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetPreparedStatement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the details of a single query execution or a list of up to 50 query executions, which you provide as an array of query execution ID strings. Requires you to have access to the workgroup in which the queries ran. To get a list of query execution IDs, use ListQueryExecutionsInput$WorkGroup. Query executions differ from named (saved) queries. Use BatchGetNamedQueryInput to get details about named queries.
     @Sendable
     public func batchGetQueryExecution(_ input: BatchGetQueryExecutionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetQueryExecutionOutput {
-        return try await self.client.execute(operation: "BatchGetQueryExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetQueryExecution", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels the capacity reservation with the specified name. Cancelled reservations remain in your account and will be deleted 45 days after cancellation. During the 45 days, you cannot re-purpose or reuse a reservation that has been cancelled, but you can refer to its tags and view it for historical reference.
     @Sendable
     public func cancelCapacityReservation(_ input: CancelCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelCapacityReservationOutput {
-        return try await self.client.execute(operation: "CancelCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelCapacityReservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a capacity reservation with the specified name and number of requested data processing units.
     @Sendable
     public func createCapacityReservation(_ input: CreateCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCapacityReservationOutput {
-        return try await self.client.execute(operation: "CreateCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCapacityReservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates (registers) a data catalog with the specified name and properties. Catalogs created are visible to all users of the same Amazon Web Services account.
     @Sendable
     public func createDataCatalog(_ input: CreateDataCatalogInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataCatalogOutput {
-        return try await self.client.execute(operation: "CreateDataCatalog", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDataCatalog", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a named query in the specified workgroup. Requires that you have access to the workgroup. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     @Sendable
     public func createNamedQuery(_ input: CreateNamedQueryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNamedQueryOutput {
-        return try await self.client.execute(operation: "CreateNamedQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateNamedQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an empty ipynb file in the specified Apache Spark enabled workgroup. Throws an error if a file in the workgroup with the same name already exists.
     @Sendable
     public func createNotebook(_ input: CreateNotebookInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNotebookOutput {
-        return try await self.client.execute(operation: "CreateNotebook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateNotebook", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a prepared statement for use with SQL queries in Athena.
     @Sendable
     public func createPreparedStatement(_ input: CreatePreparedStatementInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePreparedStatementOutput {
-        return try await self.client.execute(operation: "CreatePreparedStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePreparedStatement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets an authentication token and the URL at which the notebook can be accessed. During programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh the authentication token. For information about granting programmatic access, see Grant programmatic access.
     @Sendable
     public func createPresignedNotebookUrl(_ input: CreatePresignedNotebookUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePresignedNotebookUrlResponse {
-        return try await self.client.execute(operation: "CreatePresignedNotebookUrl", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePresignedNotebookUrl", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a workgroup with the specified name. A workgroup can be an Apache Spark enabled workgroup or an Athena SQL workgroup.
     @Sendable
     public func createWorkGroup(_ input: CreateWorkGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkGroupOutput {
-        return try await self.client.execute(operation: "CreateWorkGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorkGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReservation, and  deleted reservations do not appear in the output of ListCapacityReservations.
     @Sendable
     public func deleteCapacityReservation(_ input: DeleteCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCapacityReservationOutput {
-        return try await self.client.execute(operation: "DeleteCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCapacityReservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a data catalog.
     @Sendable
     public func deleteDataCatalog(_ input: DeleteDataCatalogInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataCatalogOutput {
-        return try await self.client.execute(operation: "DeleteDataCatalog", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDataCatalog", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the named query if you have access to the workgroup in which the query was saved. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     @Sendable
     public func deleteNamedQuery(_ input: DeleteNamedQueryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNamedQueryOutput {
-        return try await self.client.execute(operation: "DeleteNamedQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteNamedQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified notebook.
     @Sendable
     public func deleteNotebook(_ input: DeleteNotebookInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNotebookOutput {
-        return try await self.client.execute(operation: "DeleteNotebook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteNotebook", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the prepared statement with the specified name from the specified workgroup.
     @Sendable
     public func deletePreparedStatement(_ input: DeletePreparedStatementInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePreparedStatementOutput {
-        return try await self.client.execute(operation: "DeletePreparedStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePreparedStatement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the workgroup with the specified name. The primary workgroup cannot be deleted.
     @Sendable
     public func deleteWorkGroup(_ input: DeleteWorkGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkGroupOutput {
-        return try await self.client.execute(operation: "DeleteWorkGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWorkGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Exports the specified notebook and its metadata.
     @Sendable
     public func exportNotebook(_ input: ExportNotebookInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportNotebookOutput {
-        return try await self.client.execute(operation: "ExportNotebook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ExportNotebook", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a previously submitted calculation execution.
     @Sendable
     public func getCalculationExecution(_ input: GetCalculationExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCalculationExecutionResponse {
-        return try await self.client.execute(operation: "GetCalculationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCalculationExecution", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the unencrypted code that was executed for the calculation.
     @Sendable
     public func getCalculationExecutionCode(_ input: GetCalculationExecutionCodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCalculationExecutionCodeResponse {
-        return try await self.client.execute(operation: "GetCalculationExecutionCode", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCalculationExecutionCode", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the status of a current calculation.
     @Sendable
     public func getCalculationExecutionStatus(_ input: GetCalculationExecutionStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCalculationExecutionStatusResponse {
-        return try await self.client.execute(operation: "GetCalculationExecutionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCalculationExecutionStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the capacity assignment configuration for a capacity reservation, if one exists.
     @Sendable
     public func getCapacityAssignmentConfiguration(_ input: GetCapacityAssignmentConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCapacityAssignmentConfigurationOutput {
-        return try await self.client.execute(operation: "GetCapacityAssignmentConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCapacityAssignmentConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the capacity reservation with the specified name.
     @Sendable
     public func getCapacityReservation(_ input: GetCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCapacityReservationOutput {
-        return try await self.client.execute(operation: "GetCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCapacityReservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the specified data catalog.
     @Sendable
     public func getDataCatalog(_ input: GetDataCatalogInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataCatalogOutput {
-        return try await self.client.execute(operation: "GetDataCatalog", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDataCatalog", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a database object for the specified database and data catalog.
     @Sendable
     public func getDatabase(_ input: GetDatabaseInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDatabaseOutput {
-        return try await self.client.execute(operation: "GetDatabase", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a single query. Requires that you have access to the workgroup in which the query was saved.
     @Sendable
     public func getNamedQuery(_ input: GetNamedQueryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNamedQueryOutput {
-        return try await self.client.execute(operation: "GetNamedQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetNamedQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves notebook metadata for the specified notebook ID.
     @Sendable
     public func getNotebookMetadata(_ input: GetNotebookMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNotebookMetadataOutput {
-        return try await self.client.execute(operation: "GetNotebookMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetNotebookMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the prepared statement with the specified name from the specified workgroup.
     @Sendable
     public func getPreparedStatement(_ input: GetPreparedStatementInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPreparedStatementOutput {
-        return try await self.client.execute(operation: "GetPreparedStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPreparedStatement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a single execution of a query if you have access to the workgroup in which the query ran. Each time a query executes, information about the query execution is saved with a unique ID.
     @Sendable
     public func getQueryExecution(_ input: GetQueryExecutionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryExecutionOutput {
-        return try await self.client.execute(operation: "GetQueryExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetQueryExecution", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see Working with query results, recent queries, and output files in the Amazon Athena User Guide. This request does not execute the query but returns results. Use StartQueryExecution to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location.  IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied.
     @Sendable
     public func getQueryResults(_ input: GetQueryResultsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryResultsOutput {
-        return try await self.client.execute(operation: "GetQueryResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetQueryResults", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. Query execution runtime statistics are returned only when QueryExecutionStatus$State is in a SUCCEEDED or FAILED state. Stage-level input and output row count and data size statistics are not shown when a query has row-level filters defined in Lake Formation.
     @Sendable
     public func getQueryRuntimeStatistics(_ input: GetQueryRuntimeStatisticsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryRuntimeStatisticsOutput {
-        return try await self.client.execute(operation: "GetQueryRuntimeStatistics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetQueryRuntimeStatistics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the full details of a previously created session, including the session status and configuration.
     @Sendable
     public func getSession(_ input: GetSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionResponse {
-        return try await self.client.execute(operation: "GetSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the current status of a session.
     @Sendable
     public func getSessionStatus(_ input: GetSessionStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionStatusResponse {
-        return try await self.client.execute(operation: "GetSessionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSessionStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns table metadata for the specified catalog, database, and table.
     @Sendable
     public func getTableMetadata(_ input: GetTableMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableMetadataOutput {
-        return try await self.client.execute(operation: "GetTableMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTableMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the workgroup with the specified name.
     @Sendable
     public func getWorkGroup(_ input: GetWorkGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkGroupOutput {
-        return try await self.client.execute(operation: "GetWorkGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorkGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Imports a single ipynb file to a Spark enabled workgroup. The maximum file size that can be imported is 10 megabytes. If an ipynb file with the same name already exists in the workgroup, throws an error.
     @Sendable
     public func importNotebook(_ input: ImportNotebookInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportNotebookOutput {
-        return try await self.client.execute(operation: "ImportNotebook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportNotebook", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the supported DPU sizes for the supported application runtimes (for example, Athena notebook version 1).
     @Sendable
     public func listApplicationDPUSizes(_ input: ListApplicationDPUSizesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationDPUSizesOutput {
-        return try await self.client.execute(operation: "ListApplicationDPUSizes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApplicationDPUSizes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the calculations that have been submitted to a session in descending order. Newer calculations are listed first; older calculations are listed later.
     @Sendable
     public func listCalculationExecutions(_ input: ListCalculationExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCalculationExecutionsResponse {
-        return try await self.client.execute(operation: "ListCalculationExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCalculationExecutions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the capacity reservations for the current account.
     @Sendable
     public func listCapacityReservations(_ input: ListCapacityReservationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCapacityReservationsOutput {
-        return try await self.client.execute(operation: "ListCapacityReservations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCapacityReservations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the data catalogs in the current Amazon Web Services account.  In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
     @Sendable
     public func listDataCatalogs(_ input: ListDataCatalogsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataCatalogsOutput {
-        return try await self.client.execute(operation: "ListDataCatalogs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDataCatalogs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the databases in the specified data catalog.
     @Sendable
     public func listDatabases(_ input: ListDatabasesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatabasesOutput {
-        return try await self.client.execute(operation: "ListDatabases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDatabases", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of engine versions that are available to choose from, including the Auto option.
     @Sendable
     public func listEngineVersions(_ input: ListEngineVersionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEngineVersionsOutput {
-        return try await self.client.execute(operation: "ListEngineVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEngineVersions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists, in descending order, the executors that joined a session. Newer executors are listed first; older executors are listed later. The result can be optionally filtered by state.
     @Sendable
     public func listExecutors(_ input: ListExecutorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExecutorsResponse {
-        return try await self.client.execute(operation: "ListExecutors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListExecutors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     @Sendable
     public func listNamedQueries(_ input: ListNamedQueriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNamedQueriesOutput {
-        return try await self.client.execute(operation: "ListNamedQueries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNamedQueries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays the notebook files for the specified workgroup in paginated format.
     @Sendable
     public func listNotebookMetadata(_ input: ListNotebookMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNotebookMetadataOutput {
-        return try await self.client.execute(operation: "ListNotebookMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNotebookMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists, in descending order, the sessions that have been created in a notebook that are in an active state like CREATING, CREATED, IDLE or BUSY. Newer sessions are listed first; older sessions are listed later.
     @Sendable
     public func listNotebookSessions(_ input: ListNotebookSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNotebookSessionsResponse {
-        return try await self.client.execute(operation: "ListNotebookSessions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNotebookSessions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the prepared statements in the specified workgroup.
     @Sendable
     public func listPreparedStatements(_ input: ListPreparedStatementsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPreparedStatementsOutput {
-        return try await self.client.execute(operation: "ListPreparedStatements", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPreparedStatements", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     @Sendable
     public func listQueryExecutions(_ input: ListQueryExecutionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueryExecutionsOutput {
-        return try await self.client.execute(operation: "ListQueryExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListQueryExecutions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the sessions in a workgroup that are in an active state like CREATING, CREATED, IDLE, or BUSY. Newer sessions are listed first; older sessions are listed later.
     @Sendable
     public func listSessions(_ input: ListSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSessionsResponse {
-        return try await self.client.execute(operation: "ListSessions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSessions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the metadata for the tables in the specified data catalog database.
     @Sendable
     public func listTableMetadata(_ input: ListTableMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTableMetadataOutput {
-        return try await self.client.execute(operation: "ListTableMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTableMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags associated with an Athena resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists available workgroups for the account.
     @Sendable
     public func listWorkGroups(_ input: ListWorkGroupsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkGroupsOutput {
-        return try await self.client.execute(operation: "ListWorkGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Puts a new capacity assignment configuration for a specified capacity reservation. If a capacity assignment configuration already exists for the capacity reservation, replaces the existing capacity assignment configuration.
     @Sendable
     public func putCapacityAssignmentConfiguration(_ input: PutCapacityAssignmentConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutCapacityAssignmentConfigurationOutput {
-        return try await self.client.execute(operation: "PutCapacityAssignmentConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutCapacityAssignmentConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request.
     @Sendable
     public func startCalculationExecution(_ input: StartCalculationExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCalculationExecutionResponse {
-        return try await self.client.execute(operation: "StartCalculationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartCalculationExecution", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. Running queries against an external catalog requires GetDataCatalog permission to the catalog. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     @Sendable
     public func startQueryExecution(_ input: StartQueryExecutionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQueryExecutionOutput {
-        return try await self.client.execute(operation: "StartQueryExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartQueryExecution", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a session for running calculations within a workgroup. The session is ready when it reaches an IDLE state.
     @Sendable
     public func startSession(_ input: StartSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSessionResponse {
-        return try await self.client.execute(operation: "StartSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Requests the cancellation of a calculation. A StopCalculationExecution call on a calculation that is already in a terminal state (for example, STOPPED, FAILED, or COMPLETED) succeeds but has no effect.  Cancelling a calculation is done on a best effort basis. If a calculation cannot be cancelled, you can be charged for its completion. If you are concerned about being charged for a calculation that cannot be cancelled, consider terminating the session in which the calculation is running.
     @Sendable
     public func stopCalculationExecution(_ input: StopCalculationExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopCalculationExecutionResponse {
-        return try await self.client.execute(operation: "StopCalculationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopCalculationExecution", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a query execution. Requires you to have access to the workgroup in which the query ran. For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
     @Sendable
     public func stopQueryExecution(_ input: StopQueryExecutionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopQueryExecutionOutput {
-        return try await self.client.execute(operation: "StopQueryExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopQueryExecution", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups, data catalogs, or capacity reservations by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter the resources in your account. For best practices, see Tagging Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
     @Sendable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Terminates an active session. A TerminateSession call on a session that is already inactive (for example, in a FAILED, TERMINATED or TERMINATING state) succeeds but has no effect. Calculations running in the session when TerminateSession is called are forcefully stopped, but may display as FAILED instead of STOPPED.
     @Sendable
     public func terminateSession(_ input: TerminateSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateSessionResponse {
-        return try await self.client.execute(operation: "TerminateSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TerminateSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from an Athena resource.
     @Sendable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the number of requested data processing units for the capacity reservation with the specified name.
     @Sendable
     public func updateCapacityReservation(_ input: UpdateCapacityReservationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCapacityReservationOutput {
-        return try await self.client.execute(operation: "UpdateCapacityReservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCapacityReservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the data catalog that has the specified name.
     @Sendable
     public func updateDataCatalog(_ input: UpdateDataCatalogInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataCatalogOutput {
-        return try await self.client.execute(operation: "UpdateDataCatalog", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDataCatalog", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a NamedQuery object. The database or workgroup cannot be updated.
     @Sendable
     public func updateNamedQuery(_ input: UpdateNamedQueryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNamedQueryOutput {
-        return try await self.client.execute(operation: "UpdateNamedQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateNamedQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the contents of a Spark notebook.
     @Sendable
     public func updateNotebook(_ input: UpdateNotebookInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNotebookOutput {
-        return try await self.client.execute(operation: "UpdateNotebook", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateNotebook", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the metadata for a notebook.
     @Sendable
     public func updateNotebookMetadata(_ input: UpdateNotebookMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNotebookMetadataOutput {
-        return try await self.client.execute(operation: "UpdateNotebookMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateNotebookMetadata", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a prepared statement.
     @Sendable
     public func updatePreparedStatement(_ input: UpdatePreparedStatementInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePreparedStatementOutput {
-        return try await self.client.execute(operation: "UpdatePreparedStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePreparedStatement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the workgroup with the specified name. The workgroup's name cannot be changed. Only ConfigurationUpdates can be specified.
     @Sendable
     public func updateWorkGroup(_ input: UpdateWorkGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkGroupOutput {
-        return try await self.client.execute(operation: "UpdateWorkGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorkGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -100,20 +100,41 @@ public struct IoTSecureTunneling: AWSService {
     /// 		       Requires permission to access the CloseTunnel action.
     @Sendable
     public func closeTunnel(_ input: CloseTunnelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CloseTunnelResponse {
-        return try await self.client.execute(operation: "CloseTunnel", path: "/tunnels/{tunnelId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CloseTunnel", 
+            path: "/tunnels/{tunnelId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a tunnel identified by the unique tunnel id.
     /// 		       Requires permission to access the DescribeTunnel action.
     @Sendable
     public func describeTunnel(_ input: DescribeTunnelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTunnelResponse {
-        return try await self.client.execute(operation: "DescribeTunnel", path: "/tunnels/{tunnelId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTunnel", 
+            path: "/tunnels/{tunnelId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags for the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in
@@ -121,7 +142,14 @@ public struct IoTSecureTunneling: AWSService {
     /// 		       Requires permission to access the ListTunnels action.
     @Sendable
     public func listTunnels(_ input: ListTunnelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTunnelsResponse {
-        return try await self.client.execute(operation: "ListTunnels", path: "/tunnels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTunnels", 
+            path: "/tunnels", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new tunnel, and returns two client access tokens for clients to use to
@@ -129,7 +157,14 @@ public struct IoTSecureTunneling: AWSService {
     /// 		       Requires permission to access the OpenTunnel action.
     @Sendable
     public func openTunnel(_ input: OpenTunnelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> OpenTunnelResponse {
-        return try await self.client.execute(operation: "OpenTunnel", path: "/tunnels", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "OpenTunnel", 
+            path: "/tunnels", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Revokes the current client access token (CAT) and returns new CAT for clients to
@@ -143,19 +178,40 @@ public struct IoTSecureTunneling: AWSService {
     ///
     @Sendable
     public func rotateTunnelAccessToken(_ input: RotateTunnelAccessTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RotateTunnelAccessTokenResponse {
-        return try await self.client.execute(operation: "RotateTunnelAccessToken", path: "/tunnel/{tunnelId}/rotate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RotateTunnelAccessToken", 
+            path: "/tunnel/{tunnelId}/rotate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// A resource tag.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a tag from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/untag", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/untag", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -67,55 +67,118 @@ public struct BackupStorage: AWSService {
     /// Delete Object from the incremental base Backup.
     @Sendable
     public func deleteObject(_ input: DeleteObjectInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteObject", path: "/backup-jobs/{BackupJobId}/object/{ObjectName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteObject", 
+            path: "/backup-jobs/{BackupJobId}/object/{ObjectName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the specified object's chunk.
     @Sendable
     public func getChunk(_ input: GetChunkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChunkOutput {
-        return try await self.client.execute(operation: "GetChunk", path: "/restore-jobs/{StorageJobId}/chunk/{ChunkToken}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetChunk", 
+            path: "/restore-jobs/{StorageJobId}/chunk/{ChunkToken}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get metadata associated with an Object.
     @Sendable
     public func getObjectMetadata(_ input: GetObjectMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetObjectMetadataOutput {
-        return try await self.client.execute(operation: "GetObjectMetadata", path: "/restore-jobs/{StorageJobId}/object/{ObjectToken}/metadata", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetObjectMetadata", 
+            path: "/restore-jobs/{StorageJobId}/object/{ObjectToken}/metadata", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List chunks in a given Object
     @Sendable
     public func listChunks(_ input: ListChunksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChunksOutput {
-        return try await self.client.execute(operation: "ListChunks", path: "/restore-jobs/{StorageJobId}/chunks/{ObjectToken}/list", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListChunks", 
+            path: "/restore-jobs/{StorageJobId}/chunks/{ObjectToken}/list", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all Objects in a given Backup.
     @Sendable
     public func listObjects(_ input: ListObjectsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListObjectsOutput {
-        return try await self.client.execute(operation: "ListObjects", path: "/restore-jobs/{StorageJobId}/objects/list", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListObjects", 
+            path: "/restore-jobs/{StorageJobId}/objects/list", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Complete upload
     @Sendable
     public func notifyObjectComplete(_ input: NotifyObjectCompleteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> NotifyObjectCompleteOutput {
-        return try await self.client.execute(operation: "NotifyObjectComplete", path: "/backup-jobs/{BackupJobId}/object/{UploadId}/complete", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "NotifyObjectComplete", 
+            path: "/backup-jobs/{BackupJobId}/object/{UploadId}/complete", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Upload chunk.
     @Sendable
     public func putChunk(_ input: PutChunkInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutChunkOutput {
-        return try await self.client.execute(operation: "PutChunk", path: "/backup-jobs/{BackupJobId}/chunk/{UploadId}/{ChunkIndex}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutChunk", 
+            path: "/backup-jobs/{BackupJobId}/chunk/{UploadId}/{ChunkIndex}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Upload object that can store object metadata String and data blob in single API call using inline chunk field.
     @Sendable
     public func putObject(_ input: PutObjectInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutObjectOutput {
-        return try await self.client.execute(operation: "PutObject", path: "/backup-jobs/{BackupJobId}/object/{ObjectName}/put-object", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutObject", 
+            path: "/backup-jobs/{BackupJobId}/object/{ObjectName}/put-object", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Start upload containing one or many chunks.
     @Sendable
     public func startObject(_ input: StartObjectInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartObjectOutput {
-        return try await self.client.execute(operation: "StartObject", path: "/backup-jobs/{BackupJobId}/object/{ObjectName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartObject", 
+            path: "/backup-jobs/{BackupJobId}/object/{ObjectName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

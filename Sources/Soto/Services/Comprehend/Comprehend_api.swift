@@ -75,505 +75,1093 @@ public struct Comprehend: AWSService {
     /// Determines the dominant language of the input text for a batch of documents. For a list of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages.
     @Sendable
     public func batchDetectDominantLanguage(_ input: BatchDetectDominantLanguageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDetectDominantLanguageResponse {
-        return try await self.client.execute(operation: "BatchDetectDominantLanguage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDetectDominantLanguage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Inspects the text of a batch of documents for named entities and returns information about them. For more information about named entities, see Entities in the Comprehend Developer Guide.
     @Sendable
     public func batchDetectEntities(_ input: BatchDetectEntitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDetectEntitiesResponse {
-        return try await self.client.execute(operation: "BatchDetectEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDetectEntities", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Detects the key noun phrases found in a batch of documents.
     @Sendable
     public func batchDetectKeyPhrases(_ input: BatchDetectKeyPhrasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDetectKeyPhrasesResponse {
-        return try await self.client.execute(operation: "BatchDetectKeyPhrases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDetectKeyPhrases", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Inspects a batch of documents and returns an inference of the prevailing sentiment, POSITIVE, NEUTRAL, MIXED, or NEGATIVE, in each one.
     @Sendable
     public func batchDetectSentiment(_ input: BatchDetectSentimentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDetectSentimentResponse {
-        return try await self.client.execute(operation: "BatchDetectSentiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDetectSentiment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Inspects the text of a batch of documents for the syntax and part of speech of the words in the document and returns information about them. For more information, see Syntax in the Comprehend Developer Guide.
     @Sendable
     public func batchDetectSyntax(_ input: BatchDetectSyntaxRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDetectSyntaxResponse {
-        return try await self.client.execute(operation: "BatchDetectSyntax", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDetectSyntax", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Inspects a batch of documents and returns a sentiment analysis for each entity identified in the documents. For more information about targeted sentiment, see Targeted sentiment.
     @Sendable
     public func batchDetectTargetedSentiment(_ input: BatchDetectTargetedSentimentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDetectTargetedSentimentResponse {
-        return try await self.client.execute(operation: "BatchDetectTargetedSentiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDetectTargetedSentiment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new document classification request to analyze a single document in real-time, using a previously created and trained custom model and an endpoint. You can input plain text or you can upload a single-page input document (text, PDF, Word, or image).  If the system detects errors while processing a page in the input document, the API response includes an entry in Errors that describes the errors. If the system detects a document-level error in your input document, the API returns an InvalidRequestException error response. For details about this exception, see  Errors in semi-structured documents in the Comprehend Developer Guide.
     @Sendable
     public func classifyDocument(_ input: ClassifyDocumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClassifyDocumentResponse {
-        return try await self.client.execute(operation: "ClassifyDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ClassifyDocument", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Analyzes input text for the presence of personally identifiable information (PII) and returns the labels of identified PII entity types such as name, address, bank account number, or phone number.
     @Sendable
     public func containsPiiEntities(_ input: ContainsPiiEntitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ContainsPiiEntitiesResponse {
-        return try await self.client.execute(operation: "ContainsPiiEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ContainsPiiEntities", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a dataset to upload training or test data for a model associated with a flywheel. For more information about datasets, see  Flywheel overview in the Amazon Comprehend Developer Guide.
     @Sendable
     public func createDataset(_ input: CreateDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetResponse {
-        return try await self.client.execute(operation: "CreateDataset", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDataset", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new document classifier that you can use to categorize documents. To create a classifier, you provide a set of training documents that are labeled with the categories that you want to use. For more information, see Training classifier models  in the Comprehend Developer Guide.
     @Sendable
     public func createDocumentClassifier(_ input: CreateDocumentClassifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDocumentClassifierResponse {
-        return try await self.client.execute(operation: "CreateDocumentClassifier", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDocumentClassifier", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a model-specific endpoint for synchronous inference for a previously trained custom model  For information about endpoints, see Managing endpoints.
     @Sendable
     public func createEndpoint(_ input: CreateEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEndpointResponse {
-        return try await self.client.execute(operation: "CreateEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an entity recognizer using submitted files. After your CreateEntityRecognizer request is submitted, you can check job status using the DescribeEntityRecognizer API.
     @Sendable
     public func createEntityRecognizer(_ input: CreateEntityRecognizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEntityRecognizerResponse {
-        return try await self.client.execute(operation: "CreateEntityRecognizer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEntityRecognizer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// A flywheel is an Amazon Web Services resource that orchestrates the ongoing training of a model for custom classification or custom entity recognition. You can create a flywheel to start with an existing trained model, or Comprehend can create and train a new model. When you create the flywheel, Comprehend creates a data lake in your account. The data lake holds the training data and test data for all versions of the model. To use a flywheel with an existing trained model, you specify the active model version. Comprehend copies the model's training data and test data into the flywheel's data lake. To use the flywheel with a new model, you need to provide a dataset for training data (and optional test data) when you create the flywheel. For more information about flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
     @Sendable
     public func createFlywheel(_ input: CreateFlywheelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFlywheelResponse {
-        return try await self.client.execute(operation: "CreateFlywheel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFlywheel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a previously created document classifier Only those classifiers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the classifier into a DELETING state, and it is then removed by a background job. Once removed, the classifier disappears from your account and is no longer available for use.
     @Sendable
     public func deleteDocumentClassifier(_ input: DeleteDocumentClassifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDocumentClassifierResponse {
-        return try await self.client.execute(operation: "DeleteDocumentClassifier", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDocumentClassifier", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a model-specific endpoint for a previously-trained custom model. All endpoints must be deleted in order for the model to be deleted. For information about endpoints, see Managing endpoints.
     @Sendable
     public func deleteEndpoint(_ input: DeleteEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEndpointResponse {
-        return try await self.client.execute(operation: "DeleteEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an entity recognizer. Only those recognizers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the recognizer into a DELETING state, and it is then removed by a background job. Once removed, the recognizer disappears from your account and is no longer available for use.
     @Sendable
     public func deleteEntityRecognizer(_ input: DeleteEntityRecognizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEntityRecognizerResponse {
-        return try await self.client.execute(operation: "DeleteEntityRecognizer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEntityRecognizer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a flywheel. When you delete the flywheel, Amazon Comprehend does not delete the data lake or the model associated with the flywheel. For more information about flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
     @Sendable
     public func deleteFlywheel(_ input: DeleteFlywheelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFlywheelResponse {
-        return try await self.client.execute(operation: "DeleteFlywheel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFlywheel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a resource-based policy that is attached to a custom model.
     @Sendable
     public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
-        return try await self.client.execute(operation: "DeleteResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the dataset that you specify.  For more information about datasets, see  Flywheel overview in the Amazon Comprehend Developer Guide.
     @Sendable
     public func describeDataset(_ input: DescribeDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDatasetResponse {
-        return try await self.client.execute(operation: "DescribeDataset", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDataset", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the properties associated with a document classification job. Use this operation to get the status of a classification job.
     @Sendable
     public func describeDocumentClassificationJob(_ input: DescribeDocumentClassificationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDocumentClassificationJobResponse {
-        return try await self.client.execute(operation: "DescribeDocumentClassificationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDocumentClassificationJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the properties associated with a document classifier.
     @Sendable
     public func describeDocumentClassifier(_ input: DescribeDocumentClassifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDocumentClassifierResponse {
-        return try await self.client.execute(operation: "DescribeDocumentClassifier", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDocumentClassifier", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the properties associated with a dominant language detection job. Use this operation to get the status of a detection job.
     @Sendable
     public func describeDominantLanguageDetectionJob(_ input: DescribeDominantLanguageDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDominantLanguageDetectionJobResponse {
-        return try await self.client.execute(operation: "DescribeDominantLanguageDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDominantLanguageDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the properties associated with a specific endpoint. Use this operation to get the status of an endpoint. For information about endpoints, see Managing endpoints.
     @Sendable
     public func describeEndpoint(_ input: DescribeEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointResponse {
-        return try await self.client.execute(operation: "DescribeEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the properties associated with an entities detection job. Use this operation to get the status of a detection job.
     @Sendable
     public func describeEntitiesDetectionJob(_ input: DescribeEntitiesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEntitiesDetectionJobResponse {
-        return try await self.client.execute(operation: "DescribeEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEntitiesDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides details about an entity recognizer including status, S3 buckets containing training data, recognizer metadata, metrics, and so on.
     @Sendable
     public func describeEntityRecognizer(_ input: DescribeEntityRecognizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEntityRecognizerResponse {
-        return try await self.client.execute(operation: "DescribeEntityRecognizer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEntityRecognizer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the status and details of an events detection job.
     @Sendable
     public func describeEventsDetectionJob(_ input: DescribeEventsDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventsDetectionJobResponse {
-        return try await self.client.execute(operation: "DescribeEventsDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEventsDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides configuration information about the flywheel. For more information about flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
     @Sendable
     public func describeFlywheel(_ input: DescribeFlywheelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFlywheelResponse {
-        return try await self.client.execute(operation: "DescribeFlywheel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFlywheel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve the configuration properties of a flywheel iteration. For more information about flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
     @Sendable
     public func describeFlywheelIteration(_ input: DescribeFlywheelIterationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFlywheelIterationResponse {
-        return try await self.client.execute(operation: "DescribeFlywheelIteration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeFlywheelIteration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the properties associated with a key phrases detection job. Use this operation to get the status of a detection job.
     @Sendable
     public func describeKeyPhrasesDetectionJob(_ input: DescribeKeyPhrasesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeKeyPhrasesDetectionJobResponse {
-        return try await self.client.execute(operation: "DescribeKeyPhrasesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeKeyPhrasesDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the properties associated with a PII entities detection job. For example, you can use this operation to get the job status.
     @Sendable
     public func describePiiEntitiesDetectionJob(_ input: DescribePiiEntitiesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePiiEntitiesDetectionJobResponse {
-        return try await self.client.execute(operation: "DescribePiiEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePiiEntitiesDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the details of a resource-based policy that is attached to a custom model, including the JSON body of the policy.
     @Sendable
     public func describeResourcePolicy(_ input: DescribeResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeResourcePolicyResponse {
-        return try await self.client.execute(operation: "DescribeResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the properties associated with a sentiment detection job. Use this operation to get the status of a detection job.
     @Sendable
     public func describeSentimentDetectionJob(_ input: DescribeSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSentimentDetectionJobResponse {
-        return try await self.client.execute(operation: "DescribeSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSentimentDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the properties associated with a targeted sentiment detection job. Use this operation to get the status of the job.
     @Sendable
     public func describeTargetedSentimentDetectionJob(_ input: DescribeTargetedSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTargetedSentimentDetectionJobResponse {
-        return try await self.client.execute(operation: "DescribeTargetedSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTargetedSentimentDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the properties associated with a topic detection job. Use this operation to get the status of a detection job.
     @Sendable
     public func describeTopicsDetectionJob(_ input: DescribeTopicsDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTopicsDetectionJobResponse {
-        return try await self.client.execute(operation: "DescribeTopicsDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTopicsDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Determines the dominant language of the input text. For a list of languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Languages.
     @Sendable
     public func detectDominantLanguage(_ input: DetectDominantLanguageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectDominantLanguageResponse {
-        return try await self.client.execute(operation: "DetectDominantLanguage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DetectDominantLanguage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Detects named entities in input text when you use the pre-trained model. Detects custom entities if you have a custom entity recognition model.   When detecting named entities using the pre-trained model, use plain text as the input. For more information about named entities, see Entities in the Comprehend Developer Guide. When you use a custom entity recognition model, you can input plain text or you can upload a single-page input document (text, PDF, Word, or image).  If the system detects errors while processing a page in the input document, the API response includes an entry in Errors for each error.  If the system detects a document-level error in your input document, the API returns an InvalidRequestException error response. For details about this exception, see  Errors in semi-structured documents in the Comprehend Developer Guide.
     @Sendable
     public func detectEntities(_ input: DetectEntitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectEntitiesResponse {
-        return try await self.client.execute(operation: "DetectEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DetectEntities", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Detects the key noun phrases found in the text.
     @Sendable
     public func detectKeyPhrases(_ input: DetectKeyPhrasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectKeyPhrasesResponse {
-        return try await self.client.execute(operation: "DetectKeyPhrases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DetectKeyPhrases", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Inspects the input text for entities that contain personally identifiable information (PII) and returns information about them.
     @Sendable
     public func detectPiiEntities(_ input: DetectPiiEntitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectPiiEntitiesResponse {
-        return try await self.client.execute(operation: "DetectPiiEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DetectPiiEntities", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Inspects text and returns an inference of the prevailing sentiment (POSITIVE, NEUTRAL, MIXED, or NEGATIVE).
     @Sendable
     public func detectSentiment(_ input: DetectSentimentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectSentimentResponse {
-        return try await self.client.execute(operation: "DetectSentiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DetectSentiment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Inspects text for syntax and the part of speech of words in the document. For more information, see Syntax in the Comprehend Developer Guide.
     @Sendable
     public func detectSyntax(_ input: DetectSyntaxRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectSyntaxResponse {
-        return try await self.client.execute(operation: "DetectSyntax", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DetectSyntax", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Inspects the input text and returns a sentiment analysis for each entity identified in the text. For more information about targeted sentiment, see Targeted sentiment.
     @Sendable
     public func detectTargetedSentiment(_ input: DetectTargetedSentimentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetectTargetedSentimentResponse {
-        return try await self.client.execute(operation: "DetectTargetedSentiment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DetectTargetedSentiment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new custom model that replicates a source custom model that you import. The source model can be in your Amazon Web Services account or another one. If the source model is in another Amazon Web Services account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same Amazon Web Services Region that you're using when you import. You can't import a model that's in a different Region.
     @Sendable
     public func importModel(_ input: ImportModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportModelResponse {
-        return try await self.client.execute(operation: "ImportModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportModel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the datasets that you have configured in this Region. For more information about datasets, see  Flywheel overview in the Amazon Comprehend Developer Guide.
     @Sendable
     public func listDatasets(_ input: ListDatasetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatasetsResponse {
-        return try await self.client.execute(operation: "ListDatasets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDatasets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of the documentation classification jobs that you have submitted.
     @Sendable
     public func listDocumentClassificationJobs(_ input: ListDocumentClassificationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDocumentClassificationJobsResponse {
-        return try await self.client.execute(operation: "ListDocumentClassificationJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDocumentClassificationJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of summaries of the document classifiers that you have created
     @Sendable
     public func listDocumentClassifierSummaries(_ input: ListDocumentClassifierSummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDocumentClassifierSummariesResponse {
-        return try await self.client.execute(operation: "ListDocumentClassifierSummaries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDocumentClassifierSummaries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of the document classifiers that you have created.
     @Sendable
     public func listDocumentClassifiers(_ input: ListDocumentClassifiersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDocumentClassifiersResponse {
-        return try await self.client.execute(operation: "ListDocumentClassifiers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDocumentClassifiers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of the dominant language detection jobs that you have submitted.
     @Sendable
     public func listDominantLanguageDetectionJobs(_ input: ListDominantLanguageDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDominantLanguageDetectionJobsResponse {
-        return try await self.client.execute(operation: "ListDominantLanguageDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDominantLanguageDetectionJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of all existing endpoints that you've created. For information about endpoints, see Managing endpoints.
     @Sendable
     public func listEndpoints(_ input: ListEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEndpointsResponse {
-        return try await self.client.execute(operation: "ListEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of the entity detection jobs that you have submitted.
     @Sendable
     public func listEntitiesDetectionJobs(_ input: ListEntitiesDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEntitiesDetectionJobsResponse {
-        return try await self.client.execute(operation: "ListEntitiesDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEntitiesDetectionJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of summaries for the entity recognizers that you have created.
     @Sendable
     public func listEntityRecognizerSummaries(_ input: ListEntityRecognizerSummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEntityRecognizerSummariesResponse {
-        return try await self.client.execute(operation: "ListEntityRecognizerSummaries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEntityRecognizerSummaries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of the properties of all entity recognizers that you created, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed.
     @Sendable
     public func listEntityRecognizers(_ input: ListEntityRecognizersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEntityRecognizersResponse {
-        return try await self.client.execute(operation: "ListEntityRecognizers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEntityRecognizers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of the events detection jobs that you have submitted.
     @Sendable
     public func listEventsDetectionJobs(_ input: ListEventsDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEventsDetectionJobsResponse {
-        return try await self.client.execute(operation: "ListEventsDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEventsDetectionJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Information about the history of a flywheel iteration. For more information about flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
     @Sendable
     public func listFlywheelIterationHistory(_ input: ListFlywheelIterationHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlywheelIterationHistoryResponse {
-        return try await self.client.execute(operation: "ListFlywheelIterationHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFlywheelIterationHistory", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of the flywheels that you have created.
     @Sendable
     public func listFlywheels(_ input: ListFlywheelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlywheelsResponse {
-        return try await self.client.execute(operation: "ListFlywheels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFlywheels", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get a list of key phrase detection jobs that you have submitted.
     @Sendable
     public func listKeyPhrasesDetectionJobs(_ input: ListKeyPhrasesDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKeyPhrasesDetectionJobsResponse {
-        return try await self.client.execute(operation: "ListKeyPhrasesDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListKeyPhrasesDetectionJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of the PII entity detection jobs that you have submitted.
     @Sendable
     public func listPiiEntitiesDetectionJobs(_ input: ListPiiEntitiesDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPiiEntitiesDetectionJobsResponse {
-        return try await self.client.execute(operation: "ListPiiEntitiesDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPiiEntitiesDetectionJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of sentiment detection jobs that you have submitted.
     @Sendable
     public func listSentimentDetectionJobs(_ input: ListSentimentDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSentimentDetectionJobsResponse {
-        return try await self.client.execute(operation: "ListSentimentDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSentimentDetectionJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all tags associated with a given Amazon Comprehend resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of targeted sentiment detection jobs that you have submitted.
     @Sendable
     public func listTargetedSentimentDetectionJobs(_ input: ListTargetedSentimentDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTargetedSentimentDetectionJobsResponse {
-        return try await self.client.execute(operation: "ListTargetedSentimentDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTargetedSentimentDetectionJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of the topic detection jobs that you have submitted.
     @Sendable
     public func listTopicsDetectionJobs(_ input: ListTopicsDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTopicsDetectionJobsResponse {
-        return try await self.client.execute(operation: "ListTopicsDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTopicsDetectionJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attaches a resource-based policy to a custom model. You can use this policy to authorize an entity in another Amazon Web Services account to import the custom model, which replicates it in Amazon Comprehend in their account.
     @Sendable
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
-        return try await self.client.execute(operation: "PutResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an asynchronous document classification job. Use the  DescribeDocumentClassificationJob operation to track the progress of the job.
     @Sendable
     public func startDocumentClassificationJob(_ input: StartDocumentClassificationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDocumentClassificationJobResponse {
-        return try await self.client.execute(operation: "StartDocumentClassificationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartDocumentClassificationJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an asynchronous dominant language detection job for a collection of documents. Use the  operation to track the status of a job.
     @Sendable
     public func startDominantLanguageDetectionJob(_ input: StartDominantLanguageDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDominantLanguageDetectionJobResponse {
-        return try await self.client.execute(operation: "StartDominantLanguageDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartDominantLanguageDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an asynchronous entity detection job for a collection of documents. Use the  operation to track the status of a job. This API can be used for either standard entity detection or custom entity recognition. In order to be used for custom entity recognition, the optional EntityRecognizerArn must be used in order to provide access to the recognizer being used to detect the custom entity.
     @Sendable
     public func startEntitiesDetectionJob(_ input: StartEntitiesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartEntitiesDetectionJobResponse {
-        return try await self.client.execute(operation: "StartEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartEntitiesDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an asynchronous event detection job for a collection of documents.
     @Sendable
     public func startEventsDetectionJob(_ input: StartEventsDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartEventsDetectionJobResponse {
-        return try await self.client.execute(operation: "StartEventsDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartEventsDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Start the flywheel iteration.This operation uses any new datasets to train a new model version. For more information about flywheels, see  Flywheel overview in the Amazon Comprehend Developer Guide.
     @Sendable
     public func startFlywheelIteration(_ input: StartFlywheelIterationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFlywheelIterationResponse {
-        return try await self.client.execute(operation: "StartFlywheelIteration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartFlywheelIteration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an asynchronous key phrase detection job for a collection of documents. Use the operation to track the status of a job.
     @Sendable
     public func startKeyPhrasesDetectionJob(_ input: StartKeyPhrasesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartKeyPhrasesDetectionJobResponse {
-        return try await self.client.execute(operation: "StartKeyPhrasesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartKeyPhrasesDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an asynchronous PII entity detection job for a collection of documents.
     @Sendable
     public func startPiiEntitiesDetectionJob(_ input: StartPiiEntitiesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartPiiEntitiesDetectionJobResponse {
-        return try await self.client.execute(operation: "StartPiiEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartPiiEntitiesDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an asynchronous sentiment detection job for a collection of documents. Use the operation to track the status of a job.
     @Sendable
     public func startSentimentDetectionJob(_ input: StartSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSentimentDetectionJobResponse {
-        return try await self.client.execute(operation: "StartSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartSentimentDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an asynchronous targeted sentiment detection job for a collection of documents. Use the DescribeTargetedSentimentDetectionJob operation to track the status of a job.
     @Sendable
     public func startTargetedSentimentDetectionJob(_ input: StartTargetedSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTargetedSentimentDetectionJobResponse {
-        return try await self.client.execute(operation: "StartTargetedSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartTargetedSentimentDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an asynchronous topic detection job. Use the DescribeTopicDetectionJob operation to track the status of a job.
     @Sendable
     public func startTopicsDetectionJob(_ input: StartTopicsDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTopicsDetectionJobResponse {
-        return try await self.client.execute(operation: "StartTopicsDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartTopicsDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a dominant language detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     @Sendable
     public func stopDominantLanguageDetectionJob(_ input: StopDominantLanguageDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopDominantLanguageDetectionJobResponse {
-        return try await self.client.execute(operation: "StopDominantLanguageDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopDominantLanguageDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops an entities detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     @Sendable
     public func stopEntitiesDetectionJob(_ input: StopEntitiesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopEntitiesDetectionJobResponse {
-        return try await self.client.execute(operation: "StopEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopEntitiesDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops an events detection job in progress.
     @Sendable
     public func stopEventsDetectionJob(_ input: StopEventsDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopEventsDetectionJobResponse {
-        return try await self.client.execute(operation: "StopEventsDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopEventsDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a key phrases detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     @Sendable
     public func stopKeyPhrasesDetectionJob(_ input: StopKeyPhrasesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopKeyPhrasesDetectionJobResponse {
-        return try await self.client.execute(operation: "StopKeyPhrasesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopKeyPhrasesDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a PII entities detection job in progress.
     @Sendable
     public func stopPiiEntitiesDetectionJob(_ input: StopPiiEntitiesDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopPiiEntitiesDetectionJobResponse {
-        return try await self.client.execute(operation: "StopPiiEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopPiiEntitiesDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a sentiment detection job in progress. If the job state is IN_PROGRESS, the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     @Sendable
     public func stopSentimentDetectionJob(_ input: StopSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopSentimentDetectionJobResponse {
-        return try await self.client.execute(operation: "StopSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopSentimentDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a targeted sentiment detection job in progress. If the job state is IN_PROGRESS, the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     @Sendable
     public func stopTargetedSentimentDetectionJob(_ input: StopTargetedSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopTargetedSentimentDetectionJobResponse {
-        return try await self.client.execute(operation: "StopTargetedSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopTargetedSentimentDetectionJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a document classifier training job while in progress. If the training job state is TRAINING, the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED; otherwise the training job is stopped and put into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body.
     @Sendable
     public func stopTrainingDocumentClassifier(_ input: StopTrainingDocumentClassifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopTrainingDocumentClassifierResponse {
-        return try await self.client.execute(operation: "StopTrainingDocumentClassifier", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopTrainingDocumentClassifier", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops an entity recognizer training job while in progress. If the training job state is TRAINING, the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED; otherwise the training job is stopped and putted into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body.
     @Sendable
     public func stopTrainingEntityRecognizer(_ input: StopTrainingEntityRecognizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopTrainingEntityRecognizerResponse {
-        return try await self.client.execute(operation: "StopTrainingEntityRecognizer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopTrainingEntityRecognizer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a specific tag with an Amazon Comprehend resource. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a specific tag associated with an Amazon Comprehend resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates information about the specified endpoint. For information about endpoints, see Managing endpoints.
     @Sendable
     public func updateEndpoint(_ input: UpdateEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEndpointResponse {
-        return try await self.client.execute(operation: "UpdateEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update the configuration information for an existing flywheel.
     @Sendable
     public func updateFlywheel(_ input: UpdateFlywheelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlywheelResponse {
-        return try await self.client.execute(operation: "UpdateFlywheel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFlywheel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

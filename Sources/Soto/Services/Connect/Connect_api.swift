@@ -73,103 +73,222 @@ public struct Connect: AWSService {
     /// Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is activated, it is available to start new evaluations based on the form.
     @Sendable
     public func activateEvaluationForm(_ input: ActivateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateEvaluationFormResponse {
-        return try await self.client.execute(operation: "ActivateEvaluationForm", path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/activate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ActivateEvaluationForm", 
+            path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/activate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Associates an approved origin to an Amazon Connect instance.
     @Sendable
     public func associateApprovedOrigin(_ input: AssociateApprovedOriginRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AssociateApprovedOrigin", path: "/instance/{InstanceId}/approved-origin", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateApprovedOrigin", 
+            path: "/instance/{InstanceId}/approved-origin", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2 bot.
     @Sendable
     public func associateBot(_ input: AssociateBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AssociateBot", path: "/instance/{InstanceId}/bot", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateBot", 
+            path: "/instance/{InstanceId}/bot", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates an existing vocabulary as the default. Contact Lens for Amazon Connect uses the vocabulary in post-call and real-time analysis sessions for the given language.
     @Sendable
     public func associateDefaultVocabulary(_ input: AssociateDefaultVocabularyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDefaultVocabularyResponse {
-        return try await self.client.execute(operation: "AssociateDefaultVocabulary", path: "/default-vocabulary/{InstanceId}/{LanguageCode}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateDefaultVocabulary", 
+            path: "/default-vocabulary/{InstanceId}/{LanguageCode}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 bucket, exists when being used for association.
     @Sendable
     public func associateInstanceStorageConfig(_ input: AssociateInstanceStorageConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateInstanceStorageConfigResponse {
-        return try await self.client.execute(operation: "AssociateInstanceStorageConfig", path: "/instance/{InstanceId}/storage-config", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateInstanceStorageConfig", 
+            path: "/instance/{InstanceId}/storage-config", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Lambda function.
     @Sendable
     public func associateLambdaFunction(_ input: AssociateLambdaFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AssociateLambdaFunction", path: "/instance/{InstanceId}/lambda-function", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateLambdaFunction", 
+            path: "/instance/{InstanceId}/lambda-function", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex V1 bot. This API only supports the association of Amazon Lex V1 bots.
     @Sendable
     public func associateLexBot(_ input: AssociateLexBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AssociateLexBot", path: "/instance/{InstanceId}/lex-bot", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateLexBot", 
+            path: "/instance/{InstanceId}/lex-bot", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a flow with a phone number claimed to your Amazon Connect instance.  If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     @Sendable
     public func associatePhoneNumberContactFlow(_ input: AssociatePhoneNumberContactFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AssociatePhoneNumberContactFlow", path: "/phone-number/{PhoneNumberId}/contact-flow", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociatePhoneNumberContactFlow", 
+            path: "/phone-number/{PhoneNumberId}/contact-flow", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a set of quick connects with a queue.
     @Sendable
     public func associateQueueQuickConnects(_ input: AssociateQueueQuickConnectsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AssociateQueueQuickConnects", path: "/queues/{InstanceId}/{QueueId}/associate-quick-connects", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateQueueQuickConnects", 
+            path: "/queues/{InstanceId}/{QueueId}/associate-quick-connects", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates a set of queues with a routing profile.
     @Sendable
     public func associateRoutingProfileQueues(_ input: AssociateRoutingProfileQueuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AssociateRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/associate-queues", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateRoutingProfileQueues", 
+            path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/associate-queues", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a security key to the instance.
     @Sendable
     public func associateSecurityKey(_ input: AssociateSecurityKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSecurityKeyResponse {
-        return try await self.client.execute(operation: "AssociateSecurityKey", path: "/instance/{InstanceId}/security-key", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateSecurityKey", 
+            path: "/instance/{InstanceId}/security-key", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Amazon Connect Administrator Guide.   You can call the SearchAvailablePhoneNumbers API for available phone numbers that you can claim. Call the DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.
     @Sendable
     public func claimPhoneNumber(_ input: ClaimPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClaimPhoneNumberResponse {
-        return try await self.client.execute(operation: "ClaimPhoneNumber", path: "/phone-number/claim", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ClaimPhoneNumber", 
+            path: "/phone-number/claim", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Creates an agent status for the specified Amazon Connect instance.
     @Sendable
     public func createAgentStatus(_ input: CreateAgentStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentStatusResponse {
-        return try await self.client.execute(operation: "CreateAgentStatus", path: "/agent-status/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAgentStatus", 
+            path: "/agent-status/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a flow for the specified Amazon Connect instance. You can also create and update flows using the Amazon Connect Flow language.
     @Sendable
     public func createContactFlow(_ input: CreateContactFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContactFlowResponse {
-        return try await self.client.execute(operation: "CreateContactFlow", path: "/contact-flows/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateContactFlow", 
+            path: "/contact-flows/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a flow module for the specified Amazon Connect instance.
     @Sendable
     public func createContactFlowModule(_ input: CreateContactFlowModuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContactFlowModuleResponse {
-        return try await self.client.execute(operation: "CreateContactFlowModule", path: "/contact-flow-modules/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateContactFlowModule", 
+            path: "/contact-flow-modules/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define questions related to agent performance, and create sections to organize such questions.  Question and section identifiers cannot be duplicated within the same evaluation form.
     @Sendable
     public func createEvaluationForm(_ input: CreateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEvaluationFormResponse {
-        return try await self.client.execute(operation: "CreateEvaluationForm", path: "/evaluation-forms/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEvaluationForm", 
+            path: "/evaluation-forms/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Creates hours of operation.
     @Sendable
     public func createHoursOfOperation(_ input: CreateHoursOfOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHoursOfOperationResponse {
-        return try await self.client.execute(operation: "CreateHoursOfOperation", path: "/hours-of-operations/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateHoursOfOperation", 
+            path: "/hours-of-operations/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect.  Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
@@ -177,127 +296,274 @@ public struct Connect: AWSService {
     /// You must wait 30 days before you can restart creating and deleting instances in your account.
     @Sendable
     public func createInstance(_ input: CreateInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInstanceResponse {
-        return try await self.client.execute(operation: "CreateInstance", path: "/instance", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateInstance", 
+            path: "/instance", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an Amazon Web Services resource association with an Amazon Connect instance.
     @Sendable
     public func createIntegrationAssociation(_ input: CreateIntegrationAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIntegrationAssociationResponse {
-        return try await self.client.execute(operation: "CreateIntegrationAssociation", path: "/instance/{InstanceId}/integration-associations", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateIntegrationAssociation", 
+            path: "/instance/{InstanceId}/integration-associations", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a new participant into an on-going chat contact. For more information, see Customize chat flow experiences by integrating custom participants.
     @Sendable
     public func createParticipant(_ input: CreateParticipantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateParticipantResponse {
-        return try await self.client.execute(operation: "CreateParticipant", path: "/contact/create-participant", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateParticipant", 
+            path: "/contact/create-participant", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Amazon Connect Administrator's Guide.
     @Sendable
     public func createPrompt(_ input: CreatePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePromptResponse {
-        return try await self.client.execute(operation: "CreatePrompt", path: "/prompts/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePrompt", 
+            path: "/prompts/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance.  If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the OutboundCallerConfig request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     @Sendable
     public func createQueue(_ input: CreateQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQueueResponse {
-        return try await self.client.execute(operation: "CreateQueue", path: "/queues/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateQueue", 
+            path: "/queues/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a quick connect for the specified Amazon Connect instance.
     @Sendable
     public func createQuickConnect(_ input: CreateQuickConnectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQuickConnectResponse {
-        return try await self.client.execute(operation: "CreateQuickConnect", path: "/quick-connects/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateQuickConnect", 
+            path: "/quick-connects/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new routing profile.
     @Sendable
     public func createRoutingProfile(_ input: CreateRoutingProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRoutingProfileResponse {
-        return try await self.client.execute(operation: "CreateRoutingProfile", path: "/routing-profiles/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRoutingProfile", 
+            path: "/routing-profiles/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a rule for the specified Amazon Connect instance. Use the Rules Function language to code conditions for the rule.
     @Sendable
     public func createRule(_ input: CreateRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuleResponse {
-        return try await self.client.execute(operation: "CreateRule", path: "/rules/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRule", 
+            path: "/rules/{InstanceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Creates a security profile.
     @Sendable
     public func createSecurityProfile(_ input: CreateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSecurityProfileResponse {
-        return try await self.client.execute(operation: "CreateSecurityProfile", path: "/security-profiles/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSecurityProfile", 
+            path: "/security-profiles/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new task template in the specified Amazon Connect instance.
     @Sendable
     public func createTaskTemplate(_ input: CreateTaskTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTaskTemplateResponse {
-        return try await self.client.execute(operation: "CreateTaskTemplate", path: "/instance/{InstanceId}/task/template", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTaskTemplate", 
+            path: "/instance/{InstanceId}/task/template", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a traffic distribution group given an Amazon Connect instance that has been replicated.  For more information about creating traffic distribution groups, see Set up traffic distribution groups in the Amazon Connect Administrator Guide.
     @Sendable
     public func createTrafficDistributionGroup(_ input: CreateTrafficDistributionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrafficDistributionGroupResponse {
-        return try await self.client.execute(operation: "CreateTrafficDistributionGroup", path: "/traffic-distribution-group", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTrafficDistributionGroup", 
+            path: "/traffic-distribution-group", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a use case for an integration association.
     @Sendable
     public func createUseCase(_ input: CreateUseCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUseCaseResponse {
-        return try await self.client.execute(operation: "CreateUseCase", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUseCase", 
+            path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a user account for the specified Amazon Connect instance. For information about how to create user accounts using the Amazon Connect console, see Add Users in the Amazon Connect Administrator Guide.
     @Sendable
     public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserResponse {
-        return try await self.client.execute(operation: "CreateUser", path: "/users/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUser", 
+            path: "/users/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new user hierarchy group.
     @Sendable
     public func createUserHierarchyGroup(_ input: CreateUserHierarchyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserHierarchyGroupResponse {
-        return try await self.client.execute(operation: "CreateUserHierarchyGroup", path: "/user-hierarchy-groups/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUserHierarchyGroup", 
+            path: "/user-hierarchy-groups/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a custom vocabulary associated with your Amazon Connect instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time contact analysis sessions for that language.
     @Sendable
     public func createVocabulary(_ input: CreateVocabularyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVocabularyResponse {
-        return try await self.client.execute(operation: "CreateVocabulary", path: "/vocabulary/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVocabulary", 
+            path: "/vocabulary/{InstanceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deactivates an evaluation form in the specified Amazon Connect instance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form.
     @Sendable
     public func deactivateEvaluationForm(_ input: DeactivateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeactivateEvaluationFormResponse {
-        return try await self.client.execute(operation: "DeactivateEvaluationForm", path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/deactivate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeactivateEvaluationForm", 
+            path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/deactivate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a contact evaluation in the specified Amazon Connect instance.
     @Sendable
     public func deleteContactEvaluation(_ input: DeleteContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteContactEvaluation", path: "/contact-evaluations/{InstanceId}/{EvaluationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteContactEvaluation", 
+            path: "/contact-evaluations/{InstanceId}/{EvaluationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a flow for the specified Amazon Connect instance.
     @Sendable
     public func deleteContactFlow(_ input: DeleteContactFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContactFlowResponse {
-        return try await self.client.execute(operation: "DeleteContactFlow", path: "/contact-flows/{InstanceId}/{ContactFlowId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteContactFlow", 
+            path: "/contact-flows/{InstanceId}/{ContactFlowId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified flow module.
     @Sendable
     public func deleteContactFlowModule(_ input: DeleteContactFlowModuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContactFlowModuleResponse {
-        return try await self.client.execute(operation: "DeleteContactFlowModule", path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteContactFlowModule", 
+            path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an evaluation form in the specified Amazon Connect instance.    If the version property is provided, only the specified version of the evaluation form is deleted.   If no version is provided, then the full form (all versions) is deleted.
     @Sendable
     public func deleteEvaluationForm(_ input: DeleteEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteEvaluationForm", path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEvaluationForm", 
+            path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes an hours of operation.
     @Sendable
     public func deleteHoursOfOperation(_ input: DeleteHoursOfOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteHoursOfOperation", path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteHoursOfOperation", 
+            path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
@@ -305,931 +571,2016 @@ public struct Connect: AWSService {
     /// You must wait 30 days before you can restart creating and deleting instances in your account.
     @Sendable
     public func deleteInstance(_ input: DeleteInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteInstance", path: "/instance/{InstanceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteInstance", 
+            path: "/instance/{InstanceId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not have any use cases associated with it.
     @Sendable
     public func deleteIntegrationAssociation(_ input: DeleteIntegrationAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteIntegrationAssociation", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteIntegrationAssociation", 
+            path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a prompt.
     @Sendable
     public func deletePrompt(_ input: DeletePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeletePrompt", path: "/prompts/{InstanceId}/{PromptId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePrompt", 
+            path: "/prompts/{InstanceId}/{PromptId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a quick connect.
     @Sendable
     public func deleteQuickConnect(_ input: DeleteQuickConnectRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteQuickConnect", path: "/quick-connects/{InstanceId}/{QuickConnectId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteQuickConnect", 
+            path: "/quick-connects/{InstanceId}/{QuickConnectId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a rule for the specified Amazon Connect instance.
     @Sendable
     public func deleteRule(_ input: DeleteRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteRule", path: "/rules/{InstanceId}/{RuleId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRule", 
+            path: "/rules/{InstanceId}/{RuleId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes a security profile.
     @Sendable
     public func deleteSecurityProfile(_ input: DeleteSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteSecurityProfile", path: "/security-profiles/{InstanceId}/{SecurityProfileId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSecurityProfile", 
+            path: "/security-profiles/{InstanceId}/{SecurityProfileId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the task template.
     @Sendable
     public func deleteTaskTemplate(_ input: DeleteTaskTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTaskTemplateResponse {
-        return try await self.client.execute(operation: "DeleteTaskTemplate", path: "/instance/{InstanceId}/task/template/{TaskTemplateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTaskTemplate", 
+            path: "/instance/{InstanceId}/task/template/{TaskTemplateId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. For more information about deleting traffic distribution groups, see Delete traffic distribution groups in the Amazon Connect Administrator Guide.
     @Sendable
     public func deleteTrafficDistributionGroup(_ input: DeleteTrafficDistributionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTrafficDistributionGroupResponse {
-        return try await self.client.execute(operation: "DeleteTrafficDistributionGroup", path: "/traffic-distribution-group/{TrafficDistributionGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTrafficDistributionGroup", 
+            path: "/traffic-distribution-group/{TrafficDistributionGroupId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a use case from an integration association.
     @Sendable
     public func deleteUseCase(_ input: DeleteUseCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteUseCase", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases/{UseCaseId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUseCase", 
+            path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases/{UseCaseId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Amazon Connect Instance in the Amazon Connect Administrator Guide.
     @Sendable
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteUser", path: "/users/{InstanceId}/{UserId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUser", 
+            path: "/users/{InstanceId}/{UserId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child groups.
     @Sendable
     public func deleteUserHierarchyGroup(_ input: DeleteUserHierarchyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteUserHierarchyGroup", path: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUserHierarchyGroup", 
+            path: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the vocabulary that has the given identifier.
     @Sendable
     public func deleteVocabulary(_ input: DeleteVocabularyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVocabularyResponse {
-        return try await self.client.execute(operation: "DeleteVocabulary", path: "/vocabulary-remove/{InstanceId}/{VocabularyId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVocabulary", 
+            path: "/vocabulary-remove/{InstanceId}/{VocabularyId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes an agent status.
     @Sendable
     public func describeAgentStatus(_ input: DescribeAgentStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAgentStatusResponse {
-        return try await self.client.execute(operation: "DescribeAgentStatus", path: "/agent-status/{InstanceId}/{AgentStatusId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAgentStatus", 
+            path: "/agent-status/{InstanceId}/{AgentStatusId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact.   Contact information remains available in Amazon Connect for 24 months, and then it is deleted. Only data from November 12, 2021, and later is returned by this API.
     @Sendable
     public func describeContact(_ input: DescribeContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContactResponse {
-        return try await self.client.execute(operation: "DescribeContact", path: "/contacts/{InstanceId}/{ContactId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeContact", 
+            path: "/contacts/{InstanceId}/{ContactId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a contact evaluation in the specified Amazon Connect instance.
     @Sendable
     public func describeContactEvaluation(_ input: DescribeContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContactEvaluationResponse {
-        return try await self.client.execute(operation: "DescribeContactEvaluation", path: "/contact-evaluations/{InstanceId}/{EvaluationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeContactEvaluation", 
+            path: "/contact-evaluations/{InstanceId}/{EvaluationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the specified flow. You can also create and update flows using the Amazon Connect Flow language.
     @Sendable
     public func describeContactFlow(_ input: DescribeContactFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContactFlowResponse {
-        return try await self.client.execute(operation: "DescribeContactFlow", path: "/contact-flows/{InstanceId}/{ContactFlowId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeContactFlow", 
+            path: "/contact-flows/{InstanceId}/{ContactFlowId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the specified flow module.
     @Sendable
     public func describeContactFlowModule(_ input: DescribeContactFlowModuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContactFlowModuleResponse {
-        return try await self.client.execute(operation: "DescribeContactFlowModule", path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeContactFlowModule", 
+            path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an evaluation form in the specified Amazon Connect instance. If the version property is not provided, the latest version of the evaluation form is described.
     @Sendable
     public func describeEvaluationForm(_ input: DescribeEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEvaluationFormResponse {
-        return try await self.client.execute(operation: "DescribeEvaluationForm", path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEvaluationForm", 
+            path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the hours of operation.
     @Sendable
     public func describeHoursOfOperation(_ input: DescribeHoursOfOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeHoursOfOperationResponse {
-        return try await self.client.execute(operation: "DescribeHoursOfOperation", path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeHoursOfOperation", 
+            path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status, if applicable.  If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
     @Sendable
     public func describeInstance(_ input: DescribeInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceResponse {
-        return try await self.client.execute(operation: "DescribeInstance", path: "/instance/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeInstance", 
+            path: "/instance/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified instance attribute.
     @Sendable
     public func describeInstanceAttribute(_ input: DescribeInstanceAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceAttributeResponse {
-        return try await self.client.execute(operation: "DescribeInstanceAttribute", path: "/instance/{InstanceId}/attribute/{AttributeType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeInstanceAttribute", 
+            path: "/instance/{InstanceId}/attribute/{AttributeType}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Retrieves the current storage configurations for the specified resource type, association ID, and instance ID.
     @Sendable
     public func describeInstanceStorageConfig(_ input: DescribeInstanceStorageConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceStorageConfigResponse {
-        return try await self.client.execute(operation: "DescribeInstanceStorageConfig", path: "/instance/{InstanceId}/storage-config/{AssociationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeInstanceStorageConfig", 
+            path: "/instance/{InstanceId}/storage-config/{AssociationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details and status of a phone number that’s claimed to your Amazon Connect instance or traffic distribution group.  If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     @Sendable
     public func describePhoneNumber(_ input: DescribePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePhoneNumberResponse {
-        return try await self.client.execute(operation: "DescribePhoneNumber", path: "/phone-number/{PhoneNumberId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePhoneNumber", 
+            path: "/phone-number/{PhoneNumberId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the prompt.
     @Sendable
     public func describePrompt(_ input: DescribePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePromptResponse {
-        return try await self.client.execute(operation: "DescribePrompt", path: "/prompts/{InstanceId}/{PromptId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePrompt", 
+            path: "/prompts/{InstanceId}/{PromptId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified queue.
     @Sendable
     public func describeQueue(_ input: DescribeQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQueueResponse {
-        return try await self.client.execute(operation: "DescribeQueue", path: "/queues/{InstanceId}/{QueueId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeQueue", 
+            path: "/queues/{InstanceId}/{QueueId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the quick connect.
     @Sendable
     public func describeQuickConnect(_ input: DescribeQuickConnectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQuickConnectResponse {
-        return try await self.client.execute(operation: "DescribeQuickConnect", path: "/quick-connects/{InstanceId}/{QuickConnectId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeQuickConnect", 
+            path: "/quick-connects/{InstanceId}/{QuickConnectId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the specified routing profile.
     @Sendable
     public func describeRoutingProfile(_ input: DescribeRoutingProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRoutingProfileResponse {
-        return try await self.client.execute(operation: "DescribeRoutingProfile", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRoutingProfile", 
+            path: "/routing-profiles/{InstanceId}/{RoutingProfileId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a rule for the specified Amazon Connect instance.
     @Sendable
     public func describeRule(_ input: DescribeRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRuleResponse {
-        return try await self.client.execute(operation: "DescribeRule", path: "/rules/{InstanceId}/{RuleId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRule", 
+            path: "/rules/{InstanceId}/{RuleId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Gets basic information about the security profle.
     @Sendable
     public func describeSecurityProfile(_ input: DescribeSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityProfileResponse {
-        return try await self.client.execute(operation: "DescribeSecurityProfile", path: "/security-profiles/{InstanceId}/{SecurityProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSecurityProfile", 
+            path: "/security-profiles/{InstanceId}/{SecurityProfileId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details and status of a traffic distribution group.
     @Sendable
     public func describeTrafficDistributionGroup(_ input: DescribeTrafficDistributionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTrafficDistributionGroupResponse {
-        return try await self.client.execute(operation: "DescribeTrafficDistributionGroup", path: "/traffic-distribution-group/{TrafficDistributionGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeTrafficDistributionGroup", 
+            path: "/traffic-distribution-group/{TrafficDistributionGroupId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the specified user account. You can find the instance ID in the Amazon Connect console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
     @Sendable
     public func describeUser(_ input: DescribeUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserResponse {
-        return try await self.client.execute(operation: "DescribeUser", path: "/users/{InstanceId}/{UserId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeUser", 
+            path: "/users/{InstanceId}/{UserId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the specified hierarchy group.
     @Sendable
     public func describeUserHierarchyGroup(_ input: DescribeUserHierarchyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserHierarchyGroupResponse {
-        return try await self.client.execute(operation: "DescribeUserHierarchyGroup", path: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeUserHierarchyGroup", 
+            path: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the hierarchy structure of the specified Amazon Connect instance.
     @Sendable
     public func describeUserHierarchyStructure(_ input: DescribeUserHierarchyStructureRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserHierarchyStructureResponse {
-        return try await self.client.execute(operation: "DescribeUserHierarchyStructure", path: "/user-hierarchy-structure/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeUserHierarchyStructure", 
+            path: "/user-hierarchy-structure/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the specified vocabulary.
     @Sendable
     public func describeVocabulary(_ input: DescribeVocabularyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVocabularyResponse {
-        return try await self.client.execute(operation: "DescribeVocabulary", path: "/vocabulary/{InstanceId}/{VocabularyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeVocabulary", 
+            path: "/vocabulary/{InstanceId}/{VocabularyId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes access to integrated applications from Amazon Connect.
     @Sendable
     public func disassociateApprovedOrigin(_ input: DisassociateApprovedOriginRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisassociateApprovedOrigin", path: "/instance/{InstanceId}/approved-origin", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateApprovedOrigin", 
+            path: "/instance/{InstanceId}/approved-origin", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
     @Sendable
     public func disassociateBot(_ input: DisassociateBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisassociateBot", path: "/instance/{InstanceId}/bot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateBot", 
+            path: "/instance/{InstanceId}/bot", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Removes the storage type configurations for the specified resource type and association ID.
     @Sendable
     public func disassociateInstanceStorageConfig(_ input: DisassociateInstanceStorageConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisassociateInstanceStorageConfig", path: "/instance/{InstanceId}/storage-config/{AssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateInstanceStorageConfig", 
+            path: "/instance/{InstanceId}/storage-config/{AssociationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Remove the Lambda function from the dropdown options available in the relevant flow blocks.
     @Sendable
     public func disassociateLambdaFunction(_ input: DisassociateLambdaFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisassociateLambdaFunction", path: "/instance/{InstanceId}/lambda-function", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateLambdaFunction", 
+            path: "/instance/{InstanceId}/lambda-function", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex bot.
     @Sendable
     public func disassociateLexBot(_ input: DisassociateLexBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisassociateLexBot", path: "/instance/{InstanceId}/lex-bot", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateLexBot", 
+            path: "/instance/{InstanceId}/lex-bot", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the flow association from a phone number claimed to your Amazon Connect instance.  If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     @Sendable
     public func disassociatePhoneNumberContactFlow(_ input: DisassociatePhoneNumberContactFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisassociatePhoneNumberContactFlow", path: "/phone-number/{PhoneNumberId}/contact-flow", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociatePhoneNumberContactFlow", 
+            path: "/phone-number/{PhoneNumberId}/contact-flow", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Disassociates a set of quick connects from a queue.
     @Sendable
     public func disassociateQueueQuickConnects(_ input: DisassociateQueueQuickConnectsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisassociateQueueQuickConnects", path: "/queues/{InstanceId}/{QueueId}/disassociate-quick-connects", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateQueueQuickConnects", 
+            path: "/queues/{InstanceId}/{QueueId}/disassociate-quick-connects", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a set of queues from a routing profile.
     @Sendable
     public func disassociateRoutingProfileQueues(_ input: DisassociateRoutingProfileQueuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisassociateRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/disassociate-queues", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateRoutingProfileQueues", 
+            path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/disassociate-queues", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes the specified security key.
     @Sendable
     public func disassociateSecurityKey(_ input: DisassociateSecurityKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisassociateSecurityKey", path: "/instance/{InstanceId}/security-key/{AssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateSecurityKey", 
+            path: "/instance/{InstanceId}/security-key/{AssociationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Dismisses contacts from an agent’s CCP and returns the agent to an available state, which allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a MISSED, ERROR, ENDED, or REJECTED state in the Agent Event Stream.
     @Sendable
     public func dismissUserContact(_ input: DismissUserContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DismissUserContactResponse {
-        return try await self.client.execute(operation: "DismissUserContact", path: "/users/{InstanceId}/{UserId}/contact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DismissUserContact", 
+            path: "/users/{InstanceId}/{UserId}/contact", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the contact attributes for the specified contact.
     @Sendable
     public func getContactAttributes(_ input: GetContactAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContactAttributesResponse {
-        return try await self.client.execute(operation: "GetContactAttributes", path: "/contact/attributes/{InstanceId}/{InitialContactId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetContactAttributes", 
+            path: "/contact/attributes/{InstanceId}/{InitialContactId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.
     @Sendable
     public func getCurrentMetricData(_ input: GetCurrentMetricDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCurrentMetricDataResponse {
-        return try await self.client.execute(operation: "GetCurrentMetricData", path: "/metrics/current/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCurrentMetricData", 
+            path: "/metrics/current/{InstanceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the real-time active user data from the specified Amazon Connect instance.
     @Sendable
     public func getCurrentUserData(_ input: GetCurrentUserDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCurrentUserDataResponse {
-        return try await self.client.execute(operation: "GetCurrentUserData", path: "/metrics/userdata/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCurrentUserData", 
+            path: "/metrics/userdata/{InstanceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a token for federation.  This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears:   Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect
     @Sendable
     public func getFederationToken(_ input: GetFederationTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFederationTokenResponse {
-        return try await self.client.execute(operation: "GetFederationToken", path: "/user/federate/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFederationToken", 
+            path: "/user/federate/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.
     @Sendable
     public func getMetricData(_ input: GetMetricDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricDataResponse {
-        return try await self.client.execute(operation: "GetMetricData", path: "/metrics/historical/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMetricData", 
+            path: "/metrics/historical/{InstanceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 35 days, in 24-hour intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics definitions in the Amazon Connect Administrator's Guide.
     @Sendable
     public func getMetricDataV2(_ input: GetMetricDataV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricDataV2Response {
-        return try await self.client.execute(operation: "GetMetricDataV2", path: "/metrics/data", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMetricDataV2", 
+            path: "/metrics/data", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the prompt file.
     @Sendable
     public func getPromptFile(_ input: GetPromptFileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPromptFileResponse {
-        return try await self.client.execute(operation: "GetPromptFile", path: "/prompts/{InstanceId}/{PromptId}/file", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPromptFile", 
+            path: "/prompts/{InstanceId}/{PromptId}/file", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets details about a specific task template in the specified Amazon Connect instance.
     @Sendable
     public func getTaskTemplate(_ input: GetTaskTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTaskTemplateResponse {
-        return try await self.client.execute(operation: "GetTaskTemplate", path: "/instance/{InstanceId}/task/template/{TaskTemplateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTaskTemplate", 
+            path: "/instance/{InstanceId}/task/template/{TaskTemplateId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the current traffic distribution for a given traffic distribution group.
     @Sendable
     public func getTrafficDistribution(_ input: GetTrafficDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrafficDistributionResponse {
-        return try await self.client.execute(operation: "GetTrafficDistribution", path: "/traffic-distribution/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTrafficDistribution", 
+            path: "/traffic-distribution/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Lists agent statuses.
     @Sendable
     public func listAgentStatuses(_ input: ListAgentStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentStatusResponse {
-        return try await self.client.execute(operation: "ListAgentStatuses", path: "/agent-status/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAgentStatuses", 
+            path: "/agent-status/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all approved origins associated with the instance.
     @Sendable
     public func listApprovedOrigins(_ input: ListApprovedOriginsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApprovedOriginsResponse {
-        return try await self.client.execute(operation: "ListApprovedOrigins", path: "/instance/{InstanceId}/approved-origins", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApprovedOrigins", 
+            path: "/instance/{InstanceId}/approved-origins", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to returns both Amazon Lex V1 and V2 bots.
     @Sendable
     public func listBots(_ input: ListBotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBotsResponse {
-        return try await self.client.execute(operation: "ListBots", path: "/instance/{InstanceId}/bots", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBots", 
+            path: "/instance/{InstanceId}/bots", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists contact evaluations in the specified Amazon Connect instance.
     @Sendable
     public func listContactEvaluations(_ input: ListContactEvaluationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactEvaluationsResponse {
-        return try await self.client.execute(operation: "ListContactEvaluations", path: "/contact-evaluations/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListContactEvaluations", 
+            path: "/contact-evaluations/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides information about the flow modules for the specified Amazon Connect instance.
     @Sendable
     public func listContactFlowModules(_ input: ListContactFlowModulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactFlowModulesResponse {
-        return try await self.client.execute(operation: "ListContactFlowModules", path: "/contact-flow-modules-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListContactFlowModules", 
+            path: "/contact-flow-modules-summary/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides information about the flows for the specified Amazon Connect instance. You can also create and update flows using the Amazon Connect Flow language. For more information about flows, see Flows in the Amazon Connect Administrator Guide.
     @Sendable
     public func listContactFlows(_ input: ListContactFlowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactFlowsResponse {
-        return try await self.client.execute(operation: "ListContactFlows", path: "/contact-flows-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListContactFlows", 
+            path: "/contact-flows-summary/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact.
     @Sendable
     public func listContactReferences(_ input: ListContactReferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactReferencesResponse {
-        return try await self.client.execute(operation: "ListContactReferences", path: "/contact/references/{InstanceId}/{ContactId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListContactReferences", 
+            path: "/contact/references/{InstanceId}/{ContactId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the default vocabularies for the specified Amazon Connect instance.
     @Sendable
     public func listDefaultVocabularies(_ input: ListDefaultVocabulariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDefaultVocabulariesResponse {
-        return try await self.client.execute(operation: "ListDefaultVocabularies", path: "/default-vocabulary-summary/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDefaultVocabularies", 
+            path: "/default-vocabulary-summary/{InstanceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists versions of an evaluation form in the specified Amazon Connect instance.
     @Sendable
     public func listEvaluationFormVersions(_ input: ListEvaluationFormVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEvaluationFormVersionsResponse {
-        return try await self.client.execute(operation: "ListEvaluationFormVersions", path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEvaluationFormVersions", 
+            path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists evaluation forms in the specified Amazon Connect instance.
     @Sendable
     public func listEvaluationForms(_ input: ListEvaluationFormsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEvaluationFormsResponse {
-        return try await self.client.execute(operation: "ListEvaluationForms", path: "/evaluation-forms/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEvaluationForms", 
+            path: "/evaluation-forms/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
     @Sendable
     public func listHoursOfOperations(_ input: ListHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHoursOfOperationsResponse {
-        return try await self.client.execute(operation: "ListHoursOfOperations", path: "/hours-of-operations-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListHoursOfOperations", 
+            path: "/hours-of-operations-summary/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all attribute types for the given instance.
     @Sendable
     public func listInstanceAttributes(_ input: ListInstanceAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInstanceAttributesResponse {
-        return try await self.client.execute(operation: "ListInstanceAttributes", path: "/instance/{InstanceId}/attributes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListInstanceAttributes", 
+            path: "/instance/{InstanceId}/attributes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type.
     @Sendable
     public func listInstanceStorageConfigs(_ input: ListInstanceStorageConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInstanceStorageConfigsResponse {
-        return try await self.client.execute(operation: "ListInstanceStorageConfigs", path: "/instance/{InstanceId}/storage-configs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListInstanceStorageConfigs", 
+            path: "/instance/{InstanceId}/storage-configs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
     @Sendable
     public func listInstances(_ input: ListInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInstancesResponse {
-        return try await self.client.execute(operation: "ListInstances", path: "/instance", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListInstances", 
+            path: "/instance", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
     @Sendable
     public func listIntegrationAssociations(_ input: ListIntegrationAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIntegrationAssociationsResponse {
-        return try await self.client.execute(operation: "ListIntegrationAssociations", path: "/instance/{InstanceId}/integration-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListIntegrationAssociations", 
+            path: "/instance/{InstanceId}/integration-associations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow blocks.
     @Sendable
     public func listLambdaFunctions(_ input: ListLambdaFunctionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLambdaFunctionsResponse {
-        return try await self.client.execute(operation: "ListLambdaFunctions", path: "/instance/{InstanceId}/lambda-functions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListLambdaFunctions", 
+            path: "/instance/{InstanceId}/lambda-functions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return both Amazon Lex V1 and V2 bots, use the ListBots API.
     @Sendable
     public func listLexBots(_ input: ListLexBotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLexBotsResponse {
-        return try await self.client.execute(operation: "ListLexBots", path: "/instance/{InstanceId}/lex-bots", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListLexBots", 
+            path: "/instance/{InstanceId}/lex-bots", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.  The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
     @Sendable
     public func listPhoneNumbers(_ input: ListPhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPhoneNumbersResponse {
-        return try await self.client.execute(operation: "ListPhoneNumbers", path: "/phone-numbers-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPhoneNumbers", 
+            path: "/phone-numbers-summary/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
     @Sendable
     public func listPhoneNumbersV2(_ input: ListPhoneNumbersV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPhoneNumbersV2Response {
-        return try await self.client.execute(operation: "ListPhoneNumbersV2", path: "/phone-number/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPhoneNumbersV2", 
+            path: "/phone-number/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides information about the prompts for the specified Amazon Connect instance.
     @Sendable
     public func listPrompts(_ input: ListPromptsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPromptsResponse {
-        return try await self.client.execute(operation: "ListPrompts", path: "/prompts-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPrompts", 
+            path: "/prompts-summary/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Lists the quick connects associated with a queue.
     @Sendable
     public func listQueueQuickConnects(_ input: ListQueueQuickConnectsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueueQuickConnectsResponse {
-        return try await self.client.execute(operation: "ListQueueQuickConnects", path: "/queues/{InstanceId}/{QueueId}/quick-connects", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListQueueQuickConnects", 
+            path: "/queues/{InstanceId}/{QueueId}/quick-connects", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides information about the queues for the specified Amazon Connect instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of results if you have more than 1000 agents and you limit the number of results of the API call in code. For more information about queues, see Queues: Standard and Agent in the Amazon Connect Administrator Guide.
     @Sendable
     public func listQueues(_ input: ListQueuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueuesResponse {
-        return try await self.client.execute(operation: "ListQueues", path: "/queues-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListQueues", 
+            path: "/queues-summary/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides information about the quick connects for the specified Amazon Connect instance.
     @Sendable
     public func listQuickConnects(_ input: ListQuickConnectsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQuickConnectsResponse {
-        return try await self.client.execute(operation: "ListQuickConnects", path: "/quick-connects/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListQuickConnects", 
+            path: "/quick-connects/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the queues associated with a routing profile.
     @Sendable
     public func listRoutingProfileQueues(_ input: ListRoutingProfileQueuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRoutingProfileQueuesResponse {
-        return try await self.client.execute(operation: "ListRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRoutingProfileQueues", 
+            path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides summary information about the routing profiles for the specified Amazon Connect instance. For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the Amazon Connect Administrator Guide.
     @Sendable
     public func listRoutingProfiles(_ input: ListRoutingProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRoutingProfilesResponse {
-        return try await self.client.execute(operation: "ListRoutingProfiles", path: "/routing-profiles-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRoutingProfiles", 
+            path: "/routing-profiles-summary/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all rules for the specified Amazon Connect instance.
     @Sendable
     public func listRules(_ input: ListRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRulesResponse {
-        return try await self.client.execute(operation: "ListRules", path: "/rules/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRules", 
+            path: "/rules/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all security keys associated with the instance.
     @Sendable
     public func listSecurityKeys(_ input: ListSecurityKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityKeysResponse {
-        return try await self.client.execute(operation: "ListSecurityKeys", path: "/instance/{InstanceId}/security-keys", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSecurityKeys", 
+            path: "/instance/{InstanceId}/security-keys", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
     @Sendable
     public func listSecurityProfilePermissions(_ input: ListSecurityProfilePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityProfilePermissionsResponse {
-        return try await self.client.execute(operation: "ListSecurityProfilePermissions", path: "/security-profiles-permissions/{InstanceId}/{SecurityProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSecurityProfilePermissions", 
+            path: "/security-profiles-permissions/{InstanceId}/{SecurityProfileId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide.
     @Sendable
     public func listSecurityProfiles(_ input: ListSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityProfilesResponse {
-        return try await self.client.execute(operation: "ListSecurityProfiles", path: "/security-profiles-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSecurityProfiles", 
+            path: "/security-profiles-summary/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags for the specified resource. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists task templates for the specified Amazon Connect instance.
     @Sendable
     public func listTaskTemplates(_ input: ListTaskTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTaskTemplatesResponse {
-        return try await self.client.execute(operation: "ListTaskTemplates", path: "/instance/{InstanceId}/task/template", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTaskTemplates", 
+            path: "/instance/{InstanceId}/task/template", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists traffic distribution groups.
     @Sendable
     public func listTrafficDistributionGroups(_ input: ListTrafficDistributionGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrafficDistributionGroupsResponse {
-        return try await self.client.execute(operation: "ListTrafficDistributionGroups", path: "/traffic-distribution-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTrafficDistributionGroups", 
+            path: "/traffic-distribution-groups", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the use cases for the integration association.
     @Sendable
     public func listUseCases(_ input: ListUseCasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUseCasesResponse {
-        return try await self.client.execute(operation: "ListUseCases", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListUseCases", 
+            path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}/use-cases", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides summary information about the hierarchy groups for the specified Amazon Connect instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the Amazon Connect Administrator Guide.
     @Sendable
     public func listUserHierarchyGroups(_ input: ListUserHierarchyGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserHierarchyGroupsResponse {
-        return try await self.client.execute(operation: "ListUserHierarchyGroups", path: "/user-hierarchy-groups-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListUserHierarchyGroups", 
+            path: "/user-hierarchy-groups-summary/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides summary information about the users for the specified Amazon Connect instance.
     @Sendable
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersResponse {
-        return try await self.client.execute(operation: "ListUsers", path: "/users-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListUsers", 
+            path: "/users-summary/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by userId will be set to silent monitoring mode on the contact.
     @Sendable
     public func monitorContact(_ input: MonitorContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> MonitorContactResponse {
-        return try await self.client.execute(operation: "MonitorContact", path: "/contact/monitor", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "MonitorContact", 
+            path: "/contact/monitor", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes the current status of a user or agent in Amazon Connect. If the agent is currently handling a contact, this sets the agent's next status. For more information, see Agent status and Set your next status in the Amazon Connect Administrator Guide.
     @Sendable
     public func putUserStatus(_ input: PutUserStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutUserStatusResponse {
-        return try await self.client.execute(operation: "PutUserStatus", path: "/users/{InstanceId}/{UserId}/status", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutUserStatus", 
+            path: "/users/{InstanceId}/{UserId}/status", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed.  To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect console. After releasing a phone number, the phone number enters into a cooldown period of 30 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support.
     @Sendable
     public func releasePhoneNumber(_ input: ReleasePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "ReleasePhoneNumber", path: "/phone-number/{PhoneNumberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ReleasePhoneNumber", 
+            path: "/phone-number/{PhoneNumberId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Replicates an Amazon Connect instance in the specified Amazon Web Services Region. For more information about replicating an Amazon Connect instance, see Create a replica of your existing Amazon Connect instance in the Amazon Connect Administrator Guide.
     @Sendable
     public func replicateInstance(_ input: ReplicateInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicateInstanceResponse {
-        return try await self.client.execute(operation: "ReplicateInstance", path: "/instance/{InstanceId}/replicate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ReplicateInstance", 
+            path: "/instance/{InstanceId}/replicate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API resumes recording the call. Only voice recordings are supported at this time.
     @Sendable
     public func resumeContactRecording(_ input: ResumeContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResumeContactRecordingResponse {
-        return try await self.client.execute(operation: "ResumeContactRecording", path: "/contact/resume-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ResumeContactRecording", 
+            path: "/contact/resume-recording", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
     @Sendable
     public func searchAvailablePhoneNumbers(_ input: SearchAvailablePhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAvailablePhoneNumbersResponse {
-        return try await self.client.execute(operation: "SearchAvailablePhoneNumbers", path: "/phone-number/search-available", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchAvailablePhoneNumbers", 
+            path: "/phone-number/search-available", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
     @Sendable
     public func searchHoursOfOperations(_ input: SearchHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchHoursOfOperationsResponse {
-        return try await self.client.execute(operation: "SearchHoursOfOperations", path: "/search-hours-of-operations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchHoursOfOperations", 
+            path: "/search-hours-of-operations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches prompts in an Amazon Connect instance, with optional filtering.
     @Sendable
     public func searchPrompts(_ input: SearchPromptsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchPromptsResponse {
-        return try await self.client.execute(operation: "SearchPrompts", path: "/search-prompts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchPrompts", 
+            path: "/search-prompts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Searches queues in an Amazon Connect instance, with optional filtering.
     @Sendable
     public func searchQueues(_ input: SearchQueuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchQueuesResponse {
-        return try await self.client.execute(operation: "SearchQueues", path: "/search-queues", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchQueues", 
+            path: "/search-queues", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches quick connects in an Amazon Connect instance, with optional filtering.
     @Sendable
     public func searchQuickConnects(_ input: SearchQuickConnectsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchQuickConnectsResponse {
-        return try await self.client.execute(operation: "SearchQuickConnects", path: "/search-quick-connects", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchQuickConnects", 
+            path: "/search-quick-connects", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Searches routing profiles in an Amazon Connect instance, with optional filtering.
     @Sendable
     public func searchRoutingProfiles(_ input: SearchRoutingProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchRoutingProfilesResponse {
-        return try await self.client.execute(operation: "SearchRoutingProfiles", path: "/search-routing-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchRoutingProfiles", 
+            path: "/search-routing-profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Searches security profiles in an Amazon Connect instance, with optional filtering.
     @Sendable
     public func searchSecurityProfiles(_ input: SearchSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchSecurityProfilesResponse {
-        return try await self.client.execute(operation: "SearchSecurityProfiles", path: "/search-security-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchSecurityProfiles", 
+            path: "/search-security-profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches users in an Amazon Connect instance, with optional filtering.   AfterContactWorkTimeLimit is returned in milliseconds.
     @Sendable
     public func searchUsers(_ input: SearchUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchUsersResponse {
-        return try await self.client.execute(operation: "SearchUsers", path: "/search-users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchUsers", 
+            path: "/search-users", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches for vocabularies within a specific Amazon Connect instance using State, NameStartsWith, and LanguageCode.
     @Sendable
     public func searchVocabularies(_ input: SearchVocabulariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchVocabulariesResponse {
-        return try await self.client.execute(operation: "SearchVocabularies", path: "/vocabulary-summary/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchVocabularies", 
+            path: "/vocabulary-summary/{InstanceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service. When a new chat contact is successfully created, clients must subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.  A 429 error occurs in the following situations:   API rate limit is exceeded. API TPS throttling returns a TooManyRequests exception.   The quota for concurrent active chats is exceeded. Active chat throttling returns a LimitExceededException.   If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support.  For more information about chat, see Chat in the Amazon Connect Administrator Guide.
     @Sendable
     public func startChatContact(_ input: StartChatContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartChatContactResponse {
-        return try await self.client.execute(operation: "StartChatContact", path: "/contact/chat", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartChatContact", 
+            path: "/contact/chat", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts an empty evaluation in the specified Amazon Connect instance, using the given evaluation form for the particular contact. The evaluation form version used for the contact evaluation corresponds to the currently activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started.   Evaluations created through the public API do not contain answer values suggested from automation.
     @Sendable
     public func startContactEvaluation(_ input: StartContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartContactEvaluationResponse {
-        return try await self.client.execute(operation: "StartContactEvaluation", path: "/contact-evaluations/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartContactEvaluation", 
+            path: "/contact-evaluations/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts recording the contact:    If the API is called before the agent joins the call, recording starts when the agent joins the call.   If the API is called after the agent joins the call, recording starts at the time of the API call.   StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such as when collecting sensitive information (for example, a credit card number), use SuspendContactRecording and ResumeContactRecording. You can use this API to override the recording behavior configured in the Set recording behavior block. Only voice recordings are supported at this time.
     @Sendable
     public func startContactRecording(_ input: StartContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartContactRecordingResponse {
-        return try await self.client.execute(operation: "StartContactRecording", path: "/contact/start-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartContactRecording", 
+            path: "/contact/start-recording", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Initiates real-time message streaming for a new chat contact. For more information about message streaming, see Enable real-time chat message streaming in the Amazon Connect Administrator Guide.
     @Sendable
     public func startContactStreaming(_ input: StartContactStreamingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartContactStreamingResponse {
-        return try await self.client.execute(operation: "StartContactStreaming", path: "/contact/start-streaming", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartContactStreaming", 
+            path: "/contact/start-streaming", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. There is a 60-second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails.  UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.    Campaign calls are not allowed by default. Before you can make a call with TrafficType = CAMPAIGN, you must submit a service quota increase request to the quota Amazon Connect campaigns.
     @Sendable
     public func startOutboundVoiceContact(_ input: StartOutboundVoiceContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartOutboundVoiceContactResponse {
-        return try await self.client.execute(operation: "StartOutboundVoiceContact", path: "/contact/outbound-voice", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartOutboundVoiceContact", 
+            path: "/contact/outbound-voice", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Initiates a flow to start a new task.
     @Sendable
     public func startTaskContact(_ input: StartTaskContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTaskContactResponse {
-        return try await self.client.execute(operation: "StartTaskContact", path: "/contact/task", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartTaskContact", 
+            path: "/contact/task", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Ends the specified contact. This call does not work for the following initiation methods:   DISCONNECT   TRANSFER   QUEUE_TRANSFER
     @Sendable
     public func stopContact(_ input: StopContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopContactResponse {
-        return try await self.client.execute(operation: "StopContact", path: "/contact/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopContact", 
+            path: "/contact/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops recording a call when a contact is being recorded. StopContactRecording is a one-time action. If you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend it for sensitive information (for example, to collect a credit card number), and then restart it, use SuspendContactRecording and ResumeContactRecording. Only voice recordings are supported at this time.
     @Sendable
     public func stopContactRecording(_ input: StopContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopContactRecordingResponse {
-        return try await self.client.execute(operation: "StopContactRecording", path: "/contact/stop-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopContactRecording", 
+            path: "/contact/stop-recording", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Ends message streaming on a specified contact. To restart message streaming on that contact, call the StartContactStreaming API.
     @Sendable
     public func stopContactStreaming(_ input: StopContactStreamingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopContactStreamingResponse {
-        return try await self.client.execute(operation: "StopContactStreaming", path: "/contact/stop-streaming", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopContactStreaming", 
+            path: "/contact/stop-streaming", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Submits a contact evaluation in the specified Amazon Connect instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({}) to the question identifier.  If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
     @Sendable
     public func submitContactEvaluation(_ input: SubmitContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubmitContactEvaluationResponse {
-        return try await self.client.execute(operation: "SubmitContactEvaluation", path: "/contact-evaluations/{InstanceId}/{EvaluationId}/submit", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SubmitContactEvaluation", 
+            path: "/contact-evaluations/{InstanceId}/{EvaluationId}/submit", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// When a contact is being recorded, this API suspends recording the call. For example, you might suspend the call recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording.  The period of time that the recording is suspended is filled with silence in the final recording.  Only voice recordings are supported at this time.
     @Sendable
     public func suspendContactRecording(_ input: SuspendContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SuspendContactRecordingResponse {
-        return try await self.client.execute(operation: "SuspendContactRecording", path: "/contact/suspend-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SuspendContactRecording", 
+            path: "/contact/suspend-recording", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, contact flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see Tagging resources in Amazon Connect. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Transfers contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements:   Transfer is supported for only TASK contacts.   Do not use both QueueId and UserId in the same call.   The following flow types are supported: Inbound flow, Transfer to agent flow, and Transfer to queue flow.   The TransferContact API can be called only on active contacts.   A contact cannot be transferred more than 11 times.
     @Sendable
     public func transferContact(_ input: TransferContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TransferContactResponse {
-        return try await self.client.execute(operation: "TransferContact", path: "/contact/transfer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TransferContact", 
+            path: "/contact/transfer", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified tags from the specified resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates agent status.
     @Sendable
     public func updateAgentStatus(_ input: UpdateAgentStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateAgentStatus", path: "/agent-status/{InstanceId}/{AgentStatusId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAgentStatus", 
+            path: "/agent-status/{InstanceId}/{AgentStatusId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request.  You can add or update user-defined contact information for both ongoing and completed contacts.
     @Sendable
     public func updateContact(_ input: UpdateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactResponse {
-        return try await self.client.execute(operation: "UpdateContact", path: "/contacts/{InstanceId}/{ContactId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateContact", 
+            path: "/contacts/{InstanceId}/{ContactId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or to identify abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. For information about contact record retention and the maximum size of the contact record attributes section, see Feature specifications in the Amazon Connect Administrator Guide.
     @Sendable
     public func updateContactAttributes(_ input: UpdateContactAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactAttributesResponse {
-        return try await self.client.execute(operation: "UpdateContactAttributes", path: "/contact/attributes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateContactAttributes", 
+            path: "/contact/attributes", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates details about a contact evaluation in the specified Amazon Connect instance. A contact evaluation must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An answer or note can be deleted by passing an empty object ({}) to the question identifier.
     @Sendable
     public func updateContactEvaluation(_ input: UpdateContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactEvaluationResponse {
-        return try await self.client.execute(operation: "UpdateContactEvaluation", path: "/contact-evaluations/{InstanceId}/{EvaluationId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateContactEvaluation", 
+            path: "/contact-evaluations/{InstanceId}/{EvaluationId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the specified flow. You can also create and update flows using the Amazon Connect Flow language.
     @Sendable
     public func updateContactFlowContent(_ input: UpdateContactFlowContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactFlowContentResponse {
-        return try await self.client.execute(operation: "UpdateContactFlowContent", path: "/contact-flows/{InstanceId}/{ContactFlowId}/content", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateContactFlowContent", 
+            path: "/contact-flows/{InstanceId}/{ContactFlowId}/content", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates metadata about specified flow.
     @Sendable
     public func updateContactFlowMetadata(_ input: UpdateContactFlowMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactFlowMetadataResponse {
-        return try await self.client.execute(operation: "UpdateContactFlowMetadata", path: "/contact-flows/{InstanceId}/{ContactFlowId}/metadata", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateContactFlowMetadata", 
+            path: "/contact-flows/{InstanceId}/{ContactFlowId}/metadata", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates specified flow module for the specified Amazon Connect instance.
     @Sendable
     public func updateContactFlowModuleContent(_ input: UpdateContactFlowModuleContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactFlowModuleContentResponse {
-        return try await self.client.execute(operation: "UpdateContactFlowModuleContent", path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/content", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateContactFlowModuleContent", 
+            path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/content", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates metadata about specified flow module.
     @Sendable
     public func updateContactFlowModuleMetadata(_ input: UpdateContactFlowModuleMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactFlowModuleMetadataResponse {
-        return try await self.client.execute(operation: "UpdateContactFlowModuleMetadata", path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/metadata", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateContactFlowModuleMetadata", 
+            path: "/contact-flow-modules/{InstanceId}/{ContactFlowModuleId}/metadata", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The name of the flow. You can also create and update flows using the Amazon Connect Flow language.
     @Sendable
     public func updateContactFlowName(_ input: UpdateContactFlowNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactFlowNameResponse {
-        return try await self.client.execute(operation: "UpdateContactFlowName", path: "/contact-flows/{InstanceId}/{ContactFlowId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateContactFlowName", 
+            path: "/contact-flows/{InstanceId}/{ContactFlowId}/name", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the scheduled time of a task contact that is already scheduled.
     @Sendable
     public func updateContactSchedule(_ input: UpdateContactScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactScheduleResponse {
-        return try await self.client.execute(operation: "UpdateContactSchedule", path: "/contact/schedule", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateContactSchedule", 
+            path: "/contact/schedule", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates details about a specific evaluation form version in the specified Amazon Connect instance. Question and section identifiers cannot be duplicated within the same evaluation form. This operation does not support partial updates. Instead it does a full update of evaluation form content.
     @Sendable
     public func updateEvaluationForm(_ input: UpdateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEvaluationFormResponse {
-        return try await self.client.execute(operation: "UpdateEvaluationForm", path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEvaluationForm", 
+            path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation.
     @Sendable
     public func updateHoursOfOperation(_ input: UpdateHoursOfOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateHoursOfOperation", path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateHoursOfOperation", 
+            path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the value for the specified attribute type.
     @Sendable
     public func updateInstanceAttribute(_ input: UpdateInstanceAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateInstanceAttribute", path: "/instance/{InstanceId}/attribute/{AttributeType}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateInstanceAttribute", 
+            path: "/instance/{InstanceId}/attribute/{AttributeType}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates an existing configuration for a resource type. This API is idempotent.
     @Sendable
     public func updateInstanceStorageConfig(_ input: UpdateInstanceStorageConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateInstanceStorageConfig", path: "/instance/{InstanceId}/storage-config/{AssociationId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateInstanceStorageConfig", 
+            path: "/instance/{InstanceId}/storage-config/{AssociationId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically disconnected from a chat due to idleness. You can set four timers:   Customer idle timeout   Customer auto-disconnect timeout   Agent idle timeout   Agent auto-disconnect timeout   For more information about how chat timeouts work, see  Set up chat timeouts for human participants.
     @Sendable
     public func updateParticipantRoleConfig(_ input: UpdateParticipantRoleConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateParticipantRoleConfigResponse {
-        return try await self.client.execute(operation: "UpdateParticipantRoleConfig", path: "/contact/participant-role-config/{InstanceId}/{ContactId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateParticipantRoleConfig", 
+            path: "/contact/participant-role-config/{InstanceId}/{ContactId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region.  After using this API, you must verify that the phone number is attached to the correct flow in the target instance or traffic distribution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It doesn't migrate the flow configuration of the phone number, too. You can call DescribePhoneNumber API to verify the status of a previous UpdatePhoneNumber operation.
     @Sendable
     public func updatePhoneNumber(_ input: UpdatePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePhoneNumberResponse {
-        return try await self.client.execute(operation: "UpdatePhoneNumber", path: "/phone-number/{PhoneNumberId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePhoneNumber", 
+            path: "/phone-number/{PhoneNumberId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a prompt.
     @Sendable
     public func updatePrompt(_ input: UpdatePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePromptResponse {
-        return try await self.client.execute(operation: "UpdatePrompt", path: "/prompts/{InstanceId}/{PromptId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePrompt", 
+            path: "/prompts/{InstanceId}/{PromptId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation for the specified queue.
     @Sendable
     public func updateQueueHoursOfOperation(_ input: UpdateQueueHoursOfOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateQueueHoursOfOperation", path: "/queues/{InstanceId}/{QueueId}/hours-of-operation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateQueueHoursOfOperation", 
+            path: "/queues/{InstanceId}/{QueueId}/hours-of-operation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the maximum number of contacts allowed in a queue before it is considered full.
     @Sendable
     public func updateQueueMaxContacts(_ input: UpdateQueueMaxContactsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateQueueMaxContacts", path: "/queues/{InstanceId}/{QueueId}/max-contacts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateQueueMaxContacts", 
+            path: "/queues/{InstanceId}/{QueueId}/max-contacts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the name and description of a queue. At least Name or Description must be provided.
     @Sendable
     public func updateQueueName(_ input: UpdateQueueNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateQueueName", path: "/queues/{InstanceId}/{QueueId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateQueueName", 
+            path: "/queues/{InstanceId}/{QueueId}/name", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.  If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the OutboundCallerConfig request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     @Sendable
     public func updateQueueOutboundCallerConfig(_ input: UpdateQueueOutboundCallerConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateQueueOutboundCallerConfig", path: "/queues/{InstanceId}/{QueueId}/outbound-caller-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateQueueOutboundCallerConfig", 
+            path: "/queues/{InstanceId}/{QueueId}/outbound-caller-config", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the status of the queue.
     @Sendable
     public func updateQueueStatus(_ input: UpdateQueueStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateQueueStatus", path: "/queues/{InstanceId}/{QueueId}/status", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateQueueStatus", 
+            path: "/queues/{InstanceId}/{QueueId}/status", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the configuration settings for the specified quick connect.
     @Sendable
     public func updateQuickConnectConfig(_ input: UpdateQuickConnectConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateQuickConnectConfig", path: "/quick-connects/{InstanceId}/{QuickConnectId}/config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateQuickConnectConfig", 
+            path: "/quick-connects/{InstanceId}/{QuickConnectId}/config", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least Name or Description must be provided.
     @Sendable
     public func updateQuickConnectName(_ input: UpdateQuickConnectNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateQuickConnectName", path: "/quick-connects/{InstanceId}/{QuickConnectId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateQuickConnectName", 
+            path: "/quick-connects/{InstanceId}/{QuickConnectId}/name", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
     @Sendable
     public func updateRoutingProfileConcurrency(_ input: UpdateRoutingProfileConcurrencyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateRoutingProfileConcurrency", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/concurrency", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRoutingProfileConcurrency", 
+            path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/concurrency", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the default outbound queue of a routing profile.
     @Sendable
     public func updateRoutingProfileDefaultOutboundQueue(_ input: UpdateRoutingProfileDefaultOutboundQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateRoutingProfileDefaultOutboundQueue", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/default-outbound-queue", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRoutingProfileDefaultOutboundQueue", 
+            path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/default-outbound-queue", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least Name or Description must be provided.
     @Sendable
     public func updateRoutingProfileName(_ input: UpdateRoutingProfileNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateRoutingProfileName", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRoutingProfileName", 
+            path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/name", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the properties associated with a set of queues for a routing profile.
     @Sendable
     public func updateRoutingProfileQueues(_ input: UpdateRoutingProfileQueuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRoutingProfileQueues", 
+            path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a rule for the specified Amazon Connect instance. Use the Rules Function language to code conditions for the rule.
     @Sendable
     public func updateRule(_ input: UpdateRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateRule", path: "/rules/{InstanceId}/{RuleId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRule", 
+            path: "/rules/{InstanceId}/{RuleId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Updates a security profile.
     @Sendable
     public func updateSecurityProfile(_ input: UpdateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateSecurityProfile", path: "/security-profiles/{InstanceId}/{SecurityProfileId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSecurityProfile", 
+            path: "/security-profiles/{InstanceId}/{SecurityProfileId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates details about a specific task template in the specified Amazon Connect instance. This operation does not support partial updates. Instead it does a full update of template content.
     @Sendable
     public func updateTaskTemplate(_ input: UpdateTaskTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTaskTemplateResponse {
-        return try await self.client.execute(operation: "UpdateTaskTemplate", path: "/instance/{InstanceId}/task/template/{TaskTemplateId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTaskTemplate", 
+            path: "/instance/{InstanceId}/task/template/{TaskTemplateId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the traffic distribution for a given traffic distribution group.  For more information about updating a traffic distribution group, see Update telephony traffic distribution across Amazon Web Services Regions in the Amazon Connect Administrator Guide.
     @Sendable
     public func updateTrafficDistribution(_ input: UpdateTrafficDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTrafficDistributionResponse {
-        return try await self.client.execute(operation: "UpdateTrafficDistribution", path: "/traffic-distribution/{Id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTrafficDistribution", 
+            path: "/traffic-distribution/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assigns the specified hierarchy group to the specified user.
     @Sendable
     public func updateUserHierarchy(_ input: UpdateUserHierarchyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateUserHierarchy", path: "/users/{InstanceId}/{UserId}/hierarchy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUserHierarchy", 
+            path: "/users/{InstanceId}/{UserId}/hierarchy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the name of the user hierarchy group.
     @Sendable
     public func updateUserHierarchyGroupName(_ input: UpdateUserHierarchyGroupNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateUserHierarchyGroupName", path: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUserHierarchyGroupName", 
+            path: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}/name", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
     @Sendable
     public func updateUserHierarchyStructure(_ input: UpdateUserHierarchyStructureRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateUserHierarchyStructure", path: "/user-hierarchy-structure/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUserHierarchyStructure", 
+            path: "/user-hierarchy-structure/{InstanceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the identity information for the specified user.  We strongly recommend limiting who has the ability to invoke UpdateUserIdentityInfo. Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see Best Practices for Security Profiles in the Amazon Connect Administrator Guide.
     @Sendable
     public func updateUserIdentityInfo(_ input: UpdateUserIdentityInfoRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateUserIdentityInfo", path: "/users/{InstanceId}/{UserId}/identity-info", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUserIdentityInfo", 
+            path: "/users/{InstanceId}/{UserId}/identity-info", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the phone configuration settings for the specified user.
     @Sendable
     public func updateUserPhoneConfig(_ input: UpdateUserPhoneConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateUserPhoneConfig", path: "/users/{InstanceId}/{UserId}/phone-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUserPhoneConfig", 
+            path: "/users/{InstanceId}/{UserId}/phone-config", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assigns the specified routing profile to the specified user.
     @Sendable
     public func updateUserRoutingProfile(_ input: UpdateUserRoutingProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateUserRoutingProfile", path: "/users/{InstanceId}/{UserId}/routing-profile", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUserRoutingProfile", 
+            path: "/users/{InstanceId}/{UserId}/routing-profile", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assigns the specified security profiles to the specified user.
     @Sendable
     public func updateUserSecurityProfiles(_ input: UpdateUserSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateUserSecurityProfiles", path: "/users/{InstanceId}/{UserId}/security-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUserSecurityProfiles", 
+            path: "/users/{InstanceId}/{UserId}/security-profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -76,721 +76,1561 @@ public struct APIGateway: AWSService {
     /// Create an ApiKey resource.
     @Sendable
     public func createApiKey(_ input: CreateApiKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ApiKey {
-        return try await self.client.execute(operation: "CreateApiKey", path: "/apikeys", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateApiKey", 
+            path: "/apikeys", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a new Authorizer resource to an existing RestApi resource.
     @Sendable
     public func createAuthorizer(_ input: CreateAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Authorizer {
-        return try await self.client.execute(operation: "CreateAuthorizer", path: "/restapis/{restApiId}/authorizers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAuthorizer", 
+            path: "/restapis/{restApiId}/authorizers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new BasePathMapping resource.
     @Sendable
     public func createBasePathMapping(_ input: CreateBasePathMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BasePathMapping {
-        return try await self.client.execute(operation: "CreateBasePathMapping", path: "/domainnames/{domainName}/basepathmappings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateBasePathMapping", 
+            path: "/domainnames/{domainName}/basepathmappings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a Deployment resource, which makes a specified RestApi callable over the internet.
     @Sendable
     public func createDeployment(_ input: CreateDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Deployment {
-        return try await self.client.execute(operation: "CreateDeployment", path: "/restapis/{restApiId}/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDeployment", 
+            path: "/restapis/{restApiId}/deployments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a documentation part.
     @Sendable
     public func createDocumentationPart(_ input: CreateDocumentationPartRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DocumentationPart {
-        return try await self.client.execute(operation: "CreateDocumentationPart", path: "/restapis/{restApiId}/documentation/parts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDocumentationPart", 
+            path: "/restapis/{restApiId}/documentation/parts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a documentation version
     @Sendable
     public func createDocumentationVersion(_ input: CreateDocumentationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DocumentationVersion {
-        return try await self.client.execute(operation: "CreateDocumentationVersion", path: "/restapis/{restApiId}/documentation/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDocumentationVersion", 
+            path: "/restapis/{restApiId}/documentation/versions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new domain name.
     @Sendable
     public func createDomainName(_ input: CreateDomainNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DomainName {
-        return try await self.client.execute(operation: "CreateDomainName", path: "/domainnames", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDomainName", 
+            path: "/domainnames", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a new Model resource to an existing RestApi resource.
     @Sendable
     public func createModel(_ input: CreateModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Model {
-        return try await self.client.execute(operation: "CreateModel", path: "/restapis/{restApiId}/models", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateModel", 
+            path: "/restapis/{restApiId}/models", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a RequestValidator of a given RestApi.
     @Sendable
     public func createRequestValidator(_ input: CreateRequestValidatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RequestValidator {
-        return try await self.client.execute(operation: "CreateRequestValidator", path: "/restapis/{restApiId}/requestvalidators", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRequestValidator", 
+            path: "/restapis/{restApiId}/requestvalidators", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a Resource resource.
     @Sendable
     public func createResource(_ input: CreateResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Resource {
-        return try await self.client.execute(operation: "CreateResource", path: "/restapis/{restApiId}/resources/{parentId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateResource", 
+            path: "/restapis/{restApiId}/resources/{parentId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new RestApi resource.
     @Sendable
     public func createRestApi(_ input: CreateRestApiRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestApi {
-        return try await self.client.execute(operation: "CreateRestApi", path: "/restapis", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRestApi", 
+            path: "/restapis", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new Stage resource that references a pre-existing Deployment for the API.
     @Sendable
     public func createStage(_ input: CreateStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Stage {
-        return try await self.client.execute(operation: "CreateStage", path: "/restapis/{restApiId}/stages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateStage", 
+            path: "/restapis/{restApiId}/stages", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
     @Sendable
     public func createUsagePlan(_ input: CreateUsagePlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UsagePlan {
-        return try await self.client.execute(operation: "CreateUsagePlan", path: "/usageplans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUsagePlan", 
+            path: "/usageplans", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a usage plan key for adding an existing API key to a usage plan.
     @Sendable
     public func createUsagePlanKey(_ input: CreateUsagePlanKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UsagePlanKey {
-        return try await self.client.execute(operation: "CreateUsagePlanKey", path: "/usageplans/{usagePlanId}/keys", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUsagePlanKey", 
+            path: "/usageplans/{usagePlanId}/keys", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
     @Sendable
     public func createVpcLink(_ input: CreateVpcLinkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VpcLink {
-        return try await self.client.execute(operation: "CreateVpcLink", path: "/vpclinks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVpcLink", 
+            path: "/vpclinks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the ApiKey resource.
     @Sendable
     public func deleteApiKey(_ input: DeleteApiKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteApiKey", path: "/apikeys/{apiKey}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteApiKey", 
+            path: "/apikeys/{apiKey}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing Authorizer resource.
     @Sendable
     public func deleteAuthorizer(_ input: DeleteAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteAuthorizer", path: "/restapis/{restApiId}/authorizers/{authorizerId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAuthorizer", 
+            path: "/restapis/{restApiId}/authorizers/{authorizerId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the BasePathMapping resource.
     @Sendable
     public func deleteBasePathMapping(_ input: DeleteBasePathMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteBasePathMapping", path: "/domainnames/{domainName}/basepathmappings/{basePath}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBasePathMapping", 
+            path: "/domainnames/{domainName}/basepathmappings/{basePath}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the ClientCertificate resource.
     @Sendable
     public func deleteClientCertificate(_ input: DeleteClientCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteClientCertificate", path: "/clientcertificates/{clientCertificateId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteClientCertificate", 
+            path: "/clientcertificates/{clientCertificateId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
     @Sendable
     public func deleteDeployment(_ input: DeleteDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteDeployment", path: "/restapis/{restApiId}/deployments/{deploymentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDeployment", 
+            path: "/restapis/{restApiId}/deployments/{deploymentId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a documentation part
     @Sendable
     public func deleteDocumentationPart(_ input: DeleteDocumentationPartRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteDocumentationPart", path: "/restapis/{restApiId}/documentation/parts/{documentationPartId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDocumentationPart", 
+            path: "/restapis/{restApiId}/documentation/parts/{documentationPartId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a documentation version.
     @Sendable
     public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteDocumentationVersion", path: "/restapis/{restApiId}/documentation/versions/{documentationVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDocumentationVersion", 
+            path: "/restapis/{restApiId}/documentation/versions/{documentationVersion}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the DomainName resource.
     @Sendable
     public func deleteDomainName(_ input: DeleteDomainNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteDomainName", path: "/domainnames/{domainName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDomainName", 
+            path: "/domainnames/{domainName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
     @Sendable
     public func deleteGatewayResponse(_ input: DeleteGatewayResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteGatewayResponse", path: "/restapis/{restApiId}/gatewayresponses/{responseType}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteGatewayResponse", 
+            path: "/restapis/{restApiId}/gatewayresponses/{responseType}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Represents a delete integration.
     @Sendable
     public func deleteIntegration(_ input: DeleteIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteIntegration", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteIntegration", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Represents a delete integration response.
     @Sendable
     public func deleteIntegrationResponse(_ input: DeleteIntegrationResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteIntegrationResponse", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteIntegrationResponse", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing Method resource.
     @Sendable
     public func deleteMethod(_ input: DeleteMethodRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteMethod", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMethod", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing MethodResponse resource.
     @Sendable
     public func deleteMethodResponse(_ input: DeleteMethodResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteMethodResponse", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMethodResponse", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a model.
     @Sendable
     public func deleteModel(_ input: DeleteModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteModel", path: "/restapis/{restApiId}/models/{modelName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteModel", 
+            path: "/restapis/{restApiId}/models/{modelName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a RequestValidator of a given RestApi.
     @Sendable
     public func deleteRequestValidator(_ input: DeleteRequestValidatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteRequestValidator", path: "/restapis/{restApiId}/requestvalidators/{requestValidatorId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRequestValidator", 
+            path: "/restapis/{restApiId}/requestvalidators/{requestValidatorId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a Resource resource.
     @Sendable
     public func deleteResource(_ input: DeleteResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteResource", path: "/restapis/{restApiId}/resources/{resourceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResource", 
+            path: "/restapis/{restApiId}/resources/{resourceId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified API.
     @Sendable
     public func deleteRestApi(_ input: DeleteRestApiRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteRestApi", path: "/restapis/{restApiId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRestApi", 
+            path: "/restapis/{restApiId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a Stage resource.
     @Sendable
     public func deleteStage(_ input: DeleteStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteStage", path: "/restapis/{restApiId}/stages/{stageName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteStage", 
+            path: "/restapis/{restApiId}/stages/{stageName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a usage plan of a given plan Id.
     @Sendable
     public func deleteUsagePlan(_ input: DeleteUsagePlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteUsagePlan", path: "/usageplans/{usagePlanId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUsagePlan", 
+            path: "/usageplans/{usagePlanId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a usage plan key  and remove the underlying API key from the associated usage plan.
     @Sendable
     public func deleteUsagePlanKey(_ input: DeleteUsagePlanKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteUsagePlanKey", path: "/usageplans/{usagePlanId}/keys/{keyId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUsagePlanKey", 
+            path: "/usageplans/{usagePlanId}/keys/{keyId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing VpcLink of a specified identifier.
     @Sendable
     public func deleteVpcLink(_ input: DeleteVpcLinkRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVpcLink", path: "/vpclinks/{vpcLinkId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVpcLink", 
+            path: "/vpclinks/{vpcLinkId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Flushes all authorizer cache entries on a stage.
     @Sendable
     public func flushStageAuthorizersCache(_ input: FlushStageAuthorizersCacheRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "FlushStageAuthorizersCache", path: "/restapis/{restApiId}/stages/{stageName}/cache/authorizers", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "FlushStageAuthorizersCache", 
+            path: "/restapis/{restApiId}/stages/{stageName}/cache/authorizers", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Flushes a stage's cache.
     @Sendable
     public func flushStageCache(_ input: FlushStageCacheRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "FlushStageCache", path: "/restapis/{restApiId}/stages/{stageName}/cache/data", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "FlushStageCache", 
+            path: "/restapis/{restApiId}/stages/{stageName}/cache/data", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Generates a ClientCertificate resource.
     @Sendable
     public func generateClientCertificate(_ input: GenerateClientCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClientCertificate {
-        return try await self.client.execute(operation: "GenerateClientCertificate", path: "/clientcertificates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GenerateClientCertificate", 
+            path: "/clientcertificates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the current Account resource.
     @Sendable
     public func getAccount(_ input: GetAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Account {
-        return try await self.client.execute(operation: "GetAccount", path: "/account", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAccount", 
+            path: "/account", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the current ApiKey resource.
     @Sendable
     public func getApiKey(_ input: GetApiKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ApiKey {
-        return try await self.client.execute(operation: "GetApiKey", path: "/apikeys/{apiKey}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetApiKey", 
+            path: "/apikeys/{apiKey}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the current ApiKeys resource.
     @Sendable
     public func getApiKeys(_ input: GetApiKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ApiKeys {
-        return try await self.client.execute(operation: "GetApiKeys", path: "/apikeys", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetApiKeys", 
+            path: "/apikeys", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe an existing Authorizer resource.
     @Sendable
     public func getAuthorizer(_ input: GetAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Authorizer {
-        return try await self.client.execute(operation: "GetAuthorizer", path: "/restapis/{restApiId}/authorizers/{authorizerId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAuthorizer", 
+            path: "/restapis/{restApiId}/authorizers/{authorizerId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe an existing Authorizers resource.
     @Sendable
     public func getAuthorizers(_ input: GetAuthorizersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Authorizers {
-        return try await self.client.execute(operation: "GetAuthorizers", path: "/restapis/{restApiId}/authorizers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAuthorizers", 
+            path: "/restapis/{restApiId}/authorizers", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe a BasePathMapping resource.
     @Sendable
     public func getBasePathMapping(_ input: GetBasePathMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BasePathMapping {
-        return try await self.client.execute(operation: "GetBasePathMapping", path: "/domainnames/{domainName}/basepathmappings/{basePath}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBasePathMapping", 
+            path: "/domainnames/{domainName}/basepathmappings/{basePath}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Represents a collection of BasePathMapping resources.
     @Sendable
     public func getBasePathMappings(_ input: GetBasePathMappingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BasePathMappings {
-        return try await self.client.execute(operation: "GetBasePathMappings", path: "/domainnames/{domainName}/basepathmappings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBasePathMappings", 
+            path: "/domainnames/{domainName}/basepathmappings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the current ClientCertificate resource.
     @Sendable
     public func getClientCertificate(_ input: GetClientCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClientCertificate {
-        return try await self.client.execute(operation: "GetClientCertificate", path: "/clientcertificates/{clientCertificateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetClientCertificate", 
+            path: "/clientcertificates/{clientCertificateId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a collection of ClientCertificate resources.
     @Sendable
     public func getClientCertificates(_ input: GetClientCertificatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClientCertificates {
-        return try await self.client.execute(operation: "GetClientCertificates", path: "/clientcertificates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetClientCertificates", 
+            path: "/clientcertificates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a Deployment resource.
     @Sendable
     public func getDeployment(_ input: GetDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Deployment {
-        return try await self.client.execute(operation: "GetDeployment", path: "/restapis/{restApiId}/deployments/{deploymentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeployment", 
+            path: "/restapis/{restApiId}/deployments/{deploymentId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a Deployments collection.
     @Sendable
     public func getDeployments(_ input: GetDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Deployments {
-        return try await self.client.execute(operation: "GetDeployments", path: "/restapis/{restApiId}/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeployments", 
+            path: "/restapis/{restApiId}/deployments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a documentation part.
     @Sendable
     public func getDocumentationPart(_ input: GetDocumentationPartRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DocumentationPart {
-        return try await self.client.execute(operation: "GetDocumentationPart", path: "/restapis/{restApiId}/documentation/parts/{documentationPartId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDocumentationPart", 
+            path: "/restapis/{restApiId}/documentation/parts/{documentationPartId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets documentation parts.
     @Sendable
     public func getDocumentationParts(_ input: GetDocumentationPartsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DocumentationParts {
-        return try await self.client.execute(operation: "GetDocumentationParts", path: "/restapis/{restApiId}/documentation/parts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDocumentationParts", 
+            path: "/restapis/{restApiId}/documentation/parts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a documentation version.
     @Sendable
     public func getDocumentationVersion(_ input: GetDocumentationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DocumentationVersion {
-        return try await self.client.execute(operation: "GetDocumentationVersion", path: "/restapis/{restApiId}/documentation/versions/{documentationVersion}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDocumentationVersion", 
+            path: "/restapis/{restApiId}/documentation/versions/{documentationVersion}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets documentation versions.
     @Sendable
     public func getDocumentationVersions(_ input: GetDocumentationVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DocumentationVersions {
-        return try await self.client.execute(operation: "GetDocumentationVersions", path: "/restapis/{restApiId}/documentation/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDocumentationVersions", 
+            path: "/restapis/{restApiId}/documentation/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
     @Sendable
     public func getDomainName(_ input: GetDomainNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DomainName {
-        return try await self.client.execute(operation: "GetDomainName", path: "/domainnames/{domainName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDomainName", 
+            path: "/domainnames/{domainName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Represents a collection of DomainName resources.
     @Sendable
     public func getDomainNames(_ input: GetDomainNamesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DomainNames {
-        return try await self.client.execute(operation: "GetDomainNames", path: "/domainnames", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDomainNames", 
+            path: "/domainnames", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Exports a deployed version of a RestApi in a specified format.
     @Sendable
     public func getExport(_ input: GetExportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportResponse {
-        return try await self.client.execute(operation: "GetExport", path: "/restapis/{restApiId}/stages/{stageName}/exports/{exportType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetExport", 
+            path: "/restapis/{restApiId}/stages/{stageName}/exports/{exportType}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a GatewayResponse of a specified response type on the given RestApi.
     @Sendable
     public func getGatewayResponse(_ input: GetGatewayResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GatewayResponse {
-        return try await self.client.execute(operation: "GetGatewayResponse", path: "/restapis/{restApiId}/gatewayresponses/{responseType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetGatewayResponse", 
+            path: "/restapis/{restApiId}/gatewayresponses/{responseType}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
     @Sendable
     public func getGatewayResponses(_ input: GetGatewayResponsesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GatewayResponses {
-        return try await self.client.execute(operation: "GetGatewayResponses", path: "/restapis/{restApiId}/gatewayresponses", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetGatewayResponses", 
+            path: "/restapis/{restApiId}/gatewayresponses", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get the integration settings.
     @Sendable
     public func getIntegration(_ input: GetIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Integration {
-        return try await self.client.execute(operation: "GetIntegration", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetIntegration", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Represents a get integration response.
     @Sendable
     public func getIntegrationResponse(_ input: GetIntegrationResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> IntegrationResponse {
-        return try await self.client.execute(operation: "GetIntegrationResponse", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetIntegrationResponse", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe an existing Method resource.
     @Sendable
     public func getMethod(_ input: GetMethodRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Method {
-        return try await self.client.execute(operation: "GetMethod", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMethod", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a MethodResponse resource.
     @Sendable
     public func getMethodResponse(_ input: GetMethodResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> MethodResponse {
-        return try await self.client.execute(operation: "GetMethodResponse", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMethodResponse", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an existing model defined for a RestApi resource.
     @Sendable
     public func getModel(_ input: GetModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Model {
-        return try await self.client.execute(operation: "GetModel", path: "/restapis/{restApiId}/models/{modelName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetModel", 
+            path: "/restapis/{restApiId}/models/{modelName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Generates a sample mapping template that can be used to transform a payload into the structure of a model.
     @Sendable
     public func getModelTemplate(_ input: GetModelTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Template {
-        return try await self.client.execute(operation: "GetModelTemplate", path: "/restapis/{restApiId}/models/{modelName}/default_template", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetModelTemplate", 
+            path: "/restapis/{restApiId}/models/{modelName}/default_template", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes existing Models defined for a RestApi resource.
     @Sendable
     public func getModels(_ input: GetModelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Models {
-        return try await self.client.execute(operation: "GetModels", path: "/restapis/{restApiId}/models", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetModels", 
+            path: "/restapis/{restApiId}/models", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a RequestValidator of a given RestApi.
     @Sendable
     public func getRequestValidator(_ input: GetRequestValidatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RequestValidator {
-        return try await self.client.execute(operation: "GetRequestValidator", path: "/restapis/{restApiId}/requestvalidators/{requestValidatorId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRequestValidator", 
+            path: "/restapis/{restApiId}/requestvalidators/{requestValidatorId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the RequestValidators collection of a given RestApi.
     @Sendable
     public func getRequestValidators(_ input: GetRequestValidatorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RequestValidators {
-        return try await self.client.execute(operation: "GetRequestValidators", path: "/restapis/{restApiId}/requestvalidators", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRequestValidators", 
+            path: "/restapis/{restApiId}/requestvalidators", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists information about a resource.
     @Sendable
     public func getResource(_ input: GetResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Resource {
-        return try await self.client.execute(operation: "GetResource", path: "/restapis/{restApiId}/resources/{resourceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResource", 
+            path: "/restapis/{restApiId}/resources/{resourceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists information about a collection of Resource resources.
     @Sendable
     public func getResources(_ input: GetResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Resources {
-        return try await self.client.execute(operation: "GetResources", path: "/restapis/{restApiId}/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResources", 
+            path: "/restapis/{restApiId}/resources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the RestApi resource in the collection.
     @Sendable
     public func getRestApi(_ input: GetRestApiRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestApi {
-        return try await self.client.execute(operation: "GetRestApi", path: "/restapis/{restApiId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRestApi", 
+            path: "/restapis/{restApiId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the RestApis resources for your collection.
     @Sendable
     public func getRestApis(_ input: GetRestApisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestApis {
-        return try await self.client.execute(operation: "GetRestApis", path: "/restapis", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRestApis", 
+            path: "/restapis", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Generates a client SDK for a RestApi and Stage.
     @Sendable
     public func getSdk(_ input: GetSdkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SdkResponse {
-        return try await self.client.execute(operation: "GetSdk", path: "/restapis/{restApiId}/stages/{stageName}/sdks/{sdkType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSdk", 
+            path: "/restapis/{restApiId}/stages/{stageName}/sdks/{sdkType}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets an SDK type.
     @Sendable
     public func getSdkType(_ input: GetSdkTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SdkType {
-        return try await self.client.execute(operation: "GetSdkType", path: "/sdktypes/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSdkType", 
+            path: "/sdktypes/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets SDK types
     @Sendable
     public func getSdkTypes(_ input: GetSdkTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SdkTypes {
-        return try await self.client.execute(operation: "GetSdkTypes", path: "/sdktypes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSdkTypes", 
+            path: "/sdktypes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a Stage resource.
     @Sendable
     public func getStage(_ input: GetStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Stage {
-        return try await self.client.execute(operation: "GetStage", path: "/restapis/{restApiId}/stages/{stageName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetStage", 
+            path: "/restapis/{restApiId}/stages/{stageName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about one or more Stage resources.
     @Sendable
     public func getStages(_ input: GetStagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Stages {
-        return try await self.client.execute(operation: "GetStages", path: "/restapis/{restApiId}/stages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetStages", 
+            path: "/restapis/{restApiId}/stages", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the Tags collection for a given resource.
     @Sendable
     public func getTags(_ input: GetTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Tags {
-        return try await self.client.execute(operation: "GetTags", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTags", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the usage data of a usage plan in a specified time interval.
     @Sendable
     public func getUsage(_ input: GetUsageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Usage {
-        return try await self.client.execute(operation: "GetUsage", path: "/usageplans/{usagePlanId}/usage", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUsage", 
+            path: "/usageplans/{usagePlanId}/usage", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a usage plan of a given plan identifier.
     @Sendable
     public func getUsagePlan(_ input: GetUsagePlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UsagePlan {
-        return try await self.client.execute(operation: "GetUsagePlan", path: "/usageplans/{usagePlanId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUsagePlan", 
+            path: "/usageplans/{usagePlanId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a usage plan key of a given key identifier.
     @Sendable
     public func getUsagePlanKey(_ input: GetUsagePlanKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UsagePlanKey {
-        return try await self.client.execute(operation: "GetUsagePlanKey", path: "/usageplans/{usagePlanId}/keys/{keyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUsagePlanKey", 
+            path: "/usageplans/{usagePlanId}/keys/{keyId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets all the usage plan keys representing the API keys added to a specified usage plan.
     @Sendable
     public func getUsagePlanKeys(_ input: GetUsagePlanKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UsagePlanKeys {
-        return try await self.client.execute(operation: "GetUsagePlanKeys", path: "/usageplans/{usagePlanId}/keys", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUsagePlanKeys", 
+            path: "/usageplans/{usagePlanId}/keys", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets all the usage plans of the caller's account.
     @Sendable
     public func getUsagePlans(_ input: GetUsagePlansRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UsagePlans {
-        return try await self.client.execute(operation: "GetUsagePlans", path: "/usageplans", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUsagePlans", 
+            path: "/usageplans", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a specified VPC link under the caller's account in a region.
     @Sendable
     public func getVpcLink(_ input: GetVpcLinkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VpcLink {
-        return try await self.client.execute(operation: "GetVpcLink", path: "/vpclinks/{vpcLinkId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVpcLink", 
+            path: "/vpclinks/{vpcLinkId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the VpcLinks collection under the caller's account in a selected region.
     @Sendable
     public func getVpcLinks(_ input: GetVpcLinksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VpcLinks {
-        return try await self.client.execute(operation: "GetVpcLinks", path: "/vpclinks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVpcLinks", 
+            path: "/vpclinks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Import API keys from an external source, such as a CSV-formatted file.
     @Sendable
     public func importApiKeys(_ input: ImportApiKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ApiKeyIds {
-        return try await self.client.execute(operation: "ImportApiKeys", path: "/apikeys?mode=import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportApiKeys", 
+            path: "/apikeys?mode=import", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Imports documentation parts
     @Sendable
     public func importDocumentationParts(_ input: ImportDocumentationPartsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DocumentationPartIds {
-        return try await self.client.execute(operation: "ImportDocumentationParts", path: "/restapis/{restApiId}/documentation/parts", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportDocumentationParts", 
+            path: "/restapis/{restApiId}/documentation/parts", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// A feature of the API Gateway control service for creating a new API from an external API definition file.
     @Sendable
     public func importRestApi(_ input: ImportRestApiRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestApi {
-        return try await self.client.execute(operation: "ImportRestApi", path: "/restapis?mode=import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportRestApi", 
+            path: "/restapis?mode=import", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
     @Sendable
     public func putGatewayResponse(_ input: PutGatewayResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GatewayResponse {
-        return try await self.client.execute(operation: "PutGatewayResponse", path: "/restapis/{restApiId}/gatewayresponses/{responseType}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutGatewayResponse", 
+            path: "/restapis/{restApiId}/gatewayresponses/{responseType}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets up a method's integration.
     @Sendable
     public func putIntegration(_ input: PutIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Integration {
-        return try await self.client.execute(operation: "PutIntegration", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutIntegration", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Represents a put integration.
     @Sendable
     public func putIntegrationResponse(_ input: PutIntegrationResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> IntegrationResponse {
-        return try await self.client.execute(operation: "PutIntegrationResponse", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutIntegrationResponse", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Add a method to an existing Resource resource.
     @Sendable
     public func putMethod(_ input: PutMethodRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Method {
-        return try await self.client.execute(operation: "PutMethod", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutMethod", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a MethodResponse to an existing Method resource.
     @Sendable
     public func putMethodResponse(_ input: PutMethodResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> MethodResponse {
-        return try await self.client.execute(operation: "PutMethodResponse", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutMethodResponse", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
     @Sendable
     public func putRestApi(_ input: PutRestApiRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestApi {
-        return try await self.client.execute(operation: "PutRestApi", path: "/restapis/{restApiId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutRestApi", 
+            path: "/restapis/{restApiId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or updates a tag on a given resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
     @Sendable
     public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestInvokeAuthorizerResponse {
-        return try await self.client.execute(operation: "TestInvokeAuthorizer", path: "/restapis/{restApiId}/authorizers/{authorizerId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TestInvokeAuthorizer", 
+            path: "/restapis/{restApiId}/authorizers/{authorizerId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body.
     @Sendable
     public func testInvokeMethod(_ input: TestInvokeMethodRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestInvokeMethodResponse {
-        return try await self.client.execute(operation: "TestInvokeMethod", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TestInvokeMethod", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a tag from a given resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes information about the current Account resource.
     @Sendable
     public func updateAccount(_ input: UpdateAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Account {
-        return try await self.client.execute(operation: "UpdateAccount", path: "/account", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAccount", 
+            path: "/account", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes information about an ApiKey resource.
     @Sendable
     public func updateApiKey(_ input: UpdateApiKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ApiKey {
-        return try await self.client.execute(operation: "UpdateApiKey", path: "/apikeys/{apiKey}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateApiKey", 
+            path: "/apikeys/{apiKey}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing Authorizer resource.
     @Sendable
     public func updateAuthorizer(_ input: UpdateAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Authorizer {
-        return try await self.client.execute(operation: "UpdateAuthorizer", path: "/restapis/{restApiId}/authorizers/{authorizerId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAuthorizer", 
+            path: "/restapis/{restApiId}/authorizers/{authorizerId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes information about the BasePathMapping resource.
     @Sendable
     public func updateBasePathMapping(_ input: UpdateBasePathMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BasePathMapping {
-        return try await self.client.execute(operation: "UpdateBasePathMapping", path: "/domainnames/{domainName}/basepathmappings/{basePath}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateBasePathMapping", 
+            path: "/domainnames/{domainName}/basepathmappings/{basePath}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes information about an ClientCertificate resource.
     @Sendable
     public func updateClientCertificate(_ input: UpdateClientCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClientCertificate {
-        return try await self.client.execute(operation: "UpdateClientCertificate", path: "/clientcertificates/{clientCertificateId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateClientCertificate", 
+            path: "/clientcertificates/{clientCertificateId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes information about a Deployment resource.
     @Sendable
     public func updateDeployment(_ input: UpdateDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Deployment {
-        return try await self.client.execute(operation: "UpdateDeployment", path: "/restapis/{restApiId}/deployments/{deploymentId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDeployment", 
+            path: "/restapis/{restApiId}/deployments/{deploymentId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a documentation part.
     @Sendable
     public func updateDocumentationPart(_ input: UpdateDocumentationPartRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DocumentationPart {
-        return try await self.client.execute(operation: "UpdateDocumentationPart", path: "/restapis/{restApiId}/documentation/parts/{documentationPartId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDocumentationPart", 
+            path: "/restapis/{restApiId}/documentation/parts/{documentationPartId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a documentation version.
     @Sendable
     public func updateDocumentationVersion(_ input: UpdateDocumentationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DocumentationVersion {
-        return try await self.client.execute(operation: "UpdateDocumentationVersion", path: "/restapis/{restApiId}/documentation/versions/{documentationVersion}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDocumentationVersion", 
+            path: "/restapis/{restApiId}/documentation/versions/{documentationVersion}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes information about the DomainName resource.
     @Sendable
     public func updateDomainName(_ input: UpdateDomainNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DomainName {
-        return try await self.client.execute(operation: "UpdateDomainName", path: "/domainnames/{domainName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDomainName", 
+            path: "/domainnames/{domainName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a GatewayResponse of a specified response type on the given RestApi.
     @Sendable
     public func updateGatewayResponse(_ input: UpdateGatewayResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GatewayResponse {
-        return try await self.client.execute(operation: "UpdateGatewayResponse", path: "/restapis/{restApiId}/gatewayresponses/{responseType}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateGatewayResponse", 
+            path: "/restapis/{restApiId}/gatewayresponses/{responseType}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Represents an update integration.
     @Sendable
     public func updateIntegration(_ input: UpdateIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Integration {
-        return try await self.client.execute(operation: "UpdateIntegration", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateIntegration", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Represents an update integration response.
     @Sendable
     public func updateIntegrationResponse(_ input: UpdateIntegrationResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> IntegrationResponse {
-        return try await self.client.execute(operation: "UpdateIntegrationResponse", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateIntegrationResponse", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing Method resource.
     @Sendable
     public func updateMethod(_ input: UpdateMethodRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Method {
-        return try await self.client.execute(operation: "UpdateMethod", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMethod", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing MethodResponse resource.
     @Sendable
     public func updateMethodResponse(_ input: UpdateMethodResponseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> MethodResponse {
-        return try await self.client.execute(operation: "UpdateMethodResponse", path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMethodResponse", 
+            path: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes information about a model.
     @Sendable
     public func updateModel(_ input: UpdateModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Model {
-        return try await self.client.execute(operation: "UpdateModel", path: "/restapis/{restApiId}/models/{modelName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateModel", 
+            path: "/restapis/{restApiId}/models/{modelName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a RequestValidator of a given RestApi.
     @Sendable
     public func updateRequestValidator(_ input: UpdateRequestValidatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RequestValidator {
-        return try await self.client.execute(operation: "UpdateRequestValidator", path: "/restapis/{restApiId}/requestvalidators/{requestValidatorId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRequestValidator", 
+            path: "/restapis/{restApiId}/requestvalidators/{requestValidatorId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes information about a Resource resource.
     @Sendable
     public func updateResource(_ input: UpdateResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Resource {
-        return try await self.client.execute(operation: "UpdateResource", path: "/restapis/{restApiId}/resources/{resourceId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateResource", 
+            path: "/restapis/{restApiId}/resources/{resourceId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes information about the specified API.
     @Sendable
     public func updateRestApi(_ input: UpdateRestApiRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestApi {
-        return try await self.client.execute(operation: "UpdateRestApi", path: "/restapis/{restApiId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRestApi", 
+            path: "/restapis/{restApiId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes information about a Stage resource.
     @Sendable
     public func updateStage(_ input: UpdateStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Stage {
-        return try await self.client.execute(operation: "UpdateStage", path: "/restapis/{restApiId}/stages/{stageName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateStage", 
+            path: "/restapis/{restApiId}/stages/{stageName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
     @Sendable
     public func updateUsage(_ input: UpdateUsageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Usage {
-        return try await self.client.execute(operation: "UpdateUsage", path: "/usageplans/{usagePlanId}/keys/{keyId}/usage", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUsage", 
+            path: "/usageplans/{usagePlanId}/keys/{keyId}/usage", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a usage plan of a given plan Id.
     @Sendable
     public func updateUsagePlan(_ input: UpdateUsagePlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UsagePlan {
-        return try await self.client.execute(operation: "UpdateUsagePlan", path: "/usageplans/{usagePlanId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUsagePlan", 
+            path: "/usageplans/{usagePlanId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing VpcLink of a specified identifier.
     @Sendable
     public func updateVpcLink(_ input: UpdateVpcLinkRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VpcLink {
-        return try await self.client.execute(operation: "UpdateVpcLink", path: "/vpclinks/{vpcLinkId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVpcLink", 
+            path: "/vpclinks/{vpcLinkId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

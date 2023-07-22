@@ -98,7 +98,14 @@ public struct CloudWatch: AWSService {
     ///
     @Sendable
     public func deleteAlarms(_ input: DeleteAlarmsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteAlarms", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAlarms", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// 			Deletes the specified anomaly detection model
@@ -111,7 +118,14 @@ public struct CloudWatch: AWSService {
     ///
     @Sendable
     public func deleteAnomalyDetector(_ input: DeleteAnomalyDetectorInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAnomalyDetectorOutput {
-        return try await self.client.execute(operation: "DeleteAnomalyDetector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAnomalyDetector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes all dashboards that you specify. You
@@ -119,7 +133,14 @@ public struct CloudWatch: AWSService {
     /// 			deleted.
     @Sendable
     public func deleteDashboards(_ input: DeleteDashboardsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDashboardsOutput {
-        return try await self.client.execute(operation: "DeleteDashboards", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDashboards", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Permanently deletes the specified Contributor Insights rules. If you create a rule, delete it, and then re-create it with the same name, historical data from the first time
@@ -127,13 +148,27 @@ public struct CloudWatch: AWSService {
     /// 			not be available.
     @Sendable
     public func deleteInsightRules(_ input: DeleteInsightRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInsightRulesOutput {
-        return try await self.client.execute(operation: "DeleteInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteInsightRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Permanently deletes the metric stream that you specify.
     @Sendable
     public func deleteMetricStream(_ input: DeleteMetricStreamInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMetricStreamOutput {
-        return try await self.client.execute(operation: "DeleteMetricStream", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMetricStream", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the history for the specified alarm. You can filter the results by date range or item type.
@@ -142,7 +177,14 @@ public struct CloudWatch: AWSService {
     /// 			about composite alarms if your cloudwatch:DescribeAlarmHistory permission has a narrower scope.
     @Sendable
     public func describeAlarmHistory(_ input: DescribeAlarmHistoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAlarmHistoryOutput {
-        return try await self.client.execute(operation: "DescribeAlarmHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAlarmHistory", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the specified alarms. You can filter the results by specifying a prefix for the alarm
@@ -151,7 +193,14 @@ public struct CloudWatch: AWSService {
     /// 			about composite alarms if your cloudwatch:DescribeAlarms permission has a narrower scope.
     @Sendable
     public func describeAlarms(_ input: DescribeAlarmsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAlarmsOutput {
-        return try await self.client.execute(operation: "DescribeAlarms", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAlarms", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the alarms for the specified metric. To
@@ -160,7 +209,14 @@ public struct CloudWatch: AWSService {
     /// 		use the specified metric, or composite alarms that use the specified metric.
     @Sendable
     public func describeAlarmsForMetric(_ input: DescribeAlarmsForMetricInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAlarmsForMetricOutput {
-        return try await self.client.execute(operation: "DescribeAlarmsForMetric", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAlarmsForMetric", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the anomaly detection models that you have created in your account.
@@ -172,40 +228,82 @@ public struct CloudWatch: AWSService {
     /// 			This will return all metric math anomaly detectors in your account.
     @Sendable
     public func describeAnomalyDetectors(_ input: DescribeAnomalyDetectorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAnomalyDetectorsOutput {
-        return try await self.client.execute(operation: "DescribeAnomalyDetectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAnomalyDetectors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of all the Contributor Insights rules in your account. For more information about Contributor Insights, see
     /// 		Using Contributor Insights to Analyze High-Cardinality Data.
     @Sendable
     public func describeInsightRules(_ input: DescribeInsightRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInsightRulesOutput {
-        return try await self.client.execute(operation: "DescribeInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeInsightRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables the actions for the specified alarms. When an alarm's actions are disabled, the
     /// 			alarm actions do not execute when the alarm state changes.
     @Sendable
     public func disableAlarmActions(_ input: DisableAlarmActionsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisableAlarmActions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableAlarmActions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables the specified Contributor Insights rules. When rules are disabled, they do not analyze log groups and do
     /// 		not incur costs.
     @Sendable
     public func disableInsightRules(_ input: DisableInsightRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableInsightRulesOutput {
-        return try await self.client.execute(operation: "DisableInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableInsightRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables the actions for the specified alarms.
     @Sendable
     public func enableAlarmActions(_ input: EnableAlarmActionsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "EnableAlarmActions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableAlarmActions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables the specified Contributor Insights rules. When rules are enabled, they immediately begin analyzing log data.
     @Sendable
     public func enableInsightRules(_ input: EnableInsightRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableInsightRulesOutput {
-        return try await self.client.execute(operation: "EnableInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableInsightRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard, and then use the data returned
@@ -213,7 +311,14 @@ public struct CloudWatch: AWSService {
     /// 			the copy.
     @Sendable
     public func getDashboard(_ input: GetDashboardInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDashboardOutput {
-        return try await self.client.execute(operation: "GetDashboard", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDashboard", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation returns the time series data collected by a Contributor Insights rule. The data includes the identity and number of
@@ -223,7 +328,14 @@ public struct CloudWatch: AWSService {
     /// 					by the rule's Value, during that period.    SampleCount -- the number of data points matched by the rule.    Sum -- the sum of the values from all contributors during the time period represented by that data point.    Minimum -- the minimum value from a single observation during the time period represented by that data point.    Maximum -- the maximum value from a single observation during the time period represented by that data point.    Average -- the average value from all contributors during the time period represented by that data point.
     @Sendable
     public func getInsightRuleReport(_ input: GetInsightRuleReportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInsightRuleReportOutput {
-        return try await self.client.execute(operation: "GetInsightRuleReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetInsightRuleReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// You can use the GetMetricData API to retrieve CloudWatch metric values. The operation
@@ -252,7 +364,14 @@ public struct CloudWatch: AWSService {
     /// 			and can be used as input for a metric math expression that expects an array of time series.
     @Sendable
     public func getMetricData(_ input: GetMetricDataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricDataOutput {
-        return try await self.client.execute(operation: "GetMetricData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMetricData", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets statistics for the specified metric. The maximum number of data points returned from a single call is 1,440. If
@@ -274,13 +393,27 @@ public struct CloudWatch: AWSService {
     /// 			Amazon CloudWatch User Guide.
     @Sendable
     public func getMetricStatistics(_ input: GetMetricStatisticsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricStatisticsOutput {
-        return try await self.client.execute(operation: "GetMetricStatistics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMetricStatistics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the metric stream that you specify.
     @Sendable
     public func getMetricStream(_ input: GetMetricStreamInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricStreamOutput {
-        return try await self.client.execute(operation: "GetMetricStream", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMetricStream", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// You can use the GetMetricWidgetImage API to retrieve a snapshot graph of
@@ -291,7 +424,14 @@ public struct CloudWatch: AWSService {
     /// 		and horizontal and vertical annotations. There is a limit of 20 transactions per second for this API. Each GetMetricWidgetImage action has the following limits:   As many as 100 metrics in the graph.   Up to 100 KB uncompressed payload.
     @Sendable
     public func getMetricWidgetImage(_ input: GetMetricWidgetImageInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricWidgetImageOutput {
-        return try await self.client.execute(operation: "GetMetricWidgetImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMetricWidgetImage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the dashboards for your account. If you include DashboardNamePrefix, only
@@ -303,7 +443,14 @@ public struct CloudWatch: AWSService {
     /// 		the next 1000 results.
     @Sendable
     public func listDashboards(_ input: ListDashboardsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDashboardsOutput {
-        return try await self.client.execute(operation: "ListDashboards", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDashboards", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// 			Returns a list
@@ -314,13 +461,27 @@ public struct CloudWatch: AWSService {
     ///
     @Sendable
     public func listManagedInsightRules(_ input: ListManagedInsightRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedInsightRulesOutput {
-        return try await self.client.execute(operation: "ListManagedInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListManagedInsightRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of metric streams in this account.
     @Sendable
     public func listMetricStreams(_ input: ListMetricStreamsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMetricStreamsOutput {
-        return try await self.client.execute(operation: "ListMetricStreams", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMetricStreams", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List the specified metrics. You can use the returned metrics with GetMetricData or GetMetricStatistics to get statistical data. Up to 500 results are returned for any one call. To retrieve additional results,
@@ -333,21 +494,42 @@ public struct CloudWatch: AWSService {
     /// 		GetMetricStatistics.
     @Sendable
     public func listMetrics(_ input: ListMetricsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMetricsOutput {
-        return try await self.client.execute(operation: "ListMetrics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMetrics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Displays the tags associated with a CloudWatch resource. Currently, alarms
     /// 			and Contributor Insights rules support tagging.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an anomaly detection model for a CloudWatch metric. You can use the model
     /// 			to display a band of expected normal values when the metric is graphed. For more information, see CloudWatch Anomaly Detection.
     @Sendable
     public func putAnomalyDetector(_ input: PutAnomalyDetectorInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAnomalyDetectorOutput {
-        return try await self.client.execute(operation: "PutAnomalyDetector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutAnomalyDetector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates a composite alarm. When you create a composite
@@ -379,7 +561,14 @@ public struct CloudWatch: AWSService {
     /// 			a composite alarm that has Systems Manager OpsItem actions.
     @Sendable
     public func putCompositeAlarm(_ input: PutCompositeAlarmInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutCompositeAlarm", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutCompositeAlarm", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a dashboard if it does not already exist, or updates an existing dashboard. If you update a dashboard,
@@ -395,7 +584,14 @@ public struct CloudWatch: AWSService {
     /// 		dashboard.
     @Sendable
     public func putDashboard(_ input: PutDashboardInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDashboardOutput {
-        return try await self.client.execute(operation: "PutDashboard", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutDashboard", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a Contributor Insights rule. Rules evaluate log events in a
@@ -404,7 +600,14 @@ public struct CloudWatch: AWSService {
     /// 			the rule was created might not be available.
     @Sendable
     public func putInsightRule(_ input: PutInsightRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutInsightRuleOutput {
-        return try await self.client.execute(operation: "PutInsightRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutInsightRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// 			Creates a managed Contributor Insights rule
@@ -425,7 +628,14 @@ public struct CloudWatch: AWSService {
     ///
     @Sendable
     public func putManagedInsightRules(_ input: PutManagedInsightRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutManagedInsightRulesOutput {
-        return try await self.client.execute(operation: "PutManagedInsightRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutManagedInsightRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates an alarm and associates it with the specified metric, metric math expression,
@@ -457,7 +667,14 @@ public struct CloudWatch: AWSService {
     /// 						Cross-account cross-Region CloudWatch console.
     @Sendable
     public func putMetricAlarm(_ input: PutMetricAlarmInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutMetricAlarm", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutMetricAlarm", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Publishes metric data points to Amazon CloudWatch. CloudWatch associates
@@ -490,7 +707,14 @@ public struct CloudWatch: AWSService {
     /// 					multiplied by SampleCount.
     @Sendable
     public func putMetricData(_ input: PutMetricDataInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutMetricData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutMetricData", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates a metric stream. Metric streams can automatically stream CloudWatch
@@ -512,7 +736,14 @@ public struct CloudWatch: AWSService {
     /// 			CloudWatch cross-account observability.
     @Sendable
     public func putMetricStream(_ input: PutMetricStreamInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutMetricStreamOutput {
-        return try await self.client.execute(operation: "PutMetricStream", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutMetricStream", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Temporarily sets the state of an alarm for testing purposes. When the updated
@@ -530,19 +761,40 @@ public struct CloudWatch: AWSService {
     /// 		information in the StateReasonData parameter to enable the policy to take the correct action.
     @Sendable
     public func setAlarmState(_ input: SetAlarmStateInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "SetAlarmState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SetAlarmState", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts the streaming of metrics for one or more of your metric streams.
     @Sendable
     public func startMetricStreams(_ input: StartMetricStreamsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetricStreamsOutput {
-        return try await self.client.execute(operation: "StartMetricStreams", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartMetricStreams", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops the streaming of metrics for one or more of your metric streams.
     @Sendable
     public func stopMetricStreams(_ input: StopMetricStreamsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopMetricStreamsOutput {
-        return try await self.client.execute(operation: "StopMetricStreams", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopMetricStreams", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that
@@ -554,13 +806,27 @@ public struct CloudWatch: AWSService {
     /// 			the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
     @Sendable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from the specified resource.
     @Sendable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

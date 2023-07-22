@@ -66,236 +66,509 @@ public struct Drs: AWSService {
     /// Create an extended source server in the target Account based on the source server in staging account.
     @Sendable
     public func createExtendedSourceServer(_ input: CreateExtendedSourceServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateExtendedSourceServerResponse {
-        return try await self.client.execute(operation: "CreateExtendedSourceServer", path: "/CreateExtendedSourceServer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateExtendedSourceServer", 
+            path: "/CreateExtendedSourceServer", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new Launch Configuration Template.
     @Sendable
     public func createLaunchConfigurationTemplate(_ input: CreateLaunchConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLaunchConfigurationTemplateResponse {
-        return try await self.client.execute(operation: "CreateLaunchConfigurationTemplate", path: "/CreateLaunchConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLaunchConfigurationTemplate", 
+            path: "/CreateLaunchConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new ReplicationConfigurationTemplate.
     @Sendable
     public func createReplicationConfigurationTemplate(_ input: CreateReplicationConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicationConfigurationTemplate {
-        return try await self.client.execute(operation: "CreateReplicationConfigurationTemplate", path: "/CreateReplicationConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateReplicationConfigurationTemplate", 
+            path: "/CreateReplicationConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a single Job by ID.
     @Sendable
     public func deleteJob(_ input: DeleteJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteJobResponse {
-        return try await self.client.execute(operation: "DeleteJob", path: "/DeleteJob", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteJob", 
+            path: "/DeleteJob", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a single Launch Configuration Template by ID.
     @Sendable
     public func deleteLaunchConfigurationTemplate(_ input: DeleteLaunchConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLaunchConfigurationTemplateResponse {
-        return try await self.client.execute(operation: "DeleteLaunchConfigurationTemplate", path: "/DeleteLaunchConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteLaunchConfigurationTemplate", 
+            path: "/DeleteLaunchConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it.
     @Sendable
     public func deleteRecoveryInstance(_ input: DeleteRecoveryInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteRecoveryInstance", path: "/DeleteRecoveryInstance", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRecoveryInstance", 
+            path: "/DeleteRecoveryInstance", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a single Replication Configuration Template by ID
     @Sendable
     public func deleteReplicationConfigurationTemplate(_ input: DeleteReplicationConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReplicationConfigurationTemplateResponse {
-        return try await self.client.execute(operation: "DeleteReplicationConfigurationTemplate", path: "/DeleteReplicationConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReplicationConfigurationTemplate", 
+            path: "/DeleteReplicationConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a single Source Server by ID. The Source Server must be disconnected first.
     @Sendable
     public func deleteSourceServer(_ input: DeleteSourceServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSourceServerResponse {
-        return try await self.client.execute(operation: "DeleteSourceServer", path: "/DeleteSourceServer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSourceServer", 
+            path: "/DeleteSourceServer", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a detailed Job log with pagination.
     @Sendable
     public func describeJobLogItems(_ input: DescribeJobLogItemsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobLogItemsResponse {
-        return try await self.client.execute(operation: "DescribeJobLogItems", path: "/DescribeJobLogItems", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeJobLogItems", 
+            path: "/DescribeJobLogItems", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     @Sendable
     public func describeJobs(_ input: DescribeJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobsResponse {
-        return try await self.client.execute(operation: "DescribeJobs", path: "/DescribeJobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeJobs", 
+            path: "/DescribeJobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
     @Sendable
     public func describeLaunchConfigurationTemplates(_ input: DescribeLaunchConfigurationTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLaunchConfigurationTemplatesResponse {
-        return try await self.client.execute(operation: "DescribeLaunchConfigurationTemplates", path: "/DescribeLaunchConfigurationTemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLaunchConfigurationTemplates", 
+            path: "/DescribeLaunchConfigurationTemplates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all Recovery Instances or multiple Recovery Instances by ID.
     @Sendable
     public func describeRecoveryInstances(_ input: DescribeRecoveryInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRecoveryInstancesResponse {
-        return try await self.client.execute(operation: "DescribeRecoveryInstances", path: "/DescribeRecoveryInstances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRecoveryInstances", 
+            path: "/DescribeRecoveryInstances", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all Recovery Snapshots for a single Source Server.
     @Sendable
     public func describeRecoverySnapshots(_ input: DescribeRecoverySnapshotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRecoverySnapshotsResponse {
-        return try await self.client.execute(operation: "DescribeRecoverySnapshots", path: "/DescribeRecoverySnapshots", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeRecoverySnapshots", 
+            path: "/DescribeRecoverySnapshots", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
     @Sendable
     public func describeReplicationConfigurationTemplates(_ input: DescribeReplicationConfigurationTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationConfigurationTemplatesResponse {
-        return try await self.client.execute(operation: "DescribeReplicationConfigurationTemplates", path: "/DescribeReplicationConfigurationTemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReplicationConfigurationTemplates", 
+            path: "/DescribeReplicationConfigurationTemplates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all Source Servers or multiple Source Servers filtered by ID.
     @Sendable
     public func describeSourceServers(_ input: DescribeSourceServersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSourceServersResponse {
-        return try await self.client.execute(operation: "DescribeSourceServers", path: "/DescribeSourceServers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSourceServers", 
+            path: "/DescribeSourceServers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disconnect a Recovery Instance from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Recovery Instance will be terminated / deleted within 90 minutes. If the agent on the Recovery Instance has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the Recovery Instance will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     @Sendable
     public func disconnectRecoveryInstance(_ input: DisconnectRecoveryInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisconnectRecoveryInstance", path: "/DisconnectRecoveryInstance", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisconnectRecoveryInstance", 
+            path: "/DisconnectRecoveryInstance", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     @Sendable
     public func disconnectSourceServer(_ input: DisconnectSourceServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
-        return try await self.client.execute(operation: "DisconnectSourceServer", path: "/DisconnectSourceServer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisconnectSourceServer", 
+            path: "/DisconnectSourceServer", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
     @Sendable
     public func getFailbackReplicationConfiguration(_ input: GetFailbackReplicationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFailbackReplicationConfigurationResponse {
-        return try await self.client.execute(operation: "GetFailbackReplicationConfiguration", path: "/GetFailbackReplicationConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFailbackReplicationConfiguration", 
+            path: "/GetFailbackReplicationConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a LaunchConfiguration, filtered by Source Server IDs.
     @Sendable
     public func getLaunchConfiguration(_ input: GetLaunchConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LaunchConfiguration {
-        return try await self.client.execute(operation: "GetLaunchConfiguration", path: "/GetLaunchConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetLaunchConfiguration", 
+            path: "/GetLaunchConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a ReplicationConfiguration, filtered by Source Server ID.
     @Sendable
     public func getReplicationConfiguration(_ input: GetReplicationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicationConfiguration {
-        return try await self.client.execute(operation: "GetReplicationConfiguration", path: "/GetReplicationConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetReplicationConfiguration", 
+            path: "/GetReplicationConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Initialize Elastic Disaster Recovery.
     @Sendable
     public func initializeService(_ input: InitializeServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InitializeServiceResponse {
-        return try await self.client.execute(operation: "InitializeService", path: "/InitializeService", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "InitializeService", 
+            path: "/InitializeService", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we’re reading from is not an extension of another source server.
     @Sendable
     public func listExtensibleSourceServers(_ input: ListExtensibleSourceServersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExtensibleSourceServersResponse {
-        return try await self.client.execute(operation: "ListExtensibleSourceServers", path: "/ListExtensibleSourceServers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListExtensibleSourceServers", 
+            path: "/ListExtensibleSourceServers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns an array of staging accounts for existing extended source servers.
     @Sendable
     public func listStagingAccounts(_ input: ListStagingAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStagingAccountsResponse {
-        return try await self.client.execute(operation: "ListStagingAccounts", path: "/ListStagingAccounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListStagingAccounts", 
+            path: "/ListStagingAccounts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all tags for your Elastic Disaster Recovery resources.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
     @available(*, deprecated, message: "WARNING: RetryDataReplication is deprecated")
     @Sendable
     public func retryDataReplication(_ input: RetryDataReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
-        return try await self.client.execute(operation: "RetryDataReplication", path: "/RetryDataReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RetryDataReplication", 
+            path: "/RetryDataReplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target region - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them.
     @Sendable
     public func reverseReplication(_ input: ReverseReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReverseReplicationResponse {
-        return try await self.client.execute(operation: "ReverseReplication", path: "/ReverseReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ReverseReplication", 
+            path: "/ReverseReplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the failback process.
     @Sendable
     public func startFailbackLaunch(_ input: StartFailbackLaunchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFailbackLaunchResponse {
-        return try await self.client.execute(operation: "StartFailbackLaunch", path: "/StartFailbackLaunch", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartFailbackLaunch", 
+            path: "/StartFailbackLaunch", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Launches Recovery Instances for the specified Source Servers. For each Source Server you may choose a point in time snapshot to launch from, or use an on demand snapshot.
     @Sendable
     public func startRecovery(_ input: StartRecoveryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRecoveryResponse {
-        return try await self.client.execute(operation: "StartRecovery", path: "/StartRecovery", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartRecovery", 
+            path: "/StartRecovery", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts replication for a stopped Source Server. This action would make the Source Server protected again and restart billing for it.
     @Sendable
     public func startReplication(_ input: StartReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartReplicationResponse {
-        return try await self.client.execute(operation: "StartReplication", path: "/StartReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartReplication", 
+            path: "/StartReplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED.
     @Sendable
     public func stopFailback(_ input: StopFailbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "StopFailback", path: "/StopFailback", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopFailback", 
+            path: "/StopFailback", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops replication for a Source Server. This action would make the Source Server unprotected, delete its existing snapshots and stop billing for it.
     @Sendable
     public func stopReplication(_ input: StopReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopReplicationResponse {
-        return try await self.client.execute(operation: "StopReplication", path: "/StopReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopReplication", 
+            path: "/StopReplication", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or overwrites only the specified tags for the specified Elastic Disaster Recovery resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery Instances from the Elastic Disaster Recovery service.
     @Sendable
     public func terminateRecoveryInstances(_ input: TerminateRecoveryInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateRecoveryInstancesResponse {
-        return try await self.client.execute(operation: "TerminateRecoveryInstances", path: "/TerminateRecoveryInstances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TerminateRecoveryInstances", 
+            path: "/TerminateRecoveryInstances", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified set of tags from the specified set of Elastic Disaster Recovery resources.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Allows you to update the failback replication configuration of a Recovery Instance by ID.
     @Sendable
     public func updateFailbackReplicationConfiguration(_ input: UpdateFailbackReplicationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateFailbackReplicationConfiguration", path: "/UpdateFailbackReplicationConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFailbackReplicationConfiguration", 
+            path: "/UpdateFailbackReplicationConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a LaunchConfiguration by Source Server ID.
     @Sendable
     public func updateLaunchConfiguration(_ input: UpdateLaunchConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LaunchConfiguration {
-        return try await self.client.execute(operation: "UpdateLaunchConfiguration", path: "/UpdateLaunchConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLaunchConfiguration", 
+            path: "/UpdateLaunchConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates an existing Launch Configuration Template by ID.
     @Sendable
     public func updateLaunchConfigurationTemplate(_ input: UpdateLaunchConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLaunchConfigurationTemplateResponse {
-        return try await self.client.execute(operation: "UpdateLaunchConfigurationTemplate", path: "/UpdateLaunchConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLaunchConfigurationTemplate", 
+            path: "/UpdateLaunchConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Allows you to update a ReplicationConfiguration by Source Server ID.
     @Sendable
     public func updateReplicationConfiguration(_ input: UpdateReplicationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicationConfiguration {
-        return try await self.client.execute(operation: "UpdateReplicationConfiguration", path: "/UpdateReplicationConfiguration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateReplicationConfiguration", 
+            path: "/UpdateReplicationConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a ReplicationConfigurationTemplate by ID.
     @Sendable
     public func updateReplicationConfigurationTemplate(_ input: UpdateReplicationConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicationConfigurationTemplate {
-        return try await self.client.execute(operation: "UpdateReplicationConfigurationTemplate", path: "/UpdateReplicationConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateReplicationConfigurationTemplate", 
+            path: "/UpdateReplicationConfigurationTemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

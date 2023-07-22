@@ -71,163 +71,352 @@ public struct ApplicationInsights: AWSService {
     /// Adds an application that is created from a resource group.
     @Sendable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResponse {
-        return try await self.client.execute(operation: "CreateApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a custom component by grouping similar standalone instances to monitor.
     @Sendable
     public func createComponent(_ input: CreateComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateComponentResponse {
-        return try await self.client.execute(operation: "CreateComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateComponent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds an log pattern to a LogPatternSet.
     @Sendable
     public func createLogPattern(_ input: CreateLogPatternRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLogPatternResponse {
-        return try await self.client.execute(operation: "CreateLogPattern", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLogPattern", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified application from monitoring. Does not delete the application.
     @Sendable
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationResponse {
-        return try await self.client.execute(operation: "DeleteApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Ungroups a custom component. When you ungroup custom components, all applicable monitors that are set up for the component are removed and the instances revert to their standalone status.
     @Sendable
     public func deleteComponent(_ input: DeleteComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteComponentResponse {
-        return try await self.client.execute(operation: "DeleteComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteComponent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified log pattern from a LogPatternSet.
     @Sendable
     public func deleteLogPattern(_ input: DeleteLogPatternRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLogPatternResponse {
-        return try await self.client.execute(operation: "DeleteLogPattern", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteLogPattern", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the application.
     @Sendable
     public func describeApplication(_ input: DescribeApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationResponse {
-        return try await self.client.execute(operation: "DescribeApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a component and lists the resources that are grouped together in a component.
     @Sendable
     public func describeComponent(_ input: DescribeComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeComponentResponse {
-        return try await self.client.execute(operation: "DescribeComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeComponent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the monitoring configuration of the component.
     @Sendable
     public func describeComponentConfiguration(_ input: DescribeComponentConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeComponentConfigurationResponse {
-        return try await self.client.execute(operation: "DescribeComponentConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeComponentConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the recommended monitoring configuration of the component.
     @Sendable
     public func describeComponentConfigurationRecommendation(_ input: DescribeComponentConfigurationRecommendationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeComponentConfigurationRecommendationResponse {
-        return try await self.client.execute(operation: "DescribeComponentConfigurationRecommendation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeComponentConfigurationRecommendation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describe a specific log pattern from a LogPatternSet.
     @Sendable
     public func describeLogPattern(_ input: DescribeLogPatternRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLogPatternResponse {
-        return try await self.client.execute(operation: "DescribeLogPattern", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLogPattern", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an anomaly or error with the application.
     @Sendable
     public func describeObservation(_ input: DescribeObservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeObservationResponse {
-        return try await self.client.execute(operation: "DescribeObservation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeObservation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes an application problem.
     @Sendable
     public func describeProblem(_ input: DescribeProblemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProblemResponse {
-        return try await self.client.execute(operation: "DescribeProblem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProblem", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes the anomalies or errors associated with the problem.
     @Sendable
     public func describeProblemObservations(_ input: DescribeProblemObservationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProblemObservationsResponse {
-        return try await self.client.execute(operation: "DescribeProblemObservations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProblemObservations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the IDs of the applications that you are monitoring.
     @Sendable
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsResponse {
-        return try await self.client.execute(operation: "ListApplications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApplications", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the auto-grouped, standalone, and custom components of the application.
     @Sendable
     public func listComponents(_ input: ListComponentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentsResponse {
-        return try await self.client.execute(operation: "ListComponents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListComponents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:    INFO: creating a new alarm or updating an alarm threshold.   WARN: alarm not created due to insufficient data points used to predict thresholds.   ERROR: alarm not created due to permission errors or exceeding quotas.
     @Sendable
     public func listConfigurationHistory(_ input: ListConfigurationHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationHistoryResponse {
-        return try await self.client.execute(operation: "ListConfigurationHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListConfigurationHistory", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the log pattern sets in the specific application.
     @Sendable
     public func listLogPatternSets(_ input: ListLogPatternSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLogPatternSetsResponse {
-        return try await self.client.execute(operation: "ListLogPatternSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListLogPatternSets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the log patterns in the specific log LogPatternSet.
     @Sendable
     public func listLogPatterns(_ input: ListLogPatternsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLogPatternsResponse {
-        return try await self.client.execute(operation: "ListLogPatterns", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListLogPatterns", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the problems with your application.
     @Sendable
     public func listProblems(_ input: ListProblemsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProblemsResponse {
-        return try await self.client.execute(operation: "ListProblems", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProblems", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve a list of the tags (keys and values) that are associated with a specified application. A tag is a label that you optionally define and associate with an application. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Add one or more tags (keys and values) to a specified application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage application in different ways, such as by purpose, owner, environment, or other criteria.  Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Remove one or more tags (keys and values) from a specified application.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the application.
     @Sendable
     public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationResponse {
-        return try await self.client.execute(operation: "UpdateApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the custom component name and/or the list of resources that make up the component.
     @Sendable
     public func updateComponent(_ input: UpdateComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateComponentResponse {
-        return try await self.client.execute(operation: "UpdateComponent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateComponent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the monitoring configurations for the component. The configuration input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigurationRecommendation.
     @Sendable
     public func updateComponentConfiguration(_ input: UpdateComponentConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateComponentConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateComponentConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateComponentConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a log pattern to a LogPatternSet.
     @Sendable
     public func updateLogPattern(_ input: UpdateLogPatternRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLogPatternResponse {
-        return try await self.client.execute(operation: "UpdateLogPattern", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLogPattern", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

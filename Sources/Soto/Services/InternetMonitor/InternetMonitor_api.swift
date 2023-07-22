@@ -137,13 +137,27 @@ public struct InternetMonitor: AWSService {
     /// 			by updating your monitor. For more information, see Choosing a city-network maximum value in the Amazon CloudWatch User Guide.
     @Sendable
     public func createMonitor(_ input: CreateMonitorInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMonitorOutput {
-        return try await self.client.execute(operation: "CreateMonitor", path: "/v20210603/Monitors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMonitor", 
+            path: "/v20210603/Monitors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a monitor in Amazon CloudWatch Internet Monitor.
     @Sendable
     public func deleteMonitor(_ input: DeleteMonitorInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMonitorOutput {
-        return try await self.client.execute(operation: "DeleteMonitor", path: "/v20210603/Monitors/{MonitorName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMonitor", 
+            path: "/v20210603/Monitors/{MonitorName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information the Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This information includes the impacted locations,
@@ -151,45 +165,94 @@ public struct InternetMonitor: AWSService {
     /// 			and so on. Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
     @Sendable
     public func getHealthEvent(_ input: GetHealthEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHealthEventOutput {
-        return try await self.client.execute(operation: "GetHealthEvent", path: "/v20210603/Monitors/{MonitorName}/HealthEvents/{EventId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetHealthEvent", 
+            path: "/v20210603/Monitors/{MonitorName}/HealthEvents/{EventId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a monitor in Amazon CloudWatch Internet Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time,
     /// 			modified time, resources included in the monitor, and status information.
     @Sendable
     public func getMonitor(_ input: GetMonitorInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMonitorOutput {
-        return try await self.client.execute(operation: "GetMonitor", path: "/v20210603/Monitors/{MonitorName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMonitor", 
+            path: "/v20210603/Monitors/{MonitorName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns all information for health events including the client location information the network
     /// 			cause and status, event start and end time, percentage of total traffic impacted, and status.  Health events that have start times during the time frame that is requested are not included in the list of health events.
     @Sendable
     public func listHealthEvents(_ input: ListHealthEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHealthEventsOutput {
-        return try await self.client.execute(operation: "ListHealthEvents", path: "/v20210603/Monitors/{MonitorName}/HealthEvents", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListHealthEvents", 
+            path: "/v20210603/Monitors/{MonitorName}/HealthEvents", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all of your monitors for Amazon CloudWatch Internet Monitor and their statuses, along with the Amazon Resource Name (ARN) and name of each monitor.
     @Sendable
     public func listMonitors(_ input: ListMonitorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMonitorsOutput {
-        return try await self.client.execute(operation: "ListMonitors", path: "/v20210603/Monitors", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMonitors", 
+            path: "/v20210603/Monitors", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags for a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds a tag to a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor. You can add a maximum of 50 tags in Internet Monitor. A minimum of one tag is required for this call. It returns an error if you use the TagResource request with 0 tags.
     @Sendable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a tag from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a monitor. You can update a monitor to change the maximum number of city-networks (locations and ASNs or
@@ -198,7 +261,14 @@ public struct InternetMonitor: AWSService {
     /// 			For more information, see Choosing a city-network maximum value in the Amazon CloudWatch User Guide.
     @Sendable
     public func updateMonitor(_ input: UpdateMonitorInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMonitorOutput {
-        return try await self.client.execute(operation: "UpdateMonitor", path: "/v20210603/Monitors/{MonitorName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMonitor", 
+            path: "/v20210603/Monitors/{MonitorName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

@@ -76,376 +76,810 @@ public struct SecurityHub: AWSService {
     /// Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     @Sendable
     public func acceptAdministratorInvitation(_ input: AcceptAdministratorInvitationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptAdministratorInvitationResponse {
-        return try await self.client.execute(operation: "AcceptAdministratorInvitation", path: "/administrator", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AcceptAdministratorInvitation", 
+            path: "/administrator", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This method is deprecated. Instead, use AcceptAdministratorInvitation. The Security Hub console continues to use AcceptInvitation. It will eventually change to use AcceptAdministratorInvitation. Any IAM policies that specifically control access to this function must continue to use AcceptInvitation. You should also add AcceptAdministratorInvitation to your policies to ensure that the correct permissions are in place after the console begins to use AcceptAdministratorInvitation. Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     @available(*, deprecated, message: "This API has been deprecated, use AcceptAdministratorInvitation API instead.")
     @Sendable
     public func acceptInvitation(_ input: AcceptInvitationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptInvitationResponse {
-        return try await self.client.execute(operation: "AcceptInvitation", path: "/master", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AcceptInvitation", 
+            path: "/master", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see Security Standards section of the Security Hub User Guide.
     @Sendable
     public func batchDisableStandards(_ input: BatchDisableStandardsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisableStandardsResponse {
-        return try await self.client.execute(operation: "BatchDisableStandards", path: "/standards/deregister", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDisableStandards", 
+            path: "/standards/deregister", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the Security Standards section of the Security Hub User Guide.
     @Sendable
     public func batchEnableStandards(_ input: BatchEnableStandardsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchEnableStandardsResponse {
-        return try await self.client.execute(operation: "BatchEnableStandards", path: "/standards/register", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchEnableStandards", 
+            path: "/standards/register", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Provides details about a batch of security controls for the current Amazon Web Services account and Amazon Web Services Region.
     @Sendable
     public func batchGetSecurityControls(_ input: BatchGetSecurityControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetSecurityControlsResponse {
-        return try await self.client.execute(operation: "BatchGetSecurityControls", path: "/securityControls/batchGet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetSecurityControls", 
+            path: "/securityControls/batchGet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard.
     @Sendable
     public func batchGetStandardsControlAssociations(_ input: BatchGetStandardsControlAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetStandardsControlAssociationsResponse {
-        return try await self.client.execute(operation: "BatchGetStandardsControlAssociations", path: "/associations/batchGet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetStandardsControlAssociations", 
+            path: "/associations/batchGet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Imports security findings generated by a finding provider into Security Hub. This action is requested by the finding provider to import its findings into Security Hub.  BatchImportFindings must be called by one of the following:   The Amazon Web Services account that is associated with a finding if you are using the default product ARN  or are a partner sending findings from within a customer's Amazon Web Services account.  In these cases, the identifier of the account that you are calling BatchImportFindings  from needs to be the same as the AwsAccountId attribute for the finding.   An Amazon Web Services account that Security Hub has allow-listed for an official partner integration. In this case, you can call BatchImportFindings from the allow-listed account and send findings from different customer accounts in the same batch.   The maximum allowed size for a finding is 240 Kb. An error is returned for any finding larger than 240 Kb. After a finding is created, BatchImportFindings cannot be used to update the following finding fields and objects, which Security Hub customers use to manage their investigation workflow.    Note     UserDefinedFields     VerificationState     Workflow    Finding providers also should not use BatchImportFindings to update the following attributes.    Confidence     Criticality     RelatedFindings     Severity     Types    Instead, finding providers use FindingProviderFields to provide values for these attributes.
     @Sendable
     public func batchImportFindings(_ input: BatchImportFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchImportFindingsResponse {
-        return try await self.client.execute(operation: "BatchImportFindings", path: "/findings/import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchImportFindings", 
+            path: "/findings/import", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Used by Security Hub customers to update information about their investigation into a finding. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. Updates from BatchUpdateFindings do not affect the value of UpdatedAt for a finding. Administrator and member accounts can use BatchUpdateFindings to update the following finding fields and objects.    Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow    You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. See Configuring access to BatchUpdateFindings in the Security Hub User Guide.
     @Sendable
     public func batchUpdateFindings(_ input: BatchUpdateFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateFindingsResponse {
-        return try await self.client.execute(operation: "BatchUpdateFindings", path: "/findings/batchupdate", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchUpdateFindings", 
+            path: "/findings/batchupdate", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  For a batch of security controls and standards, this operation updates the enablement status of a control in a standard.
     @Sendable
     public func batchUpdateStandardsControlAssociations(_ input: BatchUpdateStandardsControlAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateStandardsControlAssociationsResponse {
-        return try await self.client.execute(operation: "BatchUpdateStandardsControlAssociations", path: "/associations", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchUpdateStandardsControlAssociations", 
+            path: "/associations", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
     @Sendable
     public func createActionTarget(_ input: CreateActionTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateActionTargetResponse {
-        return try await self.client.execute(operation: "CreateActionTarget", path: "/actionTargets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateActionTarget", 
+            path: "/actionTargets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Used to enable finding aggregation. Must be called from the aggregation Region. For more details about cross-Region replication, see Configuring finding aggregation in the Security Hub User Guide.
     @Sendable
     public func createFindingAggregator(_ input: CreateFindingAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFindingAggregatorResponse {
-        return try await self.client.execute(operation: "CreateFindingAggregator", path: "/findingAggregator/create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFindingAggregator", 
+            path: "/findingAggregator/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
     @Sendable
     public func createInsight(_ input: CreateInsightRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInsightResponse {
-        return try await self.client.execute(operation: "CreateInsight", path: "/insights", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateInsight", 
+            path: "/insights", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account.  CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases:   Security Hub is not configured to automatically add new organization accounts.   The account was disassociated or deleted in Security Hub.   This action can only be used by an account that has Security Hub enabled. To enable Security Hub, you can use the EnableSecurityHub operation. For accounts that are not organization members, you create the account association and then send an invitation to the member account. To send the invitation, you use the InviteMembers operation. If the account owner accepts the invitation, the account becomes a member account in Security Hub. Accounts that are managed using Organizations do not receive an invitation. They automatically become a member account in Security Hub.   If the organization account does not have Security Hub enabled, then Security Hub and the default standards are automatically enabled. Note that Security Hub cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub before the administrator account enables it as a member account.   For organization accounts that already have Security Hub enabled, Security Hub does not make any other changes to those accounts. It does not change their enabled standards or controls.   A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
     @Sendable
     public func createMembers(_ input: CreateMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMembersResponse {
-        return try await self.client.execute(operation: "CreateMembers", path: "/members", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMembers", 
+            path: "/members", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Declines invitations to become a member account. A prospective member account uses this operation to decline an invitation to become a member. This operation is only called by member accounts that aren't part of an organization. Organization accounts don't receive invitations.
     @Sendable
     public func declineInvitations(_ input: DeclineInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeclineInvitationsResponse {
-        return try await self.client.execute(operation: "DeclineInvitations", path: "/invitations/decline", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeclineInvitations", 
+            path: "/invitations/decline", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a custom action target from Security Hub. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
     @Sendable
     public func deleteActionTarget(_ input: DeleteActionTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteActionTargetResponse {
-        return try await self.client.execute(operation: "DeleteActionTarget", path: "/actionTargets/{ActionTargetArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteActionTarget", 
+            path: "/actionTargets/{ActionTargetArn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a finding aggregator. When you delete the finding aggregator, you stop finding aggregation. When you stop finding aggregation, findings that were already aggregated to the aggregation Region are still visible from the aggregation Region. New findings and finding updates are not aggregated.
     @Sendable
     public func deleteFindingAggregator(_ input: DeleteFindingAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFindingAggregatorResponse {
-        return try await self.client.execute(operation: "DeleteFindingAggregator", path: "/findingAggregator/delete/{FindingAggregatorArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFindingAggregator", 
+            path: "/findingAggregator/delete/{FindingAggregatorArn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the insight specified by the InsightArn.
     @Sendable
     public func deleteInsight(_ input: DeleteInsightRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInsightResponse {
-        return try await self.client.execute(operation: "DeleteInsight", path: "/insights/{InsightArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteInsight", 
+            path: "/insights/{InsightArn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes invitations received by the Amazon Web Services account to become a member account. A Security Hub administrator account can use this operation to delete invitations sent to one or more member accounts. This operation is only used to delete invitations that are sent to member accounts that aren't part of an organization. Organization accounts don't receive invitations.
     @Sendable
     public func deleteInvitations(_ input: DeleteInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInvitationsResponse {
-        return try await self.client.execute(operation: "DeleteInvitations", path: "/invitations/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteInvitations", 
+            path: "/invitations/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified member accounts from Security Hub. Can be used to delete member accounts that belong to an organization as well as member accounts that were invited manually.
     @Sendable
     public func deleteMembers(_ input: DeleteMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMembersResponse {
-        return try await self.client.execute(operation: "DeleteMembers", path: "/members/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMembers", 
+            path: "/members/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the custom action targets in Security Hub in your account.
     @Sendable
     public func describeActionTargets(_ input: DescribeActionTargetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeActionTargetsResponse {
-        return try await self.client.execute(operation: "DescribeActionTargets", path: "/actionTargets/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeActionTargets", 
+            path: "/actionTargets/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub.
     @Sendable
     public func describeHub(_ input: DescribeHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeHubResponse {
-        return try await self.client.execute(operation: "DescribeHub", path: "/accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeHub", 
+            path: "/accounts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the Organizations configuration for Security Hub. Can only be called from a Security Hub administrator account.
     @Sendable
     public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigurationResponse {
-        return try await self.client.execute(operation: "DescribeOrganizationConfiguration", path: "/organization/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeOrganizationConfiguration", 
+            path: "/organization/configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you do not provide an integration ARN, then the results include all of the available product integrations.
     @Sendable
     public func describeProducts(_ input: DescribeProductsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProductsResponse {
-        return try await self.client.execute(operation: "DescribeProducts", path: "/products", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProducts", 
+            path: "/products", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description.
     @Sendable
     public func describeStandards(_ input: DescribeStandardsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStandardsResponse {
-        return try await self.client.execute(operation: "DescribeStandards", path: "/standards", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeStandards", 
+            path: "/standards", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
     @Sendable
     public func describeStandardsControls(_ input: DescribeStandardsControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStandardsControlsResponse {
-        return try await self.client.execute(operation: "DescribeStandardsControls", path: "/standards/controls/{StandardsSubscriptionArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeStandardsControls", 
+            path: "/standards/controls/{StandardsSubscriptionArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables the integration of the specified product with Security Hub. After the integration is disabled, findings from that product are no longer sent to Security Hub.
     @Sendable
     public func disableImportFindingsForProduct(_ input: DisableImportFindingsForProductRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableImportFindingsForProductResponse {
-        return try await self.client.execute(operation: "DisableImportFindingsForProduct", path: "/productSubscriptions/{ProductSubscriptionArn+}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableImportFindingsForProduct", 
+            path: "/productSubscriptions/{ProductSubscriptionArn+}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables a Security Hub administrator account. Can only be called by the organization management account.
     @Sendable
     public func disableOrganizationAdminAccount(_ input: DisableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableOrganizationAdminAccountResponse {
-        return try await self.client.execute(operation: "DisableOrganizationAdminAccount", path: "/organization/admin/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableOrganizationAdminAccount", 
+            path: "/organization/admin/disable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables Security Hub in your account only in the current Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. When you disable Security Hub for an administrator account, it doesn't disable Security Hub for any associated member accounts. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
     @Sendable
     public func disableSecurityHub(_ input: DisableSecurityHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableSecurityHubResponse {
-        return try await self.client.execute(operation: "DisableSecurityHub", path: "/accounts", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableSecurityHub", 
+            path: "/accounts", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     @Sendable
     public func disassociateFromAdministratorAccount(_ input: DisassociateFromAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromAdministratorAccountResponse {
-        return try await self.client.execute(operation: "DisassociateFromAdministratorAccount", path: "/administrator/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateFromAdministratorAccount", 
+            path: "/administrator/disassociate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security Hub console continues to use DisassociateFromMasterAccount. It will eventually change to use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use DisassociateFromMasterAccount. You should also add DisassociateFromAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use DisassociateFromAdministratorAccount. Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     @available(*, deprecated, message: "This API has been deprecated, use DisassociateFromAdministratorAccount API instead.")
     @Sendable
     public func disassociateFromMasterAccount(_ input: DisassociateFromMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromMasterAccountResponse {
-        return try await self.client.execute(operation: "DisassociateFromMasterAccount", path: "/master/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateFromMasterAccount", 
+            path: "/master/disassociate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates the specified member accounts from the associated administrator account. Can be used to disassociate both accounts that are managed using Organizations and accounts that were invited manually.
     @Sendable
     public func disassociateMembers(_ input: DisassociateMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateMembersResponse {
-        return try await self.client.execute(operation: "DisassociateMembers", path: "/members/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateMembers", 
+            path: "/members/disassociate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables the integration of a partner product with Security Hub. Integrated products send findings to Security Hub. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub is applied.
     @Sendable
     public func enableImportFindingsForProduct(_ input: EnableImportFindingsForProductRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableImportFindingsForProductResponse {
-        return try await self.client.execute(operation: "EnableImportFindingsForProduct", path: "/productSubscriptions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableImportFindingsForProduct", 
+            path: "/productSubscriptions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Designates the Security Hub administrator account for an organization. Can only be called by the organization management account.
     @Sendable
     public func enableOrganizationAdminAccount(_ input: EnableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableOrganizationAdminAccountResponse {
-        return try await self.client.execute(operation: "EnableOrganizationAdminAccount", path: "/organization/admin/enable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableOrganizationAdminAccount", 
+            path: "/organization/admin/enable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables Security Hub for your account in the current Region or the Region you specify in the request. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from other services that are integrated with Security Hub. When you use the EnableSecurityHub operation to enable Security Hub, you also automatically enable the following standards:   Center for Internet Security (CIS) Amazon Web Services Foundations Benchmark v1.2.0   Amazon Web Services Foundational Security Best Practices   Other standards are not automatically enabled.  To opt out of automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard, use the BatchEnableStandards operation. To disable a standard, use the BatchDisableStandards operation. To learn more, see the setup information in the Security Hub User Guide.
     @Sendable
     public func enableSecurityHub(_ input: EnableSecurityHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableSecurityHubResponse {
-        return try await self.client.execute(operation: "EnableSecurityHub", path: "/accounts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableSecurityHub", 
+            path: "/accounts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     @Sendable
     public func getAdministratorAccount(_ input: GetAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdministratorAccountResponse {
-        return try await self.client.execute(operation: "GetAdministratorAccount", path: "/administrator", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAdministratorAccount", 
+            path: "/administrator", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the standards that are currently enabled.
     @Sendable
     public func getEnabledStandards(_ input: GetEnabledStandardsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnabledStandardsResponse {
-        return try await self.client.execute(operation: "GetEnabledStandards", path: "/standards/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetEnabledStandards", 
+            path: "/standards/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the current finding aggregation configuration.
     @Sendable
     public func getFindingAggregator(_ input: GetFindingAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingAggregatorResponse {
-        return try await self.client.execute(operation: "GetFindingAggregator", path: "/findingAggregator/get/{FindingAggregatorArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFindingAggregator", 
+            path: "/findingAggregator/get/{FindingAggregatorArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns history for a Security Hub finding in the last 90 days. The history includes changes made to any fields in  the Amazon Web Services Security Finding Format (ASFF).
     @Sendable
     public func getFindingHistory(_ input: GetFindingHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingHistoryResponse {
-        return try await self.client.execute(operation: "GetFindingHistory", path: "/findingHistory/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFindingHistory", 
+            path: "/findingHistory/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of findings that match the specified criteria. If finding aggregation is enabled, then when you call GetFindings from the aggregation Region, the results include all of the matching findings from both the aggregation Region and the linked Regions.
     @Sendable
     public func getFindings(_ input: GetFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsResponse {
-        return try await self.client.execute(operation: "GetFindings", path: "/findings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFindings", 
+            path: "/findings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the results of the Security Hub insight specified by the insight ARN.
     @Sendable
     public func getInsightResults(_ input: GetInsightResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInsightResultsResponse {
-        return try await self.client.execute(operation: "GetInsightResults", path: "/insights/results/{InsightArn+}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetInsightResults", 
+            path: "/insights/results/{InsightArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists and describes insights for the specified insight ARNs.
     @Sendable
     public func getInsights(_ input: GetInsightsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInsightsResponse {
-        return try await self.client.execute(operation: "GetInsights", path: "/insights/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetInsights", 
+            path: "/insights/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the count of all Security Hub membership invitations that were sent to the current member account, not including the currently accepted invitation.
     @Sendable
     public func getInvitationsCount(_ input: GetInvitationsCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvitationsCountResponse {
-        return try await self.client.execute(operation: "GetInvitationsCount", path: "/invitations/count", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetInvitationsCount", 
+            path: "/invitations/count", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub console continues to use GetMasterAccount. It will eventually change to use GetAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use GetAdministratorAccount. Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     @available(*, deprecated, message: "This API has been deprecated, use GetAdministratorAccount API instead.")
     @Sendable
     public func getMasterAccount(_ input: GetMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMasterAccountResponse {
-        return try await self.client.execute(operation: "GetMasterAccount", path: "/master", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMasterAccount", 
+            path: "/master", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the details for the Security Hub member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub administrator account for an organization or an administrator account that enabled Security Hub manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually.
     @Sendable
     public func getMembers(_ input: GetMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMembersResponse {
-        return try await self.client.execute(operation: "GetMembers", path: "/members/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMembers", 
+            path: "/members/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that the invitation is sent from. This operation is only used to invite accounts that do not belong to an organization. Organization accounts do not receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the administrator account can view the findings generated from the member account.
     @Sendable
     public func inviteMembers(_ input: InviteMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InviteMembersResponse {
-        return try await self.client.execute(operation: "InviteMembers", path: "/members/invite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "InviteMembers", 
+            path: "/members/invite", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
     @Sendable
     public func listEnabledProductsForImport(_ input: ListEnabledProductsForImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnabledProductsForImportResponse {
-        return try await self.client.execute(operation: "ListEnabledProductsForImport", path: "/productSubscriptions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListEnabledProductsForImport", 
+            path: "/productSubscriptions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// If finding aggregation is enabled, then ListFindingAggregators returns the ARN of the finding aggregator. You can run this operation from any Region.
     @Sendable
     public func listFindingAggregators(_ input: ListFindingAggregatorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFindingAggregatorsResponse {
-        return try await self.client.execute(operation: "ListFindingAggregators", path: "/findingAggregator/list", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFindingAggregators", 
+            path: "/findingAggregator/list", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all Security Hub membership invitations that were sent to the current Amazon Web Services account. This operation is only used by accounts that are managed by invitation. Accounts that are managed using the integration with Organizations do not receive invitations.
     @Sendable
     public func listInvitations(_ input: ListInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvitationsResponse {
-        return try await self.client.execute(operation: "ListInvitations", path: "/invitations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListInvitations", 
+            path: "/invitations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists details about all member accounts for the current Security Hub administrator account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
     @Sendable
     public func listMembers(_ input: ListMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMembersResponse {
-        return try await self.client.execute(operation: "ListMembers", path: "/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMembers", 
+            path: "/members", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the Security Hub administrator accounts. Can only be called by the organization management account.
     @Sendable
     public func listOrganizationAdminAccounts(_ input: ListOrganizationAdminAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationAdminAccountsResponse {
-        return try await self.client.execute(operation: "ListOrganizationAdminAccounts", path: "/organization/admin", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOrganizationAdminAccounts", 
+            path: "/organization/admin", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Lists all of the security controls that apply to a specified standard.
     @Sendable
     public func listSecurityControlDefinitions(_ input: ListSecurityControlDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityControlDefinitionsResponse {
-        return try await self.client.execute(operation: "ListSecurityControlDefinitions", path: "/securityControls/definitions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSecurityControlDefinitions", 
+            path: "/securityControls/definitions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account.
     @Sendable
     public func listStandardsControlAssociations(_ input: ListStandardsControlAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStandardsControlAssociationsResponse {
-        return try await self.client.execute(operation: "ListStandardsControlAssociations", path: "/associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListStandardsControlAssociations", 
+            path: "/associations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of tags associated with a resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds one or more tags to a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the name and description of a custom action target in Security Hub.
     @Sendable
     public func updateActionTarget(_ input: UpdateActionTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateActionTargetResponse {
-        return try await self.client.execute(operation: "UpdateActionTarget", path: "/actionTargets/{ActionTargetArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateActionTarget", 
+            path: "/actionTargets/{ActionTargetArn+}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the finding aggregation configuration. Used to update the Region linking mode and the list of included or excluded Regions. You cannot use UpdateFindingAggregator to change the aggregation Region. You must run UpdateFindingAggregator from the current aggregation Region.
     @Sendable
     public func updateFindingAggregator(_ input: UpdateFindingAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFindingAggregatorResponse {
-        return try await self.client.execute(operation: "UpdateFindingAggregator", path: "/findingAggregator/update", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFindingAggregator", 
+            path: "/findingAggregator/update", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  UpdateFindings is deprecated. Instead of UpdateFindings, use BatchUpdateFindings. Updates the Note and RecordState of the Security Hub-aggregated findings that the filter attributes specify. Any member account that can view the finding also sees the update to the finding.
     @Sendable
     public func updateFindings(_ input: UpdateFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFindingsResponse {
-        return try await self.client.execute(operation: "UpdateFindings", path: "/findings", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFindings", 
+            path: "/findings", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the Security Hub insight identified by the specified insight ARN.
     @Sendable
     public func updateInsight(_ input: UpdateInsightRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInsightResponse {
-        return try await self.client.execute(operation: "UpdateInsight", path: "/insights/{InsightArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateInsight", 
+            path: "/insights/{InsightArn+}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Used to update the configuration related to Organizations. Can only be called from a Security Hub administrator account.
     @Sendable
     public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOrganizationConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateOrganizationConfiguration", path: "/organization/configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateOrganizationConfiguration", 
+            path: "/organization/configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates configuration options for Security Hub.
     @Sendable
     public func updateSecurityHubConfiguration(_ input: UpdateSecurityHubConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSecurityHubConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateSecurityHubConfiguration", path: "/accounts", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSecurityHubConfiguration", 
+            path: "/accounts", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Used to control whether an individual security standard control is enabled or disabled.
     @Sendable
     public func updateStandardsControl(_ input: UpdateStandardsControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStandardsControlResponse {
-        return try await self.client.execute(operation: "UpdateStandardsControl", path: "/standards/control/{StandardsControlArn+}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateStandardsControl", 
+            path: "/standards/control/{StandardsControlArn+}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

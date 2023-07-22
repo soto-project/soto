@@ -74,475 +74,1028 @@ public struct Macie2: AWSService {
     /// Accepts an Amazon Macie membership invitation that was received from a specific account.
     @Sendable
     public func acceptInvitation(_ input: AcceptInvitationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptInvitationResponse {
-        return try await self.client.execute(operation: "AcceptInvitation", path: "/invitations/accept", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AcceptInvitation", 
+            path: "/invitations/accept", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about one or more custom data identifiers.
     @Sendable
     public func batchGetCustomDataIdentifiers(_ input: BatchGetCustomDataIdentifiersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetCustomDataIdentifiersResponse {
-        return try await self.client.execute(operation: "BatchGetCustomDataIdentifiers", path: "/custom-data-identifiers/get", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetCustomDataIdentifiers", 
+            path: "/custom-data-identifiers/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates and defines the settings for an allow list.
     @Sendable
     public func createAllowList(_ input: CreateAllowListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAllowListResponse {
-        return try await self.client.execute(operation: "CreateAllowList", path: "/allow-lists", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAllowList", 
+            path: "/allow-lists", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates and defines the settings for a classification job.
     @Sendable
     public func createClassificationJob(_ input: CreateClassificationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClassificationJobResponse {
-        return try await self.client.execute(operation: "CreateClassificationJob", path: "/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateClassificationJob", 
+            path: "/jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates and defines the criteria and other settings for a custom data identifier.
     @Sendable
     public func createCustomDataIdentifier(_ input: CreateCustomDataIdentifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomDataIdentifierResponse {
-        return try await self.client.execute(operation: "CreateCustomDataIdentifier", path: "/custom-data-identifiers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCustomDataIdentifier", 
+            path: "/custom-data-identifiers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates and defines the criteria and other settings for a findings filter.
     @Sendable
     public func createFindingsFilter(_ input: CreateFindingsFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFindingsFilterResponse {
-        return try await self.client.execute(operation: "CreateFindingsFilter", path: "/findingsfilters", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateFindingsFilter", 
+            path: "/findingsfilters", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sends an Amazon Macie membership invitation to one or more accounts.
     @Sendable
     public func createInvitations(_ input: CreateInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInvitationsResponse {
-        return try await self.client.execute(operation: "CreateInvitations", path: "/invitations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateInvitations", 
+            path: "/invitations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Associates an account with an Amazon Macie administrator account.
     @Sendable
     public func createMember(_ input: CreateMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMemberResponse {
-        return try await self.client.execute(operation: "CreateMember", path: "/members", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateMember", 
+            path: "/members", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates sample findings.
     @Sendable
     public func createSampleFindings(_ input: CreateSampleFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSampleFindingsResponse {
-        return try await self.client.execute(operation: "CreateSampleFindings", path: "/findings/sample", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSampleFindings", 
+            path: "/findings/sample", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Declines Amazon Macie membership invitations that were received from specific accounts.
     @Sendable
     public func declineInvitations(_ input: DeclineInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeclineInvitationsResponse {
-        return try await self.client.execute(operation: "DeclineInvitations", path: "/invitations/decline", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeclineInvitations", 
+            path: "/invitations/decline", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an allow list.
     @Sendable
     public func deleteAllowList(_ input: DeleteAllowListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAllowListResponse {
-        return try await self.client.execute(operation: "DeleteAllowList", path: "/allow-lists/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAllowList", 
+            path: "/allow-lists/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Soft deletes a custom data identifier.
     @Sendable
     public func deleteCustomDataIdentifier(_ input: DeleteCustomDataIdentifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomDataIdentifierResponse {
-        return try await self.client.execute(operation: "DeleteCustomDataIdentifier", path: "/custom-data-identifiers/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCustomDataIdentifier", 
+            path: "/custom-data-identifiers/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a findings filter.
     @Sendable
     public func deleteFindingsFilter(_ input: DeleteFindingsFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFindingsFilterResponse {
-        return try await self.client.execute(operation: "DeleteFindingsFilter", path: "/findingsfilters/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFindingsFilter", 
+            path: "/findingsfilters/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes Amazon Macie membership invitations that were received from specific accounts.
     @Sendable
     public func deleteInvitations(_ input: DeleteInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInvitationsResponse {
-        return try await self.client.execute(operation: "DeleteInvitations", path: "/invitations/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteInvitations", 
+            path: "/invitations/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the association between an Amazon Macie administrator account and an account.
     @Sendable
     public func deleteMember(_ input: DeleteMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMemberResponse {
-        return try await self.client.execute(operation: "DeleteMember", path: "/members/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteMember", 
+            path: "/members/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
     @Sendable
     public func describeBuckets(_ input: DescribeBucketsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBucketsResponse {
-        return try await self.client.execute(operation: "DescribeBuckets", path: "/datasources/s3", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeBuckets", 
+            path: "/datasources/s3", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the status and settings for a classification job.
     @Sendable
     public func describeClassificationJob(_ input: DescribeClassificationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClassificationJobResponse {
-        return try await self.client.execute(operation: "DescribeClassificationJob", path: "/jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeClassificationJob", 
+            path: "/jobs/{jobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the Amazon Macie configuration settings for an organization in Organizations.
     @Sendable
     public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigurationResponse {
-        return try await self.client.execute(operation: "DescribeOrganizationConfiguration", path: "/admin/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeOrganizationConfiguration", 
+            path: "/admin/configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables Amazon Macie and deletes all settings and resources for a Macie account.
     @Sendable
     public func disableMacie(_ input: DisableMacieRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableMacieResponse {
-        return try await self.client.execute(operation: "DisableMacie", path: "/macie", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableMacie", 
+            path: "/macie", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations.
     @Sendable
     public func disableOrganizationAdminAccount(_ input: DisableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableOrganizationAdminAccountResponse {
-        return try await self.client.execute(operation: "DisableOrganizationAdminAccount", path: "/admin", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableOrganizationAdminAccount", 
+            path: "/admin", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates a member account from its Amazon Macie administrator account.
     @Sendable
     public func disassociateFromAdministratorAccount(_ input: DisassociateFromAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromAdministratorAccountResponse {
-        return try await self.client.execute(operation: "DisassociateFromAdministratorAccount", path: "/administrator/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateFromAdministratorAccount", 
+            path: "/administrator/disassociate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
     @Sendable
     public func disassociateFromMasterAccount(_ input: DisassociateFromMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromMasterAccountResponse {
-        return try await self.client.execute(operation: "DisassociateFromMasterAccount", path: "/master/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateFromMasterAccount", 
+            path: "/master/disassociate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Disassociates an Amazon Macie administrator account from a member account.
     @Sendable
     public func disassociateMember(_ input: DisassociateMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateMemberResponse {
-        return try await self.client.execute(operation: "DisassociateMember", path: "/members/disassociate/{id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateMember", 
+            path: "/members/disassociate/{id}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables Amazon Macie and specifies the configuration settings for a Macie account.
     @Sendable
     public func enableMacie(_ input: EnableMacieRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableMacieResponse {
-        return try await self.client.execute(operation: "EnableMacie", path: "/macie", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableMacie", 
+            path: "/macie", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations.
     @Sendable
     public func enableOrganizationAdminAccount(_ input: EnableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableOrganizationAdminAccountResponse {
-        return try await self.client.execute(operation: "EnableOrganizationAdminAccount", path: "/admin", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableOrganizationAdminAccount", 
+            path: "/admin", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the Amazon Macie administrator account for an account.
     @Sendable
     public func getAdministratorAccount(_ input: GetAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdministratorAccountResponse {
-        return try await self.client.execute(operation: "GetAdministratorAccount", path: "/administrator", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAdministratorAccount", 
+            path: "/administrator", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the settings and status of an allow list.
     @Sendable
     public func getAllowList(_ input: GetAllowListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAllowListResponse {
-        return try await self.client.execute(operation: "GetAllowList", path: "/allow-lists/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAllowList", 
+            path: "/allow-lists/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the configuration settings and status of automated sensitive data discovery for an account.
     @Sendable
     public func getAutomatedDiscoveryConfiguration(_ input: GetAutomatedDiscoveryConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutomatedDiscoveryConfigurationResponse {
-        return try await self.client.execute(operation: "GetAutomatedDiscoveryConfiguration", path: "/automated-discovery/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAutomatedDiscoveryConfiguration", 
+            path: "/automated-discovery/configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account.
     @Sendable
     public func getBucketStatistics(_ input: GetBucketStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBucketStatisticsResponse {
-        return try await self.client.execute(operation: "GetBucketStatistics", path: "/datasources/s3/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBucketStatistics", 
+            path: "/datasources/s3/statistics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the configuration settings for storing data classification results.
     @Sendable
     public func getClassificationExportConfiguration(_ input: GetClassificationExportConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClassificationExportConfigurationResponse {
-        return try await self.client.execute(operation: "GetClassificationExportConfiguration", path: "/classification-export-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetClassificationExportConfiguration", 
+            path: "/classification-export-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the classification scope settings for an account.
     @Sendable
     public func getClassificationScope(_ input: GetClassificationScopeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClassificationScopeResponse {
-        return try await self.client.execute(operation: "GetClassificationScope", path: "/classification-scopes/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetClassificationScope", 
+            path: "/classification-scopes/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the criteria and other settings for a custom data identifier.
     @Sendable
     public func getCustomDataIdentifier(_ input: GetCustomDataIdentifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomDataIdentifierResponse {
-        return try await self.client.execute(operation: "GetCustomDataIdentifier", path: "/custom-data-identifiers/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCustomDataIdentifier", 
+            path: "/custom-data-identifiers/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves (queries) aggregated statistical data about findings.
     @Sendable
     public func getFindingStatistics(_ input: GetFindingStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingStatisticsResponse {
-        return try await self.client.execute(operation: "GetFindingStatistics", path: "/findings/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFindingStatistics", 
+            path: "/findings/statistics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the details of one or more findings.
     @Sendable
     public func getFindings(_ input: GetFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsResponse {
-        return try await self.client.execute(operation: "GetFindings", path: "/findings/describe", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFindings", 
+            path: "/findings/describe", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the criteria and other settings for a findings filter.
     @Sendable
     public func getFindingsFilter(_ input: GetFindingsFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsFilterResponse {
-        return try await self.client.execute(operation: "GetFindingsFilter", path: "/findingsfilters/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFindingsFilter", 
+            path: "/findingsfilters/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the configuration settings for publishing findings to Security Hub.
     @Sendable
     public func getFindingsPublicationConfiguration(_ input: GetFindingsPublicationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsPublicationConfigurationResponse {
-        return try await self.client.execute(operation: "GetFindingsPublicationConfiguration", path: "/findings-publication-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFindingsPublicationConfiguration", 
+            path: "/findings-publication-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the count of Amazon Macie membership invitations that were received by an account.
     @Sendable
     public func getInvitationsCount(_ input: GetInvitationsCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvitationsCountResponse {
-        return try await self.client.execute(operation: "GetInvitationsCount", path: "/invitations/count", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetInvitationsCount", 
+            path: "/invitations/count", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the status and configuration settings for an Amazon Macie account.
     @Sendable
     public func getMacieSession(_ input: GetMacieSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMacieSessionResponse {
-        return try await self.client.execute(operation: "GetMacieSession", path: "/macie", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMacieSession", 
+            path: "/macie", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
     @Sendable
     public func getMasterAccount(_ input: GetMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMasterAccountResponse {
-        return try await self.client.execute(operation: "GetMasterAccount", path: "/master", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMasterAccount", 
+            path: "/master", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about an account that's associated with an Amazon Macie administrator account.
     @Sendable
     public func getMember(_ input: GetMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMemberResponse {
-        return try await self.client.execute(operation: "GetMember", path: "/members/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMember", 
+            path: "/members/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
     @Sendable
     public func getResourceProfile(_ input: GetResourceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceProfileResponse {
-        return try await self.client.execute(operation: "GetResourceProfile", path: "/resource-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetResourceProfile", 
+            path: "/resource-profiles", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     @Sendable
     public func getRevealConfiguration(_ input: GetRevealConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRevealConfigurationResponse {
-        return try await self.client.execute(operation: "GetRevealConfiguration", path: "/reveal-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRevealConfiguration", 
+            path: "/reveal-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves occurrences of sensitive data reported by a finding.
     @Sendable
     public func getSensitiveDataOccurrences(_ input: GetSensitiveDataOccurrencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSensitiveDataOccurrencesResponse {
-        return try await self.client.execute(operation: "GetSensitiveDataOccurrences", path: "/findings/{findingId}/reveal", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSensitiveDataOccurrences", 
+            path: "/findings/{findingId}/reveal", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Checks whether occurrences of sensitive data can be retrieved for a finding.
     @Sendable
     public func getSensitiveDataOccurrencesAvailability(_ input: GetSensitiveDataOccurrencesAvailabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSensitiveDataOccurrencesAvailabilityResponse {
-        return try await self.client.execute(operation: "GetSensitiveDataOccurrencesAvailability", path: "/findings/{findingId}/reveal/availability", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSensitiveDataOccurrencesAvailability", 
+            path: "/findings/{findingId}/reveal/availability", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the settings for the sensitivity inspection template for an account.
     @Sendable
     public func getSensitivityInspectionTemplate(_ input: GetSensitivityInspectionTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSensitivityInspectionTemplateResponse {
-        return try await self.client.execute(operation: "GetSensitivityInspectionTemplate", path: "/templates/sensitivity-inspections/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSensitivityInspectionTemplate", 
+            path: "/templates/sensitivity-inspections/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves (queries) quotas and aggregated usage data for one or more accounts.
     @Sendable
     public func getUsageStatistics(_ input: GetUsageStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUsageStatisticsResponse {
-        return try await self.client.execute(operation: "GetUsageStatistics", path: "/usage/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUsageStatistics", 
+            path: "/usage/statistics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves (queries) aggregated usage data for an account.
     @Sendable
     public func getUsageTotals(_ input: GetUsageTotalsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUsageTotalsResponse {
-        return try await self.client.execute(operation: "GetUsageTotals", path: "/usage", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetUsageTotals", 
+            path: "/usage", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a subset of information about all the allow lists for an account.
     @Sendable
     public func listAllowLists(_ input: ListAllowListsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAllowListsResponse {
-        return try await self.client.execute(operation: "ListAllowLists", path: "/allow-lists", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAllowLists", 
+            path: "/allow-lists", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a subset of information about one or more classification jobs.
     @Sendable
     public func listClassificationJobs(_ input: ListClassificationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClassificationJobsResponse {
-        return try await self.client.execute(operation: "ListClassificationJobs", path: "/jobs/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListClassificationJobs", 
+            path: "/jobs/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a subset of information about the classification scope for an account.
     @Sendable
     public func listClassificationScopes(_ input: ListClassificationScopesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClassificationScopesResponse {
-        return try await self.client.execute(operation: "ListClassificationScopes", path: "/classification-scopes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListClassificationScopes", 
+            path: "/classification-scopes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a subset of information about all the custom data identifiers for an account.
     @Sendable
     public func listCustomDataIdentifiers(_ input: ListCustomDataIdentifiersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomDataIdentifiersResponse {
-        return try await self.client.execute(operation: "ListCustomDataIdentifiers", path: "/custom-data-identifiers/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCustomDataIdentifiers", 
+            path: "/custom-data-identifiers/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a subset of information about one or more findings.
     @Sendable
     public func listFindings(_ input: ListFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFindingsResponse {
-        return try await self.client.execute(operation: "ListFindings", path: "/findings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFindings", 
+            path: "/findings", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a subset of information about all the findings filters for an account.
     @Sendable
     public func listFindingsFilters(_ input: ListFindingsFiltersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFindingsFiltersResponse {
-        return try await self.client.execute(operation: "ListFindingsFilters", path: "/findingsfilters", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFindingsFilters", 
+            path: "/findingsfilters", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the Amazon Macie membership invitations that were received by an account.
     @Sendable
     public func listInvitations(_ input: ListInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvitationsResponse {
-        return try await self.client.execute(operation: "ListInvitations", path: "/invitations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListInvitations", 
+            path: "/invitations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
     @Sendable
     public func listManagedDataIdentifiers(_ input: ListManagedDataIdentifiersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedDataIdentifiersResponse {
-        return try await self.client.execute(operation: "ListManagedDataIdentifiers", path: "/managed-data-identifiers/list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListManagedDataIdentifiers", 
+            path: "/managed-data-identifiers/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
     @Sendable
     public func listMembers(_ input: ListMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMembersResponse {
-        return try await self.client.execute(operation: "ListMembers", path: "/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMembers", 
+            path: "/members", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
     @Sendable
     public func listOrganizationAdminAccounts(_ input: ListOrganizationAdminAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationAdminAccountsResponse {
-        return try await self.client.execute(operation: "ListOrganizationAdminAccounts", path: "/admin", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOrganizationAdminAccounts", 
+            path: "/admin", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about objects that were selected from an S3 bucket for automated sensitive data discovery.
     @Sendable
     public func listResourceProfileArtifacts(_ input: ListResourceProfileArtifactsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceProfileArtifactsResponse {
-        return try await self.client.execute(operation: "ListResourceProfileArtifacts", path: "/resource-profiles/artifacts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResourceProfileArtifacts", 
+            path: "/resource-profiles/artifacts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
     @Sendable
     public func listResourceProfileDetections(_ input: ListResourceProfileDetectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourceProfileDetectionsResponse {
-        return try await self.client.execute(operation: "ListResourceProfileDetections", path: "/resource-profiles/detections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListResourceProfileDetections", 
+            path: "/resource-profiles/detections", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a subset of information about the sensitivity inspection template for an account.
     @Sendable
     public func listSensitivityInspectionTemplates(_ input: ListSensitivityInspectionTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSensitivityInspectionTemplatesResponse {
-        return try await self.client.execute(operation: "ListSensitivityInspectionTemplates", path: "/templates/sensitivity-inspections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSensitivityInspectionTemplates", 
+            path: "/templates/sensitivity-inspections", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates or updates the configuration settings for storing data classification results.
     @Sendable
     public func putClassificationExportConfiguration(_ input: PutClassificationExportConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutClassificationExportConfigurationResponse {
-        return try await self.client.execute(operation: "PutClassificationExportConfiguration", path: "/classification-export-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutClassificationExportConfiguration", 
+            path: "/classification-export-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the configuration settings for publishing findings to Security Hub.
     @Sendable
     public func putFindingsPublicationConfiguration(_ input: PutFindingsPublicationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutFindingsPublicationConfigurationResponse {
-        return try await self.client.execute(operation: "PutFindingsPublicationConfiguration", path: "/findings-publication-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutFindingsPublicationConfiguration", 
+            path: "/findings-publication-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes.
     @Sendable
     public func searchResources(_ input: SearchResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchResourcesResponse {
-        return try await self.client.execute(operation: "SearchResources", path: "/datasources/search-resources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchResources", 
+            path: "/datasources/search-resources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Tests a custom data identifier.
     @Sendable
     public func testCustomDataIdentifier(_ input: TestCustomDataIdentifierRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestCustomDataIdentifierResponse {
-        return try await self.client.execute(operation: "TestCustomDataIdentifier", path: "/custom-data-identifiers/test", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TestCustomDataIdentifier", 
+            path: "/custom-data-identifiers/test", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags (keys and values) from an Amazon Macie resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the settings for an allow list.
     @Sendable
     public func updateAllowList(_ input: UpdateAllowListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAllowListResponse {
-        return try await self.client.execute(operation: "UpdateAllowList", path: "/allow-lists/{id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAllowList", 
+            path: "/allow-lists/{id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables or disables automated sensitive data discovery for an account.
     @Sendable
     public func updateAutomatedDiscoveryConfiguration(_ input: UpdateAutomatedDiscoveryConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAutomatedDiscoveryConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateAutomatedDiscoveryConfiguration", path: "/automated-discovery/configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAutomatedDiscoveryConfiguration", 
+            path: "/automated-discovery/configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes the status of a classification job.
     @Sendable
     public func updateClassificationJob(_ input: UpdateClassificationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClassificationJobResponse {
-        return try await self.client.execute(operation: "UpdateClassificationJob", path: "/jobs/{jobId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateClassificationJob", 
+            path: "/jobs/{jobId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the classification scope settings for an account.
     @Sendable
     public func updateClassificationScope(_ input: UpdateClassificationScopeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClassificationScopeResponse {
-        return try await self.client.execute(operation: "UpdateClassificationScope", path: "/classification-scopes/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateClassificationScope", 
+            path: "/classification-scopes/{id}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the criteria and other settings for a findings filter.
     @Sendable
     public func updateFindingsFilter(_ input: UpdateFindingsFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFindingsFilterResponse {
-        return try await self.client.execute(operation: "UpdateFindingsFilter", path: "/findingsfilters/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateFindingsFilter", 
+            path: "/findingsfilters/{id}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account.
     @Sendable
     public func updateMacieSession(_ input: UpdateMacieSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMacieSessionResponse {
-        return try await self.client.execute(operation: "UpdateMacieSession", path: "/macie", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMacieSession", 
+            path: "/macie", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account.
     @Sendable
     public func updateMemberSession(_ input: UpdateMemberSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMemberSessionResponse {
-        return try await self.client.execute(operation: "UpdateMemberSession", path: "/macie/members/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateMemberSession", 
+            path: "/macie/members/{id}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the Amazon Macie configuration settings for an organization in Organizations.
     @Sendable
     public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOrganizationConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateOrganizationConfiguration", path: "/admin/configuration", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateOrganizationConfiguration", 
+            path: "/admin/configuration", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the sensitivity score for an S3 bucket.
     @Sendable
     public func updateResourceProfile(_ input: UpdateResourceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceProfileResponse {
-        return try await self.client.execute(operation: "UpdateResourceProfile", path: "/resource-profiles", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateResourceProfile", 
+            path: "/resource-profiles", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the sensitivity scoring settings for an S3 bucket.
     @Sendable
     public func updateResourceProfileDetections(_ input: UpdateResourceProfileDetectionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceProfileDetectionsResponse {
-        return try await self.client.execute(operation: "UpdateResourceProfileDetections", path: "/resource-profiles/detections", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateResourceProfileDetections", 
+            path: "/resource-profiles/detections", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     @Sendable
     public func updateRevealConfiguration(_ input: UpdateRevealConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRevealConfigurationResponse {
-        return try await self.client.execute(operation: "UpdateRevealConfiguration", path: "/reveal-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRevealConfiguration", 
+            path: "/reveal-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the settings for the sensitivity inspection template for an account.
     @Sendable
     public func updateSensitivityInspectionTemplate(_ input: UpdateSensitivityInspectionTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSensitivityInspectionTemplateResponse {
-        return try await self.client.execute(operation: "UpdateSensitivityInspectionTemplate", path: "/templates/sensitivity-inspections/{id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSensitivityInspectionTemplate", 
+            path: "/templates/sensitivity-inspections/{id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

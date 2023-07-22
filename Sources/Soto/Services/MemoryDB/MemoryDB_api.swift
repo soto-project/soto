@@ -72,187 +72,404 @@ public struct MemoryDB: AWSService {
     /// Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see Applying the service updates.
     @Sendable
     public func batchUpdateCluster(_ input: BatchUpdateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateClusterResponse {
-        return try await self.client.execute(operation: "BatchUpdateCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchUpdateCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Makes a copy of an existing snapshot.
     @Sendable
     public func copySnapshot(_ input: CopySnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopySnapshotResponse {
-        return try await self.client.execute(operation: "CopySnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CopySnapshot", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an Access Control List. For more information, see Authenticating users with Access Contol Lists (ACLs).
     @Sendable
     public func createACL(_ input: CreateACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateACLResponse {
-        return try await self.client.execute(operation: "CreateACL", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateACL", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software.
     @Sendable
     public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterResponse {
-        return try await self.client.execute(operation: "CreateCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For  more information, see Configuring engine parameters using parameter groups.
     @Sendable
     public func createParameterGroup(_ input: CreateParameterGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateParameterGroupResponse {
-        return try await self.client.execute(operation: "CreateParameterGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateParameterGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a copy of an entire cluster at a specific moment in time.
     @Sendable
     public func createSnapshot(_ input: CreateSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSnapshotResponse {
-        return try await self.client.execute(operation: "CreateSnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSnapshot", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a subnet group. A subnet group is a collection of subnets (typically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment.  When you create a cluster in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to associate with your nodes.  For more information, see Subnets and subnet groups.
     @Sendable
     public func createSubnetGroup(_ input: CreateSubnetGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubnetGroupResponse {
-        return try await self.client.execute(operation: "CreateSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSubnetGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a MemoryDB user. For more information, see Authenticating users with Access Contol Lists (ACLs).
     @Sendable
     public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserResponse {
-        return try await self.client.execute(operation: "CreateUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see Authenticating users with Access Contol Lists (ACLs).
     @Sendable
     public func deleteACL(_ input: DeleteACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteACLResponse {
-        return try await self.client.execute(operation: "DeleteACL", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteACL", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a cluster. It also deletes all associated nodes and node endpoints
     @Sendable
     public func deleteCluster(_ input: DeleteClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterResponse {
-        return try await self.client.execute(operation: "DeleteCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters.  You cannot delete the default parameter groups in your account.
     @Sendable
     public func deleteParameterGroup(_ input: DeleteParameterGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteParameterGroupResponse {
-        return try await self.client.execute(operation: "DeleteParameterGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteParameterGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an existing snapshot. When you receive a successful response from this operation, MemoryDB immediately begins deleting the snapshot; you cannot cancel or revert this operation.
     @Sendable
     public func deleteSnapshot(_ input: DeleteSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSnapshotResponse {
-        return try await self.client.execute(operation: "DeleteSnapshot", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSnapshot", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a subnet group. You cannot delete a default subnet group or one that is associated with any clusters.
     @Sendable
     public func deleteSubnetGroup(_ input: DeleteSubnetGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSubnetGroupResponse {
-        return try await self.client.execute(operation: "DeleteSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSubnetGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters.
     @Sendable
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteUserResponse {
-        return try await self.client.execute(operation: "DeleteUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of ACLs
     @Sendable
     public func describeACLs(_ input: DescribeACLsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeACLsResponse {
-        return try await self.client.execute(operation: "DescribeACLs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeACLs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
     @Sendable
     public func describeClusters(_ input: DescribeClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClustersResponse {
-        return try await self.client.execute(operation: "DescribeClusters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeClusters", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the available Redis engine versions.
     @Sendable
     public func describeEngineVersions(_ input: DescribeEngineVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEngineVersionsResponse {
-        return try await self.client.execute(operation: "DescribeEngineVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEngineVersions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter.  By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
     @Sendable
     public func describeEvents(_ input: DescribeEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventsResponse {
-        return try await self.client.execute(operation: "DescribeEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEvents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
     @Sendable
     public func describeParameterGroups(_ input: DescribeParameterGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeParameterGroupsResponse {
-        return try await self.client.execute(operation: "DescribeParameterGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeParameterGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the detailed parameter list for a particular parameter group.
     @Sendable
     public func describeParameters(_ input: DescribeParametersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeParametersResponse {
-        return try await self.client.execute(operation: "DescribeParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeParameters", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about reserved nodes for this account, or about a specified reserved node.
     @Sendable
     public func describeReservedNodes(_ input: DescribeReservedNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedNodesResponse {
-        return try await self.client.execute(operation: "DescribeReservedNodes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReservedNodes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists available reserved node offerings.
     @Sendable
     public func describeReservedNodesOfferings(_ input: DescribeReservedNodesOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservedNodesOfferingsResponse {
-        return try await self.client.execute(operation: "DescribeReservedNodesOfferings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeReservedNodesOfferings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns details of the service updates
     @Sendable
     public func describeServiceUpdates(_ input: DescribeServiceUpdatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceUpdatesResponse {
-        return try await self.client.execute(operation: "DescribeServiceUpdates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeServiceUpdates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot,  or just the snapshots associated with a particular cluster.
     @Sendable
     public func describeSnapshots(_ input: DescribeSnapshotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSnapshotsResponse {
-        return try await self.client.execute(operation: "DescribeSnapshots", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSnapshots", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
     @Sendable
     public func describeSubnetGroups(_ input: DescribeSubnetGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSubnetGroupsResponse {
-        return try await self.client.execute(operation: "DescribeSubnetGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSubnetGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of users.
     @Sendable
     public func describeUsers(_ input: DescribeUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUsersResponse {
-        return try await self.client.execute(operation: "DescribeUsers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeUsers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Used to failover a shard. This API is designed for testing the behavior of your application in case of MemoryDB failover. It is not designed to be used as a production-level tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large scale operational events, Amazon may block this API.
     @Sendable
     public func failoverShard(_ input: FailoverShardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> FailoverShardResponse {
-        return try await self.client.execute(operation: "FailoverShard", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "FailoverShard", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all available node types that you can scale to from your cluster's current node type.  When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation.
     @Sendable
     public func listAllowedNodeTypeUpdates(_ input: ListAllowedNodeTypeUpdatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAllowedNodeTypeUpdatesResponse {
-        return try await self.client.execute(operation: "ListAllowedNodeTypeUpdates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAllowedNodeTypeUpdates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all tags currently on a named resource.  A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources.  For more information, see Tagging your MemoryDB resources
     @Sendable
     public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsResponse {
-        return try await self.client.execute(operation: "ListTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Allows you to purchase a reserved  node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
     @Sendable
     public func purchaseReservedNodesOffering(_ input: PurchaseReservedNodesOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PurchaseReservedNodesOfferingResponse {
-        return try await self.client.execute(operation: "PurchaseReservedNodesOffering", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PurchaseReservedNodesOffering", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters.
     @Sendable
     public func resetParameterGroup(_ input: ResetParameterGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetParameterGroupResponse {
-        return try await self.client.execute(operation: "ResetParameterGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ResetParameterGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources.
@@ -260,43 +477,92 @@ public struct MemoryDB: AWSService {
     ///  Resource-level permissions. For example, you can use cost-allocation tags to your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value  (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories  (such as cost centers, application names, or owners) to organize your costs across multiple services.  For more information, see Using Cost Allocation Tags.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Use this operation to remove tags on a resource
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes the list of users that belong to the Access Control List.
     @Sendable
     public func updateACL(_ input: UpdateACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateACLResponse {
-        return try await self.client.execute(operation: "UpdateACL", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateACL", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration settings by specifying the settings and the new values.
     @Sendable
     public func updateCluster(_ input: UpdateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterResponse {
-        return try await self.client.execute(operation: "UpdateCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
     @Sendable
     public func updateParameterGroup(_ input: UpdateParameterGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateParameterGroupResponse {
-        return try await self.client.execute(operation: "UpdateParameterGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateParameterGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a subnet group. For more information, see Updating a subnet group
     @Sendable
     public func updateSubnetGroup(_ input: UpdateSubnetGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSubnetGroupResponse {
-        return try await self.client.execute(operation: "UpdateSubnetGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSubnetGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes user password(s) and/or access string.
     @Sendable
     public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserResponse {
-        return try await self.client.execute(operation: "UpdateUser", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateUser", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

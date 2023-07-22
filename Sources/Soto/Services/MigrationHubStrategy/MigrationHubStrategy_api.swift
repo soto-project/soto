@@ -66,127 +66,274 @@ public struct MigrationHubStrategy: AWSService {
     ///  Retrieves details about an application component.
     @Sendable
     public func getApplicationComponentDetails(_ input: GetApplicationComponentDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationComponentDetailsResponse {
-        return try await self.client.execute(operation: "GetApplicationComponentDetails", path: "/get-applicationcomponent-details/{applicationComponentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetApplicationComponentDetails", 
+            path: "/get-applicationcomponent-details/{applicationComponentId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Retrieves a list of all the recommended strategies and tools for an application component running on a server.
     @Sendable
     public func getApplicationComponentStrategies(_ input: GetApplicationComponentStrategiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationComponentStrategiesResponse {
-        return try await self.client.execute(operation: "GetApplicationComponentStrategies", path: "/get-applicationcomponent-strategies/{applicationComponentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetApplicationComponentStrategies", 
+            path: "/get-applicationcomponent-strategies/{applicationComponentId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Retrieves the status of an on-going assessment.
     @Sendable
     public func getAssessment(_ input: GetAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssessmentResponse {
-        return try await self.client.execute(operation: "GetAssessment", path: "/get-assessment/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAssessment", 
+            path: "/get-assessment/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Retrieves the details about a specific import task.
     @Sendable
     public func getImportFileTask(_ input: GetImportFileTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImportFileTaskResponse {
-        return try await self.client.execute(operation: "GetImportFileTask", path: "/get-import-file-task/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetImportFileTask", 
+            path: "/get-import-file-task/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieve the latest ID of a specific assessment task.
     @Sendable
     public func getLatestAssessmentId(_ input: GetLatestAssessmentIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLatestAssessmentIdResponse {
-        return try await self.client.execute(operation: "GetLatestAssessmentId", path: "/get-latest-assessment-id", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetLatestAssessmentId", 
+            path: "/get-latest-assessment-id", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Retrieves your migration and modernization preferences.
     @Sendable
     public func getPortfolioPreferences(_ input: GetPortfolioPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortfolioPreferencesResponse {
-        return try await self.client.execute(operation: "GetPortfolioPreferences", path: "/get-portfolio-preferences", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPortfolioPreferences", 
+            path: "/get-portfolio-preferences", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Retrieves overall summary including the number of servers to rehost and the overall number of anti-patterns.
     @Sendable
     public func getPortfolioSummary(_ input: GetPortfolioSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortfolioSummaryResponse {
-        return try await self.client.execute(operation: "GetPortfolioSummary", path: "/get-portfolio-summary", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPortfolioSummary", 
+            path: "/get-portfolio-summary", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Retrieves detailed information about the specified recommendation report.
     @Sendable
     public func getRecommendationReportDetails(_ input: GetRecommendationReportDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommendationReportDetailsResponse {
-        return try await self.client.execute(operation: "GetRecommendationReportDetails", path: "/get-recommendation-report-details/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRecommendationReportDetails", 
+            path: "/get-recommendation-report-details/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Retrieves detailed information about a specified server.
     @Sendable
     public func getServerDetails(_ input: GetServerDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServerDetailsResponse {
-        return try await self.client.execute(operation: "GetServerDetails", path: "/get-server-details/{serverId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetServerDetails", 
+            path: "/get-server-details/{serverId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Retrieves recommended strategies and tools for the specified server.
     @Sendable
     public func getServerStrategies(_ input: GetServerStrategiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServerStrategiesResponse {
-        return try await self.client.execute(operation: "GetServerStrategies", path: "/get-server-strategies/{serverId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetServerStrategies", 
+            path: "/get-server-strategies/{serverId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Retrieves a list of all the application components (processes).
     @Sendable
     public func listApplicationComponents(_ input: ListApplicationComponentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationComponentsResponse {
-        return try await self.client.execute(operation: "ListApplicationComponents", path: "/list-applicationcomponents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApplicationComponents", 
+            path: "/list-applicationcomponents", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Retrieves a list of all the installed collectors.
     @Sendable
     public func listCollectors(_ input: ListCollectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCollectorsResponse {
-        return try await self.client.execute(operation: "ListCollectors", path: "/list-collectors", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCollectors", 
+            path: "/list-collectors", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Retrieves a list of all the imports performed.
     @Sendable
     public func listImportFileTask(_ input: ListImportFileTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImportFileTaskResponse {
-        return try await self.client.execute(operation: "ListImportFileTask", path: "/list-import-file-task", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListImportFileTask", 
+            path: "/list-import-file-task", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns a list of all the servers.
     @Sendable
     public func listServers(_ input: ListServersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServersResponse {
-        return try await self.client.execute(operation: "ListServers", path: "/list-servers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListServers", 
+            path: "/list-servers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Saves the specified migration and modernization preferences.
     @Sendable
     public func putPortfolioPreferences(_ input: PutPortfolioPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPortfolioPreferencesResponse {
-        return try await self.client.execute(operation: "PutPortfolioPreferences", path: "/put-portfolio-preferences", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutPortfolioPreferences", 
+            path: "/put-portfolio-preferences", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Starts the assessment of an on-premises environment.
     @Sendable
     public func startAssessment(_ input: StartAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAssessmentResponse {
-        return try await self.client.execute(operation: "StartAssessment", path: "/start-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartAssessment", 
+            path: "/start-assessment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Starts a file import.
     @Sendable
     public func startImportFileTask(_ input: StartImportFileTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImportFileTaskResponse {
-        return try await self.client.execute(operation: "StartImportFileTask", path: "/start-import-file-task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartImportFileTask", 
+            path: "/start-import-file-task", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Starts generating a recommendation report.
     @Sendable
     public func startRecommendationReportGeneration(_ input: StartRecommendationReportGenerationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRecommendationReportGenerationResponse {
-        return try await self.client.execute(operation: "StartRecommendationReportGeneration", path: "/start-recommendation-report-generation", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartRecommendationReportGeneration", 
+            path: "/start-recommendation-report-generation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Stops the assessment of an on-premises environment.
     @Sendable
     public func stopAssessment(_ input: StopAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopAssessmentResponse {
-        return try await self.client.execute(operation: "StopAssessment", path: "/stop-assessment", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopAssessment", 
+            path: "/stop-assessment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Updates the configuration of an application component.
     @Sendable
     public func updateApplicationComponentConfig(_ input: UpdateApplicationComponentConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationComponentConfigResponse {
-        return try await self.client.execute(operation: "UpdateApplicationComponentConfig", path: "/update-applicationcomponent-config/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateApplicationComponentConfig", 
+            path: "/update-applicationcomponent-config/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Updates the configuration of the specified server.
     @Sendable
     public func updateServerConfig(_ input: UpdateServerConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateServerConfigResponse {
-        return try await self.client.execute(operation: "UpdateServerConfig", path: "/update-server-config/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateServerConfig", 
+            path: "/update-server-config/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

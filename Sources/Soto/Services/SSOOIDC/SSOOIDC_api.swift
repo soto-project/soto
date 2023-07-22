@@ -94,19 +94,40 @@ public struct SSOOIDC: AWSService {
     /// Creates and returns an access token for the authorized client. The access token issued will be used to fetch short-term credentials for the assigned roles in the AWS account.
     @Sendable
     public func createToken(_ input: CreateTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTokenResponse {
-        return try await self.client.execute(operation: "CreateToken", path: "/token", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateToken", 
+            path: "/token", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers a client with IAM Identity Center. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
     @Sendable
     public func registerClient(_ input: RegisterClientRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterClientResponse {
-        return try await self.client.execute(operation: "RegisterClient", path: "/client/register", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterClient", 
+            path: "/client/register", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Initiates device authorization by requesting a pair of verification codes from the authorization service.
     @Sendable
     public func startDeviceAuthorization(_ input: StartDeviceAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDeviceAuthorizationResponse {
-        return try await self.client.execute(operation: "StartDeviceAuthorization", path: "/device_authorization", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartDeviceAuthorization", 
+            path: "/device_authorization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

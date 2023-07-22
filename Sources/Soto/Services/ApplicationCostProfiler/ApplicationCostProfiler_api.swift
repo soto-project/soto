@@ -66,37 +66,79 @@ public struct ApplicationCostProfiler: AWSService {
     /// Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being generated.
     @Sendable
     public func deleteReportDefinition(_ input: DeleteReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteReportDefinitionResult {
-        return try await self.client.execute(operation: "DeleteReportDefinition", path: "/reportDefinition/{reportId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteReportDefinition", 
+            path: "/reportDefinition/{reportId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves the definition of a report already configured in AWS Application Cost Profiler.
     @Sendable
     public func getReportDefinition(_ input: GetReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReportDefinitionResult {
-        return try await self.client.execute(operation: "GetReportDefinition", path: "/reportDefinition/{reportId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetReportDefinition", 
+            path: "/reportDefinition/{reportId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Ingests application usage data from Amazon Simple Storage Service (Amazon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously.
     @Sendable
     public func importApplicationUsage(_ input: ImportApplicationUsageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportApplicationUsageResult {
-        return try await self.client.execute(operation: "ImportApplicationUsage", path: "/importApplicationUsage", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ImportApplicationUsage", 
+            path: "/importApplicationUsage", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a list of all reports and their configurations for your AWS account. The maximum number of reports is one.
     @Sendable
     public func listReportDefinitions(_ input: ListReportDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReportDefinitionsResult {
-        return try await self.client.execute(operation: "ListReportDefinitions", path: "/reportDefinition", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListReportDefinitions", 
+            path: "/reportDefinition", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates the report definition for a report in Application Cost Profiler.
     @Sendable
     public func putReportDefinition(_ input: PutReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutReportDefinitionResult {
-        return try await self.client.execute(operation: "PutReportDefinition", path: "/reportDefinition", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutReportDefinition", 
+            path: "/reportDefinition", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates existing report in AWS Application Cost Profiler.
     @Sendable
     public func updateReportDefinition(_ input: UpdateReportDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateReportDefinitionResult {
-        return try await self.client.execute(operation: "UpdateReportDefinition", path: "/reportDefinition/{reportId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateReportDefinition", 
+            path: "/reportDefinition/{reportId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

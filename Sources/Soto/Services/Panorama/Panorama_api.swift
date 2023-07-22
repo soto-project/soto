@@ -66,205 +66,443 @@ public struct Panorama: AWSService {
     /// Creates an application instance and deploys it to a device.
     @Sendable
     public func createApplicationInstance(_ input: CreateApplicationInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationInstanceResponse {
-        return try await self.client.execute(operation: "CreateApplicationInstance", path: "/application-instances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateApplicationInstance", 
+            path: "/application-instances", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a job to run on a device. A job can update a device's software or reboot it.
     @Sendable
     public func createJobForDevices(_ input: CreateJobForDevicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobForDevicesResponse {
-        return try await self.client.execute(operation: "CreateJobForDevices", path: "/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateJobForDevices", 
+            path: "/jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a camera stream node.
     @Sendable
     public func createNodeFromTemplateJob(_ input: CreateNodeFromTemplateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNodeFromTemplateJobResponse {
-        return try await self.client.execute(operation: "CreateNodeFromTemplateJob", path: "/packages/template-job", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateNodeFromTemplateJob", 
+            path: "/packages/template-job", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a package and storage location in an Amazon S3 access point.
     @Sendable
     public func createPackage(_ input: CreatePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePackageResponse {
-        return try await self.client.execute(operation: "CreatePackage", path: "/packages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePackage", 
+            path: "/packages", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Imports a node package.
     @Sendable
     public func createPackageImportJob(_ input: CreatePackageImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePackageImportJobResponse {
-        return try await self.client.execute(operation: "CreatePackageImportJob", path: "/packages/import-jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePackageImportJob", 
+            path: "/packages/import-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a device.
     @Sendable
     public func deleteDevice(_ input: DeleteDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDeviceResponse {
-        return try await self.client.execute(operation: "DeleteDevice", path: "/devices/{DeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDevice", 
+            path: "/devices/{DeviceId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a package.  To delete a package, you need permission to call s3:DeleteObject in addition to permissions for the AWS Panorama API.
     @Sendable
     public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePackageResponse {
-        return try await self.client.execute(operation: "DeletePackage", path: "/packages/{PackageId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePackage", 
+            path: "/packages/{PackageId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deregisters a package version.
     @Sendable
     public func deregisterPackageVersion(_ input: DeregisterPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterPackageVersionResponse {
-        return try await self.client.execute(operation: "DeregisterPackageVersion", path: "/packages/{PackageId}/versions/{PackageVersion}/patch/{PatchVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeregisterPackageVersion", 
+            path: "/packages/{PackageId}/versions/{PackageVersion}/patch/{PatchVersion}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about an application instance on a device.
     @Sendable
     public func describeApplicationInstance(_ input: DescribeApplicationInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationInstanceResponse {
-        return try await self.client.execute(operation: "DescribeApplicationInstance", path: "/application-instances/{ApplicationInstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeApplicationInstance", 
+            path: "/application-instances/{ApplicationInstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about an application instance's configuration manifest.
     @Sendable
     public func describeApplicationInstanceDetails(_ input: DescribeApplicationInstanceDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationInstanceDetailsResponse {
-        return try await self.client.execute(operation: "DescribeApplicationInstanceDetails", path: "/application-instances/{ApplicationInstanceId}/details", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeApplicationInstanceDetails", 
+            path: "/application-instances/{ApplicationInstanceId}/details", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a device.
     @Sendable
     public func describeDevice(_ input: DescribeDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeviceResponse {
-        return try await self.client.execute(operation: "DescribeDevice", path: "/devices/{DeviceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDevice", 
+            path: "/devices/{DeviceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a device job.
     @Sendable
     public func describeDeviceJob(_ input: DescribeDeviceJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDeviceJobResponse {
-        return try await self.client.execute(operation: "DescribeDeviceJob", path: "/jobs/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeDeviceJob", 
+            path: "/jobs/{JobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a node.
     @Sendable
     public func describeNode(_ input: DescribeNodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNodeResponse {
-        return try await self.client.execute(operation: "DescribeNode", path: "/nodes/{NodeId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeNode", 
+            path: "/nodes/{NodeId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a job to create a camera stream node.
     @Sendable
     public func describeNodeFromTemplateJob(_ input: DescribeNodeFromTemplateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNodeFromTemplateJobResponse {
-        return try await self.client.execute(operation: "DescribeNodeFromTemplateJob", path: "/packages/template-job/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeNodeFromTemplateJob", 
+            path: "/packages/template-job/{JobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a package.
     @Sendable
     public func describePackage(_ input: DescribePackageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackageResponse {
-        return try await self.client.execute(operation: "DescribePackage", path: "/packages/metadata/{PackageId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePackage", 
+            path: "/packages/metadata/{PackageId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a package import job.
     @Sendable
     public func describePackageImportJob(_ input: DescribePackageImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackageImportJobResponse {
-        return try await self.client.execute(operation: "DescribePackageImportJob", path: "/packages/import-jobs/{JobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePackageImportJob", 
+            path: "/packages/import-jobs/{JobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a package version.
     @Sendable
     public func describePackageVersion(_ input: DescribePackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePackageVersionResponse {
-        return try await self.client.execute(operation: "DescribePackageVersion", path: "/packages/metadata/{PackageId}/versions/{PackageVersion}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePackageVersion", 
+            path: "/packages/metadata/{PackageId}/versions/{PackageVersion}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of application instance dependencies.
     @Sendable
     public func listApplicationInstanceDependencies(_ input: ListApplicationInstanceDependenciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationInstanceDependenciesResponse {
-        return try await self.client.execute(operation: "ListApplicationInstanceDependencies", path: "/application-instances/{ApplicationInstanceId}/package-dependencies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApplicationInstanceDependencies", 
+            path: "/application-instances/{ApplicationInstanceId}/package-dependencies", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of application node instances.
     @Sendable
     public func listApplicationInstanceNodeInstances(_ input: ListApplicationInstanceNodeInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationInstanceNodeInstancesResponse {
-        return try await self.client.execute(operation: "ListApplicationInstanceNodeInstances", path: "/application-instances/{ApplicationInstanceId}/node-instances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApplicationInstanceNodeInstances", 
+            path: "/application-instances/{ApplicationInstanceId}/node-instances", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of application instances.
     @Sendable
     public func listApplicationInstances(_ input: ListApplicationInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationInstancesResponse {
-        return try await self.client.execute(operation: "ListApplicationInstances", path: "/application-instances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApplicationInstances", 
+            path: "/application-instances", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of devices.
     @Sendable
     public func listDevices(_ input: ListDevicesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDevicesResponse {
-        return try await self.client.execute(operation: "ListDevices", path: "/devices", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDevices", 
+            path: "/devices", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of jobs.
     @Sendable
     public func listDevicesJobs(_ input: ListDevicesJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDevicesJobsResponse {
-        return try await self.client.execute(operation: "ListDevicesJobs", path: "/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDevicesJobs", 
+            path: "/jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of camera stream node jobs.
     @Sendable
     public func listNodeFromTemplateJobs(_ input: ListNodeFromTemplateJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNodeFromTemplateJobsResponse {
-        return try await self.client.execute(operation: "ListNodeFromTemplateJobs", path: "/packages/template-job", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNodeFromTemplateJobs", 
+            path: "/packages/template-job", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of nodes.
     @Sendable
     public func listNodes(_ input: ListNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNodesResponse {
-        return try await self.client.execute(operation: "ListNodes", path: "/nodes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListNodes", 
+            path: "/nodes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of package import jobs.
     @Sendable
     public func listPackageImportJobs(_ input: ListPackageImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackageImportJobsResponse {
-        return try await self.client.execute(operation: "ListPackageImportJobs", path: "/packages/import-jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPackageImportJobs", 
+            path: "/packages/import-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of packages.
     @Sendable
     public func listPackages(_ input: ListPackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPackagesResponse {
-        return try await self.client.execute(operation: "ListPackages", path: "/packages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPackages", 
+            path: "/packages", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of tags for a resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a device and returns a configuration archive. The configuration archive is a ZIP file that contains a provisioning certificate that is valid for 5 minutes. Name the configuration archive certificates-omni_device-name.zip and transfer it to the device within 5 minutes. Use the included USB storage device and connect it to the USB 3.0 port next to the HDMI output.
     @Sendable
     public func provisionDevice(_ input: ProvisionDeviceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProvisionDeviceResponse {
-        return try await self.client.execute(operation: "ProvisionDevice", path: "/devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ProvisionDevice", 
+            path: "/devices", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers a package version.
     @Sendable
     public func registerPackageVersion(_ input: RegisterPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterPackageVersionResponse {
-        return try await self.client.execute(operation: "RegisterPackageVersion", path: "/packages/{PackageId}/versions/{PackageVersion}/patch/{PatchVersion}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterPackageVersion", 
+            path: "/packages/{PackageId}/versions/{PackageVersion}/patch/{PatchVersion}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes an application instance.
     @Sendable
     public func removeApplicationInstance(_ input: RemoveApplicationInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveApplicationInstanceResponse {
-        return try await self.client.execute(operation: "RemoveApplicationInstance", path: "/application-instances/{ApplicationInstanceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveApplicationInstance", 
+            path: "/application-instances/{ApplicationInstanceId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Signal camera nodes to stop or resume.
     @Sendable
     public func signalApplicationInstanceNodeInstances(_ input: SignalApplicationInstanceNodeInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SignalApplicationInstanceNodeInstancesResponse {
-        return try await self.client.execute(operation: "SignalApplicationInstanceNodeInstances", path: "/application-instances/{ApplicationInstanceId}/node-signals", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SignalApplicationInstanceNodeInstances", 
+            path: "/application-instances/{ApplicationInstanceId}/node-signals", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Tags a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a device's metadata.
     @Sendable
     public func updateDeviceMetadata(_ input: UpdateDeviceMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDeviceMetadataResponse {
-        return try await self.client.execute(operation: "UpdateDeviceMetadata", path: "/devices/{DeviceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDeviceMetadata", 
+            path: "/devices/{DeviceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

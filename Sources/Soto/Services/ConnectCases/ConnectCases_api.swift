@@ -72,182 +72,392 @@ public struct ConnectCases: AWSService {
     /// Returns the description for the list of fields in the request parameters.
     @Sendable
     public func batchGetField(_ input: BatchGetFieldRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetFieldResponse {
-        return try await self.client.execute(operation: "BatchGetField", path: "/domains/{domainId}/fields-batch", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetField", 
+            path: "/domains/{domainId}/fields-batch", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates and updates a set of field options for a single select field in a Cases domain.
     @Sendable
     public func batchPutFieldOptions(_ input: BatchPutFieldOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutFieldOptionsResponse {
-        return try await self.client.execute(operation: "BatchPutFieldOptions", path: "/domains/{domainId}/fields/{fieldId}/options", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchPutFieldOptions", 
+            path: "/domains/{domainId}/fields/{fieldId}/options", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types.  The following fields are required when creating a case:     customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID     title
     ///
     @Sendable
     public func createCase(_ input: CreateCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCaseResponse {
-        return try await self.client.execute(operation: "CreateCase", path: "/domains/{domainId}/cases", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCase", 
+            path: "/domains/{domainId}/cases", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain.  This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see Onboard to Cases.
     @Sendable
     public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainResponse {
-        return try await self.client.execute(operation: "CreateDomain", path: "/domains", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDomain", 
+            path: "/domains", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
     @Sendable
     public func createField(_ input: CreateFieldRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFieldResponse {
-        return try await self.client.execute(operation: "CreateField", path: "/domains/{domainId}/fields", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateField", 
+            path: "/domains/{domainId}/fields", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a layout in the Cases domain. Layouts define the following configuration in the top section and More Info tab of the Cases user interface:   Fields to display to the users   Field ordering    Title and Status fields cannot be part of layouts since they are not configurable.
     @Sendable
     public func createLayout(_ input: CreateLayoutRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLayoutResponse {
-        return try await self.client.execute(operation: "CreateLayout", path: "/domains/{domainId}/layouts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLayout", 
+            path: "/domains/{domainId}/layouts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a related item (comments, tasks, and contacts) and associates it with a case.  A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.
     @Sendable
     public func createRelatedItem(_ input: CreateRelatedItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRelatedItemResponse {
-        return try await self.client.execute(operation: "CreateRelatedItem", path: "/domains/{domainId}/cases/{caseId}/related-items/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRelatedItem", 
+            path: "/domains/{domainId}/cases/{caseId}/related-items/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases.
     @Sendable
     public func createTemplate(_ input: CreateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTemplateResponse {
-        return try await self.client.execute(operation: "CreateTemplate", path: "/domains/{domainId}/templates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateTemplate", 
+            path: "/domains/{domainId}/templates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a domain.
     @Sendable
     public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainResponse {
-        return try await self.client.execute(operation: "DeleteDomain", path: "/domains/{domainId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDomain", 
+            path: "/domains/{domainId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a specific case if it exists.
     @Sendable
     public func getCase(_ input: GetCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCaseResponse {
-        return try await self.client.execute(operation: "GetCase", path: "/domains/{domainId}/cases/{caseId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCase", 
+            path: "/domains/{domainId}/cases/{caseId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the case event publishing configuration.
     @Sendable
     public func getCaseEventConfiguration(_ input: GetCaseEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCaseEventConfigurationResponse {
-        return try await self.client.execute(operation: "GetCaseEventConfiguration", path: "/domains/{domainId}/case-event-configuration", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCaseEventConfiguration", 
+            path: "/domains/{domainId}/case-event-configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a specific domain if it exists.
     @Sendable
     public func getDomain(_ input: GetDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainResponse {
-        return try await self.client.execute(operation: "GetDomain", path: "/domains/{domainId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDomain", 
+            path: "/domains/{domainId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the details for the requested layout.
     @Sendable
     public func getLayout(_ input: GetLayoutRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLayoutResponse {
-        return try await self.client.execute(operation: "GetLayout", path: "/domains/{domainId}/layouts/{layoutId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetLayout", 
+            path: "/domains/{domainId}/layouts/{layoutId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the details for the requested template.
     @Sendable
     public func getTemplate(_ input: GetTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTemplateResponse {
-        return try await self.client.execute(operation: "GetTemplate", path: "/domains/{domainId}/templates/{templateId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetTemplate", 
+            path: "/domains/{domainId}/templates/{templateId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists cases for a given contact.
     @Sendable
     public func listCasesForContact(_ input: ListCasesForContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCasesForContactResponse {
-        return try await self.client.execute(operation: "ListCasesForContact", path: "/domains/{domainId}/list-cases-for-contact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListCasesForContact", 
+            path: "/domains/{domainId}/list-cases-for-contact", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
     @Sendable
     public func listDomains(_ input: ListDomainsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainsResponse {
-        return try await self.client.execute(operation: "ListDomains", path: "/domains-list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDomains", 
+            path: "/domains-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all of the field options for a field identifier in the domain.
     @Sendable
     public func listFieldOptions(_ input: ListFieldOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFieldOptionsResponse {
-        return try await self.client.execute(operation: "ListFieldOptions", path: "/domains/{domainId}/fields/{fieldId}/options-list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFieldOptions", 
+            path: "/domains/{domainId}/fields/{fieldId}/options-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all fields in a Cases domain.
     @Sendable
     public func listFields(_ input: ListFieldsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFieldsResponse {
-        return try await self.client.execute(operation: "ListFields", path: "/domains/{domainId}/fields-list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListFields", 
+            path: "/domains/{domainId}/fields-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
     @Sendable
     public func listLayouts(_ input: ListLayoutsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLayoutsResponse {
-        return try await self.client.execute(operation: "ListLayouts", path: "/domains/{domainId}/layouts-list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListLayouts", 
+            path: "/domains/{domainId}/layouts-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists tags for a resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{arn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template.
     @Sendable
     public func listTemplates(_ input: ListTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTemplatesResponse {
-        return try await self.client.execute(operation: "ListTemplates", path: "/domains/{domainId}/templates-list", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTemplates", 
+            path: "/domains/{domainId}/templates-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// API for adding case event publishing configuration
     @Sendable
     public func putCaseEventConfiguration(_ input: PutCaseEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutCaseEventConfigurationResponse {
-        return try await self.client.execute(operation: "PutCaseEventConfiguration", path: "/domains/{domainId}/case-event-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutCaseEventConfiguration", 
+            path: "/domains/{domainId}/case-event-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents.  For customer_id you must provide the full customer profile ARN in this format:  arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID.
     @Sendable
     public func searchCases(_ input: SearchCasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchCasesResponse {
-        return try await self.client.execute(operation: "SearchCases", path: "/domains/{domainId}/cases-search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchCases", 
+            path: "/domains/{domainId}/cases-search", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches for related items that are associated with a case.  If no filters are provided, this returns all related items associated with a case.
     @Sendable
     public func searchRelatedItems(_ input: SearchRelatedItemsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchRelatedItemsResponse {
-        return try await self.client.execute(operation: "SearchRelatedItems", path: "/domains/{domainId}/cases/{caseId}/related-items-search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchRelatedItems", 
+            path: "/domains/{domainId}/cases/{caseId}/related-items-search", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds tags to a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{arn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{arn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Untags a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{arn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     @Sendable
     public func updateCase(_ input: UpdateCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCaseResponse {
-        return try await self.client.execute(operation: "UpdateCase", path: "/domains/{domainId}/cases/{caseId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateCase", 
+            path: "/domains/{domainId}/cases/{caseId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the properties of an existing field.
     @Sendable
     public func updateField(_ input: UpdateFieldRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFieldResponse {
-        return try await self.client.execute(operation: "UpdateField", path: "/domains/{domainId}/fields/{fieldId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateField", 
+            path: "/domains/{domainId}/fields/{fieldId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout.  Title and Status fields cannot be part of layouts because they are not configurable.
     @Sendable
     public func updateLayout(_ input: UpdateLayoutRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLayoutResponse {
-        return try await self.client.execute(operation: "UpdateLayout", path: "/domains/{domainId}/layouts/{layoutId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLayout", 
+            path: "/domains/{domainId}/layouts/{layoutId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the attributes of an existing template. The template attributes that can be modified include name, description, layoutConfiguration, requiredFields, and status. At least one of these attributes must not be null. If a null value is provided for a given attribute, that attribute is ignored and its current value is preserved.
     @Sendable
     public func updateTemplate(_ input: UpdateTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTemplateResponse {
-        return try await self.client.execute(operation: "UpdateTemplate", path: "/domains/{domainId}/templates/{templateId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTemplate", 
+            path: "/domains/{domainId}/templates/{templateId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

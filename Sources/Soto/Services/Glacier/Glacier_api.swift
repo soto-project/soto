@@ -86,19 +86,40 @@ public struct Glacier: AWSService {
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and underlying REST API, see Working with Archives in Amazon S3 Glacier and Abort Multipart Upload in the Amazon Glacier Developer Guide.
     @Sendable
     public func abortMultipartUpload(_ input: AbortMultipartUploadInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AbortMultipartUpload", path: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AbortMultipartUpload", 
+            path: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation aborts the vault locking process if the vault lock is not in the Locked state. If the vault lock is in the Locked state when this operation is requested, the operation returns an AccessDeniedException error. Aborting the vault locking process removes the vault lock policy from the specified vault.  A vault lock is put into the InProgress state by calling InitiateVaultLock. A vault lock is put into the Locked state by calling CompleteVaultLock. You can get the state of a vault lock by calling GetVaultLock. For more information about the vault locking process, see Amazon Glacier Vault Lock. For more information about vault lock policies, see Amazon Glacier Access Control with Vault Lock Policies.  This operation is idempotent. You can successfully invoke this operation multiple times, if the vault lock is in the InProgress state or if there is no policy associated with the vault.
     @Sendable
     public func abortVaultLock(_ input: AbortVaultLockInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AbortVaultLock", path: "/{accountId}/vaults/{vaultName}/lock-policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AbortVaultLock", 
+            path: "/{accountId}/vaults/{vaultName}/lock-policy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation adds the specified tags to a vault. Each tag is composed of a key and a value. Each vault can have up to 10 tags. If your request would cause the tag limit for the vault to be exceeded, the operation throws the LimitExceededException error. If a tag already exists on the vault under a specified key, the existing key value will be overwritten. For more information about tags, see Tagging Amazon S3 Glacier Resources.
     @Sendable
     public func addTagsToVault(_ input: AddTagsToVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AddTagsToVault", path: "/{accountId}/vaults/{vaultName}/tags?operation=add", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddTagsToVault", 
+            path: "/{accountId}/vaults/{vaultName}/tags?operation=add", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// You call this operation to inform Amazon S3 Glacier (Glacier) that all the archive parts have been uploaded and that Glacier can now assemble the archive from the uploaded parts. After assembling and saving the archive to the vault, Glacier returns the URI path of the newly created archive resource. Using the URI path, you can then access the archive. After you upload an archive, you should save the archive ID returned to retrieve the archive at a later point. You can also get the vault inventory to obtain a list of archive IDs in a vault. For more information, see InitiateJob.
@@ -108,13 +129,27 @@ public struct Glacier: AWSService {
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and underlying REST API, see Uploading Large Archives in Parts (Multipart Upload) and Complete Multipart Upload in the Amazon Glacier Developer Guide.
     @Sendable
     public func completeMultipartUpload(_ input: CompleteMultipartUploadInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ArchiveCreationOutput {
-        return try await self.client.execute(operation: "CompleteMultipartUpload", path: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CompleteMultipartUpload", 
+            path: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation completes the vault locking process by transitioning the vault lock from the InProgress state to the Locked state, which causes the vault lock policy to become unchangeable. A vault lock is put into the InProgress state by calling InitiateVaultLock. You can obtain the state of the vault lock by calling GetVaultLock. For more information about the vault locking process, Amazon Glacier Vault Lock.  This operation is idempotent. This request is always successful if the vault lock is in the Locked state and the provided lock ID matches the lock ID originally used to lock the vault. If an invalid lock ID is passed in the request when the vault lock is in the Locked state, the operation returns an AccessDeniedException error. If an invalid lock ID is passed in the request when the vault lock is in the InProgress state, the operation throws an InvalidParameter error.
     @Sendable
     public func completeVaultLock(_ input: CompleteVaultLockInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "CompleteVaultLock", path: "/{accountId}/vaults/{vaultName}/lock-policy/{lockId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CompleteVaultLock", 
+            path: "/{accountId}/vaults/{vaultName}/lock-policy/{lockId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation creates a new vault with the specified name. The name of the vault must be unique within a region for an AWS account. You can create up to 1,000 vaults per account. If you need to create more vaults, contact Amazon S3 Glacier. You must use the following guidelines when naming a vault.   Names can be between 1 and 255 characters long.   Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), and '.' (period).
@@ -122,7 +157,14 @@ public struct Glacier: AWSService {
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and underlying REST API, see Creating a Vault in Amazon Glacier and Create Vault  in the Amazon Glacier Developer Guide.
     @Sendable
     public func createVault(_ input: CreateVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVaultOutput {
-        return try await self.client.execute(operation: "CreateVault", path: "/{accountId}/vaults/{vaultName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVault", 
+            path: "/{accountId}/vaults/{vaultName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation deletes an archive from a vault. Subsequent requests to initiate a retrieval of this archive will fail. Archive retrievals that are in progress for this archive ID may or may not succeed according to the following scenarios:   If the archive retrieval job is actively preparing the data for download when Amazon S3 Glacier receives the delete archive request, the archival retrieval operation might fail.   If the archive retrieval job has successfully prepared the archive for download when Amazon S3 Glacier receives the delete archive request, you will be able to download the output.
@@ -130,7 +172,14 @@ public struct Glacier: AWSService {
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and underlying REST API, see Deleting an Archive in Amazon Glacier and Delete Archive in the Amazon Glacier Developer Guide.
     @Sendable
     public func deleteArchive(_ input: DeleteArchiveInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteArchive", path: "/{accountId}/vaults/{vaultName}/archives/{archiveId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteArchive", 
+            path: "/{accountId}/vaults/{vaultName}/archives/{archiveId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation deletes a vault. Amazon S3 Glacier will delete a vault only if there are no archives in the vault as of the last inventory and there have been no writes to the vault since the last inventory. If either of these conditions is not satisfied, the vault deletion fails (that is, the vault is not removed) and Amazon S3 Glacier returns an error. You can use DescribeVault to return the number of archives in a vault, and you can use Initiate a Job (POST jobs) to initiate a new inventory retrieval for a vault. The inventory contains the archive IDs you use to delete archives using Delete Archive (DELETE archive).
@@ -138,20 +187,41 @@ public struct Glacier: AWSService {
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and underlying REST API, see Deleting a Vault in Amazon Glacier and Delete Vault  in the Amazon S3 Glacier Developer Guide.
     @Sendable
     public func deleteVault(_ input: DeleteVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVault", path: "/{accountId}/vaults/{vaultName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVault", 
+            path: "/{accountId}/vaults/{vaultName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation deletes the access policy associated with the specified vault. The operation is eventually consistent; that is, it might take some time for Amazon S3 Glacier to completely remove the access policy, and you might still see the effect of the policy for a short time after you send the delete request. This operation is idempotent. You can invoke delete multiple times, even if there is no policy associated with the vault. For more information about vault access policies, see Amazon Glacier Access Control with Vault Access Policies.
     @Sendable
     public func deleteVaultAccessPolicy(_ input: DeleteVaultAccessPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVaultAccessPolicy", path: "/{accountId}/vaults/{vaultName}/access-policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVaultAccessPolicy", 
+            path: "/{accountId}/vaults/{vaultName}/access-policy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation deletes the notification configuration set for a vault. The operation is eventually consistent; that is, it might take some time for Amazon S3 Glacier to completely disable the notifications and you might still receive some notifications for a short time after you send the delete request.
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and underlying REST API, see Configuring Vault Notifications in Amazon S3 Glacier and Delete Vault Notification Configuration  in the Amazon S3 Glacier Developer Guide.
     @Sendable
     public func deleteVaultNotifications(_ input: DeleteVaultNotificationsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteVaultNotifications", path: "/{accountId}/vaults/{vaultName}/notification-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVaultNotifications", 
+            path: "/{accountId}/vaults/{vaultName}/notification-configuration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation returns information about a job you previously initiated, including the job initiation date, the user who initiated the job, the job status code/message and the Amazon SNS topic to notify after Amazon S3 Glacier (Glacier) completes the job. For more information about initiating a job, see InitiateJob.
@@ -161,20 +231,41 @@ public struct Glacier: AWSService {
     ///  For more information about using this operation,  see the documentation for the underlying REST API Describe Job  in the Amazon Glacier Developer Guide.
     @Sendable
     public func describeJob(_ input: DescribeJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GlacierJobDescription {
-        return try await self.client.execute(operation: "DescribeJob", path: "/{accountId}/vaults/{vaultName}/jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeJob", 
+            path: "/{accountId}/vaults/{vaultName}/jobs/{jobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation returns information about a vault, including the vault's Amazon Resource Name (ARN), the date the vault was created, the number of archives it contains, and the total size of all the archives in the vault. The number of archives and their total size are as of the last inventory generation. This means that if you add or remove an archive from a vault, and then immediately use Describe Vault, the change in contents will not be immediately reflected. If you want to retrieve the latest inventory of the vault, use InitiateJob. Amazon S3 Glacier generates vault inventories approximately daily. For more information, see Downloading a Vault Inventory in Amazon S3 Glacier.
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and underlying REST API, see Retrieving Vault Metadata in Amazon S3 Glacier and Describe Vault  in the Amazon Glacier Developer Guide.
     @Sendable
     public func describeVault(_ input: DescribeVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVaultOutput {
-        return try await self.client.execute(operation: "DescribeVault", path: "/{accountId}/vaults/{vaultName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeVault", 
+            path: "/{accountId}/vaults/{vaultName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation returns the current data retrieval policy for the account and region specified in the GET request. For more information about data retrieval policies, see Amazon Glacier Data Retrieval Policies.
     @Sendable
     public func getDataRetrievalPolicy(_ input: GetDataRetrievalPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataRetrievalPolicyOutput {
-        return try await self.client.execute(operation: "GetDataRetrievalPolicy", path: "/{accountId}/policies/data-retrieval", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDataRetrievalPolicy", 
+            path: "/{accountId}/policies/data-retrieval", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation downloads the output of the job you initiated using InitiateJob. Depending on the job type you specified when you initiated the job, the output will be either the content of an archive or a vault inventory.
@@ -182,20 +273,41 @@ public struct Glacier: AWSService {
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and the underlying REST API, see Downloading a Vault Inventory, Downloading an Archive, and Get Job Output
     @Sendable
     public func getJobOutput(_ input: GetJobOutputInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobOutputOutput {
-        return try await self.client.execute(operation: "GetJobOutput", path: "/{accountId}/vaults/{vaultName}/jobs/{jobId}/output", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetJobOutput", 
+            path: "/{accountId}/vaults/{vaultName}/jobs/{jobId}/output", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation retrieves the access-policy subresource set on the vault; for more information on setting this subresource, see Set Vault Access Policy (PUT access-policy). If there is no access policy set on the vault, the operation returns a 404 Not found error. For more information about vault access policies, see Amazon Glacier Access Control with Vault Access Policies.
     @Sendable
     public func getVaultAccessPolicy(_ input: GetVaultAccessPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVaultAccessPolicyOutput {
-        return try await self.client.execute(operation: "GetVaultAccessPolicy", path: "/{accountId}/vaults/{vaultName}/access-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVaultAccessPolicy", 
+            path: "/{accountId}/vaults/{vaultName}/access-policy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation retrieves the following attributes from the lock-policy subresource set on the specified vault:    The vault lock policy set on the vault.   The state of the vault lock, which is either InProgess or Locked.   When the lock ID expires. The lock ID is used to complete the vault locking process.   When the vault lock was initiated and put into the InProgress state.
     ///  A vault lock is put into the InProgress state by calling InitiateVaultLock. A vault lock is put into the Locked state by calling CompleteVaultLock. You can abort the vault locking process by calling AbortVaultLock. For more information about the vault locking process, Amazon Glacier Vault Lock.  If there is no vault lock policy set on the vault, the operation returns a 404 Not found error. For more information about vault lock policies, Amazon Glacier Access Control with Vault Lock Policies.
     @Sendable
     public func getVaultLock(_ input: GetVaultLockInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVaultLockOutput {
-        return try await self.client.execute(operation: "GetVaultLock", path: "/{accountId}/vaults/{vaultName}/lock-policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVaultLock", 
+            path: "/{accountId}/vaults/{vaultName}/lock-policy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation retrieves the notification-configuration subresource of the specified vault.
@@ -203,13 +315,27 @@ public struct Glacier: AWSService {
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and underlying REST API, see Configuring Vault Notifications in Amazon S3 Glacier and Get Vault Notification Configuration  in the Amazon Glacier Developer Guide.
     @Sendable
     public func getVaultNotifications(_ input: GetVaultNotificationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVaultNotificationsOutput {
-        return try await self.client.execute(operation: "GetVaultNotifications", path: "/{accountId}/vaults/{vaultName}/notification-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetVaultNotifications", 
+            path: "/{accountId}/vaults/{vaultName}/notification-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation initiates a job of the specified type, which can be a select, an archival retrieval, or a vault retrieval. For more information about using this operation,  see the documentation for the underlying REST API Initiate a Job.
     @Sendable
     public func initiateJob(_ input: InitiateJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> InitiateJobOutput {
-        return try await self.client.execute(operation: "InitiateJob", path: "/{accountId}/vaults/{vaultName}/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "InitiateJob", 
+            path: "/{accountId}/vaults/{vaultName}/jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation initiates a multipart upload. Amazon S3 Glacier creates a multipart upload resource and returns its ID in the response. The multipart upload ID is used in subsequent requests to upload parts of an archive (see UploadMultipartPart).
@@ -220,7 +346,14 @@ public struct Glacier: AWSService {
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and underlying REST API, see Uploading Large Archives in Parts (Multipart Upload) and Initiate Multipart Upload in the Amazon Glacier Developer Guide.
     @Sendable
     public func initiateMultipartUpload(_ input: InitiateMultipartUploadInput, logger: Logger = AWSClient.loggingDisabled) async throws -> InitiateMultipartUploadOutput {
-        return try await self.client.execute(operation: "InitiateMultipartUpload", path: "/{accountId}/vaults/{vaultName}/multipart-uploads", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "InitiateMultipartUpload", 
+            path: "/{accountId}/vaults/{vaultName}/multipart-uploads", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation initiates the vault locking process by doing the following:   Installing a vault lock policy on the specified vault.   Setting the lock state of vault lock to InProgress.   Returning a lock ID, which is used to complete the vault locking process.
@@ -229,7 +362,14 @@ public struct Glacier: AWSService {
     ///  If this operation is called when the vault lock is in the InProgress state, the operation returns an AccessDeniedException error. When the vault lock is in the InProgress state you must call AbortVaultLock before you can initiate a new vault lock policy.
     @Sendable
     public func initiateVaultLock(_ input: InitiateVaultLockInput, logger: Logger = AWSClient.loggingDisabled) async throws -> InitiateVaultLockOutput {
-        return try await self.client.execute(operation: "InitiateVaultLock", path: "/{accountId}/vaults/{vaultName}/lock-policy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "InitiateVaultLock", 
+            path: "/{accountId}/vaults/{vaultName}/lock-policy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation lists jobs for a vault, including jobs that are in-progress and jobs that have recently finished. The List Job operation returns a list of these jobs sorted by job initiation time.
@@ -239,7 +379,14 @@ public struct Glacier: AWSService {
     ///  For more information about using this operation,  see the documentation for the underlying REST API List Jobs.
     @Sendable
     public func listJobs(_ input: ListJobsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobsOutput {
-        return try await self.client.execute(operation: "ListJobs", path: "/{accountId}/vaults/{vaultName}/jobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListJobs", 
+            path: "/{accountId}/vaults/{vaultName}/jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation lists in-progress multipart uploads for the specified vault. An in-progress multipart upload is a multipart upload that has been initiated by an InitiateMultipartUpload request, but has not yet been completed or aborted. The list returned in the List Multipart Upload response has no guaranteed order.
@@ -249,7 +396,14 @@ public struct Glacier: AWSService {
     ///  For conceptual information and the underlying REST API, see Working with Archives in Amazon S3 Glacier and List Multipart Uploads in the Amazon Glacier Developer Guide.
     @Sendable
     public func listMultipartUploads(_ input: ListMultipartUploadsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMultipartUploadsOutput {
-        return try await self.client.execute(operation: "ListMultipartUploads", path: "/{accountId}/vaults/{vaultName}/multipart-uploads", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListMultipartUploads", 
+            path: "/{accountId}/vaults/{vaultName}/multipart-uploads", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation lists the parts of an archive that have been uploaded in a specific multipart upload. You can make this request at any time during an in-progress multipart upload before you complete the upload (see CompleteMultipartUpload. List Parts returns an error for completed uploads. The list returned in the List Parts response is sorted by part range.
@@ -257,19 +411,40 @@ public struct Glacier: AWSService {
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and the underlying REST API, see Working with Archives in Amazon S3 Glacier and List Parts in the Amazon Glacier Developer Guide.
     @Sendable
     public func listParts(_ input: ListPartsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPartsOutput {
-        return try await self.client.execute(operation: "ListParts", path: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListParts", 
+            path: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation lists the provisioned capacity units for the specified AWS account.
     @Sendable
     public func listProvisionedCapacity(_ input: ListProvisionedCapacityInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProvisionedCapacityOutput {
-        return try await self.client.execute(operation: "ListProvisionedCapacity", path: "/{accountId}/provisioned-capacity", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListProvisionedCapacity", 
+            path: "/{accountId}/provisioned-capacity", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation lists all the tags attached to a vault. The operation returns an empty map if there are no tags. For more information about tags, see Tagging Amazon S3 Glacier Resources.
     @Sendable
     public func listTagsForVault(_ input: ListTagsForVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForVaultOutput {
-        return try await self.client.execute(operation: "ListTagsForVault", path: "/{accountId}/vaults/{vaultName}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForVault", 
+            path: "/{accountId}/vaults/{vaultName}/tags", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation lists all vaults owned by the calling user's account. The list returned in the response is ASCII-sorted by vault name.
@@ -277,31 +452,66 @@ public struct Glacier: AWSService {
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and underlying REST API, see Retrieving Vault Metadata in Amazon S3 Glacier and List Vaults  in the Amazon Glacier Developer Guide.
     @Sendable
     public func listVaults(_ input: ListVaultsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVaultsOutput {
-        return try await self.client.execute(operation: "ListVaults", path: "/{accountId}/vaults", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVaults", 
+            path: "/{accountId}/vaults", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation purchases a provisioned capacity unit for an AWS account.
     @Sendable
     public func purchaseProvisionedCapacity(_ input: PurchaseProvisionedCapacityInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PurchaseProvisionedCapacityOutput {
-        return try await self.client.execute(operation: "PurchaseProvisionedCapacity", path: "/{accountId}/provisioned-capacity", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PurchaseProvisionedCapacity", 
+            path: "/{accountId}/provisioned-capacity", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation removes one or more tags from the set of tags attached to a vault. For more information about tags, see Tagging Amazon S3 Glacier Resources. This operation is idempotent. The operation will be successful, even if there are no tags attached to the vault.
     @Sendable
     public func removeTagsFromVault(_ input: RemoveTagsFromVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RemoveTagsFromVault", path: "/{accountId}/vaults/{vaultName}/tags?operation=remove", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveTagsFromVault", 
+            path: "/{accountId}/vaults/{vaultName}/tags?operation=remove", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation sets and then enacts a data retrieval policy in the region specified in the PUT request. You can set one policy per region for an AWS account. The policy is enacted within a few minutes of a successful PUT operation. The set policy operation does not affect retrieval jobs that were in progress before the policy was enacted. For more information about data retrieval policies, see Amazon Glacier Data Retrieval Policies.
     @Sendable
     public func setDataRetrievalPolicy(_ input: SetDataRetrievalPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "SetDataRetrievalPolicy", path: "/{accountId}/policies/data-retrieval", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SetDataRetrievalPolicy", 
+            path: "/{accountId}/policies/data-retrieval", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation configures an access policy for a vault and will overwrite an existing policy. To configure a vault access policy, send a PUT request to the access-policy subresource of the vault. An access policy is specific to a vault and is also called a vault subresource. You can set one access policy per vault and the policy can be up to 20 KB in size. For more information about vault access policies, see Amazon Glacier Access Control with Vault Access Policies.
     @Sendable
     public func setVaultAccessPolicy(_ input: SetVaultAccessPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "SetVaultAccessPolicy", path: "/{accountId}/vaults/{vaultName}/access-policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SetVaultAccessPolicy", 
+            path: "/{accountId}/vaults/{vaultName}/access-policy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation configures notifications that will be sent when specific events happen to a vault. By default, you don't get any notifications.
@@ -312,7 +522,14 @@ public struct Glacier: AWSService {
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and underlying REST API, see Configuring Vault Notifications in Amazon S3 Glacier and Set Vault Notification Configuration  in the Amazon Glacier Developer Guide.
     @Sendable
     public func setVaultNotifications(_ input: SetVaultNotificationsInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "SetVaultNotifications", path: "/{accountId}/vaults/{vaultName}/notification-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SetVaultNotifications", 
+            path: "/{accountId}/vaults/{vaultName}/notification-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation adds an archive to a vault. This is a synchronous operation, and for a successful upload, your data is durably persisted. Amazon S3 Glacier returns the archive ID in the x-amz-archive-id header of the response.
@@ -323,7 +540,14 @@ public struct Glacier: AWSService {
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and underlying REST API, see Uploading an Archive in Amazon Glacier and Upload Archive in the Amazon Glacier Developer Guide.
     @Sendable
     public func uploadArchive(_ input: UploadArchiveInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ArchiveCreationOutput {
-        return try await self.client.execute(operation: "UploadArchive", path: "/{accountId}/vaults/{vaultName}/archives", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UploadArchive", 
+            path: "/{accountId}/vaults/{vaultName}/archives", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation uploads a part of an archive. You can upload archive parts in any order. You can also upload them in parallel. You can upload up to 10,000 parts for a multipart upload.
@@ -333,7 +557,14 @@ public struct Glacier: AWSService {
     ///  An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM). For conceptual information and underlying REST API, see Uploading Large Archives in Parts (Multipart Upload) and Upload Part  in the Amazon Glacier Developer Guide.
     @Sendable
     public func uploadMultipartPart(_ input: UploadMultipartPartInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UploadMultipartPartOutput {
-        return try await self.client.execute(operation: "UploadMultipartPart", path: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UploadMultipartPart", 
+            path: "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

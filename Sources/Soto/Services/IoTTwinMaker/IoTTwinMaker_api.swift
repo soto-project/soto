@@ -73,205 +73,477 @@ public struct IoTTwinMaker: AWSService {
     /// Sets values for multiple time series properties.
     @Sendable
     public func batchPutPropertyValues(_ input: BatchPutPropertyValuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutPropertyValuesResponse {
-        return try await self.client.execute(operation: "BatchPutPropertyValues", path: "/workspaces/{workspaceId}/entity-properties", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger)
+        return try await self.client.execute(
+            operation: "BatchPutPropertyValues", 
+            path: "/workspaces/{workspaceId}/entity-properties", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
     }
 
     /// Creates a component type.
     @Sendable
     public func createComponentType(_ input: CreateComponentTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateComponentTypeResponse {
-        return try await self.client.execute(operation: "CreateComponentType", path: "/workspaces/{workspaceId}/component-types/{componentTypeId}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateComponentType", 
+            path: "/workspaces/{workspaceId}/component-types/{componentTypeId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Creates an entity.
     @Sendable
     public func createEntity(_ input: CreateEntityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEntityResponse {
-        return try await self.client.execute(operation: "CreateEntity", path: "/workspaces/{workspaceId}/entities", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateEntity", 
+            path: "/workspaces/{workspaceId}/entities", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Creates a scene.
     @Sendable
     public func createScene(_ input: CreateSceneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSceneResponse {
-        return try await self.client.execute(operation: "CreateScene", path: "/workspaces/{workspaceId}/scenes", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateScene", 
+            path: "/workspaces/{workspaceId}/scenes", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// This action creates a SyncJob.
     @Sendable
     public func createSyncJob(_ input: CreateSyncJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSyncJobResponse {
-        return try await self.client.execute(operation: "CreateSyncJob", path: "/workspaces/{workspaceId}/sync-jobs/{syncSource}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSyncJob", 
+            path: "/workspaces/{workspaceId}/sync-jobs/{syncSource}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Creates a workplace.
     @Sendable
     public func createWorkspace(_ input: CreateWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspaceResponse {
-        return try await self.client.execute(operation: "CreateWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorkspace", 
+            path: "/workspaces/{workspaceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Deletes a component type.
     @Sendable
     public func deleteComponentType(_ input: DeleteComponentTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteComponentTypeResponse {
-        return try await self.client.execute(operation: "DeleteComponentType", path: "/workspaces/{workspaceId}/component-types/{componentTypeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteComponentType", 
+            path: "/workspaces/{workspaceId}/component-types/{componentTypeId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Deletes an entity.
     @Sendable
     public func deleteEntity(_ input: DeleteEntityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEntityResponse {
-        return try await self.client.execute(operation: "DeleteEntity", path: "/workspaces/{workspaceId}/entities/{entityId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteEntity", 
+            path: "/workspaces/{workspaceId}/entities/{entityId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Deletes a scene.
     @Sendable
     public func deleteScene(_ input: DeleteSceneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSceneResponse {
-        return try await self.client.execute(operation: "DeleteScene", path: "/workspaces/{workspaceId}/scenes/{sceneId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteScene", 
+            path: "/workspaces/{workspaceId}/scenes/{sceneId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Delete the SyncJob.
     @Sendable
     public func deleteSyncJob(_ input: DeleteSyncJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSyncJobResponse {
-        return try await self.client.execute(operation: "DeleteSyncJob", path: "/workspaces/{workspaceId}/sync-jobs/{syncSource}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSyncJob", 
+            path: "/workspaces/{workspaceId}/sync-jobs/{syncSource}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Deletes a workspace.
     @Sendable
     public func deleteWorkspace(_ input: DeleteWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkspaceResponse {
-        return try await self.client.execute(operation: "DeleteWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWorkspace", 
+            path: "/workspaces/{workspaceId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Run queries to access information from your knowledge graph of entities within individual workspaces.
     @Sendable
     public func executeQuery(_ input: ExecuteQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteQueryResponse {
-        return try await self.client.execute(operation: "ExecuteQuery", path: "/queries/execution", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "ExecuteQuery", 
+            path: "/queries/execution", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Retrieves information about a component type.
     @Sendable
     public func getComponentType(_ input: GetComponentTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComponentTypeResponse {
-        return try await self.client.execute(operation: "GetComponentType", path: "/workspaces/{workspaceId}/component-types/{componentTypeId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "GetComponentType", 
+            path: "/workspaces/{workspaceId}/component-types/{componentTypeId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Retrieves information about an entity.
     @Sendable
     public func getEntity(_ input: GetEntityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEntityResponse {
-        return try await self.client.execute(operation: "GetEntity", path: "/workspaces/{workspaceId}/entities/{entityId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "GetEntity", 
+            path: "/workspaces/{workspaceId}/entities/{entityId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Gets the pricing plan.
     @Sendable
     public func getPricingPlan(_ input: GetPricingPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPricingPlanResponse {
-        return try await self.client.execute(operation: "GetPricingPlan", path: "/pricingplan", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "GetPricingPlan", 
+            path: "/pricingplan", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
     @Sendable
     public func getPropertyValue(_ input: GetPropertyValueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPropertyValueResponse {
-        return try await self.client.execute(operation: "GetPropertyValue", path: "/workspaces/{workspaceId}/entity-properties/value", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger)
+        return try await self.client.execute(
+            operation: "GetPropertyValue", 
+            path: "/workspaces/{workspaceId}/entity-properties/value", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and entityId. For cross-entity quries, specify a value for componentTypeId.
     @Sendable
     public func getPropertyValueHistory(_ input: GetPropertyValueHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPropertyValueHistoryResponse {
-        return try await self.client.execute(operation: "GetPropertyValueHistory", path: "/workspaces/{workspaceId}/entity-properties/history", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger)
+        return try await self.client.execute(
+            operation: "GetPropertyValueHistory", 
+            path: "/workspaces/{workspaceId}/entity-properties/history", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
     }
 
     /// Retrieves information about a scene.
     @Sendable
     public func getScene(_ input: GetSceneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSceneResponse {
-        return try await self.client.execute(operation: "GetScene", path: "/workspaces/{workspaceId}/scenes/{sceneId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "GetScene", 
+            path: "/workspaces/{workspaceId}/scenes/{sceneId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Gets the SyncJob.
     @Sendable
     public func getSyncJob(_ input: GetSyncJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSyncJobResponse {
-        return try await self.client.execute(operation: "GetSyncJob", path: "/sync-jobs/{syncSource}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "GetSyncJob", 
+            path: "/sync-jobs/{syncSource}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Retrieves information about a workspace.
     @Sendable
     public func getWorkspace(_ input: GetWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkspaceResponse {
-        return try await self.client.execute(operation: "GetWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorkspace", 
+            path: "/workspaces/{workspaceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Lists all component types in a workspace.
     @Sendable
     public func listComponentTypes(_ input: ListComponentTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentTypesResponse {
-        return try await self.client.execute(operation: "ListComponentTypes", path: "/workspaces/{workspaceId}/component-types-list", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "ListComponentTypes", 
+            path: "/workspaces/{workspaceId}/component-types-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Lists all entities in a workspace.
     @Sendable
     public func listEntities(_ input: ListEntitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEntitiesResponse {
-        return try await self.client.execute(operation: "ListEntities", path: "/workspaces/{workspaceId}/entities-list", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "ListEntities", 
+            path: "/workspaces/{workspaceId}/entities-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Lists all scenes in a workspace.
     @Sendable
     public func listScenes(_ input: ListScenesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScenesResponse {
-        return try await self.client.execute(operation: "ListScenes", path: "/workspaces/{workspaceId}/scenes-list", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "ListScenes", 
+            path: "/workspaces/{workspaceId}/scenes-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// List all SyncJobs.
     @Sendable
     public func listSyncJobs(_ input: ListSyncJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSyncJobsResponse {
-        return try await self.client.execute(operation: "ListSyncJobs", path: "/workspaces/{workspaceId}/sync-jobs-list", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "ListSyncJobs", 
+            path: "/workspaces/{workspaceId}/sync-jobs-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Lists the sync resources.
     @Sendable
     public func listSyncResources(_ input: ListSyncResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSyncResourcesResponse {
-        return try await self.client.execute(operation: "ListSyncResources", path: "/workspaces/{workspaceId}/sync-jobs/{syncSource}/resources-list", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "ListSyncResources", 
+            path: "/workspaces/{workspaceId}/sync-jobs/{syncSource}/resources-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Lists all tags associated with a resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags-list", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Retrieves information about workspaces in the current account.
     @Sendable
     public func listWorkspaces(_ input: ListWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkspacesResponse {
-        return try await self.client.execute(operation: "ListWorkspaces", path: "/workspaces-list", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkspaces", 
+            path: "/workspaces-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Adds tags to a resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Removes tags from a resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Updates information in a component type.
     @Sendable
     public func updateComponentType(_ input: UpdateComponentTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateComponentTypeResponse {
-        return try await self.client.execute(operation: "UpdateComponentType", path: "/workspaces/{workspaceId}/component-types/{componentTypeId}", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateComponentType", 
+            path: "/workspaces/{workspaceId}/component-types/{componentTypeId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Updates an entity.
     @Sendable
     public func updateEntity(_ input: UpdateEntityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEntityResponse {
-        return try await self.client.execute(operation: "UpdateEntity", path: "/workspaces/{workspaceId}/entities/{entityId}", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateEntity", 
+            path: "/workspaces/{workspaceId}/entities/{entityId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Update the pricing plan.
     @Sendable
     public func updatePricingPlan(_ input: UpdatePricingPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePricingPlanResponse {
-        return try await self.client.execute(operation: "UpdatePricingPlan", path: "/pricingplan", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePricingPlan", 
+            path: "/pricingplan", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Updates a scene.
     @Sendable
     public func updateScene(_ input: UpdateSceneRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSceneResponse {
-        return try await self.client.execute(operation: "UpdateScene", path: "/workspaces/{workspaceId}/scenes/{sceneId}", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateScene", 
+            path: "/workspaces/{workspaceId}/scenes/{sceneId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 
     /// Updates a workspace.
     @Sendable
     public func updateWorkspace(_ input: UpdateWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkspaceResponse {
-        return try await self.client.execute(operation: "UpdateWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorkspace", 
+            path: "/workspaces/{workspaceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
     }
 }
 

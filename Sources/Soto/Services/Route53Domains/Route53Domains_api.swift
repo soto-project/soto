@@ -73,7 +73,14 @@ public struct Route53Domains: AWSService {
     /// 				Domain Transfer from Aws Account 111122223333 has been cancelled.
     @Sendable
     public func acceptDomainTransferFromAnotherAwsAccount(_ input: AcceptDomainTransferFromAnotherAwsAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptDomainTransferFromAnotherAwsAccountResponse {
-        return try await self.client.execute(operation: "AcceptDomainTransferFromAnotherAwsAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AcceptDomainTransferFromAnotherAwsAccount", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Creates a delegation signer (DS) record in the registry zone for this domain
@@ -85,7 +92,14 @@ public struct Route53Domains: AWSService {
     /// 			guide.
     @Sendable
     public func associateDelegationSignerToDomain(_ input: AssociateDelegationSignerToDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDelegationSignerToDomainResponse {
-        return try await self.client.execute(operation: "AssociateDelegationSignerToDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateDelegationSignerToDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Cancels the transfer of a domain from the current Amazon Web Services account to
@@ -94,7 +108,14 @@ public struct Route53Domains: AWSService {
     /// 				Domain Transfer from Aws Account 111122223333 has been cancelled.
     @Sendable
     public func cancelDomainTransferToAnotherAwsAccount(_ input: CancelDomainTransferToAnotherAwsAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelDomainTransferToAnotherAwsAccountResponse {
-        return try await self.client.execute(operation: "CancelDomainTransferToAnotherAwsAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelDomainTransferToAnotherAwsAccount", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation checks the availability of one domain name. Note that if the
@@ -102,13 +123,27 @@ public struct Route53Domains: AWSService {
     /// 			the availability of the domain name.
     @Sendable
     public func checkDomainAvailability(_ input: CheckDomainAvailabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CheckDomainAvailabilityResponse {
-        return try await self.client.execute(operation: "CheckDomainAvailability", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CheckDomainAvailability", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Checks whether a domain name can be transferred to Amazon Route 53.
     @Sendable
     public func checkDomainTransferability(_ input: CheckDomainTransferabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CheckDomainTransferabilityResponse {
-        return try await self.client.execute(operation: "CheckDomainTransferability", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CheckDomainTransferability", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation deletes the specified domain. This action is permanent. For more
@@ -123,21 +158,42 @@ public struct Route53Domains: AWSService {
     /// 						noreply@registrar.amazon.com.
     @Sendable
     public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainResponse {
-        return try await self.client.execute(operation: "DeleteDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation deletes the specified tags for a domain. All tag operations are eventually consistent; subsequent operations might not
     /// 			immediately represent all issued operations.
     @Sendable
     public func deleteTagsForDomain(_ input: DeleteTagsForDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTagsForDomainResponse {
-        return try await self.client.execute(operation: "DeleteTagsForDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteTagsForDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation disables automatic renewal of domain registration for the specified
     /// 			domain.
     @Sendable
     public func disableDomainAutoRenew(_ input: DisableDomainAutoRenewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableDomainAutoRenewResponse {
-        return try await self.client.execute(operation: "DisableDomainAutoRenew", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableDomainAutoRenew", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation removes the transfer lock on the domain (specifically the
@@ -148,14 +204,28 @@ public struct Route53Domains: AWSService {
     /// 			completed successfully, the domain registrant will be notified by email.
     @Sendable
     public func disableDomainTransferLock(_ input: DisableDomainTransferLockRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableDomainTransferLockResponse {
-        return try await self.client.execute(operation: "DisableDomainTransferLock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisableDomainTransferLock", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a delegation signer (DS) record in the registry zone for this domain
     /// 			name.
     @Sendable
     public func disassociateDelegationSignerFromDomain(_ input: DisassociateDelegationSignerFromDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateDelegationSignerFromDomainResponse {
-        return try await self.client.execute(operation: "DisassociateDelegationSignerFromDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateDelegationSignerFromDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation configures Amazon Route 53 to automatically renew the specified domain
@@ -167,7 +237,14 @@ public struct Route53Domains: AWSService {
     /// 			period so we can complete processing before the deadline.
     @Sendable
     public func enableDomainAutoRenew(_ input: EnableDomainAutoRenewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableDomainAutoRenewResponse {
-        return try await self.client.execute(operation: "EnableDomainAutoRenew", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableDomainAutoRenew", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation sets the transfer lock on the domain (specifically the
@@ -177,7 +254,14 @@ public struct Route53Domains: AWSService {
     /// 			registrant will be notified by email.
     @Sendable
     public func enableDomainTransferLock(_ input: EnableDomainTransferLockRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableDomainTransferLockResponse {
-        return try await self.client.execute(operation: "EnableDomainTransferLock", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EnableDomainTransferLock", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// For operations that require confirmation that the email address for the registrant
@@ -186,7 +270,14 @@ public struct Route53Domains: AWSService {
     /// 				ResendContactReachabilityEmail operation.
     @Sendable
     public func getContactReachabilityStatus(_ input: GetContactReachabilityStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContactReachabilityStatusResponse {
-        return try await self.client.execute(operation: "GetContactReachabilityStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetContactReachabilityStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation returns detailed information about a specified domain that is
@@ -194,41 +285,83 @@ public struct Route53Domains: AWSService {
     /// 			domain is also returned as part of the output.
     @Sendable
     public func getDomainDetail(_ input: GetDomainDetailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainDetailResponse {
-        return try await self.client.execute(operation: "GetDomainDetail", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDomainDetail", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The GetDomainSuggestions operation returns a list of suggested domain names.
     @Sendable
     public func getDomainSuggestions(_ input: GetDomainSuggestionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainSuggestionsResponse {
-        return try await self.client.execute(operation: "GetDomainSuggestions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDomainSuggestions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation returns the current status of an operation that is not
     /// 			completed.
     @Sendable
     public func getOperationDetail(_ input: GetOperationDetailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOperationDetailResponse {
-        return try await self.client.execute(operation: "GetOperationDetail", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetOperationDetail", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation returns all the domain names registered with Amazon Route 53 for the
     /// 			current Amazon Web Services account if no filtering conditions are used.
     @Sendable
     public func listDomains(_ input: ListDomainsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainsResponse {
-        return try await self.client.execute(operation: "ListDomains", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDomains", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about all of the operations that return an operation ID and that
     /// 			have ever been performed on domains that were registered by the current account.  This command runs only in the us-east-1 Region.
     @Sendable
     public func listOperations(_ input: ListOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOperationsResponse {
-        return try await self.client.execute(operation: "ListOperations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOperations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the following prices for either all the TLDs supported by Route 53, or
     /// 			the specified TLD:   Registration   Transfer   Owner change   Domain renewal   Domain restoration
     @Sendable
     public func listPrices(_ input: ListPricesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPricesResponse {
-        return try await self.client.execute(operation: "ListPrices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPrices", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation returns all of the tags that are associated with the specified
@@ -236,14 +369,28 @@ public struct Route53Domains: AWSService {
     /// 			immediately represent all issued operations.
     @Sendable
     public func listTagsForDomain(_ input: ListTagsForDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForDomainResponse {
-        return try await self.client.execute(operation: "ListTagsForDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Moves a domain from Amazon Web Services to another registrar.  Supported actions:   Changes the IPS tags of a .uk domain, and pushes it to transit. Transit means
     /// 					that the domain is ready to be transferred to another registrar.
     @Sendable
     public func pushDomain(_ input: PushDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PushDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PushDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation registers a domain. Domains are registered either by Amazon Registrar
@@ -264,7 +411,14 @@ public struct Route53Domains: AWSService {
     /// 					domain. For more information, see Amazon Route 53 Pricing.
     @Sendable
     public func registerDomain(_ input: RegisterDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterDomainResponse {
-        return try await self.client.execute(operation: "RegisterDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Rejects the transfer of a domain from another Amazon Web Services account to the
@@ -272,7 +426,14 @@ public struct Route53Domains: AWSService {
     /// 				Domain Transfer from Aws Account 111122223333 has been cancelled.
     @Sendable
     public func rejectDomainTransferFromAnotherAwsAccount(_ input: RejectDomainTransferFromAnotherAwsAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectDomainTransferFromAnotherAwsAccountResponse {
-        return try await self.client.execute(operation: "RejectDomainTransferFromAnotherAwsAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RejectDomainTransferFromAnotherAwsAccount", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation renews a domain for the specified number of years. The cost of renewing
@@ -283,7 +444,14 @@ public struct Route53Domains: AWSService {
     /// 				Guide.
     @Sendable
     public func renewDomain(_ input: RenewDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RenewDomainResponse {
-        return try await self.client.execute(operation: "RenewDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RenewDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// For operations that require confirmation that the email address for the registrant
@@ -291,20 +459,41 @@ public struct Route53Domains: AWSService {
     /// 			confirmation email to the current email address for the registrant contact.
     @Sendable
     public func resendContactReachabilityEmail(_ input: ResendContactReachabilityEmailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResendContactReachabilityEmailResponse {
-        return try await self.client.execute(operation: "ResendContactReachabilityEmail", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ResendContactReachabilityEmail", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Resend the form of authorization email for this operation.
     @Sendable
     public func resendOperationAuthorization(_ input: ResendOperationAuthorizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "ResendOperationAuthorization", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ResendOperationAuthorization", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation returns the authorization code for the domain. To transfer a domain to
     /// 			another registrar, you provide this value to the new registrar.
     @Sendable
     public func retrieveDomainAuthCode(_ input: RetrieveDomainAuthCodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveDomainAuthCodeResponse {
-        return try await self.client.execute(operation: "RetrieveDomainAuthCode", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RetrieveDomainAuthCode", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Transfers a domain from another registrar to Amazon Route 53. When the transfer is
@@ -325,7 +514,14 @@ public struct Route53Domains: AWSService {
     /// 			successfully, the domain registrant will be notified by email.
     @Sendable
     public func transferDomain(_ input: TransferDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TransferDomainResponse {
-        return try await self.client.execute(operation: "TransferDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TransferDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Transfers a domain from the current Amazon Web Services account to another Amazon Web Services account. Note the following:   The Amazon Web Services account that you're transferring the domain to must
@@ -340,7 +536,14 @@ public struct Route53Domains: AWSService {
     /// 				Domain Transfer from Aws Account 111122223333 has been cancelled.
     @Sendable
     public func transferDomainToAnotherAwsAccount(_ input: TransferDomainToAnotherAwsAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TransferDomainToAnotherAwsAccountResponse {
-        return try await self.client.execute(operation: "TransferDomainToAnotherAwsAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TransferDomainToAnotherAwsAccount", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation updates the contact information for a particular domain. You must
@@ -350,7 +553,14 @@ public struct Route53Domains: AWSService {
     /// 			successfully, the domain registrant will be notified by email.
     @Sendable
     public func updateDomainContact(_ input: UpdateDomainContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDomainContactResponse {
-        return try await self.client.execute(operation: "UpdateDomainContact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDomainContact", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation updates the specified domain contact's privacy setting. When privacy
@@ -371,7 +581,14 @@ public struct Route53Domains: AWSService {
     /// 				see https://aws.amazon.com/privacy/.
     @Sendable
     public func updateDomainContactPrivacy(_ input: UpdateDomainContactPrivacyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDomainContactPrivacyResponse {
-        return try await self.client.execute(operation: "UpdateDomainContactPrivacy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDomainContactPrivacy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation replaces the current set of name servers for the domain with the
@@ -381,20 +598,41 @@ public struct Route53Domains: AWSService {
     /// 			domain registrant will be notified by email.
     @Sendable
     public func updateDomainNameservers(_ input: UpdateDomainNameserversRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDomainNameserversResponse {
-        return try await self.client.execute(operation: "UpdateDomainNameservers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDomainNameservers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// This operation adds or updates tags for a specified domain. All tag operations are eventually consistent; subsequent operations might not
     /// 			immediately represent all issued operations.
     @Sendable
     public func updateTagsForDomain(_ input: UpdateTagsForDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTagsForDomainResponse {
-        return try await self.client.execute(operation: "UpdateTagsForDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateTagsForDomain", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
     @Sendable
     public func viewBilling(_ input: ViewBillingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ViewBillingResponse {
-        return try await self.client.execute(operation: "ViewBilling", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ViewBilling", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

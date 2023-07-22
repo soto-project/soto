@@ -80,37 +80,79 @@ public struct ARCZonalShift: AWSService {
     /// Cancel a zonal shift in Amazon Route 53 Application Recovery Controller that you've started for a resource in your AWS account in an AWS Region.
     @Sendable
     public func cancelZonalShift(_ input: CancelZonalShiftRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ZonalShift {
-        return try await self.client.execute(operation: "CancelZonalShift", path: "/zonalshifts/{zonalShiftId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CancelZonalShift", 
+            path: "/zonalshifts/{zonalShiftId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get information about a resource that's been registered for zonal shifts with Amazon Route 53 Application Recovery Controller in this AWS Region. Resources that are registered for 		zonal shifts are managed resources in Route 53 ARC. 	     At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
     @Sendable
     public func getManagedResource(_ input: GetManagedResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetManagedResourceResponse {
-        return try await self.client.execute(operation: "GetManagedResource", path: "/managedresources/{resourceIdentifier}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetManagedResource", 
+            path: "/managedresources/{resourceIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the resources in your AWS account in this AWS Region that are managed for zonal shifts in Amazon Route 53 Application Recovery Controller, and information  		about them. The information includes their Amazon Resource Names (ARNs), the Availability Zones the resources are deployed in, and  		the resource name.
     @Sendable
     public func listManagedResources(_ input: ListManagedResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListManagedResourcesResponse {
-        return try await self.client.execute(operation: "ListManagedResources", path: "/managedresources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListManagedResources", 
+            path: "/managedresources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the active zonal shifts in Amazon Route 53 Application Recovery Controller in your AWS account in this AWS Region.
     @Sendable
     public func listZonalShifts(_ input: ListZonalShiftsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListZonalShiftsResponse {
-        return try await self.client.execute(operation: "ListZonalShifts", path: "/zonalshifts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListZonalShifts", 
+            path: "/zonalshifts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// You start a zonal shift to temporarily move load balancer traffic away from an Availability Zone in a AWS Region, 		to help your application recover immediately, for example, from a developer's bad code deployment or from an AWS  		infrastructure failure in a single Availability Zone. You can start a zonal shift in Route 53 ARC only for managed 		resources in your account in an AWS Region. Resources are automatically registered with Route 53 ARC by AWS services. 	     At this time, you can only start a zonal shift for Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off. 	     When you start a zonal shift, traffic for the resource is no longer routed to the Availability Zone. The 		zonal shift is created immediately in Route 53 ARC. However, it can take a short time, typically up to a few minutes, 		for existing, in-progress connections in the Availability Zone to complete. 	     For more information, see Zonal shift 		in the Amazon Route 53 Application Recovery Controller Developer Guide.
     @Sendable
     public func startZonalShift(_ input: StartZonalShiftRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ZonalShift {
-        return try await self.client.execute(operation: "StartZonalShift", path: "/zonalshifts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartZonalShift", 
+            path: "/zonalshifts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Update an active zonal shift in Amazon Route 53 Application Recovery Controller in your AWS account. You can update a zonal shift to set a new expiration, or  	edit or replace the comment for the zonal shift.
     @Sendable
     public func updateZonalShift(_ input: UpdateZonalShiftRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ZonalShift {
-        return try await self.client.execute(operation: "UpdateZonalShift", path: "/zonalshifts/{zonalShiftId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateZonalShift", 
+            path: "/zonalshifts/{zonalShiftId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

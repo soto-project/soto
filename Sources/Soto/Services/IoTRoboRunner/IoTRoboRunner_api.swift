@@ -67,121 +67,261 @@ public struct IoTRoboRunner: AWSService {
     /// Grants permission to create a destination
     @Sendable
     public func createDestination(_ input: CreateDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDestinationResponse {
-        return try await self.client.execute(operation: "CreateDestination", path: "/createDestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDestination", 
+            path: "/createDestination", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to create a site
     @Sendable
     public func createSite(_ input: CreateSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSiteResponse {
-        return try await self.client.execute(operation: "CreateSite", path: "/createSite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSite", 
+            path: "/createSite", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to create a worker
     @Sendable
     public func createWorker(_ input: CreateWorkerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkerResponse {
-        return try await self.client.execute(operation: "CreateWorker", path: "/createWorker", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorker", 
+            path: "/createWorker", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to create a worker fleet
     @Sendable
     public func createWorkerFleet(_ input: CreateWorkerFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkerFleetResponse {
-        return try await self.client.execute(operation: "CreateWorkerFleet", path: "/createWorkerFleet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateWorkerFleet", 
+            path: "/createWorkerFleet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to delete a destination
     @Sendable
     public func deleteDestination(_ input: DeleteDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDestinationResponse {
-        return try await self.client.execute(operation: "DeleteDestination", path: "/deleteDestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDestination", 
+            path: "/deleteDestination", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to delete a site
     @Sendable
     public func deleteSite(_ input: DeleteSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSiteResponse {
-        return try await self.client.execute(operation: "DeleteSite", path: "/deleteSite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSite", 
+            path: "/deleteSite", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to delete a worker
     @Sendable
     public func deleteWorker(_ input: DeleteWorkerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkerResponse {
-        return try await self.client.execute(operation: "DeleteWorker", path: "/deleteWorker", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWorker", 
+            path: "/deleteWorker", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to delete a worker fleet
     @Sendable
     public func deleteWorkerFleet(_ input: DeleteWorkerFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkerFleetResponse {
-        return try await self.client.execute(operation: "DeleteWorkerFleet", path: "/deleteWorkerFleet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteWorkerFleet", 
+            path: "/deleteWorkerFleet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to get a destination
     @Sendable
     public func getDestination(_ input: GetDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDestinationResponse {
-        return try await self.client.execute(operation: "GetDestination", path: "/getDestination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDestination", 
+            path: "/getDestination", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to get a site
     @Sendable
     public func getSite(_ input: GetSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSiteResponse {
-        return try await self.client.execute(operation: "GetSite", path: "/getSite", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSite", 
+            path: "/getSite", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to get a worker
     @Sendable
     public func getWorker(_ input: GetWorkerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkerResponse {
-        return try await self.client.execute(operation: "GetWorker", path: "/getWorker", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorker", 
+            path: "/getWorker", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to get a worker fleet
     @Sendable
     public func getWorkerFleet(_ input: GetWorkerFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkerFleetResponse {
-        return try await self.client.execute(operation: "GetWorkerFleet", path: "/getWorkerFleet", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetWorkerFleet", 
+            path: "/getWorkerFleet", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to list destinations
     @Sendable
     public func listDestinations(_ input: ListDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDestinationsResponse {
-        return try await self.client.execute(operation: "ListDestinations", path: "/listDestinations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDestinations", 
+            path: "/listDestinations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to list sites
     @Sendable
     public func listSites(_ input: ListSitesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSitesResponse {
-        return try await self.client.execute(operation: "ListSites", path: "/listSites", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSites", 
+            path: "/listSites", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to list worker fleets
     @Sendable
     public func listWorkerFleets(_ input: ListWorkerFleetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkerFleetsResponse {
-        return try await self.client.execute(operation: "ListWorkerFleets", path: "/listWorkerFleets", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkerFleets", 
+            path: "/listWorkerFleets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to list workers
     @Sendable
     public func listWorkers(_ input: ListWorkersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkersResponse {
-        return try await self.client.execute(operation: "ListWorkers", path: "/listWorkers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListWorkers", 
+            path: "/listWorkers", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to update a destination
     @Sendable
     public func updateDestination(_ input: UpdateDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDestinationResponse {
-        return try await self.client.execute(operation: "UpdateDestination", path: "/updateDestination", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDestination", 
+            path: "/updateDestination", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to update a site
     @Sendable
     public func updateSite(_ input: UpdateSiteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSiteResponse {
-        return try await self.client.execute(operation: "UpdateSite", path: "/updateSite", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSite", 
+            path: "/updateSite", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to update a worker
     @Sendable
     public func updateWorker(_ input: UpdateWorkerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkerResponse {
-        return try await self.client.execute(operation: "UpdateWorker", path: "/updateWorker", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorker", 
+            path: "/updateWorker", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Grants permission to update a worker fleet
     @Sendable
     public func updateWorkerFleet(_ input: UpdateWorkerFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkerFleetResponse {
-        return try await self.client.execute(operation: "UpdateWorkerFleet", path: "/updateWorkerFleet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateWorkerFleet", 
+            path: "/updateWorkerFleet", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

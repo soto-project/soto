@@ -83,464 +83,1003 @@ public struct CodeCommit: AWSService {
     /// Creates an association between an approval rule template and a specified repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the template, an approval rule that matches the template contents is created for all pull requests in that repository.
     @Sendable
     public func associateApprovalRuleTemplateWithRepository(_ input: AssociateApprovalRuleTemplateWithRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AssociateApprovalRuleTemplateWithRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AssociateApprovalRuleTemplateWithRepository", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an association between an approval rule template and one or more specified repositories.
     @Sendable
     public func batchAssociateApprovalRuleTemplateWithRepositories(_ input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
-        return try await self.client.execute(operation: "BatchAssociateApprovalRuleTemplateWithRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchAssociateApprovalRuleTemplateWithRepositories", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
     @Sendable
     public func batchDescribeMergeConflicts(_ input: BatchDescribeMergeConflictsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDescribeMergeConflictsOutput {
-        return try await self.client.execute(operation: "BatchDescribeMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDescribeMergeConflicts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the association between an approval rule template and one or more specified repositories.
     @Sendable
     public func batchDisassociateApprovalRuleTemplateFromRepositories(_ input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
-        return try await self.client.execute(operation: "BatchDisassociateApprovalRuleTemplateFromRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchDisassociateApprovalRuleTemplateFromRepositories", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the contents of one or more commits in a repository.
     @Sendable
     public func batchGetCommits(_ input: BatchGetCommitsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetCommitsOutput {
-        return try await self.client.execute(operation: "BatchGetCommits", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetCommits", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about one or more repositories.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     @Sendable
     public func batchGetRepositories(_ input: BatchGetRepositoriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetRepositoriesOutput {
-        return try await self.client.execute(operation: "BatchGetRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetRepositories", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a template for approval rules that can then be associated with one or more repositories in your AWS account. When you associate a template with a repository, AWS CodeCommit creates an approval rule that matches the conditions of the template for all pull requests that meet the conditions of the template. For more information, see AssociateApprovalRuleTemplateWithRepository.
     @Sendable
     public func createApprovalRuleTemplate(_ input: CreateApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApprovalRuleTemplateOutput {
-        return try await self.client.execute(operation: "CreateApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateApprovalRuleTemplate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a branch in a repository and points the branch to a commit.  Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
     @Sendable
     public func createBranch(_ input: CreateBranchInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "CreateBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateBranch", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a commit for a repository on the tip of a specified branch.
     @Sendable
     public func createCommit(_ input: CreateCommitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCommitOutput {
-        return try await self.client.execute(operation: "CreateCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateCommit", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a pull request in the specified repository.
     @Sendable
     public func createPullRequest(_ input: CreatePullRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePullRequestOutput {
-        return try await self.client.execute(operation: "CreatePullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePullRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an approval rule for a pull request.
     @Sendable
     public func createPullRequestApprovalRule(_ input: CreatePullRequestApprovalRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePullRequestApprovalRuleOutput {
-        return try await self.client.execute(operation: "CreatePullRequestApprovalRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePullRequestApprovalRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new, empty repository.
     @Sendable
     public func createRepository(_ input: CreateRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRepositoryOutput {
-        return try await self.client.execute(operation: "CreateRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateRepository", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you determine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit.  This unreferenced merge commit  can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
     @Sendable
     public func createUnreferencedMergeCommit(_ input: CreateUnreferencedMergeCommitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUnreferencedMergeCommitOutput {
-        return try await self.client.execute(operation: "CreateUnreferencedMergeCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateUnreferencedMergeCommit", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified approval rule template. Deleting a template does not remove approval rules on pull requests already created with the template.
     @Sendable
     public func deleteApprovalRuleTemplate(_ input: DeleteApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApprovalRuleTemplateOutput {
-        return try await self.client.execute(operation: "DeleteApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteApprovalRuleTemplate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a branch from a repository, unless that branch is the default branch for the repository.
     @Sendable
     public func deleteBranch(_ input: DeleteBranchInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBranchOutput {
-        return try await self.client.execute(operation: "DeleteBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteBranch", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the content of a comment made on a change, file, or commit in a repository.
     @Sendable
     public func deleteCommentContent(_ input: DeleteCommentContentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCommentContentOutput {
-        return try await self.client.execute(operation: "DeleteCommentContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteCommentContent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a specified file from a specified branch. A commit is created on the branch that contains the revision. The file still exists in the commits earlier to the commit that contains the deletion.
     @Sendable
     public func deleteFile(_ input: DeleteFileInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFileOutput {
-        return try await self.client.execute(operation: "DeleteFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteFile", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the  approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the  pull request was created. You cannot delete an approval rule from a merged or closed pull request.
     @Sendable
     public func deletePullRequestApprovalRule(_ input: DeletePullRequestApprovalRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePullRequestApprovalRuleOutput {
-        return try await self.client.execute(operation: "DeletePullRequestApprovalRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePullRequestApprovalRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a repository. If a specified repository was already deleted, a null repository ID is returned.  Deleting a repository also deletes all associated objects and metadata. After a repository is deleted, all future push calls to the deleted repository fail.
     @Sendable
     public func deleteRepository(_ input: DeleteRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRepositoryOutput {
-        return try await self.client.execute(operation: "DeleteRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteRepository", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
     @Sendable
     public func describeMergeConflicts(_ input: DescribeMergeConflictsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMergeConflictsOutput {
-        return try await self.client.execute(operation: "DescribeMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeMergeConflicts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about one or more pull request events.
     @Sendable
     public func describePullRequestEvents(_ input: DescribePullRequestEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePullRequestEventsOutput {
-        return try await self.client.execute(operation: "DescribePullRequestEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePullRequestEvents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the association between a template and a repository so that approval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association.
     @Sendable
     public func disassociateApprovalRuleTemplateFromRepository(_ input: DisassociateApprovalRuleTemplateFromRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DisassociateApprovalRuleTemplateFromRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DisassociateApprovalRuleTemplateFromRepository", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
     @Sendable
     public func evaluatePullRequestApprovalRules(_ input: EvaluatePullRequestApprovalRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EvaluatePullRequestApprovalRulesOutput {
-        return try await self.client.execute(operation: "EvaluatePullRequestApprovalRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EvaluatePullRequestApprovalRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a specified approval rule template.
     @Sendable
     public func getApprovalRuleTemplate(_ input: GetApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApprovalRuleTemplateOutput {
-        return try await self.client.execute(operation: "GetApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetApprovalRuleTemplate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the base-64 encoded content of an individual blob in a repository.
     @Sendable
     public func getBlob(_ input: GetBlobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBlobOutput {
-        return try await self.client.execute(operation: "GetBlob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBlob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a repository branch, including its name and the last commit ID.
     @Sendable
     public func getBranch(_ input: GetBranchInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBranchOutput {
-        return try await self.client.execute(operation: "GetBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetBranch", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the content of a comment made on a change, file, or commit in a repository.   Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of  reactions from active identities, use GetCommentReactions.
     @Sendable
     public func getComment(_ input: GetCommentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCommentOutput {
-        return try await self.client.execute(operation: "GetComment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetComment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
     @Sendable
     public func getCommentReactions(_ input: GetCommentReactionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCommentReactionsOutput {
-        return try await self.client.execute(operation: "GetCommentReactions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCommentReactions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about comments made on the comparison between two commits.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of  reactions from active identities, use GetCommentReactions.
     @Sendable
     public func getCommentsForComparedCommit(_ input: GetCommentsForComparedCommitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCommentsForComparedCommitOutput {
-        return try await self.client.execute(operation: "GetCommentsForComparedCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCommentsForComparedCommit", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns comments made on a pull request.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of  reactions from active identities, use GetCommentReactions.
     @Sendable
     public func getCommentsForPullRequest(_ input: GetCommentsForPullRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCommentsForPullRequestOutput {
-        return try await self.client.execute(operation: "GetCommentsForPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCommentsForPullRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a commit, including commit message and committer information.
     @Sendable
     public func getCommit(_ input: GetCommitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCommitOutput {
-        return try await self.client.execute(operation: "GetCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetCommit", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
     @Sendable
     public func getDifferences(_ input: GetDifferencesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDifferencesOutput {
-        return try await self.client.execute(operation: "GetDifferences", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDifferences", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the base-64 encoded contents of a specified file and its metadata.
     @Sendable
     public func getFile(_ input: GetFileInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFileOutput {
-        return try await self.client.execute(operation: "GetFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFile", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the contents of a specified folder in a repository.
     @Sendable
     public func getFolder(_ input: GetFolderInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFolderOutput {
-        return try await self.client.execute(operation: "GetFolder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetFolder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a specified merge commit.
     @Sendable
     public func getMergeCommit(_ input: GetMergeCommitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMergeCommitOutput {
-        return try await self.client.execute(operation: "GetMergeCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMergeCommit", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
     @Sendable
     public func getMergeConflicts(_ input: GetMergeConflictsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMergeConflictsOutput {
-        return try await self.client.execute(operation: "GetMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMergeConflicts", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about the merge options available for merging two specified branches. For details about why a merge option is not available, use GetMergeConflicts or DescribeMergeConflicts.
     @Sendable
     public func getMergeOptions(_ input: GetMergeOptionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMergeOptionsOutput {
-        return try await self.client.execute(operation: "GetMergeOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetMergeOptions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a pull request in a specified repository.
     @Sendable
     public func getPullRequest(_ input: GetPullRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPullRequestOutput {
-        return try await self.client.execute(operation: "GetPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPullRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more approval rules applied to them.
     @Sendable
     public func getPullRequestApprovalStates(_ input: GetPullRequestApprovalStatesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPullRequestApprovalStatesOutput {
-        return try await self.client.execute(operation: "GetPullRequestApprovalStates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPullRequestApprovalStates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about whether approval rules have been set aside (overridden) for a  pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
     @Sendable
     public func getPullRequestOverrideState(_ input: GetPullRequestOverrideStateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPullRequestOverrideStateOutput {
-        return try await self.client.execute(operation: "GetPullRequestOverrideState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPullRequestOverrideState", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns information about a repository.
     ///   The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     @Sendable
     public func getRepository(_ input: GetRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRepositoryOutput {
-        return try await self.client.execute(operation: "GetRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRepository", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about triggers configured for a repository.
     @Sendable
     public func getRepositoryTriggers(_ input: GetRepositoryTriggersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRepositoryTriggersOutput {
-        return try await self.client.execute(operation: "GetRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRepositoryTriggers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all approval rule templates in the specified AWS Region in your AWS account. If an AWS Region is not specified, the AWS Region where you are signed in is used.
     @Sendable
     public func listApprovalRuleTemplates(_ input: ListApprovalRuleTemplatesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApprovalRuleTemplatesOutput {
-        return try await self.client.execute(operation: "ListApprovalRuleTemplates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApprovalRuleTemplates", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all approval rule templates that are associated with a specified repository.
     @Sendable
     public func listAssociatedApprovalRuleTemplatesForRepository(_ input: ListAssociatedApprovalRuleTemplatesForRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssociatedApprovalRuleTemplatesForRepositoryOutput {
-        return try await self.client.execute(operation: "ListAssociatedApprovalRuleTemplatesForRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAssociatedApprovalRuleTemplatesForRepository", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about one or more branches in a repository.
     @Sendable
     public func listBranches(_ input: ListBranchesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBranchesOutput {
-        return try await self.client.execute(operation: "ListBranches", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListBranches", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of pull requests for a specified repository. The return list can be refined by pull request  status or pull request author ARN.
     @Sendable
     public func listPullRequests(_ input: ListPullRequestsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPullRequestsOutput {
-        return try await self.client.execute(operation: "ListPullRequests", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPullRequests", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about one or more repositories.
     @Sendable
     public func listRepositories(_ input: ListRepositoriesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRepositoriesOutput {
-        return try await self.client.execute(operation: "ListRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRepositories", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all repositories associated with the specified approval rule template.
     @Sendable
     public func listRepositoriesForApprovalRuleTemplate(_ input: ListRepositoriesForApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRepositoriesForApprovalRuleTemplateOutput {
-        return try await self.client.execute(operation: "ListRepositoriesForApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListRepositoriesForApprovalRuleTemplate", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Merges two branches using the fast-forward merge strategy.
     @Sendable
     public func mergeBranchesByFastForward(_ input: MergeBranchesByFastForwardInput, logger: Logger = AWSClient.loggingDisabled) async throws -> MergeBranchesByFastForwardOutput {
-        return try await self.client.execute(operation: "MergeBranchesByFastForward", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "MergeBranchesByFastForward", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Merges two branches using the squash merge strategy.
     @Sendable
     public func mergeBranchesBySquash(_ input: MergeBranchesBySquashInput, logger: Logger = AWSClient.loggingDisabled) async throws -> MergeBranchesBySquashOutput {
-        return try await self.client.execute(operation: "MergeBranchesBySquash", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "MergeBranchesBySquash", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Merges two specified branches using the three-way merge strategy.
     @Sendable
     public func mergeBranchesByThreeWay(_ input: MergeBranchesByThreeWayInput, logger: Logger = AWSClient.loggingDisabled) async throws -> MergeBranchesByThreeWayOutput {
-        return try await self.client.execute(operation: "MergeBranchesByThreeWay", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "MergeBranchesByThreeWay", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
     @Sendable
     public func mergePullRequestByFastForward(_ input: MergePullRequestByFastForwardInput, logger: Logger = AWSClient.loggingDisabled) async throws -> MergePullRequestByFastForwardOutput {
-        return try await self.client.execute(operation: "MergePullRequestByFastForward", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "MergePullRequestByFastForward", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
     @Sendable
     public func mergePullRequestBySquash(_ input: MergePullRequestBySquashInput, logger: Logger = AWSClient.loggingDisabled) async throws -> MergePullRequestBySquashOutput {
-        return try await self.client.execute(operation: "MergePullRequestBySquash", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "MergePullRequestBySquash", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
     @Sendable
     public func mergePullRequestByThreeWay(_ input: MergePullRequestByThreeWayInput, logger: Logger = AWSClient.loggingDisabled) async throws -> MergePullRequestByThreeWayOutput {
-        return try await self.client.execute(operation: "MergePullRequestByThreeWay", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "MergePullRequestByThreeWay", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets aside (overrides) all approval rule requirements for a specified pull request.
     @Sendable
     public func overridePullRequestApprovalRules(_ input: OverridePullRequestApprovalRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "OverridePullRequestApprovalRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "OverridePullRequestApprovalRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Posts a comment on the comparison between two commits.
     @Sendable
     public func postCommentForComparedCommit(_ input: PostCommentForComparedCommitInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PostCommentForComparedCommitOutput {
-        return try await self.client.execute(operation: "PostCommentForComparedCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PostCommentForComparedCommit", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Posts a comment on a pull request.
     @Sendable
     public func postCommentForPullRequest(_ input: PostCommentForPullRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PostCommentForPullRequestOutput {
-        return try await self.client.execute(operation: "PostCommentForPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PostCommentForPullRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
     @Sendable
     public func postCommentReply(_ input: PostCommentReplyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PostCommentReplyOutput {
-        return try await self.client.execute(operation: "PostCommentReply", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PostCommentReply", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
     @Sendable
     public func putCommentReaction(_ input: PutCommentReactionInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "PutCommentReaction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutCommentReaction", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or updates a file in a branch in an AWS CodeCommit repository, and generates a commit for the addition in the specified branch.
     @Sendable
     public func putFile(_ input: PutFileInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutFileOutput {
-        return try await self.client.execute(operation: "PutFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutFile", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Replaces all triggers for a repository. Used to create or delete triggers.
     @Sendable
     public func putRepositoryTriggers(_ input: PutRepositoryTriggersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRepositoryTriggersOutput {
-        return try await self.client.execute(operation: "PutRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutRepositoryTriggers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or updates tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
     @Sendable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Tests the functionality of repository triggers by sending information to the trigger target. If real data is available in the repository, the test sends data from the last commit. If no data is available, sample data is generated.
     @Sendable
     public func testRepositoryTriggers(_ input: TestRepositoryTriggersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TestRepositoryTriggersOutput {
-        return try await self.client.execute(operation: "TestRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TestRepositoryTriggers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
     @Sendable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the content of an approval rule template. You can change the number of required approvals, the membership of the approval rule, and whether an approval pool is defined.
     @Sendable
     public func updateApprovalRuleTemplateContent(_ input: UpdateApprovalRuleTemplateContentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApprovalRuleTemplateContentOutput {
-        return try await self.client.execute(operation: "UpdateApprovalRuleTemplateContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateApprovalRuleTemplateContent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the description for a specified approval rule template.
     @Sendable
     public func updateApprovalRuleTemplateDescription(_ input: UpdateApprovalRuleTemplateDescriptionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApprovalRuleTemplateDescriptionOutput {
-        return try await self.client.execute(operation: "UpdateApprovalRuleTemplateDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateApprovalRuleTemplateDescription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the name of a specified approval rule template.
     @Sendable
     public func updateApprovalRuleTemplateName(_ input: UpdateApprovalRuleTemplateNameInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApprovalRuleTemplateNameOutput {
-        return try await self.client.execute(operation: "UpdateApprovalRuleTemplateName", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateApprovalRuleTemplateName", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Replaces the contents of a comment.
     @Sendable
     public func updateComment(_ input: UpdateCommentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCommentOutput {
-        return try await self.client.execute(operation: "UpdateComment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateComment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets or changes the default branch name for the specified repository.   If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
     @Sendable
     public func updateDefaultBranch(_ input: UpdateDefaultBranchInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateDefaultBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDefaultBranch", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and  the approval pool for approvers.
     @Sendable
     public func updatePullRequestApprovalRuleContent(_ input: UpdatePullRequestApprovalRuleContentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePullRequestApprovalRuleContentOutput {
-        return try await self.client.execute(operation: "UpdatePullRequestApprovalRuleContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePullRequestApprovalRuleContent", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
     @Sendable
     public func updatePullRequestApprovalState(_ input: UpdatePullRequestApprovalStateInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdatePullRequestApprovalState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePullRequestApprovalState", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Replaces the contents of the description of a pull request.
     @Sendable
     public func updatePullRequestDescription(_ input: UpdatePullRequestDescriptionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePullRequestDescriptionOutput {
-        return try await self.client.execute(operation: "UpdatePullRequestDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePullRequestDescription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the status of a pull request.
     @Sendable
     public func updatePullRequestStatus(_ input: UpdatePullRequestStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePullRequestStatusOutput {
-        return try await self.client.execute(operation: "UpdatePullRequestStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePullRequestStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Replaces the title of a pull request.
     @Sendable
     public func updatePullRequestTitle(_ input: UpdatePullRequestTitleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePullRequestTitleOutput {
-        return try await self.client.execute(operation: "UpdatePullRequestTitle", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdatePullRequestTitle", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets or changes the comment or description for a repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     @Sendable
     public func updateRepositoryDescription(_ input: UpdateRepositoryDescriptionInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateRepositoryDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRepositoryDescription", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Renames a repository. The repository name must be unique across the calling AWS account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see Limits in the AWS CodeCommit User Guide.
     @Sendable
     public func updateRepositoryName(_ input: UpdateRepositoryNameInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateRepositoryName", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateRepositoryName", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

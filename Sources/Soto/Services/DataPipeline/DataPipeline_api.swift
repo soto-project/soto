@@ -84,13 +84,27 @@ public struct DataPipeline: AWSService {
     /// {}
     @Sendable
     public func activatePipeline(_ input: ActivatePipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivatePipelineOutput {
-        return try await self.client.execute(operation: "ActivatePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ActivatePipeline", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds or modifies tags for the specified pipeline.
     @Sendable
     public func addTags(_ input: AddTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddTagsOutput {
-        return try await self.client.execute(operation: "AddTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddTags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a new, empty pipeline. Use PutPipelineDefinition to populate the pipeline.
@@ -110,13 +124,27 @@ public struct DataPipeline: AWSService {
     /// {"pipelineId": "df-06372391ZG65EXAMPLE"}
     @Sendable
     public func createPipeline(_ input: CreatePipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePipelineOutput {
-        return try await self.client.execute(operation: "CreatePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePipeline", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deactivates the specified running pipeline. The pipeline is set to the DEACTIVATING state until the deactivation process completes. To resume a deactivated pipeline, use ActivatePipeline. By default, the pipeline resumes from the last completed execution. Optionally, you can specify the date and time to resume the pipeline.
     @Sendable
     public func deactivatePipeline(_ input: DeactivatePipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeactivatePipelineOutput {
-        return try await self.client.execute(operation: "DeactivatePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeactivatePipeline", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a pipeline, its pipeline definition, and its run history.   AWS Data Pipeline attempts to cancel instances associated with the pipeline that are currently being processed by task runners. Deleting a pipeline cannot be undone. You cannot query or restore a deleted pipeline.  To temporarily pause a pipeline instead of deleting it, call SetStatus with the status set to PAUSE on individual components.  Components that are paused by SetStatus can be resumed.
@@ -137,7 +165,14 @@ public struct DataPipeline: AWSService {
     /// Unexpected response: 200, OK, undefined
     @Sendable
     public func deletePipeline(_ input: DeletePipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeletePipeline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePipeline", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the object definitions for a set of objects associated with the pipeline. Object definitions are composed of  a set of fields that define the properties of the object.
@@ -158,7 +193,14 @@ public struct DataPipeline: AWSService {
     /// }
     @Sendable
     public func describeObjects(_ input: DescribeObjectsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeObjectsOutput {
-        return try await self.client.execute(operation: "DescribeObjects", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeObjects", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves metadata about one or more pipelines. The information retrieved includes the name of the pipeline, the pipeline identifier,  its current state, and the user account that owns the pipeline. Using account credentials, you can retrieve metadata about pipelines  that you or your IAM users have created. If you are using an IAM user account, you can retrieve metadata about only those pipelines  for which you have read permissions. To retrieve the full pipeline definition instead of metadata about the pipeline, call GetPipelineDefinition.
@@ -183,7 +225,14 @@ public struct DataPipeline: AWSService {
     ///
     @Sendable
     public func describePipelines(_ input: DescribePipelinesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePipelinesOutput {
-        return try await self.client.execute(operation: "DescribePipelines", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribePipelines", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Task runners call EvaluateExpression to evaluate a string in the context of the specified object.  For example, a task runner can evaluate SQL queries stored in Amazon S3.
@@ -204,7 +253,14 @@ public struct DataPipeline: AWSService {
     ///
     @Sendable
     public func evaluateExpression(_ input: EvaluateExpressionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EvaluateExpressionOutput {
-        return try await self.client.execute(operation: "EvaluateExpression", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "EvaluateExpression", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the definition of the specified pipeline. You can call GetPipelineDefinition to retrieve  the pipeline definition that you provided using PutPipelineDefinition.
@@ -227,7 +283,14 @@ public struct DataPipeline: AWSService {
     ///
     @Sendable
     public func getPipelineDefinition(_ input: GetPipelineDefinitionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPipelineDefinitionOutput {
-        return try await self.client.execute(operation: "GetPipelineDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPipelineDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the pipeline identifiers for all active pipelines that you have permission to access.
@@ -248,7 +311,14 @@ public struct DataPipeline: AWSService {
     /// }
     @Sendable
     public func listPipelines(_ input: ListPipelinesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipelinesOutput {
-        return try await self.client.execute(operation: "ListPipelines", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPipelines", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Task runners call PollForTask to receive a task to perform from AWS Data Pipeline. The task runner specifies which tasks it can perform  by setting a value for the workerGroup parameter. The task returned can come from any of the pipelines that  match the workerGroup value passed in by the task runner and that was launched using the IAM user credentials  specified by the task runner. If tasks are ready in the work queue, PollForTask returns a response immediately. If no tasks are available in the queue,  PollForTask uses long-polling and holds on to a poll connection for up to a 90 seconds, during which time the first newly  scheduled task is handed to the task runner. To accomodate this, set the socket timeout in your task runner to 90 seconds. The task  runner should not call PollForTask again on the same workerGroup until it receives a response, and this can take up to 90 seconds.
@@ -270,7 +340,14 @@ public struct DataPipeline: AWSService {
     /// }
     @Sendable
     public func pollForTask(_ input: PollForTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PollForTaskOutput {
-        return try await self.client.execute(operation: "PollForTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PollForTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds tasks, schedules, and preconditions to the specified pipeline. You can use PutPipelineDefinition to populate a new pipeline.  PutPipelineDefinition also validates the configuration as it adds it to the pipeline. Changes to the pipeline are saved unless one  of the following three validation errors exists in the pipeline.   An object is missing a name or identifier field. A string or reference field is empty. The number of objects in the pipeline exceeds the maximum allowed objects. The pipeline is in a FINISHED state.   Pipeline object definitions are passed to the PutPipelineDefinition action and returned by the GetPipelineDefinition action.     Example 1  This example sets an valid pipeline configuration and returns success.
@@ -308,7 +385,14 @@ public struct DataPipeline: AWSService {
     ///
     @Sendable
     public func putPipelineDefinition(_ input: PutPipelineDefinitionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPipelineDefinitionOutput {
-        return try await self.client.execute(operation: "PutPipelineDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutPipelineDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Queries the specified pipeline for the names of objects that match the specified set of conditions.
@@ -329,13 +413,27 @@ public struct DataPipeline: AWSService {
     /// }
     @Sendable
     public func queryObjects(_ input: QueryObjectsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> QueryObjectsOutput {
-        return try await self.client.execute(operation: "QueryObjects", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "QueryObjects", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes existing tags from the specified pipeline.
     @Sendable
     public func removeTags(_ input: RemoveTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveTagsOutput {
-        return try await self.client.execute(operation: "RemoveTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveTags", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Task runners call ReportTaskProgress when assigned a task to acknowledge that it has the task. If the web service does not  receive this acknowledgement within 2 minutes, it assigns the task in a subsequent PollForTask call. After this initial acknowledgement,  the task runner only needs to report progress every 15 minutes to maintain its ownership of the task. You can change this reporting time  from 15 minutes by specifying a reportProgressTimeout field in your pipeline. If a task runner does not report its status after 5 minutes, AWS Data Pipeline assumes that the task runner is unable to process the task  and reassigns the task in a subsequent response to PollForTask. Task runners should call ReportTaskProgress every 60 seconds.
@@ -357,7 +455,14 @@ public struct DataPipeline: AWSService {
     ///
     @Sendable
     public func reportTaskProgress(_ input: ReportTaskProgressInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ReportTaskProgressOutput {
-        return try await self.client.execute(operation: "ReportTaskProgress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ReportTaskProgress", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Task runners call ReportTaskRunnerHeartbeat every 15 minutes to indicate that they are operational.  If the AWS Data Pipeline Task Runner is launched on a resource managed by AWS Data Pipeline, the web service can use  this call to detect when the task runner application has failed and restart a new instance.
@@ -378,7 +483,14 @@ public struct DataPipeline: AWSService {
     /// {"terminate": false}
     @Sendable
     public func reportTaskRunnerHeartbeat(_ input: ReportTaskRunnerHeartbeatInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ReportTaskRunnerHeartbeatOutput {
-        return try await self.client.execute(operation: "ReportTaskRunnerHeartbeat", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ReportTaskRunnerHeartbeat", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Requests that the status of the specified physical or logical pipeline objects be updated in the specified pipeline.  This update might not occur immediately, but is eventually consistent. The status that can be set depends on the type of object (for example, DataNode or Activity).  You cannot perform this operation on FINISHED pipelines and attempting to do so returns InvalidRequestException.
@@ -398,7 +510,14 @@ public struct DataPipeline: AWSService {
     /// Unexpected response: 200, OK, undefined
     @Sendable
     public func setStatus(_ input: SetStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "SetStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SetStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Task runners call SetTaskStatus to notify AWS Data Pipeline that a task is completed and provide information about the final status.  A task runner makes this call regardless of whether the task was sucessful. A task runner does not need to call SetTaskStatus for  tasks that are canceled by the web service during a call to ReportTaskProgress.
@@ -417,7 +536,14 @@ public struct DataPipeline: AWSService {
     /// {}
     @Sendable
     public func setTaskStatus(_ input: SetTaskStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SetTaskStatusOutput {
-        return try await self.client.execute(operation: "SetTaskStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SetTaskStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Validates the specified pipeline definition to ensure that it is well formed and can be run without error.
@@ -453,7 +579,14 @@ public struct DataPipeline: AWSService {
     /// }
     @Sendable
     public func validatePipelineDefinition(_ input: ValidatePipelineDefinitionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ValidatePipelineDefinitionOutput {
-        return try await self.client.execute(operation: "ValidatePipelineDefinition", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ValidatePipelineDefinition", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

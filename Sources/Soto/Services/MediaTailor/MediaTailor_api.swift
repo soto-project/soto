@@ -67,265 +67,573 @@ public struct MediaTailor: AWSService {
     /// Configures Amazon CloudWatch log settings for a channel.
     @Sendable
     public func configureLogsForChannel(_ input: ConfigureLogsForChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigureLogsForChannelResponse {
-        return try await self.client.execute(operation: "ConfigureLogsForChannel", path: "/configureLogs/channel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ConfigureLogsForChannel", 
+            path: "/configureLogs/channel", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Amazon CloudWatch log settings for a playback configuration.
     @Sendable
     public func configureLogsForPlaybackConfiguration(_ input: ConfigureLogsForPlaybackConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigureLogsForPlaybackConfigurationResponse {
-        return try await self.client.execute(operation: "ConfigureLogsForPlaybackConfiguration", path: "/configureLogs/playbackConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ConfigureLogsForPlaybackConfiguration", 
+            path: "/configureLogs/playbackConfiguration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a channel. For information about MediaTailor channels, see Working with channels in the MediaTailor User Guide.
     @Sendable
     public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChannelResponse {
-        return try await self.client.execute(operation: "CreateChannel", path: "/channel/{ChannelName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateChannel", 
+            path: "/channel/{ChannelName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The live source configuration.
     @Sendable
     public func createLiveSource(_ input: CreateLiveSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLiveSourceResponse {
-        return try await self.client.execute(operation: "CreateLiveSource", path: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateLiveSource", 
+            path: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the MediaTailor User Guide.
     @Sendable
     public func createPrefetchSchedule(_ input: CreatePrefetchScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePrefetchScheduleResponse {
-        return try await self.client.execute(operation: "CreatePrefetchSchedule", path: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreatePrefetchSchedule", 
+            path: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a program within a channel. For information about programs, see Working with programs in the MediaTailor User Guide.
     @Sendable
     public func createProgram(_ input: CreateProgramRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProgramResponse {
-        return try await self.client.execute(operation: "CreateProgram", path: "/channel/{ChannelName}/program/{ProgramName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateProgram", 
+            path: "/channel/{ChannelName}/program/{ProgramName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the MediaTailor User Guide.
     @Sendable
     public func createSourceLocation(_ input: CreateSourceLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSourceLocationResponse {
-        return try await self.client.execute(operation: "CreateSourceLocation", path: "/sourceLocation/{SourceLocationName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSourceLocation", 
+            path: "/sourceLocation/{SourceLocationName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The VOD source configuration parameters.
     @Sendable
     public func createVodSource(_ input: CreateVodSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVodSourceResponse {
-        return try await self.client.execute(operation: "CreateVodSource", path: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateVodSource", 
+            path: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a channel. For information about MediaTailor channels, see Working with channels in the MediaTailor User Guide.
     @Sendable
     public func deleteChannel(_ input: DeleteChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChannelResponse {
-        return try await self.client.execute(operation: "DeleteChannel", path: "/channel/{ChannelName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteChannel", 
+            path: "/channel/{ChannelName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The channel policy to delete.
     @Sendable
     public func deleteChannelPolicy(_ input: DeleteChannelPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChannelPolicyResponse {
-        return try await self.client.execute(operation: "DeleteChannelPolicy", path: "/channel/{ChannelName}/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteChannelPolicy", 
+            path: "/channel/{ChannelName}/policy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The live source to delete.
     @Sendable
     public func deleteLiveSource(_ input: DeleteLiveSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLiveSourceResponse {
-        return try await self.client.execute(operation: "DeleteLiveSource", path: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteLiveSource", 
+            path: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
     @Sendable
     public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePlaybackConfigurationResponse {
-        return try await self.client.execute(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePlaybackConfiguration", 
+            path: "/playbackConfiguration/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a prefetch schedule for a specific playback configuration. If you call DeletePrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code. For more information about ad prefetching, see Using ad prefetching in the MediaTailor User Guide.
     @Sendable
     public func deletePrefetchSchedule(_ input: DeletePrefetchScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePrefetchScheduleResponse {
-        return try await self.client.execute(operation: "DeletePrefetchSchedule", path: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeletePrefetchSchedule", 
+            path: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a program within a channel. For information about programs, see Working with programs in the MediaTailor User Guide.
     @Sendable
     public func deleteProgram(_ input: DeleteProgramRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProgramResponse {
-        return try await self.client.execute(operation: "DeleteProgram", path: "/channel/{ChannelName}/program/{ProgramName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteProgram", 
+            path: "/channel/{ChannelName}/program/{ProgramName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the MediaTailor User Guide.
     @Sendable
     public func deleteSourceLocation(_ input: DeleteSourceLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSourceLocationResponse {
-        return try await self.client.execute(operation: "DeleteSourceLocation", path: "/sourceLocation/{SourceLocationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteSourceLocation", 
+            path: "/sourceLocation/{SourceLocationName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The video on demand (VOD) source to delete.
     @Sendable
     public func deleteVodSource(_ input: DeleteVodSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVodSourceResponse {
-        return try await self.client.execute(operation: "DeleteVodSource", path: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteVodSource", 
+            path: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a channel. For information about MediaTailor channels, see Working with channels in the MediaTailor User Guide.
     @Sendable
     public func describeChannel(_ input: DescribeChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeChannelResponse {
-        return try await self.client.execute(operation: "DescribeChannel", path: "/channel/{ChannelName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeChannel", 
+            path: "/channel/{ChannelName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The live source to describe.
     @Sendable
     public func describeLiveSource(_ input: DescribeLiveSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLiveSourceResponse {
-        return try await self.client.execute(operation: "DescribeLiveSource", path: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeLiveSource", 
+            path: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a program within a channel. For information about programs, see Working with programs in the MediaTailor User Guide.
     @Sendable
     public func describeProgram(_ input: DescribeProgramRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProgramResponse {
-        return try await self.client.execute(operation: "DescribeProgram", path: "/channel/{ChannelName}/program/{ProgramName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeProgram", 
+            path: "/channel/{ChannelName}/program/{ProgramName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Describes a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the MediaTailor User Guide.
     @Sendable
     public func describeSourceLocation(_ input: DescribeSourceLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSourceLocationResponse {
-        return try await self.client.execute(operation: "DescribeSourceLocation", path: "/sourceLocation/{SourceLocationName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeSourceLocation", 
+            path: "/sourceLocation/{SourceLocationName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides details about a specific video on demand (VOD) source in a specific source location.
     @Sendable
     public func describeVodSource(_ input: DescribeVodSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVodSourceResponse {
-        return try await self.client.execute(operation: "DescribeVodSource", path: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeVodSource", 
+            path: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the channel's IAM policy. IAM policies are used to control access to your channel.
     @Sendable
     public func getChannelPolicy(_ input: GetChannelPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChannelPolicyResponse {
-        return try await self.client.execute(operation: "GetChannelPolicy", path: "/channel/{ChannelName}/policy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetChannelPolicy", 
+            path: "/channel/{ChannelName}/policy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about your channel's schedule.
     @Sendable
     public func getChannelSchedule(_ input: GetChannelScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChannelScheduleResponse {
-        return try await self.client.execute(operation: "GetChannelSchedule", path: "/channel/{ChannelName}/schedule", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetChannelSchedule", 
+            path: "/channel/{ChannelName}/schedule", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
     @Sendable
     public func getPlaybackConfiguration(_ input: GetPlaybackConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPlaybackConfigurationResponse {
-        return try await self.client.execute(operation: "GetPlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPlaybackConfiguration", 
+            path: "/playbackConfiguration/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the MediaTailor User Guide.
     @Sendable
     public func getPrefetchSchedule(_ input: GetPrefetchScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPrefetchScheduleResponse {
-        return try await self.client.execute(operation: "GetPrefetchSchedule", path: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetPrefetchSchedule", 
+            path: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the alerts that are associated with a MediaTailor channel assembly resource.
     @Sendable
     public func listAlerts(_ input: ListAlertsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAlertsResponse {
-        return try await self.client.execute(operation: "ListAlerts", path: "/alerts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAlerts", 
+            path: "/alerts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the channels that are associated with the current AWS account.
     @Sendable
     public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelsResponse {
-        return try await self.client.execute(operation: "ListChannels", path: "/channels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListChannels", 
+            path: "/channels", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the live sources contained in a source location. A source represents a piece of content.
     @Sendable
     public func listLiveSources(_ input: ListLiveSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLiveSourcesResponse {
-        return try await self.client.execute(operation: "ListLiveSources", path: "/sourceLocation/{SourceLocationName}/liveSources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListLiveSources", 
+            path: "/sourceLocation/{SourceLocationName}/liveSources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves existing playback configurations. For information about MediaTailor configurations, see Working with Configurations in AWS Elemental MediaTailor.
     @Sendable
     public func listPlaybackConfigurations(_ input: ListPlaybackConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPlaybackConfigurationsResponse {
-        return try await self.client.execute(operation: "ListPlaybackConfigurations", path: "/playbackConfigurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPlaybackConfigurations", 
+            path: "/playbackConfigurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the prefetch schedules for a playback configuration.
     @Sendable
     public func listPrefetchSchedules(_ input: ListPrefetchSchedulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPrefetchSchedulesResponse {
-        return try await self.client.execute(operation: "ListPrefetchSchedules", path: "/prefetchSchedule/{PlaybackConfigurationName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListPrefetchSchedules", 
+            path: "/prefetchSchedule/{PlaybackConfigurationName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the source locations for a channel. A source location defines the host server URL, and contains a list of sources.
     @Sendable
     public func listSourceLocations(_ input: ListSourceLocationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSourceLocationsResponse {
-        return try await self.client.execute(operation: "ListSourceLocations", path: "/sourceLocations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListSourceLocations", 
+            path: "/sourceLocations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// A list of tags that are associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the VOD sources contained in a source location. A source represents a piece of content.
     @Sendable
     public func listVodSources(_ input: ListVodSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVodSourcesResponse {
-        return try await self.client.execute(operation: "ListVodSources", path: "/sourceLocation/{SourceLocationName}/vodSources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListVodSources", 
+            path: "/sourceLocation/{SourceLocationName}/vodSources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an IAM policy for the channel. IAM policies are used to control access to your channel.
     @Sendable
     public func putChannelPolicy(_ input: PutChannelPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutChannelPolicyResponse {
-        return try await self.client.execute(operation: "PutChannelPolicy", path: "/channel/{ChannelName}/policy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutChannelPolicy", 
+            path: "/channel/{ChannelName}/policy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
     @Sendable
     public func putPlaybackConfiguration(_ input: PutPlaybackConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPlaybackConfigurationResponse {
-        return try await self.client.execute(operation: "PutPlaybackConfiguration", path: "/playbackConfiguration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutPlaybackConfiguration", 
+            path: "/playbackConfiguration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Starts a channel. For information about MediaTailor channels, see Working with channels in the MediaTailor User Guide.
     @Sendable
     public func startChannel(_ input: StartChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartChannelResponse {
-        return try await self.client.execute(operation: "StartChannel", path: "/channel/{ChannelName}/start", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartChannel", 
+            path: "/channel/{ChannelName}/start", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Stops a channel. For information about MediaTailor channels, see Working with channels in the MediaTailor User Guide.
     @Sendable
     public func stopChannel(_ input: StopChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopChannelResponse {
-        return try await self.client.execute(operation: "StopChannel", path: "/channel/{ChannelName}/stop", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopChannel", 
+            path: "/channel/{ChannelName}/stop", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The resource to tag. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The resource to untag.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a channel. For information about MediaTailor channels, see Working with channels in the MediaTailor User Guide.
     @Sendable
     public func updateChannel(_ input: UpdateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelResponse {
-        return try await self.client.execute(operation: "UpdateChannel", path: "/channel/{ChannelName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateChannel", 
+            path: "/channel/{ChannelName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a live source's configuration.
     @Sendable
     public func updateLiveSource(_ input: UpdateLiveSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLiveSourceResponse {
-        return try await self.client.execute(operation: "UpdateLiveSource", path: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateLiveSource", 
+            path: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a program within a channel.
     @Sendable
     public func updateProgram(_ input: UpdateProgramRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProgramResponse {
-        return try await self.client.execute(operation: "UpdateProgram", path: "/channel/{ChannelName}/program/{ProgramName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateProgram", 
+            path: "/channel/{ChannelName}/program/{ProgramName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the MediaTailor User Guide.
     @Sendable
     public func updateSourceLocation(_ input: UpdateSourceLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSourceLocationResponse {
-        return try await self.client.execute(operation: "UpdateSourceLocation", path: "/sourceLocation/{SourceLocationName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateSourceLocation", 
+            path: "/sourceLocation/{SourceLocationName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates a VOD source's configuration.
     @Sendable
     public func updateVodSource(_ input: UpdateVodSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVodSourceResponse {
-        return try await self.client.execute(operation: "UpdateVodSource", path: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateVodSource", 
+            path: "/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

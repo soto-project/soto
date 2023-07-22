@@ -72,187 +72,404 @@ public struct Wisdom: AWSService {
     /// Creates an Amazon Connect Wisdom assistant.
     @Sendable
     public func createAssistant(_ input: CreateAssistantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssistantResponse {
-        return try await self.client.execute(operation: "CreateAssistant", path: "/assistants", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAssistant", 
+            path: "/assistants", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an association between an Amazon Connect Wisdom assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
     @Sendable
     public func createAssistantAssociation(_ input: CreateAssistantAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAssistantAssociationResponse {
-        return try await self.client.execute(operation: "CreateAssistantAssociation", path: "/assistants/{assistantId}/associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAssistantAssociation", 
+            path: "/assistants/{assistantId}/associations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates Wisdom content. Before to calling this API, use StartContentUpload to upload an asset.
     @Sendable
     public func createContent(_ input: CreateContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContentResponse {
-        return try await self.client.execute(operation: "CreateContent", path: "/knowledgeBases/{knowledgeBaseId}/contents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateContent", 
+            path: "/knowledgeBases/{knowledgeBaseId}/contents", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a knowledge base.  When using this API, you cannot reuse Amazon AppIntegrations DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you do, you'll get an InvalidRequestException error.  For example, you're programmatically managing your external knowledge base, and you want to add or remove one of the fields that is being ingested from Salesforce. Do the following:   Call DeleteKnowledgeBase.   Call DeleteDataIntegration.   Call CreateDataIntegration to recreate the DataIntegration or a create different one.   Call CreateKnowledgeBase.
     @Sendable
     public func createKnowledgeBase(_ input: CreateKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateKnowledgeBaseResponse {
-        return try await self.client.execute(operation: "CreateKnowledgeBase", path: "/knowledgeBases", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateKnowledgeBase", 
+            path: "/knowledgeBases", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Wisdom session for each contact on which Wisdom is enabled.
     @Sendable
     public func createSession(_ input: CreateSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSessionResponse {
-        return try await self.client.execute(operation: "CreateSession", path: "/assistants/{assistantId}/sessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateSession", 
+            path: "/assistants/{assistantId}/sessions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an assistant.
     @Sendable
     public func deleteAssistant(_ input: DeleteAssistantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAssistantResponse {
-        return try await self.client.execute(operation: "DeleteAssistant", path: "/assistants/{assistantId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAssistant", 
+            path: "/assistants/{assistantId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an assistant association.
     @Sendable
     public func deleteAssistantAssociation(_ input: DeleteAssistantAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAssistantAssociationResponse {
-        return try await self.client.execute(operation: "DeleteAssistantAssociation", path: "/assistants/{assistantId}/associations/{assistantAssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAssistantAssociation", 
+            path: "/assistants/{assistantId}/associations/{assistantAssociationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the content.
     @Sendable
     public func deleteContent(_ input: DeleteContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContentResponse {
-        return try await self.client.execute(operation: "DeleteContent", path: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteContent", 
+            path: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes the knowledge base.  When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the Amazon AppIntegrations DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See DeleteDataIntegration and CreateDataIntegration in the Amazon AppIntegrations API Reference.
     @Sendable
     public func deleteKnowledgeBase(_ input: DeleteKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKnowledgeBaseResponse {
-        return try await self.client.execute(operation: "DeleteKnowledgeBase", path: "/knowledgeBases/{knowledgeBaseId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteKnowledgeBase", 
+            path: "/knowledgeBases/{knowledgeBaseId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about an assistant.
     @Sendable
     public func getAssistant(_ input: GetAssistantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssistantResponse {
-        return try await self.client.execute(operation: "GetAssistant", path: "/assistants/{assistantId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAssistant", 
+            path: "/assistants/{assistantId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about an assistant association.
     @Sendable
     public func getAssistantAssociation(_ input: GetAssistantAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAssistantAssociationResponse {
-        return try await self.client.execute(operation: "GetAssistantAssociation", path: "/assistants/{assistantId}/associations/{assistantAssociationId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAssistantAssociation", 
+            path: "/assistants/{assistantId}/associations/{assistantAssociationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves content, including a pre-signed URL to download the content.
     @Sendable
     public func getContent(_ input: GetContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContentResponse {
-        return try await self.client.execute(operation: "GetContent", path: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetContent", 
+            path: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves summary information about the content.
     @Sendable
     public func getContentSummary(_ input: GetContentSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContentSummaryResponse {
-        return try await self.client.execute(operation: "GetContentSummary", path: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/summary", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetContentSummary", 
+            path: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}/summary", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the knowledge base.
     @Sendable
     public func getKnowledgeBase(_ input: GetKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKnowledgeBaseResponse {
-        return try await self.client.execute(operation: "GetKnowledgeBase", path: "/knowledgeBases/{knowledgeBaseId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetKnowledgeBase", 
+            path: "/knowledgeBases/{knowledgeBaseId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
     @Sendable
     public func getRecommendations(_ input: GetRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommendationsResponse {
-        return try await self.client.execute(operation: "GetRecommendations", path: "/assistants/{assistantId}/sessions/{sessionId}/recommendations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetRecommendations", 
+            path: "/assistants/{assistantId}/sessions/{sessionId}/recommendations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Retrieves information for a specified session.
     @Sendable
     public func getSession(_ input: GetSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionResponse {
-        return try await self.client.execute(operation: "GetSession", path: "/assistants/{assistantId}/sessions/{sessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetSession", 
+            path: "/assistants/{assistantId}/sessions/{sessionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists information about assistant associations.
     @Sendable
     public func listAssistantAssociations(_ input: ListAssistantAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssistantAssociationsResponse {
-        return try await self.client.execute(operation: "ListAssistantAssociations", path: "/assistants/{assistantId}/associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAssistantAssociations", 
+            path: "/assistants/{assistantId}/associations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists information about assistants.
     @Sendable
     public func listAssistants(_ input: ListAssistantsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssistantsResponse {
-        return try await self.client.execute(operation: "ListAssistants", path: "/assistants", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAssistants", 
+            path: "/assistants", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the content.
     @Sendable
     public func listContents(_ input: ListContentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContentsResponse {
-        return try await self.client.execute(operation: "ListContents", path: "/knowledgeBases/{knowledgeBaseId}/contents", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListContents", 
+            path: "/knowledgeBases/{knowledgeBaseId}/contents", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the knowledge bases.
     @Sendable
     public func listKnowledgeBases(_ input: ListKnowledgeBasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKnowledgeBasesResponse {
-        return try await self.client.execute(operation: "ListKnowledgeBases", path: "/knowledgeBases", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListKnowledgeBases", 
+            path: "/knowledgeBases", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags for the specified resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with GetRecommendations and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations.
     @Sendable
     public func notifyRecommendationsReceived(_ input: NotifyRecommendationsReceivedRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> NotifyRecommendationsReceivedResponse {
-        return try await self.client.execute(operation: "NotifyRecommendationsReceived", path: "/assistants/{assistantId}/sessions/{sessionId}/recommendations/notify", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "NotifyRecommendationsReceived", 
+            path: "/assistants/{assistantId}/sessions/{sessionId}/recommendations/notify", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
     @Sendable
     public func queryAssistant(_ input: QueryAssistantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> QueryAssistantResponse {
-        return try await self.client.execute(operation: "QueryAssistant", path: "/assistants/{assistantId}/query", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "QueryAssistant", 
+            path: "/assistants/{assistantId}/query", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes a URI template from a knowledge base.
     @Sendable
     public func removeKnowledgeBaseTemplateUri(_ input: RemoveKnowledgeBaseTemplateUriRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveKnowledgeBaseTemplateUriResponse {
-        return try await self.client.execute(operation: "RemoveKnowledgeBaseTemplateUri", path: "/knowledgeBases/{knowledgeBaseId}/templateUri", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveKnowledgeBaseTemplateUri", 
+            path: "/knowledgeBases/{knowledgeBaseId}/templateUri", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
     @Sendable
     public func searchContent(_ input: SearchContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchContentResponse {
-        return try await self.client.execute(operation: "SearchContent", path: "/knowledgeBases/{knowledgeBaseId}/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchContent", 
+            path: "/knowledgeBases/{knowledgeBaseId}/search", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Searches for sessions.
     @Sendable
     public func searchSessions(_ input: SearchSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchSessionsResponse {
-        return try await self.client.execute(operation: "SearchSessions", path: "/assistants/{assistantId}/searchSessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SearchSessions", 
+            path: "/assistants/{assistantId}/searchSessions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use CreateContent to finalize the content creation process or UpdateContent to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
     @Sendable
     public func startContentUpload(_ input: StartContentUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartContentUploadResponse {
-        return try await self.client.execute(operation: "StartContentUpload", path: "/knowledgeBases/{knowledgeBaseId}/upload", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StartContentUpload", 
+            path: "/knowledgeBases/{knowledgeBaseId}/upload", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Adds the specified tags to the specified resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified tags from the specified resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates information about the content.
     @Sendable
     public func updateContent(_ input: UpdateContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContentResponse {
-        return try await self.client.execute(operation: "UpdateContent", path: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateContent", 
+            path: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Wisdom using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view.
     @Sendable
     public func updateKnowledgeBaseTemplateUri(_ input: UpdateKnowledgeBaseTemplateUriRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateKnowledgeBaseTemplateUriResponse {
-        return try await self.client.execute(operation: "UpdateKnowledgeBaseTemplateUri", path: "/knowledgeBases/{knowledgeBaseId}/templateUri", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateKnowledgeBaseTemplateUri", 
+            path: "/knowledgeBases/{knowledgeBaseId}/templateUri", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

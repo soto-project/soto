@@ -72,181 +72,391 @@ public struct ChimeSDKIdentity: AWSService {
     /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. identity
     @Sendable
     public func createAppInstance(_ input: CreateAppInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppInstanceResponse {
-        return try await self.client.execute(operation: "CreateAppInstance", path: "/app-instances", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAppInstance", 
+            path: "/app-instances", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Promotes an AppInstanceUser or AppInstanceBot to an  AppInstanceAdmin. The promoted entity can perform the following actions.     ChannelModerator actions across all channels in the AppInstance.    DeleteChannelMessage actions.   Only an AppInstanceUser and AppInstanceBot can be promoted to an AppInstanceAdmin role.
     @Sendable
     public func createAppInstanceAdmin(_ input: CreateAppInstanceAdminRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppInstanceAdminResponse {
-        return try await self.client.execute(operation: "CreateAppInstanceAdmin", path: "/app-instances/{AppInstanceArn}/admins", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAppInstanceAdmin", 
+            path: "/app-instances/{AppInstanceArn}/admins", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a bot under an Amazon Chime AppInstance. The request consists of a  unique Configuration and Name for that bot.
     @Sendable
     public func createAppInstanceBot(_ input: CreateAppInstanceBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppInstanceBotResponse {
-        return try await self.client.execute(operation: "CreateAppInstanceBot", path: "/app-instance-bots", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAppInstanceBot", 
+            path: "/app-instance-bots", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user.
     @Sendable
     public func createAppInstanceUser(_ input: CreateAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppInstanceUserResponse {
-        return try await self.client.execute(operation: "CreateAppInstanceUser", path: "/app-instance-users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateAppInstanceUser", 
+            path: "/app-instance-users", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an AppInstance and all associated data asynchronously.
     @Sendable
     public func deleteAppInstance(_ input: DeleteAppInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteAppInstance", path: "/app-instances/{AppInstanceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAppInstance", 
+            path: "/app-instances/{AppInstanceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Demotes an AppInstanceAdmin to an AppInstanceUser or  AppInstanceBot. This action does not delete the user.
     @Sendable
     public func deleteAppInstanceAdmin(_ input: DeleteAppInstanceAdminRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteAppInstanceAdmin", path: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAppInstanceAdmin", 
+            path: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an AppInstanceBot.
     @Sendable
     public func deleteAppInstanceBot(_ input: DeleteAppInstanceBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteAppInstanceBot", path: "/app-instance-bots/{AppInstanceBotArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAppInstanceBot", 
+            path: "/app-instance-bots/{AppInstanceBotArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an AppInstanceUser.
     @Sendable
     public func deleteAppInstanceUser(_ input: DeleteAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteAppInstanceUser", path: "/app-instance-users/{AppInstanceUserArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteAppInstanceUser", 
+            path: "/app-instance-users/{AppInstanceUserArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deregisters an AppInstanceUserEndpoint.
     @Sendable
     public func deregisterAppInstanceUserEndpoint(_ input: DeregisterAppInstanceUserEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeregisterAppInstanceUserEndpoint", path: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeregisterAppInstanceUserEndpoint", 
+            path: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the full details of an AppInstance.
     @Sendable
     public func describeAppInstance(_ input: DescribeAppInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppInstanceResponse {
-        return try await self.client.execute(operation: "DescribeAppInstance", path: "/app-instances/{AppInstanceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAppInstance", 
+            path: "/app-instances/{AppInstanceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the full details of an AppInstanceAdmin.
     @Sendable
     public func describeAppInstanceAdmin(_ input: DescribeAppInstanceAdminRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppInstanceAdminResponse {
-        return try await self.client.execute(operation: "DescribeAppInstanceAdmin", path: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAppInstanceAdmin", 
+            path: "/app-instances/{AppInstanceArn}/admins/{AppInstanceAdminArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// The AppInstanceBot's information.
     @Sendable
     public func describeAppInstanceBot(_ input: DescribeAppInstanceBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppInstanceBotResponse {
-        return try await self.client.execute(operation: "DescribeAppInstanceBot", path: "/app-instance-bots/{AppInstanceBotArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAppInstanceBot", 
+            path: "/app-instance-bots/{AppInstanceBotArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the full details of an AppInstanceUser.
     @Sendable
     public func describeAppInstanceUser(_ input: DescribeAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppInstanceUserResponse {
-        return try await self.client.execute(operation: "DescribeAppInstanceUser", path: "/app-instance-users/{AppInstanceUserArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAppInstanceUser", 
+            path: "/app-instance-users/{AppInstanceUserArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns the full details of an AppInstanceUserEndpoint.
     @Sendable
     public func describeAppInstanceUserEndpoint(_ input: DescribeAppInstanceUserEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppInstanceUserEndpointResponse {
-        return try await self.client.execute(operation: "DescribeAppInstanceUserEndpoint", path: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeAppInstanceUserEndpoint", 
+            path: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets the retention settings for an AppInstance.
     @Sendable
     public func getAppInstanceRetentionSettings(_ input: GetAppInstanceRetentionSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAppInstanceRetentionSettingsResponse {
-        return try await self.client.execute(operation: "GetAppInstanceRetentionSettings", path: "/app-instances/{AppInstanceArn}/retention-settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetAppInstanceRetentionSettings", 
+            path: "/app-instances/{AppInstanceArn}/retention-settings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Returns a list of the administrators in the AppInstance.
     @Sendable
     public func listAppInstanceAdmins(_ input: ListAppInstanceAdminsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppInstanceAdminsResponse {
-        return try await self.client.execute(operation: "ListAppInstanceAdmins", path: "/app-instances/{AppInstanceArn}/admins", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAppInstanceAdmins", 
+            path: "/app-instances/{AppInstanceArn}/admins", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all AppInstanceBots created under a single AppInstance.
     @Sendable
     public func listAppInstanceBots(_ input: ListAppInstanceBotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppInstanceBotsResponse {
-        return try await self.client.execute(operation: "ListAppInstanceBots", path: "/app-instance-bots", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAppInstanceBots", 
+            path: "/app-instance-bots", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser.
     @Sendable
     public func listAppInstanceUserEndpoints(_ input: ListAppInstanceUserEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppInstanceUserEndpointsResponse {
-        return try await self.client.execute(operation: "ListAppInstanceUserEndpoints", path: "/app-instance-users/{AppInstanceUserArn}/endpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAppInstanceUserEndpoints", 
+            path: "/app-instance-users/{AppInstanceUserArn}/endpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// List all AppInstanceUsers created under a single AppInstance.
     @Sendable
     public func listAppInstanceUsers(_ input: ListAppInstanceUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppInstanceUsersResponse {
-        return try await self.client.execute(operation: "ListAppInstanceUsers", path: "/app-instance-users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAppInstanceUsers", 
+            path: "/app-instance-users", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists all Amazon Chime AppInstances created under a single AWS account.
     @Sendable
     public func listAppInstances(_ input: ListAppInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppInstancesResponse {
-        return try await self.client.execute(operation: "ListAppInstances", path: "/app-instances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListAppInstances", 
+            path: "/app-instances", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the tags applied to an Amazon Chime SDK identity resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets the amount of time in days that a given AppInstance retains data.
     @Sendable
     public func putAppInstanceRetentionSettings(_ input: PutAppInstanceRetentionSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAppInstanceRetentionSettingsResponse {
-        return try await self.client.execute(operation: "PutAppInstanceRetentionSettings", path: "/app-instances/{AppInstanceArn}/retention-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutAppInstanceRetentionSettings", 
+            path: "/app-instances/{AppInstanceArn}/retention-settings", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Sets the number of days before the AppInstanceUser is automatically deleted.  A background process deletes expired AppInstanceUsers within 6 hours of expiration.  Actual deletion times may vary. Expired AppInstanceUsers that have not yet been deleted appear as active, and you can update  their expiration settings. The system honors the new settings.
     @Sendable
     public func putAppInstanceUserExpirationSettings(_ input: PutAppInstanceUserExpirationSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAppInstanceUserExpirationSettingsResponse {
-        return try await self.client.execute(operation: "PutAppInstanceUserExpirationSettings", path: "/app-instance-users/{AppInstanceUserArn}/expiration-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutAppInstanceUserExpirationSettings", 
+            path: "/app-instance-users/{AppInstanceUserArn}/expiration-settings", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers an endpoint under an Amazon Chime AppInstanceUser. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
     @Sendable
     public func registerAppInstanceUserEndpoint(_ input: RegisterAppInstanceUserEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterAppInstanceUserEndpointResponse {
-        return try await self.client.execute(operation: "RegisterAppInstanceUserEndpoint", path: "/app-instance-users/{AppInstanceUserArn}/endpoints", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterAppInstanceUserEndpoint", 
+            path: "/app-instance-users/{AppInstanceUserArn}/endpoints", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Applies the specified tags to the specified Amazon Chime SDK identity resource.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "TagResource", path: "/tags?operation=tag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags?operation=tag-resource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes the specified tags from the specified Amazon Chime SDK identity resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UntagResource", path: "/tags?operation=untag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags?operation=untag-resource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates AppInstance metadata.
     @Sendable
     public func updateAppInstance(_ input: UpdateAppInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppInstanceResponse {
-        return try await self.client.execute(operation: "UpdateAppInstance", path: "/app-instances/{AppInstanceArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAppInstance", 
+            path: "/app-instances/{AppInstanceArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the name and metadata of an AppInstanceBot.
     @Sendable
     public func updateAppInstanceBot(_ input: UpdateAppInstanceBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppInstanceBotResponse {
-        return try await self.client.execute(operation: "UpdateAppInstanceBot", path: "/app-instance-bots/{AppInstanceBotArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAppInstanceBot", 
+            path: "/app-instance-bots/{AppInstanceBotArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the details of an AppInstanceUser. You can update names and metadata.
     @Sendable
     public func updateAppInstanceUser(_ input: UpdateAppInstanceUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppInstanceUserResponse {
-        return try await self.client.execute(operation: "UpdateAppInstanceUser", path: "/app-instance-users/{AppInstanceUserArn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAppInstanceUser", 
+            path: "/app-instance-users/{AppInstanceUserArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Updates the details of an AppInstanceUserEndpoint. You can update the name and AllowMessage values.
     @Sendable
     public func updateAppInstanceUserEndpoint(_ input: UpdateAppInstanceUserEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppInstanceUserEndpointResponse {
-        return try await self.client.execute(operation: "UpdateAppInstanceUserEndpoint", path: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateAppInstanceUserEndpoint", 
+            path: "/app-instance-users/{AppInstanceUserArn}/endpoints/{EndpointId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 

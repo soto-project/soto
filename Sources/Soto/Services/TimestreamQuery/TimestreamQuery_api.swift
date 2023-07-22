@@ -71,79 +71,182 @@ public struct TimestreamQuery: AWSService {
     ///  Cancels a query that has been issued. Cancellation is provided only if the query has not completed running before the cancellation request was issued. Because cancellation is an idempotent operation, subsequent cancellation requests will return a CancellationMessage, indicating that the query has already been canceled. See code sample for details.
     @Sendable
     public func cancelQuery(_ input: CancelQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelQueryResponse {
-        return try await self.client.execute(operation: "CancelQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), logger: logger)
+        return try await self.client.execute(
+            operation: "CancelQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
+            logger: logger
+        )
     }
 
     ///  Create a scheduled query that will be run on your behalf at the configured schedule. Timestream assumes the execution role provided as part of the ScheduledQueryExecutionRoleArn parameter to run the query. You can use the NotificationConfiguration parameter to configure notification for your scheduled query operations.
     @Sendable
     public func createScheduledQuery(_ input: CreateScheduledQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScheduledQueryResponse {
-        return try await self.client.execute(operation: "CreateScheduledQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), logger: logger)
+        return try await self.client.execute(
+            operation: "CreateScheduledQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
+            logger: logger
+        )
     }
 
     /// Deletes a given scheduled query. This is an irreversible operation.
     @Sendable
     public func deleteScheduledQuery(_ input: DeleteScheduledQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteScheduledQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteScheduledQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
+            logger: logger
+        )
     }
 
     /// DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because the Timestream SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless:   You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream     Your application uses a programming language that does not yet have SDK support   You require better control over the client-side implementation   For detailed information on how and when to use and implement DescribeEndpoints, see The Endpoint Discovery Pattern.
     @Sendable
     public func describeEndpoints(_ input: DescribeEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointsResponse {
-        return try await self.client.execute(operation: "DescribeEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Provides detailed information about a scheduled query.
     @Sendable
     public func describeScheduledQuery(_ input: DescribeScheduledQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeScheduledQueryResponse {
-        return try await self.client.execute(operation: "DescribeScheduledQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), logger: logger)
+        return try await self.client.execute(
+            operation: "DescribeScheduledQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
+            logger: logger
+        )
     }
 
     ///  You can use this API to run a scheduled query manually.
     @Sendable
     public func executeScheduledQuery(_ input: ExecuteScheduledQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "ExecuteScheduledQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), logger: logger)
+        return try await self.client.execute(
+            operation: "ExecuteScheduledQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
+            logger: logger
+        )
     }
 
     /// Gets a list of all scheduled queries in the caller's Amazon account and Region. ListScheduledQueries is eventually consistent.
     @Sendable
     public func listScheduledQueries(_ input: ListScheduledQueriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScheduledQueriesResponse {
-        return try await self.client.execute(operation: "ListScheduledQueries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), logger: logger)
+        return try await self.client.execute(
+            operation: "ListScheduledQueries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
+            logger: logger
+        )
     }
 
     /// List all tags on a Timestream query resource.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
+            logger: logger
+        )
     }
 
     /// A synchronous operation that allows you to submit a query with parameters to be stored by Timestream for later running. Timestream only supports using this operation with the PrepareQueryRequest$ValidateOnly set to true.
     @Sendable
     public func prepareQuery(_ input: PrepareQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PrepareQueryResponse {
-        return try await self.client.execute(operation: "PrepareQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), logger: logger)
+        return try await self.client.execute(
+            operation: "PrepareQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
+            logger: logger
+        )
     }
 
     ///  Query is a synchronous operation that enables you to run a query against your Amazon Timestream data. Query will time out after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60 seconds. See the code sample for details.  Your query request will fail in the following cases:   If you submit a Query request with the same client token outside of the 5-minute idempotency window.    If you submit a Query request with the same client token, but change other parameters, within the 5-minute idempotency window.    If the size of the row (including the query metadata) exceeds 1 MB, then the query will fail with the following error message:   Query aborted as max page response size has been exceeded by the output result row    If the IAM principal of the query initiator and the result reader are not the same and/or the query initiator and the result reader do not have the same query string in the query requests, the query will fail with an Invalid pagination token error.
     @Sendable
     public func query(_ input: QueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> QueryResponse {
-        return try await self.client.execute(operation: "Query", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), logger: logger)
+        return try await self.client.execute(
+            operation: "Query", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
+            logger: logger
+        )
     }
 
     /// Associate a set of tags with a Timestream resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking.
     @Sendable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
+            logger: logger
+        )
     }
 
     /// Removes the association of tags from a Timestream query resource.
     @Sendable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
+            logger: logger
+        )
     }
 
     /// Update a scheduled query.
     @Sendable
     public func updateScheduledQuery(_ input: UpdateScheduledQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateScheduledQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateScheduledQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
+            logger: logger
+        )
     }
 
     @Sendable func getEndpoint(logger: Logger) async throws -> AWSEndpoints {

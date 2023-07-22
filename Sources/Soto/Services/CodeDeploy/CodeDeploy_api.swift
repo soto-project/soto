@@ -78,287 +78,616 @@ public struct CodeDeploy: AWSService {
     /// Adds tags to on-premises instances.
     @Sendable
     public func addTagsToOnPremisesInstances(_ input: AddTagsToOnPremisesInstancesInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "AddTagsToOnPremisesInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "AddTagsToOnPremisesInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about one or more application revisions. The maximum number of application revisions that can be returned is 25.
     @Sendable
     public func batchGetApplicationRevisions(_ input: BatchGetApplicationRevisionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetApplicationRevisionsOutput {
-        return try await self.client.execute(operation: "BatchGetApplicationRevisions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetApplicationRevisions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about one or more applications. The maximum number of applications that can be returned is 100.
     @Sendable
     public func batchGetApplications(_ input: BatchGetApplicationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetApplicationsOutput {
-        return try await self.client.execute(operation: "BatchGetApplications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetApplications", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about one or more deployment groups.
     @Sendable
     public func batchGetDeploymentGroups(_ input: BatchGetDeploymentGroupsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetDeploymentGroupsOutput {
-        return try await self.client.execute(operation: "BatchGetDeploymentGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetDeploymentGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  This method works, but is deprecated. Use BatchGetDeploymentTargets instead.   Returns an array of one or more instances associated with a deployment. This method works with EC2/On-premises and Lambda compute platforms. The newer BatchGetDeploymentTargets works with all compute platforms. The maximum number of instances that can be returned is 25.
     @available(*, deprecated, message: "This operation is deprecated, use BatchGetDeploymentTargets instead.")
     @Sendable
     public func batchGetDeploymentInstances(_ input: BatchGetDeploymentInstancesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetDeploymentInstancesOutput {
-        return try await self.client.execute(operation: "BatchGetDeploymentInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetDeploymentInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns an array of one or more targets associated with a deployment. This method works with all compute types and should be used instead of the deprecated BatchGetDeploymentInstances. The maximum number of targets that can be returned is 25. The type of targets returned depends on the deployment's compute platform or deployment method:     EC2/On-premises: Information about Amazon EC2 instance targets.     Lambda: Information about Lambda functions targets.     Amazon ECS: Information about Amazon ECS service targets.     CloudFormation: Information about targets of blue/green deployments initiated by a CloudFormation stack update.
     @Sendable
     public func batchGetDeploymentTargets(_ input: BatchGetDeploymentTargetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetDeploymentTargetsOutput {
-        return try await self.client.execute(operation: "BatchGetDeploymentTargets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetDeploymentTargets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about one or more deployments. The maximum number of deployments that can be returned is 25.
     @Sendable
     public func batchGetDeployments(_ input: BatchGetDeploymentsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetDeploymentsOutput {
-        return try await self.client.execute(operation: "BatchGetDeployments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetDeployments", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about one or more on-premises instances. The maximum number of on-premises instances that can be returned is 25.
     @Sendable
     public func batchGetOnPremisesInstances(_ input: BatchGetOnPremisesInstancesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetOnPremisesInstancesOutput {
-        return try await self.client.execute(operation: "BatchGetOnPremisesInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "BatchGetOnPremisesInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replacement environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.)
     @Sendable
     public func continueDeployment(_ input: ContinueDeploymentInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "ContinueDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ContinueDeployment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates an application.
     @Sendable
     public func createApplication(_ input: CreateApplicationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationOutput {
-        return try await self.client.execute(operation: "CreateApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deploys an application revision through the specified deployment group.
     @Sendable
     public func createDeployment(_ input: CreateDeploymentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDeploymentOutput {
-        return try await self.client.execute(operation: "CreateDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDeployment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Creates a deployment configuration.
     @Sendable
     public func createDeploymentConfig(_ input: CreateDeploymentConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDeploymentConfigOutput {
-        return try await self.client.execute(operation: "CreateDeploymentConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDeploymentConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Creates a deployment group to which application revisions are deployed.
     @Sendable
     public func createDeploymentGroup(_ input: CreateDeploymentGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDeploymentGroupOutput {
-        return try await self.client.execute(operation: "CreateDeploymentGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "CreateDeploymentGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes an application.
     @Sendable
     public func deleteApplication(_ input: DeleteApplicationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a deployment configuration.  A deployment configuration cannot be deleted if it is currently in use. Predefined configurations cannot be deleted.
     @Sendable
     public func deleteDeploymentConfig(_ input: DeleteDeploymentConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeleteDeploymentConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDeploymentConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a deployment group.
     @Sendable
     public func deleteDeploymentGroup(_ input: DeleteDeploymentGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDeploymentGroupOutput {
-        return try await self.client.execute(operation: "DeleteDeploymentGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteDeploymentGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes a GitHub account connection.
     @Sendable
     public func deleteGitHubAccountToken(_ input: DeleteGitHubAccountTokenInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGitHubAccountTokenOutput {
-        return try await self.client.execute(operation: "DeleteGitHubAccountToken", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteGitHubAccountToken", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deletes resources linked to an external ID.
     @Sendable
     public func deleteResourcesByExternalId(_ input: DeleteResourcesByExternalIdInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcesByExternalIdOutput {
-        return try await self.client.execute(operation: "DeleteResourcesByExternalId", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeleteResourcesByExternalId", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Deregisters an on-premises instance.
     @Sendable
     public func deregisterOnPremisesInstance(_ input: DeregisterOnPremisesInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "DeregisterOnPremisesInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "DeregisterOnPremisesInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about an application.
     @Sendable
     public func getApplication(_ input: GetApplicationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationOutput {
-        return try await self.client.execute(operation: "GetApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about an application revision.
     @Sendable
     public func getApplicationRevision(_ input: GetApplicationRevisionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationRevisionOutput {
-        return try await self.client.execute(operation: "GetApplicationRevision", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetApplicationRevision", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a deployment.  The content property of the appSpecContent object in the returned revision is always null. Use GetApplicationRevision and the sha256 property of the returned appSpecContent object to get the content of the deployment’s AppSpec file.
     @Sendable
     public func getDeployment(_ input: GetDeploymentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeploymentOutput {
-        return try await self.client.execute(operation: "GetDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeployment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a deployment configuration.
     @Sendable
     public func getDeploymentConfig(_ input: GetDeploymentConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeploymentConfigOutput {
-        return try await self.client.execute(operation: "GetDeploymentConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeploymentConfig", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about a deployment group.
     @Sendable
     public func getDeploymentGroup(_ input: GetDeploymentGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeploymentGroupOutput {
-        return try await self.client.execute(operation: "GetDeploymentGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeploymentGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets information about an instance as part of a deployment.
     @available(*, deprecated, message: "This operation is deprecated, use GetDeploymentTarget instead.")
     @Sendable
     public func getDeploymentInstance(_ input: GetDeploymentInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeploymentInstanceOutput {
-        return try await self.client.execute(operation: "GetDeploymentInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeploymentInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns information about a deployment target.
     @Sendable
     public func getDeploymentTarget(_ input: GetDeploymentTargetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeploymentTargetOutput {
-        return try await self.client.execute(operation: "GetDeploymentTarget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetDeploymentTarget", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Gets information about an on-premises instance.
     @Sendable
     public func getOnPremisesInstance(_ input: GetOnPremisesInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOnPremisesInstanceOutput {
-        return try await self.client.execute(operation: "GetOnPremisesInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "GetOnPremisesInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists information about revisions for an application.
     @Sendable
     public func listApplicationRevisions(_ input: ListApplicationRevisionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationRevisionsOutput {
-        return try await self.client.execute(operation: "ListApplicationRevisions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApplicationRevisions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the applications registered with the IAM user or Amazon Web Services account.
     @Sendable
     public func listApplications(_ input: ListApplicationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsOutput {
-        return try await self.client.execute(operation: "ListApplications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListApplications", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the deployment configurations with the IAM user or Amazon Web Services account.
     @Sendable
     public func listDeploymentConfigs(_ input: ListDeploymentConfigsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentConfigsOutput {
-        return try await self.client.execute(operation: "ListDeploymentConfigs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDeploymentConfigs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the deployment groups for an application registered with the IAM user or Amazon Web Services account.
     @Sendable
     public func listDeploymentGroups(_ input: ListDeploymentGroupsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentGroupsOutput {
-        return try await self.client.execute(operation: "ListDeploymentGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDeploymentGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda.   Lists the instance for a deployment associated with the IAM user or Amazon Web Services account.
     @available(*, deprecated, message: "This operation is deprecated, use ListDeploymentTargets instead.")
     @Sendable
     public func listDeploymentInstances(_ input: ListDeploymentInstancesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentInstancesOutput {
-        return try await self.client.execute(operation: "ListDeploymentInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDeploymentInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns an array of target IDs that are associated a deployment.
     @Sendable
     public func listDeploymentTargets(_ input: ListDeploymentTargetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentTargetsOutput {
-        return try await self.client.execute(operation: "ListDeploymentTargets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDeploymentTargets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the deployments in a deployment group for an application registered with the IAM user or Amazon Web Services account.
     @Sendable
     public func listDeployments(_ input: ListDeploymentsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentsOutput {
-        return try await self.client.execute(operation: "ListDeployments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListDeployments", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Lists the names of stored connections to GitHub accounts.
     @Sendable
     public func listGitHubAccountTokenNames(_ input: ListGitHubAccountTokenNamesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGitHubAccountTokenNamesOutput {
-        return try await self.client.execute(operation: "ListGitHubAccountTokenNames", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListGitHubAccountTokenNames", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Gets a list of names for one or more on-premises instances. Unless otherwise specified, both registered and deregistered on-premises instance names are listed. To list only registered or deregistered on-premises instance names, use the registration status parameter.
     @Sendable
     public func listOnPremisesInstances(_ input: ListOnPremisesInstancesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOnPremisesInstancesOutput {
-        return try await self.client.execute(operation: "ListOnPremisesInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListOnPremisesInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Returns a list of tags for the resource identified by a specified Amazon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources.
     @Sendable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
-        return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Sets the result of a Lambda validation function. The function validates lifecycle hooks during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda deployments, the available lifecycle hooks are BeforeAllowTraffic and AfterAllowTraffic. For Amazon ECS deployments, the available lifecycle hooks are BeforeInstall, AfterInstall, AfterAllowTestTraffic, BeforeAllowTraffic, and AfterAllowTraffic. Lambda validation functions return Succeeded or Failed. For more information, see AppSpec 'hooks' Section for an Lambda Deployment  and AppSpec 'hooks' Section for an Amazon ECS Deployment.
     @Sendable
     public func putLifecycleEventHookExecutionStatus(_ input: PutLifecycleEventHookExecutionStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutLifecycleEventHookExecutionStatusOutput {
-        return try await self.client.execute(operation: "PutLifecycleEventHookExecutionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "PutLifecycleEventHookExecutionStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers with CodeDeploy a revision for the specified application.
     @Sendable
     public func registerApplicationRevision(_ input: RegisterApplicationRevisionInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RegisterApplicationRevision", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterApplicationRevision", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Registers an on-premises instance.  Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both.
     @Sendable
     public func registerOnPremisesInstance(_ input: RegisterOnPremisesInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RegisterOnPremisesInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RegisterOnPremisesInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Removes one or more tags from one or more on-premises instances.
     @Sendable
     public func removeTagsFromOnPremisesInstances(_ input: RemoveTagsFromOnPremisesInstancesInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "RemoveTagsFromOnPremisesInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "RemoveTagsFromOnPremisesInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// In a blue/green deployment, overrides any specified wait time and starts terminating instances immediately after the traffic routing is complete.
     @available(*, deprecated, message: "This operation is deprecated, use ContinueDeployment with DeploymentWaitType instead.")
     @Sendable
     public func skipWaitTimeForInstanceTermination(_ input: SkipWaitTimeForInstanceTerminationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "SkipWaitTimeForInstanceTermination", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "SkipWaitTimeForInstanceTermination", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Attempts to stop an ongoing deployment.
     @Sendable
     public func stopDeployment(_ input: StopDeploymentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopDeploymentOutput {
-        return try await self.client.execute(operation: "StopDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "StopDeployment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Associates the list of tags in the input Tags parameter with the resource identified by the ResourceArn input parameter.
     @Sendable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
-        return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     ///  Disassociates a resource from a list of tags. The resource is identified by the ResourceArn input parameter. The tags are identified by the list of keys in the TagKeys input parameter.
     @Sendable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
-        return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes the name of an application.
     @Sendable
     public func updateApplication(_ input: UpdateApplicationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
-        return try await self.client.execute(operation: "UpdateApplication", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 
     /// Changes information about a deployment group.
     @Sendable
     public func updateDeploymentGroup(_ input: UpdateDeploymentGroupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDeploymentGroupOutput {
-        return try await self.client.execute(operation: "UpdateDeploymentGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger)
+        return try await self.client.execute(
+            operation: "UpdateDeploymentGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
     }
 }
 
