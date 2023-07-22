@@ -28,7 +28,7 @@ class SESTests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares, httpClientProvider: .createNew)
         Self.ses = SES(
             client: Self.client,
             region: .useast1,
@@ -57,9 +57,10 @@ class SESTests: XCTestCase {
     // test fips region
     func testFipsRegion() async throws {
         struct TestError: Error {}
-        struct TestRequestMiddleware: AWSServiceMiddleware {
-            let test: @Sendable (AWSRequest) -> Void
-            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
+        struct TestRequestMiddleware: AWSMiddlewareProtocol {
+            let test: @Sendable (AWSHTTPRequest) -> Void
+
+            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
                 self.test(request)
                 throw TestError()
             }
@@ -67,7 +68,7 @@ class SESTests: XCTestCase {
         let testMiddleware = TestRequestMiddleware { request in
             XCTAssertEqual(request.url, URL(string: "https://email-fips.us-east-1.amazonaws.com/")!)
         }
-        let ses = SES(client: Self.client, region: .useast1, options: .useFipsEndpoint).with(middlewares: [testMiddleware])
+        let ses = SES(client: Self.client, region: .useast1, options: .useFipsEndpoint).with(middleware: testMiddleware)
         do {
             _ = try await ses.createConfigurationSet(.init(configurationSet: .init(name: "test")))
         } catch is TestError {}

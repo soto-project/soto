@@ -20,7 +20,7 @@ class CloudTrailTests: XCTestCase {
     static var cloudTrail: CloudTrail!
 
     override class func setUp() {
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares, httpClientProvider: .createNew)
         Self.cloudTrail = CloudTrail(
             client: CloudTrailTests.client,
             region: .euwest1,

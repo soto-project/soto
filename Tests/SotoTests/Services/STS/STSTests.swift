@@ -33,7 +33,7 @@ class STSTests: XCTestCase {
 
         Self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
-            middlewares: TestEnvironment.middlewares,
+            middleware: TestEnvironment.middlewares,
             httpClientProvider: .createNew,
             logger: Logger(label: "Soto")
         )

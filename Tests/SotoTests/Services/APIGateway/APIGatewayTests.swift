@@ -32,7 +32,7 @@ class APIGatewayTests: XCTestCase {
     override class func setUp() {
         Self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
-            middlewares: TestEnvironment.middlewares,
+            middleware: TestEnvironment.middlewares,
             httpClientProvider: .createNew,
             logger: TestEnvironment.logger
         )

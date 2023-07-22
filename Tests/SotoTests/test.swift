@@ -69,8 +69,8 @@ enum TestEnvironment {
     static var credentialProvider: CredentialProviderFactory { return isUsingLocalstack ? .static(accessKeyId: "foo", secretAccessKey: "bar") : .default }
 
     /// current list of middleware
-    static var middlewares: [AWSServiceMiddleware] {
-        return (Environment["AWS_ENABLE_LOGGING"] == "true") ? [AWSLoggingMiddleware()] : []
+    public static var middlewares: AWSMiddlewareProtocol {
+        return (Environment["AWS_ENABLE_LOGGING"] == "true") ? AWSLoggingMiddleware(logger: TestEnvironment.logger, logLevel: .info) : PassThruMiddleware()
     }
 
     /// return endpoint

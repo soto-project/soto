@@ -105,18 +105,18 @@ class LambdaTests: XCTestCase {
 
         Self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
-            middlewares: TestEnvironment.middlewares,
+            middleware: TestEnvironment.middlewares,
             httpClientProvider: .createNew
         )
         Self.lambda = Lambda(
             client: LambdaTests.client,
             region: .euwest1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        ).with(middlewares: TestEnvironment.middlewares)
+        ).with(middleware: TestEnvironment.middlewares)
         Self.iam = IAM(
             client: Self.client,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        ).with(middlewares: TestEnvironment.middlewares)
+        ).with(middleware: TestEnvironment.middlewares)
 
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }

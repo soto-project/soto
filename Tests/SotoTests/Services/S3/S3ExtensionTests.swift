@@ -300,33 +300,33 @@ extension S3Tests {
         }
     }
 
-    func testS3VirtualAddressing(_ urlString: String, config: AWSServiceConfig = S3Tests.s3.config) throws -> String {
-        let url = URL(string: urlString)!
-        let request = try AWSRequest(
-            region: .useast1,
-            url: url,
-            serviceProtocol: Self.s3.config.serviceProtocol,
-            operation: "TestOperation",
-            httpMethod: .GET,
-            httpHeaders: [:],
+    func testS3VirtualAddressing(_ urlString: String, s3URL: String, config: AWSServiceConfig = S3Tests.s3.config) async throws {
+        let request = AWSHTTPRequest(
+            url: URL(string: urlString)!,
+            method: .GET,
+            headers: [:],
             body: .init()
-        ).applyMiddlewares(Self.s3.config.middlewares, config: config)
-        return request.url.relativeString
+        )
+        let context = AWSMiddlewareContext(operation: "TestOperation", serviceConfig: config, logger: TestEnvironment.logger)
+        _ = try await config.middleware?.handle(request, context: context) { request, _ in
+            XCTAssertEqual(request.url.absoluteString, s3URL)
+            return AWSHTTPResponse(status: .ok, headers: ["RequestURL": request.url.absoluteString])
+        }
     }
 
-    func testS3VirtualAddressing() {
-        XCTAssertEqual(try self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket"), "https://bucket.s3.us-east-1.amazonaws.com/")
-        XCTAssertEqual(try self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket//filename"), "https://bucket.s3.us-east-1.amazonaws.com/filename")
-        XCTAssertEqual(try self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=test&test2=test2"), "https://bucket.s3.us-east-1.amazonaws.com/filename?test=test&test2=test2")
-        XCTAssertEqual(try self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=%3D"), "https://bucket.s3.us-east-1.amazonaws.com/filename?test=%3D")
-        XCTAssertEqual(try self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/file%20name"), "https://bucket.s3.us-east-1.amazonaws.com/file%20name")
-        XCTAssertEqual(try self.testS3VirtualAddressing("http://localhost:8000/bucket/filename"), "http://localhost:8000/bucket/filename")
-        XCTAssertEqual(try self.testS3VirtualAddressing("http://localhost:8000//bucket/filename"), "http://localhost:8000/bucket/filename")
-        XCTAssertEqual(try self.testS3VirtualAddressing("http://localhost:8000/bucket//filename"), "http://localhost:8000/bucket/filename")
-        XCTAssertEqual(try self.testS3VirtualAddressing("https://localhost:8000/bucket/file%20name"), "https://localhost:8000/bucket/file%20name")
+    func testS3VirtualAddressing() async throws {
+        try await self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket", s3URL: "https://bucket.s3.us-east-1.amazonaws.com/")
+        try await self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket//filename", s3URL: "https://bucket.s3.us-east-1.amazonaws.com/filename")
+        try await self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=test&test2=test2", s3URL: "https://bucket.s3.us-east-1.amazonaws.com/filename?test=test&test2=test2")
+        try await self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/filename?test=%3D", s3URL: "https://bucket.s3.us-east-1.amazonaws.com/filename?test=%3D")
+        try await self.testS3VirtualAddressing("https://s3.us-east-1.amazonaws.com/bucket/file%20name", s3URL: "https://bucket.s3.us-east-1.amazonaws.com/file%20name")
+        try await self.testS3VirtualAddressing("http://localhost:8000/bucket/filename", s3URL: "http://localhost:8000/bucket/filename")
+        try await self.testS3VirtualAddressing("http://localhost:8000//bucket/filename", s3URL: "http://localhost:8000/bucket/filename")
+        try await self.testS3VirtualAddressing("http://localhost:8000/bucket//filename", s3URL: "http://localhost:8000/bucket/filename")
+        try await self.testS3VirtualAddressing("https://localhost:8000/bucket/file%20name", s3URL: "https://localhost:8000/bucket/file%20name")
 
         let s3 = Self.s3.with(options: .s3ForceVirtualHost)
-        XCTAssertEqual(try self.testS3VirtualAddressing("https://localhost:8000/bucket/filename", config: s3.config), "https://bucket.localhost:8000/filename")
+        try await self.testS3VirtualAddressing("https://localhost:8000/bucket/filename", s3URL: "https://bucket.localhost:8000/filename", config: s3.config)
     }
 
     func testMD5Calculation() throws {
@@ -337,15 +337,15 @@ extension S3Tests {
             contentMD5: "6728ab89sfsdff==",
             key: "testMD5Calculation"
         )
-        let request = try AWSRequest(operation: "PutObject", path: "/{Bucket}/{Key+}?x-id=PutObject", httpMethod: .PUT, input: input, configuration: s3.config)
-        XCTAssertEqual(request.httpHeaders["Content-MD5"].first, "6728ab89sfsdff==")
+        let request = try AWSHTTPRequest(operation: "PutObject", path: "/{Bucket}/{Key+}?x-id=PutObject", method: .PUT, input: input, configuration: s3.config)
+        XCTAssertEqual(request.headers["Content-MD5"].first, "6728ab89sfsdff==")
 
         let input2 = S3.PutObjectRequest(
             body: .init(string: "TestContent"),
             bucket: "testMD5Calculation",
             key: "testMD5Calculation"
         )
-        let request2 = try AWSRequest(operation: "PutObject", path: "/{Bucket}/{Key+}?x-id=PutObject", httpMethod: .PUT, input: input2, configuration: s3.config)
-        XCTAssertEqual(request2.httpHeaders["Content-MD5"].first, "JhF7IaLE189bvT4/iv/iqg==")
+        let request2 = try AWSHTTPRequest(operation: "PutObject", path: "/{Bucket}/{Key+}?x-id=PutObject", method: .PUT, input: input2, configuration: s3.config)
+        XCTAssertEqual(request2.headers["Content-MD5"].first, "JhF7IaLE189bvT4/iv/iqg==")
     }
 }

@@ -38,12 +38,12 @@ extension AWSHTTPBody {
     }
 }
 
-/// Tests to check the formatting of various AWSRequest bodies
-class AWSRequestTests: XCTestCase {
-    static let client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+/// Tests to check the formatting of various AWSHTTPRequest bodies
+class AWSHTTPRequestTests: XCTestCase {
+    static let client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares, httpClientProvider: .createNew)
 
-    /// test awsRequest body is expected string
-    func testRequestedBody(expected: String, result: AWSRequest) throws {
+    /// test AWSHTTPRequest body is expected string
+    func testRequestedBody(expected: String, result: AWSHTTPRequest) throws {
         // get body
         let body = result.body.asString()
         XCTAssertEqual(expected, body)
@@ -54,12 +54,12 @@ class AWSRequestTests: XCTestCase {
         config: AWSServiceConfig,
         operation: String,
         path: String = "/",
-        httpMethod: HTTPMethod = .POST,
+        method: HTTPMethod = .POST,
         input: Input,
         expected: String
     ) {
         do {
-            let awsRequest = try AWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input, configuration: config)
+            let AWSHTTPRequest = try AWSHTTPRequest(operation: operation, path: path, method: method, input: input, configuration: config)
             var expected2 = expected
 
             // If XML remove whitespace from expected by converting to XMLNode and back
@@ -68,7 +68,7 @@ class AWSRequestTests: XCTestCase {
                 expected2 = document.xmlString
             }
 
-            try self.testRequestedBody(expected: expected2, result: awsRequest)
+            try self.testRequestedBody(expected: expected2, result: AWSHTTPRequest)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -79,11 +79,11 @@ class AWSRequestTests: XCTestCase {
         config: AWSServiceConfig,
         operation: String,
         path: String = "/",
-        httpMethod: HTTPMethod = .POST,
+        method: HTTPMethod = .POST,
         input: Input
     ) {
         do {
-            _ = try AWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input, configuration: config)
+            _ = try AWSHTTPRequest(operation: operation, path: path, method: method, input: input, configuration: config)
             XCTFail()
         } catch let error as AWSClientError where error == .validationError {
             print(error.message ?? "")
@@ -96,11 +96,11 @@ class AWSRequestTests: XCTestCase {
         config: AWSServiceConfig,
         operation: String,
         path: String = "/",
-        httpMethod: HTTPMethod = .POST,
+        method: HTTPMethod = .POST,
         input: Input
     ) {
         do {
-            _ = try AWSRequest(operation: operation, path: path, httpMethod: httpMethod, input: input, configuration: config)
+            _ = try AWSHTTPRequest(operation: operation, path: path, method: method, input: input, configuration: config)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -131,7 +131,7 @@ class AWSRequestTests: XCTestCase {
             config: s3.config,
             operation: "PutBucketLifecycleConfiguration",
             path: "/{Bucket}?lifecycle",
-            httpMethod: .PUT,
+            method: .PUT,
             input: request,
             expected: expectedResult
         )
@@ -147,17 +147,17 @@ class AWSRequestTests: XCTestCase {
             tags: [SNS.Tag(key: "tag1", value: "23"), SNS.Tag(key: "tag2", value: "true")]
         )
 
-        self.testAWSShapeRequest(config: sns.config, operation: "CreateTopic", path: "/", httpMethod: .POST, input: request, expected: expectedResult)
+        self.testAWSShapeRequest(config: sns.config, operation: "CreateTopic", path: "/", method: .POST, input: request, expected: expectedResult)
     }
 
     func testCloudFrontCreateDistribution() {
         let cloudFront = CloudFront(client: Self.client)
         let expectedResult =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DistributionConfig xmlns=\"http://cloudfront.amazonaws.com/doc/2020-05-31/\"><CallerReference>test</CallerReference><Comment></Comment><DefaultCacheBehavior><TargetOriginId>AWSRequestTests</TargetOriginId><TrustedSigners><Enabled>true</Enabled><Quantity>2</Quantity></TrustedSigners><ViewerProtocolPolicy>https-only</ViewerProtocolPolicy></DefaultCacheBehavior><Enabled>true</Enabled><Origins><Items><Origin><DomainName>aws.sdk.swift.com</DomainName><Id>1234</Id></Origin></Items><Quantity>1</Quantity></Origins></DistributionConfig>"
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><DistributionConfig xmlns=\"http://cloudfront.amazonaws.com/doc/2020-05-31/\"><CallerReference>test</CallerReference><Comment></Comment><DefaultCacheBehavior><TargetOriginId>AWSHTTPRequestTests</TargetOriginId><TrustedSigners><Enabled>true</Enabled><Quantity>2</Quantity></TrustedSigners><ViewerProtocolPolicy>https-only</ViewerProtocolPolicy></DefaultCacheBehavior><Enabled>true</Enabled><Origins><Items><Origin><DomainName>aws.sdk.swift.com</DomainName><Id>1234</Id></Origin></Items><Quantity>1</Quantity></Origins></DistributionConfig>"
 
         let trustedSigners = CloudFront.TrustedSigners(enabled: true, quantity: 2)
         let defaultCacheBehavior = CloudFront.DefaultCacheBehavior(
-            targetOriginId: "AWSRequestTests",
+            targetOriginId: "AWSHTTPRequestTests",
             trustedSigners: trustedSigners,
             viewerProtocolPolicy: .httpsOnly
         )
@@ -175,7 +175,7 @@ class AWSRequestTests: XCTestCase {
             config: cloudFront.config,
             operation: "CreateDistribution2019_03_26",
             path: "/2019-03-26/distribution",
-            httpMethod: .POST,
+            method: .POST,
             input: request,
             expected: expectedResult
         )
@@ -186,7 +186,7 @@ class AWSRequestTests: XCTestCase {
         let expectedResult = "Action=CreateImage&InstanceId=i-123123&Name=TestInstance&Version=2016-11-15"
         let request = EC2.CreateImageRequest(instanceId: "i-123123", name: "TestInstance")
 
-        self.testAWSShapeRequest(config: ec2.config, operation: "CreateImage", path: "/", httpMethod: .POST, input: request, expected: expectedResult)
+        self.testAWSShapeRequest(config: ec2.config, operation: "CreateImage", path: "/", method: .POST, input: request, expected: expectedResult)
     }
 
     func testEC2CreateInstanceExportTask() {
@@ -199,7 +199,7 @@ class AWSRequestTests: XCTestCase {
             config: ec2.config,
             operation: "CreateInstanceExportTask",
             path: "/",
-            httpMethod: .POST,
+            method: .POST,
             input: request,
             expected: expectedResult
         )
@@ -288,7 +288,7 @@ class AWSRequestTests: XCTestCase {
     func testCloudFrontCreateDistributionValidate() {
         let trustedSigners = CloudFront.TrustedSigners(enabled: true, quantity: 2)
         let defaultCacheBehavior = CloudFront.DefaultCacheBehavior(
-            targetOriginId: "AWSRequestTests",
+            targetOriginId: "AWSHTTPRequestTests",
             trustedSigners: trustedSigners,
             viewerProtocolPolicy: .httpsOnly
         )
