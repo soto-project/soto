@@ -22,7 +22,6 @@ import XCTest
 extension S3Tests {
     /// test bucket location is correctly returned.
     func testGetBucketLocation() async throws {
-        try XCTSkipIf(true, "Not implemented yet")
         let name = TestEnvironment.generateResourceName()
         try await testBucket(name) { name in
             let response = try await Self.s3.getBucketLocation(.init(bucket: name))
