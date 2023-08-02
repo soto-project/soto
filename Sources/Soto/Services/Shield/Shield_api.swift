@@ -35,7 +35,7 @@ public struct Shield: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
-    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
     ///     - options: Service options
@@ -561,8 +561,9 @@ public struct Shield: AWSService {
 }
 
 extension Shield {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
-    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
+    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
+    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Shield, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
