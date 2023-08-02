@@ -36,12 +36,16 @@ public struct LexRuntimeService: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -55,25 +59,32 @@ public struct LexRuntimeService: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2016-11-28",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "ap-northeast-1": "runtime-fips.lex.ap-northeast-1.amazonaws.com",
-                    "ap-southeast-1": "runtime-fips.lex.ap-southeast-1.amazonaws.com",
-                    "ap-southeast-2": "runtime-fips.lex.ap-southeast-2.amazonaws.com",
-                    "eu-central-1": "runtime-fips.lex.eu-central-1.amazonaws.com",
-                    "eu-west-1": "runtime-fips.lex.eu-west-1.amazonaws.com",
-                    "eu-west-2": "runtime-fips.lex.eu-west-2.amazonaws.com",
-                    "us-east-1": "runtime-fips.lex.us-east-1.amazonaws.com",
-                    "us-gov-west-1": "runtime-fips.lex.us-gov-west-1.amazonaws.com",
-                    "us-west-2": "runtime-fips.lex.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: LexRuntimeServiceErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ap-northeast-1": "runtime-fips.lex.ap-northeast-1.amazonaws.com",
+            "ap-southeast-1": "runtime-fips.lex.ap-southeast-1.amazonaws.com",
+            "ap-southeast-2": "runtime-fips.lex.ap-southeast-2.amazonaws.com",
+            "eu-central-1": "runtime-fips.lex.eu-central-1.amazonaws.com",
+            "eu-west-1": "runtime-fips.lex.eu-west-1.amazonaws.com",
+            "eu-west-2": "runtime-fips.lex.eu-west-2.amazonaws.com",
+            "us-east-1": "runtime-fips.lex.us-east-1.amazonaws.com",
+            "us-gov-west-1": "runtime-fips.lex.us-gov-west-1.amazonaws.com",
+            "us-west-2": "runtime-fips.lex.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

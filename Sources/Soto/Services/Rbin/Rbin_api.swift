@@ -36,12 +36,16 @@ public struct Rbin: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -54,25 +58,32 @@ public struct Rbin: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-06-15",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "ca-central-1": "rbin-fips.ca-central-1.amazonaws.com",
-                    "us-east-1": "rbin-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "rbin-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "rbin-fips.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "rbin-fips.us-gov-west-1.amazonaws.com",
-                    "us-iso-east-1": "rbin-fips.us-iso-east-1.c2s.ic.gov",
-                    "us-isob-east-1": "rbin-fips.us-isob-east-1.sc2s.sgov.gov",
-                    "us-west-1": "rbin-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "rbin-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: RbinErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "rbin-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "rbin-fips.us-east-1.amazonaws.com",
+            "us-east-2": "rbin-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "rbin-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "rbin-fips.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "rbin-fips.us-iso-east-1.c2s.ic.gov",
+            "us-isob-east-1": "rbin-fips.us-isob-east-1.sc2s.sgov.gov",
+            "us-west-1": "rbin-fips.us-west-1.amazonaws.com",
+            "us-west-2": "rbin-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

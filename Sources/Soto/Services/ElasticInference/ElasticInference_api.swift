@@ -36,12 +36,16 @@ public struct ElasticInference: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -55,20 +59,27 @@ public struct ElasticInference: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "ap-northeast-1": "api.elastic-inference.ap-northeast-1.amazonaws.com",
-                "ap-northeast-2": "api.elastic-inference.ap-northeast-2.amazonaws.com",
-                "eu-west-1": "api.elastic-inference.eu-west-1.amazonaws.com",
-                "us-east-1": "api.elastic-inference.us-east-1.amazonaws.com",
-                "us-east-2": "api.elastic-inference.us-east-2.amazonaws.com",
-                "us-west-2": "api.elastic-inference.us-west-2.amazonaws.com"
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
             errorType: ElasticInferenceErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "ap-northeast-1": "api.elastic-inference.ap-northeast-1.amazonaws.com",
+        "ap-northeast-2": "api.elastic-inference.ap-northeast-2.amazonaws.com",
+        "eu-west-1": "api.elastic-inference.eu-west-1.amazonaws.com",
+        "us-east-1": "api.elastic-inference.us-east-1.amazonaws.com",
+        "us-east-2": "api.elastic-inference.us-east-2.amazonaws.com",
+        "us-west-2": "api.elastic-inference.us-west-2.amazonaws.com"
+    ]}
+
+
 
     // MARK: API Calls
 

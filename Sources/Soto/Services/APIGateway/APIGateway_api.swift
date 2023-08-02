@@ -37,6 +37,8 @@ public struct APIGateway: AWSService {
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
@@ -54,22 +56,66 @@ public struct APIGateway: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2015-07-09",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "ca-central-1": "apigateway-fips.ca-central-1.amazonaws.com",
-                    "us-east-1": "apigateway-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "apigateway-fips.us-east-2.amazonaws.com",
-                    "us-west-1": "apigateway-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "apigateway-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: APIGatewayErrorType.self,
-            middlewares: [AWSEditHeadersMiddleware(.add(name: "accept", value: "application/json"))],
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+    /// Initialize the APIGateway client
+    /// - parameters:
+    ///     - client: AWSClient used to process requests
+    ///     - region: Region of server you want to communicate with. This will override the partition parameter.
+    ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
+    ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
+    public init(
+        client: AWSClient,
+        region: SotoCore.Region? = nil,
+        partition: AWSPartition = .aws,
+        endpoint: String? = nil,
+        middleware: some AWSMiddlewareProtocol,
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
+    ) {
+        self.client = client
+        self.config = AWSServiceConfig(
+            region: region,
+            partition: region?.partition ?? partition,
+            service: "apigateway",
+            serviceProtocol: .restjson,
+            apiVersion: "2015-07-09",
+            endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
+            errorType: APIGatewayErrorType.self,
+            middleware: AWSMiddlewareStack {
+                middleware
+                AWSEditHeadersMiddleware(.add(name: "accept", value: "application/json"))
+            },
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
+        )
+    }
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "apigateway-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "apigateway-fips.us-east-1.amazonaws.com",
+            "us-east-2": "apigateway-fips.us-east-2.amazonaws.com",
+            "us-west-1": "apigateway-fips.us-west-1.amazonaws.com",
+            "us-west-2": "apigateway-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

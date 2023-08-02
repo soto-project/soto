@@ -36,12 +36,16 @@ public struct Pinpoint: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -55,28 +59,37 @@ public struct Pinpoint: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2016-12-01",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "ca-central-1": "pinpoint.ca-central-1.amazonaws.com",
-                "us-east-1": "pinpoint.us-east-1.amazonaws.com",
-                "us-east-2": "pinpoint.us-east-2.amazonaws.com",
-                "us-gov-west-1": "pinpoint.us-gov-west-1.amazonaws.com",
-                "us-west-2": "pinpoint.us-west-2.amazonaws.com"
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "ca-central-1": "pinpoint-fips.ca-central-1.amazonaws.com",
-                    "us-east-1": "pinpoint-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "pinpoint-fips.us-east-2.amazonaws.com",
-                    "us-gov-west-1": "pinpoint-fips.us-gov-west-1.amazonaws.com",
-                    "us-west-2": "pinpoint-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: PinpointErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "ca-central-1": "pinpoint.ca-central-1.amazonaws.com",
+        "us-east-1": "pinpoint.us-east-1.amazonaws.com",
+        "us-east-2": "pinpoint.us-east-2.amazonaws.com",
+        "us-gov-west-1": "pinpoint.us-gov-west-1.amazonaws.com",
+        "us-west-2": "pinpoint.us-west-2.amazonaws.com"
+    ]}
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "pinpoint-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "pinpoint-fips.us-east-1.amazonaws.com",
+            "us-east-2": "pinpoint-fips.us-east-2.amazonaws.com",
+            "us-gov-west-1": "pinpoint-fips.us-gov-west-1.amazonaws.com",
+            "us-west-2": "pinpoint-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

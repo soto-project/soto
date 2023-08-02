@@ -35,6 +35,8 @@ public struct S3: AWSService {
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
@@ -52,102 +54,150 @@ public struct S3: AWSService {
             serviceProtocol: .restxml,
             apiVersion: "2006-03-01",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "af-south-1": "s3.af-south-1.amazonaws.com",
-                "ap-east-1": "s3.ap-east-1.amazonaws.com",
-                "ap-northeast-1": "s3.ap-northeast-1.amazonaws.com",
-                "ap-northeast-2": "s3.ap-northeast-2.amazonaws.com",
-                "ap-northeast-3": "s3.ap-northeast-3.amazonaws.com",
-                "ap-south-1": "s3.ap-south-1.amazonaws.com",
-                "ap-south-2": "s3.ap-south-2.amazonaws.com",
-                "ap-southeast-1": "s3.ap-southeast-1.amazonaws.com",
-                "ap-southeast-2": "s3.ap-southeast-2.amazonaws.com",
-                "ap-southeast-3": "s3.ap-southeast-3.amazonaws.com",
-                "ap-southeast-4": "s3.ap-southeast-4.amazonaws.com",
-                "aws-global": "s3.amazonaws.com",
-                "ca-central-1": "s3.ca-central-1.amazonaws.com",
-                "eu-central-1": "s3.eu-central-1.amazonaws.com",
-                "eu-central-2": "s3.eu-central-2.amazonaws.com",
-                "eu-north-1": "s3.eu-north-1.amazonaws.com",
-                "eu-south-1": "s3.eu-south-1.amazonaws.com",
-                "eu-south-2": "s3.eu-south-2.amazonaws.com",
-                "eu-west-1": "s3.eu-west-1.amazonaws.com",
-                "eu-west-2": "s3.eu-west-2.amazonaws.com",
-                "eu-west-3": "s3.eu-west-3.amazonaws.com",
-                "me-central-1": "s3.me-central-1.amazonaws.com",
-                "me-south-1": "s3.me-south-1.amazonaws.com",
-                "s3-external-1": "s3-external-1.amazonaws.com",
-                "sa-east-1": "s3.sa-east-1.amazonaws.com",
-                "us-east-1": "s3.us-east-1.amazonaws.com",
-                "us-east-2": "s3.us-east-2.amazonaws.com",
-                "us-gov-east-1": "s3.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1": "s3.us-gov-west-1.amazonaws.com",
-                "us-west-1": "s3.us-west-1.amazonaws.com",
-                "us-west-2": "s3.us-west-2.amazonaws.com"
-            ],
-            variantEndpoints: [
-                [.dualstack]: .init(endpoints: [
-                    "af-south-1": "s3.dualstack.af-south-1.amazonaws.com",
-                    "ap-east-1": "s3.dualstack.ap-east-1.amazonaws.com",
-                    "ap-northeast-1": "s3.dualstack.ap-northeast-1.amazonaws.com",
-                    "ap-northeast-2": "s3.dualstack.ap-northeast-2.amazonaws.com",
-                    "ap-northeast-3": "s3.dualstack.ap-northeast-3.amazonaws.com",
-                    "ap-south-1": "s3.dualstack.ap-south-1.amazonaws.com",
-                    "ap-south-2": "s3.dualstack.ap-south-2.amazonaws.com",
-                    "ap-southeast-1": "s3.dualstack.ap-southeast-1.amazonaws.com",
-                    "ap-southeast-2": "s3.dualstack.ap-southeast-2.amazonaws.com",
-                    "ap-southeast-3": "s3.dualstack.ap-southeast-3.amazonaws.com",
-                    "ap-southeast-4": "s3.dualstack.ap-southeast-4.amazonaws.com",
-                    "aws-global": "s3.dualstack.aws-global.amazonaws.com",
-                    "ca-central-1": "s3.dualstack.ca-central-1.amazonaws.com",
-                    "cn-north-1": "s3.dualstack.cn-north-1.amazonaws.com.cn",
-                    "cn-northwest-1": "s3.dualstack.cn-northwest-1.amazonaws.com.cn",
-                    "eu-central-1": "s3.dualstack.eu-central-1.amazonaws.com",
-                    "eu-central-2": "s3.dualstack.eu-central-2.amazonaws.com",
-                    "eu-north-1": "s3.dualstack.eu-north-1.amazonaws.com",
-                    "eu-south-1": "s3.dualstack.eu-south-1.amazonaws.com",
-                    "eu-south-2": "s3.dualstack.eu-south-2.amazonaws.com",
-                    "eu-west-1": "s3.dualstack.eu-west-1.amazonaws.com",
-                    "eu-west-2": "s3.dualstack.eu-west-2.amazonaws.com",
-                    "eu-west-3": "s3.dualstack.eu-west-3.amazonaws.com",
-                    "me-central-1": "s3.dualstack.me-central-1.amazonaws.com",
-                    "me-south-1": "s3.dualstack.me-south-1.amazonaws.com",
-                    "s3-external-1": "s3.dualstack.s3-external-1.amazonaws.com",
-                    "sa-east-1": "s3.dualstack.sa-east-1.amazonaws.com",
-                    "us-east-1": "s3.dualstack.us-east-1.amazonaws.com",
-                    "us-east-2": "s3.dualstack.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "s3.dualstack.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "s3.dualstack.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "s3.dualstack.us-west-1.amazonaws.com",
-                    "us-west-2": "s3.dualstack.us-west-2.amazonaws.com"
-                ]),
-                [.dualstack, .fips]: .init(endpoints: [
-                    "aws-global": "s3-fips.dualstack.aws-global.amazonaws.com",
-                    "ca-central-1": "s3-fips.dualstack.ca-central-1.amazonaws.com",
-                    "s3-external-1": "s3-fips.dualstack.s3-external-1.amazonaws.com",
-                    "us-east-1": "s3-fips.dualstack.us-east-1.amazonaws.com",
-                    "us-east-2": "s3-fips.dualstack.us-east-2.amazonaws.com",
-                    "us-west-1": "s3-fips.dualstack.us-west-1.amazonaws.com",
-                    "us-west-2": "s3-fips.dualstack.us-west-2.amazonaws.com"
-                ]),
-                [.fips]: .init(endpoints: [
-                    "ca-central-1": "s3-fips.ca-central-1.amazonaws.com",
-                    "us-east-1": "s3-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "s3-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "s3-fips.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "s3-fips.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "s3-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "s3-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: S3ErrorType.self,
             xmlNamespace: "http://s3.amazonaws.com/doc/2006-03-01/",
-            middlewares: [S3Middleware()],
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+    /// Initialize the S3 client
+    /// - parameters:
+    ///     - client: AWSClient used to process requests
+    ///     - region: Region of server you want to communicate with. This will override the partition parameter.
+    ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
+    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
+    ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
+    public init(
+        client: AWSClient,
+        region: SotoCore.Region? = nil,
+        partition: AWSPartition = .aws,
+        endpoint: String? = nil,
+        middleware: some AWSMiddlewareProtocol,
+        timeout: TimeAmount? = nil,
+        byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
+        options: AWSServiceConfig.Options = []
+    ) {
+        self.client = client
+        self.config = AWSServiceConfig(
+            region: region,
+            partition: region?.partition ?? partition,
+            service: "s3",
+            serviceProtocol: .restxml,
+            apiVersion: "2006-03-01",
+            endpoint: endpoint,
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
+            errorType: S3ErrorType.self,
+            xmlNamespace: "http://s3.amazonaws.com/doc/2006-03-01/",
+            middleware: AWSMiddlewareStack {
+                middleware
+                S3Middleware()
+            },
+            timeout: timeout,
+            byteBufferAllocator: byteBufferAllocator,
+            options: options
+        )
+    }
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "af-south-1": "s3.af-south-1.amazonaws.com",
+        "ap-east-1": "s3.ap-east-1.amazonaws.com",
+        "ap-northeast-1": "s3.ap-northeast-1.amazonaws.com",
+        "ap-northeast-2": "s3.ap-northeast-2.amazonaws.com",
+        "ap-northeast-3": "s3.ap-northeast-3.amazonaws.com",
+        "ap-south-1": "s3.ap-south-1.amazonaws.com",
+        "ap-south-2": "s3.ap-south-2.amazonaws.com",
+        "ap-southeast-1": "s3.ap-southeast-1.amazonaws.com",
+        "ap-southeast-2": "s3.ap-southeast-2.amazonaws.com",
+        "ap-southeast-3": "s3.ap-southeast-3.amazonaws.com",
+        "ap-southeast-4": "s3.ap-southeast-4.amazonaws.com",
+        "aws-global": "s3.amazonaws.com",
+        "ca-central-1": "s3.ca-central-1.amazonaws.com",
+        "eu-central-1": "s3.eu-central-1.amazonaws.com",
+        "eu-central-2": "s3.eu-central-2.amazonaws.com",
+        "eu-north-1": "s3.eu-north-1.amazonaws.com",
+        "eu-south-1": "s3.eu-south-1.amazonaws.com",
+        "eu-south-2": "s3.eu-south-2.amazonaws.com",
+        "eu-west-1": "s3.eu-west-1.amazonaws.com",
+        "eu-west-2": "s3.eu-west-2.amazonaws.com",
+        "eu-west-3": "s3.eu-west-3.amazonaws.com",
+        "me-central-1": "s3.me-central-1.amazonaws.com",
+        "me-south-1": "s3.me-south-1.amazonaws.com",
+        "s3-external-1": "s3-external-1.amazonaws.com",
+        "sa-east-1": "s3.sa-east-1.amazonaws.com",
+        "us-east-1": "s3.us-east-1.amazonaws.com",
+        "us-east-2": "s3.us-east-2.amazonaws.com",
+        "us-gov-east-1": "s3.us-gov-east-1.amazonaws.com",
+        "us-gov-west-1": "s3.us-gov-west-1.amazonaws.com",
+        "us-west-1": "s3.us-west-1.amazonaws.com",
+        "us-west-2": "s3.us-west-2.amazonaws.com"
+    ]}
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "s3.dualstack.af-south-1.amazonaws.com",
+            "ap-east-1": "s3.dualstack.ap-east-1.amazonaws.com",
+            "ap-northeast-1": "s3.dualstack.ap-northeast-1.amazonaws.com",
+            "ap-northeast-2": "s3.dualstack.ap-northeast-2.amazonaws.com",
+            "ap-northeast-3": "s3.dualstack.ap-northeast-3.amazonaws.com",
+            "ap-south-1": "s3.dualstack.ap-south-1.amazonaws.com",
+            "ap-south-2": "s3.dualstack.ap-south-2.amazonaws.com",
+            "ap-southeast-1": "s3.dualstack.ap-southeast-1.amazonaws.com",
+            "ap-southeast-2": "s3.dualstack.ap-southeast-2.amazonaws.com",
+            "ap-southeast-3": "s3.dualstack.ap-southeast-3.amazonaws.com",
+            "ap-southeast-4": "s3.dualstack.ap-southeast-4.amazonaws.com",
+            "aws-global": "s3.dualstack.aws-global.amazonaws.com",
+            "ca-central-1": "s3.dualstack.ca-central-1.amazonaws.com",
+            "cn-north-1": "s3.dualstack.cn-north-1.amazonaws.com.cn",
+            "cn-northwest-1": "s3.dualstack.cn-northwest-1.amazonaws.com.cn",
+            "eu-central-1": "s3.dualstack.eu-central-1.amazonaws.com",
+            "eu-central-2": "s3.dualstack.eu-central-2.amazonaws.com",
+            "eu-north-1": "s3.dualstack.eu-north-1.amazonaws.com",
+            "eu-south-1": "s3.dualstack.eu-south-1.amazonaws.com",
+            "eu-south-2": "s3.dualstack.eu-south-2.amazonaws.com",
+            "eu-west-1": "s3.dualstack.eu-west-1.amazonaws.com",
+            "eu-west-2": "s3.dualstack.eu-west-2.amazonaws.com",
+            "eu-west-3": "s3.dualstack.eu-west-3.amazonaws.com",
+            "me-central-1": "s3.dualstack.me-central-1.amazonaws.com",
+            "me-south-1": "s3.dualstack.me-south-1.amazonaws.com",
+            "s3-external-1": "s3.dualstack.s3-external-1.amazonaws.com",
+            "sa-east-1": "s3.dualstack.sa-east-1.amazonaws.com",
+            "us-east-1": "s3.dualstack.us-east-1.amazonaws.com",
+            "us-east-2": "s3.dualstack.us-east-2.amazonaws.com",
+            "us-gov-east-1": "s3.dualstack.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "s3.dualstack.us-gov-west-1.amazonaws.com",
+            "us-west-1": "s3.dualstack.us-west-1.amazonaws.com",
+            "us-west-2": "s3.dualstack.us-west-2.amazonaws.com"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "aws-global": "s3-fips.dualstack.aws-global.amazonaws.com",
+            "ca-central-1": "s3-fips.dualstack.ca-central-1.amazonaws.com",
+            "s3-external-1": "s3-fips.dualstack.s3-external-1.amazonaws.com",
+            "us-east-1": "s3-fips.dualstack.us-east-1.amazonaws.com",
+            "us-east-2": "s3-fips.dualstack.us-east-2.amazonaws.com",
+            "us-west-1": "s3-fips.dualstack.us-west-1.amazonaws.com",
+            "us-west-2": "s3-fips.dualstack.us-west-2.amazonaws.com"
+        ]),
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "s3-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "s3-fips.us-east-1.amazonaws.com",
+            "us-east-2": "s3-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "s3-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "s3-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "s3-fips.us-west-1.amazonaws.com",
+            "us-west-2": "s3-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

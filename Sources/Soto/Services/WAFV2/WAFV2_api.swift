@@ -36,12 +36,16 @@ public struct WAFV2: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -55,82 +59,91 @@ public struct WAFV2: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-07-29",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "af-south-1": "wafv2.af-south-1.amazonaws.com",
-                "ap-east-1": "wafv2.ap-east-1.amazonaws.com",
-                "ap-northeast-1": "wafv2.ap-northeast-1.amazonaws.com",
-                "ap-northeast-2": "wafv2.ap-northeast-2.amazonaws.com",
-                "ap-northeast-3": "wafv2.ap-northeast-3.amazonaws.com",
-                "ap-south-1": "wafv2.ap-south-1.amazonaws.com",
-                "ap-south-2": "wafv2.ap-south-2.amazonaws.com",
-                "ap-southeast-1": "wafv2.ap-southeast-1.amazonaws.com",
-                "ap-southeast-2": "wafv2.ap-southeast-2.amazonaws.com",
-                "ap-southeast-3": "wafv2.ap-southeast-3.amazonaws.com",
-                "ap-southeast-4": "wafv2.ap-southeast-4.amazonaws.com",
-                "ca-central-1": "wafv2.ca-central-1.amazonaws.com",
-                "cn-north-1": "wafv2.cn-north-1.amazonaws.com.cn",
-                "cn-northwest-1": "wafv2.cn-northwest-1.amazonaws.com.cn",
-                "eu-central-1": "wafv2.eu-central-1.amazonaws.com",
-                "eu-central-2": "wafv2.eu-central-2.amazonaws.com",
-                "eu-north-1": "wafv2.eu-north-1.amazonaws.com",
-                "eu-south-1": "wafv2.eu-south-1.amazonaws.com",
-                "eu-south-2": "wafv2.eu-south-2.amazonaws.com",
-                "eu-west-1": "wafv2.eu-west-1.amazonaws.com",
-                "eu-west-2": "wafv2.eu-west-2.amazonaws.com",
-                "eu-west-3": "wafv2.eu-west-3.amazonaws.com",
-                "fips-il-central-1": "wafv2-fips.il-central-1.amazonaws.com",
-                "me-central-1": "wafv2.me-central-1.amazonaws.com",
-                "me-south-1": "wafv2.me-south-1.amazonaws.com",
-                "sa-east-1": "wafv2.sa-east-1.amazonaws.com",
-                "us-east-1": "wafv2.us-east-1.amazonaws.com",
-                "us-east-2": "wafv2.us-east-2.amazonaws.com",
-                "us-gov-east-1": "wafv2.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1": "wafv2.us-gov-west-1.amazonaws.com",
-                "us-west-1": "wafv2.us-west-1.amazonaws.com",
-                "us-west-2": "wafv2.us-west-2.amazonaws.com"
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "af-south-1": "wafv2-fips.af-south-1.amazonaws.com",
-                    "ap-east-1": "wafv2-fips.ap-east-1.amazonaws.com",
-                    "ap-northeast-1": "wafv2-fips.ap-northeast-1.amazonaws.com",
-                    "ap-northeast-2": "wafv2-fips.ap-northeast-2.amazonaws.com",
-                    "ap-northeast-3": "wafv2-fips.ap-northeast-3.amazonaws.com",
-                    "ap-south-1": "wafv2-fips.ap-south-1.amazonaws.com",
-                    "ap-south-2": "wafv2-fips.ap-south-2.amazonaws.com",
-                    "ap-southeast-1": "wafv2-fips.ap-southeast-1.amazonaws.com",
-                    "ap-southeast-2": "wafv2-fips.ap-southeast-2.amazonaws.com",
-                    "ap-southeast-3": "wafv2-fips.ap-southeast-3.amazonaws.com",
-                    "ap-southeast-4": "wafv2-fips.ap-southeast-4.amazonaws.com",
-                    "ca-central-1": "wafv2-fips.ca-central-1.amazonaws.com",
-                    "cn-north-1": "wafv2-fips.cn-north-1.amazonaws.com.cn",
-                    "cn-northwest-1": "wafv2-fips.cn-northwest-1.amazonaws.com.cn",
-                    "eu-central-1": "wafv2-fips.eu-central-1.amazonaws.com",
-                    "eu-central-2": "wafv2-fips.eu-central-2.amazonaws.com",
-                    "eu-north-1": "wafv2-fips.eu-north-1.amazonaws.com",
-                    "eu-south-1": "wafv2-fips.eu-south-1.amazonaws.com",
-                    "eu-south-2": "wafv2-fips.eu-south-2.amazonaws.com",
-                    "eu-west-1": "wafv2-fips.eu-west-1.amazonaws.com",
-                    "eu-west-2": "wafv2-fips.eu-west-2.amazonaws.com",
-                    "eu-west-3": "wafv2-fips.eu-west-3.amazonaws.com",
-                    "me-central-1": "wafv2-fips.me-central-1.amazonaws.com",
-                    "me-south-1": "wafv2-fips.me-south-1.amazonaws.com",
-                    "sa-east-1": "wafv2-fips.sa-east-1.amazonaws.com",
-                    "us-east-1": "wafv2-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "wafv2-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "wafv2-fips.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "wafv2-fips.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "wafv2-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "wafv2-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: WAFV2ErrorType.self,
             xmlNamespace: "http://waf.amazonaws.com/doc/2019-07-29/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "af-south-1": "wafv2.af-south-1.amazonaws.com",
+        "ap-east-1": "wafv2.ap-east-1.amazonaws.com",
+        "ap-northeast-1": "wafv2.ap-northeast-1.amazonaws.com",
+        "ap-northeast-2": "wafv2.ap-northeast-2.amazonaws.com",
+        "ap-northeast-3": "wafv2.ap-northeast-3.amazonaws.com",
+        "ap-south-1": "wafv2.ap-south-1.amazonaws.com",
+        "ap-south-2": "wafv2.ap-south-2.amazonaws.com",
+        "ap-southeast-1": "wafv2.ap-southeast-1.amazonaws.com",
+        "ap-southeast-2": "wafv2.ap-southeast-2.amazonaws.com",
+        "ap-southeast-3": "wafv2.ap-southeast-3.amazonaws.com",
+        "ap-southeast-4": "wafv2.ap-southeast-4.amazonaws.com",
+        "ca-central-1": "wafv2.ca-central-1.amazonaws.com",
+        "cn-north-1": "wafv2.cn-north-1.amazonaws.com.cn",
+        "cn-northwest-1": "wafv2.cn-northwest-1.amazonaws.com.cn",
+        "eu-central-1": "wafv2.eu-central-1.amazonaws.com",
+        "eu-central-2": "wafv2.eu-central-2.amazonaws.com",
+        "eu-north-1": "wafv2.eu-north-1.amazonaws.com",
+        "eu-south-1": "wafv2.eu-south-1.amazonaws.com",
+        "eu-south-2": "wafv2.eu-south-2.amazonaws.com",
+        "eu-west-1": "wafv2.eu-west-1.amazonaws.com",
+        "eu-west-2": "wafv2.eu-west-2.amazonaws.com",
+        "eu-west-3": "wafv2.eu-west-3.amazonaws.com",
+        "fips-il-central-1": "wafv2-fips.il-central-1.amazonaws.com",
+        "me-central-1": "wafv2.me-central-1.amazonaws.com",
+        "me-south-1": "wafv2.me-south-1.amazonaws.com",
+        "sa-east-1": "wafv2.sa-east-1.amazonaws.com",
+        "us-east-1": "wafv2.us-east-1.amazonaws.com",
+        "us-east-2": "wafv2.us-east-2.amazonaws.com",
+        "us-gov-east-1": "wafv2.us-gov-east-1.amazonaws.com",
+        "us-gov-west-1": "wafv2.us-gov-west-1.amazonaws.com",
+        "us-west-1": "wafv2.us-west-1.amazonaws.com",
+        "us-west-2": "wafv2.us-west-2.amazonaws.com"
+    ]}
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "af-south-1": "wafv2-fips.af-south-1.amazonaws.com",
+            "ap-east-1": "wafv2-fips.ap-east-1.amazonaws.com",
+            "ap-northeast-1": "wafv2-fips.ap-northeast-1.amazonaws.com",
+            "ap-northeast-2": "wafv2-fips.ap-northeast-2.amazonaws.com",
+            "ap-northeast-3": "wafv2-fips.ap-northeast-3.amazonaws.com",
+            "ap-south-1": "wafv2-fips.ap-south-1.amazonaws.com",
+            "ap-south-2": "wafv2-fips.ap-south-2.amazonaws.com",
+            "ap-southeast-1": "wafv2-fips.ap-southeast-1.amazonaws.com",
+            "ap-southeast-2": "wafv2-fips.ap-southeast-2.amazonaws.com",
+            "ap-southeast-3": "wafv2-fips.ap-southeast-3.amazonaws.com",
+            "ap-southeast-4": "wafv2-fips.ap-southeast-4.amazonaws.com",
+            "ca-central-1": "wafv2-fips.ca-central-1.amazonaws.com",
+            "cn-north-1": "wafv2-fips.cn-north-1.amazonaws.com.cn",
+            "cn-northwest-1": "wafv2-fips.cn-northwest-1.amazonaws.com.cn",
+            "eu-central-1": "wafv2-fips.eu-central-1.amazonaws.com",
+            "eu-central-2": "wafv2-fips.eu-central-2.amazonaws.com",
+            "eu-north-1": "wafv2-fips.eu-north-1.amazonaws.com",
+            "eu-south-1": "wafv2-fips.eu-south-1.amazonaws.com",
+            "eu-south-2": "wafv2-fips.eu-south-2.amazonaws.com",
+            "eu-west-1": "wafv2-fips.eu-west-1.amazonaws.com",
+            "eu-west-2": "wafv2-fips.eu-west-2.amazonaws.com",
+            "eu-west-3": "wafv2-fips.eu-west-3.amazonaws.com",
+            "me-central-1": "wafv2-fips.me-central-1.amazonaws.com",
+            "me-south-1": "wafv2-fips.me-south-1.amazonaws.com",
+            "sa-east-1": "wafv2-fips.sa-east-1.amazonaws.com",
+            "us-east-1": "wafv2-fips.us-east-1.amazonaws.com",
+            "us-east-2": "wafv2-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "wafv2-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "wafv2-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "wafv2-fips.us-west-1.amazonaws.com",
+            "us-west-2": "wafv2-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

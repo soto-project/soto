@@ -36,12 +36,16 @@ public struct Athena: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -55,58 +59,65 @@ public struct Athena: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-05-18",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.dualstack]: .init(endpoints: [
-                    "af-south-1": "athena.af-south-1.api.aws",
-                    "ap-east-1": "athena.ap-east-1.api.aws",
-                    "ap-northeast-1": "athena.ap-northeast-1.api.aws",
-                    "ap-northeast-2": "athena.ap-northeast-2.api.aws",
-                    "ap-northeast-3": "athena.ap-northeast-3.api.aws",
-                    "ap-south-1": "athena.ap-south-1.api.aws",
-                    "ap-southeast-1": "athena.ap-southeast-1.api.aws",
-                    "ap-southeast-2": "athena.ap-southeast-2.api.aws",
-                    "ap-southeast-3": "athena.ap-southeast-3.api.aws",
-                    "ca-central-1": "athena.ca-central-1.api.aws",
-                    "cn-north-1": "athena.cn-north-1.api.amazonwebservices.com.cn",
-                    "cn-northwest-1": "athena.cn-northwest-1.api.amazonwebservices.com.cn",
-                    "eu-central-1": "athena.eu-central-1.api.aws",
-                    "eu-north-1": "athena.eu-north-1.api.aws",
-                    "eu-south-1": "athena.eu-south-1.api.aws",
-                    "eu-west-1": "athena.eu-west-1.api.aws",
-                    "eu-west-2": "athena.eu-west-2.api.aws",
-                    "eu-west-3": "athena.eu-west-3.api.aws",
-                    "me-south-1": "athena.me-south-1.api.aws",
-                    "sa-east-1": "athena.sa-east-1.api.aws",
-                    "us-east-1": "athena.us-east-1.api.aws",
-                    "us-east-2": "athena.us-east-2.api.aws",
-                    "us-gov-east-1": "athena.us-gov-east-1.api.aws",
-                    "us-gov-west-1": "athena.us-gov-west-1.api.aws",
-                    "us-west-1": "athena.us-west-1.api.aws",
-                    "us-west-2": "athena.us-west-2.api.aws"
-                ]),
-                [.dualstack, .fips]: .init(endpoints: [
-                    "us-east-1": "athena-fips.us-east-1.api.aws",
-                    "us-east-2": "athena-fips.us-east-2.api.aws",
-                    "us-gov-east-1": "athena-fips.us-gov-east-1.api.aws",
-                    "us-gov-west-1": "athena-fips.us-gov-west-1.api.aws",
-                    "us-west-1": "athena-fips.us-west-1.api.aws",
-                    "us-west-2": "athena-fips.us-west-2.api.aws"
-                ]),
-                [.fips]: .init(endpoints: [
-                    "us-east-1": "athena-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "athena-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "athena-fips.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "athena-fips.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "athena-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "athena-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: AthenaErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "athena.af-south-1.api.aws",
+            "ap-east-1": "athena.ap-east-1.api.aws",
+            "ap-northeast-1": "athena.ap-northeast-1.api.aws",
+            "ap-northeast-2": "athena.ap-northeast-2.api.aws",
+            "ap-northeast-3": "athena.ap-northeast-3.api.aws",
+            "ap-south-1": "athena.ap-south-1.api.aws",
+            "ap-southeast-1": "athena.ap-southeast-1.api.aws",
+            "ap-southeast-2": "athena.ap-southeast-2.api.aws",
+            "ap-southeast-3": "athena.ap-southeast-3.api.aws",
+            "ca-central-1": "athena.ca-central-1.api.aws",
+            "cn-north-1": "athena.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "athena.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "athena.eu-central-1.api.aws",
+            "eu-north-1": "athena.eu-north-1.api.aws",
+            "eu-south-1": "athena.eu-south-1.api.aws",
+            "eu-west-1": "athena.eu-west-1.api.aws",
+            "eu-west-2": "athena.eu-west-2.api.aws",
+            "eu-west-3": "athena.eu-west-3.api.aws",
+            "me-south-1": "athena.me-south-1.api.aws",
+            "sa-east-1": "athena.sa-east-1.api.aws",
+            "us-east-1": "athena.us-east-1.api.aws",
+            "us-east-2": "athena.us-east-2.api.aws",
+            "us-gov-east-1": "athena.us-gov-east-1.api.aws",
+            "us-gov-west-1": "athena.us-gov-west-1.api.aws",
+            "us-west-1": "athena.us-west-1.api.aws",
+            "us-west-2": "athena.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "athena-fips.us-east-1.api.aws",
+            "us-east-2": "athena-fips.us-east-2.api.aws",
+            "us-gov-east-1": "athena-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "athena-fips.us-gov-west-1.api.aws",
+            "us-west-1": "athena-fips.us-west-1.api.aws",
+            "us-west-2": "athena-fips.us-west-2.api.aws"
+        ]),
+        [.fips]: .init(endpoints: [
+            "us-east-1": "athena-fips.us-east-1.amazonaws.com",
+            "us-east-2": "athena-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "athena-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "athena-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "athena-fips.us-west-1.amazonaws.com",
+            "us-west-2": "athena-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

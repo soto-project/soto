@@ -37,12 +37,16 @@ public struct SSOOIDC: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -56,38 +60,45 @@ public struct SSOOIDC: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-06-10",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "af-south-1": "oidc.af-south-1.amazonaws.com",
-                "ap-east-1": "oidc.ap-east-1.amazonaws.com",
-                "ap-northeast-1": "oidc.ap-northeast-1.amazonaws.com",
-                "ap-northeast-2": "oidc.ap-northeast-2.amazonaws.com",
-                "ap-northeast-3": "oidc.ap-northeast-3.amazonaws.com",
-                "ap-south-1": "oidc.ap-south-1.amazonaws.com",
-                "ap-southeast-1": "oidc.ap-southeast-1.amazonaws.com",
-                "ap-southeast-2": "oidc.ap-southeast-2.amazonaws.com",
-                "ap-southeast-3": "oidc.ap-southeast-3.amazonaws.com",
-                "ca-central-1": "oidc.ca-central-1.amazonaws.com",
-                "eu-central-1": "oidc.eu-central-1.amazonaws.com",
-                "eu-north-1": "oidc.eu-north-1.amazonaws.com",
-                "eu-south-1": "oidc.eu-south-1.amazonaws.com",
-                "eu-west-1": "oidc.eu-west-1.amazonaws.com",
-                "eu-west-2": "oidc.eu-west-2.amazonaws.com",
-                "eu-west-3": "oidc.eu-west-3.amazonaws.com",
-                "me-south-1": "oidc.me-south-1.amazonaws.com",
-                "sa-east-1": "oidc.sa-east-1.amazonaws.com",
-                "us-east-1": "oidc.us-east-1.amazonaws.com",
-                "us-east-2": "oidc.us-east-2.amazonaws.com",
-                "us-gov-east-1": "oidc.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1": "oidc.us-gov-west-1.amazonaws.com",
-                "us-west-1": "oidc.us-west-1.amazonaws.com",
-                "us-west-2": "oidc.us-west-2.amazonaws.com"
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
             errorType: SSOOIDCErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "af-south-1": "oidc.af-south-1.amazonaws.com",
+        "ap-east-1": "oidc.ap-east-1.amazonaws.com",
+        "ap-northeast-1": "oidc.ap-northeast-1.amazonaws.com",
+        "ap-northeast-2": "oidc.ap-northeast-2.amazonaws.com",
+        "ap-northeast-3": "oidc.ap-northeast-3.amazonaws.com",
+        "ap-south-1": "oidc.ap-south-1.amazonaws.com",
+        "ap-southeast-1": "oidc.ap-southeast-1.amazonaws.com",
+        "ap-southeast-2": "oidc.ap-southeast-2.amazonaws.com",
+        "ap-southeast-3": "oidc.ap-southeast-3.amazonaws.com",
+        "ca-central-1": "oidc.ca-central-1.amazonaws.com",
+        "eu-central-1": "oidc.eu-central-1.amazonaws.com",
+        "eu-north-1": "oidc.eu-north-1.amazonaws.com",
+        "eu-south-1": "oidc.eu-south-1.amazonaws.com",
+        "eu-west-1": "oidc.eu-west-1.amazonaws.com",
+        "eu-west-2": "oidc.eu-west-2.amazonaws.com",
+        "eu-west-3": "oidc.eu-west-3.amazonaws.com",
+        "me-south-1": "oidc.me-south-1.amazonaws.com",
+        "sa-east-1": "oidc.sa-east-1.amazonaws.com",
+        "us-east-1": "oidc.us-east-1.amazonaws.com",
+        "us-east-2": "oidc.us-east-2.amazonaws.com",
+        "us-gov-east-1": "oidc.us-gov-east-1.amazonaws.com",
+        "us-gov-west-1": "oidc.us-gov-west-1.amazonaws.com",
+        "us-west-1": "oidc.us-west-1.amazonaws.com",
+        "us-west-2": "oidc.us-west-2.amazonaws.com"
+    ]}
+
+
 
     // MARK: API Calls
 

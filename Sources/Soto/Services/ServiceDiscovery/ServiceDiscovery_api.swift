@@ -36,12 +36,16 @@ public struct ServiceDiscovery: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -55,56 +59,63 @@ public struct ServiceDiscovery: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-03-14",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.dualstack]: .init(endpoints: [
-                    "af-south-1": "servicediscovery.af-south-1.amazonaws.com",
-                    "ap-east-1": "servicediscovery.ap-east-1.amazonaws.com",
-                    "ap-northeast-1": "servicediscovery.ap-northeast-1.amazonaws.com",
-                    "ap-northeast-2": "servicediscovery.ap-northeast-2.amazonaws.com",
-                    "ap-northeast-3": "servicediscovery.ap-northeast-3.amazonaws.com",
-                    "ap-south-1": "servicediscovery.ap-south-1.amazonaws.com",
-                    "ap-south-2": "servicediscovery.ap-south-2.amazonaws.com",
-                    "ap-southeast-1": "servicediscovery.ap-southeast-1.amazonaws.com",
-                    "ap-southeast-2": "servicediscovery.ap-southeast-2.amazonaws.com",
-                    "ap-southeast-3": "servicediscovery.ap-southeast-3.amazonaws.com",
-                    "ap-southeast-4": "servicediscovery.ap-southeast-4.amazonaws.com",
-                    "ca-central-1": "servicediscovery.ca-central-1.amazonaws.com",
-                    "cn-north-1": "servicediscovery.cn-north-1.amazonaws.com.cn",
-                    "cn-northwest-1": "servicediscovery.cn-northwest-1.amazonaws.com.cn",
-                    "eu-central-1": "servicediscovery.eu-central-1.amazonaws.com",
-                    "eu-central-2": "servicediscovery.eu-central-2.amazonaws.com",
-                    "eu-north-1": "servicediscovery.eu-north-1.amazonaws.com",
-                    "eu-south-1": "servicediscovery.eu-south-1.amazonaws.com",
-                    "eu-south-2": "servicediscovery.eu-south-2.amazonaws.com",
-                    "eu-west-1": "servicediscovery.eu-west-1.amazonaws.com",
-                    "eu-west-2": "servicediscovery.eu-west-2.amazonaws.com",
-                    "eu-west-3": "servicediscovery.eu-west-3.amazonaws.com",
-                    "me-central-1": "servicediscovery.me-central-1.amazonaws.com",
-                    "me-south-1": "servicediscovery.me-south-1.amazonaws.com",
-                    "sa-east-1": "servicediscovery.sa-east-1.amazonaws.com",
-                    "us-east-1": "servicediscovery.us-east-1.amazonaws.com",
-                    "us-east-2": "servicediscovery.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "servicediscovery.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "servicediscovery.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "servicediscovery.us-west-1.amazonaws.com",
-                    "us-west-2": "servicediscovery.us-west-2.amazonaws.com"
-                ]),
-                [.fips]: .init(endpoints: [
-                    "ca-central-1": "servicediscovery-fips.ca-central-1.amazonaws.com",
-                    "us-east-1": "servicediscovery-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "servicediscovery-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "servicediscovery-fips.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "servicediscovery-fips.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "servicediscovery-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "servicediscovery-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: ServiceDiscoveryErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "servicediscovery.af-south-1.amazonaws.com",
+            "ap-east-1": "servicediscovery.ap-east-1.amazonaws.com",
+            "ap-northeast-1": "servicediscovery.ap-northeast-1.amazonaws.com",
+            "ap-northeast-2": "servicediscovery.ap-northeast-2.amazonaws.com",
+            "ap-northeast-3": "servicediscovery.ap-northeast-3.amazonaws.com",
+            "ap-south-1": "servicediscovery.ap-south-1.amazonaws.com",
+            "ap-south-2": "servicediscovery.ap-south-2.amazonaws.com",
+            "ap-southeast-1": "servicediscovery.ap-southeast-1.amazonaws.com",
+            "ap-southeast-2": "servicediscovery.ap-southeast-2.amazonaws.com",
+            "ap-southeast-3": "servicediscovery.ap-southeast-3.amazonaws.com",
+            "ap-southeast-4": "servicediscovery.ap-southeast-4.amazonaws.com",
+            "ca-central-1": "servicediscovery.ca-central-1.amazonaws.com",
+            "cn-north-1": "servicediscovery.cn-north-1.amazonaws.com.cn",
+            "cn-northwest-1": "servicediscovery.cn-northwest-1.amazonaws.com.cn",
+            "eu-central-1": "servicediscovery.eu-central-1.amazonaws.com",
+            "eu-central-2": "servicediscovery.eu-central-2.amazonaws.com",
+            "eu-north-1": "servicediscovery.eu-north-1.amazonaws.com",
+            "eu-south-1": "servicediscovery.eu-south-1.amazonaws.com",
+            "eu-south-2": "servicediscovery.eu-south-2.amazonaws.com",
+            "eu-west-1": "servicediscovery.eu-west-1.amazonaws.com",
+            "eu-west-2": "servicediscovery.eu-west-2.amazonaws.com",
+            "eu-west-3": "servicediscovery.eu-west-3.amazonaws.com",
+            "me-central-1": "servicediscovery.me-central-1.amazonaws.com",
+            "me-south-1": "servicediscovery.me-south-1.amazonaws.com",
+            "sa-east-1": "servicediscovery.sa-east-1.amazonaws.com",
+            "us-east-1": "servicediscovery.us-east-1.amazonaws.com",
+            "us-east-2": "servicediscovery.us-east-2.amazonaws.com",
+            "us-gov-east-1": "servicediscovery.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "servicediscovery.us-gov-west-1.amazonaws.com",
+            "us-west-1": "servicediscovery.us-west-1.amazonaws.com",
+            "us-west-2": "servicediscovery.us-west-2.amazonaws.com"
+        ]),
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "servicediscovery-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "servicediscovery-fips.us-east-1.amazonaws.com",
+            "us-east-2": "servicediscovery-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "servicediscovery-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "servicediscovery-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "servicediscovery-fips.us-west-1.amazonaws.com",
+            "us-west-2": "servicediscovery-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

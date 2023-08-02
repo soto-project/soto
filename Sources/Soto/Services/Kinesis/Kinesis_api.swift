@@ -36,12 +36,16 @@ public struct Kinesis: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -55,27 +59,36 @@ public struct Kinesis: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2013-12-02",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "us-gov-east-1": "kinesis.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1": "kinesis.us-gov-west-1.amazonaws.com"
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "us-east-1": "kinesis-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "kinesis-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "kinesis.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "kinesis.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "kinesis-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "kinesis-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: KinesisErrorType.self,
             xmlNamespace: "http://kinesis.amazonaws.com/doc/2013-12-02",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "us-gov-east-1": "kinesis.us-gov-east-1.amazonaws.com",
+        "us-gov-west-1": "kinesis.us-gov-west-1.amazonaws.com"
+    ]}
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-east-1": "kinesis-fips.us-east-1.amazonaws.com",
+            "us-east-2": "kinesis-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "kinesis.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "kinesis.us-gov-west-1.amazonaws.com",
+            "us-west-1": "kinesis-fips.us-west-1.amazonaws.com",
+            "us-west-2": "kinesis-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

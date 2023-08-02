@@ -36,12 +36,16 @@ public struct AppMesh: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -54,54 +58,61 @@ public struct AppMesh: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-01-25",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.dualstack]: .init(endpoints: [
-                    "af-south-1": "appmesh.af-south-1.api.aws",
-                    "ap-east-1": "appmesh.ap-east-1.api.aws",
-                    "ap-northeast-1": "appmesh.ap-northeast-1.api.aws",
-                    "ap-northeast-2": "appmesh.ap-northeast-2.api.aws",
-                    "ap-northeast-3": "appmesh.ap-northeast-3.api.aws",
-                    "ap-south-1": "appmesh.ap-south-1.api.aws",
-                    "ap-southeast-1": "appmesh.ap-southeast-1.api.aws",
-                    "ap-southeast-2": "appmesh.ap-southeast-2.api.aws",
-                    "ap-southeast-3": "appmesh.ap-southeast-3.api.aws",
-                    "ca-central-1": "appmesh.ca-central-1.api.aws",
-                    "cn-north-1": "appmesh.cn-north-1.api.amazonwebservices.com.cn",
-                    "cn-northwest-1": "appmesh.cn-northwest-1.api.amazonwebservices.com.cn",
-                    "eu-central-1": "appmesh.eu-central-1.api.aws",
-                    "eu-north-1": "appmesh.eu-north-1.api.aws",
-                    "eu-south-1": "appmesh.eu-south-1.api.aws",
-                    "eu-west-1": "appmesh.eu-west-1.api.aws",
-                    "eu-west-2": "appmesh.eu-west-2.api.aws",
-                    "eu-west-3": "appmesh.eu-west-3.api.aws",
-                    "me-south-1": "appmesh.me-south-1.api.aws",
-                    "sa-east-1": "appmesh.sa-east-1.api.aws",
-                    "us-east-1": "appmesh.us-east-1.api.aws",
-                    "us-east-2": "appmesh.us-east-2.api.aws",
-                    "us-west-1": "appmesh.us-west-1.api.aws",
-                    "us-west-2": "appmesh.us-west-2.api.aws"
-                ]),
-                [.dualstack, .fips]: .init(endpoints: [
-                    "ca-central-1": "appmesh-fips.ca-central-1.api.aws",
-                    "us-east-1": "appmesh-fips.us-east-1.api.aws",
-                    "us-east-2": "appmesh-fips.us-east-2.api.aws",
-                    "us-west-1": "appmesh-fips.us-west-1.api.aws",
-                    "us-west-2": "appmesh-fips.us-west-2.api.aws"
-                ]),
-                [.fips]: .init(endpoints: [
-                    "ca-central-1": "appmesh-fips.ca-central-1.amazonaws.com",
-                    "us-east-1": "appmesh-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "appmesh-fips.us-east-2.amazonaws.com",
-                    "us-west-1": "appmesh-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "appmesh-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: AppMeshErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "appmesh.af-south-1.api.aws",
+            "ap-east-1": "appmesh.ap-east-1.api.aws",
+            "ap-northeast-1": "appmesh.ap-northeast-1.api.aws",
+            "ap-northeast-2": "appmesh.ap-northeast-2.api.aws",
+            "ap-northeast-3": "appmesh.ap-northeast-3.api.aws",
+            "ap-south-1": "appmesh.ap-south-1.api.aws",
+            "ap-southeast-1": "appmesh.ap-southeast-1.api.aws",
+            "ap-southeast-2": "appmesh.ap-southeast-2.api.aws",
+            "ap-southeast-3": "appmesh.ap-southeast-3.api.aws",
+            "ca-central-1": "appmesh.ca-central-1.api.aws",
+            "cn-north-1": "appmesh.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "appmesh.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "appmesh.eu-central-1.api.aws",
+            "eu-north-1": "appmesh.eu-north-1.api.aws",
+            "eu-south-1": "appmesh.eu-south-1.api.aws",
+            "eu-west-1": "appmesh.eu-west-1.api.aws",
+            "eu-west-2": "appmesh.eu-west-2.api.aws",
+            "eu-west-3": "appmesh.eu-west-3.api.aws",
+            "me-south-1": "appmesh.me-south-1.api.aws",
+            "sa-east-1": "appmesh.sa-east-1.api.aws",
+            "us-east-1": "appmesh.us-east-1.api.aws",
+            "us-east-2": "appmesh.us-east-2.api.aws",
+            "us-west-1": "appmesh.us-west-1.api.aws",
+            "us-west-2": "appmesh.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "appmesh-fips.ca-central-1.api.aws",
+            "us-east-1": "appmesh-fips.us-east-1.api.aws",
+            "us-east-2": "appmesh-fips.us-east-2.api.aws",
+            "us-west-1": "appmesh-fips.us-west-1.api.aws",
+            "us-west-2": "appmesh-fips.us-west-2.api.aws"
+        ]),
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "appmesh-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "appmesh-fips.us-east-1.amazonaws.com",
+            "us-east-2": "appmesh-fips.us-east-2.amazonaws.com",
+            "us-west-1": "appmesh-fips.us-west-1.amazonaws.com",
+            "us-west-2": "appmesh-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

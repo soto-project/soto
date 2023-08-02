@@ -36,12 +36,16 @@ public struct Lambda: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -54,55 +58,62 @@ public struct Lambda: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2015-03-31",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.dualstack]: .init(endpoints: [
-                    "af-south-1": "lambda.af-south-1.api.aws",
-                    "ap-east-1": "lambda.ap-east-1.api.aws",
-                    "ap-northeast-1": "lambda.ap-northeast-1.api.aws",
-                    "ap-northeast-2": "lambda.ap-northeast-2.api.aws",
-                    "ap-northeast-3": "lambda.ap-northeast-3.api.aws",
-                    "ap-south-1": "lambda.ap-south-1.api.aws",
-                    "ap-south-2": "lambda.ap-south-2.api.aws",
-                    "ap-southeast-1": "lambda.ap-southeast-1.api.aws",
-                    "ap-southeast-2": "lambda.ap-southeast-2.api.aws",
-                    "ap-southeast-3": "lambda.ap-southeast-3.api.aws",
-                    "ap-southeast-4": "lambda.ap-southeast-4.api.aws",
-                    "ca-central-1": "lambda.ca-central-1.api.aws",
-                    "cn-north-1": "lambda.cn-north-1.api.amazonwebservices.com.cn",
-                    "cn-northwest-1": "lambda.cn-northwest-1.api.amazonwebservices.com.cn",
-                    "eu-central-1": "lambda.eu-central-1.api.aws",
-                    "eu-central-2": "lambda.eu-central-2.api.aws",
-                    "eu-north-1": "lambda.eu-north-1.api.aws",
-                    "eu-south-1": "lambda.eu-south-1.api.aws",
-                    "eu-south-2": "lambda.eu-south-2.api.aws",
-                    "eu-west-1": "lambda.eu-west-1.api.aws",
-                    "eu-west-2": "lambda.eu-west-2.api.aws",
-                    "eu-west-3": "lambda.eu-west-3.api.aws",
-                    "me-central-1": "lambda.me-central-1.api.aws",
-                    "me-south-1": "lambda.me-south-1.api.aws",
-                    "sa-east-1": "lambda.sa-east-1.api.aws",
-                    "us-east-1": "lambda.us-east-1.api.aws",
-                    "us-east-2": "lambda.us-east-2.api.aws",
-                    "us-gov-east-1": "lambda.us-gov-east-1.api.aws",
-                    "us-gov-west-1": "lambda.us-gov-west-1.api.aws",
-                    "us-west-1": "lambda.us-west-1.api.aws",
-                    "us-west-2": "lambda.us-west-2.api.aws"
-                ]),
-                [.fips]: .init(endpoints: [
-                    "us-east-1": "lambda-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "lambda-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "lambda-fips.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "lambda-fips.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "lambda-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "lambda-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: LambdaErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "lambda.af-south-1.api.aws",
+            "ap-east-1": "lambda.ap-east-1.api.aws",
+            "ap-northeast-1": "lambda.ap-northeast-1.api.aws",
+            "ap-northeast-2": "lambda.ap-northeast-2.api.aws",
+            "ap-northeast-3": "lambda.ap-northeast-3.api.aws",
+            "ap-south-1": "lambda.ap-south-1.api.aws",
+            "ap-south-2": "lambda.ap-south-2.api.aws",
+            "ap-southeast-1": "lambda.ap-southeast-1.api.aws",
+            "ap-southeast-2": "lambda.ap-southeast-2.api.aws",
+            "ap-southeast-3": "lambda.ap-southeast-3.api.aws",
+            "ap-southeast-4": "lambda.ap-southeast-4.api.aws",
+            "ca-central-1": "lambda.ca-central-1.api.aws",
+            "cn-north-1": "lambda.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "lambda.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "lambda.eu-central-1.api.aws",
+            "eu-central-2": "lambda.eu-central-2.api.aws",
+            "eu-north-1": "lambda.eu-north-1.api.aws",
+            "eu-south-1": "lambda.eu-south-1.api.aws",
+            "eu-south-2": "lambda.eu-south-2.api.aws",
+            "eu-west-1": "lambda.eu-west-1.api.aws",
+            "eu-west-2": "lambda.eu-west-2.api.aws",
+            "eu-west-3": "lambda.eu-west-3.api.aws",
+            "me-central-1": "lambda.me-central-1.api.aws",
+            "me-south-1": "lambda.me-south-1.api.aws",
+            "sa-east-1": "lambda.sa-east-1.api.aws",
+            "us-east-1": "lambda.us-east-1.api.aws",
+            "us-east-2": "lambda.us-east-2.api.aws",
+            "us-gov-east-1": "lambda.us-gov-east-1.api.aws",
+            "us-gov-west-1": "lambda.us-gov-west-1.api.aws",
+            "us-west-1": "lambda.us-west-1.api.aws",
+            "us-west-2": "lambda.us-west-2.api.aws"
+        ]),
+        [.fips]: .init(endpoints: [
+            "us-east-1": "lambda-fips.us-east-1.amazonaws.com",
+            "us-east-2": "lambda-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "lambda-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "lambda-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "lambda-fips.us-west-1.amazonaws.com",
+            "us-west-2": "lambda-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

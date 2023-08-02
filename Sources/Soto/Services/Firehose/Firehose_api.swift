@@ -36,12 +36,16 @@ public struct Firehose: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -55,27 +59,34 @@ public struct Firehose: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-08-04",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.dualstack]: .init(endpoints: [
-                    "cn-north-1": "firehose.cn-north-1.api.amazonwebservices.com.cn",
-                    "cn-northwest-1": "firehose.cn-northwest-1.api.amazonwebservices.com.cn"
-                ]),
-                [.fips]: .init(endpoints: [
-                    "us-east-1": "firehose-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "firehose-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "firehose-fips.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "firehose-fips.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "firehose-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "firehose-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: FirehoseErrorType.self,
             xmlNamespace: "http://firehose.amazonaws.com/doc/2015-08-04",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "cn-north-1": "firehose.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "firehose.cn-northwest-1.api.amazonwebservices.com.cn"
+        ]),
+        [.fips]: .init(endpoints: [
+            "us-east-1": "firehose-fips.us-east-1.amazonaws.com",
+            "us-east-2": "firehose-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "firehose-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "firehose-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "firehose-fips.us-west-1.amazonaws.com",
+            "us-west-2": "firehose-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

@@ -36,11 +36,15 @@ public struct Route53: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -53,33 +57,44 @@ public struct Route53: AWSService {
             serviceProtocol: .restxml,
             apiVersion: "2013-04-01",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "aws-cn-global": "route53.amazonaws.com.cn",
-                "aws-global": "route53.amazonaws.com",
-                "aws-iso-b-global": "route53.sc2s.sgov.gov",
-                "aws-iso-global": "route53.c2s.ic.gov",
-                "aws-us-gov-global": "route53.us-gov.amazonaws.com"
-            ],
-            partitionEndpoints: [
-                .aws: (endpoint: "aws-global", region: .useast1),
-                .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1),
-                .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
-                .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
-                .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "aws-global": "route53-fips.amazonaws.com",
-                    "aws-us-gov-global": "route53.us-gov.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            partitionEndpoints: Self.partitionEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: Route53ErrorType.self,
             xmlNamespace: "https://route53.amazonaws.com/doc/2013-04-01/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "aws-cn-global": "route53.amazonaws.com.cn",
+        "aws-global": "route53.amazonaws.com",
+        "aws-iso-b-global": "route53.sc2s.sgov.gov",
+        "aws-iso-global": "route53.c2s.ic.gov",
+        "aws-us-gov-global": "route53.us-gov.amazonaws.com"
+    ]}
+
+    /// Default endpoint and region to use for each partition
+    static var partitionEndpoints: [AWSPartition: (endpoint: String, region: SotoCore.Region)] {[
+        .aws: (endpoint: "aws-global", region: .useast1),
+        .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1),
+        .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
+        .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
+        .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
+    ]}
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "aws-global": "route53-fips.amazonaws.com",
+            "aws-us-gov-global": "route53.us-gov.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

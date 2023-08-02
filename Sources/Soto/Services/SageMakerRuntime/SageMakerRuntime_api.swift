@@ -36,12 +36,16 @@ public struct SageMakerRuntime: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -55,45 +59,52 @@ public struct SageMakerRuntime: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-05-13",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "af-south-1": "runtime-fips.sagemaker.af-south-1.amazonaws.com",
-                    "ap-east-1": "runtime-fips.sagemaker.ap-east-1.amazonaws.com",
-                    "ap-northeast-1": "runtime-fips.sagemaker.ap-northeast-1.amazonaws.com",
-                    "ap-northeast-2": "runtime-fips.sagemaker.ap-northeast-2.amazonaws.com",
-                    "ap-northeast-3": "runtime-fips.sagemaker.ap-northeast-3.amazonaws.com",
-                    "ap-south-1": "runtime-fips.sagemaker.ap-south-1.amazonaws.com",
-                    "ap-south-2": "runtime-fips.sagemaker.ap-south-2.amazonaws.com",
-                    "ap-southeast-1": "runtime-fips.sagemaker.ap-southeast-1.amazonaws.com",
-                    "ap-southeast-2": "runtime-fips.sagemaker.ap-southeast-2.amazonaws.com",
-                    "ap-southeast-3": "runtime-fips.sagemaker.ap-southeast-3.amazonaws.com",
-                    "ap-southeast-4": "runtime-fips.sagemaker.ap-southeast-4.amazonaws.com",
-                    "ca-central-1": "runtime-fips.sagemaker.ca-central-1.amazonaws.com",
-                    "eu-central-1": "runtime-fips.sagemaker.eu-central-1.amazonaws.com",
-                    "eu-central-2": "runtime-fips.sagemaker.eu-central-2.amazonaws.com",
-                    "eu-north-1": "runtime-fips.sagemaker.eu-north-1.amazonaws.com",
-                    "eu-south-1": "runtime-fips.sagemaker.eu-south-1.amazonaws.com",
-                    "eu-south-2": "runtime-fips.sagemaker.eu-south-2.amazonaws.com",
-                    "eu-west-1": "runtime-fips.sagemaker.eu-west-1.amazonaws.com",
-                    "eu-west-2": "runtime-fips.sagemaker.eu-west-2.amazonaws.com",
-                    "eu-west-3": "runtime-fips.sagemaker.eu-west-3.amazonaws.com",
-                    "me-central-1": "runtime-fips.sagemaker.me-central-1.amazonaws.com",
-                    "me-south-1": "runtime-fips.sagemaker.me-south-1.amazonaws.com",
-                    "sa-east-1": "runtime-fips.sagemaker.sa-east-1.amazonaws.com",
-                    "us-east-1": "runtime-fips.sagemaker.us-east-1.amazonaws.com",
-                    "us-east-2": "runtime-fips.sagemaker.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "runtime.sagemaker.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "runtime.sagemaker.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "runtime-fips.sagemaker.us-west-1.amazonaws.com",
-                    "us-west-2": "runtime-fips.sagemaker.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: SageMakerRuntimeErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "af-south-1": "runtime-fips.sagemaker.af-south-1.amazonaws.com",
+            "ap-east-1": "runtime-fips.sagemaker.ap-east-1.amazonaws.com",
+            "ap-northeast-1": "runtime-fips.sagemaker.ap-northeast-1.amazonaws.com",
+            "ap-northeast-2": "runtime-fips.sagemaker.ap-northeast-2.amazonaws.com",
+            "ap-northeast-3": "runtime-fips.sagemaker.ap-northeast-3.amazonaws.com",
+            "ap-south-1": "runtime-fips.sagemaker.ap-south-1.amazonaws.com",
+            "ap-south-2": "runtime-fips.sagemaker.ap-south-2.amazonaws.com",
+            "ap-southeast-1": "runtime-fips.sagemaker.ap-southeast-1.amazonaws.com",
+            "ap-southeast-2": "runtime-fips.sagemaker.ap-southeast-2.amazonaws.com",
+            "ap-southeast-3": "runtime-fips.sagemaker.ap-southeast-3.amazonaws.com",
+            "ap-southeast-4": "runtime-fips.sagemaker.ap-southeast-4.amazonaws.com",
+            "ca-central-1": "runtime-fips.sagemaker.ca-central-1.amazonaws.com",
+            "eu-central-1": "runtime-fips.sagemaker.eu-central-1.amazonaws.com",
+            "eu-central-2": "runtime-fips.sagemaker.eu-central-2.amazonaws.com",
+            "eu-north-1": "runtime-fips.sagemaker.eu-north-1.amazonaws.com",
+            "eu-south-1": "runtime-fips.sagemaker.eu-south-1.amazonaws.com",
+            "eu-south-2": "runtime-fips.sagemaker.eu-south-2.amazonaws.com",
+            "eu-west-1": "runtime-fips.sagemaker.eu-west-1.amazonaws.com",
+            "eu-west-2": "runtime-fips.sagemaker.eu-west-2.amazonaws.com",
+            "eu-west-3": "runtime-fips.sagemaker.eu-west-3.amazonaws.com",
+            "me-central-1": "runtime-fips.sagemaker.me-central-1.amazonaws.com",
+            "me-south-1": "runtime-fips.sagemaker.me-south-1.amazonaws.com",
+            "sa-east-1": "runtime-fips.sagemaker.sa-east-1.amazonaws.com",
+            "us-east-1": "runtime-fips.sagemaker.us-east-1.amazonaws.com",
+            "us-east-2": "runtime-fips.sagemaker.us-east-2.amazonaws.com",
+            "us-gov-east-1": "runtime.sagemaker.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "runtime.sagemaker.us-gov-west-1.amazonaws.com",
+            "us-west-1": "runtime-fips.sagemaker.us-west-1.amazonaws.com",
+            "us-west-2": "runtime-fips.sagemaker.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

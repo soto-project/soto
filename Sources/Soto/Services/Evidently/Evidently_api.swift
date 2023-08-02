@@ -36,12 +36,16 @@ public struct Evidently: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -54,23 +58,30 @@ public struct Evidently: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2021-02-01",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "ap-northeast-1": "evidently.ap-northeast-1.amazonaws.com",
-                "ap-southeast-1": "evidently.ap-southeast-1.amazonaws.com",
-                "ap-southeast-2": "evidently.ap-southeast-2.amazonaws.com",
-                "eu-central-1": "evidently.eu-central-1.amazonaws.com",
-                "eu-north-1": "evidently.eu-north-1.amazonaws.com",
-                "eu-west-1": "evidently.eu-west-1.amazonaws.com",
-                "us-east-1": "evidently.us-east-1.amazonaws.com",
-                "us-east-2": "evidently.us-east-2.amazonaws.com",
-                "us-west-2": "evidently.us-west-2.amazonaws.com"
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
             errorType: EvidentlyErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "ap-northeast-1": "evidently.ap-northeast-1.amazonaws.com",
+        "ap-southeast-1": "evidently.ap-southeast-1.amazonaws.com",
+        "ap-southeast-2": "evidently.ap-southeast-2.amazonaws.com",
+        "eu-central-1": "evidently.eu-central-1.amazonaws.com",
+        "eu-north-1": "evidently.eu-north-1.amazonaws.com",
+        "eu-west-1": "evidently.eu-west-1.amazonaws.com",
+        "us-east-1": "evidently.us-east-1.amazonaws.com",
+        "us-east-2": "evidently.us-east-2.amazonaws.com",
+        "us-west-2": "evidently.us-west-2.amazonaws.com"
+    ]}
+
+
 
     // MARK: API Calls
 

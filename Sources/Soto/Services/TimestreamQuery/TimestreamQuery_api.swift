@@ -38,12 +38,16 @@ public struct TimestreamQuery: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -59,12 +63,17 @@ public struct TimestreamQuery: AWSService {
             apiVersion: "2018-11-01",
             endpoint: endpoint,
             errorType: TimestreamQueryErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
         self.endpointStorage = .init()
     }
+
+
+
+
 
     // MARK: API Calls
 
@@ -75,9 +84,10 @@ public struct TimestreamQuery: AWSService {
             operation: "CancelQuery", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -89,9 +99,10 @@ public struct TimestreamQuery: AWSService {
             operation: "CreateScheduledQuery", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -103,9 +114,10 @@ public struct TimestreamQuery: AWSService {
             operation: "DeleteScheduledQuery", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -130,9 +142,10 @@ public struct TimestreamQuery: AWSService {
             operation: "DescribeScheduledQuery", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -144,9 +157,10 @@ public struct TimestreamQuery: AWSService {
             operation: "ExecuteScheduledQuery", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -158,9 +172,10 @@ public struct TimestreamQuery: AWSService {
             operation: "ListScheduledQueries", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -172,9 +187,10 @@ public struct TimestreamQuery: AWSService {
             operation: "ListTagsForResource", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -186,9 +202,10 @@ public struct TimestreamQuery: AWSService {
             operation: "PrepareQuery", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -200,9 +217,10 @@ public struct TimestreamQuery: AWSService {
             operation: "Query", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -214,9 +232,10 @@ public struct TimestreamQuery: AWSService {
             operation: "TagResource", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -228,9 +247,10 @@ public struct TimestreamQuery: AWSService {
             operation: "UntagResource", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -242,9 +262,10 @@ public struct TimestreamQuery: AWSService {
             operation: "UpdateScheduledQuery", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }

@@ -36,12 +36,16 @@ public struct S3Control: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -55,79 +59,88 @@ public struct S3Control: AWSService {
             serviceProtocol: .restxml,
             apiVersion: "2018-08-20",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "ap-northeast-1": "s3-control.ap-northeast-1.amazonaws.com",
-                "ap-northeast-2": "s3-control.ap-northeast-2.amazonaws.com",
-                "ap-northeast-3": "s3-control.ap-northeast-3.amazonaws.com",
-                "ap-south-1": "s3-control.ap-south-1.amazonaws.com",
-                "ap-southeast-1": "s3-control.ap-southeast-1.amazonaws.com",
-                "ap-southeast-2": "s3-control.ap-southeast-2.amazonaws.com",
-                "ca-central-1": "s3-control.ca-central-1.amazonaws.com",
-                "cn-north-1": "s3-control.cn-north-1.amazonaws.com.cn",
-                "cn-northwest-1": "s3-control.cn-northwest-1.amazonaws.com.cn",
-                "eu-central-1": "s3-control.eu-central-1.amazonaws.com",
-                "eu-north-1": "s3-control.eu-north-1.amazonaws.com",
-                "eu-west-1": "s3-control.eu-west-1.amazonaws.com",
-                "eu-west-2": "s3-control.eu-west-2.amazonaws.com",
-                "eu-west-3": "s3-control.eu-west-3.amazonaws.com",
-                "sa-east-1": "s3-control.sa-east-1.amazonaws.com",
-                "us-east-1": "s3-control.us-east-1.amazonaws.com",
-                "us-east-2": "s3-control.us-east-2.amazonaws.com",
-                "us-gov-east-1": "s3-control.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1": "s3-control.us-gov-west-1.amazonaws.com",
-                "us-west-1": "s3-control.us-west-1.amazonaws.com",
-                "us-west-2": "s3-control.us-west-2.amazonaws.com"
-            ],
-            variantEndpoints: [
-                [.dualstack]: .init(endpoints: [
-                    "ap-northeast-1": "s3-control.dualstack.ap-northeast-1.amazonaws.com",
-                    "ap-northeast-2": "s3-control.dualstack.ap-northeast-2.amazonaws.com",
-                    "ap-northeast-3": "s3-control.dualstack.ap-northeast-3.amazonaws.com",
-                    "ap-south-1": "s3-control.dualstack.ap-south-1.amazonaws.com",
-                    "ap-southeast-1": "s3-control.dualstack.ap-southeast-1.amazonaws.com",
-                    "ap-southeast-2": "s3-control.dualstack.ap-southeast-2.amazonaws.com",
-                    "ca-central-1": "s3-control.dualstack.ca-central-1.amazonaws.com",
-                    "cn-north-1": "s3-control.dualstack.cn-north-1.amazonaws.com.cn",
-                    "cn-northwest-1": "s3-control.dualstack.cn-northwest-1.amazonaws.com.cn",
-                    "eu-central-1": "s3-control.dualstack.eu-central-1.amazonaws.com",
-                    "eu-north-1": "s3-control.dualstack.eu-north-1.amazonaws.com",
-                    "eu-west-1": "s3-control.dualstack.eu-west-1.amazonaws.com",
-                    "eu-west-2": "s3-control.dualstack.eu-west-2.amazonaws.com",
-                    "eu-west-3": "s3-control.dualstack.eu-west-3.amazonaws.com",
-                    "sa-east-1": "s3-control.dualstack.sa-east-1.amazonaws.com",
-                    "us-east-1": "s3-control.dualstack.us-east-1.amazonaws.com",
-                    "us-east-2": "s3-control.dualstack.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "s3-control.dualstack.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "s3-control.dualstack.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "s3-control.dualstack.us-west-1.amazonaws.com",
-                    "us-west-2": "s3-control.dualstack.us-west-2.amazonaws.com"
-                ]),
-                [.dualstack, .fips]: .init(endpoints: [
-                    "ca-central-1": "s3-control-fips.dualstack.ca-central-1.amazonaws.com",
-                    "us-east-1": "s3-control-fips.dualstack.us-east-1.amazonaws.com",
-                    "us-east-2": "s3-control-fips.dualstack.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "s3-control-fips.dualstack.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "s3-control-fips.dualstack.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "s3-control-fips.dualstack.us-west-1.amazonaws.com",
-                    "us-west-2": "s3-control-fips.dualstack.us-west-2.amazonaws.com"
-                ]),
-                [.fips]: .init(endpoints: [
-                    "ca-central-1": "s3-control-fips.ca-central-1.amazonaws.com",
-                    "us-east-1": "s3-control-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "s3-control-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "s3-control-fips.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "s3-control-fips.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "s3-control-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "s3-control-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: S3ControlErrorType.self,
             xmlNamespace: "http://awss3control.amazonaws.com/doc/2018-08-20/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "ap-northeast-1": "s3-control.ap-northeast-1.amazonaws.com",
+        "ap-northeast-2": "s3-control.ap-northeast-2.amazonaws.com",
+        "ap-northeast-3": "s3-control.ap-northeast-3.amazonaws.com",
+        "ap-south-1": "s3-control.ap-south-1.amazonaws.com",
+        "ap-southeast-1": "s3-control.ap-southeast-1.amazonaws.com",
+        "ap-southeast-2": "s3-control.ap-southeast-2.amazonaws.com",
+        "ca-central-1": "s3-control.ca-central-1.amazonaws.com",
+        "cn-north-1": "s3-control.cn-north-1.amazonaws.com.cn",
+        "cn-northwest-1": "s3-control.cn-northwest-1.amazonaws.com.cn",
+        "eu-central-1": "s3-control.eu-central-1.amazonaws.com",
+        "eu-north-1": "s3-control.eu-north-1.amazonaws.com",
+        "eu-west-1": "s3-control.eu-west-1.amazonaws.com",
+        "eu-west-2": "s3-control.eu-west-2.amazonaws.com",
+        "eu-west-3": "s3-control.eu-west-3.amazonaws.com",
+        "sa-east-1": "s3-control.sa-east-1.amazonaws.com",
+        "us-east-1": "s3-control.us-east-1.amazonaws.com",
+        "us-east-2": "s3-control.us-east-2.amazonaws.com",
+        "us-gov-east-1": "s3-control.us-gov-east-1.amazonaws.com",
+        "us-gov-west-1": "s3-control.us-gov-west-1.amazonaws.com",
+        "us-west-1": "s3-control.us-west-1.amazonaws.com",
+        "us-west-2": "s3-control.us-west-2.amazonaws.com"
+    ]}
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "ap-northeast-1": "s3-control.dualstack.ap-northeast-1.amazonaws.com",
+            "ap-northeast-2": "s3-control.dualstack.ap-northeast-2.amazonaws.com",
+            "ap-northeast-3": "s3-control.dualstack.ap-northeast-3.amazonaws.com",
+            "ap-south-1": "s3-control.dualstack.ap-south-1.amazonaws.com",
+            "ap-southeast-1": "s3-control.dualstack.ap-southeast-1.amazonaws.com",
+            "ap-southeast-2": "s3-control.dualstack.ap-southeast-2.amazonaws.com",
+            "ca-central-1": "s3-control.dualstack.ca-central-1.amazonaws.com",
+            "cn-north-1": "s3-control.dualstack.cn-north-1.amazonaws.com.cn",
+            "cn-northwest-1": "s3-control.dualstack.cn-northwest-1.amazonaws.com.cn",
+            "eu-central-1": "s3-control.dualstack.eu-central-1.amazonaws.com",
+            "eu-north-1": "s3-control.dualstack.eu-north-1.amazonaws.com",
+            "eu-west-1": "s3-control.dualstack.eu-west-1.amazonaws.com",
+            "eu-west-2": "s3-control.dualstack.eu-west-2.amazonaws.com",
+            "eu-west-3": "s3-control.dualstack.eu-west-3.amazonaws.com",
+            "sa-east-1": "s3-control.dualstack.sa-east-1.amazonaws.com",
+            "us-east-1": "s3-control.dualstack.us-east-1.amazonaws.com",
+            "us-east-2": "s3-control.dualstack.us-east-2.amazonaws.com",
+            "us-gov-east-1": "s3-control.dualstack.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "s3-control.dualstack.us-gov-west-1.amazonaws.com",
+            "us-west-1": "s3-control.dualstack.us-west-1.amazonaws.com",
+            "us-west-2": "s3-control.dualstack.us-west-2.amazonaws.com"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "s3-control-fips.dualstack.ca-central-1.amazonaws.com",
+            "us-east-1": "s3-control-fips.dualstack.us-east-1.amazonaws.com",
+            "us-east-2": "s3-control-fips.dualstack.us-east-2.amazonaws.com",
+            "us-gov-east-1": "s3-control-fips.dualstack.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "s3-control-fips.dualstack.us-gov-west-1.amazonaws.com",
+            "us-west-1": "s3-control-fips.dualstack.us-west-1.amazonaws.com",
+            "us-west-2": "s3-control-fips.dualstack.us-west-2.amazonaws.com"
+        ]),
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "s3-control-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "s3-control-fips.us-east-1.amazonaws.com",
+            "us-east-2": "s3-control-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "s3-control-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "s3-control-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "s3-control-fips.us-west-1.amazonaws.com",
+            "us-west-2": "s3-control-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
