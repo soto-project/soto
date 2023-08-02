@@ -58,6 +58,7 @@ public struct APIGateway: AWSService {
             endpoint: endpoint,
             variantEndpoints: Self.variantEndpoints,
             errorType: APIGatewayErrorType.self,
+            middleware: AWSEditHeadersMiddleware(.add(name: "accept", value: "application/json")),
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

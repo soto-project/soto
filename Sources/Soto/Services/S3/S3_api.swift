@@ -58,6 +58,7 @@ public struct S3: AWSService {
             variantEndpoints: Self.variantEndpoints,
             errorType: S3ErrorType.self,
             xmlNamespace: "http://s3.amazonaws.com/doc/2006-03-01/",
+            middleware: S3Middleware(),
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

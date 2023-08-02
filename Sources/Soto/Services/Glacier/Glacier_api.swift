@@ -63,6 +63,10 @@ public struct Glacier: AWSService {
             variantEndpoints: Self.variantEndpoints,
             errorType: GlacierErrorType.self,
             xmlNamespace: "http://glacier.amazonaws.com/doc/2012-06-01/",
+            middleware: AWSMiddlewareStack {
+                AWSEditHeadersMiddleware(.add(name: "x-amz-glacier-version", value: "2012-06-01"))
+                TreeHashMiddleware(header: "x-amz-sha256-tree-hash")
+            },
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
