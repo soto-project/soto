@@ -54,7 +54,8 @@ public struct BackupStorage: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "backupstorage",
+            serviceName: "BackupStorage",
+            serviceIdentifier: "backupstorage",
             signingName: "backup-storage",
             serviceProtocol: .restjson,
             apiVersion: "2018-04-10",
@@ -192,9 +193,8 @@ public struct BackupStorage: AWSService {
 }
 
 extension BackupStorage {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: BackupStorage, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

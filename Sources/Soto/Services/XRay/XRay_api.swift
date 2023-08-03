@@ -54,7 +54,8 @@ public struct XRay: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "xray",
+            serviceName: "XRay",
+            serviceIdentifier: "xray",
             serviceProtocol: .restjson,
             apiVersion: "2016-04-12",
             endpoint: endpoint,
@@ -476,9 +477,8 @@ public struct XRay: AWSService {
 }
 
 extension XRay {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: XRay, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

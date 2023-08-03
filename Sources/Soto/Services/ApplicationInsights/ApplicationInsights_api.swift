@@ -55,7 +55,8 @@ public struct ApplicationInsights: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "EC2WindowsBarleyService",
-            service: "applicationinsights",
+            serviceName: "ApplicationInsights",
+            serviceIdentifier: "applicationinsights",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-11-25",
             endpoint: endpoint,
@@ -432,9 +433,8 @@ public struct ApplicationInsights: AWSService {
 }
 
 extension ApplicationInsights {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: ApplicationInsights, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

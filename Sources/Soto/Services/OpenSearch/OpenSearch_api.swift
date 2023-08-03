@@ -54,7 +54,8 @@ public struct OpenSearch: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "es",
+            serviceName: "OpenSearch",
+            serviceIdentifier: "es",
             serviceProtocol: .restjson,
             apiVersion: "2021-01-01",
             endpoint: endpoint,
@@ -789,9 +790,8 @@ public struct OpenSearch: AWSService {
 }
 
 extension OpenSearch {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: OpenSearch, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

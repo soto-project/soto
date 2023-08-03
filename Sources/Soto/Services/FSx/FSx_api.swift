@@ -55,7 +55,8 @@ public struct FSx: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSSimbaAPIService_v20180301",
-            service: "fsx",
+            serviceName: "FSx",
+            serviceIdentifier: "fsx",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-03-01",
             endpoint: endpoint,
@@ -621,9 +622,8 @@ public struct FSx: AWSService {
 }
 
 extension FSx {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: FSx, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

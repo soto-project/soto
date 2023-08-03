@@ -54,7 +54,8 @@ public struct MediaLive: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "medialive",
+            serviceName: "MediaLive",
+            serviceIdentifier: "medialive",
             serviceProtocol: .restjson,
             apiVersion: "2017-10-14",
             endpoint: endpoint,
@@ -850,9 +851,8 @@ public struct MediaLive: AWSService {
 }
 
 extension MediaLive {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: MediaLive, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

@@ -54,7 +54,8 @@ public struct MediaPackageVod: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "mediapackage-vod",
+            serviceName: "MediaPackageVod",
+            serviceIdentifier: "mediapackage-vod",
             serviceProtocol: .restjson,
             apiVersion: "2018-11-07",
             endpoint: endpoint,
@@ -295,9 +296,8 @@ public struct MediaPackageVod: AWSService {
 }
 
 extension MediaPackageVod {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: MediaPackageVod, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

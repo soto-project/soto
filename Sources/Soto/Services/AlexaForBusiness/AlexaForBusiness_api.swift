@@ -55,7 +55,8 @@ public struct AlexaForBusiness: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AlexaForBusiness",
-            service: "a4b",
+            serviceName: "AlexaForBusiness",
+            serviceIdentifier: "a4b",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-11-09",
             endpoint: endpoint,
@@ -1376,9 +1377,8 @@ public struct AlexaForBusiness: AWSService {
 }
 
 extension AlexaForBusiness {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: AlexaForBusiness, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

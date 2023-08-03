@@ -54,7 +54,8 @@ public struct ServerlessApplicationRepository: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "serverlessrepo",
+            serviceName: "ServerlessApplicationRepository",
+            serviceIdentifier: "serverlessrepo",
             serviceProtocol: .restjson,
             apiVersion: "2017-09-08",
             endpoint: endpoint,
@@ -264,9 +265,8 @@ public struct ServerlessApplicationRepository: AWSService {
 }
 
 extension ServerlessApplicationRepository {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: ServerlessApplicationRepository, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

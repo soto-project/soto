@@ -54,7 +54,8 @@ public struct ChimeSDKMeetings: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "meetings-chime",
+            serviceName: "ChimeSDKMeetings",
+            serviceIdentifier: "meetings-chime",
             signingName: "chime",
             serviceProtocol: .restjson,
             apiVersion: "2021-07-15",
@@ -293,9 +294,8 @@ public struct ChimeSDKMeetings: AWSService {
 }
 
 extension ChimeSDKMeetings {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: ChimeSDKMeetings, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

@@ -55,7 +55,8 @@ public struct CloudWatchLogs: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "Logs_20140328",
-            service: "logs",
+            serviceName: "CloudWatchLogs",
+            serviceIdentifier: "logs",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-03-28",
             endpoint: endpoint,
@@ -754,9 +755,8 @@ public struct CloudWatchLogs: AWSService {
 }
 
 extension CloudWatchLogs {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CloudWatchLogs, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

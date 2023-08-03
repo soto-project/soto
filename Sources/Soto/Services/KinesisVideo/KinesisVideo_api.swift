@@ -52,7 +52,8 @@ public struct KinesisVideo: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "kinesisvideo",
+            serviceName: "KinesisVideo",
+            serviceIdentifier: "kinesisvideo",
             serviceProtocol: .restjson,
             apiVersion: "2017-09-30",
             endpoint: endpoint,
@@ -437,9 +438,8 @@ public struct KinesisVideo: AWSService {
 }
 
 extension KinesisVideo {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: KinesisVideo, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

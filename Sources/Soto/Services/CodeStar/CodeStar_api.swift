@@ -55,7 +55,8 @@ public struct CodeStar: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "CodeStar_20170419",
-            service: "codestar",
+            serviceName: "CodeStar",
+            serviceIdentifier: "codestar",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-04-19",
             endpoint: endpoint,
@@ -309,9 +310,8 @@ public struct CodeStar: AWSService {
 }
 
 extension CodeStar {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CodeStar, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

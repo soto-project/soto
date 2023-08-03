@@ -54,7 +54,8 @@ public struct CodeArtifact: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "codeartifact",
+            serviceName: "CodeArtifact",
+            serviceIdentifier: "codeartifact",
             serviceProtocol: .restjson,
             apiVersion: "2018-09-22",
             endpoint: endpoint,
@@ -568,9 +569,8 @@ public struct CodeArtifact: AWSService {
 }
 
 extension CodeArtifact {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CodeArtifact, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

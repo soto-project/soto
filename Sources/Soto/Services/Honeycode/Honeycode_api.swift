@@ -54,7 +54,8 @@ public struct Honeycode: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "honeycode",
+            serviceName: "Honeycode",
+            serviceIdentifier: "honeycode",
             serviceProtocol: .restjson,
             apiVersion: "2020-03-01",
             endpoint: endpoint,
@@ -269,9 +270,8 @@ public struct Honeycode: AWSService {
 }
 
 extension Honeycode {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Honeycode, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

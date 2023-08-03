@@ -54,7 +54,8 @@ public struct EMRServerless: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "emr-serverless",
+            serviceName: "EMRServerless",
+            serviceIdentifier: "emr-serverless",
             serviceProtocol: .restjson,
             apiVersion: "2021-07-13",
             endpoint: endpoint,
@@ -280,9 +281,8 @@ public struct EMRServerless: AWSService {
 }
 
 extension EMRServerless {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: EMRServerless, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

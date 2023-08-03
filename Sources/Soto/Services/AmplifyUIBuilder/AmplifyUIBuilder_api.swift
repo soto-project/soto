@@ -54,7 +54,8 @@ public struct AmplifyUIBuilder: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "amplifyuibuilder",
+            serviceName: "AmplifyUIBuilder",
+            serviceIdentifier: "amplifyuibuilder",
             serviceProtocol: .restjson,
             apiVersion: "2021-08-11",
             endpoint: endpoint,
@@ -360,9 +361,8 @@ public struct AmplifyUIBuilder: AWSService {
 }
 
 extension AmplifyUIBuilder {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: AmplifyUIBuilder, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

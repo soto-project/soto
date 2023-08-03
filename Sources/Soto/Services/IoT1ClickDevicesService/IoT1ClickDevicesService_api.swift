@@ -54,7 +54,8 @@ public struct IoT1ClickDevicesService: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "devices.iot1click",
+            serviceName: "IoT1ClickDevicesService",
+            serviceIdentifier: "devices.iot1click",
             signingName: "iot1click",
             serviceProtocol: .restjson,
             apiVersion: "2018-05-14",
@@ -244,9 +245,8 @@ public struct IoT1ClickDevicesService: AWSService {
 }
 
 extension IoT1ClickDevicesService {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: IoT1ClickDevicesService, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

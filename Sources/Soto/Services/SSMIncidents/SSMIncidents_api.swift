@@ -54,7 +54,8 @@ public struct SSMIncidents: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "ssm-incidents",
+            serviceName: "SSMIncidents",
+            serviceIdentifier: "ssm-incidents",
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
             endpoint: endpoint,
@@ -451,9 +452,8 @@ public struct SSMIncidents: AWSService {
 }
 
 extension SSMIncidents {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: SSMIncidents, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

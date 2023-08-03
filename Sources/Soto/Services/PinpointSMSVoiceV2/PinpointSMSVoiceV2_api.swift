@@ -55,7 +55,8 @@ public struct PinpointSMSVoiceV2: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "PinpointSMSVoiceV2",
-            service: "sms-voice",
+            serviceName: "PinpointSMSVoiceV2",
+            serviceIdentifier: "sms-voice",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2022-03-31",
             endpoint: endpoint,
@@ -644,9 +645,8 @@ public struct PinpointSMSVoiceV2: AWSService {
 }
 
 extension PinpointSMSVoiceV2 {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: PinpointSMSVoiceV2, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

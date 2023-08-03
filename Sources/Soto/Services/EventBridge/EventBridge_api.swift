@@ -55,7 +55,8 @@ public struct EventBridge: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSEvents",
-            service: "events",
+            serviceName: "EventBridge",
+            serviceIdentifier: "events",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-10-07",
             endpoint: endpoint,
@@ -816,9 +817,8 @@ public struct EventBridge: AWSService {
 }
 
 extension EventBridge {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: EventBridge, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

@@ -52,7 +52,8 @@ public struct SavingsPlans: AWSService {
         self.config = AWSServiceConfig(
             region: nil,
             partition: partition,
-            service: "savingsplans",
+            serviceName: "SavingsPlans",
+            serviceIdentifier: "savingsplans",
             serviceProtocol: .restjson,
             apiVersion: "2019-06-28",
             endpoint: endpoint,
@@ -199,9 +200,8 @@ public struct SavingsPlans: AWSService {
 }
 
 extension SavingsPlans {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: SavingsPlans, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

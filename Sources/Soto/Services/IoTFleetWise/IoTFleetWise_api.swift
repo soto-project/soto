@@ -55,7 +55,8 @@ public struct IoTFleetWise: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "IoTAutobahnControlPlane",
-            service: "iotfleetwise",
+            serviceName: "IoTFleetWise",
+            serviceIdentifier: "iotfleetwise",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2021-06-17",
             endpoint: endpoint,
@@ -725,9 +726,8 @@ public struct IoTFleetWise: AWSService {
 }
 
 extension IoTFleetWise {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: IoTFleetWise, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

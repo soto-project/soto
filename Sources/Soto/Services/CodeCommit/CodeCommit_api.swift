@@ -59,7 +59,8 @@ public struct CodeCommit: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "CodeCommit_20150413",
-            service: "codecommit",
+            serviceName: "CodeCommit",
+            serviceIdentifier: "codecommit",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-04-13",
             endpoint: endpoint,
@@ -1095,9 +1096,8 @@ public struct CodeCommit: AWSService {
 }
 
 extension CodeCommit {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CodeCommit, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

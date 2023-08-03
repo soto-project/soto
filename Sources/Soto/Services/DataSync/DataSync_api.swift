@@ -55,7 +55,8 @@ public struct DataSync: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "FmrsService",
-            service: "datasync",
+            serviceName: "DataSync",
+            serviceIdentifier: "datasync",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-11-09",
             endpoint: endpoint,
@@ -842,9 +843,8 @@ public struct DataSync: AWSService {
 }
 
 extension DataSync {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: DataSync, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

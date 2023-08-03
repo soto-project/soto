@@ -55,7 +55,8 @@ public struct MarketplaceCommerceAnalytics: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "MarketplaceCommerceAnalytics20150701",
-            service: "marketplacecommerceanalytics",
+            serviceName: "MarketplaceCommerceAnalytics",
+            serviceIdentifier: "marketplacecommerceanalytics",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-07-01",
             endpoint: endpoint,
@@ -101,9 +102,8 @@ public struct MarketplaceCommerceAnalytics: AWSService {
 }
 
 extension MarketplaceCommerceAnalytics {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: MarketplaceCommerceAnalytics, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

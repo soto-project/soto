@@ -55,7 +55,8 @@ public struct Glue: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSGlue",
-            service: "glue",
+            serviceName: "Glue",
+            serviceIdentifier: "glue",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-03-31",
             endpoint: endpoint,
@@ -2713,9 +2714,8 @@ public struct Glue: AWSService {
 }
 
 extension Glue {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Glue, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

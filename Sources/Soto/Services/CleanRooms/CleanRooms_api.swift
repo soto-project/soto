@@ -54,7 +54,8 @@ public struct CleanRooms: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "cleanrooms",
+            serviceName: "CleanRooms",
+            serviceIdentifier: "cleanrooms",
             serviceProtocol: .restjson,
             apiVersion: "2022-02-17",
             endpoint: endpoint,
@@ -555,9 +556,8 @@ public struct CleanRooms: AWSService {
 }
 
 extension CleanRooms {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CleanRooms, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

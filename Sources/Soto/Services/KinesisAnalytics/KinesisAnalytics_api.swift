@@ -55,7 +55,8 @@ public struct KinesisAnalytics: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "KinesisAnalytics_20150814",
-            service: "kinesisanalytics",
+            serviceName: "KinesisAnalytics",
+            serviceIdentifier: "kinesisanalytics",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-08-14",
             endpoint: endpoint,
@@ -336,9 +337,8 @@ public struct KinesisAnalytics: AWSService {
 }
 
 extension KinesisAnalytics {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: KinesisAnalytics, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

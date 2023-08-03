@@ -54,7 +54,8 @@ public struct ElasticInference: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "api.elastic-inference",
+            serviceName: "ElasticInference",
+            serviceIdentifier: "api.elastic-inference",
             signingName: "elastic-inference",
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
@@ -163,9 +164,8 @@ public struct ElasticInference: AWSService {
 }
 
 extension ElasticInference {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: ElasticInference, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

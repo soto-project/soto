@@ -55,7 +55,8 @@ public struct QLDBSession: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "QLDBSession",
-            service: "session.qldb",
+            serviceName: "QLDBSession",
+            serviceIdentifier: "session.qldb",
             signingName: "qldb",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2019-07-11",
@@ -98,9 +99,8 @@ public struct QLDBSession: AWSService {
 }
 
 extension QLDBSession {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: QLDBSession, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

@@ -52,7 +52,8 @@ public struct KafkaConnect: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "kafkaconnect",
+            serviceName: "KafkaConnect",
+            serviceIdentifier: "kafkaconnect",
             serviceProtocol: .restjson,
             apiVersion: "2021-09-14",
             endpoint: endpoint,
@@ -228,9 +229,8 @@ public struct KafkaConnect: AWSService {
 }
 
 extension KafkaConnect {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: KafkaConnect, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

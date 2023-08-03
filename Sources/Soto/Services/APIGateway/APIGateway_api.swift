@@ -52,7 +52,8 @@ public struct APIGateway: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "apigateway",
+            serviceName: "APIGateway",
+            serviceIdentifier: "apigateway",
             serviceProtocol: .restjson,
             apiVersion: "2015-07-09",
             endpoint: endpoint,
@@ -89,7 +90,8 @@ public struct APIGateway: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "apigateway",
+            serviceName: "APIGateway",
+            serviceIdentifier: "apigateway",
             serviceProtocol: .restjson,
             apiVersion: "2015-07-09",
             endpoint: endpoint,
@@ -1682,9 +1684,8 @@ public struct APIGateway: AWSService {
 }
 
 extension APIGateway {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: APIGateway, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

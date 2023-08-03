@@ -52,7 +52,8 @@ public struct CodeCatalyst: AWSService {
         self.config = AWSServiceConfig(
             region: nil,
             partition: partition,
-            service: "codecatalyst",
+            serviceName: "CodeCatalyst",
+            serviceIdentifier: "codecatalyst",
             serviceProtocol: .restjson,
             apiVersion: "2022-09-28",
             endpoint: endpoint,
@@ -414,9 +415,8 @@ public struct CodeCatalyst: AWSService {
 }
 
 extension CodeCatalyst {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CodeCatalyst, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

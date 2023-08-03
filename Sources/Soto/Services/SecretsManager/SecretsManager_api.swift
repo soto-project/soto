@@ -55,7 +55,8 @@ public struct SecretsManager: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "secretsmanager",
-            service: "secretsmanager",
+            serviceName: "SecretsManager",
+            serviceIdentifier: "secretsmanager",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-17",
             endpoint: endpoint,
@@ -375,9 +376,8 @@ public struct SecretsManager: AWSService {
 }
 
 extension SecretsManager {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: SecretsManager, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

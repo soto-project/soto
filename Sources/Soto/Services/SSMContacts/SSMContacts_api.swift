@@ -55,7 +55,8 @@ public struct SSMContacts: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "SSMContacts",
-            service: "ssm-contacts",
+            serviceName: "SSMContacts",
+            serviceIdentifier: "ssm-contacts",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2021-05-03",
             endpoint: endpoint,
@@ -582,9 +583,8 @@ public struct SSMContacts: AWSService {
 }
 
 extension SSMContacts {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: SSMContacts, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

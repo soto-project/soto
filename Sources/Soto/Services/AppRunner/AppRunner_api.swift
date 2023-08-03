@@ -55,7 +55,8 @@ public struct AppRunner: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AppRunner",
-            service: "apprunner",
+            serviceName: "AppRunner",
+            serviceIdentifier: "apprunner",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2020-05-15",
             endpoint: endpoint,
@@ -540,9 +541,8 @@ public struct AppRunner: AWSService {
 }
 
 extension AppRunner {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: AppRunner, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

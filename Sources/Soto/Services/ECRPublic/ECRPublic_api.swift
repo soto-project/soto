@@ -55,7 +55,8 @@ public struct ECRPublic: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "SpencerFrontendService",
-            service: "api.ecr-public",
+            serviceName: "ECRPublic",
+            serviceIdentifier: "api.ecr-public",
             signingName: "ecr-public",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2020-10-30",
@@ -382,9 +383,8 @@ public struct ECRPublic: AWSService {
 }
 
 extension ECRPublic {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: ECRPublic, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

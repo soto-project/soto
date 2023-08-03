@@ -54,7 +54,8 @@ public struct IoTDataPlane: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "data-ats.iot",
+            serviceName: "IoTDataPlane",
+            serviceIdentifier: "data-ats.iot",
             signingName: "iotdata",
             serviceProtocol: .restjson,
             apiVersion: "2015-05-28",
@@ -184,9 +185,8 @@ public struct IoTDataPlane: AWSService {
 }
 
 extension IoTDataPlane {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: IoTDataPlane, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

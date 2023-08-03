@@ -54,7 +54,8 @@ public struct SageMakerGeospatial: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "sagemaker-geospatial",
+            serviceName: "SageMakerGeospatial",
+            serviceIdentifier: "sagemaker-geospatial",
             serviceProtocol: .restjson,
             apiVersion: "2020-05-27",
             endpoint: endpoint,
@@ -321,9 +322,8 @@ public struct SageMakerGeospatial: AWSService {
 }
 
 extension SageMakerGeospatial {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: SageMakerGeospatial, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

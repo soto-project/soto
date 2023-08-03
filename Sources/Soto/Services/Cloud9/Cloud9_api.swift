@@ -55,7 +55,8 @@ public struct Cloud9: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSCloud9WorkspaceManagementService",
-            service: "cloud9",
+            serviceName: "Cloud9",
+            serviceIdentifier: "cloud9",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-09-23",
             endpoint: endpoint,
@@ -244,9 +245,8 @@ public struct Cloud9: AWSService {
 }
 
 extension Cloud9 {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Cloud9, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

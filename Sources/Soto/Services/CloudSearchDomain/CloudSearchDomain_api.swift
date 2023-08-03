@@ -55,7 +55,8 @@ public struct CloudSearchDomain: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "cloudsearchdomain",
+            serviceName: "CloudSearchDomain",
+            serviceIdentifier: "cloudsearchdomain",
             signingName: "cloudsearch",
             serviceProtocol: .restjson,
             apiVersion: "2013-01-01",
@@ -117,9 +118,8 @@ public struct CloudSearchDomain: AWSService {
 }
 
 extension CloudSearchDomain {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CloudSearchDomain, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

@@ -55,7 +55,8 @@ public struct CodeDeploy: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "CodeDeploy_20141006",
-            service: "codedeploy",
+            serviceName: "CodeDeploy",
+            serviceIdentifier: "codedeploy",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-10-06",
             endpoint: endpoint,
@@ -703,9 +704,8 @@ public struct CodeDeploy: AWSService {
 }
 
 extension CodeDeploy {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CodeDeploy, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

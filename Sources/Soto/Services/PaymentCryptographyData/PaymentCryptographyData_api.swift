@@ -54,7 +54,8 @@ public struct PaymentCryptographyData: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "dataplane.payment-cryptography",
+            serviceName: "PaymentCryptographyData",
+            serviceIdentifier: "dataplane.payment-cryptography",
             signingName: "payment-cryptography",
             serviceProtocol: .restjson,
             apiVersion: "2022-02-03",
@@ -218,9 +219,8 @@ public struct PaymentCryptographyData: AWSService {
 }
 
 extension PaymentCryptographyData {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: PaymentCryptographyData, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

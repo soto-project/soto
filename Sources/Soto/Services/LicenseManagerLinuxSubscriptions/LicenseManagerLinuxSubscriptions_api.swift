@@ -54,7 +54,8 @@ public struct LicenseManagerLinuxSubscriptions: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "license-manager-linux-subscriptions",
+            serviceName: "LicenseManagerLinuxSubscriptions",
+            serviceIdentifier: "license-manager-linux-subscriptions",
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
             endpoint: endpoint,
@@ -136,9 +137,8 @@ public struct LicenseManagerLinuxSubscriptions: AWSService {
 }
 
 extension LicenseManagerLinuxSubscriptions {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: LicenseManagerLinuxSubscriptions, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

@@ -52,7 +52,8 @@ public struct PersonalizeRuntime: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "personalize-runtime",
+            serviceName: "PersonalizeRuntime",
+            serviceIdentifier: "personalize-runtime",
             signingName: "personalize",
             serviceProtocol: .restjson,
             apiVersion: "2018-05-22",
@@ -99,9 +100,8 @@ public struct PersonalizeRuntime: AWSService {
 }
 
 extension PersonalizeRuntime {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: PersonalizeRuntime, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

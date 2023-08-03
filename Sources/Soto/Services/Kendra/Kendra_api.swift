@@ -55,7 +55,8 @@ public struct Kendra: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSKendraFrontendService",
-            service: "kendra",
+            serviceName: "Kendra",
+            serviceIdentifier: "kendra",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-02-03",
             endpoint: endpoint,
@@ -930,9 +931,8 @@ public struct Kendra: AWSService {
 }
 
 extension Kendra {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Kendra, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

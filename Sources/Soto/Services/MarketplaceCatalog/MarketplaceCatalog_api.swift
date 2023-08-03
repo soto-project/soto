@@ -54,7 +54,8 @@ public struct MarketplaceCatalog: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "catalog.marketplace",
+            serviceName: "MarketplaceCatalog",
+            serviceIdentifier: "catalog.marketplace",
             signingName: "aws-marketplace",
             serviceProtocol: .restjson,
             apiVersion: "2018-09-17",
@@ -231,9 +232,8 @@ public struct MarketplaceCatalog: AWSService {
 }
 
 extension MarketplaceCatalog {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: MarketplaceCatalog, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

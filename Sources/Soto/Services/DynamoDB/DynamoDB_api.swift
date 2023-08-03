@@ -57,7 +57,8 @@ public struct DynamoDB: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "DynamoDB_20120810",
-            service: "dynamodb",
+            serviceName: "DynamoDB",
+            serviceIdentifier: "dynamodb",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2012-08-10",
             endpoint: endpoint,
@@ -869,9 +870,8 @@ public struct DynamoDB: AWSService {
 }
 
 extension DynamoDB {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: DynamoDB, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

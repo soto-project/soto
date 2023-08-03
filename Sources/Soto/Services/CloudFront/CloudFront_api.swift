@@ -55,7 +55,8 @@ public struct CloudFront: AWSService {
         self.config = AWSServiceConfig(
             region: nil,
             partition: partition,
-            service: "cloudfront",
+            serviceName: "CloudFront",
+            serviceIdentifier: "cloudfront",
             serviceProtocol: .restxml,
             apiVersion: "2020-05-31",
             endpoint: endpoint,
@@ -1801,9 +1802,8 @@ public struct CloudFront: AWSService {
 }
 
 extension CloudFront {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CloudFront, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

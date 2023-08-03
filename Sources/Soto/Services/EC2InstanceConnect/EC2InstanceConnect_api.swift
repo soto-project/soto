@@ -55,7 +55,8 @@ public struct EC2InstanceConnect: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSEC2InstanceConnectService",
-            service: "ec2-instance-connect",
+            serviceName: "EC2InstanceConnect",
+            serviceIdentifier: "ec2-instance-connect",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-04-02",
             endpoint: endpoint,
@@ -101,9 +102,8 @@ public struct EC2InstanceConnect: AWSService {
 }
 
 extension EC2InstanceConnect {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: EC2InstanceConnect, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

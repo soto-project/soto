@@ -55,7 +55,8 @@ public struct DatabaseMigrationService: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AmazonDMSv20160101",
-            service: "dms",
+            serviceName: "DatabaseMigrationService",
+            serviceIdentifier: "dms",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-01-01",
             endpoint: endpoint,
@@ -987,9 +988,8 @@ public struct DatabaseMigrationService: AWSService {
 }
 
 extension DatabaseMigrationService {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: DatabaseMigrationService, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

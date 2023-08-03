@@ -54,7 +54,8 @@ public struct ApiGatewayManagementApi: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "execute-api",
+            serviceName: "ApiGatewayManagementApi",
+            serviceIdentifier: "execute-api",
             serviceProtocol: .restjson,
             apiVersion: "2018-11-29",
             endpoint: endpoint,
@@ -113,9 +114,8 @@ public struct ApiGatewayManagementApi: AWSService {
 }
 
 extension ApiGatewayManagementApi {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: ApiGatewayManagementApi, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

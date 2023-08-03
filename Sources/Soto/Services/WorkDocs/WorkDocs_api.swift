@@ -54,7 +54,8 @@ public struct WorkDocs: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "workdocs",
+            serviceName: "WorkDocs",
+            serviceIdentifier: "workdocs",
             serviceProtocol: .restjson,
             apiVersion: "2016-05-01",
             endpoint: endpoint,
@@ -655,9 +656,8 @@ public struct WorkDocs: AWSService {
 }
 
 extension WorkDocs {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: WorkDocs, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

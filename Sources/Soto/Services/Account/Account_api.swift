@@ -52,7 +52,8 @@ public struct Account: AWSService {
         self.config = AWSServiceConfig(
             region: nil,
             partition: partition,
-            service: "account",
+            serviceName: "Account",
+            serviceIdentifier: "account",
             serviceProtocol: .restjson,
             apiVersion: "2021-02-01",
             endpoint: endpoint,
@@ -201,9 +202,8 @@ public struct Account: AWSService {
 }
 
 extension Account {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Account, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

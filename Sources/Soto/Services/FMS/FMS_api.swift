@@ -55,7 +55,8 @@ public struct FMS: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSFMS_20180101",
-            service: "fms",
+            serviceName: "FMS",
+            serviceIdentifier: "fms",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-01-01",
             endpoint: endpoint,
@@ -648,9 +649,8 @@ public struct FMS: AWSService {
 }
 
 extension FMS {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: FMS, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

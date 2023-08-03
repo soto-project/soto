@@ -54,7 +54,8 @@ public struct FinspaceData: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "finspace-api",
+            serviceName: "FinspaceData",
+            serviceIdentifier: "finspace-api",
             serviceProtocol: .restjson,
             apiVersion: "2020-07-13",
             endpoint: endpoint,
@@ -477,9 +478,8 @@ public struct FinspaceData: AWSService {
 }
 
 extension FinspaceData {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: FinspaceData, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

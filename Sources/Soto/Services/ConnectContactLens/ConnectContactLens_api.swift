@@ -54,7 +54,8 @@ public struct ConnectContactLens: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "contact-lens",
+            serviceName: "ConnectContactLens",
+            serviceIdentifier: "contact-lens",
             signingName: "connect",
             serviceProtocol: .restjson,
             apiVersion: "2020-08-21",
@@ -88,9 +89,8 @@ public struct ConnectContactLens: AWSService {
 }
 
 extension ConnectContactLens {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: ConnectContactLens, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

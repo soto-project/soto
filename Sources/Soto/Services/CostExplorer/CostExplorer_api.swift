@@ -53,7 +53,8 @@ public struct CostExplorer: AWSService {
             region: nil,
             partition: partition,
             amzTarget: "AWSInsightsIndexService",
-            service: "ce",
+            serviceName: "CostExplorer",
+            serviceIdentifier: "ce",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-25",
             endpoint: endpoint,
@@ -566,9 +567,8 @@ public struct CostExplorer: AWSService {
 }
 
 extension CostExplorer {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CostExplorer, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

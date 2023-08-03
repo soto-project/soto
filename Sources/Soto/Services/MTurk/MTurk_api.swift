@@ -53,7 +53,8 @@ public struct MTurk: AWSService {
             region: nil,
             partition: partition,
             amzTarget: "MTurkRequesterServiceV20170117",
-            service: "mturk-requester",
+            serviceName: "MTurk",
+            serviceIdentifier: "mturk-requester",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-17",
             endpoint: endpoint,
@@ -590,9 +591,8 @@ public struct MTurk: AWSService {
 }
 
 extension MTurk {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: MTurk, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

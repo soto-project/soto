@@ -54,7 +54,8 @@ public struct Synthetics: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "synthetics",
+            serviceName: "Synthetics",
+            serviceIdentifier: "synthetics",
             serviceProtocol: .restjson,
             apiVersion: "2017-10-11",
             endpoint: endpoint,
@@ -359,9 +360,8 @@ public struct Synthetics: AWSService {
 }
 
 extension Synthetics {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Synthetics, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

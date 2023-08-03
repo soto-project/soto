@@ -54,7 +54,8 @@ public struct CognitoSync: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "cognito-sync",
+            serviceName: "CognitoSync",
+            serviceIdentifier: "cognito-sync",
             serviceProtocol: .restjson,
             apiVersion: "2014-06-30",
             endpoint: endpoint,
@@ -460,9 +461,8 @@ public struct CognitoSync: AWSService {
 }
 
 extension CognitoSync {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CognitoSync, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

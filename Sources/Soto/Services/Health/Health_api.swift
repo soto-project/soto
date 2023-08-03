@@ -53,7 +53,8 @@ public struct Health: AWSService {
             region: nil,
             partition: partition,
             amzTarget: "AWSHealth_20160804",
-            service: "health",
+            serviceName: "Health",
+            serviceIdentifier: "health",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-08-04",
             endpoint: endpoint,
@@ -251,9 +252,8 @@ public struct Health: AWSService {
 }
 
 extension Health {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Health, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

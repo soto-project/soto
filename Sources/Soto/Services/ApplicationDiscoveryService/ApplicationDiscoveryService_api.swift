@@ -55,7 +55,8 @@ public struct ApplicationDiscoveryService: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSPoseidonService_V2015_11_01",
-            service: "discovery",
+            serviceName: "ApplicationDiscoveryService",
+            serviceIdentifier: "discovery",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-11-01",
             endpoint: endpoint,
@@ -400,9 +401,8 @@ public struct ApplicationDiscoveryService: AWSService {
 }
 
 extension ApplicationDiscoveryService {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: ApplicationDiscoveryService, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

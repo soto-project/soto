@@ -55,7 +55,8 @@ public struct AppStream: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "PhotonAdminProxyService",
-            service: "appstream2",
+            serviceName: "AppStream",
+            serviceIdentifier: "appstream2",
             signingName: "appstream",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-12-01",
@@ -931,9 +932,8 @@ public struct AppStream: AWSService {
 }
 
 extension AppStream {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: AppStream, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

@@ -55,7 +55,8 @@ public struct CodeBuild: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "CodeBuild_20161006",
-            service: "codebuild",
+            serviceName: "CodeBuild",
+            serviceIdentifier: "codebuild",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-10-06",
             endpoint: endpoint,
@@ -672,9 +673,8 @@ public struct CodeBuild: AWSService {
 }
 
 extension CodeBuild {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CodeBuild, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

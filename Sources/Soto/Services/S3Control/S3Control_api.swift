@@ -54,7 +54,8 @@ public struct S3Control: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "s3-control",
+            serviceName: "S3Control",
+            serviceIdentifier: "s3-control",
             signingName: "s3",
             serviceProtocol: .restxml,
             apiVersion: "2018-08-20",
@@ -1041,9 +1042,8 @@ public struct S3Control: AWSService {
 }
 
 extension S3Control {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: S3Control, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

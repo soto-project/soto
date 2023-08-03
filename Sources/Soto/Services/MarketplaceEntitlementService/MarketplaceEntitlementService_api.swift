@@ -55,7 +55,8 @@ public struct MarketplaceEntitlementService: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSMPEntitlementService",
-            service: "entitlement.marketplace",
+            serviceName: "MarketplaceEntitlementService",
+            serviceIdentifier: "entitlement.marketplace",
             signingName: "aws-marketplace",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-11",
@@ -89,9 +90,8 @@ public struct MarketplaceEntitlementService: AWSService {
 }
 
 extension MarketplaceEntitlementService {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: MarketplaceEntitlementService, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

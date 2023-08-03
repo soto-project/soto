@@ -54,7 +54,8 @@ public struct AppConfigData: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "appconfigdata",
+            serviceName: "AppConfigData",
+            serviceIdentifier: "appconfigdata",
             signingName: "appconfig",
             serviceProtocol: .restjson,
             apiVersion: "2021-11-11",
@@ -101,9 +102,8 @@ public struct AppConfigData: AWSService {
 }
 
 extension AppConfigData {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: AppConfigData, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

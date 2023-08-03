@@ -56,7 +56,8 @@ public struct MachineLearning: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AmazonML_20141212",
-            service: "machinelearning",
+            serviceName: "MachineLearning",
+            serviceIdentifier: "machinelearning",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-12-12",
             endpoint: endpoint,
@@ -454,9 +455,8 @@ public struct MachineLearning: AWSService {
 }
 
 extension MachineLearning {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: MachineLearning, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

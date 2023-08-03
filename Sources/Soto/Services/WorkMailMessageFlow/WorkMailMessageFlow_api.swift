@@ -54,7 +54,8 @@ public struct WorkMailMessageFlow: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "workmailmessageflow",
+            serviceName: "WorkMailMessageFlow",
+            serviceIdentifier: "workmailmessageflow",
             serviceProtocol: .restjson,
             apiVersion: "2019-05-01",
             endpoint: endpoint,
@@ -100,9 +101,8 @@ public struct WorkMailMessageFlow: AWSService {
 }
 
 extension WorkMailMessageFlow {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: WorkMailMessageFlow, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

@@ -57,7 +57,8 @@ public struct MigrationHubConfig: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSMigrationHubMultiAccountService",
-            service: "migrationhub-config",
+            serviceName: "MigrationHubConfig",
+            serviceIdentifier: "migrationhub-config",
             signingName: "mgh",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-06-30",
@@ -117,9 +118,8 @@ public struct MigrationHubConfig: AWSService {
 }
 
 extension MigrationHubConfig {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: MigrationHubConfig, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

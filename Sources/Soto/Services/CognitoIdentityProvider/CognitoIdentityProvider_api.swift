@@ -55,7 +55,8 @@ public struct CognitoIdentityProvider: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSCognitoIdentityProviderService",
-            service: "cognito-idp",
+            serviceName: "CognitoIdentityProvider",
+            serviceIdentifier: "cognito-idp",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-04-18",
             endpoint: endpoint,
@@ -1405,9 +1406,8 @@ public struct CognitoIdentityProvider: AWSService {
 }
 
 extension CognitoIdentityProvider {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CognitoIdentityProvider, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

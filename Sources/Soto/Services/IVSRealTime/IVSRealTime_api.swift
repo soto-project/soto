@@ -56,7 +56,8 @@ public struct IVSRealTime: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "ivsrealtime",
+            serviceName: "IVSRealTime",
+            serviceIdentifier: "ivsrealtime",
             signingName: "ivs",
             serviceProtocol: .restjson,
             apiVersion: "2020-07-14",
@@ -272,9 +273,8 @@ public struct IVSRealTime: AWSService {
 }
 
 extension IVSRealTime {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: IVSRealTime, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

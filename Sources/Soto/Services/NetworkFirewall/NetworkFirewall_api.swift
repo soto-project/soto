@@ -55,7 +55,8 @@ public struct NetworkFirewall: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "NetworkFirewall_20201112",
-            service: "network-firewall",
+            serviceName: "NetworkFirewall",
+            serviceIdentifier: "network-firewall",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2020-11-12",
             endpoint: endpoint,
@@ -556,9 +557,8 @@ public struct NetworkFirewall: AWSService {
 }
 
 extension NetworkFirewall {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: NetworkFirewall, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

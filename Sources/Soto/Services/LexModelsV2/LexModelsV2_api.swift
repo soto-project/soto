@@ -52,7 +52,8 @@ public struct LexModelsV2: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "models-v2-lex",
+            serviceName: "LexModelsV2",
+            serviceIdentifier: "models-v2-lex",
             signingName: "lex",
             serviceProtocol: .restjson,
             apiVersion: "2020-08-07",
@@ -1178,9 +1179,8 @@ public struct LexModelsV2: AWSService {
 }
 
 extension LexModelsV2 {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: LexModelsV2, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

@@ -79,7 +79,8 @@ public struct Budgets: AWSService {
             region: nil,
             partition: partition,
             amzTarget: "AWSBudgetServiceGateway",
-            service: "budgets",
+            serviceName: "Budgets",
+            serviceIdentifier: "budgets",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-10-20",
             endpoint: endpoint,
@@ -432,9 +433,8 @@ public struct Budgets: AWSService {
 }
 
 extension Budgets {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Budgets, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

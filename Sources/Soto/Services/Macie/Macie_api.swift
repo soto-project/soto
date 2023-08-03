@@ -55,7 +55,8 @@ public struct Macie: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "MacieService",
-            service: "macie",
+            serviceName: "Macie",
+            serviceIdentifier: "macie",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-12-19",
             endpoint: endpoint,
@@ -174,9 +175,8 @@ public struct Macie: AWSService {
 }
 
 extension Macie {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Macie, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

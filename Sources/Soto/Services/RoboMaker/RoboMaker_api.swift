@@ -54,7 +54,8 @@ public struct RoboMaker: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "robomaker",
+            serviceName: "RoboMaker",
+            serviceIdentifier: "robomaker",
             serviceProtocol: .restjson,
             apiVersion: "2018-06-29",
             endpoint: endpoint,
@@ -830,9 +831,8 @@ public struct RoboMaker: AWSService {
 }
 
 extension RoboMaker {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: RoboMaker, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

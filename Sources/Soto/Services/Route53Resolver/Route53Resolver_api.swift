@@ -71,7 +71,8 @@ public struct Route53Resolver: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "Route53Resolver",
-            service: "route53resolver",
+            serviceName: "Route53Resolver",
+            serviceIdentifier: "route53resolver",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-04-01",
             endpoint: endpoint,
@@ -972,9 +973,8 @@ public struct Route53Resolver: AWSService {
 }
 
 extension Route53Resolver {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Route53Resolver, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

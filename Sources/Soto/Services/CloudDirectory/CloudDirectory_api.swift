@@ -54,7 +54,8 @@ public struct CloudDirectory: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "clouddirectory",
+            serviceName: "CloudDirectory",
+            serviceIdentifier: "clouddirectory",
             serviceProtocol: .restjson,
             apiVersion: "2017-01-11",
             endpoint: endpoint,
@@ -939,9 +940,8 @@ public struct CloudDirectory: AWSService {
 }
 
 extension CloudDirectory {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CloudDirectory, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

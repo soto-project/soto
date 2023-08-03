@@ -59,7 +59,8 @@ public struct CloudTrailData: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "cloudtrail-data",
+            serviceName: "CloudTrailData",
+            serviceIdentifier: "cloudtrail-data",
             serviceProtocol: .restjson,
             apiVersion: "2021-08-11",
             endpoint: endpoint,
@@ -92,9 +93,8 @@ public struct CloudTrailData: AWSService {
 }
 
 extension CloudTrailData {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CloudTrailData, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

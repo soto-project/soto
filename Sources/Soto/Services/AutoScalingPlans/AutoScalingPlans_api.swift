@@ -56,7 +56,8 @@ public struct AutoScalingPlans: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AnyScaleScalingPlannerFrontendService",
-            service: "autoscaling-plans",
+            serviceName: "AutoScalingPlans",
+            serviceIdentifier: "autoscaling-plans",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-01-06",
             endpoint: endpoint,
@@ -154,9 +155,8 @@ public struct AutoScalingPlans: AWSService {
 }
 
 extension AutoScalingPlans {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: AutoScalingPlans, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

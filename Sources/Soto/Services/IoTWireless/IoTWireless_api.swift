@@ -54,7 +54,8 @@ public struct IoTWireless: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "api.iotwireless",
+            serviceName: "IoTWireless",
+            serviceIdentifier: "api.iotwireless",
             signingName: "iotwireless",
             serviceProtocol: .restjson,
             apiVersion: "2020-11-22",
@@ -1508,9 +1509,8 @@ public struct IoTWireless: AWSService {
 }
 
 extension IoTWireless {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: IoTWireless, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

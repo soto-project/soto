@@ -54,7 +54,8 @@ public struct LakeFormation: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "lakeformation",
+            serviceName: "LakeFormation",
+            serviceIdentifier: "lakeformation",
             serviceProtocol: .restjson,
             apiVersion: "2017-03-31",
             endpoint: endpoint,
@@ -703,9 +704,8 @@ public struct LakeFormation: AWSService {
 }
 
 extension LakeFormation {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: LakeFormation, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

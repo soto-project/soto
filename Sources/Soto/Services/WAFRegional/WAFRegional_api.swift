@@ -55,7 +55,8 @@ public struct WAFRegional: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSWAF_Regional_20161128",
-            service: "waf-regional",
+            serviceName: "WAFRegional",
+            serviceIdentifier: "waf-regional",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-11-28",
             endpoint: endpoint,
@@ -1503,9 +1504,8 @@ public struct WAFRegional: AWSService {
 }
 
 extension WAFRegional {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: WAFRegional, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

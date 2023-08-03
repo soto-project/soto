@@ -55,7 +55,8 @@ public struct SFN: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSStepFunctions",
-            service: "states",
+            serviceName: "SFN",
+            serviceIdentifier: "states",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2016-11-23",
             endpoint: endpoint,
@@ -428,9 +429,8 @@ public struct SFN: AWSService {
 }
 
 extension SFN {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: SFN, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

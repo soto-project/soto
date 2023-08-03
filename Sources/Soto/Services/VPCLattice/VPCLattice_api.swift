@@ -54,7 +54,8 @@ public struct VPCLattice: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "vpc-lattice",
+            serviceName: "VPCLattice",
+            serviceIdentifier: "vpc-lattice",
             serviceProtocol: .restjson,
             apiVersion: "2022-11-30",
             endpoint: endpoint,
@@ -750,9 +751,8 @@ public struct VPCLattice: AWSService {
 }
 
 extension VPCLattice {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: VPCLattice, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

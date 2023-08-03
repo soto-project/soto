@@ -54,7 +54,8 @@ public struct ServiceCatalogAppRegistry: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "servicecatalog-appregistry",
+            serviceName: "ServiceCatalogAppRegistry",
+            serviceIdentifier: "servicecatalog-appregistry",
             signingName: "servicecatalog",
             serviceProtocol: .restjson,
             apiVersion: "2020-06-24",
@@ -399,9 +400,8 @@ public struct ServiceCatalogAppRegistry: AWSService {
 }
 
 extension ServiceCatalogAppRegistry {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: ServiceCatalogAppRegistry, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

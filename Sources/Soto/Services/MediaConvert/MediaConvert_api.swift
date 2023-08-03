@@ -54,7 +54,8 @@ public struct MediaConvert: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "mediaconvert",
+            serviceName: "MediaConvert",
+            serviceIdentifier: "mediaconvert",
             serviceProtocol: .restjson,
             apiVersion: "2017-08-29",
             endpoint: endpoint,
@@ -455,9 +456,8 @@ public struct MediaConvert: AWSService {
 }
 
 extension MediaConvert {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: MediaConvert, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

@@ -55,7 +55,8 @@ public struct Personalize: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AmazonPersonalize",
-            service: "personalize",
+            serviceName: "Personalize",
+            serviceIdentifier: "personalize",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-05-22",
             endpoint: endpoint,
@@ -933,9 +934,8 @@ public struct Personalize: AWSService {
 }
 
 extension Personalize {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Personalize, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

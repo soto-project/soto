@@ -53,7 +53,8 @@ public struct Organizations: AWSService {
             region: nil,
             partition: partition,
             amzTarget: "AWSOrganizationsV20161128",
-            service: "organizations",
+            serviceName: "Organizations",
+            serviceIdentifier: "organizations",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-11-28",
             endpoint: endpoint,
@@ -874,9 +875,8 @@ public struct Organizations: AWSService {
 }
 
 extension Organizations {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Organizations, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

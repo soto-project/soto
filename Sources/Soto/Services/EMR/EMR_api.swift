@@ -55,7 +55,8 @@ public struct EMR: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "ElasticMapReduce",
-            service: "elasticmapreduce",
+            serviceName: "EMR",
+            serviceIdentifier: "elasticmapreduce",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2009-03-31",
             endpoint: endpoint,
@@ -778,9 +779,8 @@ public struct EMR: AWSService {
 }
 
 extension EMR {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: EMR, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

@@ -54,7 +54,8 @@ public struct Scheduler: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "scheduler",
+            serviceName: "Scheduler",
+            serviceIdentifier: "scheduler",
             serviceProtocol: .restjson,
             apiVersion: "2021-06-30",
             endpoint: endpoint,
@@ -230,9 +231,8 @@ public struct Scheduler: AWSService {
 }
 
 extension Scheduler {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Scheduler, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

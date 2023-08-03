@@ -54,7 +54,8 @@ public struct ConnectCases: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "cases",
+            serviceName: "ConnectCases",
+            serviceIdentifier: "cases",
             serviceProtocol: .restjson,
             apiVersion: "2022-10-03",
             endpoint: endpoint,
@@ -473,9 +474,8 @@ public struct ConnectCases: AWSService {
 }
 
 extension ConnectCases {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: ConnectCases, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

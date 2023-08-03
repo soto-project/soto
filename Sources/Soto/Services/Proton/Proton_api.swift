@@ -55,7 +55,8 @@ public struct Proton: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AwsProton20200720",
-            service: "proton",
+            serviceName: "Proton",
+            serviceIdentifier: "proton",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2020-07-20",
             endpoint: endpoint,
@@ -1167,9 +1168,8 @@ public struct Proton: AWSService {
 }
 
 extension Proton {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Proton, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

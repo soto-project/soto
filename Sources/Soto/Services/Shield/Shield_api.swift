@@ -53,7 +53,8 @@ public struct Shield: AWSService {
             region: nil,
             partition: partition,
             amzTarget: "AWSShield_20160616",
-            service: "shield",
+            serviceName: "Shield",
+            serviceIdentifier: "shield",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-06-02",
             endpoint: endpoint,
@@ -561,9 +562,8 @@ public struct Shield: AWSService {
 }
 
 extension Shield {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Shield, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

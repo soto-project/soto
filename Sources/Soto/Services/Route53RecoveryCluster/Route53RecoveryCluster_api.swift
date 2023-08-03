@@ -86,7 +86,8 @@ public struct Route53RecoveryCluster: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "ToggleCustomerAPI",
-            service: "route53-recovery-cluster",
+            serviceName: "Route53RecoveryCluster",
+            serviceIdentifier: "route53-recovery-cluster",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2019-12-02",
             endpoint: endpoint,
@@ -232,9 +233,8 @@ public struct Route53RecoveryCluster: AWSService {
 }
 
 extension Route53RecoveryCluster {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Route53RecoveryCluster, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

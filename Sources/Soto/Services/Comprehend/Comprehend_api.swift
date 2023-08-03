@@ -55,7 +55,8 @@ public struct Comprehend: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "Comprehend_20171127",
-            service: "comprehend",
+            serviceName: "Comprehend",
+            serviceIdentifier: "comprehend",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-11-27",
             endpoint: endpoint,
@@ -1177,9 +1178,8 @@ public struct Comprehend: AWSService {
 }
 
 extension Comprehend {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Comprehend, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

@@ -56,7 +56,8 @@ public struct CostAndUsageReportService: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSOrigamiServiceGatewayService",
-            service: "cur",
+            serviceName: "CostAndUsageReportService",
+            serviceIdentifier: "cur",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-06",
             endpoint: endpoint,
@@ -128,9 +129,8 @@ public struct CostAndUsageReportService: AWSService {
 }
 
 extension CostAndUsageReportService {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CostAndUsageReportService, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

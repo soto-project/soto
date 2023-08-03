@@ -54,7 +54,8 @@ public struct Greengrass: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "greengrass",
+            serviceName: "Greengrass",
+            serviceIdentifier: "greengrass",
             serviceProtocol: .restjson,
             apiVersion: "2017-06-07",
             endpoint: endpoint,
@@ -1288,9 +1289,8 @@ public struct Greengrass: AWSService {
 }
 
 extension Greengrass {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Greengrass, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

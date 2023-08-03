@@ -55,7 +55,8 @@ public struct ResourceGroupsTaggingAPI: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "ResourceGroupsTaggingAPI_20170126",
-            service: "tagging",
+            serviceName: "ResourceGroupsTaggingAPI",
+            serviceIdentifier: "tagging",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-26",
             endpoint: endpoint,
@@ -179,9 +180,8 @@ public struct ResourceGroupsTaggingAPI: AWSService {
 }
 
 extension ResourceGroupsTaggingAPI {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: ResourceGroupsTaggingAPI, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

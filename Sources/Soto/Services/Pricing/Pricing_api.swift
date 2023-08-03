@@ -55,7 +55,8 @@ public struct Pricing: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSPriceListService",
-            service: "api.pricing",
+            serviceName: "Pricing",
+            serviceIdentifier: "api.pricing",
             signingName: "pricing",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-15",
@@ -141,9 +142,8 @@ public struct Pricing: AWSService {
 }
 
 extension Pricing {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Pricing, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

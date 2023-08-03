@@ -55,7 +55,8 @@ public struct KMS: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "TrentService",
-            service: "kms",
+            serviceName: "KMS",
+            serviceIdentifier: "kms",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-11-01",
             endpoint: endpoint,
@@ -812,9 +813,8 @@ public struct KMS: AWSService {
 }
 
 extension KMS {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: KMS, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)

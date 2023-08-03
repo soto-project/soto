@@ -55,7 +55,8 @@ public struct SSOAdmin: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "SWBExternalService",
-            service: "sso",
+            serviceName: "SSOAdmin",
+            serviceIdentifier: "sso",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2020-07-20",
             endpoint: endpoint,
@@ -562,9 +563,8 @@ public struct SSOAdmin: AWSService {
 }
 
 extension SSOAdmin {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able 
-    /// to use this initializer directly as there are no public initializers for `AWSServiceConfig.Patch`. Please use
-    /// `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
+    /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: SSOAdmin, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
