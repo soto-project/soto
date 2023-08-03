@@ -79,12 +79,16 @@ public struct GlobalAccelerator: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -94,16 +98,22 @@ public struct GlobalAccelerator: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "GlobalAccelerator_V20180706",
-            service: "globalaccelerator",
+            serviceName: "GlobalAccelerator",
+            serviceIdentifier: "globalaccelerator",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-08-08",
             endpoint: endpoint,
             errorType: GlobalAcceleratorErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
 
     // MARK: API Calls
 
@@ -871,7 +881,7 @@ public struct GlobalAccelerator: AWSService {
 }
 
 extension GlobalAccelerator {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: GlobalAccelerator, patch: AWSServiceConfig.Patch) {
         self.client = from.client

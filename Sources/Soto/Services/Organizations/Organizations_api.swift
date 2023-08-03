@@ -35,11 +35,15 @@ public struct Organizations: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -49,33 +53,45 @@ public struct Organizations: AWSService {
             region: nil,
             partition: partition,
             amzTarget: "AWSOrganizationsV20161128",
-            service: "organizations",
+            serviceName: "Organizations",
+            serviceIdentifier: "organizations",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-11-28",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "aws-cn-global": "organizations.cn-northwest-1.amazonaws.com.cn",
-                "aws-global": "organizations.us-east-1.amazonaws.com",
-                "aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com"
-            ],
-            partitionEndpoints: [
-                .aws: (endpoint: "aws-global", region: .useast1),
-                .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1),
-                .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "aws-global": "organizations-fips.us-east-1.amazonaws.com",
-                    "aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            partitionEndpoints: Self.partitionEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: OrganizationsErrorType.self,
             xmlNamespace: "http://organizations.amazonaws.com/doc/2016-11-28/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "aws-cn-global": "organizations.cn-northwest-1.amazonaws.com.cn",
+        "aws-global": "organizations.us-east-1.amazonaws.com",
+        "aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com"
+    ]}
+
+    /// Default endpoint and region to use for each partition
+    static var partitionEndpoints: [AWSPartition: (endpoint: String, region: SotoCore.Region)] {[
+        .aws: (endpoint: "aws-global", region: .useast1),
+        .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1),
+        .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
+    ]}
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "aws-global": "organizations-fips.us-east-1.amazonaws.com",
+            "aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -859,7 +875,7 @@ public struct Organizations: AWSService {
 }
 
 extension Organizations {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Organizations, patch: AWSServiceConfig.Patch) {
         self.client = from.client

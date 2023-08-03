@@ -36,12 +36,16 @@ public struct Greengrass: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -50,30 +54,40 @@ public struct Greengrass: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "greengrass",
+            serviceName: "Greengrass",
+            serviceIdentifier: "greengrass",
             serviceProtocol: .restjson,
             apiVersion: "2017-06-07",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "dataplane-us-gov-east-1": "greengrass-ats.iot.us-gov-east-1.amazonaws.com",
-                "dataplane-us-gov-west-1": "greengrass-ats.iot.us-gov-west-1.amazonaws.com"
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "ca-central-1": "greengrass-fips.ca-central-1.amazonaws.com",
-                    "us-east-1": "greengrass-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "greengrass-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "greengrass.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "greengrass.us-gov-west-1.amazonaws.com",
-                    "us-west-2": "greengrass-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: GreengrassErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "dataplane-us-gov-east-1": "greengrass-ats.iot.us-gov-east-1.amazonaws.com",
+        "dataplane-us-gov-west-1": "greengrass-ats.iot.us-gov-west-1.amazonaws.com"
+    ]}
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "greengrass-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "greengrass-fips.us-east-1.amazonaws.com",
+            "us-east-2": "greengrass-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "greengrass.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "greengrass.us-gov-west-1.amazonaws.com",
+            "us-west-2": "greengrass-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -1275,7 +1289,7 @@ public struct Greengrass: AWSService {
 }
 
 extension Greengrass {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Greengrass, patch: AWSServiceConfig.Patch) {
         self.client = from.client

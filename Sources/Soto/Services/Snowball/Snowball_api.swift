@@ -36,12 +36,16 @@ public struct Snowball: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -51,40 +55,48 @@ public struct Snowball: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSIESnowballJobManagementService",
-            service: "snowball",
+            serviceName: "Snowball",
+            serviceIdentifier: "snowball",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-06-30",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "ap-northeast-1": "snowball-fips.ap-northeast-1.amazonaws.com",
-                    "ap-northeast-2": "snowball-fips.ap-northeast-2.amazonaws.com",
-                    "ap-northeast-3": "snowball-fips.ap-northeast-3.amazonaws.com",
-                    "ap-south-1": "snowball-fips.ap-south-1.amazonaws.com",
-                    "ap-southeast-1": "snowball-fips.ap-southeast-1.amazonaws.com",
-                    "ap-southeast-2": "snowball-fips.ap-southeast-2.amazonaws.com",
-                    "ca-central-1": "snowball-fips.ca-central-1.amazonaws.com",
-                    "cn-north-1": "snowball-fips.cn-north-1.amazonaws.com.cn",
-                    "cn-northwest-1": "snowball-fips.cn-northwest-1.amazonaws.com.cn",
-                    "eu-central-1": "snowball-fips.eu-central-1.amazonaws.com",
-                    "eu-west-1": "snowball-fips.eu-west-1.amazonaws.com",
-                    "eu-west-2": "snowball-fips.eu-west-2.amazonaws.com",
-                    "eu-west-3": "snowball-fips.eu-west-3.amazonaws.com",
-                    "sa-east-1": "snowball-fips.sa-east-1.amazonaws.com",
-                    "us-east-1": "snowball-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "snowball-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "snowball-fips.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "snowball-fips.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "snowball-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "snowball-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: SnowballErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ap-northeast-1": "snowball-fips.ap-northeast-1.amazonaws.com",
+            "ap-northeast-2": "snowball-fips.ap-northeast-2.amazonaws.com",
+            "ap-northeast-3": "snowball-fips.ap-northeast-3.amazonaws.com",
+            "ap-south-1": "snowball-fips.ap-south-1.amazonaws.com",
+            "ap-southeast-1": "snowball-fips.ap-southeast-1.amazonaws.com",
+            "ap-southeast-2": "snowball-fips.ap-southeast-2.amazonaws.com",
+            "ca-central-1": "snowball-fips.ca-central-1.amazonaws.com",
+            "cn-north-1": "snowball-fips.cn-north-1.amazonaws.com.cn",
+            "cn-northwest-1": "snowball-fips.cn-northwest-1.amazonaws.com.cn",
+            "eu-central-1": "snowball-fips.eu-central-1.amazonaws.com",
+            "eu-west-1": "snowball-fips.eu-west-1.amazonaws.com",
+            "eu-west-2": "snowball-fips.eu-west-2.amazonaws.com",
+            "eu-west-3": "snowball-fips.eu-west-3.amazonaws.com",
+            "sa-east-1": "snowball-fips.sa-east-1.amazonaws.com",
+            "us-east-1": "snowball-fips.us-east-1.amazonaws.com",
+            "us-east-2": "snowball-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "snowball-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "snowball-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "snowball-fips.us-west-1.amazonaws.com",
+            "us-west-2": "snowball-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -428,7 +440,7 @@ public struct Snowball: AWSService {
 }
 
 extension Snowball {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Snowball, patch: AWSServiceConfig.Patch) {
         self.client = from.client

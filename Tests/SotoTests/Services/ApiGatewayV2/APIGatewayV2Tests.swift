@@ -30,7 +30,7 @@ class APIGatewayV2Tests: XCTestCase {
         guard !TestEnvironment.isUsingLocalstack else { return }
         Self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
-            middlewares: TestEnvironment.middlewares,
+            middleware: TestEnvironment.middlewares,
             httpClientProvider: .createNew,
             logger: TestEnvironment.logger
         )

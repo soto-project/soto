@@ -35,11 +35,15 @@ public struct Chime: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -48,22 +52,32 @@ public struct Chime: AWSService {
         self.config = AWSServiceConfig(
             region: nil,
             partition: partition,
-            service: "chime",
+            serviceName: "Chime",
+            serviceIdentifier: "chime",
             serviceProtocol: .restjson,
             apiVersion: "2018-05-01",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "aws-global": "chime.us-east-1.amazonaws.com"
-            ],
-            partitionEndpoints: [
-                .aws: (endpoint: "aws-global", region: .useast1)
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            partitionEndpoints: Self.partitionEndpoints,
             errorType: ChimeErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "aws-global": "chime.us-east-1.amazonaws.com"
+    ]}
+
+    /// Default endpoint and region to use for each partition
+    static var partitionEndpoints: [AWSPartition: (endpoint: String, region: SotoCore.Region)] {[
+        .aws: (endpoint: "aws-global", region: .useast1)
+    ]}
+
 
     // MARK: API Calls
 
@@ -2669,7 +2683,7 @@ public struct Chime: AWSService {
 }
 
 extension Chime {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Chime, patch: AWSServiceConfig.Patch) {
         self.client = from.client

@@ -36,12 +36,16 @@ public struct ECRPublic: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -51,22 +55,30 @@ public struct ECRPublic: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "SpencerFrontendService",
-            service: "api.ecr-public",
+            serviceName: "ECRPublic",
+            serviceIdentifier: "api.ecr-public",
             signingName: "ecr-public",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2020-10-30",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "us-east-1": "api.ecr-public.us-east-1.amazonaws.com",
-                "us-west-2": "api.ecr-public.us-west-2.amazonaws.com"
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
             errorType: ECRPublicErrorType.self,
             xmlNamespace: "http://ecr-public.amazonaws.com/doc/2020-12-02/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "us-east-1": "api.ecr-public.us-east-1.amazonaws.com",
+        "us-west-2": "api.ecr-public.us-west-2.amazonaws.com"
+    ]}
+
+
 
     // MARK: API Calls
 
@@ -371,7 +383,7 @@ public struct ECRPublic: AWSService {
 }
 
 extension ECRPublic {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: ECRPublic, patch: AWSServiceConfig.Patch) {
         self.client = from.client

@@ -39,7 +39,7 @@ class S3Tests: XCTestCase {
         Self.eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount)
         Self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
-            middlewares: TestEnvironment.middlewares,
+            middleware: TestEnvironment.middlewares,
             httpClientProvider: .createNewWithEventLoopGroup(Self.eventLoopGroup)
         )
         Self.s3 = S3(
@@ -221,13 +221,13 @@ class S3Tests: XCTestCase {
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
-        struct Verify100CompleteMiddleware: AWSServiceMiddleware {
-            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
+        struct Verify100CompleteMiddleware: AWSMiddlewareProtocol {
+            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
                 // XCTAssertEqual(request.httpHeaders["Expect"].first, "100-continue")
-                return request
+                try await next(request, context)
             }
         }
-        let s3 = Self.s3.with(middlewares: [Verify100CompleteMiddleware()])
+        let s3 = Self.s3.with(middleware: Verify100CompleteMiddleware())
         let name = TestEnvironment.generateResourceName()
         let chunkSize = 64 * 1024
         let byteBuffer = Self.createRandomBuffer(size: 1 * 1024 * 1024)
@@ -252,12 +252,12 @@ class S3Tests: XCTestCase {
         struct Disable100CompleteError: Error {
             let header: String?
         }
-        struct Disable100CompleteMiddleware: AWSServiceMiddleware {
-            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
-                throw Disable100CompleteError(header: request.httpHeaders["Expect"].first)
+        struct Disable100CompleteMiddleware: AWSMiddlewareProtocol {
+            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
+                throw Disable100CompleteError(header: request.headers["Expect"].first)
             }
         }
-        let s3 = Self.s3.with(middlewares: [Disable100CompleteMiddleware()], options: .s3Disable100Continue)
+        let s3 = Self.s3.with(middleware: Disable100CompleteMiddleware(), options: .s3Disable100Continue)
         let name = TestEnvironment.generateResourceName()
         let byteBuffer = Self.createRandomBuffer(size: 8 * 1024)
 
@@ -434,17 +434,17 @@ class S3Tests: XCTestCase {
     }
 
     func testDualStack() async throws {
-        struct VerifyDualStackMiddleware: AWSServiceMiddleware {
-            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
+        struct VerifyDualStackMiddleware: AWSMiddlewareProtocol {
+            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
                 XCTAssertEqual(request.url.absoluteString.split(separator: ".")[2], "dualstack")
-                return request
+                return try await next(request, context)
             }
         }
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let s3 = Self.s3.with(
-            middlewares: [VerifyDualStackMiddleware()],
+            middleware: VerifyDualStackMiddleware(),
             options: .useDualStackEndpoint
         )
         let name = TestEnvironment.generateResourceName()
@@ -458,17 +458,17 @@ class S3Tests: XCTestCase {
     }
 
     func testFIPSEndpoints() async throws {
-        struct VerifyFipsEndpointMiddleware: AWSServiceMiddleware {
-            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
+        struct VerifyFipsEndpointMiddleware: AWSMiddlewareProtocol {
+            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
                 XCTAssertEqual(request.url.absoluteString.split(separator: ".")[1], "s3-fips")
-                return request
+                return try await next(request, context)
             }
         }
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let s3 = Self.s3.with(
-            middlewares: [VerifyFipsEndpointMiddleware()],
+            middleware: VerifyFipsEndpointMiddleware(),
             options: .useFipsEndpoint
         )
         let name = TestEnvironment.generateResourceName()
@@ -482,17 +482,17 @@ class S3Tests: XCTestCase {
     }
 
     func testTransferAccelerated() async throws {
-        struct VerifyTransferAccelerateMiddleware: AWSServiceMiddleware {
-            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
+        struct VerifyTransferAccelerateMiddleware: AWSMiddlewareProtocol {
+            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
                 XCTAssertEqual(request.url.absoluteString.split(separator: ".")[1], "s3-accelerate")
-                return request
+                return try await next(request, context)
             }
         }
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let s3Accelerated = Self.s3.with(
-            middlewares: [VerifyTransferAccelerateMiddleware()],
+            middleware: VerifyTransferAccelerateMiddleware(),
             options: .s3UseTransferAcceleratedEndpoint
         )
         let name = TestEnvironment.generateResourceName()
@@ -544,13 +544,13 @@ class S3Tests: XCTestCase {
         // don't actually want to make this API call so once I've checked the host is correct
         // I will throw an error in the request middleware
         struct CancelError: Error {}
-        struct CheckHostMiddleware: AWSServiceMiddleware {
-            func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
+        struct CheckHostMiddleware: AWSMiddlewareProtocol {
+            func handle(_ request: AWSHTTPRequest, context: AWSMiddlewareContext, next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse) async throws -> AWSHTTPResponse {
                 XCTAssertEqual(request.url.host, "123456780123.s3-control.eu-west-1.amazonaws.com")
                 throw CancelError()
             }
         }
-        let s3Control = S3Control(client: Self.client, region: .euwest1).with(middlewares: [CheckHostMiddleware()])
+        let s3Control = S3Control(client: Self.client, region: .euwest1).with(middleware: CheckHostMiddleware())
         let request = S3Control.ListJobsRequest(accountId: "123456780123")
         do {
             _ = try await s3Control.listJobs(request)

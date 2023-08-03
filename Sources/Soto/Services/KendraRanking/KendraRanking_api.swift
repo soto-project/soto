@@ -36,12 +36,16 @@ public struct KendraRanking: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -51,80 +55,90 @@ public struct KendraRanking: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSKendraRerankingFrontendService",
-            service: "kendra-ranking",
+            serviceName: "KendraRanking",
+            serviceIdentifier: "kendra-ranking",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2022-10-19",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "af-south-1": "kendra-ranking.af-south-1.api.aws",
-                "ap-east-1": "kendra-ranking.ap-east-1.api.aws",
-                "ap-northeast-1": "kendra-ranking.ap-northeast-1.api.aws",
-                "ap-northeast-2": "kendra-ranking.ap-northeast-2.api.aws",
-                "ap-northeast-3": "kendra-ranking.ap-northeast-3.api.aws",
-                "ap-south-1": "kendra-ranking.ap-south-1.api.aws",
-                "ap-south-2": "kendra-ranking.ap-south-2.api.aws",
-                "ap-southeast-1": "kendra-ranking.ap-southeast-1.api.aws",
-                "ap-southeast-2": "kendra-ranking.ap-southeast-2.api.aws",
-                "ap-southeast-3": "kendra-ranking.ap-southeast-3.api.aws",
-                "ap-southeast-4": "kendra-ranking.ap-southeast-4.api.aws",
-                "ca-central-1": "kendra-ranking.ca-central-1.api.aws",
-                "cn-north-1": "kendra-ranking.cn-north-1.api.amazonwebservices.com.cn",
-                "cn-northwest-1": "kendra-ranking.cn-northwest-1.api.amazonwebservices.com.cn",
-                "eu-central-2": "kendra-ranking.eu-central-2.api.aws",
-                "eu-north-1": "kendra-ranking.eu-north-1.api.aws",
-                "eu-south-1": "kendra-ranking.eu-south-1.api.aws",
-                "eu-south-2": "kendra-ranking.eu-south-2.api.aws",
-                "eu-west-1": "kendra-ranking.eu-west-1.api.aws",
-                "eu-west-3": "kendra-ranking.eu-west-3.api.aws",
-                "me-central-1": "kendra-ranking.me-central-1.api.aws",
-                "me-south-1": "kendra-ranking.me-south-1.api.aws",
-                "sa-east-1": "kendra-ranking.sa-east-1.api.aws",
-                "us-east-1": "kendra-ranking.us-east-1.api.aws",
-                "us-east-2": "kendra-ranking.us-east-2.api.aws",
-                "us-gov-east-1": "kendra-ranking.us-gov-east-1.api.aws",
-                "us-gov-west-1": "kendra-ranking.us-gov-west-1.api.aws",
-                "us-west-1": "kendra-ranking.us-west-1.api.aws",
-                "us-west-2": "kendra-ranking.us-west-2.api.aws"
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "af-south-1": "kendra-ranking-fips.af-south-1.api.aws",
-                    "ap-east-1": "kendra-ranking-fips.ap-east-1.api.aws",
-                    "ap-northeast-1": "kendra-ranking-fips.ap-northeast-1.api.aws",
-                    "ap-northeast-2": "kendra-ranking-fips.ap-northeast-2.api.aws",
-                    "ap-northeast-3": "kendra-ranking-fips.ap-northeast-3.api.aws",
-                    "ap-south-1": "kendra-ranking-fips.ap-south-1.api.aws",
-                    "ap-south-2": "kendra-ranking-fips.ap-south-2.api.aws",
-                    "ap-southeast-1": "kendra-ranking-fips.ap-southeast-1.api.aws",
-                    "ap-southeast-2": "kendra-ranking-fips.ap-southeast-2.api.aws",
-                    "ap-southeast-3": "kendra-ranking-fips.ap-southeast-3.api.aws",
-                    "ap-southeast-4": "kendra-ranking-fips.ap-southeast-4.api.aws",
-                    "ca-central-1": "kendra-ranking-fips.ca-central-1.api.aws",
-                    "cn-north-1": "kendra-ranking-fips.cn-north-1.api.amazonwebservices.com.cn",
-                    "cn-northwest-1": "kendra-ranking-fips.cn-northwest-1.api.amazonwebservices.com.cn",
-                    "eu-central-2": "kendra-ranking-fips.eu-central-2.api.aws",
-                    "eu-north-1": "kendra-ranking-fips.eu-north-1.api.aws",
-                    "eu-south-1": "kendra-ranking-fips.eu-south-1.api.aws",
-                    "eu-south-2": "kendra-ranking-fips.eu-south-2.api.aws",
-                    "eu-west-1": "kendra-ranking-fips.eu-west-1.api.aws",
-                    "eu-west-3": "kendra-ranking-fips.eu-west-3.api.aws",
-                    "me-central-1": "kendra-ranking-fips.me-central-1.api.aws",
-                    "me-south-1": "kendra-ranking-fips.me-south-1.api.aws",
-                    "sa-east-1": "kendra-ranking-fips.sa-east-1.api.aws",
-                    "us-east-1": "kendra-ranking-fips.us-east-1.api.aws",
-                    "us-east-2": "kendra-ranking-fips.us-east-2.api.aws",
-                    "us-gov-east-1": "kendra-ranking-fips.us-gov-east-1.api.aws",
-                    "us-gov-west-1": "kendra-ranking-fips.us-gov-west-1.api.aws",
-                    "us-west-1": "kendra-ranking-fips.us-west-1.api.aws",
-                    "us-west-2": "kendra-ranking-fips.us-west-2.api.aws"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: KendraRankingErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "af-south-1": "kendra-ranking.af-south-1.api.aws",
+        "ap-east-1": "kendra-ranking.ap-east-1.api.aws",
+        "ap-northeast-1": "kendra-ranking.ap-northeast-1.api.aws",
+        "ap-northeast-2": "kendra-ranking.ap-northeast-2.api.aws",
+        "ap-northeast-3": "kendra-ranking.ap-northeast-3.api.aws",
+        "ap-south-1": "kendra-ranking.ap-south-1.api.aws",
+        "ap-south-2": "kendra-ranking.ap-south-2.api.aws",
+        "ap-southeast-1": "kendra-ranking.ap-southeast-1.api.aws",
+        "ap-southeast-2": "kendra-ranking.ap-southeast-2.api.aws",
+        "ap-southeast-3": "kendra-ranking.ap-southeast-3.api.aws",
+        "ap-southeast-4": "kendra-ranking.ap-southeast-4.api.aws",
+        "ca-central-1": "kendra-ranking.ca-central-1.api.aws",
+        "cn-north-1": "kendra-ranking.cn-north-1.api.amazonwebservices.com.cn",
+        "cn-northwest-1": "kendra-ranking.cn-northwest-1.api.amazonwebservices.com.cn",
+        "eu-central-2": "kendra-ranking.eu-central-2.api.aws",
+        "eu-north-1": "kendra-ranking.eu-north-1.api.aws",
+        "eu-south-1": "kendra-ranking.eu-south-1.api.aws",
+        "eu-south-2": "kendra-ranking.eu-south-2.api.aws",
+        "eu-west-1": "kendra-ranking.eu-west-1.api.aws",
+        "eu-west-3": "kendra-ranking.eu-west-3.api.aws",
+        "me-central-1": "kendra-ranking.me-central-1.api.aws",
+        "me-south-1": "kendra-ranking.me-south-1.api.aws",
+        "sa-east-1": "kendra-ranking.sa-east-1.api.aws",
+        "us-east-1": "kendra-ranking.us-east-1.api.aws",
+        "us-east-2": "kendra-ranking.us-east-2.api.aws",
+        "us-gov-east-1": "kendra-ranking.us-gov-east-1.api.aws",
+        "us-gov-west-1": "kendra-ranking.us-gov-west-1.api.aws",
+        "us-west-1": "kendra-ranking.us-west-1.api.aws",
+        "us-west-2": "kendra-ranking.us-west-2.api.aws"
+    ]}
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "af-south-1": "kendra-ranking-fips.af-south-1.api.aws",
+            "ap-east-1": "kendra-ranking-fips.ap-east-1.api.aws",
+            "ap-northeast-1": "kendra-ranking-fips.ap-northeast-1.api.aws",
+            "ap-northeast-2": "kendra-ranking-fips.ap-northeast-2.api.aws",
+            "ap-northeast-3": "kendra-ranking-fips.ap-northeast-3.api.aws",
+            "ap-south-1": "kendra-ranking-fips.ap-south-1.api.aws",
+            "ap-south-2": "kendra-ranking-fips.ap-south-2.api.aws",
+            "ap-southeast-1": "kendra-ranking-fips.ap-southeast-1.api.aws",
+            "ap-southeast-2": "kendra-ranking-fips.ap-southeast-2.api.aws",
+            "ap-southeast-3": "kendra-ranking-fips.ap-southeast-3.api.aws",
+            "ap-southeast-4": "kendra-ranking-fips.ap-southeast-4.api.aws",
+            "ca-central-1": "kendra-ranking-fips.ca-central-1.api.aws",
+            "cn-north-1": "kendra-ranking-fips.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "kendra-ranking-fips.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-2": "kendra-ranking-fips.eu-central-2.api.aws",
+            "eu-north-1": "kendra-ranking-fips.eu-north-1.api.aws",
+            "eu-south-1": "kendra-ranking-fips.eu-south-1.api.aws",
+            "eu-south-2": "kendra-ranking-fips.eu-south-2.api.aws",
+            "eu-west-1": "kendra-ranking-fips.eu-west-1.api.aws",
+            "eu-west-3": "kendra-ranking-fips.eu-west-3.api.aws",
+            "me-central-1": "kendra-ranking-fips.me-central-1.api.aws",
+            "me-south-1": "kendra-ranking-fips.me-south-1.api.aws",
+            "sa-east-1": "kendra-ranking-fips.sa-east-1.api.aws",
+            "us-east-1": "kendra-ranking-fips.us-east-1.api.aws",
+            "us-east-2": "kendra-ranking-fips.us-east-2.api.aws",
+            "us-gov-east-1": "kendra-ranking-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "kendra-ranking-fips.us-gov-west-1.api.aws",
+            "us-west-1": "kendra-ranking-fips.us-west-1.api.aws",
+            "us-west-2": "kendra-ranking-fips.us-west-2.api.aws"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -247,7 +261,7 @@ public struct KendraRanking: AWSService {
 }
 
 extension KendraRanking {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: KendraRanking, patch: AWSServiceConfig.Patch) {
         self.client = from.client

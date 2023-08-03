@@ -36,12 +36,16 @@ public struct STS: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -50,60 +54,72 @@ public struct STS: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "sts",
+            serviceName: "STS",
+            serviceIdentifier: "sts",
             serviceProtocol: .query,
             apiVersion: "2011-06-15",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "af-south-1": "sts.af-south-1.amazonaws.com",
-                "ap-east-1": "sts.ap-east-1.amazonaws.com",
-                "ap-northeast-1": "sts.ap-northeast-1.amazonaws.com",
-                "ap-northeast-2": "sts.ap-northeast-2.amazonaws.com",
-                "ap-northeast-3": "sts.ap-northeast-3.amazonaws.com",
-                "ap-south-1": "sts.ap-south-1.amazonaws.com",
-                "ap-south-2": "sts.ap-south-2.amazonaws.com",
-                "ap-southeast-1": "sts.ap-southeast-1.amazonaws.com",
-                "ap-southeast-2": "sts.ap-southeast-2.amazonaws.com",
-                "ap-southeast-3": "sts.ap-southeast-3.amazonaws.com",
-                "ap-southeast-4": "sts.ap-southeast-4.amazonaws.com",
-                "aws-global": "sts.amazonaws.com",
-                "ca-central-1": "sts.ca-central-1.amazonaws.com",
-                "eu-central-1": "sts.eu-central-1.amazonaws.com",
-                "eu-central-2": "sts.eu-central-2.amazonaws.com",
-                "eu-north-1": "sts.eu-north-1.amazonaws.com",
-                "eu-south-1": "sts.eu-south-1.amazonaws.com",
-                "eu-south-2": "sts.eu-south-2.amazonaws.com",
-                "eu-west-1": "sts.eu-west-1.amazonaws.com",
-                "eu-west-2": "sts.eu-west-2.amazonaws.com",
-                "eu-west-3": "sts.eu-west-3.amazonaws.com",
-                "me-central-1": "sts.me-central-1.amazonaws.com",
-                "me-south-1": "sts.me-south-1.amazonaws.com",
-                "sa-east-1": "sts.sa-east-1.amazonaws.com",
-                "us-east-1": "sts.us-east-1.amazonaws.com",
-                "us-east-2": "sts.us-east-2.amazonaws.com",
-                "us-west-1": "sts.us-west-1.amazonaws.com",
-                "us-west-2": "sts.us-west-2.amazonaws.com"
-            ],
-            partitionEndpoints: [
-                .aws: (endpoint: "aws-global", region: .useast1)
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "us-east-1": "sts-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "sts-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "sts.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "sts.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "sts-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "sts-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            partitionEndpoints: Self.partitionEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: STSErrorType.self,
             xmlNamespace: "https://sts.amazonaws.com/doc/2011-06-15/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "af-south-1": "sts.af-south-1.amazonaws.com",
+        "ap-east-1": "sts.ap-east-1.amazonaws.com",
+        "ap-northeast-1": "sts.ap-northeast-1.amazonaws.com",
+        "ap-northeast-2": "sts.ap-northeast-2.amazonaws.com",
+        "ap-northeast-3": "sts.ap-northeast-3.amazonaws.com",
+        "ap-south-1": "sts.ap-south-1.amazonaws.com",
+        "ap-south-2": "sts.ap-south-2.amazonaws.com",
+        "ap-southeast-1": "sts.ap-southeast-1.amazonaws.com",
+        "ap-southeast-2": "sts.ap-southeast-2.amazonaws.com",
+        "ap-southeast-3": "sts.ap-southeast-3.amazonaws.com",
+        "ap-southeast-4": "sts.ap-southeast-4.amazonaws.com",
+        "aws-global": "sts.amazonaws.com",
+        "ca-central-1": "sts.ca-central-1.amazonaws.com",
+        "eu-central-1": "sts.eu-central-1.amazonaws.com",
+        "eu-central-2": "sts.eu-central-2.amazonaws.com",
+        "eu-north-1": "sts.eu-north-1.amazonaws.com",
+        "eu-south-1": "sts.eu-south-1.amazonaws.com",
+        "eu-south-2": "sts.eu-south-2.amazonaws.com",
+        "eu-west-1": "sts.eu-west-1.amazonaws.com",
+        "eu-west-2": "sts.eu-west-2.amazonaws.com",
+        "eu-west-3": "sts.eu-west-3.amazonaws.com",
+        "me-central-1": "sts.me-central-1.amazonaws.com",
+        "me-south-1": "sts.me-south-1.amazonaws.com",
+        "sa-east-1": "sts.sa-east-1.amazonaws.com",
+        "us-east-1": "sts.us-east-1.amazonaws.com",
+        "us-east-2": "sts.us-east-2.amazonaws.com",
+        "us-west-1": "sts.us-west-1.amazonaws.com",
+        "us-west-2": "sts.us-west-2.amazonaws.com"
+    ]}
+
+    /// Default endpoint and region to use for each partition
+    static var partitionEndpoints: [AWSPartition: (endpoint: String, region: SotoCore.Region)] {[
+        .aws: (endpoint: "aws-global", region: .useast1)
+    ]}
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-east-1": "sts-fips.us-east-1.amazonaws.com",
+            "us-east-2": "sts-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "sts.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "sts.us-gov-west-1.amazonaws.com",
+            "us-west-1": "sts-fips.us-west-1.amazonaws.com",
+            "us-west-2": "sts-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -213,7 +229,7 @@ public struct STS: AWSService {
 }
 
 extension STS {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: STS, patch: AWSServiceConfig.Patch) {
         self.client = from.client

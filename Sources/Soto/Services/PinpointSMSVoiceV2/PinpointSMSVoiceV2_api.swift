@@ -36,12 +36,16 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -51,24 +55,32 @@ public struct PinpointSMSVoiceV2: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "PinpointSMSVoiceV2",
-            service: "sms-voice",
+            serviceName: "PinpointSMSVoiceV2",
+            serviceIdentifier: "sms-voice",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2022-03-31",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "ca-central-1": "sms-voice-fips.ca-central-1.amazonaws.com",
-                    "us-east-1": "sms-voice-fips.us-east-1.amazonaws.com",
-                    "us-gov-west-1": "sms-voice-fips.us-gov-west-1.amazonaws.com",
-                    "us-west-2": "sms-voice-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: PinpointSMSVoiceV2ErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "sms-voice-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "sms-voice-fips.us-east-1.amazonaws.com",
+            "us-gov-west-1": "sms-voice-fips.us-gov-west-1.amazonaws.com",
+            "us-west-2": "sms-voice-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -633,7 +645,7 @@ public struct PinpointSMSVoiceV2: AWSService {
 }
 
 extension PinpointSMSVoiceV2 {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: PinpointSMSVoiceV2, patch: AWSServiceConfig.Patch) {
         self.client = from.client

@@ -36,12 +36,16 @@ public struct Support: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -51,31 +55,41 @@ public struct Support: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "AWSSupport_20130415",
-            service: "support",
+            serviceName: "Support",
+            serviceIdentifier: "support",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2013-04-15",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "aws-cn-global": "support.cn-north-1.amazonaws.com.cn",
-                "aws-global": "support.us-east-1.amazonaws.com",
-                "aws-iso-b-global": "support.us-isob-east-1.sc2s.sgov.gov",
-                "aws-iso-global": "support.us-iso-east-1.c2s.ic.gov",
-                "aws-us-gov-global": "support.us-gov-west-1.amazonaws.com"
-            ],
-            partitionEndpoints: [
-                .aws: (endpoint: "aws-global", region: .useast1),
-                .awscn: (endpoint: "aws-cn-global", region: .cnnorth1),
-                .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
-                .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
-                .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            partitionEndpoints: Self.partitionEndpoints,
             errorType: SupportErrorType.self,
             xmlNamespace: "http://support.amazonaws.com/doc/2013-04-15/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "aws-cn-global": "support.cn-north-1.amazonaws.com.cn",
+        "aws-global": "support.us-east-1.amazonaws.com",
+        "aws-iso-b-global": "support.us-isob-east-1.sc2s.sgov.gov",
+        "aws-iso-global": "support.us-iso-east-1.c2s.ic.gov",
+        "aws-us-gov-global": "support.us-gov-west-1.amazonaws.com"
+    ]}
+
+    /// Default endpoint and region to use for each partition
+    static var partitionEndpoints: [AWSPartition: (endpoint: String, region: SotoCore.Region)] {[
+        .aws: (endpoint: "aws-global", region: .useast1),
+        .awscn: (endpoint: "aws-cn-global", region: .cnnorth1),
+        .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
+        .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
+        .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
+    ]}
+
 
     // MARK: API Calls
 
@@ -304,7 +318,7 @@ public struct Support: AWSService {
 }
 
 extension Support {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Support, patch: AWSServiceConfig.Patch) {
         self.client = from.client

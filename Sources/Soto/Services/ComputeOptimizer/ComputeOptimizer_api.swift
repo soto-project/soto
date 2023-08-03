@@ -36,12 +36,16 @@ public struct ComputeOptimizer: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -51,43 +55,51 @@ public struct ComputeOptimizer: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "ComputeOptimizerService",
-            service: "compute-optimizer",
+            serviceName: "ComputeOptimizer",
+            serviceIdentifier: "compute-optimizer",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2019-11-01",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "af-south-1": "compute-optimizer.af-south-1.amazonaws.com",
-                "ap-east-1": "compute-optimizer.ap-east-1.amazonaws.com",
-                "ap-northeast-1": "compute-optimizer.ap-northeast-1.amazonaws.com",
-                "ap-northeast-2": "compute-optimizer.ap-northeast-2.amazonaws.com",
-                "ap-northeast-3": "compute-optimizer.ap-northeast-3.amazonaws.com",
-                "ap-south-1": "compute-optimizer.ap-south-1.amazonaws.com",
-                "ap-southeast-1": "compute-optimizer.ap-southeast-1.amazonaws.com",
-                "ap-southeast-2": "compute-optimizer.ap-southeast-2.amazonaws.com",
-                "ca-central-1": "compute-optimizer.ca-central-1.amazonaws.com",
-                "cn-north-1": "compute-optimizer.cn-north-1.amazonaws.com.cn",
-                "cn-northwest-1": "compute-optimizer.cn-northwest-1.amazonaws.com.cn",
-                "eu-central-1": "compute-optimizer.eu-central-1.amazonaws.com",
-                "eu-north-1": "compute-optimizer.eu-north-1.amazonaws.com",
-                "eu-south-1": "compute-optimizer.eu-south-1.amazonaws.com",
-                "eu-west-1": "compute-optimizer.eu-west-1.amazonaws.com",
-                "eu-west-2": "compute-optimizer.eu-west-2.amazonaws.com",
-                "eu-west-3": "compute-optimizer.eu-west-3.amazonaws.com",
-                "me-south-1": "compute-optimizer.me-south-1.amazonaws.com",
-                "sa-east-1": "compute-optimizer.sa-east-1.amazonaws.com",
-                "us-east-1": "compute-optimizer.us-east-1.amazonaws.com",
-                "us-east-2": "compute-optimizer.us-east-2.amazonaws.com",
-                "us-gov-east-1": "compute-optimizer-fips.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1": "compute-optimizer-fips.us-gov-west-1.amazonaws.com",
-                "us-west-1": "compute-optimizer.us-west-1.amazonaws.com",
-                "us-west-2": "compute-optimizer.us-west-2.amazonaws.com"
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
             errorType: ComputeOptimizerErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "af-south-1": "compute-optimizer.af-south-1.amazonaws.com",
+        "ap-east-1": "compute-optimizer.ap-east-1.amazonaws.com",
+        "ap-northeast-1": "compute-optimizer.ap-northeast-1.amazonaws.com",
+        "ap-northeast-2": "compute-optimizer.ap-northeast-2.amazonaws.com",
+        "ap-northeast-3": "compute-optimizer.ap-northeast-3.amazonaws.com",
+        "ap-south-1": "compute-optimizer.ap-south-1.amazonaws.com",
+        "ap-southeast-1": "compute-optimizer.ap-southeast-1.amazonaws.com",
+        "ap-southeast-2": "compute-optimizer.ap-southeast-2.amazonaws.com",
+        "ca-central-1": "compute-optimizer.ca-central-1.amazonaws.com",
+        "cn-north-1": "compute-optimizer.cn-north-1.amazonaws.com.cn",
+        "cn-northwest-1": "compute-optimizer.cn-northwest-1.amazonaws.com.cn",
+        "eu-central-1": "compute-optimizer.eu-central-1.amazonaws.com",
+        "eu-north-1": "compute-optimizer.eu-north-1.amazonaws.com",
+        "eu-south-1": "compute-optimizer.eu-south-1.amazonaws.com",
+        "eu-west-1": "compute-optimizer.eu-west-1.amazonaws.com",
+        "eu-west-2": "compute-optimizer.eu-west-2.amazonaws.com",
+        "eu-west-3": "compute-optimizer.eu-west-3.amazonaws.com",
+        "me-south-1": "compute-optimizer.me-south-1.amazonaws.com",
+        "sa-east-1": "compute-optimizer.sa-east-1.amazonaws.com",
+        "us-east-1": "compute-optimizer.us-east-1.amazonaws.com",
+        "us-east-2": "compute-optimizer.us-east-2.amazonaws.com",
+        "us-gov-east-1": "compute-optimizer-fips.us-gov-east-1.amazonaws.com",
+        "us-gov-west-1": "compute-optimizer-fips.us-gov-west-1.amazonaws.com",
+        "us-west-1": "compute-optimizer.us-west-1.amazonaws.com",
+        "us-west-2": "compute-optimizer.us-west-2.amazonaws.com"
+    ]}
+
+
 
     // MARK: API Calls
 
@@ -366,7 +378,7 @@ public struct ComputeOptimizer: AWSService {
 }
 
 extension ComputeOptimizer {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: ComputeOptimizer, patch: AWSServiceConfig.Patch) {
         self.client = from.client

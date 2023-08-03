@@ -40,12 +40,16 @@ public struct IoTSecureTunneling: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -55,42 +59,50 @@ public struct IoTSecureTunneling: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "IoTSecuredTunneling",
-            service: "api.tunneling.iot",
+            serviceName: "IoTSecureTunneling",
+            serviceIdentifier: "api.tunneling.iot",
             signingName: "IoTSecuredTunneling",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-10-05",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "ap-east-1": "api.tunneling.iot-fips.ap-east-1.amazonaws.com",
-                    "ap-northeast-1": "api.tunneling.iot-fips.ap-northeast-1.amazonaws.com",
-                    "ap-northeast-2": "api.tunneling.iot-fips.ap-northeast-2.amazonaws.com",
-                    "ap-south-1": "api.tunneling.iot-fips.ap-south-1.amazonaws.com",
-                    "ap-southeast-1": "api.tunneling.iot-fips.ap-southeast-1.amazonaws.com",
-                    "ap-southeast-2": "api.tunneling.iot-fips.ap-southeast-2.amazonaws.com",
-                    "ca-central-1": "api.tunneling.iot-fips.ca-central-1.amazonaws.com",
-                    "eu-central-1": "api.tunneling.iot-fips.eu-central-1.amazonaws.com",
-                    "eu-north-1": "api.tunneling.iot-fips.eu-north-1.amazonaws.com",
-                    "eu-west-1": "api.tunneling.iot-fips.eu-west-1.amazonaws.com",
-                    "eu-west-2": "api.tunneling.iot-fips.eu-west-2.amazonaws.com",
-                    "eu-west-3": "api.tunneling.iot-fips.eu-west-3.amazonaws.com",
-                    "me-central-1": "api.tunneling.iot-fips.me-central-1.amazonaws.com",
-                    "me-south-1": "api.tunneling.iot-fips.me-south-1.amazonaws.com",
-                    "sa-east-1": "api.tunneling.iot-fips.sa-east-1.amazonaws.com",
-                    "us-east-1": "api.tunneling.iot-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "api.tunneling.iot-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "api.tunneling.iot-fips.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "api.tunneling.iot-fips.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "api.tunneling.iot-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "api.tunneling.iot-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: IoTSecureTunnelingErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ap-east-1": "api.tunneling.iot-fips.ap-east-1.amazonaws.com",
+            "ap-northeast-1": "api.tunneling.iot-fips.ap-northeast-1.amazonaws.com",
+            "ap-northeast-2": "api.tunneling.iot-fips.ap-northeast-2.amazonaws.com",
+            "ap-south-1": "api.tunneling.iot-fips.ap-south-1.amazonaws.com",
+            "ap-southeast-1": "api.tunneling.iot-fips.ap-southeast-1.amazonaws.com",
+            "ap-southeast-2": "api.tunneling.iot-fips.ap-southeast-2.amazonaws.com",
+            "ca-central-1": "api.tunneling.iot-fips.ca-central-1.amazonaws.com",
+            "eu-central-1": "api.tunneling.iot-fips.eu-central-1.amazonaws.com",
+            "eu-north-1": "api.tunneling.iot-fips.eu-north-1.amazonaws.com",
+            "eu-west-1": "api.tunneling.iot-fips.eu-west-1.amazonaws.com",
+            "eu-west-2": "api.tunneling.iot-fips.eu-west-2.amazonaws.com",
+            "eu-west-3": "api.tunneling.iot-fips.eu-west-3.amazonaws.com",
+            "me-central-1": "api.tunneling.iot-fips.me-central-1.amazonaws.com",
+            "me-south-1": "api.tunneling.iot-fips.me-south-1.amazonaws.com",
+            "sa-east-1": "api.tunneling.iot-fips.sa-east-1.amazonaws.com",
+            "us-east-1": "api.tunneling.iot-fips.us-east-1.amazonaws.com",
+            "us-east-2": "api.tunneling.iot-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "api.tunneling.iot-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "api.tunneling.iot-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "api.tunneling.iot-fips.us-west-1.amazonaws.com",
+            "us-west-2": "api.tunneling.iot-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -216,7 +228,7 @@ public struct IoTSecureTunneling: AWSService {
 }
 
 extension IoTSecureTunneling {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: IoTSecureTunneling, patch: AWSServiceConfig.Patch) {
         self.client = from.client

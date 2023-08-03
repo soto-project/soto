@@ -35,11 +35,15 @@ public struct Health: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -49,24 +53,34 @@ public struct Health: AWSService {
             region: nil,
             partition: partition,
             amzTarget: "AWSHealth_20160804",
-            service: "health",
+            serviceName: "Health",
+            serviceIdentifier: "health",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-08-04",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "aws-cn-global": "global.health.amazonaws.com.cn",
-                "aws-global": "global.health.amazonaws.com"
-            ],
-            partitionEndpoints: [
-                .aws: (endpoint: "aws-global", region: .useast1),
-                .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            partitionEndpoints: Self.partitionEndpoints,
             errorType: HealthErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "aws-cn-global": "global.health.amazonaws.com.cn",
+        "aws-global": "global.health.amazonaws.com"
+    ]}
+
+    /// Default endpoint and region to use for each partition
+    static var partitionEndpoints: [AWSPartition: (endpoint: String, region: SotoCore.Region)] {[
+        .aws: (endpoint: "aws-global", region: .useast1),
+        .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)
+    ]}
+
 
     // MARK: API Calls
 
@@ -238,7 +252,7 @@ public struct Health: AWSService {
 }
 
 extension Health {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Health, patch: AWSServiceConfig.Patch) {
         self.client = from.client

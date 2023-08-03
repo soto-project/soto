@@ -48,12 +48,16 @@ public struct InternetMonitor: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -62,70 +66,80 @@ public struct InternetMonitor: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "internetmonitor",
+            serviceName: "InternetMonitor",
+            serviceIdentifier: "internetmonitor",
             serviceProtocol: .restjson,
             apiVersion: "2021-06-03",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "af-south-1": "internetmonitor.af-south-1.api.aws",
-                "ap-east-1": "internetmonitor.ap-east-1.api.aws",
-                "ap-northeast-1": "internetmonitor.ap-northeast-1.api.aws",
-                "ap-northeast-2": "internetmonitor.ap-northeast-2.api.aws",
-                "ap-south-1": "internetmonitor.ap-south-1.api.aws",
-                "ap-southeast-1": "internetmonitor.ap-southeast-1.api.aws",
-                "ap-southeast-2": "internetmonitor.ap-southeast-2.api.aws",
-                "ca-central-1": "internetmonitor.ca-central-1.api.aws",
-                "cn-north-1": "internetmonitor.cn-north-1.api.amazonwebservices.com.cn",
-                "cn-northwest-1": "internetmonitor.cn-northwest-1.api.amazonwebservices.com.cn",
-                "eu-central-1": "internetmonitor.eu-central-1.api.aws",
-                "eu-north-1": "internetmonitor.eu-north-1.api.aws",
-                "eu-south-1": "internetmonitor.eu-south-1.api.aws",
-                "eu-west-1": "internetmonitor.eu-west-1.api.aws",
-                "eu-west-2": "internetmonitor.eu-west-2.api.aws",
-                "eu-west-3": "internetmonitor.eu-west-3.api.aws",
-                "me-south-1": "internetmonitor.me-south-1.api.aws",
-                "sa-east-1": "internetmonitor.sa-east-1.api.aws",
-                "us-east-1": "internetmonitor.us-east-1.api.aws",
-                "us-east-2": "internetmonitor.us-east-2.api.aws",
-                "us-gov-east-1": "internetmonitor.us-gov-east-1.api.aws",
-                "us-gov-west-1": "internetmonitor.us-gov-west-1.api.aws",
-                "us-west-1": "internetmonitor.us-west-1.api.aws",
-                "us-west-2": "internetmonitor.us-west-2.api.aws"
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "af-south-1": "internetmonitor-fips.af-south-1.api.aws",
-                    "ap-east-1": "internetmonitor-fips.ap-east-1.api.aws",
-                    "ap-northeast-1": "internetmonitor-fips.ap-northeast-1.api.aws",
-                    "ap-northeast-2": "internetmonitor-fips.ap-northeast-2.api.aws",
-                    "ap-south-1": "internetmonitor-fips.ap-south-1.api.aws",
-                    "ap-southeast-1": "internetmonitor-fips.ap-southeast-1.api.aws",
-                    "ap-southeast-2": "internetmonitor-fips.ap-southeast-2.api.aws",
-                    "ca-central-1": "internetmonitor-fips.ca-central-1.api.aws",
-                    "cn-north-1": "internetmonitor-fips.cn-north-1.api.amazonwebservices.com.cn",
-                    "cn-northwest-1": "internetmonitor-fips.cn-northwest-1.api.amazonwebservices.com.cn",
-                    "eu-central-1": "internetmonitor-fips.eu-central-1.api.aws",
-                    "eu-north-1": "internetmonitor-fips.eu-north-1.api.aws",
-                    "eu-south-1": "internetmonitor-fips.eu-south-1.api.aws",
-                    "eu-west-1": "internetmonitor-fips.eu-west-1.api.aws",
-                    "eu-west-2": "internetmonitor-fips.eu-west-2.api.aws",
-                    "eu-west-3": "internetmonitor-fips.eu-west-3.api.aws",
-                    "me-south-1": "internetmonitor-fips.me-south-1.api.aws",
-                    "sa-east-1": "internetmonitor-fips.sa-east-1.api.aws",
-                    "us-east-1": "internetmonitor-fips.us-east-1.api.aws",
-                    "us-east-2": "internetmonitor-fips.us-east-2.api.aws",
-                    "us-gov-east-1": "internetmonitor-fips.us-gov-east-1.api.aws",
-                    "us-gov-west-1": "internetmonitor-fips.us-gov-west-1.api.aws",
-                    "us-west-1": "internetmonitor-fips.us-west-1.api.aws",
-                    "us-west-2": "internetmonitor-fips.us-west-2.api.aws"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: InternetMonitorErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "af-south-1": "internetmonitor.af-south-1.api.aws",
+        "ap-east-1": "internetmonitor.ap-east-1.api.aws",
+        "ap-northeast-1": "internetmonitor.ap-northeast-1.api.aws",
+        "ap-northeast-2": "internetmonitor.ap-northeast-2.api.aws",
+        "ap-south-1": "internetmonitor.ap-south-1.api.aws",
+        "ap-southeast-1": "internetmonitor.ap-southeast-1.api.aws",
+        "ap-southeast-2": "internetmonitor.ap-southeast-2.api.aws",
+        "ca-central-1": "internetmonitor.ca-central-1.api.aws",
+        "cn-north-1": "internetmonitor.cn-north-1.api.amazonwebservices.com.cn",
+        "cn-northwest-1": "internetmonitor.cn-northwest-1.api.amazonwebservices.com.cn",
+        "eu-central-1": "internetmonitor.eu-central-1.api.aws",
+        "eu-north-1": "internetmonitor.eu-north-1.api.aws",
+        "eu-south-1": "internetmonitor.eu-south-1.api.aws",
+        "eu-west-1": "internetmonitor.eu-west-1.api.aws",
+        "eu-west-2": "internetmonitor.eu-west-2.api.aws",
+        "eu-west-3": "internetmonitor.eu-west-3.api.aws",
+        "me-south-1": "internetmonitor.me-south-1.api.aws",
+        "sa-east-1": "internetmonitor.sa-east-1.api.aws",
+        "us-east-1": "internetmonitor.us-east-1.api.aws",
+        "us-east-2": "internetmonitor.us-east-2.api.aws",
+        "us-gov-east-1": "internetmonitor.us-gov-east-1.api.aws",
+        "us-gov-west-1": "internetmonitor.us-gov-west-1.api.aws",
+        "us-west-1": "internetmonitor.us-west-1.api.aws",
+        "us-west-2": "internetmonitor.us-west-2.api.aws"
+    ]}
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "af-south-1": "internetmonitor-fips.af-south-1.api.aws",
+            "ap-east-1": "internetmonitor-fips.ap-east-1.api.aws",
+            "ap-northeast-1": "internetmonitor-fips.ap-northeast-1.api.aws",
+            "ap-northeast-2": "internetmonitor-fips.ap-northeast-2.api.aws",
+            "ap-south-1": "internetmonitor-fips.ap-south-1.api.aws",
+            "ap-southeast-1": "internetmonitor-fips.ap-southeast-1.api.aws",
+            "ap-southeast-2": "internetmonitor-fips.ap-southeast-2.api.aws",
+            "ca-central-1": "internetmonitor-fips.ca-central-1.api.aws",
+            "cn-north-1": "internetmonitor-fips.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "internetmonitor-fips.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "internetmonitor-fips.eu-central-1.api.aws",
+            "eu-north-1": "internetmonitor-fips.eu-north-1.api.aws",
+            "eu-south-1": "internetmonitor-fips.eu-south-1.api.aws",
+            "eu-west-1": "internetmonitor-fips.eu-west-1.api.aws",
+            "eu-west-2": "internetmonitor-fips.eu-west-2.api.aws",
+            "eu-west-3": "internetmonitor-fips.eu-west-3.api.aws",
+            "me-south-1": "internetmonitor-fips.me-south-1.api.aws",
+            "sa-east-1": "internetmonitor-fips.sa-east-1.api.aws",
+            "us-east-1": "internetmonitor-fips.us-east-1.api.aws",
+            "us-east-2": "internetmonitor-fips.us-east-2.api.aws",
+            "us-gov-east-1": "internetmonitor-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "internetmonitor-fips.us-gov-west-1.api.aws",
+            "us-west-1": "internetmonitor-fips.us-west-1.api.aws",
+            "us-west-2": "internetmonitor-fips.us-west-2.api.aws"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -273,7 +287,7 @@ public struct InternetMonitor: AWSService {
 }
 
 extension InternetMonitor {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: InternetMonitor, patch: AWSServiceConfig.Patch) {
         self.client = from.client

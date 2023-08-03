@@ -36,12 +36,16 @@ public struct MediaConvert: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -50,29 +54,39 @@ public struct MediaConvert: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "mediaconvert",
+            serviceName: "MediaConvert",
+            serviceIdentifier: "mediaconvert",
             serviceProtocol: .restjson,
             apiVersion: "2017-08-29",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "cn-northwest-1": "subscribe.mediaconvert.cn-northwest-1.amazonaws.com.cn"
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "ca-central-1": "mediaconvert-fips.ca-central-1.amazonaws.com",
-                    "us-east-1": "mediaconvert-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "mediaconvert-fips.us-east-2.amazonaws.com",
-                    "us-gov-west-1": "mediaconvert.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "mediaconvert-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "mediaconvert-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: MediaConvertErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "cn-northwest-1": "subscribe.mediaconvert.cn-northwest-1.amazonaws.com.cn"
+    ]}
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "mediaconvert-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "mediaconvert-fips.us-east-1.amazonaws.com",
+            "us-east-2": "mediaconvert-fips.us-east-2.amazonaws.com",
+            "us-gov-west-1": "mediaconvert.us-gov-west-1.amazonaws.com",
+            "us-west-1": "mediaconvert-fips.us-west-1.amazonaws.com",
+            "us-west-2": "mediaconvert-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -442,7 +456,7 @@ public struct MediaConvert: AWSService {
 }
 
 extension MediaConvert {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: MediaConvert, patch: AWSServiceConfig.Patch) {
         self.client = from.client

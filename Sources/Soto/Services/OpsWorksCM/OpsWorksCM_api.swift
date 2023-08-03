@@ -36,12 +36,16 @@ public struct OpsWorksCM: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -51,17 +55,23 @@ public struct OpsWorksCM: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "OpsWorksCM_V2016_11_01",
-            service: "opsworks-cm",
+            serviceName: "OpsWorksCM",
+            serviceIdentifier: "opsworks-cm",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-11-01",
             endpoint: endpoint,
             errorType: OpsWorksCMErrorType.self,
             xmlNamespace: "http://opsworks-cm.amazonaws.com/doc/2016-11-01/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
 
     // MARK: API Calls
 
@@ -314,7 +324,7 @@ public struct OpsWorksCM: AWSService {
 }
 
 extension OpsWorksCM {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: OpsWorksCM, patch: AWSServiceConfig.Patch) {
         self.client = from.client

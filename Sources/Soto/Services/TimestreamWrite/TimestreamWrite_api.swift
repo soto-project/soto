@@ -38,12 +38,16 @@ public struct TimestreamWrite: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -53,23 +57,31 @@ public struct TimestreamWrite: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "Timestream_20181101",
-            service: "ingest.timestream",
+            serviceName: "TimestreamWrite",
+            serviceIdentifier: "ingest.timestream",
             signingName: "timestream",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2018-11-01",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "us-gov-west-1": "ingest.timestream.us-gov-west-1.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: TimestreamWriteErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
         self.endpointStorage = .init()
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-gov-west-1": "ingest.timestream.us-gov-west-1.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -80,9 +92,10 @@ public struct TimestreamWrite: AWSService {
             operation: "CreateBatchLoadTask", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -94,9 +107,10 @@ public struct TimestreamWrite: AWSService {
             operation: "CreateDatabase", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -108,9 +122,10 @@ public struct TimestreamWrite: AWSService {
             operation: "CreateTable", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -122,9 +137,10 @@ public struct TimestreamWrite: AWSService {
             operation: "DeleteDatabase", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -136,9 +152,10 @@ public struct TimestreamWrite: AWSService {
             operation: "DeleteTable", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -150,9 +167,10 @@ public struct TimestreamWrite: AWSService {
             operation: "DescribeBatchLoadTask", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -164,9 +182,10 @@ public struct TimestreamWrite: AWSService {
             operation: "DescribeDatabase", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -191,9 +210,10 @@ public struct TimestreamWrite: AWSService {
             operation: "DescribeTable", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -205,9 +225,10 @@ public struct TimestreamWrite: AWSService {
             operation: "ListBatchLoadTasks", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -219,9 +240,10 @@ public struct TimestreamWrite: AWSService {
             operation: "ListDatabases", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -233,9 +255,10 @@ public struct TimestreamWrite: AWSService {
             operation: "ListTables", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -247,9 +270,10 @@ public struct TimestreamWrite: AWSService {
             operation: "ListTagsForResource", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -261,9 +285,10 @@ public struct TimestreamWrite: AWSService {
             operation: "ResumeBatchLoadTask", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -275,9 +300,10 @@ public struct TimestreamWrite: AWSService {
             operation: "TagResource", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -289,9 +315,10 @@ public struct TimestreamWrite: AWSService {
             operation: "UntagResource", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -303,9 +330,10 @@ public struct TimestreamWrite: AWSService {
             operation: "UpdateDatabase", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -317,9 +345,10 @@ public struct TimestreamWrite: AWSService {
             operation: "UpdateTable", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -331,9 +360,10 @@ public struct TimestreamWrite: AWSService {
             operation: "WriteRecords", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: true)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: true), 
             logger: logger
         )
     }
@@ -347,7 +377,7 @@ public struct TimestreamWrite: AWSService {
 }
 
 extension TimestreamWrite {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: TimestreamWrite, patch: AWSServiceConfig.Patch) {
         self.client = from.client

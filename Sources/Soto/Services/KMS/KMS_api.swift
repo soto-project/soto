@@ -36,12 +36,16 @@ public struct KMS: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -51,56 +55,66 @@ public struct KMS: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "TrentService",
-            service: "kms",
+            serviceName: "KMS",
+            serviceIdentifier: "kms",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-11-01",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "il-central-1-fips": "kms-fips.il-central-1.amazonaws.com"
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "af-south-1": "kms-fips.af-south-1.amazonaws.com",
-                    "ap-east-1": "kms-fips.ap-east-1.amazonaws.com",
-                    "ap-northeast-1": "kms-fips.ap-northeast-1.amazonaws.com",
-                    "ap-northeast-2": "kms-fips.ap-northeast-2.amazonaws.com",
-                    "ap-northeast-3": "kms-fips.ap-northeast-3.amazonaws.com",
-                    "ap-south-1": "kms-fips.ap-south-1.amazonaws.com",
-                    "ap-south-2": "kms-fips.ap-south-2.amazonaws.com",
-                    "ap-southeast-1": "kms-fips.ap-southeast-1.amazonaws.com",
-                    "ap-southeast-2": "kms-fips.ap-southeast-2.amazonaws.com",
-                    "ap-southeast-3": "kms-fips.ap-southeast-3.amazonaws.com",
-                    "ap-southeast-4": "kms-fips.ap-southeast-4.amazonaws.com",
-                    "ca-central-1": "kms-fips.ca-central-1.amazonaws.com",
-                    "eu-central-1": "kms-fips.eu-central-1.amazonaws.com",
-                    "eu-central-2": "kms-fips.eu-central-2.amazonaws.com",
-                    "eu-north-1": "kms-fips.eu-north-1.amazonaws.com",
-                    "eu-south-1": "kms-fips.eu-south-1.amazonaws.com",
-                    "eu-south-2": "kms-fips.eu-south-2.amazonaws.com",
-                    "eu-west-1": "kms-fips.eu-west-1.amazonaws.com",
-                    "eu-west-2": "kms-fips.eu-west-2.amazonaws.com",
-                    "eu-west-3": "kms-fips.eu-west-3.amazonaws.com",
-                    "me-central-1": "kms-fips.me-central-1.amazonaws.com",
-                    "me-south-1": "kms-fips.me-south-1.amazonaws.com",
-                    "sa-east-1": "kms-fips.sa-east-1.amazonaws.com",
-                    "us-east-1": "kms-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "kms-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "kms-fips.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "kms-fips.us-gov-west-1.amazonaws.com",
-                    "us-iso-east-1": "kms-fips.us-iso-east-1.c2s.ic.gov",
-                    "us-iso-west-1": "kms-fips.us-iso-west-1.c2s.ic.gov",
-                    "us-isob-east-1": "kms-fips.us-isob-east-1.sc2s.sgov.gov",
-                    "us-west-1": "kms-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "kms-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: KMSErrorType.self,
             xmlNamespace: "https://trent.amazonaws.com/doc/2014-11-01/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "il-central-1-fips": "kms-fips.il-central-1.amazonaws.com"
+    ]}
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "af-south-1": "kms-fips.af-south-1.amazonaws.com",
+            "ap-east-1": "kms-fips.ap-east-1.amazonaws.com",
+            "ap-northeast-1": "kms-fips.ap-northeast-1.amazonaws.com",
+            "ap-northeast-2": "kms-fips.ap-northeast-2.amazonaws.com",
+            "ap-northeast-3": "kms-fips.ap-northeast-3.amazonaws.com",
+            "ap-south-1": "kms-fips.ap-south-1.amazonaws.com",
+            "ap-south-2": "kms-fips.ap-south-2.amazonaws.com",
+            "ap-southeast-1": "kms-fips.ap-southeast-1.amazonaws.com",
+            "ap-southeast-2": "kms-fips.ap-southeast-2.amazonaws.com",
+            "ap-southeast-3": "kms-fips.ap-southeast-3.amazonaws.com",
+            "ap-southeast-4": "kms-fips.ap-southeast-4.amazonaws.com",
+            "ca-central-1": "kms-fips.ca-central-1.amazonaws.com",
+            "eu-central-1": "kms-fips.eu-central-1.amazonaws.com",
+            "eu-central-2": "kms-fips.eu-central-2.amazonaws.com",
+            "eu-north-1": "kms-fips.eu-north-1.amazonaws.com",
+            "eu-south-1": "kms-fips.eu-south-1.amazonaws.com",
+            "eu-south-2": "kms-fips.eu-south-2.amazonaws.com",
+            "eu-west-1": "kms-fips.eu-west-1.amazonaws.com",
+            "eu-west-2": "kms-fips.eu-west-2.amazonaws.com",
+            "eu-west-3": "kms-fips.eu-west-3.amazonaws.com",
+            "me-central-1": "kms-fips.me-central-1.amazonaws.com",
+            "me-south-1": "kms-fips.me-south-1.amazonaws.com",
+            "sa-east-1": "kms-fips.sa-east-1.amazonaws.com",
+            "us-east-1": "kms-fips.us-east-1.amazonaws.com",
+            "us-east-2": "kms-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "kms-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "kms-fips.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "kms-fips.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "kms-fips.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "kms-fips.us-isob-east-1.sc2s.sgov.gov",
+            "us-west-1": "kms-fips.us-west-1.amazonaws.com",
+            "us-west-2": "kms-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -799,7 +813,7 @@ public struct KMS: AWSService {
 }
 
 extension KMS {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: KMS, patch: AWSServiceConfig.Patch) {
         self.client = from.client

@@ -37,12 +37,16 @@ public struct DynamoDBStreams: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -52,27 +56,37 @@ public struct DynamoDBStreams: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "DynamoDBStreams_20120810",
-            service: "streams.dynamodb",
+            serviceName: "DynamoDBStreams",
+            serviceIdentifier: "streams.dynamodb",
             signingName: "dynamodb",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2012-08-10",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "local": "localhost:8000"
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "us-gov-east-1": "streams.dynamodb.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "streams.dynamodb.us-gov-west-1.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: DynamoDBStreamsErrorType.self,
             xmlNamespace: "http://dynamodb.amazonaws.com/doc/2012-08-10/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "local": "localhost:8000"
+    ]}
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-gov-east-1": "streams.dynamodb.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "streams.dynamodb.us-gov-west-1.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -130,7 +144,7 @@ public struct DynamoDBStreams: AWSService {
 }
 
 extension DynamoDBStreams {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: DynamoDBStreams, patch: AWSServiceConfig.Patch) {
         self.client = from.client

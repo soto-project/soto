@@ -36,12 +36,16 @@ public struct Grafana: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -50,28 +54,36 @@ public struct Grafana: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "grafana",
+            serviceName: "Grafana",
+            serviceIdentifier: "grafana",
             serviceProtocol: .restjson,
             apiVersion: "2020-08-18",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "ap-northeast-1": "grafana.ap-northeast-1.amazonaws.com",
-                "ap-northeast-2": "grafana.ap-northeast-2.amazonaws.com",
-                "ap-southeast-1": "grafana.ap-southeast-1.amazonaws.com",
-                "ap-southeast-2": "grafana.ap-southeast-2.amazonaws.com",
-                "eu-central-1": "grafana.eu-central-1.amazonaws.com",
-                "eu-west-1": "grafana.eu-west-1.amazonaws.com",
-                "eu-west-2": "grafana.eu-west-2.amazonaws.com",
-                "us-east-1": "grafana.us-east-1.amazonaws.com",
-                "us-east-2": "grafana.us-east-2.amazonaws.com",
-                "us-west-2": "grafana.us-west-2.amazonaws.com"
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
             errorType: GrafanaErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "ap-northeast-1": "grafana.ap-northeast-1.amazonaws.com",
+        "ap-northeast-2": "grafana.ap-northeast-2.amazonaws.com",
+        "ap-southeast-1": "grafana.ap-southeast-1.amazonaws.com",
+        "ap-southeast-2": "grafana.ap-southeast-2.amazonaws.com",
+        "eu-central-1": "grafana.eu-central-1.amazonaws.com",
+        "eu-west-1": "grafana.eu-west-1.amazonaws.com",
+        "eu-west-2": "grafana.eu-west-2.amazonaws.com",
+        "us-east-1": "grafana.us-east-1.amazonaws.com",
+        "us-east-2": "grafana.us-east-2.amazonaws.com",
+        "us-west-2": "grafana.us-west-2.amazonaws.com"
+    ]}
+
+
 
     // MARK: API Calls
 
@@ -311,7 +323,7 @@ public struct Grafana: AWSService {
 }
 
 extension Grafana {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Grafana, patch: AWSServiceConfig.Patch) {
         self.client = from.client

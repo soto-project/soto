@@ -38,12 +38,16 @@ public struct DynamoDB: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -53,32 +57,42 @@ public struct DynamoDB: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "DynamoDB_20120810",
-            service: "dynamodb",
+            serviceName: "DynamoDB",
+            serviceIdentifier: "dynamodb",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2012-08-10",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "local": "localhost:8000"
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "ca-central-1": "dynamodb-fips.ca-central-1.amazonaws.com",
-                    "us-east-1": "dynamodb-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "dynamodb-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "dynamodb.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "dynamodb.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "dynamodb-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "dynamodb-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: DynamoDBErrorType.self,
             xmlNamespace: "http://dynamodb.amazonaws.com/doc/2012-08-10/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
         self.endpointStorage = .init()
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "local": "localhost:8000"
+    ]}
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "dynamodb-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "dynamodb-fips.us-east-1.amazonaws.com",
+            "us-east-2": "dynamodb-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "dynamodb.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "dynamodb.us-gov-west-1.amazonaws.com",
+            "us-west-1": "dynamodb-fips.us-west-1.amazonaws.com",
+            "us-west-2": "dynamodb-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -102,9 +116,10 @@ public struct DynamoDB: AWSService {
             operation: "BatchGetItem", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -116,9 +131,10 @@ public struct DynamoDB: AWSService {
             operation: "BatchWriteItem", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -130,9 +146,10 @@ public struct DynamoDB: AWSService {
             operation: "CreateBackup", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -144,9 +161,10 @@ public struct DynamoDB: AWSService {
             operation: "CreateGlobalTable", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -158,9 +176,10 @@ public struct DynamoDB: AWSService {
             operation: "CreateTable", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -172,9 +191,10 @@ public struct DynamoDB: AWSService {
             operation: "DeleteBackup", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -186,9 +206,10 @@ public struct DynamoDB: AWSService {
             operation: "DeleteItem", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -200,9 +221,10 @@ public struct DynamoDB: AWSService {
             operation: "DeleteTable", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -214,9 +236,10 @@ public struct DynamoDB: AWSService {
             operation: "DescribeBackup", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -228,9 +251,10 @@ public struct DynamoDB: AWSService {
             operation: "DescribeContinuousBackups", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -281,9 +305,10 @@ public struct DynamoDB: AWSService {
             operation: "DescribeGlobalTable", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -295,9 +320,10 @@ public struct DynamoDB: AWSService {
             operation: "DescribeGlobalTableSettings", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -322,9 +348,10 @@ public struct DynamoDB: AWSService {
             operation: "DescribeKinesisStreamingDestination", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -336,9 +363,10 @@ public struct DynamoDB: AWSService {
             operation: "DescribeLimits", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -350,9 +378,10 @@ public struct DynamoDB: AWSService {
             operation: "DescribeTable", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -377,9 +406,10 @@ public struct DynamoDB: AWSService {
             operation: "DescribeTimeToLive", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -391,9 +421,10 @@ public struct DynamoDB: AWSService {
             operation: "DisableKinesisStreamingDestination", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -405,9 +436,10 @@ public struct DynamoDB: AWSService {
             operation: "EnableKinesisStreamingDestination", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -458,9 +490,10 @@ public struct DynamoDB: AWSService {
             operation: "GetItem", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -485,9 +518,10 @@ public struct DynamoDB: AWSService {
             operation: "ListBackups", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -525,9 +559,10 @@ public struct DynamoDB: AWSService {
             operation: "ListGlobalTables", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -552,9 +587,10 @@ public struct DynamoDB: AWSService {
             operation: "ListTables", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -566,9 +602,10 @@ public struct DynamoDB: AWSService {
             operation: "ListTagsOfResource", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -580,9 +617,10 @@ public struct DynamoDB: AWSService {
             operation: "PutItem", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -594,9 +632,10 @@ public struct DynamoDB: AWSService {
             operation: "Query", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -608,9 +647,10 @@ public struct DynamoDB: AWSService {
             operation: "RestoreTableFromBackup", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -622,9 +662,10 @@ public struct DynamoDB: AWSService {
             operation: "RestoreTableToPointInTime", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -636,9 +677,10 @@ public struct DynamoDB: AWSService {
             operation: "Scan", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -650,9 +692,10 @@ public struct DynamoDB: AWSService {
             operation: "TagResource", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -664,9 +707,10 @@ public struct DynamoDB: AWSService {
             operation: "TransactGetItems", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -678,9 +722,10 @@ public struct DynamoDB: AWSService {
             operation: "TransactWriteItems", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -692,9 +737,10 @@ public struct DynamoDB: AWSService {
             operation: "UntagResource", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -706,9 +752,10 @@ public struct DynamoDB: AWSService {
             operation: "UpdateContinuousBackups", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -733,9 +780,10 @@ public struct DynamoDB: AWSService {
             operation: "UpdateGlobalTable", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -747,9 +795,10 @@ public struct DynamoDB: AWSService {
             operation: "UpdateGlobalTableSettings", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -761,9 +810,10 @@ public struct DynamoDB: AWSService {
             operation: "UpdateItem", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -775,9 +825,10 @@ public struct DynamoDB: AWSService {
             operation: "UpdateTable", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -802,9 +853,10 @@ public struct DynamoDB: AWSService {
             operation: "UpdateTimeToLive", 
             path: "/", 
             httpMethod: .POST, 
-            serviceConfig: self.config, 
+            serviceConfig: self.config
+                .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
+            ), 
             input: input, 
-            endpointDiscovery: .init(storage: self.endpointStorage, discover: self.getEndpoint, required: false), 
             logger: logger
         )
     }
@@ -818,7 +870,7 @@ public struct DynamoDB: AWSService {
 }
 
 extension DynamoDB {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: DynamoDB, patch: AWSServiceConfig.Patch) {
         self.client = from.client

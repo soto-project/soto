@@ -35,11 +35,15 @@ public struct IAM: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -48,37 +52,49 @@ public struct IAM: AWSService {
         self.config = AWSServiceConfig(
             region: nil,
             partition: partition,
-            service: "iam",
+            serviceName: "IAM",
+            serviceIdentifier: "iam",
             serviceProtocol: .query,
             apiVersion: "2010-05-08",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "aws-cn-global": "iam.cn-north-1.amazonaws.com.cn",
-                "aws-global": "iam.amazonaws.com",
-                "aws-iso-b-global": "iam.us-isob-east-1.sc2s.sgov.gov",
-                "aws-iso-global": "iam.us-iso-east-1.c2s.ic.gov",
-                "aws-us-gov-global": "iam.us-gov.amazonaws.com"
-            ],
-            partitionEndpoints: [
-                .aws: (endpoint: "aws-global", region: .useast1),
-                .awscn: (endpoint: "aws-cn-global", region: .cnnorth1),
-                .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
-                .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
-                .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "aws-global": "iam-fips.amazonaws.com",
-                    "aws-us-gov-global": "iam.us-gov.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            partitionEndpoints: Self.partitionEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: IAMErrorType.self,
             xmlNamespace: "https://iam.amazonaws.com/doc/2010-05-08/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "aws-cn-global": "iam.cn-north-1.amazonaws.com.cn",
+        "aws-global": "iam.amazonaws.com",
+        "aws-iso-b-global": "iam.us-isob-east-1.sc2s.sgov.gov",
+        "aws-iso-global": "iam.us-iso-east-1.c2s.ic.gov",
+        "aws-us-gov-global": "iam.us-gov.amazonaws.com"
+    ]}
+
+    /// Default endpoint and region to use for each partition
+    static var partitionEndpoints: [AWSPartition: (endpoint: String, region: SotoCore.Region)] {[
+        .aws: (endpoint: "aws-global", region: .useast1),
+        .awscn: (endpoint: "aws-cn-global", region: .cnnorth1),
+        .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
+        .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
+        .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
+    ]}
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "aws-global": "iam-fips.amazonaws.com",
+            "aws-us-gov-global": "iam.us-gov.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -2133,7 +2149,7 @@ public struct IAM: AWSService {
 }
 
 extension IAM {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: IAM, patch: AWSServiceConfig.Patch) {
         self.client = from.client

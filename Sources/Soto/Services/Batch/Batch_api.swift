@@ -36,12 +36,16 @@ public struct Batch: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -50,50 +54,58 @@ public struct Batch: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "batch",
+            serviceName: "Batch",
+            serviceIdentifier: "batch",
             serviceProtocol: .restjson,
             apiVersion: "2016-08-10",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "af-south-1": "fips.batch.af-south-1.amazonaws.com",
-                    "ap-east-1": "fips.batch.ap-east-1.amazonaws.com",
-                    "ap-northeast-1": "fips.batch.ap-northeast-1.amazonaws.com",
-                    "ap-northeast-2": "fips.batch.ap-northeast-2.amazonaws.com",
-                    "ap-northeast-3": "fips.batch.ap-northeast-3.amazonaws.com",
-                    "ap-south-1": "fips.batch.ap-south-1.amazonaws.com",
-                    "ap-south-2": "fips.batch.ap-south-2.amazonaws.com",
-                    "ap-southeast-1": "fips.batch.ap-southeast-1.amazonaws.com",
-                    "ap-southeast-2": "fips.batch.ap-southeast-2.amazonaws.com",
-                    "ap-southeast-3": "fips.batch.ap-southeast-3.amazonaws.com",
-                    "ap-southeast-4": "fips.batch.ap-southeast-4.amazonaws.com",
-                    "ca-central-1": "fips.batch.ca-central-1.amazonaws.com",
-                    "eu-central-1": "fips.batch.eu-central-1.amazonaws.com",
-                    "eu-central-2": "fips.batch.eu-central-2.amazonaws.com",
-                    "eu-north-1": "fips.batch.eu-north-1.amazonaws.com",
-                    "eu-south-1": "fips.batch.eu-south-1.amazonaws.com",
-                    "eu-south-2": "fips.batch.eu-south-2.amazonaws.com",
-                    "eu-west-1": "fips.batch.eu-west-1.amazonaws.com",
-                    "eu-west-2": "fips.batch.eu-west-2.amazonaws.com",
-                    "eu-west-3": "fips.batch.eu-west-3.amazonaws.com",
-                    "me-central-1": "fips.batch.me-central-1.amazonaws.com",
-                    "me-south-1": "fips.batch.me-south-1.amazonaws.com",
-                    "sa-east-1": "fips.batch.sa-east-1.amazonaws.com",
-                    "us-east-1": "fips.batch.us-east-1.amazonaws.com",
-                    "us-east-2": "fips.batch.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "batch.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "batch.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "fips.batch.us-west-1.amazonaws.com",
-                    "us-west-2": "fips.batch.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: BatchErrorType.self,
             xmlNamespace: "http://batch.amazonaws.com/doc/2016-08-10/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "af-south-1": "fips.batch.af-south-1.amazonaws.com",
+            "ap-east-1": "fips.batch.ap-east-1.amazonaws.com",
+            "ap-northeast-1": "fips.batch.ap-northeast-1.amazonaws.com",
+            "ap-northeast-2": "fips.batch.ap-northeast-2.amazonaws.com",
+            "ap-northeast-3": "fips.batch.ap-northeast-3.amazonaws.com",
+            "ap-south-1": "fips.batch.ap-south-1.amazonaws.com",
+            "ap-south-2": "fips.batch.ap-south-2.amazonaws.com",
+            "ap-southeast-1": "fips.batch.ap-southeast-1.amazonaws.com",
+            "ap-southeast-2": "fips.batch.ap-southeast-2.amazonaws.com",
+            "ap-southeast-3": "fips.batch.ap-southeast-3.amazonaws.com",
+            "ap-southeast-4": "fips.batch.ap-southeast-4.amazonaws.com",
+            "ca-central-1": "fips.batch.ca-central-1.amazonaws.com",
+            "eu-central-1": "fips.batch.eu-central-1.amazonaws.com",
+            "eu-central-2": "fips.batch.eu-central-2.amazonaws.com",
+            "eu-north-1": "fips.batch.eu-north-1.amazonaws.com",
+            "eu-south-1": "fips.batch.eu-south-1.amazonaws.com",
+            "eu-south-2": "fips.batch.eu-south-2.amazonaws.com",
+            "eu-west-1": "fips.batch.eu-west-1.amazonaws.com",
+            "eu-west-2": "fips.batch.eu-west-2.amazonaws.com",
+            "eu-west-3": "fips.batch.eu-west-3.amazonaws.com",
+            "me-central-1": "fips.batch.me-central-1.amazonaws.com",
+            "me-south-1": "fips.batch.me-south-1.amazonaws.com",
+            "sa-east-1": "fips.batch.sa-east-1.amazonaws.com",
+            "us-east-1": "fips.batch.us-east-1.amazonaws.com",
+            "us-east-2": "fips.batch.us-east-2.amazonaws.com",
+            "us-gov-east-1": "batch.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "batch.us-gov-west-1.amazonaws.com",
+            "us-west-1": "fips.batch.us-west-1.amazonaws.com",
+            "us-west-2": "fips.batch.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -411,7 +423,7 @@ public struct Batch: AWSService {
 }
 
 extension Batch {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Batch, patch: AWSServiceConfig.Patch) {
         self.client = from.client

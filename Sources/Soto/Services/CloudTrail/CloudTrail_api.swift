@@ -36,12 +36,16 @@ public struct CloudTrail: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -51,27 +55,35 @@ public struct CloudTrail: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "CloudTrail_20131101",
-            service: "cloudtrail",
+            serviceName: "CloudTrail",
+            serviceIdentifier: "cloudtrail",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2013-11-01",
             endpoint: endpoint,
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "us-east-1": "cloudtrail-fips.us-east-1.amazonaws.com",
-                    "us-east-2": "cloudtrail-fips.us-east-2.amazonaws.com",
-                    "us-gov-east-1": "cloudtrail.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "cloudtrail.us-gov-west-1.amazonaws.com",
-                    "us-west-1": "cloudtrail-fips.us-west-1.amazonaws.com",
-                    "us-west-2": "cloudtrail-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            variantEndpoints: Self.variantEndpoints,
             errorType: CloudTrailErrorType.self,
             xmlNamespace: "http://cloudtrail.amazonaws.com/doc/2013-11-01/",
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-east-1": "cloudtrail-fips.us-east-1.amazonaws.com",
+            "us-east-2": "cloudtrail-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "cloudtrail.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "cloudtrail.us-gov-west-1.amazonaws.com",
+            "us-west-1": "cloudtrail-fips.us-west-1.amazonaws.com",
+            "us-west-2": "cloudtrail-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -675,7 +687,7 @@ public struct CloudTrail: AWSService {
 }
 
 extension CloudTrail {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: CloudTrail, patch: AWSServiceConfig.Patch) {
         self.client = from.client

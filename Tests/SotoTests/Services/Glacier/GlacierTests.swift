@@ -22,7 +22,7 @@ class GlacierTests: XCTestCase {
     static var glacier: Glacier!
 
     override class func setUp() {
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares, httpClientProvider: .createNew)
         Self.glacier = Glacier(
             client: GlacierTests.client,
             region: .euwest1,

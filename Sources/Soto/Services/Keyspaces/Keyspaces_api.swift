@@ -36,12 +36,16 @@ public struct Keyspaces: AWSService {
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
     ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
+    ///     - byteBufferAllocator: Allocator for ByteBuffers
+    ///     - options: Service options
     public init(
         client: AWSClient,
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
+        middleware: AWSMiddlewareProtocol? = nil,
         timeout: TimeAmount? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
@@ -51,28 +55,38 @@ public struct Keyspaces: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             amzTarget: "KeyspacesService",
-            service: "cassandra",
+            serviceName: "Keyspaces",
+            serviceIdentifier: "cassandra",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2022-02-10",
             endpoint: endpoint,
-            serviceEndpoints: [
-                "us-gov-east-1": "cassandra.us-gov-east-1.amazonaws.com",
-                "us-gov-west-1": "cassandra.us-gov-west-1.amazonaws.com"
-            ],
-            variantEndpoints: [
-                [.fips]: .init(endpoints: [
-                    "us-east-1": "cassandra-fips.us-east-1.amazonaws.com",
-                    "us-gov-east-1": "cassandra.us-gov-east-1.amazonaws.com",
-                    "us-gov-west-1": "cassandra.us-gov-west-1.amazonaws.com",
-                    "us-west-2": "cassandra-fips.us-west-2.amazonaws.com"
-                ])
-            ],
+            serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: KeyspacesErrorType.self,
+            middleware: middleware,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
         )
     }
+
+
+    /// custom endpoints for regions
+    static var serviceEndpoints: [String: String] {[
+        "us-gov-east-1": "cassandra.us-gov-east-1.amazonaws.com",
+        "us-gov-west-1": "cassandra.us-gov-west-1.amazonaws.com"
+    ]}
+
+
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "us-east-1": "cassandra-fips.us-east-1.amazonaws.com",
+            "us-gov-east-1": "cassandra.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "cassandra.us-gov-west-1.amazonaws.com",
+            "us-west-2": "cassandra-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -247,7 +261,7 @@ public struct Keyspaces: AWSService {
 }
 
 extension Keyspaces {
-    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
+    /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are not public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
     public init(from: Keyspaces, patch: AWSServiceConfig.Patch) {
         self.client = from.client
