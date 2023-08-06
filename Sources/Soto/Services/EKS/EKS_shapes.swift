@@ -412,10 +412,6 @@ extension EKS {
     }
 
     public struct AssociateEncryptionConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
-        ]
-
         /// The client request token you are using with the encryption configuration.
         public let clientRequestToken: String?
         /// The name of the cluster that you are associating with encryption configuration.
@@ -427,6 +423,14 @@ extension EKS {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.encryptionConfig = encryptionConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encode(self.encryptionConfig, forKey: .encryptionConfig)
         }
 
         public func validate(name: String) throws {
@@ -452,10 +456,6 @@ extension EKS {
     }
 
     public struct AssociateIdentityProviderConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The name of the cluster to associate the configuration to.
@@ -470,6 +470,15 @@ extension EKS {
             self.clusterName = clusterName
             self.oidc = oidc
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encode(self.oidc, forKey: .oidc)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -749,10 +758,6 @@ extension EKS {
     }
 
     public struct CreateAddonRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
-        ]
-
         /// The name of the add-on. The name must match one of the names that  DescribeAddonVersions returns.
         public let addonName: String
         /// The version of the add-on. The version must match one of the versions returned by  DescribeAddonVersions .
@@ -779,6 +784,19 @@ extension EKS {
             self.resolveConflicts = resolveConflicts
             self.serviceAccountRoleArn = serviceAccountRoleArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.addonName, forKey: .addonName)
+            try container.encodeIfPresent(self.addonVersion, forKey: .addonVersion)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encodeIfPresent(self.configurationValues, forKey: .configurationValues)
+            try container.encodeIfPresent(self.resolveConflicts, forKey: .resolveConflicts)
+            try container.encodeIfPresent(self.serviceAccountRoleArn, forKey: .serviceAccountRoleArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -896,10 +914,6 @@ extension EKS {
     }
 
     public struct CreateFargateProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The name of the Amazon EKS cluster to apply the Fargate profile to.
@@ -923,6 +937,18 @@ extension EKS {
             self.selectors = selectors
             self.subnets = subnets
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encode(self.fargateProfileName, forKey: .fargateProfileName)
+            try container.encode(self.podExecutionRoleArn, forKey: .podExecutionRoleArn)
+            try container.encodeIfPresent(self.selectors, forKey: .selectors)
+            try container.encodeIfPresent(self.subnets, forKey: .subnets)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -959,10 +985,6 @@ extension EKS {
     }
 
     public struct CreateNodegroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
-        ]
-
         /// The AMI type for your node group. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group  deployment will fail. If your launch template uses a Windows custom AMI, then add eks:kube-proxy-windows to your Windows nodes rolearn in the aws-auth ConfigMap. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let amiType: AMITypes?
         /// The capacity type for your node group.
@@ -1021,6 +1043,29 @@ extension EKS {
             self.version = version
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.amiType, forKey: .amiType)
+            try container.encodeIfPresent(self.capacityType, forKey: .capacityType)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encodeIfPresent(self.diskSize, forKey: .diskSize)
+            try container.encodeIfPresent(self.instanceTypes, forKey: .instanceTypes)
+            try container.encodeIfPresent(self.labels, forKey: .labels)
+            try container.encodeIfPresent(self.launchTemplate, forKey: .launchTemplate)
+            try container.encode(self.nodegroupName, forKey: .nodegroupName)
+            try container.encode(self.nodeRole, forKey: .nodeRole)
+            try container.encodeIfPresent(self.releaseVersion, forKey: .releaseVersion)
+            try container.encodeIfPresent(self.remoteAccess, forKey: .remoteAccess)
+            try container.encodeIfPresent(self.scalingConfig, forKey: .scalingConfig)
+            try container.encode(self.subnets, forKey: .subnets)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.taints, forKey: .taints)
+            try container.encodeIfPresent(self.updateConfig, forKey: .updateConfig)
+            try container.encodeIfPresent(self.version, forKey: .version)
+        }
+
         public func validate(name: String) throws {
             try self.labels?.forEach {
                 try validate($0.key, name: "labels.key", parent: name, max: 63)
@@ -1077,12 +1122,6 @@ extension EKS {
     }
 
     public struct DeleteAddonRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addonName", location: .uri("addonName")),
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "preserve", location: .querystring("preserve"))
-        ]
-
         /// The name of the add-on. The name must match one of the names returned by  ListAddons .
         public let addonName: String
         /// The name of the cluster to delete the add-on from.
@@ -1094,6 +1133,14 @@ extension EKS {
             self.addonName = addonName
             self.clusterName = clusterName
             self.preserve = preserve
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.addonName, key: "addonName")
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodeQuery(self.preserve, key: "preserve")
         }
 
         public func validate(name: String) throws {
@@ -1118,15 +1165,17 @@ extension EKS {
     }
 
     public struct DeleteClusterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The name of the cluster to delete.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1146,11 +1195,6 @@ extension EKS {
     }
 
     public struct DeleteFargateProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "fargateProfileName", location: .uri("fargateProfileName"))
-        ]
-
         /// The name of the Amazon EKS cluster associated with the Fargate profile to delete.
         public let clusterName: String
         /// The name of the Fargate profile to delete.
@@ -1159,6 +1203,13 @@ extension EKS {
         public init(clusterName: String, fargateProfileName: String) {
             self.clusterName = clusterName
             self.fargateProfileName = fargateProfileName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodePath(self.fargateProfileName, key: "fargateProfileName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1178,11 +1229,6 @@ extension EKS {
     }
 
     public struct DeleteNodegroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "nodegroupName", location: .uri("nodegroupName"))
-        ]
-
         /// The name of the Amazon EKS cluster that is associated with your node group.
         public let clusterName: String
         /// The name of the node group to delete.
@@ -1191,6 +1237,13 @@ extension EKS {
         public init(clusterName: String, nodegroupName: String) {
             self.clusterName = clusterName
             self.nodegroupName = nodegroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodePath(self.nodegroupName, key: "nodegroupName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1210,15 +1263,17 @@ extension EKS {
     }
 
     public struct DeregisterClusterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The name of the connected cluster to deregister.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1237,11 +1292,6 @@ extension EKS {
     }
 
     public struct DescribeAddonConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addonName", location: .querystring("addonName")),
-            AWSMemberEncoding(label: "addonVersion", location: .querystring("addonVersion"))
-        ]
-
         /// The name of the add-on. The name must match one of the names that  DescribeAddonVersions returns.
         public let addonName: String
         /// The version of the add-on. The version must match one of the versions returned by  DescribeAddonVersions .
@@ -1250,6 +1300,13 @@ extension EKS {
         public init(addonName: String, addonVersion: String) {
             self.addonName = addonName
             self.addonVersion = addonVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.addonName, key: "addonName")
+            request.encodeQuery(self.addonVersion, key: "addonVersion")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1277,11 +1334,6 @@ extension EKS {
     }
 
     public struct DescribeAddonRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addonName", location: .uri("addonName")),
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
-        ]
-
         /// The name of the add-on. The name must match one of the names returned by  ListAddons .
         public let addonName: String
         /// The name of the cluster.
@@ -1290,6 +1342,13 @@ extension EKS {
         public init(addonName: String, clusterName: String) {
             self.addonName = addonName
             self.clusterName = clusterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.addonName, key: "addonName")
+            request.encodePath(self.clusterName, key: "clusterName")
         }
 
         public func validate(name: String) throws {
@@ -1314,16 +1373,6 @@ extension EKS {
     }
 
     public struct DescribeAddonVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addonName", location: .querystring("addonName")),
-            AWSMemberEncoding(label: "kubernetesVersion", location: .querystring("kubernetesVersion")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "owners", location: .querystring("owners")),
-            AWSMemberEncoding(label: "publishers", location: .querystring("publishers")),
-            AWSMemberEncoding(label: "types", location: .querystring("types"))
-        ]
-
         /// The name of the add-on. The name must match one of the names returned by  ListAddons .
         public let addonName: String?
         /// The Kubernetes versions that you can use the add-on with.
@@ -1347,6 +1396,18 @@ extension EKS {
             self.owners = owners
             self.publishers = publishers
             self.types = types
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.addonName, key: "addonName")
+            request.encodeQuery(self.kubernetesVersion, key: "kubernetesVersion")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.owners, key: "owners")
+            request.encodeQuery(self.publishers, key: "publishers")
+            request.encodeQuery(self.types, key: "types")
         }
 
         public func validate(name: String) throws {
@@ -1375,15 +1436,17 @@ extension EKS {
     }
 
     public struct DescribeClusterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The name of the cluster to describe.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1403,11 +1466,6 @@ extension EKS {
     }
 
     public struct DescribeFargateProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "fargateProfileName", location: .uri("fargateProfileName"))
-        ]
-
         /// The name of the Amazon EKS cluster associated with the Fargate profile.
         public let clusterName: String
         /// The name of the Fargate profile to describe.
@@ -1416,6 +1474,13 @@ extension EKS {
         public init(clusterName: String, fargateProfileName: String) {
             self.clusterName = clusterName
             self.fargateProfileName = fargateProfileName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodePath(self.fargateProfileName, key: "fargateProfileName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1435,10 +1500,6 @@ extension EKS {
     }
 
     public struct DescribeIdentityProviderConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
-        ]
-
         /// The cluster name that the identity provider configuration is associated to.
         public let clusterName: String
         /// An object representing an identity provider configuration.
@@ -1447,6 +1508,13 @@ extension EKS {
         public init(clusterName: String, identityProviderConfig: IdentityProviderConfig) {
             self.clusterName = clusterName
             self.identityProviderConfig = identityProviderConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encode(self.identityProviderConfig, forKey: .identityProviderConfig)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1468,11 +1536,6 @@ extension EKS {
     }
 
     public struct DescribeNodegroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "nodegroupName", location: .uri("nodegroupName"))
-        ]
-
         /// The name of the Amazon EKS cluster associated with the node group.
         public let clusterName: String
         /// The name of the node group to describe.
@@ -1481,6 +1544,13 @@ extension EKS {
         public init(clusterName: String, nodegroupName: String) {
             self.clusterName = clusterName
             self.nodegroupName = nodegroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodePath(self.nodegroupName, key: "nodegroupName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1500,13 +1570,6 @@ extension EKS {
     }
 
     public struct DescribeUpdateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addonName", location: .querystring("addonName")),
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "nodegroupName", location: .querystring("nodegroupName")),
-            AWSMemberEncoding(label: "updateId", location: .uri("updateId"))
-        ]
-
         /// The name of the add-on. The name must match one of the names returned by  ListAddons . This parameter is required if the update is an add-on update.
         public let addonName: String?
         /// The name of the Amazon EKS cluster associated with the update.
@@ -1521,6 +1584,15 @@ extension EKS {
             self.name = name
             self.nodegroupName = nodegroupName
             self.updateId = updateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.addonName, key: "addonName")
+            request.encodePath(self.name, key: "name")
+            request.encodeQuery(self.nodegroupName, key: "nodegroupName")
+            request.encodePath(self.updateId, key: "updateId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1540,10 +1612,6 @@ extension EKS {
     }
 
     public struct DisassociateIdentityProviderConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The name of the cluster to disassociate an identity provider from.
@@ -1555,6 +1623,14 @@ extension EKS {
             self.clientRequestToken = clientRequestToken
             self.clusterName = clusterName
             self.identityProviderConfig = identityProviderConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encode(self.identityProviderConfig, forKey: .identityProviderConfig)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1799,12 +1875,6 @@ extension EKS {
     }
 
     public struct ListAddonsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the cluster.
         public let clusterName: String
         /// The maximum number of add-on results returned by ListAddonsRequest in paginated output. When you use this parameter, ListAddonsRequest returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListAddonsRequest request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListAddonsRequest returns up to 100 results and a nextToken value, if applicable.
@@ -1816,6 +1886,14 @@ extension EKS {
             self.clusterName = clusterName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1847,12 +1925,6 @@ extension EKS {
     }
 
     public struct ListClustersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "include", location: .querystring("include")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Indicates whether external clusters are included in the returned list. Use 'all' to return connected clusters, or blank to return only Amazon EKS clusters. 'all' must be in lowercase otherwise an error occurs.
         public let include: [String]?
         /// The maximum number of cluster results returned by ListClusters in paginated output. When you use this parameter, ListClusters returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListClusters returns up to 100 results and a nextToken value if applicable.
@@ -1864,6 +1936,14 @@ extension EKS {
             self.include = include
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.include, key: "include")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1892,12 +1972,6 @@ extension EKS {
     }
 
     public struct ListFargateProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the Amazon EKS cluster that you would like to list Fargate profiles in.
         public let clusterName: String
         /// The maximum number of Fargate profile results returned by ListFargateProfiles in paginated output. When you use this parameter, ListFargateProfiles returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListFargateProfiles request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListFargateProfiles returns up to 100 results and a nextToken value if applicable.
@@ -1909,6 +1983,14 @@ extension EKS {
             self.clusterName = clusterName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1937,12 +2019,6 @@ extension EKS {
     }
 
     public struct ListIdentityProviderConfigsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The cluster name that you want to list identity provider configurations for.
         public let clusterName: String
         /// The maximum number of identity provider configurations returned by ListIdentityProviderConfigs in paginated output. When you use this parameter, ListIdentityProviderConfigs returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListIdentityProviderConfigs request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListIdentityProviderConfigs returns up to 100 results and a nextToken value, if applicable.
@@ -1954,6 +2030,14 @@ extension EKS {
             self.clusterName = clusterName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1982,12 +2066,6 @@ extension EKS {
     }
 
     public struct ListNodegroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the Amazon EKS cluster that you would like to list node groups in.
         public let clusterName: String
         /// The maximum number of node group results returned by ListNodegroups in paginated output. When you use this parameter, ListNodegroups returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListNodegroups request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListNodegroups returns up to 100 results and a nextToken value if applicable.
@@ -1999,6 +2077,14 @@ extension EKS {
             self.clusterName = clusterName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2027,15 +2113,17 @@ extension EKS {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Amazon EKS clusters and managed node groups.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2055,14 +2143,6 @@ extension EKS {
     }
 
     public struct ListUpdatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addonName", location: .querystring("addonName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "nodegroupName", location: .querystring("nodegroupName"))
-        ]
-
         /// The names of the installed add-ons that have available updates.
         public let addonName: String?
         /// The maximum number of update results returned by ListUpdates in paginated output. When you use this parameter, ListUpdates returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListUpdates request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListUpdates returns up to 100 results and a nextToken value if applicable.
@@ -2080,6 +2160,16 @@ extension EKS {
             self.name = name
             self.nextToken = nextToken
             self.nodegroupName = nodegroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.addonName, key: "addonName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.nodegroupName, key: "nodegroupName")
         }
 
         public func validate(name: String) throws {
@@ -2578,10 +2668,6 @@ extension EKS {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the supported resources are Amazon EKS clusters and managed node groups.
         public let resourceArn: String
         /// The tags to add to the resource. A tag is an array of key-value pairs.
@@ -2590,6 +2676,13 @@ extension EKS {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2639,11 +2732,6 @@ extension EKS {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource from which to delete tags. Currently, the supported resources are Amazon EKS clusters and managed node groups.
         public let resourceArn: String
         /// The keys of the tags to be removed.
@@ -2652,6 +2740,13 @@ extension EKS {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2704,11 +2799,6 @@ extension EKS {
     }
 
     public struct UpdateAddonRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "addonName", location: .uri("addonName")),
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName"))
-        ]
-
         /// The name of the add-on. The name must match one of the names returned by  ListAddons .
         public let addonName: String
         /// The version of the add-on. The version must match one of the versions returned by  DescribeAddonVersions .
@@ -2732,6 +2822,18 @@ extension EKS {
             self.configurationValues = configurationValues
             self.resolveConflicts = resolveConflicts
             self.serviceAccountRoleArn = serviceAccountRoleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.addonName, key: "addonName")
+            try container.encodeIfPresent(self.addonVersion, forKey: .addonVersion)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encodeIfPresent(self.configurationValues, forKey: .configurationValues)
+            try container.encodeIfPresent(self.resolveConflicts, forKey: .resolveConflicts)
+            try container.encodeIfPresent(self.serviceAccountRoleArn, forKey: .serviceAccountRoleArn)
         }
 
         public func validate(name: String) throws {
@@ -2764,10 +2866,6 @@ extension EKS {
     }
 
     public struct UpdateClusterConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
@@ -2781,6 +2879,15 @@ extension EKS {
             self.logging = logging
             self.name = name
             self.resourcesVpcConfig = resourcesVpcConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.logging, forKey: .logging)
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.resourcesVpcConfig, forKey: .resourcesVpcConfig)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2803,10 +2910,6 @@ extension EKS {
     }
 
     public struct UpdateClusterVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The name of the Amazon EKS cluster to update.
@@ -2818,6 +2921,14 @@ extension EKS {
             self.clientRequestToken = clientRequestToken
             self.name = name
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.name, key: "name")
+            try container.encode(self.version, forKey: .version)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2866,11 +2977,6 @@ extension EKS {
     }
 
     public struct UpdateNodegroupConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "nodegroupName", location: .uri("nodegroupName"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The name of the Amazon EKS cluster that the managed node group resides in.
@@ -2894,6 +3000,18 @@ extension EKS {
             self.scalingConfig = scalingConfig
             self.taints = taints
             self.updateConfig = updateConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encodeIfPresent(self.labels, forKey: .labels)
+            request.encodePath(self.nodegroupName, key: "nodegroupName")
+            try container.encodeIfPresent(self.scalingConfig, forKey: .scalingConfig)
+            try container.encodeIfPresent(self.taints, forKey: .taints)
+            try container.encodeIfPresent(self.updateConfig, forKey: .updateConfig)
         }
 
         public func validate(name: String) throws {
@@ -2925,11 +3043,6 @@ extension EKS {
     }
 
     public struct UpdateNodegroupVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "nodegroupName", location: .uri("nodegroupName"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The name of the Amazon EKS cluster that is associated with the managed node group to update.
@@ -2953,6 +3066,18 @@ extension EKS {
             self.nodegroupName = nodegroupName
             self.releaseVersion = releaseVersion
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encodeIfPresent(self.force, forKey: .force)
+            try container.encodeIfPresent(self.launchTemplate, forKey: .launchTemplate)
+            request.encodePath(self.nodegroupName, key: "nodegroupName")
+            try container.encodeIfPresent(self.releaseVersion, forKey: .releaseVersion)
+            try container.encodeIfPresent(self.version, forKey: .version)
         }
 
         private enum CodingKeys: String, CodingKey {

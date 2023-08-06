@@ -278,7 +278,7 @@ extension S3Tests {
             for try await event in response.payload {
                 switch event {
                 case .records(let records):
-                    let decodedCount = records.payload.readableBytes
+                    let decodedCount = records.payload.buffer.readableBytes
                     returnedSize += decodedCount
                     print("Record size: \(decodedCount)")
                 case .stats(let stats):

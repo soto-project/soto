@@ -107,10 +107,6 @@ extension Synthetics {
     }
 
     public struct AssociateResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupIdentifier", location: .uri("GroupIdentifier"))
-        ]
-
         /// Specifies the group. You can specify the group name, the ARN, or the  group ID as the GroupIdentifier.
         public let groupIdentifier: String
         /// The ARN of the canary that you want to associate with the specified group.
@@ -119,6 +115,13 @@ extension Synthetics {
         public init(groupIdentifier: String, resourceArn: String) {
             self.groupIdentifier = groupIdentifier
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupIdentifier, key: "GroupIdentifier")
+            try container.encode(self.resourceArn, forKey: .resourceArn)
         }
 
         public func validate(name: String) throws {
@@ -670,11 +673,6 @@ extension Synthetics {
     }
 
     public struct DeleteCanaryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deleteLambda", location: .querystring("deleteLambda")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// Specifies whether to also delete the Lambda functions and layers used by this canary. The default is false. Type: Boolean
         public let deleteLambda: Bool?
         /// The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries.
@@ -683,6 +681,13 @@ extension Synthetics {
         public init(deleteLambda: Bool? = nil, name: String) {
             self.deleteLambda = deleteLambda
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deleteLambda, key: "deleteLambda")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -699,15 +704,17 @@ extension Synthetics {
     }
 
     public struct DeleteGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupIdentifier", location: .uri("GroupIdentifier"))
-        ]
-
         /// Specifies which group to delete. You can specify the group name, the ARN, or the  group ID as the GroupIdentifier.
         public let groupIdentifier: String
 
         public init(groupIdentifier: String) {
             self.groupIdentifier = groupIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupIdentifier, key: "GroupIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -868,10 +875,6 @@ extension Synthetics {
     }
 
     public struct DisassociateResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupIdentifier", location: .uri("GroupIdentifier"))
-        ]
-
         /// Specifies the group. You can specify the group name, the ARN, or the  group ID as the GroupIdentifier.
         public let groupIdentifier: String
         /// The ARN of the canary that you want to remove from the specified group.
@@ -880,6 +883,13 @@ extension Synthetics {
         public init(groupIdentifier: String, resourceArn: String) {
             self.groupIdentifier = groupIdentifier
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupIdentifier, key: "GroupIdentifier")
+            try container.encode(self.resourceArn, forKey: .resourceArn)
         }
 
         public func validate(name: String) throws {
@@ -900,15 +910,17 @@ extension Synthetics {
     }
 
     public struct GetCanaryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the canary that you want details for.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -934,10 +946,6 @@ extension Synthetics {
     }
 
     public struct GetCanaryRunsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// Specify this parameter to limit how many runs are returned each time you use the GetCanaryRuns operation. If you omit this parameter, the default of 100 is used.
         public let maxResults: Int?
         /// The name of the canary that you want to see runs for.
@@ -949,6 +957,14 @@ extension Synthetics {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -985,15 +1001,17 @@ extension Synthetics {
     }
 
     public struct GetGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupIdentifier", location: .uri("GroupIdentifier"))
-        ]
-
         /// Specifies the group to return information for. You can specify the group name, the ARN, or the  group ID as the GroupIdentifier.
         public let groupIdentifier: String
 
         public init(groupIdentifier: String) {
             self.groupIdentifier = groupIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupIdentifier, key: "GroupIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1072,10 +1090,6 @@ extension Synthetics {
     }
 
     public struct ListAssociatedGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// Specify this parameter to limit how many groups are returned each time you use the ListAssociatedGroups operation. If you omit this parameter, the default of 20 is used.
         public let maxResults: Int?
         /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next  set of results.
@@ -1087,6 +1101,14 @@ extension Synthetics {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1124,10 +1146,6 @@ extension Synthetics {
     }
 
     public struct ListGroupResourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupIdentifier", location: .uri("GroupIdentifier"))
-        ]
-
         /// Specifies the group to return information for. You can specify the group name, the ARN, or the  group ID as the GroupIdentifier.
         public let groupIdentifier: String
         /// Specify this parameter to limit how many canary ARNs are returned each time you use the ListGroupResources operation. If you omit this parameter, the default of 20 is used.
@@ -1139,6 +1157,14 @@ extension Synthetics {
             self.groupIdentifier = groupIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.groupIdentifier, key: "GroupIdentifier")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -1217,15 +1243,17 @@ extension Synthetics {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the canary or group that you want to view tags for. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name . The ARN format of a group is arn:aws:synthetics:Region:account-id:group:group-name
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1299,15 +1327,17 @@ extension Synthetics {
     }
 
     public struct StartCanaryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the canary that you want to run. To find canary names, use DescribeCanaries.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1324,15 +1354,17 @@ extension Synthetics {
     }
 
     public struct StopCanaryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the canary that you want to stop. To find the names of your  canaries, use ListCanaries.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1349,10 +1381,6 @@ extension Synthetics {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the canary or group that you're adding tags to. The ARN format of a canary is
         /// arn:aws:synthetics:Region:account-id:canary:canary-name . The ARN format of a group is arn:aws:synthetics:Region:account-id:group:group-name
         public let resourceArn: String
@@ -1362,6 +1390,13 @@ extension Synthetics {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1388,11 +1423,6 @@ extension Synthetics {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the canary or group that you're removing tags from. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name .  The ARN format of a group is arn:aws:synthetics:Region:account-id:group:group-name
         public let resourceArn: String
         /// The list of tag keys to remove from the resource.
@@ -1401,6 +1431,13 @@ extension Synthetics {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1424,10 +1461,6 @@ extension Synthetics {
     }
 
     public struct UpdateCanaryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A structure that contains the configuration for canary artifacts,  including the encryption-at-rest settings for artifacts that  the canary uploads to Amazon S3.
         public let artifactConfig: ArtifactConfigInput?
         /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary.  Artifacts include the log file, screenshots, and HAR files. The name of the S3 bucket can't include a period (.).
@@ -1466,6 +1499,23 @@ extension Synthetics {
             self.successRetentionPeriodInDays = successRetentionPeriodInDays
             self.visualReference = visualReference
             self.vpcConfig = vpcConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.artifactConfig, forKey: .artifactConfig)
+            try container.encodeIfPresent(self.artifactS3Location, forKey: .artifactS3Location)
+            try container.encodeIfPresent(self.code, forKey: .code)
+            try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.failureRetentionPeriodInDays, forKey: .failureRetentionPeriodInDays)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.runConfig, forKey: .runConfig)
+            try container.encodeIfPresent(self.runtimeVersion, forKey: .runtimeVersion)
+            try container.encodeIfPresent(self.schedule, forKey: .schedule)
+            try container.encodeIfPresent(self.successRetentionPeriodInDays, forKey: .successRetentionPeriodInDays)
+            try container.encodeIfPresent(self.visualReference, forKey: .visualReference)
+            try container.encodeIfPresent(self.vpcConfig, forKey: .vpcConfig)
         }
 
         public func validate(name: String) throws {

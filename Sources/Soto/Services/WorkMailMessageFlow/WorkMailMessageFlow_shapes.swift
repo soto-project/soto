@@ -29,15 +29,17 @@ extension WorkMailMessageFlow {
     // MARK: Shapes
 
     public struct GetRawMessageContentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageId", location: .uri("messageId"))
-        ]
-
         /// The identifier of the email message to retrieve.
         public let messageId: String
 
         public init(messageId: String) {
             self.messageId = messageId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.messageId, key: "messageId")
         }
 
         public func validate(name: String) throws {
@@ -59,19 +61,14 @@ extension WorkMailMessageFlow {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.messageContent = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.messageContent = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct PutRawMessageContentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "messageId", location: .uri("messageId"))
-        ]
-
         /// Describes the raw message content of the updated email message.
         public let content: RawMessageContent
         /// The identifier of the email message being updated.
@@ -80,6 +77,13 @@ extension WorkMailMessageFlow {
         public init(content: RawMessageContent, messageId: String) {
             self.content = content
             self.messageId = messageId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.content, forKey: .content)
+            request.encodePath(self.messageId, key: "messageId")
         }
 
         public func validate(name: String) throws {

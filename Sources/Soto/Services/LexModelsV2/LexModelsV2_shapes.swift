@@ -773,12 +773,6 @@ extension LexModelsV2 {
     }
 
     public struct BatchCreateCustomVocabularyItemRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the bot associated with this custom vocabulary.
         public let botId: String
         /// The identifier of the version of the bot associated with this  custom vocabulary.
@@ -793,6 +787,15 @@ extension LexModelsV2 {
             self.botVersion = botVersion
             self.customVocabularyItemList = customVocabularyItemList
             self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encode(self.customVocabularyItemList, forKey: .customVocabularyItemList)
+            request.encodePath(self.localeId, key: "localeId")
         }
 
         public func validate(name: String) throws {
@@ -844,12 +847,6 @@ extension LexModelsV2 {
     }
 
     public struct BatchDeleteCustomVocabularyItemRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the bot associated with this custom vocabulary.
         public let botId: String
         /// The identifier of the version of the bot associated with this custom  vocabulary.
@@ -864,6 +861,15 @@ extension LexModelsV2 {
             self.botVersion = botVersion
             self.customVocabularyItemList = customVocabularyItemList
             self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encode(self.customVocabularyItemList, forKey: .customVocabularyItemList)
+            request.encodePath(self.localeId, key: "localeId")
         }
 
         public func validate(name: String) throws {
@@ -915,12 +921,6 @@ extension LexModelsV2 {
     }
 
     public struct BatchUpdateCustomVocabularyItemRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the bot associated with this custom vocabulary
         public let botId: String
         /// The identifier of the version of the bot associated with this custom  vocabulary.
@@ -935,6 +935,15 @@ extension LexModelsV2 {
             self.botVersion = botVersion
             self.customVocabularyItemList = customVocabularyItemList
             self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encode(self.customVocabularyItemList, forKey: .customVocabularyItemList)
+            request.encodePath(self.localeId, key: "localeId")
         }
 
         public func validate(name: String) throws {
@@ -1603,12 +1612,6 @@ extension LexModelsV2 {
     }
 
     public struct BuildBotLocaleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the bot to build. The identifier is returned in the response from the CreateBot operation.
         public let botId: String
         /// The version of the bot to build. This can only be the draft version of the bot.
@@ -1620,6 +1623,14 @@ extension LexModelsV2 {
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.localeId, key: "localeId")
         }
 
         public func validate(name: String) throws {
@@ -2092,10 +2103,6 @@ extension LexModelsV2 {
     }
 
     public struct CreateBotAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId"))
-        ]
-
         /// Maps configuration information to a specific locale. You can use this parameter to specify a specific Lambda function to run different functions in different locales.
         public let botAliasLocaleSettings: [String: BotAliasLocaleSettings]?
         /// The alias to create. The name must be unique for the bot.
@@ -2121,6 +2128,19 @@ extension LexModelsV2 {
             self.description = description
             self.sentimentAnalysisSettings = sentimentAnalysisSettings
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.botAliasLocaleSettings, forKey: .botAliasLocaleSettings)
+            try container.encode(self.botAliasName, forKey: .botAliasName)
+            request.encodePath(self.botId, key: "botId")
+            try container.encodeIfPresent(self.botVersion, forKey: .botVersion)
+            try container.encodeIfPresent(self.conversationLogSettings, forKey: .conversationLogSettings)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.sentimentAnalysisSettings, forKey: .sentimentAnalysisSettings)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2211,11 +2231,6 @@ extension LexModelsV2 {
     }
 
     public struct CreateBotLocaleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion"))
-        ]
-
         /// The identifier of the bot to create the locale for.
         public let botId: String
         /// The version of the bot to create the locale for. This can only be the draft version of the bot.
@@ -2236,6 +2251,17 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
             self.voiceSettings = voiceSettings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.localeId, forKey: .localeId)
+            try container.encode(self.nluIntentConfidenceThreshold, forKey: .nluIntentConfidenceThreshold)
+            try container.encodeIfPresent(self.voiceSettings, forKey: .voiceSettings)
         }
 
         public func validate(name: String) throws {
@@ -2434,10 +2460,6 @@ extension LexModelsV2 {
     }
 
     public struct CreateBotVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId"))
-        ]
-
         /// The identifier of the bot to create the version for.
         public let botId: String
         /// Specifies the locales that Amazon Lex adds to this version. You can choose the Draft version or any other previously published version for each locale. When you specify a source version, the locale data is copied from the source version to the new version.
@@ -2449,6 +2471,14 @@ extension LexModelsV2 {
             self.botId = botId
             self.botVersionLocaleSpecification = botVersionLocaleSpecification
             self.description = description
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            try container.encode(self.botVersionLocaleSpecification, forKey: .botVersionLocaleSpecification)
+            try container.encodeIfPresent(self.description, forKey: .description)
         }
 
         public func validate(name: String) throws {
@@ -2558,12 +2588,6 @@ extension LexModelsV2 {
     }
 
     public struct CreateIntentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the bot associated with this intent.
         public let botId: String
         /// The version of the bot associated with this intent.
@@ -2611,6 +2635,26 @@ extension LexModelsV2 {
             self.outputContexts = outputContexts
             self.parentIntentSignature = parentIntentSignature
             self.sampleUtterances = sampleUtterances
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.dialogCodeHook, forKey: .dialogCodeHook)
+            try container.encodeIfPresent(self.fulfillmentCodeHook, forKey: .fulfillmentCodeHook)
+            try container.encodeIfPresent(self.initialResponseSetting, forKey: .initialResponseSetting)
+            try container.encodeIfPresent(self.inputContexts, forKey: .inputContexts)
+            try container.encodeIfPresent(self.intentClosingSetting, forKey: .intentClosingSetting)
+            try container.encodeIfPresent(self.intentConfirmationSetting, forKey: .intentConfirmationSetting)
+            try container.encode(self.intentName, forKey: .intentName)
+            try container.encodeIfPresent(self.kendraConfiguration, forKey: .kendraConfiguration)
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.outputContexts, forKey: .outputContexts)
+            try container.encodeIfPresent(self.parentIntentSignature, forKey: .parentIntentSignature)
+            try container.encodeIfPresent(self.sampleUtterances, forKey: .sampleUtterances)
         }
 
         public func validate(name: String) throws {
@@ -2733,10 +2777,6 @@ extension LexModelsV2 {
     }
 
     public struct CreateResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// A resource policy to add to the resource. The policy is a JSON structure that contains one or more statements that define the policy. The policy must follow the IAM syntax. For more information about the contents of a JSON policy document, see  IAM JSON policy reference .  If the policy isn't valid, Amazon Lex returns a validation exception.
         public let policy: String
         /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
@@ -2745,6 +2785,13 @@ extension LexModelsV2 {
         public init(policy: String, resourceArn: String) {
             self.policy = policy
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.policy, forKey: .policy)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2776,11 +2823,6 @@ extension LexModelsV2 {
     }
 
     public struct CreateResourcePolicyStatementRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring("expectedRevisionId")),
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Lex action that this policy either allows or denies. The action must apply to the resource type of the specified ARN. For more information, see  Actions, resources, and condition keys for Amazon Lex V2.
         public let action: [String]
         /// Specifies a condition when the policy is in effect. If the principal of the policy is a service principal, you must provide two condition blocks, one with a SourceAccount global condition key and one with a SourceArn global condition key. For more information, see IAM JSON policy elements: Condition .
@@ -2804,6 +2846,18 @@ extension LexModelsV2 {
             self.principal = principal
             self.resourceArn = resourceArn
             self.statementId = statementId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.action, forKey: .action)
+            try container.encodeIfPresent(self.condition, forKey: .condition)
+            try container.encode(self.effect, forKey: .effect)
+            request.encodeQuery(self.expectedRevisionId, key: "expectedRevisionId")
+            try container.encode(self.principal, forKey: .principal)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.statementId, forKey: .statementId)
         }
 
         public func validate(name: String) throws {
@@ -2857,13 +2911,6 @@ extension LexModelsV2 {
     }
 
     public struct CreateSlotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the bot associated with the slot.
         public let botId: String
         /// The version of the bot associated with the slot.
@@ -2899,6 +2946,22 @@ extension LexModelsV2 {
             self.slotTypeId = slotTypeId
             self.subSlotSetting = subSlotSetting
             self.valueElicitationSetting = valueElicitationSetting
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.intentId, key: "intentId")
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.multipleValuesSetting, forKey: .multipleValuesSetting)
+            try container.encodeIfPresent(self.obfuscationSetting, forKey: .obfuscationSetting)
+            try container.encode(self.slotName, forKey: .slotName)
+            try container.encodeIfPresent(self.slotTypeId, forKey: .slotTypeId)
+            try container.encodeIfPresent(self.subSlotSetting, forKey: .subSlotSetting)
+            try container.encode(self.valueElicitationSetting, forKey: .valueElicitationSetting)
         }
 
         public func validate(name: String) throws {
@@ -2995,12 +3058,6 @@ extension LexModelsV2 {
     }
 
     public struct CreateSlotTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the bot associated with this slot type.
         public let botId: String
         /// The identifier of the bot version associated with this slot type.
@@ -3033,6 +3090,21 @@ extension LexModelsV2 {
             self.slotTypeName = slotTypeName
             self.slotTypeValues = slotTypeValues
             self.valueSelectionSetting = valueSelectionSetting
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encodeIfPresent(self.compositeSlotTypeSetting, forKey: .compositeSlotTypeSetting)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.externalSourceSetting, forKey: .externalSourceSetting)
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.parentSlotTypeSignature, forKey: .parentSlotTypeSignature)
+            try container.encode(self.slotTypeName, forKey: .slotTypeName)
+            try container.encodeIfPresent(self.slotTypeValues, forKey: .slotTypeValues)
+            try container.encodeIfPresent(self.valueSelectionSetting, forKey: .valueSelectionSetting)
         }
 
         public func validate(name: String) throws {
@@ -3125,10 +3197,6 @@ extension LexModelsV2 {
     }
 
     public struct CreateTestSetDiscrepancyReportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "testSetId", location: .uri("testSetId"))
-        ]
-
         /// The target bot for the test set discrepancy report.
         public let target: TestSetDiscrepancyReportResourceTarget
         /// The test set Id for the test set discrepancy report.
@@ -3137,6 +3205,13 @@ extension LexModelsV2 {
         public init(target: TestSetDiscrepancyReportResourceTarget, testSetId: String) {
             self.target = target
             self.testSetId = testSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.target, forKey: .target)
+            request.encodePath(self.testSetId, key: "testSetId")
         }
 
         public func validate(name: String) throws {
@@ -3414,12 +3489,6 @@ extension LexModelsV2 {
     }
 
     public struct DeleteBotAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring("skipResourceInUseCheck"))
-        ]
-
         /// The unique identifier of the bot alias to delete.
         public let botAliasId: String
         /// The unique identifier of the bot associated with the alias to delete.
@@ -3431,6 +3500,14 @@ extension LexModelsV2 {
             self.botAliasId = botAliasId
             self.botId = botId
             self.skipResourceInUseCheck = skipResourceInUseCheck
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botAliasId, key: "botAliasId")
+            request.encodePath(self.botId, key: "botId")
+            request.encodeQuery(self.skipResourceInUseCheck, key: "skipResourceInUseCheck")
         }
 
         public func validate(name: String) throws {
@@ -3467,12 +3544,6 @@ extension LexModelsV2 {
     }
 
     public struct DeleteBotLocaleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The unique identifier of the bot that contains the locale.
         public let botId: String
         /// The version of the bot that contains the locale.
@@ -3484,6 +3555,14 @@ extension LexModelsV2 {
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.localeId, key: "localeId")
         }
 
         public func validate(name: String) throws {
@@ -3524,11 +3603,6 @@ extension LexModelsV2 {
     }
 
     public struct DeleteBotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring("skipResourceInUseCheck"))
-        ]
-
         /// The identifier of the bot to delete.
         public let botId: String
         /// By default, Amazon Lex checks if any other resource, such as an alias or  bot network, is using the bot version before it is deleted and throws a  ResourceInUseException exception if the bot is  being used by another resource. Set this parameter to true to skip this check and remove the bot even if it is being used by  another resource.
@@ -3537,6 +3611,13 @@ extension LexModelsV2 {
         public init(botId: String, skipResourceInUseCheck: Bool? = nil) {
             self.botId = botId
             self.skipResourceInUseCheck = skipResourceInUseCheck
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodeQuery(self.skipResourceInUseCheck, key: "skipResourceInUseCheck")
         }
 
         public func validate(name: String) throws {
@@ -3566,12 +3647,6 @@ extension LexModelsV2 {
     }
 
     public struct DeleteBotVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring("skipResourceInUseCheck"))
-        ]
-
         /// The identifier of the bot that contains the version.
         public let botId: String
         /// The version of the bot to delete.
@@ -3583,6 +3658,14 @@ extension LexModelsV2 {
             self.botId = botId
             self.botVersion = botVersion
             self.skipResourceInUseCheck = skipResourceInUseCheck
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodeQuery(self.skipResourceInUseCheck, key: "skipResourceInUseCheck")
         }
 
         public func validate(name: String) throws {
@@ -3619,12 +3702,6 @@ extension LexModelsV2 {
     }
 
     public struct DeleteCustomVocabularyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The unique identifier of the bot to remove the custom vocabulary from.
         public let botId: String
         /// The version of the bot to remove the custom vocabulary from.
@@ -3636,6 +3713,14 @@ extension LexModelsV2 {
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.localeId, key: "localeId")
         }
 
         public func validate(name: String) throws {
@@ -3676,15 +3761,17 @@ extension LexModelsV2 {
     }
 
     public struct DeleteExportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportId", location: .uri("exportId"))
-        ]
-
         /// The unique identifier of the export to delete.
         public let exportId: String
 
         public init(exportId: String) {
             self.exportId = exportId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.exportId, key: "exportId")
         }
 
         public func validate(name: String) throws {
@@ -3714,15 +3801,17 @@ extension LexModelsV2 {
     }
 
     public struct DeleteImportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "importId", location: .uri("importId"))
-        ]
-
         /// The unique identifier of the import to delete.
         public let importId: String
 
         public init(importId: String) {
             self.importId = importId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.importId, key: "importId")
         }
 
         public func validate(name: String) throws {
@@ -3752,13 +3841,6 @@ extension LexModelsV2 {
     }
 
     public struct DeleteIntentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the bot associated with the intent.
         public let botId: String
         /// The version of the bot associated with the intent.
@@ -3773,6 +3855,15 @@ extension LexModelsV2 {
             self.botVersion = botVersion
             self.intentId = intentId
             self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.intentId, key: "intentId")
+            request.encodePath(self.localeId, key: "localeId")
         }
 
         public func validate(name: String) throws {
@@ -3791,11 +3882,6 @@ extension LexModelsV2 {
     }
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring("expectedRevisionId")),
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The identifier of the revision to edit. If this ID doesn't match the current revision number, Amazon Lex returns an exception If you don't specify a revision ID, Amazon Lex will delete the current policy.
         public let expectedRevisionId: String?
         /// The Amazon Resource Name (ARN) of the bot or bot alias that has the resource policy attached.
@@ -3804,6 +3890,13 @@ extension LexModelsV2 {
         public init(expectedRevisionId: String? = nil, resourceArn: String) {
             self.expectedRevisionId = expectedRevisionId
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.expectedRevisionId, key: "expectedRevisionId")
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -3835,12 +3928,6 @@ extension LexModelsV2 {
     }
 
     public struct DeleteResourcePolicyStatementRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring("expectedRevisionId")),
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "statementId", location: .uri("statementId"))
-        ]
-
         /// The identifier of the revision of the policy to delete the statement from. If this revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you don't specify a revision, Amazon Lex removes the current contents of the statement.
         public let expectedRevisionId: String?
         /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
@@ -3852,6 +3939,14 @@ extension LexModelsV2 {
             self.expectedRevisionId = expectedRevisionId
             self.resourceArn = resourceArn
             self.statementId = statementId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.expectedRevisionId, key: "expectedRevisionId")
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodePath(self.statementId, key: "statementId")
         }
 
         public func validate(name: String) throws {
@@ -3886,14 +3981,6 @@ extension LexModelsV2 {
     }
 
     public struct DeleteSlotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
-            AWSMemberEncoding(label: "slotId", location: .uri("slotId"))
-        ]
-
         /// The identifier of the bot associated with the slot to delete.
         public let botId: String
         /// The version of the bot associated with the slot to delete.
@@ -3911,6 +3998,16 @@ extension LexModelsV2 {
             self.intentId = intentId
             self.localeId = localeId
             self.slotId = slotId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.intentId, key: "intentId")
+            request.encodePath(self.localeId, key: "localeId")
+            request.encodePath(self.slotId, key: "slotId")
         }
 
         public func validate(name: String) throws {
@@ -3932,14 +4029,6 @@ extension LexModelsV2 {
     }
 
     public struct DeleteSlotTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
-            AWSMemberEncoding(label: "skipResourceInUseCheck", location: .querystring("skipResourceInUseCheck")),
-            AWSMemberEncoding(label: "slotTypeId", location: .uri("slotTypeId"))
-        ]
-
         /// The identifier of the bot associated with the slot type.
         public let botId: String
         /// The version of the bot associated with the slot type.
@@ -3959,6 +4048,16 @@ extension LexModelsV2 {
             self.slotTypeId = slotTypeId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.localeId, key: "localeId")
+            request.encodeQuery(self.skipResourceInUseCheck, key: "skipResourceInUseCheck")
+            request.encodePath(self.slotTypeId, key: "slotTypeId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.botId, name: "botId", parent: name, max: 10)
             try self.validate(self.botId, name: "botId", parent: name, min: 10)
@@ -3975,15 +4074,17 @@ extension LexModelsV2 {
     }
 
     public struct DeleteTestSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "testSetId", location: .uri("testSetId"))
-        ]
-
         /// The test set Id of the test set to be deleted.
         public let testSetId: String
 
         public init(testSetId: String) {
             self.testSetId = testSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.testSetId, key: "testSetId")
         }
 
         public func validate(name: String) throws {
@@ -3996,12 +4097,6 @@ extension LexModelsV2 {
     }
 
     public struct DeleteUtterancesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "localeId", location: .querystring("localeId")),
-            AWSMemberEncoding(label: "sessionId", location: .querystring("sessionId"))
-        ]
-
         /// The unique identifier of the bot that contains the utterances.
         public let botId: String
         /// The identifier of the language and locale where the utterances were collected. The string must match one of the supported locales. For more information, see Supported languages.
@@ -4013,6 +4108,14 @@ extension LexModelsV2 {
             self.botId = botId
             self.localeId = localeId
             self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodeQuery(self.localeId, key: "localeId")
+            request.encodeQuery(self.sessionId, key: "sessionId")
         }
 
         public func validate(name: String) throws {
@@ -4032,11 +4135,6 @@ extension LexModelsV2 {
     }
 
     public struct DescribeBotAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri("botId"))
-        ]
-
         /// The identifier of the bot alias to describe.
         public let botAliasId: String
         /// The identifier of the bot associated with the bot alias to describe.
@@ -4045,6 +4143,13 @@ extension LexModelsV2 {
         public init(botAliasId: String, botId: String) {
             self.botAliasId = botAliasId
             self.botId = botId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botAliasId, key: "botAliasId")
+            request.encodePath(self.botId, key: "botId")
         }
 
         public func validate(name: String) throws {
@@ -4120,12 +4225,6 @@ extension LexModelsV2 {
     }
 
     public struct DescribeBotLocaleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the bot associated with the locale.
         public let botId: String
         /// The version of the bot associated with the locale.
@@ -4137,6 +4236,14 @@ extension LexModelsV2 {
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.localeId, key: "localeId")
         }
 
         public func validate(name: String) throws {
@@ -4225,13 +4332,6 @@ extension LexModelsV2 {
     }
 
     public struct DescribeBotRecommendationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botRecommendationId", location: .uri("botRecommendationId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The unique identifier of the bot associated with the bot recommendation.
         public let botId: String
         /// The identifier of the bot recommendation to describe.
@@ -4246,6 +4346,15 @@ extension LexModelsV2 {
             self.botRecommendationId = botRecommendationId
             self.botVersion = botVersion
             self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botRecommendationId, key: "botRecommendationId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.localeId, key: "localeId")
         }
 
         public func validate(name: String) throws {
@@ -4317,15 +4426,17 @@ extension LexModelsV2 {
     }
 
     public struct DescribeBotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId"))
-        ]
-
         /// The unique identifier of the bot to describe.
         public let botId: String
 
         public init(botId: String) {
             self.botId = botId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
         }
 
         public func validate(name: String) throws {
@@ -4395,11 +4506,6 @@ extension LexModelsV2 {
     }
 
     public struct DescribeBotVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion"))
-        ]
-
         /// The identifier of the bot containing the version to return metadata for.
         public let botId: String
         /// The version of the bot to return metadata for.
@@ -4408,6 +4514,13 @@ extension LexModelsV2 {
         public init(botId: String, botVersion: String) {
             self.botId = botId
             self.botVersion = botVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
         }
 
         public func validate(name: String) throws {
@@ -4484,12 +4597,6 @@ extension LexModelsV2 {
     }
 
     public struct DescribeCustomVocabularyMetadataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The unique identifier of the bot that contains the custom vocabulary.
         public let botId: String
         /// The bot version of the bot to return metadata for.
@@ -4501,6 +4608,14 @@ extension LexModelsV2 {
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.localeId, key: "localeId")
         }
 
         public func validate(name: String) throws {
@@ -4549,15 +4664,17 @@ extension LexModelsV2 {
     }
 
     public struct DescribeExportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportId", location: .uri("exportId"))
-        ]
-
         /// The unique identifier of the export to describe.
         public let exportId: String
 
         public init(exportId: String) {
             self.exportId = exportId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.exportId, key: "exportId")
         }
 
         public func validate(name: String) throws {
@@ -4611,15 +4728,17 @@ extension LexModelsV2 {
     }
 
     public struct DescribeImportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "importId", location: .uri("importId"))
-        ]
-
         /// The unique identifier of the import to describe.
         public let importId: String
 
         public init(importId: String) {
             self.importId = importId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.importId, key: "importId")
         }
 
         public func validate(name: String) throws {
@@ -4677,13 +4796,6 @@ extension LexModelsV2 {
     }
 
     public struct DescribeIntentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the bot associated with the intent.
         public let botId: String
         /// The version of the bot associated with the intent.
@@ -4698,6 +4810,15 @@ extension LexModelsV2 {
             self.botVersion = botVersion
             self.intentId = intentId
             self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.intentId, key: "intentId")
+            request.encodePath(self.localeId, key: "localeId")
         }
 
         public func validate(name: String) throws {
@@ -4801,15 +4922,17 @@ extension LexModelsV2 {
     }
 
     public struct DescribeResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -4842,14 +4965,6 @@ extension LexModelsV2 {
     }
 
     public struct DescribeSlotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
-            AWSMemberEncoding(label: "slotId", location: .uri("slotId"))
-        ]
-
         /// The identifier of the bot associated with the slot.
         public let botId: String
         /// The version of the bot associated with the slot.
@@ -4867,6 +4982,16 @@ extension LexModelsV2 {
             self.intentId = intentId
             self.localeId = localeId
             self.slotId = slotId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.intentId, key: "intentId")
+            request.encodePath(self.localeId, key: "localeId")
+            request.encodePath(self.slotId, key: "slotId")
         }
 
         public func validate(name: String) throws {
@@ -4953,13 +5078,6 @@ extension LexModelsV2 {
     }
 
     public struct DescribeSlotTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
-            AWSMemberEncoding(label: "slotTypeId", location: .uri("slotTypeId"))
-        ]
-
         /// The identifier of the bot associated with the slot type.
         public let botId: String
         /// The version of the bot associated with the slot type.
@@ -4974,6 +5092,15 @@ extension LexModelsV2 {
             self.botVersion = botVersion
             self.localeId = localeId
             self.slotTypeId = slotTypeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.localeId, key: "localeId")
+            request.encodePath(self.slotTypeId, key: "slotTypeId")
         }
 
         public func validate(name: String) throws {
@@ -5052,15 +5179,17 @@ extension LexModelsV2 {
     }
 
     public struct DescribeTestExecutionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "testExecutionId", location: .uri("testExecutionId"))
-        ]
-
         /// The execution Id of the test set execution.
         public let testExecutionId: String
 
         public init(testExecutionId: String) {
             self.testExecutionId = testExecutionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.testExecutionId, key: "testExecutionId")
         }
 
         public func validate(name: String) throws {
@@ -5122,15 +5251,17 @@ extension LexModelsV2 {
     }
 
     public struct DescribeTestSetDiscrepancyReportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "testSetDiscrepancyReportId", location: .uri("testSetDiscrepancyReportId"))
-        ]
-
         /// The unique identifier of the test set discrepancy report.
         public let testSetDiscrepancyReportId: String
 
         public init(testSetDiscrepancyReportId: String) {
             self.testSetDiscrepancyReportId = testSetDiscrepancyReportId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.testSetDiscrepancyReportId, key: "testSetDiscrepancyReportId")
         }
 
         public func validate(name: String) throws {
@@ -5188,15 +5319,17 @@ extension LexModelsV2 {
     }
 
     public struct DescribeTestSetGenerationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "testSetGenerationId", location: .uri("testSetGenerationId"))
-        ]
-
         /// The unique identifier of the test set generation.
         public let testSetGenerationId: String
 
         public init(testSetGenerationId: String) {
             self.testSetGenerationId = testSetGenerationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.testSetGenerationId, key: "testSetGenerationId")
         }
 
         public func validate(name: String) throws {
@@ -5262,15 +5395,17 @@ extension LexModelsV2 {
     }
 
     public struct DescribeTestSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "testSetId", location: .uri("testSetId"))
-        ]
-
         /// The test set Id for the test set request.
         public let testSetId: String
 
         public init(testSetId: String) {
             self.testSetId = testSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.testSetId, key: "testSetId")
         }
 
         public func validate(name: String) throws {
@@ -5775,15 +5910,17 @@ extension LexModelsV2 {
     }
 
     public struct GetTestExecutionArtifactsUrlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "testExecutionId", location: .uri("testExecutionId"))
-        ]
-
         /// The unique identifier of the completed test execution.
         public let testExecutionId: String
 
         public init(testExecutionId: String) {
             self.testExecutionId = testExecutionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.testExecutionId, key: "testExecutionId")
         }
 
         public func validate(name: String) throws {
@@ -6477,10 +6614,6 @@ extension LexModelsV2 {
     }
 
     public struct ListAggregatedUtterancesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId"))
-        ]
-
         /// The time window for aggregating the utterance information. You can specify a time between one hour and two weeks.
         public let aggregationDuration: UtteranceAggregationDuration
         /// The identifier of the bot alias associated with this request. If you specify the bot alias, you can't specify the bot version.
@@ -6510,6 +6643,20 @@ extension LexModelsV2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortBy = sortBy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.aggregationDuration, forKey: .aggregationDuration)
+            try container.encodeIfPresent(self.botAliasId, forKey: .botAliasId)
+            request.encodePath(self.botId, key: "botId")
+            try container.encodeIfPresent(self.botVersion, forKey: .botVersion)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encode(self.localeId, forKey: .localeId)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
         }
 
         public func validate(name: String) throws {
@@ -6594,10 +6741,6 @@ extension LexModelsV2 {
     }
 
     public struct ListBotAliasesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId"))
-        ]
-
         /// The identifier of the bot to list aliases for.
         public let botId: String
         /// The maximum number of aliases to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
@@ -6609,6 +6752,14 @@ extension LexModelsV2 {
             self.botId = botId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -6647,11 +6798,6 @@ extension LexModelsV2 {
     }
 
     public struct ListBotLocalesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion"))
-        ]
-
         /// The identifier of the bot to list locales for.
         public let botId: String
         /// The version of the bot to list locales for.
@@ -6672,6 +6818,17 @@ extension LexModelsV2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortBy = sortBy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
         }
 
         public func validate(name: String) throws {
@@ -6724,12 +6881,6 @@ extension LexModelsV2 {
     }
 
     public struct ListBotRecommendationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The unique identifier of the bot that contains the bot recommendation list.
         public let botId: String
         /// The version of the bot that contains the bot recommendation list.
@@ -6747,6 +6898,16 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -6796,10 +6957,6 @@ extension LexModelsV2 {
     }
 
     public struct ListBotVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId"))
-        ]
-
         /// The identifier of the bot to list versions for.
         public let botId: String
         /// The maximum number of versions to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
@@ -6814,6 +6971,15 @@ extension LexModelsV2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortBy = sortBy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
         }
 
         public func validate(name: String) throws {
@@ -6905,10 +7071,6 @@ extension LexModelsV2 {
     }
 
     public struct ListBuiltInIntentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The maximum number of built-in intents to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
@@ -6923,6 +7085,15 @@ extension LexModelsV2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortBy = sortBy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
         }
 
         public func validate(name: String) throws {
@@ -6959,10 +7130,6 @@ extension LexModelsV2 {
     }
 
     public struct ListBuiltInSlotTypesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The maximum number of built-in slot types to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
@@ -6977,6 +7144,15 @@ extension LexModelsV2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortBy = sortBy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
         }
 
         public func validate(name: String) throws {
@@ -7013,12 +7189,6 @@ extension LexModelsV2 {
     }
 
     public struct ListCustomVocabularyItemsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the version of the bot associated with this custom  vocabulary.
         public let botId: String
         /// The bot version of the bot to the list custom vocabulary  request.
@@ -7036,6 +7206,16 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -7249,12 +7429,6 @@ extension LexModelsV2 {
     }
 
     public struct ListIntentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The unique identifier of the bot that contains the intent.
         public let botId: String
         /// The version of the bot that contains the intent.
@@ -7278,6 +7452,18 @@ extension LexModelsV2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortBy = sortBy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
         }
 
         public func validate(name: String) throws {
@@ -7334,13 +7520,6 @@ extension LexModelsV2 {
     }
 
     public struct ListRecommendedIntentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botRecommendationId", location: .uri("botRecommendationId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The unique identifier of the bot associated with the recommended intents.
         public let botId: String
         /// The identifier of the bot recommendation that contains the recommended intents.
@@ -7361,6 +7540,17 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botRecommendationId, key: "botRecommendationId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -7417,12 +7607,6 @@ extension LexModelsV2 {
     }
 
     public struct ListSlotTypesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The unique identifier of the bot that contains the slot types.
         public let botId: String
         /// The version of the bot that contains the slot type.
@@ -7446,6 +7630,18 @@ extension LexModelsV2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortBy = sortBy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
         }
 
         public func validate(name: String) throws {
@@ -7502,13 +7698,6 @@ extension LexModelsV2 {
     }
 
     public struct ListSlotsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the bot that contains the slot.
         public let botId: String
         /// The version of the bot that contains the slot.
@@ -7535,6 +7724,19 @@ extension LexModelsV2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortBy = sortBy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            request.encodePath(self.intentId, key: "intentId")
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
         }
 
         public func validate(name: String) throws {
@@ -7598,15 +7800,17 @@ extension LexModelsV2 {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .uri("resourceARN"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource to get a list of tags for.
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceARN, key: "resourceARN")
         }
 
         public func validate(name: String) throws {
@@ -7631,10 +7835,6 @@ extension LexModelsV2 {
     }
 
     public struct ListTestExecutionResultItemsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "testExecutionId", location: .uri("testExecutionId"))
-        ]
-
         /// The maximum number of test execution result items to return in each  page. If there are fewer results than the max page size, only the actual  number of results are returned.
         public let maxResults: Int?
         /// If the response from the ListTestExecutionResultItems operation  contains more results than specified in the maxResults parameter,  a token is returned in the response. Use that token in the nextToken  parameter to return the next page of results.
@@ -7649,6 +7849,15 @@ extension LexModelsV2 {
             self.nextToken = nextToken
             self.resultFilterBy = resultFilterBy
             self.testExecutionId = testExecutionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.resultFilterBy, forKey: .resultFilterBy)
+            request.encodePath(self.testExecutionId, key: "testExecutionId")
         }
 
         public func validate(name: String) throws {
@@ -7727,10 +7936,6 @@ extension LexModelsV2 {
     }
 
     public struct ListTestSetRecordsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "testSetId", location: .uri("testSetId"))
-        ]
-
         /// The maximum number of test set records to return in each page. If there are  fewer records than the max page size, only the actual number of records are  returned.
         public let maxResults: Int?
         /// If the response from the ListTestSetRecords operation contains more results  than specified in the maxResults parameter, a token is returned in the response.  Use that token in the nextToken parameter to return the next page of results.
@@ -7742,6 +7947,14 @@ extension LexModelsV2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.testSetId = testSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.testSetId, key: "testSetId")
         }
 
         public func validate(name: String) throws {
@@ -8494,13 +8707,6 @@ extension LexModelsV2 {
     }
 
     public struct SearchAssociatedTranscriptsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botRecommendationId", location: .uri("botRecommendationId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The unique identifier of the bot associated with the transcripts that you are searching.
         public let botId: String
         /// The unique identifier of the bot recommendation associated with the transcripts to search.
@@ -8527,6 +8733,19 @@ extension LexModelsV2 {
             self.maxResults = maxResults
             self.nextIndex = nextIndex
             self.searchOrder = searchOrder
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botRecommendationId, key: "botRecommendationId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encode(self.filters, forKey: .filters)
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextIndex, forKey: .nextIndex)
+            try container.encodeIfPresent(self.searchOrder, forKey: .searchOrder)
         }
 
         public func validate(name: String) throws {
@@ -9116,12 +9335,6 @@ extension LexModelsV2 {
     }
 
     public struct StartBotRecommendationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The unique identifier of the bot containing the bot recommendation.
         public let botId: String
         /// The version of the bot containing the bot recommendation.
@@ -9139,6 +9352,16 @@ extension LexModelsV2 {
             self.encryptionSetting = encryptionSetting
             self.localeId = localeId
             self.transcriptSourceSetting = transcriptSourceSetting
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encodeIfPresent(self.encryptionSetting, forKey: .encryptionSetting)
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encode(self.transcriptSourceSetting, forKey: .transcriptSourceSetting)
         }
 
         public func validate(name: String) throws {
@@ -9263,10 +9486,6 @@ extension LexModelsV2 {
     }
 
     public struct StartTestExecutionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "testSetId", location: .uri("testSetId"))
-        ]
-
         /// Indicates whether we use streaming or non-streaming APIs for the test set  execution. For streaming, StartConversation Runtime API is used. Whereas, for  non-streaming, RecognizeUtterance and RecognizeText Amazon Lex  Runtime API are used.
         public let apiMode: TestExecutionApiMode
         /// The target bot for the test set execution.
@@ -9281,6 +9500,15 @@ extension LexModelsV2 {
             self.target = target
             self.testExecutionModality = testExecutionModality
             self.testSetId = testSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.apiMode, forKey: .apiMode)
+            try container.encode(self.target, forKey: .target)
+            try container.encodeIfPresent(self.testExecutionModality, forKey: .testExecutionModality)
+            request.encodePath(self.testSetId, key: "testSetId")
         }
 
         public func validate(name: String) throws {
@@ -9464,13 +9692,6 @@ extension LexModelsV2 {
     }
 
     public struct StopBotRecommendationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botRecommendationId", location: .uri("botRecommendationId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The unique identifier of the bot containing the bot recommendation to be stopped.
         public let botId: String
         /// The unique identifier of the bot recommendation to be stopped.
@@ -9485,6 +9706,15 @@ extension LexModelsV2 {
             self.botRecommendationId = botRecommendationId
             self.botVersion = botVersion
             self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botRecommendationId, key: "botRecommendationId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            request.encodePath(self.localeId, key: "localeId")
         }
 
         public func validate(name: String) throws {
@@ -9615,10 +9845,6 @@ extension LexModelsV2 {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .uri("resourceARN"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the bot, bot alias, or bot channel to tag.
         public let resourceARN: String
         /// A list of tag keys to add to the resource. If a tag key already exists, the existing value is replaced with the new value.
@@ -9627,6 +9853,13 @@ extension LexModelsV2 {
         public init(resourceARN: String, tags: [String: String]) {
             self.resourceARN = resourceARN
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceARN, key: "resourceARN")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -10236,11 +10469,6 @@ extension LexModelsV2 {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .uri("resourceARN")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource to remove the tags from.
         public let resourceARN: String
         /// A list of tag keys to remove from the resource. If a tag key does not exist on the resource, it is ignored.
@@ -10249,6 +10477,13 @@ extension LexModelsV2 {
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceARN, key: "resourceARN")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -10269,11 +10504,6 @@ extension LexModelsV2 {
     }
 
     public struct UpdateBotAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri("botId"))
-        ]
-
         /// The unique identifier of the bot alias.
         public let botAliasId: String
         /// The new Lambda functions to use in each locale for the bot alias.
@@ -10299,6 +10529,19 @@ extension LexModelsV2 {
             self.conversationLogSettings = conversationLogSettings
             self.description = description
             self.sentimentAnalysisSettings = sentimentAnalysisSettings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botAliasId, key: "botAliasId")
+            try container.encodeIfPresent(self.botAliasLocaleSettings, forKey: .botAliasLocaleSettings)
+            try container.encode(self.botAliasName, forKey: .botAliasName)
+            request.encodePath(self.botId, key: "botId")
+            try container.encodeIfPresent(self.botVersion, forKey: .botVersion)
+            try container.encodeIfPresent(self.conversationLogSettings, forKey: .conversationLogSettings)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.sentimentAnalysisSettings, forKey: .sentimentAnalysisSettings)
         }
 
         public func validate(name: String) throws {
@@ -10385,12 +10628,6 @@ extension LexModelsV2 {
     }
 
     public struct UpdateBotLocaleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The unique identifier of the bot that contains the locale.
         public let botId: String
         /// The version of the bot that contains the locale to be updated. The version can only be the DRAFT version.
@@ -10411,6 +10648,17 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
             self.voiceSettings = voiceSettings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encode(self.nluIntentConfidenceThreshold, forKey: .nluIntentConfidenceThreshold)
+            try container.encodeIfPresent(self.voiceSettings, forKey: .voiceSettings)
         }
 
         public func validate(name: String) throws {
@@ -10490,13 +10738,6 @@ extension LexModelsV2 {
     }
 
     public struct UpdateBotRecommendationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botRecommendationId", location: .uri("botRecommendationId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The unique identifier of the bot containing the bot recommendation to be updated.
         public let botId: String
         /// The unique identifier of the bot recommendation to be updated.
@@ -10514,6 +10755,16 @@ extension LexModelsV2 {
             self.botVersion = botVersion
             self.encryptionSetting = encryptionSetting
             self.localeId = localeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botRecommendationId, key: "botRecommendationId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encode(self.encryptionSetting, forKey: .encryptionSetting)
+            request.encodePath(self.localeId, key: "localeId")
         }
 
         public func validate(name: String) throws {
@@ -10580,10 +10831,6 @@ extension LexModelsV2 {
     }
 
     public struct UpdateBotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId"))
-        ]
-
         /// The unique identifier of the bot to update. This identifier is returned by the CreateBot operation.
         public let botId: String
         /// The list of bot members in the network associated  with the update action.
@@ -10610,6 +10857,19 @@ extension LexModelsV2 {
             self.description = description
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.roleArn = roleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            try container.encodeIfPresent(self.botMembers, forKey: .botMembers)
+            try container.encode(self.botName, forKey: .botName)
+            try container.encodeIfPresent(self.botType, forKey: .botType)
+            try container.encode(self.dataPrivacy, forKey: .dataPrivacy)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.idleSessionTTLInSeconds, forKey: .idleSessionTTLInSeconds)
+            try container.encode(self.roleArn, forKey: .roleArn)
         }
 
         public func validate(name: String) throws {
@@ -10696,10 +10956,6 @@ extension LexModelsV2 {
     }
 
     public struct UpdateExportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportId", location: .uri("exportId"))
-        ]
-
         /// The unique identifier Amazon Lex assigned to the export.
         public let exportId: String
         /// The new password to use to encrypt the export zip archive.
@@ -10708,6 +10964,13 @@ extension LexModelsV2 {
         public init(exportId: String, filePassword: String? = nil) {
             self.exportId = exportId
             self.filePassword = filePassword
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.exportId, key: "exportId")
+            try container.encodeIfPresent(self.filePassword, forKey: .filePassword)
         }
 
         public func validate(name: String) throws {
@@ -10757,13 +11020,6 @@ extension LexModelsV2 {
     }
 
     public struct UpdateIntentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId"))
-        ]
-
         /// The identifier of the bot that contains the intent.
         public let botId: String
         /// The version of the bot that contains the intent. Must be DRAFT.
@@ -10817,6 +11073,28 @@ extension LexModelsV2 {
             self.parentIntentSignature = parentIntentSignature
             self.sampleUtterances = sampleUtterances
             self.slotPriorities = slotPriorities
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.dialogCodeHook, forKey: .dialogCodeHook)
+            try container.encodeIfPresent(self.fulfillmentCodeHook, forKey: .fulfillmentCodeHook)
+            try container.encodeIfPresent(self.initialResponseSetting, forKey: .initialResponseSetting)
+            try container.encodeIfPresent(self.inputContexts, forKey: .inputContexts)
+            try container.encodeIfPresent(self.intentClosingSetting, forKey: .intentClosingSetting)
+            try container.encodeIfPresent(self.intentConfirmationSetting, forKey: .intentConfirmationSetting)
+            request.encodePath(self.intentId, key: "intentId")
+            try container.encode(self.intentName, forKey: .intentName)
+            try container.encodeIfPresent(self.kendraConfiguration, forKey: .kendraConfiguration)
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.outputContexts, forKey: .outputContexts)
+            try container.encodeIfPresent(self.parentIntentSignature, forKey: .parentIntentSignature)
+            try container.encodeIfPresent(self.sampleUtterances, forKey: .sampleUtterances)
+            try container.encodeIfPresent(self.slotPriorities, forKey: .slotPriorities)
         }
 
         public func validate(name: String) throws {
@@ -10954,11 +11232,6 @@ extension LexModelsV2 {
     }
 
     public struct UpdateResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "expectedRevisionId", location: .querystring("expectedRevisionId")),
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The identifier of the revision of the policy to update. If this revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you don't specify a revision, Amazon Lex overwrites the contents of the policy with the new values.
         public let expectedRevisionId: String?
         /// A resource policy to add to the resource. The policy is a JSON structure that contains one or more statements that define the policy. The policy must follow the IAM syntax. For more information about the contents of a JSON policy document, see  IAM JSON policy reference .  If the policy isn't valid, Amazon Lex returns a validation exception.
@@ -10970,6 +11243,14 @@ extension LexModelsV2 {
             self.expectedRevisionId = expectedRevisionId
             self.policy = policy
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.expectedRevisionId, key: "expectedRevisionId")
+            try container.encode(self.policy, forKey: .policy)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -11004,14 +11285,6 @@ extension LexModelsV2 {
     }
 
     public struct UpdateSlotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "intentId", location: .uri("intentId")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
-            AWSMemberEncoding(label: "slotId", location: .uri("slotId"))
-        ]
-
         /// The unique identifier of the bot that contains the slot.
         public let botId: String
         /// The version of the bot that contains the slot. Must always be DRAFT.
@@ -11050,6 +11323,23 @@ extension LexModelsV2 {
             self.slotTypeId = slotTypeId
             self.subSlotSetting = subSlotSetting
             self.valueElicitationSetting = valueElicitationSetting
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.intentId, key: "intentId")
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.multipleValuesSetting, forKey: .multipleValuesSetting)
+            try container.encodeIfPresent(self.obfuscationSetting, forKey: .obfuscationSetting)
+            request.encodePath(self.slotId, key: "slotId")
+            try container.encode(self.slotName, forKey: .slotName)
+            try container.encodeIfPresent(self.slotTypeId, forKey: .slotTypeId)
+            try container.encodeIfPresent(self.subSlotSetting, forKey: .subSlotSetting)
+            try container.encode(self.valueElicitationSetting, forKey: .valueElicitationSetting)
         }
 
         public func validate(name: String) throws {
@@ -11153,13 +11443,6 @@ extension LexModelsV2 {
     }
 
     public struct UpdateSlotTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "botVersion", location: .uri("botVersion")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
-            AWSMemberEncoding(label: "slotTypeId", location: .uri("slotTypeId"))
-        ]
-
         /// The identifier of the bot that contains the slot type.
         public let botId: String
         /// The version of the bot that contains the slot type. Must be DRAFT.
@@ -11194,6 +11477,22 @@ extension LexModelsV2 {
             self.slotTypeName = slotTypeName
             self.slotTypeValues = slotTypeValues
             self.valueSelectionSetting = valueSelectionSetting
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.botVersion, key: "botVersion")
+            try container.encodeIfPresent(self.compositeSlotTypeSetting, forKey: .compositeSlotTypeSetting)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.externalSourceSetting, forKey: .externalSourceSetting)
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.parentSlotTypeSignature, forKey: .parentSlotTypeSignature)
+            request.encodePath(self.slotTypeId, key: "slotTypeId")
+            try container.encode(self.slotTypeName, forKey: .slotTypeName)
+            try container.encodeIfPresent(self.slotTypeValues, forKey: .slotTypeValues)
+            try container.encodeIfPresent(self.valueSelectionSetting, forKey: .valueSelectionSetting)
         }
 
         public func validate(name: String) throws {
@@ -11292,10 +11591,6 @@ extension LexModelsV2 {
     }
 
     public struct UpdateTestSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "testSetId", location: .uri("testSetId"))
-        ]
-
         /// The new test set description.
         public let description: String?
         /// The test set Id for which update test operation to be performed.
@@ -11307,6 +11602,14 @@ extension LexModelsV2 {
             self.description = description
             self.testSetId = testSetId
             self.testSetName = testSetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.testSetId, key: "testSetId")
+            try container.encode(self.testSetName, forKey: .testSetName)
         }
 
         public func validate(name: String) throws {

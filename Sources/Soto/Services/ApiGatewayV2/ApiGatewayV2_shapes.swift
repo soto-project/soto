@@ -332,10 +332,6 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateApiMappingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The API mapping key.
@@ -350,6 +346,15 @@ extension ApiGatewayV2 {
             self.apiMappingKey = apiMappingKey
             self.domainName = domainName
             self.stage = stage
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.apiId, forKey: .apiId)
+            try container.encodeIfPresent(self.apiMappingKey, forKey: .apiMappingKey)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.stage, forKey: .stage)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -524,10 +529,6 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateAuthorizerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, don't specify this parameter. Supported only for REQUEST authorizers.
@@ -563,6 +564,22 @@ extension ApiGatewayV2 {
             self.identityValidationExpression = identityValidationExpression
             self.jwtConfiguration = jwtConfiguration
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.authorizerCredentialsArn, forKey: .authorizerCredentialsArn)
+            try container.encodeIfPresent(self.authorizerPayloadFormatVersion, forKey: .authorizerPayloadFormatVersion)
+            try container.encodeIfPresent(self.authorizerResultTtlInSeconds, forKey: .authorizerResultTtlInSeconds)
+            try container.encode(self.authorizerType, forKey: .authorizerType)
+            try container.encodeIfPresent(self.authorizerUri, forKey: .authorizerUri)
+            try container.encodeIfPresent(self.enableSimpleResponses, forKey: .enableSimpleResponses)
+            try container.encode(self.identitySource, forKey: .identitySource)
+            try container.encodeIfPresent(self.identityValidationExpression, forKey: .identityValidationExpression)
+            try container.encodeIfPresent(self.jwtConfiguration, forKey: .jwtConfiguration)
+            try container.encode(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -638,10 +655,6 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The description for the deployment resource.
@@ -653,6 +666,14 @@ extension ApiGatewayV2 {
             self.apiId = apiId
             self.description = description
             self.stageName = stageName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.stageName, forKey: .stageName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -750,10 +771,6 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateIntegrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The ID of the VPC link for a private integration. Supported only for HTTP APIs.
@@ -812,6 +829,29 @@ extension ApiGatewayV2 {
             self.tlsConfig = tlsConfig
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.connectionId, forKey: .connectionId)
+            try container.encodeIfPresent(self.connectionType, forKey: .connectionType)
+            try container.encodeIfPresent(self.contentHandlingStrategy, forKey: .contentHandlingStrategy)
+            try container.encodeIfPresent(self.credentialsArn, forKey: .credentialsArn)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.integrationMethod, forKey: .integrationMethod)
+            try container.encodeIfPresent(self.integrationSubtype, forKey: .integrationSubtype)
+            try container.encode(self.integrationType, forKey: .integrationType)
+            try container.encodeIfPresent(self.integrationUri, forKey: .integrationUri)
+            try container.encodeIfPresent(self.passthroughBehavior, forKey: .passthroughBehavior)
+            try container.encodeIfPresent(self.payloadFormatVersion, forKey: .payloadFormatVersion)
+            try container.encodeIfPresent(self.requestParameters, forKey: .requestParameters)
+            try container.encodeIfPresent(self.requestTemplates, forKey: .requestTemplates)
+            try container.encodeIfPresent(self.responseParameters, forKey: .responseParameters)
+            try container.encodeIfPresent(self.templateSelectionExpression, forKey: .templateSelectionExpression)
+            try container.encodeIfPresent(self.timeoutInMillis, forKey: .timeoutInMillis)
+            try container.encodeIfPresent(self.tlsConfig, forKey: .tlsConfig)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, max: 30000)
             try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, min: 50)
@@ -839,11 +879,6 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateIntegrationResponseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string. If this property is not defined, the response payload will be passed through from the integration response to the route response or method response without modification.
@@ -867,6 +902,18 @@ extension ApiGatewayV2 {
             self.responseParameters = responseParameters
             self.responseTemplates = responseTemplates
             self.templateSelectionExpression = templateSelectionExpression
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.contentHandlingStrategy, forKey: .contentHandlingStrategy)
+            request.encodePath(self.integrationId, key: "IntegrationId")
+            try container.encode(self.integrationResponseKey, forKey: .integrationResponseKey)
+            try container.encodeIfPresent(self.responseParameters, forKey: .responseParameters)
+            try container.encodeIfPresent(self.responseTemplates, forKey: .responseTemplates)
+            try container.encodeIfPresent(self.templateSelectionExpression, forKey: .templateSelectionExpression)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1001,10 +1048,6 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The content-type for the model, for example, "application/json".
@@ -1022,6 +1065,16 @@ extension ApiGatewayV2 {
             self.description = description
             self.name = name
             self.schema = schema
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.contentType, forKey: .contentType)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.schema, forKey: .schema)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1062,10 +1115,6 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateRouteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// Specifies whether an API key is required for the route. Supported only for WebSocket APIs.
@@ -1106,6 +1155,23 @@ extension ApiGatewayV2 {
             self.target = target
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.apiKeyRequired, forKey: .apiKeyRequired)
+            try container.encodeIfPresent(self.authorizationScopes, forKey: .authorizationScopes)
+            try container.encodeIfPresent(self.authorizationType, forKey: .authorizationType)
+            try container.encodeIfPresent(self.authorizerId, forKey: .authorizerId)
+            try container.encodeIfPresent(self.modelSelectionExpression, forKey: .modelSelectionExpression)
+            try container.encodeIfPresent(self.operationName, forKey: .operationName)
+            try container.encodeIfPresent(self.requestModels, forKey: .requestModels)
+            try container.encodeIfPresent(self.requestParameters, forKey: .requestParameters)
+            try container.encode(self.routeKey, forKey: .routeKey)
+            try container.encodeIfPresent(self.routeResponseSelectionExpression, forKey: .routeResponseSelectionExpression)
+            try container.encodeIfPresent(self.target, forKey: .target)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiKeyRequired = "apiKeyRequired"
             case authorizationScopes = "authorizationScopes"
@@ -1122,11 +1188,6 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateRouteResponseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri("RouteId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The model selection expression for the route response. Supported only for WebSocket APIs.
@@ -1147,6 +1208,17 @@ extension ApiGatewayV2 {
             self.responseParameters = responseParameters
             self.routeId = routeId
             self.routeResponseKey = routeResponseKey
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.modelSelectionExpression, forKey: .modelSelectionExpression)
+            try container.encodeIfPresent(self.responseModels, forKey: .responseModels)
+            try container.encodeIfPresent(self.responseParameters, forKey: .responseParameters)
+            request.encodePath(self.routeId, key: "RouteId")
+            try container.encode(self.routeResponseKey, forKey: .routeResponseKey)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1248,10 +1320,6 @@ extension ApiGatewayV2 {
     }
 
     public struct CreateStageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
-        ]
-
         /// Settings for logging access in this stage.
         public let accessLogSettings: AccessLogSettings?
         /// The API identifier.
@@ -1287,6 +1355,22 @@ extension ApiGatewayV2 {
             self.stageName = stageName
             self.stageVariables = stageVariables
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accessLogSettings, forKey: .accessLogSettings)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.autoDeploy, forKey: .autoDeploy)
+            try container.encodeIfPresent(self.clientCertificateId, forKey: .clientCertificateId)
+            try container.encodeIfPresent(self.defaultRouteSettings, forKey: .defaultRouteSettings)
+            try container.encodeIfPresent(self.deploymentId, forKey: .deploymentId)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.routeSettings, forKey: .routeSettings)
+            try container.encode(self.stageName, forKey: .stageName)
+            try container.encodeIfPresent(self.stageVariables, forKey: .stageVariables)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1442,11 +1526,6 @@ extension ApiGatewayV2 {
     }
 
     public struct DeleteAccessLogSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
@@ -1457,15 +1536,17 @@ extension ApiGatewayV2 {
             self.stageName = stageName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.stageName, key: "StageName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApiMappingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiMappingId", location: .uri("ApiMappingId")),
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The API mapping identifier.
         public let apiMappingId: String
         /// The domain name.
@@ -1476,14 +1557,17 @@ extension ApiGatewayV2 {
             self.domainName = domainName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiMappingId, key: "ApiMappingId")
+            request.encodePath(self.domainName, key: "DomainName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApiRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
 
@@ -1491,15 +1575,16 @@ extension ApiGatewayV2 {
             self.apiId = apiId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAuthorizerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "authorizerId", location: .uri("AuthorizerId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The authorizer identifier.
@@ -1510,14 +1595,17 @@ extension ApiGatewayV2 {
             self.authorizerId = authorizerId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.authorizerId, key: "AuthorizerId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteCorsConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
 
@@ -1525,15 +1613,16 @@ extension ApiGatewayV2 {
             self.apiId = apiId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "deploymentId", location: .uri("DeploymentId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The deployment ID.
@@ -1544,14 +1633,17 @@ extension ApiGatewayV2 {
             self.deploymentId = deploymentId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.deploymentId, key: "DeploymentId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDomainNameRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The domain name.
         public let domainName: String
 
@@ -1559,15 +1651,16 @@ extension ApiGatewayV2 {
             self.domainName = domainName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteIntegrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The integration ID.
@@ -1578,16 +1671,17 @@ extension ApiGatewayV2 {
             self.integrationId = integrationId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.integrationId, key: "IntegrationId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteIntegrationResponseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId")),
-            AWSMemberEncoding(label: "integrationResponseId", location: .uri("IntegrationResponseId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The integration ID.
@@ -1601,15 +1695,18 @@ extension ApiGatewayV2 {
             self.integrationResponseId = integrationResponseId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.integrationId, key: "IntegrationId")
+            request.encodePath(self.integrationResponseId, key: "IntegrationResponseId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "modelId", location: .uri("ModelId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The model ID.
@@ -1620,15 +1717,17 @@ extension ApiGatewayV2 {
             self.modelId = modelId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.modelId, key: "ModelId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRouteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri("RouteId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The route ID.
@@ -1639,16 +1738,17 @@ extension ApiGatewayV2 {
             self.routeId = routeId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.routeId, key: "RouteId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRouteRequestParameterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "requestParameterKey", location: .uri("RequestParameterKey")),
-            AWSMemberEncoding(label: "routeId", location: .uri("RouteId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The route request parameter key.
@@ -1662,16 +1762,18 @@ extension ApiGatewayV2 {
             self.routeId = routeId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.requestParameterKey, key: "RequestParameterKey")
+            request.encodePath(self.routeId, key: "RouteId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRouteResponseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri("RouteId")),
-            AWSMemberEncoding(label: "routeResponseId", location: .uri("RouteResponseId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The route ID.
@@ -1685,16 +1787,18 @@ extension ApiGatewayV2 {
             self.routeResponseId = routeResponseId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.routeId, key: "RouteId")
+            request.encodePath(self.routeResponseId, key: "RouteResponseId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRouteSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "routeKey", location: .uri("RouteKey")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The route key.
@@ -1708,15 +1812,18 @@ extension ApiGatewayV2 {
             self.stageName = stageName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.routeKey, key: "RouteKey")
+            request.encodePath(self.stageName, key: "StageName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteStageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
@@ -1727,19 +1834,28 @@ extension ApiGatewayV2 {
             self.stageName = stageName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.stageName, key: "StageName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVpcLinkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcLinkId", location: .uri("VpcLinkId"))
-        ]
-
         /// The ID of the VPC link.
         public let vpcLinkId: String
 
         public init(vpcLinkId: String) {
             self.vpcLinkId = vpcLinkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vpcLinkId, key: "VpcLinkId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1863,15 +1979,6 @@ extension ApiGatewayV2 {
     }
 
     public struct ExportApiRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "exportVersion", location: .querystring("exportVersion")),
-            AWSMemberEncoding(label: "includeExtensions", location: .querystring("includeExtensions")),
-            AWSMemberEncoding(label: "outputType", location: .querystring("outputType")),
-            AWSMemberEncoding(label: "specification", location: .uri("Specification")),
-            AWSMemberEncoding(label: "stageName", location: .querystring("stageName"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The version of the API Gateway export algorithm. API Gateway uses the latest version by default. Currently, the only supported version is 1.0.
@@ -1894,6 +2001,17 @@ extension ApiGatewayV2 {
             self.stageName = stageName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodeQuery(self.exportVersion, key: "exportVersion")
+            request.encodeQuery(self.includeExtensions, key: "includeExtensions")
+            request.encodeQuery(self.outputType, key: "outputType")
+            request.encodePath(self.specification, key: "Specification")
+            request.encodeQuery(self.stageName, key: "stageName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1906,20 +2024,14 @@ extension ApiGatewayV2 {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.body = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.body = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApiMappingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiMappingId", location: .uri("ApiMappingId")),
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The API mapping identifier.
         public let apiMappingId: String
         /// The domain name.
@@ -1928,6 +2040,13 @@ extension ApiGatewayV2 {
         public init(apiMappingId: String, domainName: String) {
             self.apiMappingId = apiMappingId
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiMappingId, key: "ApiMappingId")
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1959,12 +2078,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetApiMappingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The domain name.
         public let domainName: String
         /// The maximum number of elements to be returned for this resource.
@@ -1976,6 +2089,14 @@ extension ApiGatewayV2 {
             self.domainName = domainName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1999,15 +2120,17 @@ extension ApiGatewayV2 {
     }
 
     public struct GetApiRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
 
         public init(apiId: String) {
             self.apiId = apiId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2088,11 +2211,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetApisRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of elements to be returned for this resource.
         public let maxResults: String?
         /// The next page of elements from this collection. Not valid for the last element of the collection.
@@ -2101,6 +2219,13 @@ extension ApiGatewayV2 {
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2124,11 +2249,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetAuthorizerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "authorizerId", location: .uri("AuthorizerId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The authorizer identifier.
@@ -2137,6 +2257,13 @@ extension ApiGatewayV2 {
         public init(apiId: String, authorizerId: String) {
             self.apiId = apiId
             self.authorizerId = authorizerId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.authorizerId, key: "AuthorizerId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2196,12 +2323,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetAuthorizersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The maximum number of elements to be returned for this resource.
@@ -2213,6 +2334,14 @@ extension ApiGatewayV2 {
             self.apiId = apiId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2236,11 +2365,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "deploymentId", location: .uri("DeploymentId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The deployment ID.
@@ -2249,6 +2373,13 @@ extension ApiGatewayV2 {
         public init(apiId: String, deploymentId: String) {
             self.apiId = apiId
             self.deploymentId = deploymentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.deploymentId, key: "DeploymentId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2289,12 +2420,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetDeploymentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The maximum number of elements to be returned for this resource.
@@ -2306,6 +2431,14 @@ extension ApiGatewayV2 {
             self.apiId = apiId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2329,15 +2462,17 @@ extension ApiGatewayV2 {
     }
 
     public struct GetDomainNameRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The domain name.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2373,11 +2508,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetDomainNamesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of elements to be returned for this resource.
         public let maxResults: String?
         /// The next page of elements from this collection. Not valid for the last element of the collection.
@@ -2386,6 +2516,13 @@ extension ApiGatewayV2 {
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2409,11 +2546,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetIntegrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The integration ID.
@@ -2424,16 +2556,17 @@ extension ApiGatewayV2 {
             self.integrationId = integrationId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.integrationId, key: "IntegrationId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetIntegrationResponseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId")),
-            AWSMemberEncoding(label: "integrationResponseId", location: .uri("IntegrationResponseId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The integration ID.
@@ -2445,6 +2578,14 @@ extension ApiGatewayV2 {
             self.apiId = apiId
             self.integrationId = integrationId
             self.integrationResponseId = integrationResponseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.integrationId, key: "IntegrationId")
+            request.encodePath(self.integrationResponseId, key: "IntegrationResponseId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2484,13 +2625,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetIntegrationResponsesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The integration ID.
@@ -2505,6 +2639,15 @@ extension ApiGatewayV2 {
             self.integrationId = integrationId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.integrationId, key: "IntegrationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2617,12 +2760,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetIntegrationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The maximum number of elements to be returned for this resource.
@@ -2634,6 +2771,14 @@ extension ApiGatewayV2 {
             self.apiId = apiId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2657,11 +2802,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "modelId", location: .uri("ModelId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The model ID.
@@ -2670,6 +2810,13 @@ extension ApiGatewayV2 {
         public init(apiId: String, modelId: String) {
             self.apiId = apiId
             self.modelId = modelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.modelId, key: "ModelId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2705,11 +2852,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetModelTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "modelId", location: .uri("ModelId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The model ID.
@@ -2718,6 +2860,13 @@ extension ApiGatewayV2 {
         public init(apiId: String, modelId: String) {
             self.apiId = apiId
             self.modelId = modelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.modelId, key: "ModelId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2737,12 +2886,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetModelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The maximum number of elements to be returned for this resource.
@@ -2754,6 +2897,14 @@ extension ApiGatewayV2 {
             self.apiId = apiId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2777,11 +2928,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetRouteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri("RouteId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The route ID.
@@ -2792,16 +2938,17 @@ extension ApiGatewayV2 {
             self.routeId = routeId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.routeId, key: "RouteId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRouteResponseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri("RouteId")),
-            AWSMemberEncoding(label: "routeResponseId", location: .uri("RouteResponseId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The route ID.
@@ -2813,6 +2960,14 @@ extension ApiGatewayV2 {
             self.apiId = apiId
             self.routeId = routeId
             self.routeResponseId = routeResponseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.routeId, key: "RouteId")
+            request.encodePath(self.routeResponseId, key: "RouteResponseId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2848,13 +3003,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetRouteResponsesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "routeId", location: .uri("RouteId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The maximum number of elements to be returned for this resource.
@@ -2869,6 +3017,15 @@ extension ApiGatewayV2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.routeId = routeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.routeId, key: "RouteId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2953,12 +3110,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetRoutesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The maximum number of elements to be returned for this resource.
@@ -2970,6 +3121,14 @@ extension ApiGatewayV2 {
             self.apiId = apiId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2993,11 +3152,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetStageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
@@ -3006,6 +3160,13 @@ extension ApiGatewayV2 {
         public init(apiId: String, stageName: String) {
             self.apiId = apiId
             self.stageName = stageName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.stageName, key: "StageName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3079,12 +3240,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetStagesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The maximum number of elements to be returned for this resource.
@@ -3096,6 +3251,14 @@ extension ApiGatewayV2 {
             self.apiId = apiId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3119,15 +3282,17 @@ extension ApiGatewayV2 {
     }
 
     public struct GetTagsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The resource ARN for the tag.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3146,15 +3311,17 @@ extension ApiGatewayV2 {
     }
 
     public struct GetVpcLinkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcLinkId", location: .uri("VpcLinkId"))
-        ]
-
         /// The ID of the VPC link.
         public let vpcLinkId: String
 
         public init(vpcLinkId: String) {
             self.vpcLinkId = vpcLinkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vpcLinkId, key: "VpcLinkId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3207,11 +3374,6 @@ extension ApiGatewayV2 {
     }
 
     public struct GetVpcLinksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of elements to be returned for this resource.
         public let maxResults: String?
         /// The next page of elements from this collection. Not valid for the last element of the collection.
@@ -3220,6 +3382,13 @@ extension ApiGatewayV2 {
         public init(maxResults: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3243,11 +3412,6 @@ extension ApiGatewayV2 {
     }
 
     public struct ImportApiRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "basepath", location: .querystring("basepath")),
-            AWSMemberEncoding(label: "failOnWarnings", location: .querystring("failOnWarnings"))
-        ]
-
         /// Specifies how to interpret the base path of the API during import. Valid values are ignore, prepend, and split. The default value is ignore. To learn more, see Set the OpenAPI basePath Property. Supported only for HTTP APIs.
         public let basepath: String?
         /// The OpenAPI definition. Supported only for HTTP APIs.
@@ -3259,6 +3423,14 @@ extension ApiGatewayV2 {
             self.basepath = basepath
             self.body = body
             self.failOnWarnings = failOnWarnings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.basepath, key: "basepath")
+            try container.encode(self.body, forKey: .body)
+            request.encodeQuery(self.failOnWarnings, key: "failOnWarnings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3560,12 +3732,6 @@ extension ApiGatewayV2 {
     }
 
     public struct ReimportApiRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "basepath", location: .querystring("basepath")),
-            AWSMemberEncoding(label: "failOnWarnings", location: .querystring("failOnWarnings"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// Specifies how to interpret the base path of the API during import. Valid values are ignore, prepend, and split. The default value is ignore. To learn more, see Set the OpenAPI basePath Property. Supported only for HTTP APIs.
@@ -3580,6 +3746,15 @@ extension ApiGatewayV2 {
             self.basepath = basepath
             self.body = body
             self.failOnWarnings = failOnWarnings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodeQuery(self.basepath, key: "basepath")
+            try container.encode(self.body, forKey: .body)
+            request.encodeQuery(self.failOnWarnings, key: "failOnWarnings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3662,11 +3837,6 @@ extension ApiGatewayV2 {
     }
 
     public struct ResetAuthorizersCacheRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The stage name. Stage names can contain only alphanumeric characters, hyphens, and underscores, or be $default. Maximum length is 128 characters.
@@ -3675,6 +3845,13 @@ extension ApiGatewayV2 {
         public init(apiId: String, stageName: String) {
             self.apiId = apiId
             self.stageName = stageName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.stageName, key: "StageName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3867,10 +4044,6 @@ extension ApiGatewayV2 {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The resource ARN for the tag.
         public let resourceArn: String
         /// The collection of tags. Each tag element is associated with a given resource.
@@ -3879,6 +4052,13 @@ extension ApiGatewayV2 {
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3917,11 +4097,6 @@ extension ApiGatewayV2 {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The resource ARN for the tag.
         public let resourceArn: String
         /// The Tag keys to delete
@@ -3932,15 +4107,17 @@ extension ApiGatewayV2 {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateApiMappingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiMappingId", location: .uri("ApiMappingId")),
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The API mapping identifier.
@@ -3958,6 +4135,16 @@ extension ApiGatewayV2 {
             self.apiMappingKey = apiMappingKey
             self.domainName = domainName
             self.stage = stage
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.apiId, forKey: .apiId)
+            request.encodePath(self.apiMappingId, key: "ApiMappingId")
+            try container.encodeIfPresent(self.apiMappingKey, forKey: .apiMappingKey)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.stage, forKey: .stage)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3993,10 +4180,6 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateApiRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// An API key selection expression. Supported only for WebSocket APIs. See API Key Selection Expressions.
@@ -4035,6 +4218,23 @@ extension ApiGatewayV2 {
             self.routeSelectionExpression = routeSelectionExpression
             self.target = target
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.apiKeySelectionExpression, forKey: .apiKeySelectionExpression)
+            try container.encodeIfPresent(self.corsConfiguration, forKey: .corsConfiguration)
+            try container.encodeIfPresent(self.credentialsArn, forKey: .credentialsArn)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.disableExecuteApiEndpoint, forKey: .disableExecuteApiEndpoint)
+            try container.encodeIfPresent(self.disableSchemaValidation, forKey: .disableSchemaValidation)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.routeKey, forKey: .routeKey)
+            try container.encodeIfPresent(self.routeSelectionExpression, forKey: .routeSelectionExpression)
+            try container.encodeIfPresent(self.target, forKey: .target)
+            try container.encodeIfPresent(self.version, forKey: .version)
         }
 
         public func validate(name: String) throws {
@@ -4131,11 +4331,6 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateAuthorizerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "authorizerId", location: .uri("AuthorizerId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, don't specify this parameter.
@@ -4174,6 +4369,23 @@ extension ApiGatewayV2 {
             self.identityValidationExpression = identityValidationExpression
             self.jwtConfiguration = jwtConfiguration
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.authorizerCredentialsArn, forKey: .authorizerCredentialsArn)
+            request.encodePath(self.authorizerId, key: "AuthorizerId")
+            try container.encodeIfPresent(self.authorizerPayloadFormatVersion, forKey: .authorizerPayloadFormatVersion)
+            try container.encodeIfPresent(self.authorizerResultTtlInSeconds, forKey: .authorizerResultTtlInSeconds)
+            try container.encodeIfPresent(self.authorizerType, forKey: .authorizerType)
+            try container.encodeIfPresent(self.authorizerUri, forKey: .authorizerUri)
+            try container.encodeIfPresent(self.enableSimpleResponses, forKey: .enableSimpleResponses)
+            try container.encodeIfPresent(self.identitySource, forKey: .identitySource)
+            try container.encodeIfPresent(self.identityValidationExpression, forKey: .identityValidationExpression)
+            try container.encodeIfPresent(self.jwtConfiguration, forKey: .jwtConfiguration)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -4249,11 +4461,6 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "deploymentId", location: .uri("DeploymentId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The deployment ID.
@@ -4265,6 +4472,14 @@ extension ApiGatewayV2 {
             self.apiId = apiId
             self.deploymentId = deploymentId
             self.description = description
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            request.encodePath(self.deploymentId, key: "DeploymentId")
+            try container.encodeIfPresent(self.description, forKey: .description)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4307,10 +4522,6 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateDomainNameRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The domain name.
         public let domainName: String
         /// The domain name configurations.
@@ -4322,6 +4533,14 @@ extension ApiGatewayV2 {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
             self.mutualTlsAuthentication = mutualTlsAuthentication
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.domainNameConfigurations, forKey: .domainNameConfigurations)
+            try container.encodeIfPresent(self.mutualTlsAuthentication, forKey: .mutualTlsAuthentication)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4360,11 +4579,6 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateIntegrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The ID of the VPC link for a private integration. Supported only for HTTP APIs.
@@ -4426,6 +4640,30 @@ extension ApiGatewayV2 {
             self.tlsConfig = tlsConfig
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.connectionId, forKey: .connectionId)
+            try container.encodeIfPresent(self.connectionType, forKey: .connectionType)
+            try container.encodeIfPresent(self.contentHandlingStrategy, forKey: .contentHandlingStrategy)
+            try container.encodeIfPresent(self.credentialsArn, forKey: .credentialsArn)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.integrationId, key: "IntegrationId")
+            try container.encodeIfPresent(self.integrationMethod, forKey: .integrationMethod)
+            try container.encodeIfPresent(self.integrationSubtype, forKey: .integrationSubtype)
+            try container.encodeIfPresent(self.integrationType, forKey: .integrationType)
+            try container.encodeIfPresent(self.integrationUri, forKey: .integrationUri)
+            try container.encodeIfPresent(self.passthroughBehavior, forKey: .passthroughBehavior)
+            try container.encodeIfPresent(self.payloadFormatVersion, forKey: .payloadFormatVersion)
+            try container.encodeIfPresent(self.requestParameters, forKey: .requestParameters)
+            try container.encodeIfPresent(self.requestTemplates, forKey: .requestTemplates)
+            try container.encodeIfPresent(self.responseParameters, forKey: .responseParameters)
+            try container.encodeIfPresent(self.templateSelectionExpression, forKey: .templateSelectionExpression)
+            try container.encodeIfPresent(self.timeoutInMillis, forKey: .timeoutInMillis)
+            try container.encodeIfPresent(self.tlsConfig, forKey: .tlsConfig)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, max: 30000)
             try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, min: 50)
@@ -4453,12 +4691,6 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateIntegrationResponseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "integrationId", location: .uri("IntegrationId")),
-            AWSMemberEncoding(label: "integrationResponseId", location: .uri("IntegrationResponseId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// Supported only for WebSocket APIs. Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string. If this property is not defined, the response payload will be passed through from the integration response to the route response or method response without modification.
@@ -4485,6 +4717,19 @@ extension ApiGatewayV2 {
             self.responseParameters = responseParameters
             self.responseTemplates = responseTemplates
             self.templateSelectionExpression = templateSelectionExpression
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.contentHandlingStrategy, forKey: .contentHandlingStrategy)
+            request.encodePath(self.integrationId, key: "IntegrationId")
+            request.encodePath(self.integrationResponseId, key: "IntegrationResponseId")
+            try container.encodeIfPresent(self.integrationResponseKey, forKey: .integrationResponseKey)
+            try container.encodeIfPresent(self.responseParameters, forKey: .responseParameters)
+            try container.encodeIfPresent(self.responseTemplates, forKey: .responseTemplates)
+            try container.encodeIfPresent(self.templateSelectionExpression, forKey: .templateSelectionExpression)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4619,11 +4864,6 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "modelId", location: .uri("ModelId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The content-type for the model, for example, "application/json".
@@ -4644,6 +4884,17 @@ extension ApiGatewayV2 {
             self.modelId = modelId
             self.name = name
             self.schema = schema
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.contentType, forKey: .contentType)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.modelId, key: "ModelId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.schema, forKey: .schema)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4684,11 +4935,6 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateRouteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri("RouteId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// Specifies whether an API key is required for the route. Supported only for WebSocket APIs.
@@ -4732,6 +4978,24 @@ extension ApiGatewayV2 {
             self.target = target
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.apiKeyRequired, forKey: .apiKeyRequired)
+            try container.encodeIfPresent(self.authorizationScopes, forKey: .authorizationScopes)
+            try container.encodeIfPresent(self.authorizationType, forKey: .authorizationType)
+            try container.encodeIfPresent(self.authorizerId, forKey: .authorizerId)
+            try container.encodeIfPresent(self.modelSelectionExpression, forKey: .modelSelectionExpression)
+            try container.encodeIfPresent(self.operationName, forKey: .operationName)
+            try container.encodeIfPresent(self.requestModels, forKey: .requestModels)
+            try container.encodeIfPresent(self.requestParameters, forKey: .requestParameters)
+            request.encodePath(self.routeId, key: "RouteId")
+            try container.encodeIfPresent(self.routeKey, forKey: .routeKey)
+            try container.encodeIfPresent(self.routeResponseSelectionExpression, forKey: .routeResponseSelectionExpression)
+            try container.encodeIfPresent(self.target, forKey: .target)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case apiKeyRequired = "apiKeyRequired"
             case authorizationScopes = "authorizationScopes"
@@ -4748,12 +5012,6 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateRouteResponseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "routeId", location: .uri("RouteId")),
-            AWSMemberEncoding(label: "routeResponseId", location: .uri("RouteResponseId"))
-        ]
-
         /// The API identifier.
         public let apiId: String
         /// The model selection expression for the route response. Supported only for WebSocket APIs.
@@ -4777,6 +5035,18 @@ extension ApiGatewayV2 {
             self.routeId = routeId
             self.routeResponseId = routeResponseId
             self.routeResponseKey = routeResponseKey
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.modelSelectionExpression, forKey: .modelSelectionExpression)
+            try container.encodeIfPresent(self.responseModels, forKey: .responseModels)
+            try container.encodeIfPresent(self.responseParameters, forKey: .responseParameters)
+            request.encodePath(self.routeId, key: "RouteId")
+            request.encodePath(self.routeResponseId, key: "RouteResponseId")
+            try container.encodeIfPresent(self.routeResponseKey, forKey: .routeResponseKey)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4878,11 +5148,6 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateStageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apiId", location: .uri("ApiId")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         /// Settings for logging access in this stage.
         public let accessLogSettings: AccessLogSettings?
         /// The API identifier.
@@ -4915,6 +5180,21 @@ extension ApiGatewayV2 {
             self.routeSettings = routeSettings
             self.stageName = stageName
             self.stageVariables = stageVariables
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accessLogSettings, forKey: .accessLogSettings)
+            request.encodePath(self.apiId, key: "ApiId")
+            try container.encodeIfPresent(self.autoDeploy, forKey: .autoDeploy)
+            try container.encodeIfPresent(self.clientCertificateId, forKey: .clientCertificateId)
+            try container.encodeIfPresent(self.defaultRouteSettings, forKey: .defaultRouteSettings)
+            try container.encodeIfPresent(self.deploymentId, forKey: .deploymentId)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.routeSettings, forKey: .routeSettings)
+            request.encodePath(self.stageName, key: "StageName")
+            try container.encodeIfPresent(self.stageVariables, forKey: .stageVariables)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4997,10 +5277,6 @@ extension ApiGatewayV2 {
     }
 
     public struct UpdateVpcLinkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcLinkId", location: .uri("VpcLinkId"))
-        ]
-
         /// The name of the VPC link.
         public let name: String?
         /// The ID of the VPC link.
@@ -5009,6 +5285,13 @@ extension ApiGatewayV2 {
         public init(name: String? = nil, vpcLinkId: String) {
             self.name = name
             self.vpcLinkId = vpcLinkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.vpcLinkId, key: "VpcLinkId")
         }
 
         private enum CodingKeys: String, CodingKey {

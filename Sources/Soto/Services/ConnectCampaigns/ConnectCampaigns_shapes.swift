@@ -273,14 +273,16 @@ extension ConnectCampaigns {
     }
 
     public struct DeleteCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -291,14 +293,16 @@ extension ConnectCampaigns {
     }
 
     public struct DeleteConnectInstanceConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectInstanceId", location: .uri("connectInstanceId"))
-        ]
-
         public let connectInstanceId: String
 
         public init(connectInstanceId: String) {
             self.connectInstanceId = connectInstanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectInstanceId, key: "connectInstanceId")
         }
 
         public func validate(name: String) throws {
@@ -309,14 +313,16 @@ extension ConnectCampaigns {
     }
 
     public struct DeleteInstanceOnboardingJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectInstanceId", location: .uri("connectInstanceId"))
-        ]
-
         public let connectInstanceId: String
 
         public init(connectInstanceId: String) {
             self.connectInstanceId = connectInstanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectInstanceId, key: "connectInstanceId")
         }
 
         public func validate(name: String) throws {
@@ -327,14 +333,16 @@ extension ConnectCampaigns {
     }
 
     public struct DescribeCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -477,14 +485,16 @@ extension ConnectCampaigns {
     }
 
     public struct GetCampaignStateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -507,14 +517,16 @@ extension ConnectCampaigns {
     }
 
     public struct GetConnectInstanceConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectInstanceId", location: .uri("connectInstanceId"))
-        ]
-
         public let connectInstanceId: String
 
         public init(connectInstanceId: String) {
             self.connectInstanceId = connectInstanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectInstanceId, key: "connectInstanceId")
         }
 
         public func validate(name: String) throws {
@@ -537,14 +549,16 @@ extension ConnectCampaigns {
     }
 
     public struct GetInstanceOnboardingJobStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectInstanceId", location: .uri("connectInstanceId"))
-        ]
-
         public let connectInstanceId: String
 
         public init(connectInstanceId: String) {
             self.connectInstanceId = connectInstanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectInstanceId, key: "connectInstanceId")
         }
 
         public func validate(name: String) throws {
@@ -662,14 +676,16 @@ extension ConnectCampaigns {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("arn"))
-        ]
-
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -721,14 +737,16 @@ extension ConnectCampaigns {
     }
 
     public struct PauseCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -773,16 +791,19 @@ extension ConnectCampaigns {
     }
 
     public struct PutDialRequestBatchRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         public let dialRequests: [DialRequest]
         public let id: String
 
         public init(dialRequests: [DialRequest], id: String) {
             self.dialRequests = dialRequests
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.dialRequests, forKey: .dialRequests)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -815,14 +836,16 @@ extension ConnectCampaigns {
     }
 
     public struct ResumeCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -833,14 +856,16 @@ extension ConnectCampaigns {
     }
 
     public struct StartCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -851,16 +876,19 @@ extension ConnectCampaigns {
     }
 
     public struct StartInstanceOnboardingJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectInstanceId", location: .uri("connectInstanceId"))
-        ]
-
         public let connectInstanceId: String
         public let encryptionConfig: EncryptionConfig
 
         public init(connectInstanceId: String, encryptionConfig: EncryptionConfig) {
             self.connectInstanceId = connectInstanceId
             self.encryptionConfig = encryptionConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectInstanceId, key: "connectInstanceId")
+            try container.encode(self.encryptionConfig, forKey: .encryptionConfig)
         }
 
         public func validate(name: String) throws {
@@ -886,14 +914,16 @@ extension ConnectCampaigns {
     }
 
     public struct StopCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -934,16 +964,19 @@ extension ConnectCampaigns {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("arn"))
-        ]
-
         public let arn: String
         public let tags: [String: String]
 
         public init(arn: String, tags: [String: String]) {
             self.arn = arn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -964,17 +997,19 @@ extension ConnectCampaigns {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("arn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         public let arn: String
         public let tagKeys: [String]
 
         public init(arn: String, tagKeys: [String]) {
             self.arn = arn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -993,16 +1028,19 @@ extension ConnectCampaigns {
     }
 
     public struct UpdateCampaignDialerConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         public let dialerConfig: DialerConfig
         public let id: String
 
         public init(dialerConfig: DialerConfig, id: String) {
             self.dialerConfig = dialerConfig
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.dialerConfig, forKey: .dialerConfig)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1016,16 +1054,19 @@ extension ConnectCampaigns {
     }
 
     public struct UpdateCampaignNameRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         public let id: String
         public let name: String
 
         public init(id: String, name: String) {
             self.id = id
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            try container.encode(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -1040,10 +1081,6 @@ extension ConnectCampaigns {
     }
 
     public struct UpdateCampaignOutboundCallConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         public let answerMachineDetectionConfig: AnswerMachineDetectionConfig?
         public let connectContactFlowId: String?
         public let connectSourcePhoneNumber: String?
@@ -1054,6 +1091,15 @@ extension ConnectCampaigns {
             self.connectContactFlowId = connectContactFlowId
             self.connectSourcePhoneNumber = connectSourcePhoneNumber
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.answerMachineDetectionConfig, forKey: .answerMachineDetectionConfig)
+            try container.encodeIfPresent(self.connectContactFlowId, forKey: .connectContactFlowId)
+            try container.encodeIfPresent(self.connectSourcePhoneNumber, forKey: .connectSourcePhoneNumber)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {

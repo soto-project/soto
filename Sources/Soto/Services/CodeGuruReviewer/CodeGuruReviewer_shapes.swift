@@ -493,15 +493,17 @@ extension CodeGuruReviewer {
     }
 
     public struct DescribeCodeReviewRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "codeReviewArn", location: .uri("CodeReviewArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the CodeReview object.
         public let codeReviewArn: String
 
         public init(codeReviewArn: String) {
             self.codeReviewArn = codeReviewArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.codeReviewArn, key: "CodeReviewArn")
         }
 
         public func validate(name: String) throws {
@@ -527,12 +529,6 @@ extension CodeGuruReviewer {
     }
 
     public struct DescribeRecommendationFeedbackRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "codeReviewArn", location: .uri("CodeReviewArn")),
-            AWSMemberEncoding(label: "recommendationId", location: .querystring("RecommendationId")),
-            AWSMemberEncoding(label: "userId", location: .querystring("UserId"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the CodeReview object.
         public let codeReviewArn: String
         /// The recommendation ID that can be used to track the provided recommendations and then to collect the feedback.
@@ -544,6 +540,14 @@ extension CodeGuruReviewer {
             self.codeReviewArn = codeReviewArn
             self.recommendationId = recommendationId
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.codeReviewArn, key: "CodeReviewArn")
+            request.encodeQuery(self.recommendationId, key: "RecommendationId")
+            request.encodeQuery(self.userId, key: "UserId")
         }
 
         public func validate(name: String) throws {
@@ -573,15 +577,17 @@ extension CodeGuruReviewer {
     }
 
     public struct DescribeRepositoryAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "associationArn", location: .uri("AssociationArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations.
         public let associationArn: String
 
         public init(associationArn: String) {
             self.associationArn = associationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.associationArn, key: "AssociationArn")
         }
 
         public func validate(name: String) throws {
@@ -621,15 +627,17 @@ extension CodeGuruReviewer {
     }
 
     public struct DisassociateRepositoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "associationArn", location: .uri("AssociationArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations.
         public let associationArn: String
 
         public init(associationArn: String) {
             self.associationArn = associationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.associationArn, key: "AssociationArn")
         }
 
         public func validate(name: String) throws {
@@ -718,15 +726,6 @@ extension CodeGuruReviewer {
     }
 
     public struct ListCodeReviewsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "providerTypes", location: .querystring("ProviderTypes")),
-            AWSMemberEncoding(label: "repositoryNames", location: .querystring("RepositoryNames")),
-            AWSMemberEncoding(label: "states", location: .querystring("States")),
-            AWSMemberEncoding(label: "type", location: .querystring("Type"))
-        ]
-
         /// The maximum number of results that are returned per call. The default is 100.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -747,6 +746,17 @@ extension CodeGuruReviewer {
             self.repositoryNames = repositoryNames
             self.states = states
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.providerTypes, key: "ProviderTypes")
+            request.encodeQuery(self.repositoryNames, key: "RepositoryNames")
+            request.encodeQuery(self.states, key: "States")
+            request.encodeQuery(self.type, key: "Type")
         }
 
         public func validate(name: String) throws {
@@ -788,14 +798,6 @@ extension CodeGuruReviewer {
     }
 
     public struct ListRecommendationFeedbackRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "codeReviewArn", location: .uri("CodeReviewArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "recommendationIds", location: .querystring("RecommendationIds")),
-            AWSMemberEncoding(label: "userIds", location: .querystring("UserIds"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the CodeReview object.
         public let codeReviewArn: String
         /// The maximum number of results that are returned per call. The default is 100.
@@ -813,6 +815,16 @@ extension CodeGuruReviewer {
             self.nextToken = nextToken
             self.recommendationIds = recommendationIds
             self.userIds = userIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.codeReviewArn, key: "CodeReviewArn")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.recommendationIds, key: "RecommendationIds")
+            request.encodeQuery(self.userIds, key: "UserIds")
         }
 
         public func validate(name: String) throws {
@@ -858,12 +870,6 @@ extension CodeGuruReviewer {
     }
 
     public struct ListRecommendationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "codeReviewArn", location: .uri("CodeReviewArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the CodeReview object.
         public let codeReviewArn: String
         /// The maximum number of results that are returned per call. The default is 100.
@@ -875,6 +881,14 @@ extension CodeGuruReviewer {
             self.codeReviewArn = codeReviewArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.codeReviewArn, key: "CodeReviewArn")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -908,15 +922,6 @@ extension CodeGuruReviewer {
     }
 
     public struct ListRepositoryAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "names", location: .querystring("Name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "owners", location: .querystring("Owner")),
-            AWSMemberEncoding(label: "providerTypes", location: .querystring("ProviderType")),
-            AWSMemberEncoding(label: "states", location: .querystring("State"))
-        ]
-
         /// The maximum number of repository association results returned by ListRepositoryAssociations in paginated output. When this parameter is used, ListRepositoryAssociations only returns maxResults results in a single page with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRepositoryAssociations request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, ListRepositoryAssociations returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int?
         /// List of repository names to use as a filter.
@@ -937,6 +942,17 @@ extension CodeGuruReviewer {
             self.owners = owners
             self.providerTypes = providerTypes
             self.states = states
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.names, key: "Name")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.owners, key: "Owner")
+            request.encodeQuery(self.providerTypes, key: "ProviderType")
+            request.encodeQuery(self.states, key: "State")
         }
 
         public func validate(name: String) throws {
@@ -985,15 +1001,17 @@ extension CodeGuruReviewer {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1540,10 +1558,6 @@ extension CodeGuruReviewer {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations.
         public let resourceArn: String
         /// An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:
@@ -1562,6 +1576,13 @@ extension CodeGuruReviewer {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1619,11 +1640,6 @@ extension CodeGuruReviewer {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the RepositoryAssociation object. You can retrieve this ARN by calling ListRepositoryAssociations.
         public let resourceArn: String
         /// A list of the keys for each tag you want to remove from an associated repository.
@@ -1632,6 +1648,13 @@ extension CodeGuruReviewer {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {

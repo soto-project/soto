@@ -177,10 +177,6 @@ extension CloudDirectory {
     // MARK: Shapes
 
     public struct AddFacetToObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
         public let directoryArn: String
         /// Attributes on the facet that you are adding to the object.
@@ -195,6 +191,15 @@ extension CloudDirectory {
             self.objectAttributeList = objectAttributeList
             self.objectReference = objectReference
             self.schemaFacet = schemaFacet
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encodeIfPresent(self.objectAttributeList, forKey: .objectAttributeList)
+            try container.encode(self.objectReference, forKey: .objectReference)
+            try container.encode(self.schemaFacet, forKey: .schemaFacet)
         }
 
         public func validate(name: String) throws {
@@ -216,10 +221,6 @@ extension CloudDirectory {
     }
 
     public struct ApplySchemaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) that is associated with the Directory into which the schema is copied. For more information, see arns.
         public let directoryArn: String
         /// Published schema Amazon Resource Name (ARN) that needs to be copied. For more information, see arns.
@@ -228,6 +229,13 @@ extension CloudDirectory {
         public init(directoryArn: String, publishedSchemaArn: String) {
             self.directoryArn = directoryArn
             self.publishedSchemaArn = publishedSchemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.publishedSchemaArn, forKey: .publishedSchemaArn)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -253,10 +261,6 @@ extension CloudDirectory {
     }
 
     public struct AttachObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The child object reference to be attached to the object.
         public let childReference: ObjectReference
         /// Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
@@ -271,6 +275,15 @@ extension CloudDirectory {
             self.directoryArn = directoryArn
             self.linkName = linkName
             self.parentReference = parentReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.childReference, forKey: .childReference)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.linkName, forKey: .linkName)
+            try container.encode(self.parentReference, forKey: .parentReference)
         }
 
         public func validate(name: String) throws {
@@ -300,10 +313,6 @@ extension CloudDirectory {
     }
 
     public struct AttachPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
         public let directoryArn: String
         /// The reference that identifies the object to which the policy will be attached.
@@ -317,6 +326,14 @@ extension CloudDirectory {
             self.policyReference = policyReference
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.objectReference, forKey: .objectReference)
+            try container.encode(self.policyReference, forKey: .policyReference)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case objectReference = "ObjectReference"
             case policyReference = "PolicyReference"
@@ -328,10 +345,6 @@ extension CloudDirectory {
     }
 
     public struct AttachToIndexRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the directory where the object and index exist.
         public let directoryArn: String
         /// A reference to the index that you are attaching the object to.
@@ -343,6 +356,14 @@ extension CloudDirectory {
             self.directoryArn = directoryArn
             self.indexReference = indexReference
             self.targetReference = targetReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.indexReference, forKey: .indexReference)
+            try container.encode(self.targetReference, forKey: .targetReference)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -365,10 +386,6 @@ extension CloudDirectory {
     }
 
     public struct AttachTypedLinkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// A set of attributes that are associated with the typed link.
         public let attributes: [AttributeNameAndValue]
         /// The Amazon Resource Name (ARN) of the directory where you want to attach the typed link.
@@ -386,6 +403,16 @@ extension CloudDirectory {
             self.sourceObjectReference = sourceObjectReference
             self.targetObjectReference = targetObjectReference
             self.typedLinkFacet = typedLinkFacet
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.attributes, forKey: .attributes)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.sourceObjectReference, forKey: .sourceObjectReference)
+            try container.encode(self.targetObjectReference, forKey: .targetObjectReference)
+            try container.encode(self.typedLinkFacet, forKey: .typedLinkFacet)
         }
 
         public func validate(name: String) throws {
@@ -1617,11 +1644,6 @@ extension CloudDirectory {
     }
 
     public struct BatchReadRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "consistencyLevel", location: .header("x-amz-consistency-level")),
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
         public let consistencyLevel: ConsistencyLevel?
         /// The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
@@ -1633,6 +1655,14 @@ extension CloudDirectory {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
             self.operations = operations
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.consistencyLevel, key: "x-amz-consistency-level")
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.operations, forKey: .operations)
         }
 
         public func validate(name: String) throws {
@@ -1965,10 +1995,6 @@ extension CloudDirectory {
     }
 
     public struct BatchWriteRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
         public let directoryArn: String
         /// A list of operations that are part of the batch.
@@ -1977,6 +2003,13 @@ extension CloudDirectory {
         public init(directoryArn: String, operations: [BatchWriteOperation]) {
             self.directoryArn = directoryArn
             self.operations = operations
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.operations, forKey: .operations)
         }
 
         public func validate(name: String) throws {
@@ -2004,10 +2037,6 @@ extension CloudDirectory {
     }
 
     public struct CreateDirectoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The name of the Directory. Should be unique per account, per region.
         public let name: String
         /// The Amazon Resource Name (ARN) of the published schema that will be copied into the data Directory. For more information, see arns.
@@ -2016,6 +2045,13 @@ extension CloudDirectory {
         public init(name: String, schemaArn: String) {
             self.name = name
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.name, forKey: .name)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {
@@ -2055,10 +2091,6 @@ extension CloudDirectory {
     }
 
     public struct CreateFacetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The attributes that are associated with the Facet.
         public let attributes: [FacetAttribute]?
         /// There are two different styles that you can define on any given facet, Static and Dynamic. For static facets, all attributes must be defined in the schema. For dynamic facets, attributes can be defined during data plane operations.
@@ -2076,6 +2108,16 @@ extension CloudDirectory {
             self.name = name
             self.objectType = objectType
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
+            try container.encodeIfPresent(self.facetStyle, forKey: .facetStyle)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.objectType, forKey: .objectType)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {
@@ -2100,10 +2142,6 @@ extension CloudDirectory {
     }
 
     public struct CreateIndexRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The ARN of the directory where the index should be created.
         public let directoryArn: String
         /// Indicates whether the attribute that is being indexed has unique values or not.
@@ -2121,6 +2159,16 @@ extension CloudDirectory {
             self.linkName = linkName
             self.orderedIndexedAttributeList = orderedIndexedAttributeList
             self.parentReference = parentReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.isUnique, forKey: .isUnique)
+            try container.encodeIfPresent(self.linkName, forKey: .linkName)
+            try container.encode(self.orderedIndexedAttributeList, forKey: .orderedIndexedAttributeList)
+            try container.encodeIfPresent(self.parentReference, forKey: .parentReference)
         }
 
         public func validate(name: String) throws {
@@ -2154,10 +2202,6 @@ extension CloudDirectory {
     }
 
     public struct CreateObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) that is associated with the Directory in which the object will be created. For more information, see arns.
         public let directoryArn: String
         /// The name of link that is used to attach this object to a parent.
@@ -2175,6 +2219,16 @@ extension CloudDirectory {
             self.objectAttributeList = objectAttributeList
             self.parentReference = parentReference
             self.schemaFacets = schemaFacets
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encodeIfPresent(self.linkName, forKey: .linkName)
+            try container.encodeIfPresent(self.objectAttributeList, forKey: .objectAttributeList)
+            try container.encodeIfPresent(self.parentReference, forKey: .parentReference)
+            try container.encode(self.schemaFacets, forKey: .schemaFacets)
         }
 
         public func validate(name: String) throws {
@@ -2243,10 +2297,6 @@ extension CloudDirectory {
     }
 
     public struct CreateTypedLinkFacetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         ///  Facet structure that is associated with the typed link facet.
         public let facet: TypedLinkFacet
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
@@ -2255,6 +2305,13 @@ extension CloudDirectory {
         public init(facet: TypedLinkFacet, schemaArn: String) {
             self.facet = facet
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.facet, forKey: .facet)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {
@@ -2271,15 +2328,17 @@ extension CloudDirectory {
     }
 
     public struct DeleteDirectoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The ARN of the directory to delete.
         public let directoryArn: String
 
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2299,10 +2358,6 @@ extension CloudDirectory {
     }
 
     public struct DeleteFacetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The name of the facet to delete.
         public let name: String
         /// The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
@@ -2311,6 +2366,13 @@ extension CloudDirectory {
         public init(name: String, schemaArn: String) {
             self.name = name
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.name, forKey: .name)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {
@@ -2329,10 +2391,6 @@ extension CloudDirectory {
     }
 
     public struct DeleteObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
         public let directoryArn: String
         /// A reference that identifies the object.
@@ -2341,6 +2399,13 @@ extension CloudDirectory {
         public init(directoryArn: String, objectReference: ObjectReference) {
             self.directoryArn = directoryArn
             self.objectReference = objectReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.objectReference, forKey: .objectReference)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2353,15 +2418,17 @@ extension CloudDirectory {
     }
 
     public struct DeleteSchemaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
         public let schemaArn: String
 
         public init(schemaArn: String) {
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2381,10 +2448,6 @@ extension CloudDirectory {
     }
 
     public struct DeleteTypedLinkFacetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The unique name of the typed link facet.
         public let name: String
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
@@ -2393,6 +2456,13 @@ extension CloudDirectory {
         public init(name: String, schemaArn: String) {
             self.name = name
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.name, forKey: .name)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {
@@ -2409,10 +2479,6 @@ extension CloudDirectory {
     }
 
     public struct DetachFromIndexRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the directory the index and object exist in.
         public let directoryArn: String
         /// A reference to the index object.
@@ -2424,6 +2490,14 @@ extension CloudDirectory {
             self.directoryArn = directoryArn
             self.indexReference = indexReference
             self.targetReference = targetReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.indexReference, forKey: .indexReference)
+            try container.encode(self.targetReference, forKey: .targetReference)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2446,10 +2520,6 @@ extension CloudDirectory {
     }
 
     public struct DetachObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
         public let directoryArn: String
         /// The link name associated with the object that needs to be detached.
@@ -2461,6 +2531,14 @@ extension CloudDirectory {
             self.directoryArn = directoryArn
             self.linkName = linkName
             self.parentReference = parentReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.linkName, forKey: .linkName)
+            try container.encode(self.parentReference, forKey: .parentReference)
         }
 
         public func validate(name: String) throws {
@@ -2489,10 +2567,6 @@ extension CloudDirectory {
     }
 
     public struct DetachPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
         public let directoryArn: String
         /// Reference that identifies the object whose policy object will be detached.
@@ -2506,6 +2580,14 @@ extension CloudDirectory {
             self.policyReference = policyReference
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.objectReference, forKey: .objectReference)
+            try container.encode(self.policyReference, forKey: .policyReference)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case objectReference = "ObjectReference"
             case policyReference = "PolicyReference"
@@ -2517,10 +2599,6 @@ extension CloudDirectory {
     }
 
     public struct DetachTypedLinkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the directory where you want to detach the typed link.
         public let directoryArn: String
         /// Used to accept a typed link specifier as input.
@@ -2529,6 +2607,13 @@ extension CloudDirectory {
         public init(directoryArn: String, typedLinkSpecifier: TypedLinkSpecifier) {
             self.directoryArn = directoryArn
             self.typedLinkSpecifier = typedLinkSpecifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.typedLinkSpecifier, forKey: .typedLinkSpecifier)
         }
 
         public func validate(name: String) throws {
@@ -2566,15 +2651,17 @@ extension CloudDirectory {
     }
 
     public struct DisableDirectoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The ARN of the directory to disable.
         public let directoryArn: String
 
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2594,15 +2681,17 @@ extension CloudDirectory {
     }
 
     public struct EnableDirectoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The ARN of the directory to enable.
         public let directoryArn: String
 
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2782,15 +2871,17 @@ extension CloudDirectory {
     }
 
     public struct GetDirectoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The ARN of the directory.
         public let directoryArn: String
 
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2810,10 +2901,6 @@ extension CloudDirectory {
     }
 
     public struct GetFacetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The name of the facet to retrieve.
         public let name: String
         /// The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
@@ -2822,6 +2909,13 @@ extension CloudDirectory {
         public init(name: String, schemaArn: String) {
             self.name = name
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.name, forKey: .name)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {
@@ -2849,10 +2943,6 @@ extension CloudDirectory {
     }
 
     public struct GetLinkAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// A list of attribute names whose values will be retrieved.
         public let attributeNames: [String]
         /// The consistency level at which to retrieve the attributes on a typed link.
@@ -2867,6 +2957,15 @@ extension CloudDirectory {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
             self.typedLinkSpecifier = typedLinkSpecifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.attributeNames, forKey: .attributeNames)
+            try container.encodeIfPresent(self.consistencyLevel, forKey: .consistencyLevel)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.typedLinkSpecifier, forKey: .typedLinkSpecifier)
         }
 
         public func validate(name: String) throws {
@@ -2899,11 +2998,6 @@ extension CloudDirectory {
     }
 
     public struct GetObjectAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "consistencyLevel", location: .header("x-amz-consistency-level")),
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// List of attribute names whose values will be retrieved.
         public let attributeNames: [String]
         /// The consistency level at which to retrieve the attributes on an object.
@@ -2921,6 +3015,16 @@ extension CloudDirectory {
             self.directoryArn = directoryArn
             self.objectReference = objectReference
             self.schemaFacet = schemaFacet
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.attributeNames, forKey: .attributeNames)
+            request.encodeHeader(self.consistencyLevel, key: "x-amz-consistency-level")
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.objectReference, forKey: .objectReference)
+            try container.encode(self.schemaFacet, forKey: .schemaFacet)
         }
 
         public func validate(name: String) throws {
@@ -2953,11 +3057,6 @@ extension CloudDirectory {
     }
 
     public struct GetObjectInformationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "consistencyLevel", location: .header("x-amz-consistency-level")),
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The consistency level at which to retrieve the object information.
         public let consistencyLevel: ConsistencyLevel?
         /// The ARN of the directory being retrieved.
@@ -2969,6 +3068,14 @@ extension CloudDirectory {
             self.consistencyLevel = consistencyLevel
             self.directoryArn = directoryArn
             self.objectReference = objectReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.consistencyLevel, key: "x-amz-consistency-level")
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.objectReference, forKey: .objectReference)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2994,15 +3101,17 @@ extension CloudDirectory {
     }
 
     public struct GetSchemaAsJsonRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The ARN of the schema to retrieve.
         public let schemaArn: String
 
         public init(schemaArn: String) {
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3026,10 +3135,6 @@ extension CloudDirectory {
     }
 
     public struct GetTypedLinkFacetInformationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The unique name of the typed link facet.
         public let name: String
         /// The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
@@ -3038,6 +3143,13 @@ extension CloudDirectory {
         public init(name: String, schemaArn: String) {
             self.name = name
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.name, forKey: .name)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {
@@ -3164,11 +3276,6 @@ extension CloudDirectory {
     }
 
     public struct ListAttachedIndicesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "consistencyLevel", location: .header("x-amz-consistency-level")),
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The consistency level to use for this operation.
         public let consistencyLevel: ConsistencyLevel?
         /// The ARN of the directory.
@@ -3186,6 +3293,16 @@ extension CloudDirectory {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.targetReference = targetReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.consistencyLevel, key: "x-amz-consistency-level")
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.targetReference, forKey: .targetReference)
         }
 
         public func validate(name: String) throws {
@@ -3297,10 +3414,6 @@ extension CloudDirectory {
     }
 
     public struct ListFacetAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The maximum number of results to retrieve.
         public let maxResults: Int?
         /// The name of the facet whose attributes will be retrieved.
@@ -3315,6 +3428,15 @@ extension CloudDirectory {
             self.name = name
             self.nextToken = nextToken
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {
@@ -3349,10 +3471,6 @@ extension CloudDirectory {
     }
 
     public struct ListFacetNamesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The maximum number of results to retrieve.
         public let maxResults: Int?
         /// The pagination token.
@@ -3364,6 +3482,14 @@ extension CloudDirectory {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {
@@ -3394,10 +3520,6 @@ extension CloudDirectory {
     }
 
     public struct ListIncomingTypedLinksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The consistency level to execute the request at.
         public let consistencyLevel: ConsistencyLevel?
         /// The Amazon Resource Name (ARN) of the directory where you want to list the typed links.
@@ -3421,6 +3543,18 @@ extension CloudDirectory {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.consistencyLevel, forKey: .consistencyLevel)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encodeIfPresent(self.filterAttributeRanges, forKey: .filterAttributeRanges)
+            try container.encodeIfPresent(self.filterTypedLink, forKey: .filterTypedLink)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.objectReference, forKey: .objectReference)
         }
 
         public func validate(name: String) throws {
@@ -3459,11 +3593,6 @@ extension CloudDirectory {
     }
 
     public struct ListIndexRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "consistencyLevel", location: .header("x-amz-consistency-level")),
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The consistency level to execute the request at.
         public let consistencyLevel: ConsistencyLevel?
         /// The ARN of the directory that the index exists in.
@@ -3484,6 +3613,17 @@ extension CloudDirectory {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.rangesOnIndexedValues = rangesOnIndexedValues
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.consistencyLevel, key: "x-amz-consistency-level")
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.indexReference, forKey: .indexReference)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.rangesOnIndexedValues, forKey: .rangesOnIndexedValues)
         }
 
         public func validate(name: String) throws {
@@ -3561,11 +3701,6 @@ extension CloudDirectory {
     }
 
     public struct ListObjectAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "consistencyLevel", location: .header("x-amz-consistency-level")),
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
         public let consistencyLevel: ConsistencyLevel?
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
@@ -3586,6 +3721,17 @@ extension CloudDirectory {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.consistencyLevel, key: "x-amz-consistency-level")
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encodeIfPresent(self.facetFilter, forKey: .facetFilter)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.objectReference, forKey: .objectReference)
         }
 
         public func validate(name: String) throws {
@@ -3619,11 +3765,6 @@ extension CloudDirectory {
     }
 
     public struct ListObjectChildrenRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "consistencyLevel", location: .header("x-amz-consistency-level")),
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
         public let consistencyLevel: ConsistencyLevel?
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
@@ -3641,6 +3782,16 @@ extension CloudDirectory {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.consistencyLevel, key: "x-amz-consistency-level")
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.objectReference, forKey: .objectReference)
         }
 
         public func validate(name: String) throws {
@@ -3672,10 +3823,6 @@ extension CloudDirectory {
     }
 
     public struct ListObjectParentPathsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The ARN of the directory to which the parent path applies.
         public let directoryArn: String
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
@@ -3690,6 +3837,15 @@ extension CloudDirectory {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.objectReference, forKey: .objectReference)
         }
 
         public func validate(name: String) throws {
@@ -3721,11 +3877,6 @@ extension CloudDirectory {
     }
 
     public struct ListObjectParentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "consistencyLevel", location: .header("x-amz-consistency-level")),
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
         public let consistencyLevel: ConsistencyLevel?
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
@@ -3746,6 +3897,17 @@ extension CloudDirectory {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.consistencyLevel, key: "x-amz-consistency-level")
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encodeIfPresent(self.includeAllLinksToEachParent, forKey: .includeAllLinksToEachParent)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.objectReference, forKey: .objectReference)
         }
 
         public func validate(name: String) throws {
@@ -3782,11 +3944,6 @@ extension CloudDirectory {
     }
 
     public struct ListObjectPoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "consistencyLevel", location: .header("x-amz-consistency-level")),
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
         public let consistencyLevel: ConsistencyLevel?
         /// The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
@@ -3804,6 +3961,16 @@ extension CloudDirectory {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.consistencyLevel, key: "x-amz-consistency-level")
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.objectReference, forKey: .objectReference)
         }
 
         public func validate(name: String) throws {
@@ -3835,10 +4002,6 @@ extension CloudDirectory {
     }
 
     public struct ListOutgoingTypedLinksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The consistency level to execute the request at.
         public let consistencyLevel: ConsistencyLevel?
         /// The Amazon Resource Name (ARN) of the directory where you want to list the typed links.
@@ -3862,6 +4025,18 @@ extension CloudDirectory {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.consistencyLevel, forKey: .consistencyLevel)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encodeIfPresent(self.filterAttributeRanges, forKey: .filterAttributeRanges)
+            try container.encodeIfPresent(self.filterTypedLink, forKey: .filterTypedLink)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.objectReference, forKey: .objectReference)
         }
 
         public func validate(name: String) throws {
@@ -3900,11 +4075,6 @@ extension CloudDirectory {
     }
 
     public struct ListPolicyAttachmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "consistencyLevel", location: .header("x-amz-consistency-level")),
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
         public let consistencyLevel: ConsistencyLevel?
         /// The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
@@ -3922,6 +4092,16 @@ extension CloudDirectory {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.policyReference = policyReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.consistencyLevel, key: "x-amz-consistency-level")
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.policyReference, forKey: .policyReference)
         }
 
         public func validate(name: String) throws {
@@ -4037,10 +4217,6 @@ extension CloudDirectory {
     }
 
     public struct ListTypedLinkFacetAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The maximum number of results to retrieve.
         public let maxResults: Int?
         /// The unique name of the typed link facet.
@@ -4055,6 +4231,15 @@ extension CloudDirectory {
             self.name = name
             self.nextToken = nextToken
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {
@@ -4087,10 +4272,6 @@ extension CloudDirectory {
     }
 
     public struct ListTypedLinkFacetNamesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The maximum number of results to retrieve.
         public let maxResults: Int?
         /// The pagination token.
@@ -4102,6 +4283,14 @@ extension CloudDirectory {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {
@@ -4132,10 +4321,6 @@ extension CloudDirectory {
     }
 
     public struct LookupPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
         public let directoryArn: String
         /// The maximum number of items to be retrieved in a single call. This is an approximate number.
@@ -4150,6 +4335,15 @@ extension CloudDirectory {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.objectReference = objectReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.objectReference, forKey: .objectReference)
         }
 
         public func validate(name: String) throws {
@@ -4325,10 +4519,6 @@ extension CloudDirectory {
     }
 
     public struct PublishSchemaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "developmentSchemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The Amazon Resource Name (ARN) that is associated with the development schema. For more information, see arns.
         public let developmentSchemaArn: String
         /// The minor version under which the schema will be published. This parameter is recommended. Schemas have both a major and minor version associated with them.
@@ -4343,6 +4533,15 @@ extension CloudDirectory {
             self.minorVersion = minorVersion
             self.name = name
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.developmentSchemaArn, key: "x-amz-data-partition")
+            try container.encodeIfPresent(self.minorVersion, forKey: .minorVersion)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encode(self.version, forKey: .version)
         }
 
         public func validate(name: String) throws {
@@ -4378,10 +4577,6 @@ extension CloudDirectory {
     }
 
     public struct PutSchemaFromJsonRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The replacement JSON schema.
         public let document: String
         /// The ARN of the schema to update.
@@ -4390,6 +4585,13 @@ extension CloudDirectory {
         public init(document: String, schemaArn: String) {
             self.document = document
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.document, forKey: .document)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4411,10 +4613,6 @@ extension CloudDirectory {
     }
 
     public struct RemoveFacetFromObjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The ARN of the directory in which the object resides.
         public let directoryArn: String
         /// A reference to the object to remove the facet from.
@@ -4426,6 +4624,14 @@ extension CloudDirectory {
             self.directoryArn = directoryArn
             self.objectReference = objectReference
             self.schemaFacet = schemaFacet
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.objectReference, forKey: .objectReference)
+            try container.encode(self.schemaFacet, forKey: .schemaFacet)
         }
 
         public func validate(name: String) throws {
@@ -4741,10 +4947,6 @@ extension CloudDirectory {
     }
 
     public struct UpdateFacetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// List of attributes that need to be updated in a given schema Facet. Each attribute is followed by AttributeAction, which specifies the type of update operation to perform.
         public let attributeUpdates: [FacetAttributeUpdate]?
         /// The name of the facet.
@@ -4759,6 +4961,15 @@ extension CloudDirectory {
             self.name = name
             self.objectType = objectType
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributeUpdates, forKey: .attributeUpdates)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.objectType, forKey: .objectType)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {
@@ -4782,10 +4993,6 @@ extension CloudDirectory {
     }
 
     public struct UpdateLinkAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The attributes update structure.
         public let attributeUpdates: [LinkAttributeUpdate]
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the updated typed link resides. For more information, see arns or Typed Links.
@@ -4797,6 +5004,14 @@ extension CloudDirectory {
             self.attributeUpdates = attributeUpdates
             self.directoryArn = directoryArn
             self.typedLinkSpecifier = typedLinkSpecifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.attributeUpdates, forKey: .attributeUpdates)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.typedLinkSpecifier, forKey: .typedLinkSpecifier)
         }
 
         public func validate(name: String) throws {
@@ -4817,10 +5032,6 @@ extension CloudDirectory {
     }
 
     public struct UpdateObjectAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "directoryArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The attributes update structure.
         public let attributeUpdates: [ObjectAttributeUpdate]
         /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
@@ -4832,6 +5043,14 @@ extension CloudDirectory {
             self.attributeUpdates = attributeUpdates
             self.directoryArn = directoryArn
             self.objectReference = objectReference
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.attributeUpdates, forKey: .attributeUpdates)
+            request.encodeHeader(self.directoryArn, key: "x-amz-data-partition")
+            try container.encode(self.objectReference, forKey: .objectReference)
         }
 
         public func validate(name: String) throws {
@@ -4860,10 +5079,6 @@ extension CloudDirectory {
     }
 
     public struct UpdateSchemaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// The name of the schema.
         public let name: String
         /// The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
@@ -4872,6 +5087,13 @@ extension CloudDirectory {
         public init(name: String, schemaArn: String) {
             self.name = name
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.name, forKey: .name)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {
@@ -4899,10 +5121,6 @@ extension CloudDirectory {
     }
 
     public struct UpdateTypedLinkFacetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "schemaArn", location: .header("x-amz-data-partition"))
-        ]
-
         /// Attributes update structure.
         public let attributeUpdates: [TypedLinkFacetAttributeUpdate]
         /// The order of identity attributes for the facet, from most significant to least significant. The ability to filter typed links considers the order that the attributes are defined on the typed link facet.  When providing ranges to a typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range. Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls. For more information about identity attributes, see Typed Links.
@@ -4917,6 +5135,15 @@ extension CloudDirectory {
             self.identityAttributeOrder = identityAttributeOrder
             self.name = name
             self.schemaArn = schemaArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.attributeUpdates, forKey: .attributeUpdates)
+            try container.encode(self.identityAttributeOrder, forKey: .identityAttributeOrder)
+            try container.encode(self.name, forKey: .name)
+            request.encodeHeader(self.schemaArn, key: "x-amz-data-partition")
         }
 
         public func validate(name: String) throws {

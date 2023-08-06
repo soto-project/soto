@@ -145,11 +145,6 @@ extension IoTFleetHub {
     }
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
-        ]
-
         /// The unique Id of the web application.
         public let applicationId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
@@ -158,6 +153,13 @@ extension IoTFleetHub {
         public init(applicationId: String, clientToken: String? = DeleteApplicationRequest.idempotencyToken()) {
             self.applicationId = applicationId
             self.clientToken = clientToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
         }
 
         public func validate(name: String) throws {
@@ -177,15 +179,17 @@ extension IoTFleetHub {
     }
 
     public struct DescribeApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The unique Id of the web application.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
         }
 
         public func validate(name: String) throws {
@@ -255,15 +259,17 @@ extension IoTFleetHub {
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A token used to get the next set of results.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -293,15 +299,17 @@ extension IoTFleetHub {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -321,10 +329,6 @@ extension IoTFleetHub {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
         /// The new or modified tags for the resource.
@@ -333,6 +337,13 @@ extension IoTFleetHub {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -357,11 +368,6 @@ extension IoTFleetHub {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
         /// A list of the keys of the tags to be removed from the resource.
@@ -370,6 +376,13 @@ extension IoTFleetHub {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -388,10 +401,6 @@ extension IoTFleetHub {
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// An optional description of the web application.
         public let applicationDescription: String?
         /// The unique Id of the web application.
@@ -406,6 +415,15 @@ extension IoTFleetHub {
             self.applicationId = applicationId
             self.applicationName = applicationName
             self.clientToken = clientToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.applicationDescription, forKey: .applicationDescription)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.applicationName, forKey: .applicationName)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
         }
 
         public func validate(name: String) throws {

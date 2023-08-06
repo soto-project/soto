@@ -215,10 +215,6 @@ extension ChimeSDKMeetings {
     }
 
     public struct BatchCreateAttendeeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
-        ]
-
         /// The attendee information, including attendees' IDs and join tokens.
         public let attendees: [CreateAttendeeRequestItem]
         /// The Amazon Chime SDK ID of the meeting to which you're adding attendees.
@@ -227,6 +223,13 @@ extension ChimeSDKMeetings {
         public init(attendees: [CreateAttendeeRequestItem], meetingId: String) {
             self.attendees = attendees
             self.meetingId = meetingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.attendees, forKey: .attendees)
+            request.encodePath(self.meetingId, key: "MeetingId")
         }
 
         public func validate(name: String) throws {
@@ -261,10 +264,6 @@ extension ChimeSDKMeetings {
     }
 
     public struct BatchUpdateAttendeeCapabilitiesExceptRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
-        ]
-
         /// The capabilities (audio, video, or content) that you want to update.
         public let capabilities: AttendeeCapabilities
         /// The AttendeeIDs that you want to exclude from one or more capabilities.
@@ -276,6 +275,14 @@ extension ChimeSDKMeetings {
             self.capabilities = capabilities
             self.excludedAttendeeIds = excludedAttendeeIds
             self.meetingId = meetingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.capabilities, forKey: .capabilities)
+            try container.encode(self.excludedAttendeeIds, forKey: .excludedAttendeeIds)
+            request.encodePath(self.meetingId, key: "MeetingId")
         }
 
         public func validate(name: String) throws {
@@ -315,10 +322,6 @@ extension ChimeSDKMeetings {
     }
 
     public struct CreateAttendeeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
-        ]
-
         /// The capabilities (audio, video, or content) that you want to grant an attendee. If you don't specify capabilities, all users have send and receive capabilities on  all media channels by default.  You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see  .  When using capabilities, be aware of these corner cases:   You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive  or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability  to receive and you set your content capability to not receive.   When you change an audio capability from None or Receive to Send or SendReceive ,  and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.   When you change a video or content capability from None or Receive to Send or SendReceive ,  and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
         public let capabilities: AttendeeCapabilities?
         /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]*  Values that begin with aws: are reserved. You can't configure a value that uses this prefix.
@@ -330,6 +333,14 @@ extension ChimeSDKMeetings {
             self.capabilities = capabilities
             self.externalUserId = externalUserId
             self.meetingId = meetingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.capabilities, forKey: .capabilities)
+            try container.encode(self.externalUserId, forKey: .externalUserId)
+            request.encodePath(self.meetingId, key: "MeetingId")
         }
 
         public func validate(name: String) throws {
@@ -565,11 +576,6 @@ extension ChimeSDKMeetings {
     }
 
     public struct DeleteAttendeeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attendeeId", location: .uri("AttendeeId")),
-            AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
-        ]
-
         /// The Amazon Chime SDK attendee ID.
         public let attendeeId: String
         /// The Amazon Chime SDK meeting ID.
@@ -578,6 +584,13 @@ extension ChimeSDKMeetings {
         public init(attendeeId: String, meetingId: String) {
             self.attendeeId = attendeeId
             self.meetingId = meetingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attendeeId, key: "AttendeeId")
+            request.encodePath(self.meetingId, key: "MeetingId")
         }
 
         public func validate(name: String) throws {
@@ -589,15 +602,17 @@ extension ChimeSDKMeetings {
     }
 
     public struct DeleteMeetingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
-        ]
-
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
 
         public init(meetingId: String) {
             self.meetingId = meetingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meetingId, key: "MeetingId")
         }
 
         public func validate(name: String) throws {
@@ -738,11 +753,6 @@ extension ChimeSDKMeetings {
     }
 
     public struct GetAttendeeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attendeeId", location: .uri("AttendeeId")),
-            AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
-        ]
-
         /// The Amazon Chime SDK attendee ID.
         public let attendeeId: String
         /// The Amazon Chime SDK meeting ID.
@@ -751,6 +761,13 @@ extension ChimeSDKMeetings {
         public init(attendeeId: String, meetingId: String) {
             self.attendeeId = attendeeId
             self.meetingId = meetingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attendeeId, key: "AttendeeId")
+            request.encodePath(self.meetingId, key: "MeetingId")
         }
 
         public func validate(name: String) throws {
@@ -775,15 +792,17 @@ extension ChimeSDKMeetings {
     }
 
     public struct GetMeetingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
-        ]
-
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String
 
         public init(meetingId: String) {
             self.meetingId = meetingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meetingId, key: "MeetingId")
         }
 
         public func validate(name: String) throws {
@@ -807,12 +826,6 @@ extension ChimeSDKMeetings {
     }
 
     public struct ListAttendeesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
         /// The Amazon Chime SDK meeting ID.
@@ -824,6 +837,14 @@ extension ChimeSDKMeetings {
             self.maxResults = maxResults
             self.meetingId = meetingId
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodePath(self.meetingId, key: "MeetingId")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -854,15 +875,17 @@ extension ChimeSDKMeetings {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .querystring("arn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceARN, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -1020,10 +1043,6 @@ extension ChimeSDKMeetings {
     }
 
     public struct StartMeetingTranscriptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
-        ]
-
         /// The unique ID of the meeting being transcribed.
         public let meetingId: String
         /// The configuration for the current transcription operation. Must contain EngineTranscribeSettings or  EngineTranscribeMedicalSettings.
@@ -1032,6 +1051,13 @@ extension ChimeSDKMeetings {
         public init(meetingId: String, transcriptionConfiguration: TranscriptionConfiguration) {
             self.meetingId = meetingId
             self.transcriptionConfiguration = transcriptionConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meetingId, key: "MeetingId")
+            try container.encode(self.transcriptionConfiguration, forKey: .transcriptionConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -1045,15 +1071,17 @@ extension ChimeSDKMeetings {
     }
 
     public struct StopMeetingTranscriptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
-        ]
-
         /// The unique ID of the meeting for which you stop transcription.
         public let meetingId: String
 
         public init(meetingId: String) {
             self.meetingId = meetingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.meetingId, key: "MeetingId")
         }
 
         public func validate(name: String) throws {
@@ -1175,11 +1203,6 @@ extension ChimeSDKMeetings {
     }
 
     public struct UpdateAttendeeCapabilitiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attendeeId", location: .uri("AttendeeId")),
-            AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
-        ]
-
         /// The ID of the attendee associated with the update request.
         public let attendeeId: String
         /// The capabilities that you want to update.
@@ -1191,6 +1214,14 @@ extension ChimeSDKMeetings {
             self.attendeeId = attendeeId
             self.capabilities = capabilities
             self.meetingId = meetingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attendeeId, key: "AttendeeId")
+            try container.encode(self.capabilities, forKey: .capabilities)
+            request.encodePath(self.meetingId, key: "MeetingId")
         }
 
         public func validate(name: String) throws {

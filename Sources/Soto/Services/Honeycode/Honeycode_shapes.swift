@@ -92,11 +92,6 @@ extension Honeycode {
     // MARK: Shapes
 
     public struct BatchCreateTableRowsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
-        ]
-
         ///  The request token for performing the batch create operation. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the operation again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
         public let clientRequestToken: String?
         ///  The list of rows to create at the end of the table. Each item in this list needs to have a batch item id to uniquely identify the element in the request and the cells to create for that row. You need to specify at least one item in this list.   Note that if one of the column ids in any of the rows in the request does not exist in the table, then the request fails and no updates are made to the table.
@@ -111,6 +106,15 @@ extension Honeycode {
             self.rowsToCreate = rowsToCreate
             self.tableId = tableId
             self.workbookId = workbookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.rowsToCreate, forKey: .rowsToCreate)
+            request.encodePath(self.tableId, key: "tableId")
+            request.encodePath(self.workbookId, key: "workbookId")
         }
 
         public func validate(name: String) throws {
@@ -158,11 +162,6 @@ extension Honeycode {
     }
 
     public struct BatchDeleteTableRowsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
-        ]
-
         ///  The request token for performing the delete action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
         public let clientRequestToken: String?
         ///  The list of row ids to delete from the table. You need to specify at least one row id in this list.   Note that if one of the row ids provided in the request does not exist in the table, then the request fails and no rows are deleted from the table.
@@ -177,6 +176,15 @@ extension Honeycode {
             self.rowIds = rowIds
             self.tableId = tableId
             self.workbookId = workbookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.rowIds, forKey: .rowIds)
+            request.encodePath(self.tableId, key: "tableId")
+            request.encodePath(self.workbookId, key: "workbookId")
         }
 
         public func validate(name: String) throws {
@@ -222,11 +230,6 @@ extension Honeycode {
     }
 
     public struct BatchUpdateTableRowsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
-        ]
-
         ///  The request token for performing the update action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
         public let clientRequestToken: String?
         ///  The list of rows to update in the table. Each item in this list needs to contain the row id to update along with the map of column id to cell values for each column in that row that needs to be updated. You need to specify at least one row in this list, and for each row, you need to specify at least one column to update.   Note that if one of the row or column ids in the request does not exist in the table, then the request fails and no updates are made to the table.
@@ -241,6 +244,15 @@ extension Honeycode {
             self.rowsToUpdate = rowsToUpdate
             self.tableId = tableId
             self.workbookId = workbookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.rowsToUpdate, forKey: .rowsToUpdate)
+            request.encodePath(self.tableId, key: "tableId")
+            request.encodePath(self.workbookId, key: "workbookId")
         }
 
         public func validate(name: String) throws {
@@ -284,11 +296,6 @@ extension Honeycode {
     }
 
     public struct BatchUpsertTableRowsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
-        ]
-
         ///  The request token for performing the update action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
         public let clientRequestToken: String?
         ///  The list of rows to upsert in the table. Each item in this list needs to have a batch item id to uniquely identify the element in the request, a filter expression to find the rows to update for that element and the cell values to set for each column in the upserted rows. You need to specify at least one item in this list.   Note that if one of the filter formulas in the request fails to evaluate because of an error or one of the column ids in any of the rows does not exist in the table, then the request fails and no updates are made to the table.
@@ -303,6 +310,15 @@ extension Honeycode {
             self.rowsToUpsert = rowsToUpsert
             self.tableId = tableId
             self.workbookId = workbookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.rowsToUpsert, forKey: .rowsToUpsert)
+            request.encodePath(self.tableId, key: "tableId")
+            request.encodePath(self.workbookId, key: "workbookId")
         }
 
         public func validate(name: String) throws {
@@ -504,12 +520,6 @@ extension Honeycode {
     }
 
     public struct DescribeTableDataImportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
-            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
-        ]
-
         /// The ID of the job that was returned by the StartTableDataImportJob request.  If a job with the specified id could not be found, this API throws ResourceNotFoundException.
         public let jobId: String
         /// The ID of the table into which data was imported.  If a table with the specified id could not be found, this API throws ResourceNotFoundException.
@@ -521,6 +531,14 @@ extension Honeycode {
             self.jobId = jobId
             self.tableId = tableId
             self.workbookId = workbookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
+            request.encodePath(self.tableId, key: "tableId")
+            request.encodePath(self.workbookId, key: "workbookId")
         }
 
         public func validate(name: String) throws {
@@ -781,13 +799,6 @@ extension Honeycode {
     }
 
     public struct InvokeScreenAutomationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "screenAutomationId", location: .uri("screenAutomationId")),
-            AWSMemberEncoding(label: "screenId", location: .uri("screenId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
-        ]
-
         /// The ID of the app that contains the screen automation.
         public let appId: String
         ///  The request token for performing the automation action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will return the response of the previous call rather than performing the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
@@ -811,6 +822,18 @@ extension Honeycode {
             self.screenId = screenId
             self.variables = variables
             self.workbookId = workbookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appId, key: "appId")
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.rowId, forKey: .rowId)
+            request.encodePath(self.screenAutomationId, key: "screenAutomationId")
+            request.encodePath(self.screenId, key: "screenId")
+            try container.encodeIfPresent(self.variables, forKey: .variables)
+            request.encodePath(self.workbookId, key: "workbookId")
         }
 
         public func validate(name: String) throws {
@@ -861,12 +884,6 @@ extension Honeycode {
     }
 
     public struct ListTableColumnsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
-        ]
-
         ///  This parameter is optional. If a nextToken is not specified, the API returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException.
         public let nextToken: String?
         /// The ID of the table whose columns are being retrieved.  If a table with the specified id could not be found, this API throws ResourceNotFoundException.
@@ -878,6 +895,14 @@ extension Honeycode {
             self.nextToken = nextToken
             self.tableId = tableId
             self.workbookId = workbookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.tableId, key: "tableId")
+            request.encodePath(self.workbookId, key: "workbookId")
         }
 
         public func validate(name: String) throws {
@@ -917,11 +942,6 @@ extension Honeycode {
     }
 
     public struct ListTableRowsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
-        ]
-
         /// The maximum number of rows to return in each page of the results.
         public let maxResults: Int?
         ///  This parameter is optional. If a nextToken is not specified, the API returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException.
@@ -939,6 +959,16 @@ extension Honeycode {
             self.rowIds = rowIds
             self.tableId = tableId
             self.workbookId = workbookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.rowIds, forKey: .rowIds)
+            request.encodePath(self.tableId, key: "tableId")
+            request.encodePath(self.workbookId, key: "workbookId")
         }
 
         public func validate(name: String) throws {
@@ -999,12 +1029,6 @@ extension Honeycode {
     }
 
     public struct ListTablesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
-        ]
-
         /// The maximum number of tables to return in each page of the results.
         public let maxResults: Int?
         ///  This parameter is optional. If a nextToken is not specified, the API returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException.
@@ -1016,6 +1040,14 @@ extension Honeycode {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.workbookId = workbookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.workbookId, key: "workbookId")
         }
 
         public func validate(name: String) throws {
@@ -1054,15 +1086,17 @@ extension Honeycode {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The resource's Amazon Resource Name (ARN).
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1088,11 +1122,6 @@ extension Honeycode {
     }
 
     public struct QueryTableRowsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "tableId", location: .uri("tableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
-        ]
-
         /// An object that represents a filter formula along with the id of the context row under which the filter function needs to evaluate.
         public let filterFormula: Filter
         /// The maximum number of rows to return in each page of the results.
@@ -1110,6 +1139,16 @@ extension Honeycode {
             self.nextToken = nextToken
             self.tableId = tableId
             self.workbookId = workbookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.filterFormula, forKey: .filterFormula)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.tableId, key: "tableId")
+            request.encodePath(self.workbookId, key: "workbookId")
         }
 
         public func validate(name: String) throws {
@@ -1211,11 +1250,6 @@ extension Honeycode {
     }
 
     public struct StartTableDataImportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "destinationTableId", location: .uri("destinationTableId")),
-            AWSMemberEncoding(label: "workbookId", location: .uri("workbookId"))
-        ]
-
         ///  The request token for performing the update action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
         public let clientRequestToken: String
         ///  The format of the data that is being imported. Currently the only option supported is "DELIMITED_TEXT".
@@ -1236,6 +1270,17 @@ extension Honeycode {
             self.destinationTableId = destinationTableId
             self.importOptions = importOptions
             self.workbookId = workbookId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.dataFormat, forKey: .dataFormat)
+            try container.encode(self.dataSource, forKey: .dataSource)
+            request.encodePath(self.destinationTableId, key: "destinationTableId")
+            try container.encode(self.importOptions, forKey: .importOptions)
+            request.encodePath(self.workbookId, key: "workbookId")
         }
 
         public func validate(name: String) throws {
@@ -1358,10 +1403,6 @@ extension Honeycode {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The resource's Amazon Resource Name (ARN).
         public let resourceArn: String
         /// A list of tags to apply to the resource.
@@ -1370,6 +1411,13 @@ extension Honeycode {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1397,11 +1445,6 @@ extension Honeycode {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The resource's Amazon Resource Name (ARN).
         public let resourceArn: String
         /// A list of tag keys to remove from the resource.
@@ -1410,6 +1453,13 @@ extension Honeycode {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {

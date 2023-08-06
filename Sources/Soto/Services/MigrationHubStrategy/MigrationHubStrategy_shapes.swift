@@ -1128,15 +1128,17 @@ extension MigrationHubStrategy {
     }
 
     public struct GetApplicationComponentDetailsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationComponentId", location: .uri("applicationComponentId"))
-        ]
-
         ///  The ID of the application component. The ID is unique within an AWS account.
         public let applicationComponentId: String
 
         public init(applicationComponentId: String) {
             self.applicationComponentId = applicationComponentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationComponentId, key: "applicationComponentId")
         }
 
         public func validate(name: String) throws {
@@ -1173,15 +1175,17 @@ extension MigrationHubStrategy {
     }
 
     public struct GetApplicationComponentStrategiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationComponentId", location: .uri("applicationComponentId"))
-        ]
-
         ///  The ID of the application component. The ID is unique within an AWS account.
         public let applicationComponentId: String
 
         public init(applicationComponentId: String) {
             self.applicationComponentId = applicationComponentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationComponentId, key: "applicationComponentId")
         }
 
         public func validate(name: String) throws {
@@ -1206,15 +1210,17 @@ extension MigrationHubStrategy {
     }
 
     public struct GetAssessmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         ///  The assessmentid returned by StartAssessment.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1247,15 +1253,17 @@ extension MigrationHubStrategy {
     }
 
     public struct GetImportFileTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         ///  The ID of the import file task. This ID is returned in the response of StartImportFileTask.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1383,15 +1391,17 @@ extension MigrationHubStrategy {
     }
 
     public struct GetRecommendationReportDetailsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         ///  The recommendation report generation task id returned by StartRecommendationReportGeneration.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1420,12 +1430,6 @@ extension MigrationHubStrategy {
     }
 
     public struct GetServerDetailsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "serverId", location: .uri("serverId"))
-        ]
-
         ///  The maximum number of items to include in the response. The maximum value is 100.
         public let maxResults: Int?
         ///  The token from a previous call that you use to retrieve the next set of results. For example,
@@ -1438,6 +1442,14 @@ extension MigrationHubStrategy {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.serverId = serverId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.serverId, key: "serverId")
         }
 
         public func validate(name: String) throws {
@@ -1473,15 +1485,17 @@ extension MigrationHubStrategy {
     }
 
     public struct GetServerStrategiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serverId", location: .uri("serverId"))
-        ]
-
         ///  The ID of the server.
         public let serverId: String
 
         public init(serverId: String) {
             self.serverId = serverId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.serverId, key: "serverId")
         }
 
         public func validate(name: String) throws {
@@ -1699,11 +1713,6 @@ extension MigrationHubStrategy {
     }
 
     public struct ListCollectorsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of items to include in the response. The maximum value is 100.
         public let maxResults: Int?
         ///  The token from a previous call that you use to retrieve the next set of results. For example,
@@ -1713,6 +1722,13 @@ extension MigrationHubStrategy {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1741,11 +1757,6 @@ extension MigrationHubStrategy {
     }
 
     public struct ListImportFileTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The total number of items to return. The maximum value is 100.
         public let maxResults: Int?
         ///  The token from a previous call that you use to retrieve the next set of results. For example,
@@ -1755,6 +1766,13 @@ extension MigrationHubStrategy {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {

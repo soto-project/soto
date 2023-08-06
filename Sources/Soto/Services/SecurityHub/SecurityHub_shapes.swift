@@ -18636,15 +18636,17 @@ extension SecurityHub {
     }
 
     public struct DeleteActionTargetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actionTargetArn", location: .uri("ActionTargetArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the custom action target to delete.
         public let actionTargetArn: String
 
         public init(actionTargetArn: String) {
             self.actionTargetArn = actionTargetArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.actionTargetArn, key: "ActionTargetArn")
         }
 
         public func validate(name: String) throws {
@@ -18668,15 +18670,17 @@ extension SecurityHub {
     }
 
     public struct DeleteFindingAggregatorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "findingAggregatorArn", location: .uri("FindingAggregatorArn"))
-        ]
-
         /// The ARN of the finding aggregator to delete. To obtain the ARN, use ListFindingAggregators.
         public let findingAggregatorArn: String
 
         public init(findingAggregatorArn: String) {
             self.findingAggregatorArn = findingAggregatorArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.findingAggregatorArn, key: "FindingAggregatorArn")
         }
 
         public func validate(name: String) throws {
@@ -18691,15 +18695,17 @@ extension SecurityHub {
     }
 
     public struct DeleteInsightRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "insightArn", location: .uri("InsightArn"))
-        ]
-
         /// The ARN of the insight to delete.
         public let insightArn: String
 
         public init(insightArn: String) {
             self.insightArn = insightArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.insightArn, key: "InsightArn")
         }
 
         public func validate(name: String) throws {
@@ -18833,15 +18839,17 @@ extension SecurityHub {
     }
 
     public struct DescribeHubRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "hubArn", location: .querystring("HubArn"))
-        ]
-
         /// The ARN of the Hub resource to retrieve.
         public let hubArn: String?
 
         public init(hubArn: String? = nil) {
             self.hubArn = hubArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.hubArn, key: "HubArn")
         }
 
         public func validate(name: String) throws {
@@ -18902,12 +18910,6 @@ extension SecurityHub {
     }
 
     public struct DescribeProductsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "productArn", location: .querystring("ProductArn"))
-        ]
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the DescribeProducts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -18919,6 +18921,14 @@ extension SecurityHub {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.productArn = productArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.productArn, key: "ProductArn")
         }
 
         public func validate(name: String) throws {
@@ -18948,12 +18958,6 @@ extension SecurityHub {
     }
 
     public struct DescribeStandardsControlsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "standardsSubscriptionArn", location: .uri("StandardsSubscriptionArn"))
-        ]
-
         /// The maximum number of security standard controls to return.
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the DescribeStandardsControls operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -18965,6 +18969,14 @@ extension SecurityHub {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.standardsSubscriptionArn = standardsSubscriptionArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.standardsSubscriptionArn, key: "StandardsSubscriptionArn")
         }
 
         public func validate(name: String) throws {
@@ -18994,11 +19006,6 @@ extension SecurityHub {
     }
 
     public struct DescribeStandardsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of standards to return.
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -19007,6 +19014,13 @@ extension SecurityHub {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -19035,15 +19049,17 @@ extension SecurityHub {
     }
 
     public struct DisableImportFindingsForProductRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "productSubscriptionArn", location: .uri("ProductSubscriptionArn"))
-        ]
-
         /// The ARN of the integrated product to disable the integration for.
         public let productSubscriptionArn: String
 
         public init(productSubscriptionArn: String) {
             self.productSubscriptionArn = productSubscriptionArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.productSubscriptionArn, key: "ProductSubscriptionArn")
         }
 
         public func validate(name: String) throws {
@@ -19611,15 +19627,17 @@ extension SecurityHub {
     }
 
     public struct GetFindingAggregatorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "findingAggregatorArn", location: .uri("FindingAggregatorArn"))
-        ]
-
         /// The ARN of the finding aggregator to return details for. To obtain the ARN, use ListFindingAggregators.
         public let findingAggregatorArn: String
 
         public init(findingAggregatorArn: String) {
             self.findingAggregatorArn = findingAggregatorArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.findingAggregatorArn, key: "FindingAggregatorArn")
         }
 
         public func validate(name: String) throws {
@@ -19759,15 +19777,17 @@ extension SecurityHub {
     }
 
     public struct GetInsightResultsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "insightArn", location: .uri("InsightArn"))
-        ]
-
         /// The ARN of the insight for which to return results.
         public let insightArn: String
 
         public init(insightArn: String) {
             self.insightArn = insightArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.insightArn, key: "InsightArn")
         }
 
         public func validate(name: String) throws {
@@ -20158,11 +20178,6 @@ extension SecurityHub {
     }
 
     public struct ListEnabledProductsForImportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of items to return in the response.
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the ListEnabledProductsForImport operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -20171,6 +20186,13 @@ extension SecurityHub {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -20199,11 +20221,6 @@ extension SecurityHub {
     }
 
     public struct ListFindingAggregatorsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to return. This operation currently only returns a single result.
         public let maxResults: Int?
         /// The token returned with the previous set of results. Identifies the next set of results to return.
@@ -20212,6 +20229,13 @@ extension SecurityHub {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -20240,11 +20264,6 @@ extension SecurityHub {
     }
 
     public struct ListInvitationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of items to return in the response.
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -20253,6 +20272,13 @@ extension SecurityHub {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -20281,12 +20307,6 @@ extension SecurityHub {
     }
 
     public struct ListMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "onlyAssociated", location: .querystring("OnlyAssociated"))
-        ]
-
         /// The maximum number of items to return in the response.
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the ListMembers operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -20298,6 +20318,14 @@ extension SecurityHub {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.onlyAssociated = onlyAssociated
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.onlyAssociated, key: "OnlyAssociated")
         }
 
         public func validate(name: String) throws {
@@ -20326,11 +20354,6 @@ extension SecurityHub {
     }
 
     public struct ListOrganizationAdminAccountsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of items to return in the response.
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
@@ -20339,6 +20362,13 @@ extension SecurityHub {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -20367,12 +20397,6 @@ extension SecurityHub {
     }
 
     public struct ListSecurityControlDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "standardsArn", location: .querystring("StandardsArn"))
-        ]
-
         ///  An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 security controls that apply to the specified standard. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 controls. This repeats until all controls for the standard are returned.
         public let maxResults: Int?
         ///  Optional pagination parameter.
@@ -20384,6 +20408,14 @@ extension SecurityHub {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.standardsArn = standardsArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.standardsArn, key: "StandardsArn")
         }
 
         public func validate(name: String) throws {
@@ -20413,12 +20445,6 @@ extension SecurityHub {
     }
 
     public struct ListStandardsControlAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "securityControlId", location: .querystring("SecurityControlId"))
-        ]
-
         ///  An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 standard and control associations. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 associations. This repeats until all associations for the specified control are returned. The number of results is limited by the number of supported Security Hub standards that you've enabled in the calling account.
         public let maxResults: Int?
         ///  Optional pagination parameter.
@@ -20430,6 +20456,14 @@ extension SecurityHub {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.securityControlId = securityControlId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.securityControlId, key: "SecurityControlId")
         }
 
         public func validate(name: String) throws {
@@ -20459,15 +20493,17 @@ extension SecurityHub {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the resource to retrieve tags for.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -23057,10 +23093,6 @@ extension SecurityHub {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the resource to apply the tags to.
         public let resourceArn: String
         /// The tags to add to the resource. You can add up to 50 tags at a time. The tag keys can be no longer than 128 characters. The tag values can be no longer than 256 characters.
@@ -23069,6 +23101,13 @@ extension SecurityHub {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -23233,11 +23272,6 @@ extension SecurityHub {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource to remove the tags from.
         public let resourceArn: String
         /// The tag keys associated with the tags to remove from the resource. You can remove up to 50 tags at a time.
@@ -23246,6 +23280,13 @@ extension SecurityHub {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -23267,10 +23308,6 @@ extension SecurityHub {
     }
 
     public struct UpdateActionTargetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actionTargetArn", location: .uri("ActionTargetArn"))
-        ]
-
         /// The ARN of the custom action target to update.
         public let actionTargetArn: String
         /// The updated description for the custom action target.
@@ -23282,6 +23319,14 @@ extension SecurityHub {
             self.actionTargetArn = actionTargetArn
             self.description = description
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.actionTargetArn, key: "ActionTargetArn")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -23385,10 +23430,6 @@ extension SecurityHub {
     }
 
     public struct UpdateInsightRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "insightArn", location: .uri("InsightArn"))
-        ]
-
         /// The updated filters that define this insight.
         public let filters: AwsSecurityFindingFilters?
         /// The updated GroupBy attribute that defines this insight.
@@ -23403,6 +23444,15 @@ extension SecurityHub {
             self.groupByAttribute = groupByAttribute
             self.insightArn = insightArn
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.groupByAttribute, forKey: .groupByAttribute)
+            request.encodePath(self.insightArn, key: "InsightArn")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -23466,10 +23516,6 @@ extension SecurityHub {
     }
 
     public struct UpdateStandardsControlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "standardsControlArn", location: .uri("StandardsControlArn"))
-        ]
-
         /// The updated status of the security standard control.
         public let controlStatus: ControlStatus?
         /// A description of the reason why you are disabling a security standard control. If you are disabling a control, then this is required.
@@ -23481,6 +23527,14 @@ extension SecurityHub {
             self.controlStatus = controlStatus
             self.disabledReason = disabledReason
             self.standardsControlArn = standardsControlArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.controlStatus, forKey: .controlStatus)
+            try container.encodeIfPresent(self.disabledReason, forKey: .disabledReason)
+            request.encodePath(self.standardsControlArn, key: "StandardsControlArn")
         }
 
         public func validate(name: String) throws {

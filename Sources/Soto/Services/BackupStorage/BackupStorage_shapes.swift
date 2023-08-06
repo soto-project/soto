@@ -101,11 +101,6 @@ extension BackupStorage {
     }
 
     public struct DeleteObjectInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupJobId", location: .uri("BackupJobId")),
-            AWSMemberEncoding(label: "objectName", location: .uri("ObjectName"))
-        ]
-
         /// Backup job Id for the in-progress backup.
         public let backupJobId: String
         /// The name of the Object.
@@ -116,15 +111,17 @@ extension BackupStorage {
             self.objectName = objectName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupJobId, key: "BackupJobId")
+            request.encodePath(self.objectName, key: "ObjectName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetChunkInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "chunkToken", location: .uri("ChunkToken")),
-            AWSMemberEncoding(label: "storageJobId", location: .uri("StorageJobId"))
-        ]
-
         /// Chunk token
         public let chunkToken: String
         /// Storage job id
@@ -133,6 +130,13 @@ extension BackupStorage {
         public init(chunkToken: String, storageJobId: String) {
             self.chunkToken = chunkToken
             self.storageJobId = storageJobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.chunkToken, key: "ChunkToken")
+            request.encodePath(self.storageJobId, key: "StorageJobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -158,22 +162,17 @@ extension BackupStorage {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.checksum = try response.decode(String.self, forHeader: "x-amz-checksum")
-            self.checksumAlgorithm = try response.decode(DataChecksumAlgorithm.self, forHeader: "x-amz-checksum-algorithm")
-            self.data = response.decodePayload()
-            self.length = try response.decode(Int64.self, forHeader: "x-amz-data-length")
-
+            let container = try decoder.singleValueContainer()
+            self.checksum = try response.decodeHeader(String.self, key: "x-amz-checksum")
+            self.checksumAlgorithm = try response.decodeHeader(DataChecksumAlgorithm.self, key: "x-amz-checksum-algorithm")
+            self.data = try container.decode(AWSHTTPBody.self)
+            self.length = try response.decodeHeader(Int64.self, key: "x-amz-data-length")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetObjectMetadataInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "objectToken", location: .uri("ObjectToken")),
-            AWSMemberEncoding(label: "storageJobId", location: .uri("StorageJobId"))
-        ]
-
         /// Object token.
         public let objectToken: String
         /// Backup job id for the in-progress backup.
@@ -182,6 +181,13 @@ extension BackupStorage {
         public init(objectToken: String, storageJobId: String) {
             self.objectToken = objectToken
             self.storageJobId = storageJobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.objectToken, key: "ObjectToken")
+            request.encodePath(self.storageJobId, key: "StorageJobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -210,25 +216,18 @@ extension BackupStorage {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.metadataBlob = response.decodePayload()
-            self.metadataBlobChecksum = try response.decodeIfPresent(String.self, forHeader: "x-amz-checksum")
-            self.metadataBlobChecksumAlgorithm = try response.decodeIfPresent(DataChecksumAlgorithm.self, forHeader: "x-amz-checksum-algorithm")
-            self.metadataBlobLength = try response.decodeIfPresent(Int64.self, forHeader: "x-amz-data-length")
-            self.metadataString = try response.decodeIfPresent(String.self, forHeader: "x-amz-metadata-string")
-
+            let container = try decoder.singleValueContainer()
+            self.metadataBlob = try container.decode(AWSHTTPBody.self)
+            self.metadataBlobChecksum = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum")
+            self.metadataBlobChecksumAlgorithm = try response.decodeHeaderIfPresent(DataChecksumAlgorithm.self, key: "x-amz-checksum-algorithm")
+            self.metadataBlobLength = try response.decodeHeaderIfPresent(Int64.self, key: "x-amz-data-length")
+            self.metadataString = try response.decodeHeaderIfPresent(String.self, key: "x-amz-metadata-string")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListChunksInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "objectToken", location: .uri("ObjectToken")),
-            AWSMemberEncoding(label: "storageJobId", location: .uri("StorageJobId"))
-        ]
-
         /// Maximum number of chunks
         public let maxResults: Int?
         /// Pagination token
@@ -243,6 +242,15 @@ extension BackupStorage {
             self.nextToken = nextToken
             self.objectToken = objectToken
             self.storageJobId = storageJobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodePath(self.objectToken, key: "ObjectToken")
+            request.encodePath(self.storageJobId, key: "StorageJobId")
         }
 
         public func validate(name: String) throws {
@@ -271,16 +279,6 @@ extension BackupStorage {
     }
 
     public struct ListObjectsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createdAfter", location: .querystring("created-after")),
-            AWSMemberEncoding(label: "createdBefore", location: .querystring("created-before")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "startingObjectName", location: .querystring("starting-object-name")),
-            AWSMemberEncoding(label: "startingObjectPrefix", location: .querystring("starting-object-prefix")),
-            AWSMemberEncoding(label: "storageJobId", location: .uri("StorageJobId"))
-        ]
-
         /// (Optional) Created after filter
         public let createdAfter: Date?
         /// (Optional) Created before filter
@@ -304,6 +302,18 @@ extension BackupStorage {
             self.startingObjectName = startingObjectName
             self.startingObjectPrefix = startingObjectPrefix
             self.storageJobId = storageJobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.createdAfter, key: "created-after")
+            request.encodeQuery(self.createdBefore, key: "created-before")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.startingObjectName, key: "starting-object-name")
+            request.encodeQuery(self.startingObjectPrefix, key: "starting-object-prefix")
+            request.encodePath(self.storageJobId, key: "StorageJobId")
         }
 
         public func validate(name: String) throws {
@@ -331,21 +341,8 @@ extension BackupStorage {
         }
     }
 
-    public struct NotifyObjectCompleteInput: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "metadataBlob"
+    public struct NotifyObjectCompleteInput: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupJobId", location: .uri("BackupJobId")),
-            AWSMemberEncoding(label: "metadataBlobChecksum", location: .querystring("metadata-checksum")),
-            AWSMemberEncoding(label: "metadataBlobChecksumAlgorithm", location: .querystring("metadata-checksum-algorithm")),
-            AWSMemberEncoding(label: "metadataBlobLength", location: .querystring("metadata-blob-length")),
-            AWSMemberEncoding(label: "metadataString", location: .querystring("metadata-string")),
-            AWSMemberEncoding(label: "objectChecksum", location: .querystring("checksum")),
-            AWSMemberEncoding(label: "objectChecksumAlgorithm", location: .querystring("checksum-algorithm")),
-            AWSMemberEncoding(label: "uploadId", location: .uri("UploadId"))
-        ]
-
         /// Backup job Id for the in-progress backup
         public let backupJobId: String
         /// Optional metadata associated with an Object. Maximum length is 4MB.
@@ -377,6 +374,20 @@ extension BackupStorage {
             self.uploadId = uploadId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.backupJobId, key: "BackupJobId")
+            try container.encode(self.metadataBlob)
+            request.encodeQuery(self.metadataBlobChecksum, key: "metadata-checksum")
+            request.encodeQuery(self.metadataBlobChecksumAlgorithm, key: "metadata-checksum-algorithm")
+            request.encodeQuery(self.metadataBlobLength, key: "metadata-blob-length")
+            request.encodeQuery(self.metadataString, key: "metadata-string")
+            request.encodeQuery(self.objectChecksum, key: "checksum")
+            request.encodeQuery(self.objectChecksumAlgorithm, key: "checksum-algorithm")
+            request.encodePath(self.uploadId, key: "UploadId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.metadataString, name: "metadataString", parent: name, pattern: "^.{1,256}$")
         }
@@ -401,19 +412,8 @@ extension BackupStorage {
         }
     }
 
-    public struct PutChunkInput: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "data"
+    public struct PutChunkInput: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupJobId", location: .uri("BackupJobId")),
-            AWSMemberEncoding(label: "checksum", location: .querystring("checksum")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .querystring("checksum-algorithm")),
-            AWSMemberEncoding(label: "chunkIndex", location: .uri("ChunkIndex")),
-            AWSMemberEncoding(label: "length", location: .querystring("length")),
-            AWSMemberEncoding(label: "uploadId", location: .uri("UploadId"))
-        ]
-
         /// Backup job Id for the in-progress backup.
         public let backupJobId: String
         /// Data checksum
@@ -439,6 +439,18 @@ extension BackupStorage {
             self.uploadId = uploadId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.backupJobId, key: "BackupJobId")
+            request.encodeQuery(self.checksum, key: "checksum")
+            request.encodeQuery(self.checksumAlgorithm, key: "checksum-algorithm")
+            request.encodePath(self.chunkIndex, key: "ChunkIndex")
+            try container.encode(self.data)
+            request.encodeQuery(self.length, key: "length")
+            request.encodePath(self.uploadId, key: "UploadId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -459,22 +471,8 @@ extension BackupStorage {
         }
     }
 
-    public struct PutObjectInput: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "inlineChunk"
+    public struct PutObjectInput: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupJobId", location: .uri("BackupJobId")),
-            AWSMemberEncoding(label: "inlineChunkChecksum", location: .querystring("checksum")),
-            AWSMemberEncoding(label: "inlineChunkChecksumAlgorithm", location: .querystring("checksum-algorithm")),
-            AWSMemberEncoding(label: "inlineChunkLength", location: .querystring("length")),
-            AWSMemberEncoding(label: "metadataString", location: .querystring("metadata-string")),
-            AWSMemberEncoding(label: "objectChecksum", location: .querystring("object-checksum")),
-            AWSMemberEncoding(label: "objectChecksumAlgorithm", location: .querystring("object-checksum-algorithm")),
-            AWSMemberEncoding(label: "objectName", location: .uri("ObjectName")),
-            AWSMemberEncoding(label: "throwOnDuplicate", location: .querystring("throwOnDuplicate"))
-        ]
-
         /// Backup job Id for the in-progress backup.
         public let backupJobId: String
         /// Inline chunk data to be uploaded.
@@ -509,6 +507,21 @@ extension BackupStorage {
             self.throwOnDuplicate = throwOnDuplicate
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.backupJobId, key: "BackupJobId")
+            try container.encode(self.inlineChunk)
+            request.encodeQuery(self.inlineChunkChecksum, key: "checksum")
+            request.encodeQuery(self.inlineChunkChecksumAlgorithm, key: "checksum-algorithm")
+            request.encodeQuery(self.inlineChunkLength, key: "length")
+            request.encodeQuery(self.metadataString, key: "metadata-string")
+            request.encodeQuery(self.objectChecksum, key: "object-checksum")
+            request.encodeQuery(self.objectChecksumAlgorithm, key: "object-checksum-algorithm")
+            request.encodePath(self.objectName, key: "ObjectName")
+            request.encodeQuery(self.throwOnDuplicate, key: "throwOnDuplicate")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -538,11 +551,6 @@ extension BackupStorage {
     }
 
     public struct StartObjectInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupJobId", location: .uri("BackupJobId")),
-            AWSMemberEncoding(label: "objectName", location: .uri("ObjectName"))
-        ]
-
         /// Backup job Id for the in-progress backup
         public let backupJobId: String
         /// Name for the object.
@@ -554,6 +562,14 @@ extension BackupStorage {
             self.backupJobId = backupJobId
             self.objectName = objectName
             self.throwOnDuplicate = throwOnDuplicate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupJobId, key: "BackupJobId")
+            request.encodePath(self.objectName, key: "ObjectName")
+            try container.encodeIfPresent(self.throwOnDuplicate, forKey: .throwOnDuplicate)
         }
 
         private enum CodingKeys: String, CodingKey {

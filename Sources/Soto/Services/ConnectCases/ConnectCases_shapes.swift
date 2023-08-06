@@ -337,10 +337,6 @@ extension ConnectCases {
     }
 
     public struct BatchGetFieldRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// The unique identifier of the Cases domain.
         public let domainId: String
         /// A list of unique field identifiers.
@@ -349,6 +345,13 @@ extension ConnectCases {
         public init(domainId: String, fields: [FieldIdentifier]) {
             self.domainId = domainId
             self.fields = fields
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encode(self.fields, forKey: .fields)
         }
 
         public func validate(name: String) throws {
@@ -384,11 +387,6 @@ extension ConnectCases {
     }
 
     public struct BatchPutFieldOptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId")),
-            AWSMemberEncoding(label: "fieldId", location: .uri("fieldId"))
-        ]
-
         /// The unique identifier of the Cases domain.
         public let domainId: String
         /// The unique identifier of a field.
@@ -400,6 +398,14 @@ extension ConnectCases {
             self.domainId = domainId
             self.fieldId = fieldId
             self.options = options
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodePath(self.fieldId, key: "fieldId")
+            try container.encode(self.options, forKey: .options)
         }
 
         public func validate(name: String) throws {
@@ -559,10 +565,6 @@ extension ConnectCases {
     }
 
     public struct CreateCaseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The unique identifier of the Cases domain.
@@ -577,6 +579,15 @@ extension ConnectCases {
             self.domainId = domainId
             self.fields = fields
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encode(self.fields, forKey: .fields)
+            try container.encode(self.templateId, forKey: .templateId)
         }
 
         public func validate(name: String) throws {
@@ -654,10 +665,6 @@ extension ConnectCases {
     }
 
     public struct CreateFieldRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// The description of the field.
         public let description: String?
         /// The unique identifier of the Cases domain.
@@ -672,6 +679,15 @@ extension ConnectCases {
             self.domainId = domainId
             self.name = name
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -708,10 +724,6 @@ extension ConnectCases {
     }
 
     public struct CreateLayoutRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// Information about which fields will be present in the layout, and information about the order of the fields.
         public let content: LayoutContent
         /// The unique identifier of the Cases domain.
@@ -723,6 +735,14 @@ extension ConnectCases {
             self.content = content
             self.domainId = domainId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.content, forKey: .content)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encode(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -758,11 +778,6 @@ extension ConnectCases {
     }
 
     public struct CreateRelatedItemRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "caseId", location: .uri("caseId")),
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// A unique identifier of the case.
         public let caseId: String
         /// The content of a related item to be created.
@@ -777,6 +792,15 @@ extension ConnectCases {
             self.content = content
             self.domainId = domainId
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.caseId, key: "caseId")
+            try container.encode(self.content, forKey: .content)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encode(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -811,10 +835,6 @@ extension ConnectCases {
     }
 
     public struct CreateTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// A brief description of the template.
         public let description: String?
         /// The unique identifier of the Cases domain.
@@ -835,6 +855,17 @@ extension ConnectCases {
             self.name = name
             self.requiredFields = requiredFields
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encodeIfPresent(self.layoutConfiguration, forKey: .layoutConfiguration)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.requiredFields, forKey: .requiredFields)
+            try container.encodeIfPresent(self.status, forKey: .status)
         }
 
         public func validate(name: String) throws {
@@ -878,15 +909,17 @@ extension ConnectCases {
     }
 
     public struct DeleteDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// The unique identifier of the Cases domain.
         public let domainId: String
 
         public init(domainId: String) {
             self.domainId = domainId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
         }
 
         public func validate(name: String) throws {
@@ -1147,15 +1180,17 @@ extension ConnectCases {
     }
 
     public struct GetCaseEventConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// The unique identifier of the Cases domain.
         public let domainId: String
 
         public init(domainId: String) {
             self.domainId = domainId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
         }
 
         public func validate(name: String) throws {
@@ -1180,11 +1215,6 @@ extension ConnectCases {
     }
 
     public struct GetCaseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "caseId", location: .uri("caseId")),
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// A unique identifier of the case.
         public let caseId: String
         /// The unique identifier of the Cases domain.
@@ -1200,6 +1230,15 @@ extension ConnectCases {
             self.domainId = domainId
             self.fields = fields
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.caseId, key: "caseId")
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encode(self.fields, forKey: .fields)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -1245,15 +1284,17 @@ extension ConnectCases {
     }
 
     public struct GetDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// The unique identifier of the Cases domain.
         public let domainId: String
 
         public init(domainId: String) {
             self.domainId = domainId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
         }
 
         public func validate(name: String) throws {
@@ -1336,11 +1377,6 @@ extension ConnectCases {
     }
 
     public struct GetLayoutRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId")),
-            AWSMemberEncoding(label: "layoutId", location: .uri("layoutId"))
-        ]
-
         /// The unique identifier of the Cases domain.
         public let domainId: String
         /// The unique identifier of the layout.
@@ -1349,6 +1385,13 @@ extension ConnectCases {
         public init(domainId: String, layoutId: String) {
             self.domainId = domainId
             self.layoutId = layoutId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodePath(self.layoutId, key: "layoutId")
         }
 
         public func validate(name: String) throws {
@@ -1391,11 +1434,6 @@ extension ConnectCases {
     }
 
     public struct GetTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("templateId"))
-        ]
-
         /// The unique identifier of the Cases domain.
         public let domainId: String
         /// A unique identifier of a template.
@@ -1404,6 +1442,13 @@ extension ConnectCases {
         public init(domainId: String, templateId: String) {
             self.domainId = domainId
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodePath(self.templateId, key: "templateId")
         }
 
         public func validate(name: String) throws {
@@ -1516,10 +1561,6 @@ extension ConnectCases {
     }
 
     public struct ListCasesForContactRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// A unique identifier of a contact in Amazon Connect.
         public let contactArn: String
         /// The unique identifier of the Cases domain.
@@ -1535,6 +1576,15 @@ extension ConnectCases {
             self.domainId = domainId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.contactArn, forKey: .contactArn)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -1570,11 +1620,6 @@ extension ConnectCases {
     }
 
     public struct ListDomainsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
@@ -1584,6 +1629,13 @@ extension ConnectCases {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1613,14 +1665,6 @@ extension ConnectCases {
     }
 
     public struct ListFieldOptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId")),
-            AWSMemberEncoding(label: "fieldId", location: .uri("fieldId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "values", location: .querystring("values"))
-        ]
-
         /// The unique identifier of the Cases domain.
         public let domainId: String
         /// The unique identifier of a field.
@@ -1639,6 +1683,16 @@ extension ConnectCases {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.values = values
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodePath(self.fieldId, key: "fieldId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.values, key: "values")
         }
 
         public func validate(name: String) throws {
@@ -1676,12 +1730,6 @@ extension ConnectCases {
     }
 
     public struct ListFieldsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier of the Cases domain.
         public let domainId: String
         /// The maximum number of results to return per page.
@@ -1694,6 +1742,14 @@ extension ConnectCases {
             self.domainId = domainId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1725,12 +1781,6 @@ extension ConnectCases {
     }
 
     public struct ListLayoutsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier of the Cases domain.
         public let domainId: String
         /// The maximum number of results to return per page.
@@ -1743,6 +1793,14 @@ extension ConnectCases {
             self.domainId = domainId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1774,15 +1832,17 @@ extension ConnectCases {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("arn"))
-        ]
-
         /// The Amazon Resource Name (ARN)
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -1807,13 +1867,6 @@ extension ConnectCases {
     }
 
     public struct ListTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The unique identifier of the Cases domain.
         public let domainId: String
         /// The maximum number of results to return per page.
@@ -1829,6 +1882,15 @@ extension ConnectCases {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -1862,10 +1924,6 @@ extension ConnectCases {
     }
 
     public struct PutCaseEventConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// The unique identifier of the Cases domain.
         public let domainId: String
         /// Configuration to enable EventBridge case event delivery and determine what data is delivered.
@@ -1874,6 +1932,13 @@ extension ConnectCases {
         public init(domainId: String, eventBridge: EventBridgeConfiguration) {
             self.domainId = domainId
             self.eventBridge = eventBridge
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encode(self.eventBridge, forKey: .eventBridge)
         }
 
         public func validate(name: String) throws {
@@ -1923,10 +1988,6 @@ extension ConnectCases {
     }
 
     public struct SearchCasesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// The unique identifier of the Cases domain.
         public let domainId: String
         /// The list of field identifiers to be returned as part of the response.
@@ -1951,6 +2012,18 @@ extension ConnectCases {
             self.nextToken = nextToken
             self.searchTerm = searchTerm
             self.sorts = sorts
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encodeIfPresent(self.fields, forKey: .fields)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.searchTerm, forKey: .searchTerm)
+            try container.encodeIfPresent(self.sorts, forKey: .sorts)
         }
 
         public func validate(name: String) throws {
@@ -2019,11 +2092,6 @@ extension ConnectCases {
     }
 
     public struct SearchRelatedItemsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "caseId", location: .uri("caseId")),
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// A unique identifier of the case.
         public let caseId: String
         /// The unique identifier of the Cases domain.
@@ -2042,6 +2110,16 @@ extension ConnectCases {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.caseId, key: "caseId")
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -2132,10 +2210,6 @@ extension ConnectCases {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("arn"))
-        ]
-
         /// The Amazon Resource Name (ARN)
         public let arn: String
         /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
@@ -2144,6 +2218,13 @@ extension ConnectCases {
         public init(arn: String, tags: [String: String]) {
             self.arn = arn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2182,11 +2263,6 @@ extension ConnectCases {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("arn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN)
         public let arn: String
         /// List of tag keys.
@@ -2195,6 +2271,13 @@ extension ConnectCases {
         public init(arn: String, tagKeys: [String]) {
             self.arn = arn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2212,11 +2295,6 @@ extension ConnectCases {
     }
 
     public struct UpdateCaseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "caseId", location: .uri("caseId")),
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId"))
-        ]
-
         /// A unique identifier of the case.
         public let caseId: String
         /// The unique identifier of the Cases domain.
@@ -2228,6 +2306,14 @@ extension ConnectCases {
             self.caseId = caseId
             self.domainId = domainId
             self.fields = fields
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.caseId, key: "caseId")
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encode(self.fields, forKey: .fields)
         }
 
         public func validate(name: String) throws {
@@ -2250,11 +2336,6 @@ extension ConnectCases {
     }
 
     public struct UpdateFieldRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId")),
-            AWSMemberEncoding(label: "fieldId", location: .uri("fieldId"))
-        ]
-
         /// The description of a field.
         public let description: String?
         /// The unique identifier of the Cases domain.
@@ -2269,6 +2350,15 @@ extension ConnectCases {
             self.domainId = domainId
             self.fieldId = fieldId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodePath(self.fieldId, key: "fieldId")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -2293,11 +2383,6 @@ extension ConnectCases {
     }
 
     public struct UpdateLayoutRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId")),
-            AWSMemberEncoding(label: "layoutId", location: .uri("layoutId"))
-        ]
-
         /// Information about which fields will be present in the layout, the order of the fields, and a read-only attribute of the field.
         public let content: LayoutContent?
         /// The unique identifier of the Cases domain.
@@ -2312,6 +2397,15 @@ extension ConnectCases {
             self.domainId = domainId
             self.layoutId = layoutId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.content, forKey: .content)
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodePath(self.layoutId, key: "layoutId")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -2336,11 +2430,6 @@ extension ConnectCases {
     }
 
     public struct UpdateTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainId", location: .uri("domainId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("templateId"))
-        ]
-
         /// A brief description of the template.
         public let description: String?
         /// The unique identifier of the Cases domain.
@@ -2364,6 +2453,18 @@ extension ConnectCases {
             self.requiredFields = requiredFields
             self.status = status
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encodeIfPresent(self.layoutConfiguration, forKey: .layoutConfiguration)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.requiredFields, forKey: .requiredFields)
+            try container.encodeIfPresent(self.status, forKey: .status)
+            request.encodePath(self.templateId, key: "templateId")
         }
 
         public func validate(name: String) throws {

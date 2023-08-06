@@ -70,10 +70,6 @@ extension PinpointSMSVoice {
     }
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// ConfigurationSetName
         public let configurationSetName: String
         public let eventDestination: EventDestinationDefinition?
@@ -84,6 +80,14 @@ extension PinpointSMSVoice {
             self.configurationSetName = configurationSetName
             self.eventDestination = eventDestination
             self.eventDestinationName = eventDestinationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encodeIfPresent(self.eventDestination, forKey: .eventDestination)
+            try container.encodeIfPresent(self.eventDestinationName, forKey: .eventDestinationName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -114,11 +118,6 @@ extension PinpointSMSVoice {
     }
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName")),
-            AWSMemberEncoding(label: "eventDestinationName", location: .uri("EventDestinationName"))
-        ]
-
         /// ConfigurationSetName
         public let configurationSetName: String
         /// EventDestinationName
@@ -129,6 +128,13 @@ extension PinpointSMSVoice {
             self.eventDestinationName = eventDestinationName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            request.encodePath(self.eventDestinationName, key: "EventDestinationName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -137,15 +143,17 @@ extension PinpointSMSVoice {
     }
 
     public struct DeleteConfigurationSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// ConfigurationSetName
         public let configurationSetName: String
 
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -210,15 +218,17 @@ extension PinpointSMSVoice {
     }
 
     public struct GetConfigurationSetEventDestinationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// ConfigurationSetName
         public let configurationSetName: String
 
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -254,11 +264,6 @@ extension PinpointSMSVoice {
     }
 
     public struct ListConfigurationSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// A token returned from a previous call to the API that indicates the position in the list of results.
         public let nextToken: String?
         /// Used to specify the number of items that should be returned in the response.
@@ -267,6 +272,13 @@ extension PinpointSMSVoice {
         public init(nextToken: String? = nil, pageSize: String? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -386,11 +398,6 @@ extension PinpointSMSVoice {
     }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName")),
-            AWSMemberEncoding(label: "eventDestinationName", location: .uri("EventDestinationName"))
-        ]
-
         /// ConfigurationSetName
         public let configurationSetName: String
         public let eventDestination: EventDestinationDefinition?
@@ -401,6 +408,14 @@ extension PinpointSMSVoice {
             self.configurationSetName = configurationSetName
             self.eventDestination = eventDestination
             self.eventDestinationName = eventDestinationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encodeIfPresent(self.eventDestination, forKey: .eventDestination)
+            request.encodePath(self.eventDestinationName, key: "EventDestinationName")
         }
 
         private enum CodingKeys: String, CodingKey {

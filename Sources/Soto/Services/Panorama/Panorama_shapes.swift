@@ -618,15 +618,17 @@ extension Panorama {
     }
 
     public struct DeleteDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
-        ]
-
         /// The device's ID.
         public let deviceId: String
 
         public init(deviceId: String) {
             self.deviceId = deviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceId, key: "DeviceId")
         }
 
         public func validate(name: String) throws {
@@ -652,11 +654,6 @@ extension Panorama {
     }
 
     public struct DeletePackageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "forceDelete", location: .querystring("ForceDelete")),
-            AWSMemberEncoding(label: "packageId", location: .uri("PackageId"))
-        ]
-
         /// Delete the package even if it has artifacts stored in its access point. Deletes the package's artifacts from Amazon S3.
         public let forceDelete: Bool?
         /// The package's ID.
@@ -665,6 +662,13 @@ extension Panorama {
         public init(forceDelete: Bool? = nil, packageId: String) {
             self.forceDelete = forceDelete
             self.packageId = packageId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.forceDelete, key: "ForceDelete")
+            request.encodePath(self.packageId, key: "PackageId")
         }
 
         public func validate(name: String) throws {
@@ -681,14 +685,6 @@ extension Panorama {
     }
 
     public struct DeregisterPackageVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ownerAccount", location: .querystring("OwnerAccount")),
-            AWSMemberEncoding(label: "packageId", location: .uri("PackageId")),
-            AWSMemberEncoding(label: "packageVersion", location: .uri("PackageVersion")),
-            AWSMemberEncoding(label: "patchVersion", location: .uri("PatchVersion")),
-            AWSMemberEncoding(label: "updatedLatestPatchVersion", location: .querystring("UpdatedLatestPatchVersion"))
-        ]
-
         /// An owner account.
         public let ownerAccount: String?
         /// A package ID.
@@ -706,6 +702,16 @@ extension Panorama {
             self.packageVersion = packageVersion
             self.patchVersion = patchVersion
             self.updatedLatestPatchVersion = updatedLatestPatchVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ownerAccount, key: "OwnerAccount")
+            request.encodePath(self.packageId, key: "PackageId")
+            request.encodePath(self.packageVersion, key: "PackageVersion")
+            request.encodePath(self.patchVersion, key: "PatchVersion")
+            request.encodeQuery(self.updatedLatestPatchVersion, key: "UpdatedLatestPatchVersion")
         }
 
         public func validate(name: String) throws {
@@ -734,15 +740,17 @@ extension Panorama {
     }
 
     public struct DescribeApplicationInstanceDetailsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationInstanceId", location: .uri("ApplicationInstanceId"))
-        ]
-
         /// The application instance's ID.
         public let applicationInstanceId: String
 
         public init(applicationInstanceId: String) {
             self.applicationInstanceId = applicationInstanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationInstanceId, key: "ApplicationInstanceId")
         }
 
         public func validate(name: String) throws {
@@ -796,15 +804,17 @@ extension Panorama {
     }
 
     public struct DescribeApplicationInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationInstanceId", location: .uri("ApplicationInstanceId"))
-        ]
-
         /// The application instance's ID.
         public let applicationInstanceId: String
 
         public init(applicationInstanceId: String) {
             self.applicationInstanceId = applicationInstanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationInstanceId, key: "ApplicationInstanceId")
         }
 
         public func validate(name: String) throws {
@@ -886,15 +896,17 @@ extension Panorama {
     }
 
     public struct DescribeDeviceJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The job's ID.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         public func validate(name: String) throws {
@@ -952,15 +964,17 @@ extension Panorama {
     }
 
     public struct DescribeDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
-        ]
-
         /// The device's ID.
         public let deviceId: String
 
         public init(deviceId: String) {
             self.deviceId = deviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.deviceId, key: "DeviceId")
         }
 
         public func validate(name: String) throws {
@@ -1062,15 +1076,17 @@ extension Panorama {
     }
 
     public struct DescribeNodeFromTemplateJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The job's ID.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         public func validate(name: String) throws {
@@ -1140,11 +1156,6 @@ extension Panorama {
     }
 
     public struct DescribeNodeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nodeId", location: .uri("NodeId")),
-            AWSMemberEncoding(label: "ownerAccount", location: .querystring("OwnerAccount"))
-        ]
-
         /// The node's ID.
         public let nodeId: String
         /// The account ID of the node's owner.
@@ -1153,6 +1164,13 @@ extension Panorama {
         public init(nodeId: String, ownerAccount: String? = nil) {
             self.nodeId = nodeId
             self.ownerAccount = ownerAccount
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.nodeId, key: "NodeId")
+            request.encodeQuery(self.ownerAccount, key: "OwnerAccount")
         }
 
         public func validate(name: String) throws {
@@ -1233,15 +1251,17 @@ extension Panorama {
     }
 
     public struct DescribePackageImportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The job's ID.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         public func validate(name: String) throws {
@@ -1307,15 +1327,17 @@ extension Panorama {
     }
 
     public struct DescribePackageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "packageId", location: .uri("PackageId"))
-        ]
-
         /// The package's ID.
         public let packageId: String
 
         public init(packageId: String) {
             self.packageId = packageId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.packageId, key: "PackageId")
         }
 
         public func validate(name: String) throws {
@@ -1369,13 +1391,6 @@ extension Panorama {
     }
 
     public struct DescribePackageVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ownerAccount", location: .querystring("OwnerAccount")),
-            AWSMemberEncoding(label: "packageId", location: .uri("PackageId")),
-            AWSMemberEncoding(label: "packageVersion", location: .uri("PackageVersion")),
-            AWSMemberEncoding(label: "patchVersion", location: .querystring("PatchVersion"))
-        ]
-
         /// The version's owner account.
         public let ownerAccount: String?
         /// The version's ID.
@@ -1390,6 +1405,15 @@ extension Panorama {
             self.packageId = packageId
             self.packageVersion = packageVersion
             self.patchVersion = patchVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ownerAccount, key: "OwnerAccount")
+            request.encodePath(self.packageId, key: "PackageId")
+            request.encodePath(self.packageVersion, key: "PackageVersion")
+            request.encodeQuery(self.patchVersion, key: "PatchVersion")
         }
 
         public func validate(name: String) throws {
@@ -1675,12 +1699,6 @@ extension Panorama {
     }
 
     public struct ListApplicationInstanceDependenciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationInstanceId", location: .uri("ApplicationInstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The application instance's ID.
         public let applicationInstanceId: String
         /// The maximum number of application instance dependencies to return in one page of results.
@@ -1692,6 +1710,14 @@ extension Panorama {
             self.applicationInstanceId = applicationInstanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationInstanceId, key: "ApplicationInstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1726,12 +1752,6 @@ extension Panorama {
     }
 
     public struct ListApplicationInstanceNodeInstancesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationInstanceId", location: .uri("ApplicationInstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The node instances' application instance ID.
         public let applicationInstanceId: String
         /// The maximum number of node instances to return in one page of results.
@@ -1743,6 +1763,14 @@ extension Panorama {
             self.applicationInstanceId = applicationInstanceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationInstanceId, key: "ApplicationInstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1777,13 +1805,6 @@ extension Panorama {
     }
 
     public struct ListApplicationInstancesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .querystring("deviceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "statusFilter", location: .querystring("statusFilter"))
-        ]
-
         /// The application instances' device ID.
         public let deviceId: String?
         /// The maximum number of application instances to return in one page of results.
@@ -1798,6 +1819,15 @@ extension Panorama {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.statusFilter = statusFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deviceId, key: "deviceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.statusFilter, key: "statusFilter")
         }
 
         public func validate(name: String) throws {
@@ -1832,12 +1862,6 @@ extension Panorama {
     }
 
     public struct ListDevicesJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .querystring("DeviceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// Filter results by the job's target device ID.
         public let deviceId: String?
         /// The maximum number of device jobs to return in one page of results.
@@ -1849,6 +1873,14 @@ extension Panorama {
             self.deviceId = deviceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deviceId, key: "DeviceId")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -1883,15 +1915,6 @@ extension Panorama {
     }
 
     public struct ListDevicesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceAggregatedStatusFilter", location: .querystring("DeviceAggregatedStatusFilter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nameFilter", location: .querystring("NameFilter")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "sortBy", location: .querystring("SortBy")),
-            AWSMemberEncoding(label: "sortOrder", location: .querystring("SortOrder"))
-        ]
-
         /// Filter based on a device's status.
         public let deviceAggregatedStatusFilter: DeviceAggregatedStatus?
         /// The maximum number of devices to return in one page of results.
@@ -1912,6 +1935,17 @@ extension Panorama {
             self.nextToken = nextToken
             self.sortBy = sortBy
             self.sortOrder = sortOrder
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deviceAggregatedStatusFilter, key: "DeviceAggregatedStatusFilter")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nameFilter, key: "NameFilter")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.sortBy, key: "SortBy")
+            request.encodeQuery(self.sortOrder, key: "SortOrder")
         }
 
         public func validate(name: String) throws {
@@ -1943,11 +1977,6 @@ extension Panorama {
     }
 
     public struct ListNodeFromTemplateJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of node from template jobs to return in one page of results.
         public let maxResults: Int?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
@@ -1956,6 +1985,13 @@ extension Panorama {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -1987,16 +2023,6 @@ extension Panorama {
     }
 
     public struct ListNodesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "category", location: .querystring("category")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "ownerAccount", location: .querystring("ownerAccount")),
-            AWSMemberEncoding(label: "packageName", location: .querystring("packageName")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring("packageVersion")),
-            AWSMemberEncoding(label: "patchVersion", location: .querystring("patchVersion"))
-        ]
-
         /// Search for nodes by category.
         public let category: NodeCategory?
         /// The maximum number of nodes to return in one page of results.
@@ -2020,6 +2046,18 @@ extension Panorama {
             self.packageName = packageName
             self.packageVersion = packageVersion
             self.patchVersion = patchVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.category, key: "category")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.ownerAccount, key: "ownerAccount")
+            request.encodeQuery(self.packageName, key: "packageName")
+            request.encodeQuery(self.packageVersion, key: "packageVersion")
+            request.encodeQuery(self.patchVersion, key: "patchVersion")
         }
 
         public func validate(name: String) throws {
@@ -2063,11 +2101,6 @@ extension Panorama {
     }
 
     public struct ListPackageImportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of package import jobs to return in one page of results.
         public let maxResults: Int?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
@@ -2076,6 +2109,13 @@ extension Panorama {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -2107,11 +2147,6 @@ extension Panorama {
     }
 
     public struct ListPackagesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of packages to return in one page of results.
         public let maxResults: Int?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
@@ -2120,6 +2155,13 @@ extension Panorama {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2151,15 +2193,17 @@ extension Panorama {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The resource's ARN.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2793,12 +2837,6 @@ extension Panorama {
     }
 
     public struct RegisterPackageVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "packageId", location: .uri("PackageId")),
-            AWSMemberEncoding(label: "packageVersion", location: .uri("PackageVersion")),
-            AWSMemberEncoding(label: "patchVersion", location: .uri("PatchVersion"))
-        ]
-
         /// Whether to mark the new version as the latest version.
         public let markLatest: Bool?
         /// An owner account.
@@ -2816,6 +2854,16 @@ extension Panorama {
             self.packageId = packageId
             self.packageVersion = packageVersion
             self.patchVersion = patchVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.markLatest, forKey: .markLatest)
+            try container.encodeIfPresent(self.ownerAccount, forKey: .ownerAccount)
+            request.encodePath(self.packageId, key: "PackageId")
+            request.encodePath(self.packageVersion, key: "PackageVersion")
+            request.encodePath(self.patchVersion, key: "PatchVersion")
         }
 
         public func validate(name: String) throws {
@@ -2844,15 +2892,17 @@ extension Panorama {
     }
 
     public struct RemoveApplicationInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationInstanceId", location: .uri("ApplicationInstanceId"))
-        ]
-
         /// An application instance ID.
         public let applicationInstanceId: String
 
         public init(applicationInstanceId: String) {
             self.applicationInstanceId = applicationInstanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationInstanceId, key: "ApplicationInstanceId")
         }
 
         public func validate(name: String) throws {
@@ -2927,10 +2977,6 @@ extension Panorama {
     }
 
     public struct SignalApplicationInstanceNodeInstancesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationInstanceId", location: .uri("ApplicationInstanceId"))
-        ]
-
         /// An application instance ID.
         public let applicationInstanceId: String
         /// A list of signals.
@@ -2939,6 +2985,13 @@ extension Panorama {
         public init(applicationInstanceId: String, nodeSignals: [NodeSignal]) {
             self.applicationInstanceId = applicationInstanceId
             self.nodeSignals = nodeSignals
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationInstanceId, key: "ApplicationInstanceId")
+            try container.encode(self.nodeSignals, forKey: .nodeSignals)
         }
 
         public func validate(name: String) throws {
@@ -3041,10 +3094,6 @@ extension Panorama {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The resource's ARN.
         public let resourceArn: String
         /// Tags for the resource.
@@ -3053,6 +3102,13 @@ extension Panorama {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3079,11 +3135,6 @@ extension Panorama {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The resource's ARN.
         public let resourceArn: String
         /// Tag keys to remove.
@@ -3092,6 +3143,13 @@ extension Panorama {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -3115,10 +3173,6 @@ extension Panorama {
     }
 
     public struct UpdateDeviceMetadataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri("DeviceId"))
-        ]
-
         /// A description for the device.
         public let description: String?
         /// The device's ID.
@@ -3127,6 +3181,13 @@ extension Panorama {
         public init(description: String? = nil, deviceId: String) {
             self.description = description
             self.deviceId = deviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.deviceId, key: "DeviceId")
         }
 
         public func validate(name: String) throws {

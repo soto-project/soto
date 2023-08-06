@@ -86,11 +86,6 @@ extension QLDB {
     // MARK: Shapes
 
     public struct CancelJournalKinesisStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ledgerName", location: .uri("LedgerName")),
-            AWSMemberEncoding(label: "streamId", location: .uri("StreamId"))
-        ]
-
         /// The name of the ledger.
         public let ledgerName: String
         /// The UUID (represented in Base62-encoded text) of the QLDB journal stream to be canceled.
@@ -99,6 +94,13 @@ extension QLDB {
         public init(ledgerName: String, streamId: String) {
             self.ledgerName = ledgerName
             self.streamId = streamId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ledgerName, key: "LedgerName")
+            request.encodePath(self.streamId, key: "StreamId")
         }
 
         public func validate(name: String) throws {
@@ -206,15 +208,17 @@ extension QLDB {
     }
 
     public struct DeleteLedgerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the ledger that you want to delete.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -227,11 +231,6 @@ extension QLDB {
     }
 
     public struct DescribeJournalKinesisStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ledgerName", location: .uri("LedgerName")),
-            AWSMemberEncoding(label: "streamId", location: .uri("StreamId"))
-        ]
-
         /// The name of the ledger.
         public let ledgerName: String
         /// The UUID (represented in Base62-encoded text) of the QLDB journal stream to describe.
@@ -240,6 +239,13 @@ extension QLDB {
         public init(ledgerName: String, streamId: String) {
             self.ledgerName = ledgerName
             self.streamId = streamId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ledgerName, key: "LedgerName")
+            request.encodePath(self.streamId, key: "StreamId")
         }
 
         public func validate(name: String) throws {
@@ -268,11 +274,6 @@ extension QLDB {
     }
 
     public struct DescribeJournalS3ExportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportId", location: .uri("ExportId")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The UUID (represented in Base62-encoded text) of the journal export job to describe.
         public let exportId: String
         /// The name of the ledger.
@@ -281,6 +282,13 @@ extension QLDB {
         public init(exportId: String, name: String) {
             self.exportId = exportId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.exportId, key: "ExportId")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -309,15 +317,17 @@ extension QLDB {
     }
 
     public struct DescribeLedgerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the ledger that you want to describe.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -367,10 +377,6 @@ extension QLDB {
     }
 
     public struct ExportJournalToS3Request: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The exclusive end date and time for the range of journal contents to export. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The ExclusiveEndTime must be less than or equal to the current UTC date and time.
         public let exclusiveEndTime: Date
         /// The inclusive start date and time for the range of journal contents to export. The InclusiveStartTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The InclusiveStartTime must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the ledger's CreationDateTime, Amazon QLDB defaults it to the ledger's CreationDateTime.
@@ -391,6 +397,17 @@ extension QLDB {
             self.outputFormat = outputFormat
             self.roleArn = roleArn
             self.s3ExportConfiguration = s3ExportConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.exclusiveEndTime, forKey: .exclusiveEndTime)
+            try container.encode(self.inclusiveStartTime, forKey: .inclusiveStartTime)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.outputFormat, forKey: .outputFormat)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encode(self.s3ExportConfiguration, forKey: .s3ExportConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -425,10 +442,6 @@ extension QLDB {
     }
 
     public struct GetBlockRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The location of the block that you want to request. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}.
         public let blockAddress: ValueHolder
         /// The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}.
@@ -440,6 +453,14 @@ extension QLDB {
             self.blockAddress = blockAddress
             self.digestTipAddress = digestTipAddress
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.blockAddress, forKey: .blockAddress)
+            try container.encodeIfPresent(self.digestTipAddress, forKey: .digestTipAddress)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -474,15 +495,17 @@ extension QLDB {
     }
 
     public struct GetDigestRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the ledger.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -512,10 +535,6 @@ extension QLDB {
     }
 
     public struct GetRevisionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The block location of the document revision to be verified. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}.
         public let blockAddress: ValueHolder
         /// The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}.
@@ -530,6 +549,15 @@ extension QLDB {
             self.digestTipAddress = digestTipAddress
             self.documentId = documentId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.blockAddress, forKey: .blockAddress)
+            try container.encodeIfPresent(self.digestTipAddress, forKey: .digestTipAddress)
+            try container.encode(self.documentId, forKey: .documentId)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -729,12 +757,6 @@ extension QLDB {
     }
 
     public struct ListJournalKinesisStreamsForLedgerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ledgerName", location: .uri("LedgerName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
-        ]
-
         /// The name of the ledger.
         public let ledgerName: String
         /// The maximum number of results to return in a single ListJournalKinesisStreamsForLedger request. (The actual number of results returned might be fewer.)
@@ -746,6 +768,14 @@ extension QLDB {
             self.ledgerName = ledgerName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ledgerName, key: "LedgerName")
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
         }
 
         public func validate(name: String) throws {
@@ -780,12 +810,6 @@ extension QLDB {
     }
 
     public struct ListJournalS3ExportsForLedgerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
-        ]
-
         /// The maximum number of results to return in a single ListJournalS3ExportsForLedger request. (The actual number of results returned might be fewer.)
         public let maxResults: Int?
         /// The name of the ledger.
@@ -797,6 +821,14 @@ extension QLDB {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodePath(self.name, key: "Name")
+            request.encodeQuery(self.nextToken, key: "next_token")
         }
 
         public func validate(name: String) throws {
@@ -831,11 +863,6 @@ extension QLDB {
     }
 
     public struct ListJournalS3ExportsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
-        ]
-
         /// The maximum number of results to return in a single ListJournalS3Exports request. (The actual number of results returned might be fewer.)
         public let maxResults: Int?
         /// A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListJournalS3Exports call, then you should use that value as input here.
@@ -844,6 +871,13 @@ extension QLDB {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
         }
 
         public func validate(name: String) throws {
@@ -875,11 +909,6 @@ extension QLDB {
     }
 
     public struct ListLedgersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
-        ]
-
         /// The maximum number of results to return in a single ListLedgers request. (The actual number of results returned might be fewer.)
         public let maxResults: Int?
         /// A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListLedgers call, then you should use that value as input here.
@@ -888,6 +917,13 @@ extension QLDB {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
         }
 
         public func validate(name: String) throws {
@@ -919,15 +955,17 @@ extension QLDB {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for which to list the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1003,10 +1041,6 @@ extension QLDB {
     }
 
     public struct StreamJournalToKinesisRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ledgerName", location: .uri("LedgerName"))
-        ]
-
         /// The exclusive date and time that specifies when the stream ends. If you don't define this parameter, the stream runs indefinitely until you cancel it. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z.
         public let exclusiveEndTime: Date?
         /// The inclusive start date and time from which to start streaming journal data. This parameter must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The InclusiveStartTime cannot be in the future and must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the ledger's CreationDateTime, QLDB effectively defaults it to the ledger's CreationDateTime.
@@ -1030,6 +1064,18 @@ extension QLDB {
             self.roleArn = roleArn
             self.streamName = streamName
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.exclusiveEndTime, forKey: .exclusiveEndTime)
+            try container.encode(self.inclusiveStartTime, forKey: .inclusiveStartTime)
+            try container.encode(self.kinesisConfiguration, forKey: .kinesisConfiguration)
+            request.encodePath(self.ledgerName, key: "LedgerName")
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encode(self.streamName, forKey: .streamName)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1074,10 +1120,6 @@ extension QLDB {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) to which you want to add the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
         public let resourceArn: String
         /// The key-value pairs to add as tags to the specified QLDB resource. Tag keys are case sensitive. If you specify a key that already exists for the resource, your request fails and returns an error. Tag values are case sensitive and can be null.
@@ -1086,6 +1128,13 @@ extension QLDB {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1109,11 +1158,6 @@ extension QLDB {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) from which to remove the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
         public let resourceArn: String
         /// The list of tag keys to remove.
@@ -1122,6 +1166,13 @@ extension QLDB {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1142,10 +1193,6 @@ extension QLDB {
     }
 
     public struct UpdateLedgerPermissionsModeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the ledger.
         public let name: String
         /// The permissions mode to assign to the ledger. This parameter can have one of the following values:    ALLOW_ALL: A legacy permissions mode that enables access control with API-level granularity for ledgers. This mode allows users who have the SendCommand API permission for this ledger to run all PartiQL commands (hence, ALLOW_ALL) on any tables in the specified ledger. This mode disregards any table-level or command-level IAM permissions policies that you create for the ledger.    STANDARD: (Recommended) A permissions mode that enables access control with finer granularity for ledgers, tables, and PartiQL commands. By default, this mode denies all user requests to run any PartiQL commands on any tables in this ledger. To allow PartiQL commands to run, you must create IAM permissions policies for specific table resources and PartiQL actions, in addition to the SendCommand API permission for the ledger. For information, see Getting started with the standard permissions mode in the Amazon QLDB Developer Guide.    We strongly recommend using the STANDARD permissions mode to maximize the security of your ledger data.
@@ -1154,6 +1201,13 @@ extension QLDB {
         public init(name: String, permissionsMode: PermissionsMode) {
             self.name = name
             self.permissionsMode = permissionsMode
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.permissionsMode, forKey: .permissionsMode)
         }
 
         public func validate(name: String) throws {
@@ -1189,10 +1243,6 @@ extension QLDB {
     }
 
     public struct UpdateLedgerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// Specifies whether the ledger is protected from being deleted by any user. If not defined during ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
         public let deletionProtection: Bool?
         /// The key in Key Management Service (KMS) to use for encryption of data at rest in the ledger. For more information, see Encryption at rest in the Amazon QLDB Developer Guide. Use one of the following options to specify this parameter:    AWS_OWNED_KMS_KEY: Use an KMS key that is owned and managed by Amazon Web Services on your behalf.    Undefined: Make no changes to the KMS key of the ledger.    A valid symmetric customer managed KMS key: Use the specified symmetric encryption KMS key in your account that you create, own, and manage. Amazon QLDB does not support asymmetric keys. For more information, see Using symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide.
@@ -1204,6 +1254,14 @@ extension QLDB {
             self.deletionProtection = deletionProtection
             self.kmsKey = kmsKey
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.deletionProtection, forKey: .deletionProtection)
+            try container.encodeIfPresent(self.kmsKey, forKey: .kmsKey)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {

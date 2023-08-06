@@ -2207,17 +2207,6 @@ extension Resiliencehub {
     }
 
     public struct ListAppAssessmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appArn", location: .querystring("appArn")),
-            AWSMemberEncoding(label: "assessmentName", location: .querystring("assessmentName")),
-            AWSMemberEncoding(label: "assessmentStatus", location: .querystring("assessmentStatus")),
-            AWSMemberEncoding(label: "complianceStatus", location: .querystring("complianceStatus")),
-            AWSMemberEncoding(label: "invoker", location: .querystring("invoker")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "reverseOrder", location: .querystring("reverseOrder"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
         /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference guide.
@@ -2248,6 +2237,19 @@ extension Resiliencehub {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.reverseOrder = reverseOrder
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.appArn, key: "appArn")
+            request.encodeQuery(self.assessmentName, key: "assessmentName")
+            request.encodeQuery(self.assessmentStatus, key: "assessmentStatus")
+            request.encodeQuery(self.complianceStatus, key: "complianceStatus")
+            request.encodeQuery(self.invoker, key: "invoker")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.reverseOrder, key: "reverseOrder")
         }
 
         public func validate(name: String) throws {
@@ -2655,13 +2657,6 @@ extension Resiliencehub {
     }
 
     public struct ListAppsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appArn", location: .querystring("appArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is:
         /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference guide.
@@ -2679,6 +2674,15 @@ extension Resiliencehub {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.appArn, key: "appArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2710,16 +2714,6 @@ extension Resiliencehub {
     }
 
     public struct ListRecommendationTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assessmentArn", location: .querystring("assessmentArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "recommendationTemplateArn", location: .querystring("recommendationTemplateArn")),
-            AWSMemberEncoding(label: "reverseOrder", location: .querystring("reverseOrder")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
         /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference guide.
@@ -2747,6 +2741,18 @@ extension Resiliencehub {
             self.recommendationTemplateArn = recommendationTemplateArn
             self.reverseOrder = reverseOrder
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.assessmentArn, key: "assessmentArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.recommendationTemplateArn, key: "recommendationTemplateArn")
+            request.encodeQuery(self.reverseOrder, key: "reverseOrder")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -2781,12 +2787,6 @@ extension Resiliencehub {
     }
 
     public struct ListResiliencyPoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "policyName", location: .querystring("policyName"))
-        ]
-
         /// The maximum number of results to include in the response. If more results exist than the specified
         /// MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
@@ -2799,6 +2799,14 @@ extension Resiliencehub {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.policyName = policyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.policyName, key: "policyName")
         }
 
         public func validate(name: String) throws {
@@ -2877,11 +2885,6 @@ extension Resiliencehub {
     }
 
     public struct ListSuggestedResiliencyPoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to include in the response. If more results exist than the specified
         /// MaxResults value, a token is included in the response so that the remaining results can be retrieved.
         public let maxResults: Int?
@@ -2891,6 +2894,13 @@ extension Resiliencehub {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2920,15 +2930,17 @@ extension Resiliencehub {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for a specific resource in your Resilience Hub application.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -3801,10 +3813,6 @@ extension Resiliencehub {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tags to assign to the resource. Each tag consists of a key/value pair.
@@ -3813,6 +3821,13 @@ extension Resiliencehub {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3934,11 +3949,6 @@ extension Resiliencehub {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The keys of the tags you want to remove.
@@ -3947,6 +3957,13 @@ extension Resiliencehub {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {

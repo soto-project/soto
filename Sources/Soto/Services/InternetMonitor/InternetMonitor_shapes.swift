@@ -177,15 +177,17 @@ extension InternetMonitor {
     }
 
     public struct DeleteMonitorInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "monitorName", location: .uri("MonitorName"))
-        ]
-
         /// The name of the monitor to delete.
         public let monitorName: String
 
         public init(monitorName: String) {
             self.monitorName = monitorName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.monitorName, key: "MonitorName")
         }
 
         public func validate(name: String) throws {
@@ -202,11 +204,6 @@ extension InternetMonitor {
     }
 
     public struct GetHealthEventInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventId", location: .uri("EventId")),
-            AWSMemberEncoding(label: "monitorName", location: .uri("MonitorName"))
-        ]
-
         /// The internally generated identifier of a health event. Because EventID contains the forward slash (“/”) character, you must
         /// 			URL-encode the EventID field in the request URL.
         public let eventId: String
@@ -216,6 +213,13 @@ extension InternetMonitor {
         public init(eventId: String, monitorName: String) {
             self.eventId = eventId
             self.monitorName = monitorName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.eventId, key: "EventId")
+            request.encodePath(self.monitorName, key: "MonitorName")
         }
 
         public func validate(name: String) throws {
@@ -280,15 +284,17 @@ extension InternetMonitor {
     }
 
     public struct GetMonitorInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "monitorName", location: .uri("MonitorName"))
-        ]
-
         /// The name of the monitor.
         public let monitorName: String
 
         public init(monitorName: String) {
             self.monitorName = monitorName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.monitorName, key: "MonitorName")
         }
 
         public func validate(name: String) throws {
@@ -513,15 +519,6 @@ extension InternetMonitor {
     }
 
     public struct ListHealthEventsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endTime", location: .querystring("EndTime")),
-            AWSMemberEncoding(label: "eventStatus", location: .querystring("EventStatus")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "monitorName", location: .uri("MonitorName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "startTime", location: .querystring("StartTime"))
-        ]
-
         /// The time when a health event ended. If the health event is still ongoing, then the end time is not set.
         public let endTime: Date?
         /// The status of a health event.
@@ -542,6 +539,17 @@ extension InternetMonitor {
             self.monitorName = monitorName
             self.nextToken = nextToken
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endTime, key: "EndTime")
+            request.encodeQuery(self.eventStatus, key: "EventStatus")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodePath(self.monitorName, key: "MonitorName")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.startTime, key: "StartTime")
         }
 
         public func validate(name: String) throws {
@@ -573,12 +581,6 @@ extension InternetMonitor {
     }
 
     public struct ListMonitorsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "monitorStatus", location: .querystring("MonitorStatus")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The number of monitor objects that you want to return with this call.
         public let maxResults: Int?
         /// The status of a monitor. This includes the status of the data processing for the monitor and the status of the monitor itself. For information about the statuses for a monitor, see
@@ -591,6 +593,14 @@ extension InternetMonitor {
             self.maxResults = maxResults
             self.monitorStatus = monitorStatus
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.monitorStatus, key: "MonitorStatus")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -619,15 +629,17 @@ extension InternetMonitor {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for a resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -792,10 +804,6 @@ extension InternetMonitor {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for a tag that you add to a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor.
         public let resourceArn: String
         /// Tags that you add to a resource. You can add a maximum of 50 tags in Internet Monitor.
@@ -804,6 +812,13 @@ extension InternetMonitor {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -828,11 +843,6 @@ extension InternetMonitor {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) for a tag you remove a resource from.
         public let resourceArn: String
         /// Tag keys that you remove from a resource.
@@ -841,6 +851,13 @@ extension InternetMonitor {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -862,10 +879,6 @@ extension InternetMonitor {
     }
 
     public struct UpdateMonitorInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "monitorName", location: .uri("MonitorName"))
-        ]
-
         /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. You should not reuse the same client
         /// 			token for other API requests.
         public let clientToken: String?
@@ -898,6 +911,19 @@ extension InternetMonitor {
             self.resourcesToRemove = resourcesToRemove
             self.status = status
             self.trafficPercentageToMonitor = trafficPercentageToMonitor
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.internetMeasurementsLogDelivery, forKey: .internetMeasurementsLogDelivery)
+            try container.encodeIfPresent(self.maxCityNetworksToMonitor, forKey: .maxCityNetworksToMonitor)
+            request.encodePath(self.monitorName, key: "MonitorName")
+            try container.encodeIfPresent(self.resourcesToAdd, forKey: .resourcesToAdd)
+            try container.encodeIfPresent(self.resourcesToRemove, forKey: .resourcesToRemove)
+            try container.encodeIfPresent(self.status, forKey: .status)
+            try container.encodeIfPresent(self.trafficPercentageToMonitor, forKey: .trafficPercentageToMonitor)
         }
 
         public func validate(name: String) throws {

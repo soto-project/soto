@@ -778,15 +778,17 @@ extension AccessAnalyzer {
     }
 
     public struct CancelPolicyGenerationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// The JobId that is returned by the StartPolicyGeneration operation. The JobId can be used with GetGeneratedPolicy to retrieve the generated policies or used with CancelPolicyGeneration to cancel the policy generation request.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -946,10 +948,6 @@ extension AccessAnalyzer {
     }
 
     public struct CreateArchiveRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName"))
-        ]
-
         /// The name of the created analyzer.
         public let analyzerName: String
         /// A client token.
@@ -964,6 +962,15 @@ extension AccessAnalyzer {
             self.clientToken = clientToken
             self.filter = filter
             self.ruleName = ruleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analyzerName, key: "analyzerName")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.filter, forKey: .filter)
+            try container.encode(self.ruleName, forKey: .ruleName)
         }
 
         public func validate(name: String) throws {
@@ -1020,11 +1027,6 @@ extension AccessAnalyzer {
     }
 
     public struct DeleteAnalyzerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
-        ]
-
         /// The name of the analyzer to delete.
         public let analyzerName: String
         /// A client token.
@@ -1033,6 +1035,13 @@ extension AccessAnalyzer {
         public init(analyzerName: String, clientToken: String? = DeleteAnalyzerRequest.idempotencyToken()) {
             self.analyzerName = analyzerName
             self.clientToken = clientToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analyzerName, key: "analyzerName")
+            request.encodeQuery(self.clientToken, key: "clientToken")
         }
 
         public func validate(name: String) throws {
@@ -1045,12 +1054,6 @@ extension AccessAnalyzer {
     }
 
     public struct DeleteArchiveRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
-        ]
-
         /// The name of the analyzer that associated with the archive rule to delete.
         public let analyzerName: String
         /// A client token.
@@ -1062,6 +1065,14 @@ extension AccessAnalyzer {
             self.analyzerName = analyzerName
             self.clientToken = clientToken
             self.ruleName = ruleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analyzerName, key: "analyzerName")
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.ruleName, key: "ruleName")
         }
 
         public func validate(name: String) throws {
@@ -1345,11 +1356,6 @@ extension AccessAnalyzer {
     }
 
     public struct GetAccessPreviewRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessPreviewId", location: .uri("accessPreviewId")),
-            AWSMemberEncoding(label: "analyzerArn", location: .querystring("analyzerArn"))
-        ]
-
         /// The unique ID for the access preview.
         public let accessPreviewId: String
         /// The ARN of the analyzer used to generate the access preview.
@@ -1358,6 +1364,13 @@ extension AccessAnalyzer {
         public init(accessPreviewId: String, analyzerArn: String) {
             self.accessPreviewId = accessPreviewId
             self.analyzerArn = analyzerArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessPreviewId, key: "accessPreviewId")
+            request.encodeQuery(self.analyzerArn, key: "analyzerArn")
         }
 
         public func validate(name: String) throws {
@@ -1382,11 +1395,6 @@ extension AccessAnalyzer {
     }
 
     public struct GetAnalyzedResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerArn", location: .querystring("analyzerArn")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The ARN of the analyzer to retrieve information from.
         public let analyzerArn: String
         /// The ARN of the resource to retrieve information about.
@@ -1395,6 +1403,13 @@ extension AccessAnalyzer {
         public init(analyzerArn: String, resourceArn: String) {
             self.analyzerArn = analyzerArn
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.analyzerArn, key: "analyzerArn")
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1419,15 +1434,17 @@ extension AccessAnalyzer {
     }
 
     public struct GetAnalyzerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName"))
-        ]
-
         /// The name of the analyzer retrieved.
         public let analyzerName: String
 
         public init(analyzerName: String) {
             self.analyzerName = analyzerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analyzerName, key: "analyzerName")
         }
 
         public func validate(name: String) throws {
@@ -1453,11 +1470,6 @@ extension AccessAnalyzer {
     }
 
     public struct GetArchiveRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName")),
-            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
-        ]
-
         /// The name of the analyzer to retrieve rules from.
         public let analyzerName: String
         /// The name of the rule to retrieve.
@@ -1466,6 +1478,13 @@ extension AccessAnalyzer {
         public init(analyzerName: String, ruleName: String) {
             self.analyzerName = analyzerName
             self.ruleName = ruleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analyzerName, key: "analyzerName")
+            request.encodePath(self.ruleName, key: "ruleName")
         }
 
         public func validate(name: String) throws {
@@ -1493,11 +1512,6 @@ extension AccessAnalyzer {
     }
 
     public struct GetFindingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerArn", location: .querystring("analyzerArn")),
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ARN of the analyzer that generated the finding.
         public let analyzerArn: String
         /// The ID of the finding to retrieve.
@@ -1506,6 +1520,13 @@ extension AccessAnalyzer {
         public init(analyzerArn: String, id: String) {
             self.analyzerArn = analyzerArn
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.analyzerArn, key: "analyzerArn")
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -1529,12 +1550,6 @@ extension AccessAnalyzer {
     }
 
     public struct GetGeneratedPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "includeResourcePlaceholders", location: .querystring("includeResourcePlaceholders")),
-            AWSMemberEncoding(label: "includeServiceLevelTemplate", location: .querystring("includeServiceLevelTemplate")),
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// The level of detail that you want to generate. You can specify whether to generate policies with placeholders for resource ARNs for actions that support resource level granularity in policies. For example, in the resource section of a policy, you can receive a placeholder such as "Resource":"arn:aws:s3:::${BucketName}" instead of "*".
         public let includeResourcePlaceholders: Bool?
         /// The level of detail that you want to generate. You can specify whether to generate service-level policies.  IAM Access Analyzer uses iam:servicelastaccessed to identify services that have been used recently to create this service-level template.
@@ -1546,6 +1561,14 @@ extension AccessAnalyzer {
             self.includeResourcePlaceholders = includeResourcePlaceholders
             self.includeServiceLevelTemplate = includeServiceLevelTemplate
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.includeResourcePlaceholders, key: "includeResourcePlaceholders")
+            request.encodeQuery(self.includeServiceLevelTemplate, key: "includeServiceLevelTemplate")
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1723,10 +1746,6 @@ extension AccessAnalyzer {
     }
 
     public struct ListAccessPreviewFindingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessPreviewId", location: .uri("accessPreviewId"))
-        ]
-
         /// The unique ID for the access preview.
         public let accessPreviewId: String
         /// The ARN of the analyzer used to generate the access.
@@ -1744,6 +1763,16 @@ extension AccessAnalyzer {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessPreviewId, key: "accessPreviewId")
+            try container.encode(self.analyzerArn, forKey: .analyzerArn)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -1780,12 +1809,6 @@ extension AccessAnalyzer {
     }
 
     public struct ListAccessPreviewsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerArn", location: .querystring("analyzerArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ARN of the analyzer used to generate the access preview.
         public let analyzerArn: String
         /// The maximum number of results to return in the response.
@@ -1797,6 +1820,14 @@ extension AccessAnalyzer {
             self.analyzerArn = analyzerArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.analyzerArn, key: "analyzerArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1870,12 +1901,6 @@ extension AccessAnalyzer {
     }
 
     public struct ListAnalyzersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "type", location: .querystring("type"))
-        ]
-
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
         /// A token used for pagination of results returned.
@@ -1887,6 +1912,14 @@ extension AccessAnalyzer {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.type, key: "type")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1910,12 +1943,6 @@ extension AccessAnalyzer {
     }
 
     public struct ListArchiveRulesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the analyzer to retrieve rules from.
         public let analyzerName: String
         /// The maximum number of results to return in the request.
@@ -1927,6 +1954,14 @@ extension AccessAnalyzer {
             self.analyzerName = analyzerName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analyzerName, key: "analyzerName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2009,12 +2044,6 @@ extension AccessAnalyzer {
     }
 
     public struct ListPolicyGenerationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "principalArn", location: .querystring("principalArn"))
-        ]
-
         /// The maximum number of results to return in the response.
         public let maxResults: Int?
         /// A token used for pagination of results returned.
@@ -2026,6 +2055,14 @@ extension AccessAnalyzer {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.principalArn = principalArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.principalArn, key: "principalArn")
         }
 
         public func validate(name: String) throws {
@@ -2053,15 +2090,17 @@ extension AccessAnalyzer {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource to retrieve tags from.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2468,10 +2507,6 @@ extension AccessAnalyzer {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource to add the tag to.
         public let resourceArn: String
         /// The tags to add to the resource.
@@ -2480,6 +2515,13 @@ extension AccessAnalyzer {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2538,11 +2580,6 @@ extension AccessAnalyzer {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource to remove the tag from.
         public let resourceArn: String
         /// The key for the tag to add.
@@ -2553,6 +2590,13 @@ extension AccessAnalyzer {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -2561,11 +2605,6 @@ extension AccessAnalyzer {
     }
 
     public struct UpdateArchiveRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri("analyzerName")),
-            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
-        ]
-
         /// The name of the analyzer to update the archive rules for.
         public let analyzerName: String
         /// A client token.
@@ -2580,6 +2619,15 @@ extension AccessAnalyzer {
             self.clientToken = clientToken
             self.filter = filter
             self.ruleName = ruleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analyzerName, key: "analyzerName")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.filter, forKey: .filter)
+            request.encodePath(self.ruleName, key: "ruleName")
         }
 
         public func validate(name: String) throws {
@@ -2664,11 +2712,6 @@ extension AccessAnalyzer {
     }
 
     public struct ValidatePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The locale to use for localizing the findings.
         public let locale: Locale?
         /// The maximum number of results to return in the response.
@@ -2689,6 +2732,17 @@ extension AccessAnalyzer {
             self.policyDocument = policyDocument
             self.policyType = policyType
             self.validatePolicyResourceType = validatePolicyResourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.locale, forKey: .locale)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encode(self.policyDocument, forKey: .policyDocument)
+            try container.encode(self.policyType, forKey: .policyType)
+            try container.encodeIfPresent(self.validatePolicyResourceType, forKey: .validatePolicyResourceType)
         }
 
         private enum CodingKeys: String, CodingKey {

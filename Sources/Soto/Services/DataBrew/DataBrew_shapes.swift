@@ -196,10 +196,6 @@ extension DataBrew {
     }
 
     public struct BatchDeleteRecipeVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the recipe whose versions are to be deleted.
         public let name: String
         /// An array of version identifiers, for the recipe versions to be deleted. You can specify numeric versions (X.Y) or LATEST_WORKING. LATEST_PUBLISHED is not supported.
@@ -208,6 +204,13 @@ extension DataBrew {
         public init(name: String, recipeVersions: [String]) {
             self.name = name
             self.recipeVersions = recipeVersions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.recipeVersions, forKey: .recipeVersions)
         }
 
         public func validate(name: String) throws {
@@ -1169,15 +1172,17 @@ extension DataBrew {
     }
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the dataset to be deleted.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1202,15 +1207,17 @@ extension DataBrew {
     }
 
     public struct DeleteJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the job to be deleted.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1235,15 +1242,17 @@ extension DataBrew {
     }
 
     public struct DeleteProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the project to be deleted.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1268,11 +1277,6 @@ extension DataBrew {
     }
 
     public struct DeleteRecipeVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "recipeVersion", location: .uri("RecipeVersion"))
-        ]
-
         /// The name of the recipe.
         public let name: String
         /// The version of the recipe to be deleted. You can specify a numeric versions (X.Y) or LATEST_WORKING. LATEST_PUBLISHED is not supported.
@@ -1281,6 +1285,13 @@ extension DataBrew {
         public init(name: String, recipeVersion: String) {
             self.name = name
             self.recipeVersion = recipeVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodePath(self.recipeVersion, key: "RecipeVersion")
         }
 
         public func validate(name: String) throws {
@@ -1311,15 +1322,17 @@ extension DataBrew {
     }
 
     public struct DeleteRulesetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the ruleset to be deleted.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1344,15 +1357,17 @@ extension DataBrew {
     }
 
     public struct DeleteScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the schedule to be deleted.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1377,15 +1392,17 @@ extension DataBrew {
     }
 
     public struct DescribeDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the dataset to be described.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1452,15 +1469,17 @@ extension DataBrew {
     }
 
     public struct DescribeJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the job to be described.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1576,11 +1595,6 @@ extension DataBrew {
     }
 
     public struct DescribeJobRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "runId", location: .uri("RunId"))
-        ]
-
         /// The name of the job being processed during this run.
         public let name: String
         /// The unique identifier of the job run.
@@ -1589,6 +1603,13 @@ extension DataBrew {
         public init(name: String, runId: String) {
             self.name = name
             self.runId = runId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodePath(self.runId, key: "RunId")
         }
 
         public func validate(name: String) throws {
@@ -1686,15 +1707,17 @@ extension DataBrew {
     }
 
     public struct DescribeProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the project to be described.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1770,11 +1793,6 @@ extension DataBrew {
     }
 
     public struct DescribeRecipeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "recipeVersion", location: .querystring("recipeVersion"))
-        ]
-
         /// The name of the recipe to be described.
         public let name: String
         /// The recipe version identifier. If this parameter isn't specified, then the latest published version is returned.
@@ -1783,6 +1801,13 @@ extension DataBrew {
         public init(name: String, recipeVersion: String? = nil) {
             self.name = name
             self.recipeVersion = recipeVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodeQuery(self.recipeVersion, key: "recipeVersion")
         }
 
         public func validate(name: String) throws {
@@ -1857,15 +1882,17 @@ extension DataBrew {
     }
 
     public struct DescribeRulesetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the ruleset to be described.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1926,15 +1953,17 @@ extension DataBrew {
     }
 
     public struct DescribeScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the schedule to be described.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -2385,11 +2414,6 @@ extension DataBrew {
     }
 
     public struct ListDatasetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this request.
         public let maxResults: Int?
         /// The token returned by a previous call to retrieve the next set of results.
@@ -2398,6 +2422,13 @@ extension DataBrew {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2428,12 +2459,6 @@ extension DataBrew {
     }
 
     public struct ListJobRunsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this request.
         public let maxResults: Int?
         /// The name of the job.
@@ -2445,6 +2470,14 @@ extension DataBrew {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.name, key: "Name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2477,13 +2510,6 @@ extension DataBrew {
     }
 
     public struct ListJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetName", location: .querystring("datasetName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "projectName", location: .querystring("projectName"))
-        ]
-
         /// The name of a dataset. Using this parameter indicates to return only those jobs that act on the specified dataset.
         public let datasetName: String?
         /// The maximum number of results to return in this request.
@@ -2498,6 +2524,15 @@ extension DataBrew {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.datasetName, key: "datasetName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.projectName, key: "projectName")
         }
 
         public func validate(name: String) throws {
@@ -2532,11 +2567,6 @@ extension DataBrew {
     }
 
     public struct ListProjectsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this request.
         public let maxResults: Int?
         /// The token returned by a previous call to retrieve the next set of results.
@@ -2545,6 +2575,13 @@ extension DataBrew {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2575,12 +2612,6 @@ extension DataBrew {
     }
 
     public struct ListRecipeVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this request.
         public let maxResults: Int?
         /// The name of the recipe for which to return version information.
@@ -2592,6 +2623,14 @@ extension DataBrew {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2624,12 +2663,6 @@ extension DataBrew {
     }
 
     public struct ListRecipesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "recipeVersion", location: .querystring("recipeVersion"))
-        ]
-
         /// The maximum number of results to return in this request.
         public let maxResults: Int?
         /// The token returned by a previous call to retrieve the next set of results.
@@ -2641,6 +2674,14 @@ extension DataBrew {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.recipeVersion = recipeVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.recipeVersion, key: "recipeVersion")
         }
 
         public func validate(name: String) throws {
@@ -2673,12 +2714,6 @@ extension DataBrew {
     }
 
     public struct ListRulesetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "targetArn", location: .querystring("targetArn"))
-        ]
-
         /// The maximum number of results to return in this request.
         public let maxResults: Int?
         /// A token generated by DataBrew that specifies where to continue pagination  if a previous request was truncated. To get the next set of pages, pass in  the NextToken value from the response object of the previous page call.
@@ -2690,6 +2725,14 @@ extension DataBrew {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.targetArn = targetArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.targetArn, key: "targetArn")
         }
 
         public func validate(name: String) throws {
@@ -2722,12 +2765,6 @@ extension DataBrew {
     }
 
     public struct ListSchedulesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobName", location: .querystring("jobName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the job that these schedules apply to.
         public let jobName: String?
         /// The maximum number of results to return in this request.
@@ -2739,6 +2776,14 @@ extension DataBrew {
             self.jobName = jobName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.jobName, key: "jobName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2771,15 +2816,17 @@ extension DataBrew {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) string that uniquely identifies the DataBrew resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -3024,10 +3071,6 @@ extension DataBrew {
     }
 
     public struct PublishRecipeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A description of the recipe to be published, for this version of the recipe.
         public let description: String?
         /// The name of the recipe to be published.
@@ -3036,6 +3079,13 @@ extension DataBrew {
         public init(description: String? = nil, name: String) {
             self.description = description
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -3447,10 +3497,6 @@ extension DataBrew {
     }
 
     public struct SendProjectSessionActionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A unique identifier for an interactive session that's currently open and ready for work. The action will be performed on this session.
         public let clientSessionId: String?
         /// The name of the project to apply the action to.
@@ -3469,6 +3515,17 @@ extension DataBrew {
             self.recipeStep = recipeStep
             self.stepIndex = stepIndex
             self.viewFrame = viewFrame
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientSessionId, forKey: .clientSessionId)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.preview, forKey: .preview)
+            try container.encodeIfPresent(self.recipeStep, forKey: .recipeStep)
+            try container.encodeIfPresent(self.stepIndex, forKey: .stepIndex)
+            try container.encodeIfPresent(self.viewFrame, forKey: .viewFrame)
         }
 
         public func validate(name: String) throws {
@@ -3513,15 +3570,17 @@ extension DataBrew {
     }
 
     public struct StartJobRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the job to be run.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -3546,10 +3605,6 @@ extension DataBrew {
     }
 
     public struct StartProjectSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A value that, if true, enables you to take control of a session, even if a different client is currently accessing the project.
         public let assumeControl: Bool?
         /// The name of the project to act upon.
@@ -3558,6 +3613,13 @@ extension DataBrew {
         public init(assumeControl: Bool? = nil, name: String) {
             self.assumeControl = assumeControl
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.assumeControl, forKey: .assumeControl)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -3648,11 +3710,6 @@ extension DataBrew {
     }
 
     public struct StopJobRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "runId", location: .uri("RunId"))
-        ]
-
         /// The name of the job to be stopped.
         public let name: String
         /// The ID of the job run to be stopped.
@@ -3661,6 +3718,13 @@ extension DataBrew {
         public init(name: String, runId: String) {
             self.name = name
             self.runId = runId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodePath(self.runId, key: "RunId")
         }
 
         public func validate(name: String) throws {
@@ -3687,10 +3751,6 @@ extension DataBrew {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The DataBrew resource to which tags should be added. The value for this parameter is an Amazon Resource Name (ARN). For DataBrew, you can tag a dataset, a job, a project, or a recipe.
         public let resourceArn: String
         /// One or more tags to be assigned to the resource.
@@ -3699,6 +3759,13 @@ extension DataBrew {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3748,11 +3815,6 @@ extension DataBrew {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// A DataBrew resource from which you want to remove a tag or tags. The value for this parameter is an Amazon Resource Name (ARN).
         public let resourceArn: String
         /// The tag keys (names) of one or more tags to be removed.
@@ -3761,6 +3823,13 @@ extension DataBrew {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -3782,10 +3851,6 @@ extension DataBrew {
     }
 
     public struct UpdateDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The file format of a dataset that is created from an Amazon S3 file or folder.
         public let format: InputFormat?
         public let formatOptions: FormatOptions?
@@ -3801,6 +3866,16 @@ extension DataBrew {
             self.input = input
             self.name = name
             self.pathOptions = pathOptions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.format, forKey: .format)
+            try container.encodeIfPresent(self.formatOptions, forKey: .formatOptions)
+            try container.encode(self.input, forKey: .input)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.pathOptions, forKey: .pathOptions)
         }
 
         public func validate(name: String) throws {
@@ -3833,10 +3908,6 @@ extension DataBrew {
     }
 
     public struct UpdateProfileJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// Configuration for profile jobs. Used to select columns, do evaluations,  and override default parameters of evaluations. When configuration is null, the profile job will run with default settings.
         public let configuration: ProfileConfiguration?
         /// The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
@@ -3874,6 +3945,23 @@ extension DataBrew {
             self.roleArn = roleArn
             self.timeout = timeout
             self.validationConfigurations = validationConfigurations
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.encryptionKeyArn, forKey: .encryptionKeyArn)
+            try container.encodeIfPresent(self.encryptionMode, forKey: .encryptionMode)
+            try container.encodeIfPresent(self.jobSample, forKey: .jobSample)
+            try container.encodeIfPresent(self.logSubscription, forKey: .logSubscription)
+            try container.encodeIfPresent(self.maxCapacity, forKey: .maxCapacity)
+            try container.encodeIfPresent(self.maxRetries, forKey: .maxRetries)
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.outputLocation, forKey: .outputLocation)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.timeout, forKey: .timeout)
+            try container.encodeIfPresent(self.validationConfigurations, forKey: .validationConfigurations)
         }
 
         public func validate(name: String) throws {
@@ -3922,10 +4010,6 @@ extension DataBrew {
     }
 
     public struct UpdateProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the project to be updated.
         public let name: String
         /// The Amazon Resource Name (ARN) of the IAM role to be assumed for this request.
@@ -3936,6 +4020,14 @@ extension DataBrew {
             self.name = name
             self.roleArn = roleArn
             self.sample = sample
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.sample, forKey: .sample)
         }
 
         public func validate(name: String) throws {
@@ -3970,10 +4062,6 @@ extension DataBrew {
     }
 
     public struct UpdateRecipeJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// Represents a list of JDBC database output objects which defines the output destination for a  DataBrew recipe job to write into.
         public let databaseOutputs: [DatabaseOutput]?
         /// One or more artifacts that represent the Glue Data Catalog output from running the job.
@@ -4009,6 +4097,22 @@ extension DataBrew {
             self.outputs = outputs
             self.roleArn = roleArn
             self.timeout = timeout
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.databaseOutputs, forKey: .databaseOutputs)
+            try container.encodeIfPresent(self.dataCatalogOutputs, forKey: .dataCatalogOutputs)
+            try container.encodeIfPresent(self.encryptionKeyArn, forKey: .encryptionKeyArn)
+            try container.encodeIfPresent(self.encryptionMode, forKey: .encryptionMode)
+            try container.encodeIfPresent(self.logSubscription, forKey: .logSubscription)
+            try container.encodeIfPresent(self.maxCapacity, forKey: .maxCapacity)
+            try container.encodeIfPresent(self.maxRetries, forKey: .maxRetries)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.outputs, forKey: .outputs)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.timeout, forKey: .timeout)
         }
 
         public func validate(name: String) throws {
@@ -4062,10 +4166,6 @@ extension DataBrew {
     }
 
     public struct UpdateRecipeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A description of the recipe.
         public let description: String?
         /// The name of the recipe to be updated.
@@ -4077,6 +4177,14 @@ extension DataBrew {
             self.description = description
             self.name = name
             self.steps = steps
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.steps, forKey: .steps)
         }
 
         public func validate(name: String) throws {
@@ -4108,10 +4216,6 @@ extension DataBrew {
     }
 
     public struct UpdateRulesetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The description of the ruleset.
         public let description: String?
         /// The name of the ruleset to be updated.
@@ -4123,6 +4227,14 @@ extension DataBrew {
             self.description = description
             self.name = name
             self.rules = rules
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.rules, forKey: .rules)
         }
 
         public func validate(name: String) throws {
@@ -4155,10 +4267,6 @@ extension DataBrew {
     }
 
     public struct UpdateScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Developer Guide.
         public let cronExpression: String
         /// The name or names of one or more jobs to be run for this schedule.
@@ -4170,6 +4278,14 @@ extension DataBrew {
             self.cronExpression = cronExpression
             self.jobNames = jobNames
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.cronExpression, forKey: .cronExpression)
+            try container.encodeIfPresent(self.jobNames, forKey: .jobNames)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {

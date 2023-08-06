@@ -56,11 +56,6 @@ extension MarketplaceCatalog {
     // MARK: Shapes
 
     public struct CancelChangeSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "catalog", location: .querystring("catalog")),
-            AWSMemberEncoding(label: "changeSetId", location: .querystring("changeSetId"))
-        ]
-
         /// Required. The catalog related to the request. Fixed value: AWSMarketplace.
         public let catalog: String
         /// Required. The unique identifier of the StartChangeSet request that you want to cancel.
@@ -69,6 +64,13 @@ extension MarketplaceCatalog {
         public init(catalog: String, changeSetId: String) {
             self.catalog = catalog
             self.changeSetId = changeSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.catalog, key: "catalog")
+            request.encodeQuery(self.changeSetId, key: "changeSetId")
         }
 
         public func validate(name: String) throws {
@@ -218,15 +220,17 @@ extension MarketplaceCatalog {
     }
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Entity resource that is associated with the resource policy.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -243,11 +247,6 @@ extension MarketplaceCatalog {
     }
 
     public struct DescribeChangeSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "catalog", location: .querystring("catalog")),
-            AWSMemberEncoding(label: "changeSetId", location: .querystring("changeSetId"))
-        ]
-
         /// Required. The catalog related to the request. Fixed value: AWSMarketplace
         public let catalog: String
         /// Required. The unique identifier for the StartChangeSet request that you want to describe the details for.
@@ -256,6 +255,13 @@ extension MarketplaceCatalog {
         public init(catalog: String, changeSetId: String) {
             self.catalog = catalog
             self.changeSetId = changeSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.catalog, key: "catalog")
+            request.encodeQuery(self.changeSetId, key: "changeSetId")
         }
 
         public func validate(name: String) throws {
@@ -316,11 +322,6 @@ extension MarketplaceCatalog {
     }
 
     public struct DescribeEntityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "catalog", location: .querystring("catalog")),
-            AWSMemberEncoding(label: "entityId", location: .querystring("entityId"))
-        ]
-
         /// Required. The catalog related to the request. Fixed value: AWSMarketplace
         public let catalog: String
         /// Required. The unique ID of the entity to describe.
@@ -329,6 +330,13 @@ extension MarketplaceCatalog {
         public init(catalog: String, entityId: String) {
             self.catalog = catalog
             self.entityId = entityId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.catalog, key: "catalog")
+            request.encodeQuery(self.entityId, key: "entityId")
         }
 
         public func validate(name: String) throws {
@@ -479,15 +487,17 @@ extension MarketplaceCatalog {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the Entity resource that is associated with the resource policy.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {

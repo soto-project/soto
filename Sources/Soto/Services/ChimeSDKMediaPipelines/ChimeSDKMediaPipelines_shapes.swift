@@ -1015,15 +1015,17 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct DeleteMediaCapturePipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "mediaPipelineId", location: .uri("MediaPipelineId"))
-        ]
-
         /// The ID of the media pipeline being deleted.
         public let mediaPipelineId: String
 
         public init(mediaPipelineId: String) {
             self.mediaPipelineId = mediaPipelineId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.mediaPipelineId, key: "MediaPipelineId")
         }
 
         public func validate(name: String) throws {
@@ -1036,15 +1038,17 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct DeleteMediaInsightsPipelineConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
-        ]
-
         /// The unique identifier of the resource to be deleted. Valid values include the name and ARN of the media insights pipeline configuration.
         public let identifier: String
 
         public init(identifier: String) {
             self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
         }
 
         public func validate(name: String) throws {
@@ -1056,15 +1060,17 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct DeleteMediaPipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "mediaPipelineId", location: .uri("MediaPipelineId"))
-        ]
-
         /// The ID of the media pipeline to delete.
         public let mediaPipelineId: String
 
         public init(mediaPipelineId: String) {
             self.mediaPipelineId = mediaPipelineId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.mediaPipelineId, key: "MediaPipelineId")
         }
 
         public func validate(name: String) throws {
@@ -1094,15 +1100,17 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct GetMediaCapturePipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "mediaPipelineId", location: .uri("MediaPipelineId"))
-        ]
-
         /// The ID of the pipeline that you want to get.
         public let mediaPipelineId: String
 
         public init(mediaPipelineId: String) {
             self.mediaPipelineId = mediaPipelineId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.mediaPipelineId, key: "MediaPipelineId")
         }
 
         public func validate(name: String) throws {
@@ -1128,15 +1136,17 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct GetMediaInsightsPipelineConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
-        ]
-
         /// The unique identifier of the requested resource.  Valid values include the name and ARN of the media insights pipeline configuration.
         public let identifier: String
 
         public init(identifier: String) {
             self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
         }
 
         public func validate(name: String) throws {
@@ -1161,15 +1171,17 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct GetMediaPipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "mediaPipelineId", location: .uri("MediaPipelineId"))
-        ]
-
         /// The ID of the pipeline that you want to get.
         public let mediaPipelineId: String
 
         public init(mediaPipelineId: String) {
             self.mediaPipelineId = mediaPipelineId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.mediaPipelineId, key: "MediaPipelineId")
         }
 
         public func validate(name: String) throws {
@@ -1359,11 +1371,6 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct ListMediaCapturePipelinesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The maximum number of results to return in a single call. Valid Range: 1 - 99.
         public let maxResults: Int?
         /// The token used to retrieve the next page of results.
@@ -1372,6 +1379,13 @@ extension ChimeSDKMediaPipelines {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -1402,11 +1416,6 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct ListMediaInsightsPipelineConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
         /// The token used to return the next page of results.
@@ -1415,6 +1424,13 @@ extension ChimeSDKMediaPipelines {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -1445,11 +1461,6 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct ListMediaPipelinesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The maximum number of results to return in a single call. Valid Range: 1 - 99.
         public let maxResults: Int?
         /// The token used to retrieve the next page of results.
@@ -1458,6 +1469,13 @@ extension ChimeSDKMediaPipelines {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -1488,15 +1506,17 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .querystring("arn"))
-        ]
-
         /// The ARN of the media pipeline associated with any tags. The ARN consists of the pipeline's region, resource ID, and pipeline ID.
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceARN, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -2458,10 +2478,6 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct UpdateMediaInsightsPipelineConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
-        ]
-
         /// The elements in the request, such as a processor for Amazon Transcribe or a sink for a Kinesis Data Stream..
         public let elements: [MediaInsightsPipelineConfigurationElement]
         /// The unique identifier for the resource to be updated. Valid values include the name and ARN of the media insights pipeline configuration.
@@ -2476,6 +2492,15 @@ extension ChimeSDKMediaPipelines {
             self.identifier = identifier
             self.realTimeAlertConfiguration = realTimeAlertConfiguration
             self.resourceAccessRoleArn = resourceAccessRoleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.elements, forKey: .elements)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encodeIfPresent(self.realTimeAlertConfiguration, forKey: .realTimeAlertConfiguration)
+            try container.encode(self.resourceAccessRoleArn, forKey: .resourceAccessRoleArn)
         }
 
         public func validate(name: String) throws {
@@ -2511,10 +2536,6 @@ extension ChimeSDKMediaPipelines {
     }
 
     public struct UpdateMediaInsightsPipelineStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
-        ]
-
         /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline.
         public let identifier: String
         /// The requested status of the media insights pipeline.
@@ -2523,6 +2544,13 @@ extension ChimeSDKMediaPipelines {
         public init(identifier: String, updateStatus: MediaPipelineStatusUpdate) {
             self.identifier = identifier
             self.updateStatus = updateStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encode(self.updateStatus, forKey: .updateStatus)
         }
 
         public func validate(name: String) throws {

@@ -195,15 +195,17 @@ extension OSIS {
     }
 
     public struct DeletePipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri("PipelineName"))
-        ]
-
         /// The name of the pipeline to delete.
         public let pipelineName: String
 
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.pipelineName, key: "PipelineName")
         }
 
         public func validate(name: String) throws {
@@ -220,15 +222,17 @@ extension OSIS {
     }
 
     public struct GetPipelineBlueprintRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blueprintName", location: .uri("BlueprintName"))
-        ]
-
         /// The name of the blueprint to retrieve.
         public let blueprintName: String
 
         public init(blueprintName: String) {
             self.blueprintName = blueprintName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.blueprintName, key: "BlueprintName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -248,15 +252,17 @@ extension OSIS {
     }
 
     public struct GetPipelineChangeProgressRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri("PipelineName"))
-        ]
-
         /// The name of the pipeline.
         public let pipelineName: String
 
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.pipelineName, key: "PipelineName")
         }
 
         public func validate(name: String) throws {
@@ -282,15 +288,17 @@ extension OSIS {
     }
 
     public struct GetPipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri("PipelineName"))
-        ]
-
         /// The name of the pipeline to get information about.
         public let pipelineName: String
 
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.pipelineName, key: "PipelineName")
         }
 
         public func validate(name: String) throws {
@@ -333,11 +341,6 @@ extension OSIS {
     }
 
     public struct ListPipelinesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
         /// If your initial ListPipelines operation returns a nextToken, you can include the returned nextToken in subsequent ListPipelines operations, which returns results in the next page.
@@ -346,6 +349,13 @@ extension OSIS {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -376,15 +386,17 @@ extension OSIS {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the pipeline to retrieve tags for.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.arn, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -571,15 +583,17 @@ extension OSIS {
     }
 
     public struct StartPipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri("PipelineName"))
-        ]
-
         /// The name of the pipeline to start.
         public let pipelineName: String
 
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.pipelineName, key: "PipelineName")
         }
 
         public func validate(name: String) throws {
@@ -604,15 +618,17 @@ extension OSIS {
     }
 
     public struct StopPipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri("PipelineName"))
-        ]
-
         /// The name of the pipeline to stop.
         public let pipelineName: String
 
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.pipelineName, key: "PipelineName")
         }
 
         public func validate(name: String) throws {
@@ -662,10 +678,6 @@ extension OSIS {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the pipeline to tag.
         public let arn: String
         /// The list of key-value tags to add to the pipeline.
@@ -674,6 +686,13 @@ extension OSIS {
         public init(arn: String, tags: [Tag]) {
             self.arn = arn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.arn, key: "arn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -695,10 +714,6 @@ extension OSIS {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the pipeline to remove tags from.
         public let arn: String
         /// The tag keys to remove.
@@ -707,6 +722,13 @@ extension OSIS {
         public init(arn: String, tagKeys: [String]) {
             self.arn = arn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.arn, key: "arn")
+            try container.encode(self.tagKeys, forKey: .tagKeys)
         }
 
         public func validate(name: String) throws {
@@ -725,10 +747,6 @@ extension OSIS {
     }
 
     public struct UpdatePipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pipelineName", location: .uri("PipelineName"))
-        ]
-
         /// Key-value pairs to configure log publishing.
         public let logPublishingOptions: LogPublishingOptions?
         /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs)
@@ -746,6 +764,16 @@ extension OSIS {
             self.minUnits = minUnits
             self.pipelineConfigurationBody = pipelineConfigurationBody
             self.pipelineName = pipelineName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.logPublishingOptions, forKey: .logPublishingOptions)
+            try container.encodeIfPresent(self.maxUnits, forKey: .maxUnits)
+            try container.encodeIfPresent(self.minUnits, forKey: .minUnits)
+            try container.encodeIfPresent(self.pipelineConfigurationBody, forKey: .pipelineConfigurationBody)
+            request.encodePath(self.pipelineName, key: "PipelineName")
         }
 
         public func validate(name: String) throws {

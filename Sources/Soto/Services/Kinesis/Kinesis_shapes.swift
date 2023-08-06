@@ -1909,9 +1909,8 @@ extension Kinesis {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eventStream = response.decodeEventStream()
-
+            let container = try decoder.singleValueContainer()
+            self.eventStream = try container.decode(AWSEventStream<SubscribeToShardEventStream>.self)
         }
 
         private enum CodingKeys: CodingKey {}

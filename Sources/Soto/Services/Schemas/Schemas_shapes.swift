@@ -116,10 +116,6 @@ extension Schemas {
     }
 
     public struct CreateRegistryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName"))
-        ]
-
         /// A description of the registry to be created.
         public let description: String?
         /// The name of the registry.
@@ -131,6 +127,14 @@ extension Schemas {
             self.description = description
             self.registryName = registryName
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.registryName, key: "RegistryName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -169,11 +173,6 @@ extension Schemas {
     }
 
     public struct CreateSchemaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName"))
-        ]
-
         /// The source of the schema definition.
         public let content: String
         /// A description of the schema.
@@ -194,6 +193,17 @@ extension Schemas {
             self.schemaName = schemaName
             self.tags = tags
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.content, forKey: .content)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.registryName, key: "RegistryName")
+            request.encodePath(self.schemaName, key: "SchemaName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -253,10 +263,6 @@ extension Schemas {
     }
 
     public struct DeleteDiscovererRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "discovererId", location: .uri("DiscovererId"))
-        ]
-
         /// The ID of the discoverer.
         public let discovererId: String
 
@@ -264,14 +270,16 @@ extension Schemas {
             self.discovererId = discovererId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.discovererId, key: "DiscovererId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRegistryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName"))
-        ]
-
         /// The name of the registry.
         public let registryName: String
 
@@ -279,14 +287,16 @@ extension Schemas {
             self.registryName = registryName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.registryName, key: "RegistryName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .querystring("registryName"))
-        ]
-
         /// The name of the registry.
         public let registryName: String?
 
@@ -294,15 +304,16 @@ extension Schemas {
             self.registryName = registryName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.registryName, key: "registryName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSchemaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName"))
-        ]
-
         /// The name of the registry.
         public let registryName: String
         /// The name of the schema.
@@ -313,16 +324,17 @@ extension Schemas {
             self.schemaName = schemaName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.registryName, key: "RegistryName")
+            request.encodePath(self.schemaName, key: "SchemaName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSchemaVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName")),
-            AWSMemberEncoding(label: "schemaVersion", location: .uri("SchemaVersion"))
-        ]
-
         /// The name of the registry.
         public let registryName: String
         /// The name of the schema.
@@ -336,17 +348,18 @@ extension Schemas {
             self.schemaVersion = schemaVersion
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.registryName, key: "RegistryName")
+            request.encodePath(self.schemaName, key: "SchemaName")
+            request.encodePath(self.schemaVersion, key: "SchemaVersion")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeCodeBindingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "language", location: .uri("Language")),
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName")),
-            AWSMemberEncoding(label: "schemaVersion", location: .querystring("schemaVersion"))
-        ]
-
         /// The language of the code binding.
         public let language: String
         /// The name of the registry.
@@ -361,6 +374,15 @@ extension Schemas {
             self.registryName = registryName
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.language, key: "Language")
+            request.encodePath(self.registryName, key: "RegistryName")
+            request.encodePath(self.schemaName, key: "SchemaName")
+            request.encodeQuery(self.schemaVersion, key: "schemaVersion")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -394,15 +416,17 @@ extension Schemas {
     }
 
     public struct DescribeDiscovererRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "discovererId", location: .uri("DiscovererId"))
-        ]
-
         /// The ID of the discoverer.
         public let discovererId: String
 
         public init(discovererId: String) {
             self.discovererId = discovererId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.discovererId, key: "DiscovererId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -446,15 +470,17 @@ extension Schemas {
     }
 
     public struct DescribeRegistryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName"))
-        ]
-
         /// The name of the registry.
         public let registryName: String
 
         public init(registryName: String) {
             self.registryName = registryName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.registryName, key: "RegistryName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -486,12 +512,6 @@ extension Schemas {
     }
 
     public struct DescribeSchemaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName")),
-            AWSMemberEncoding(label: "schemaVersion", location: .querystring("schemaVersion"))
-        ]
-
         /// The name of the registry.
         public let registryName: String
         /// The name of the schema.
@@ -503,6 +523,14 @@ extension Schemas {
             self.registryName = registryName
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.registryName, key: "RegistryName")
+            request.encodePath(self.schemaName, key: "SchemaName")
+            request.encodeQuery(self.schemaVersion, key: "schemaVersion")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -589,13 +617,6 @@ extension Schemas {
     }
 
     public struct ExportSchemaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName")),
-            AWSMemberEncoding(label: "schemaVersion", location: .querystring("schemaVersion")),
-            AWSMemberEncoding(label: "type", location: .querystring("type"))
-        ]
-
         /// The name of the registry.
         public let registryName: String
         /// The name of the schema.
@@ -609,6 +630,15 @@ extension Schemas {
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.registryName, key: "RegistryName")
+            request.encodePath(self.schemaName, key: "SchemaName")
+            request.encodeQuery(self.schemaVersion, key: "schemaVersion")
+            request.encodeQuery(self.type, key: "type")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -639,13 +669,6 @@ extension Schemas {
     }
 
     public struct GetCodeBindingSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "language", location: .uri("Language")),
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName")),
-            AWSMemberEncoding(label: "schemaVersion", location: .querystring("schemaVersion"))
-        ]
-
         /// The language of the code binding.
         public let language: String
         /// The name of the registry.
@@ -662,6 +685,15 @@ extension Schemas {
             self.schemaVersion = schemaVersion
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.language, key: "Language")
+            request.encodePath(self.registryName, key: "RegistryName")
+            request.encodePath(self.schemaName, key: "SchemaName")
+            request.encodeQuery(self.schemaVersion, key: "schemaVersion")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -674,9 +706,8 @@ extension Schemas {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.body = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.body = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -722,15 +753,17 @@ extension Schemas {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .querystring("registryName"))
-        ]
-
         /// The name of the registry.
         public let registryName: String?
 
         public init(registryName: String? = nil) {
             self.registryName = registryName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.registryName, key: "registryName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -754,13 +787,6 @@ extension Schemas {
     }
 
     public struct ListDiscoverersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "discovererIdPrefix", location: .querystring("discovererIdPrefix")),
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "sourceArnPrefix", location: .querystring("sourceArnPrefix"))
-        ]
-
         /// Specifying this limits the results to only those discoverer IDs that start with the specified prefix.
         public let discovererIdPrefix: String?
         public let limit: Int?
@@ -774,6 +800,15 @@ extension Schemas {
             self.limit = limit
             self.nextToken = nextToken
             self.sourceArnPrefix = sourceArnPrefix
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.discovererIdPrefix, key: "discovererIdPrefix")
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sourceArnPrefix, key: "sourceArnPrefix")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -797,13 +832,6 @@ extension Schemas {
     }
 
     public struct ListRegistriesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "registryNamePrefix", location: .querystring("registryNamePrefix")),
-            AWSMemberEncoding(label: "scope", location: .querystring("scope"))
-        ]
-
         public let limit: Int?
         /// The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
         public let nextToken: String?
@@ -817,6 +845,15 @@ extension Schemas {
             self.nextToken = nextToken
             self.registryNamePrefix = registryNamePrefix
             self.scope = scope
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.registryNamePrefix, key: "registryNamePrefix")
+            request.encodeQuery(self.scope, key: "scope")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -840,13 +877,6 @@ extension Schemas {
     }
 
     public struct ListSchemaVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName"))
-        ]
-
         public let limit: Int?
         /// The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
         public let nextToken: String?
@@ -860,6 +890,15 @@ extension Schemas {
             self.nextToken = nextToken
             self.registryName = registryName
             self.schemaName = schemaName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.registryName, key: "RegistryName")
+            request.encodePath(self.schemaName, key: "SchemaName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -883,13 +922,6 @@ extension Schemas {
     }
 
     public struct ListSchemasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
-            AWSMemberEncoding(label: "schemaNamePrefix", location: .querystring("schemaNamePrefix"))
-        ]
-
         public let limit: Int?
         /// The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
         public let nextToken: String?
@@ -903,6 +935,15 @@ extension Schemas {
             self.nextToken = nextToken
             self.registryName = registryName
             self.schemaNamePrefix = schemaNamePrefix
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.registryName, key: "RegistryName")
+            request.encodeQuery(self.schemaNamePrefix, key: "schemaNamePrefix")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -926,15 +967,17 @@ extension Schemas {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -953,13 +996,6 @@ extension Schemas {
     }
 
     public struct PutCodeBindingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "language", location: .uri("Language")),
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName")),
-            AWSMemberEncoding(label: "schemaVersion", location: .querystring("schemaVersion"))
-        ]
-
         /// The language of the code binding.
         public let language: String
         /// The name of the registry.
@@ -974,6 +1010,15 @@ extension Schemas {
             self.registryName = registryName
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.language, key: "Language")
+            request.encodePath(self.registryName, key: "RegistryName")
+            request.encodePath(self.schemaName, key: "SchemaName")
+            request.encodeQuery(self.schemaVersion, key: "schemaVersion")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1007,10 +1052,6 @@ extension Schemas {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .querystring("registryName"))
-        ]
-
         /// The resource-based policy.
         public let policy: String
         /// The name of the registry.
@@ -1022,6 +1063,14 @@ extension Schemas {
             self.policy = policy
             self.registryName = registryName
             self.revisionId = revisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.policy, forKey: .policy)
+            request.encodeQuery(self.registryName, key: "registryName")
+            try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1171,13 +1220,6 @@ extension Schemas {
     }
 
     public struct SearchSchemasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "keywords", location: .querystring("keywords")),
-            AWSMemberEncoding(label: "limit", location: .querystring("limit")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName"))
-        ]
-
         /// Specifying this limits the results to only schemas that include the provided keywords.
         public let keywords: String
         public let limit: Int?
@@ -1191,6 +1233,15 @@ extension Schemas {
             self.limit = limit
             self.nextToken = nextToken
             self.registryName = registryName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.keywords, key: "keywords")
+            request.encodeQuery(self.limit, key: "limit")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.registryName, key: "RegistryName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1214,15 +1265,17 @@ extension Schemas {
     }
 
     public struct StartDiscovererRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "discovererId", location: .uri("DiscovererId"))
-        ]
-
         /// The ID of the discoverer.
         public let discovererId: String
 
         public init(discovererId: String) {
             self.discovererId = discovererId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.discovererId, key: "DiscovererId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1246,15 +1299,17 @@ extension Schemas {
     }
 
     public struct StopDiscovererRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "discovererId", location: .uri("DiscovererId"))
-        ]
-
         /// The ID of the discoverer.
         public let discovererId: String
 
         public init(discovererId: String) {
             self.discovererId = discovererId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.discovererId, key: "DiscovererId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1278,10 +1333,6 @@ extension Schemas {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
         /// Tags associated with the resource.
@@ -1292,17 +1343,19 @@ extension Schemas {
             self.tags = tags
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
         /// Keys of key-value pairs.
@@ -1313,14 +1366,17 @@ extension Schemas {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateDiscovererRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "discovererId", location: .uri("DiscovererId"))
-        ]
-
         /// Support discovery of schemas in events sent to the bus from another account. (default: true)
         public let crossAccount: Bool?
         /// The description of the discoverer to update.
@@ -1332,6 +1388,14 @@ extension Schemas {
             self.crossAccount = crossAccount
             self.description = description
             self.discovererId = discovererId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.crossAccount, forKey: .crossAccount)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.discovererId, key: "DiscovererId")
         }
 
         public func validate(name: String) throws {
@@ -1382,10 +1446,6 @@ extension Schemas {
     }
 
     public struct UpdateRegistryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName"))
-        ]
-
         /// The description of the registry to update.
         public let description: String?
         /// The name of the registry.
@@ -1394,6 +1454,13 @@ extension Schemas {
         public init(description: String? = nil, registryName: String) {
             self.description = description
             self.registryName = registryName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.registryName, key: "RegistryName")
         }
 
         public func validate(name: String) throws {
@@ -1431,11 +1498,6 @@ extension Schemas {
     }
 
     public struct UpdateSchemaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri("RegistryName")),
-            AWSMemberEncoding(label: "schemaName", location: .uri("SchemaName"))
-        ]
-
         /// The ID of the client token.
         public let clientTokenId: String?
         /// The source of the schema definition.
@@ -1456,6 +1518,17 @@ extension Schemas {
             self.registryName = registryName
             self.schemaName = schemaName
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientTokenId, forKey: .clientTokenId)
+            try container.encodeIfPresent(self.content, forKey: .content)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.registryName, key: "RegistryName")
+            request.encodePath(self.schemaName, key: "SchemaName")
+            try container.encodeIfPresent(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {

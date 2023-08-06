@@ -156,15 +156,17 @@ extension ElasticTranscoder {
     }
 
     public struct CancelJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the job that you want to cancel. To get a list of the jobs (including their jobId) that have a status of Submitted, use the ListJobsByStatus API action.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -646,15 +648,17 @@ extension ElasticTranscoder {
     }
 
     public struct DeletePipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the pipeline that you want to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -669,15 +673,17 @@ extension ElasticTranscoder {
     }
 
     public struct DeletePresetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the preset for which you want to get detailed information.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1127,12 +1133,6 @@ extension ElasticTranscoder {
     }
 
     public struct ListJobsByPipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascending", location: .querystring("Ascending")),
-            AWSMemberEncoding(label: "pageToken", location: .querystring("PageToken")),
-            AWSMemberEncoding(label: "pipelineId", location: .uri("PipelineId"))
-        ]
-
         ///  To list jobs in chronological order by the date and time that they were submitted, enter true. To list jobs in reverse chronological order, enter false.
         public let ascending: String?
         ///  When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
@@ -1144,6 +1144,14 @@ extension ElasticTranscoder {
             self.ascending = ascending
             self.pageToken = pageToken
             self.pipelineId = pipelineId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascending, key: "Ascending")
+            request.encodeQuery(self.pageToken, key: "PageToken")
+            request.encodePath(self.pipelineId, key: "PipelineId")
         }
 
         public func validate(name: String) throws {
@@ -1173,12 +1181,6 @@ extension ElasticTranscoder {
     }
 
     public struct ListJobsByStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascending", location: .querystring("Ascending")),
-            AWSMemberEncoding(label: "pageToken", location: .querystring("PageToken")),
-            AWSMemberEncoding(label: "status", location: .uri("Status"))
-        ]
-
         ///  To list jobs in chronological order by the date and time that they were submitted, enter true. To list jobs in reverse chronological order, enter false.
         public let ascending: String?
         ///  When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
@@ -1190,6 +1192,14 @@ extension ElasticTranscoder {
             self.ascending = ascending
             self.pageToken = pageToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascending, key: "Ascending")
+            request.encodeQuery(self.pageToken, key: "PageToken")
+            request.encodePath(self.status, key: "Status")
         }
 
         public func validate(name: String) throws {
@@ -1219,11 +1229,6 @@ extension ElasticTranscoder {
     }
 
     public struct ListPipelinesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascending", location: .querystring("Ascending")),
-            AWSMemberEncoding(label: "pageToken", location: .querystring("PageToken"))
-        ]
-
         /// To list pipelines in chronological order by the date and time that they were created, enter true. To list pipelines in reverse chronological order, enter false.
         public let ascending: String?
         /// When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
@@ -1232,6 +1237,13 @@ extension ElasticTranscoder {
         public init(ascending: String? = nil, pageToken: String? = nil) {
             self.ascending = ascending
             self.pageToken = pageToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascending, key: "Ascending")
+            request.encodeQuery(self.pageToken, key: "PageToken")
         }
 
         public func validate(name: String) throws {
@@ -1260,11 +1272,6 @@ extension ElasticTranscoder {
     }
 
     public struct ListPresetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascending", location: .querystring("Ascending")),
-            AWSMemberEncoding(label: "pageToken", location: .querystring("PageToken"))
-        ]
-
         /// To list presets in chronological order by the date and time that they were created, enter true. To list presets in reverse chronological order, enter false.
         public let ascending: String?
         /// When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
@@ -1273,6 +1280,13 @@ extension ElasticTranscoder {
         public init(ascending: String? = nil, pageToken: String? = nil) {
             self.ascending = ascending
             self.pageToken = pageToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascending, key: "Ascending")
+            request.encodeQuery(self.pageToken, key: "PageToken")
         }
 
         public func validate(name: String) throws {
@@ -1663,15 +1677,17 @@ extension ElasticTranscoder {
     }
 
     public struct ReadJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the job for which you want to get detailed information.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1695,15 +1711,17 @@ extension ElasticTranscoder {
     }
 
     public struct ReadPipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the pipeline to read.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1731,15 +1749,17 @@ extension ElasticTranscoder {
     }
 
     public struct ReadPresetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the preset for which you want to get detailed information.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1910,10 +1930,6 @@ extension ElasticTranscoder {
     }
 
     public struct UpdatePipelineNotificationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the pipeline for which you want to change notification settings.
         public let id: String
         /// The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.  To receive notifications, you must also subscribe to the new topic in the Amazon SNS console.     Progressing: The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify when Elastic Transcoder has started to process jobs that are added to this pipeline. This is the ARN that Amazon SNS returned when you created the topic.    Complete: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder has finished processing a job. This is the ARN that Amazon SNS returned when you created the topic.    Warning: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters a warning condition. This is the ARN that Amazon SNS returned when you created the topic.    Error: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters an error condition. This is the ARN that Amazon SNS returned when you created the topic.
@@ -1922,6 +1938,13 @@ extension ElasticTranscoder {
         public init(id: String, notifications: Notifications) {
             self.id = id
             self.notifications = notifications
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.notifications, forKey: .notifications)
         }
 
         public func validate(name: String) throws {
@@ -1948,10 +1971,6 @@ extension ElasticTranscoder {
     }
 
     public struct UpdatePipelineRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The AWS Key Management Service (AWS KMS) key that you want to use with this pipeline. If you use either s3 or s3-aws-kms as your Encryption:Mode, you don't need to provide a key with your job because a default key, known as an AWS-KMS key, is  created for you automatically. You need to provide an AWS-KMS key only if you want to use a non-default  AWS-KMS key, or if you are using an Encryption:Mode of aes-cbc-pkcs7, aes-ctr, or aes-gcm.
         public let awsKmsKeyArn: String?
         /// The optional ContentConfig object specifies information about the Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists: which bucket to use, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files. If you specify values for ContentConfig, you must also specify values for ThumbnailConfig. If you specify values for ContentConfig and ThumbnailConfig, omit the OutputBucket object.    Bucket: The Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists.    Permissions (Optional): The Permissions object specifies which users you want to have access to transcoded files and the type of access you want them to have. You can grant permissions to a maximum of 30 users and/or predefined Amazon S3 groups.    Grantee Type: Specify the type of value that appears in the Grantee object:     Canonical: The value in the Grantee object is either the canonical user ID for an AWS account or an origin access identity for an Amazon CloudFront distribution. For more information about canonical user IDs, see Access Control List (ACL) Overview in the Amazon Simple Storage Service Developer Guide. For more information about using CloudFront origin access identities to require that users use CloudFront URLs instead of Amazon S3 URLs, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content.   A canonical user ID is not the same as an AWS account number.     Email: The value in the Grantee object is the registered email address of an AWS account.    Group: The value in the Grantee object is one of the following predefined Amazon S3 groups: AllUsers, AuthenticatedUsers, or LogDelivery.      Grantee: The AWS user or group that you want to have access to transcoded files and playlists. To identify the user or group, you can specify the canonical user ID for an AWS account, an origin access identity for a CloudFront distribution, the registered email address of an AWS account, or a predefined Amazon S3 group     Access: The permission that you want to give to the AWS user that you specified in Grantee. Permissions are granted on the files that Elastic Transcoder adds to the bucket, including playlists and video files. Valid values include:     READ: The grantee can read the objects and metadata for objects that Elastic Transcoder adds to the Amazon S3 bucket.    READ_ACP: The grantee can read the object ACL for objects that Elastic Transcoder adds to the Amazon S3 bucket.     WRITE_ACP: The grantee can write the ACL for the objects that Elastic Transcoder adds to the Amazon S3 bucket.    FULL_CONTROL: The grantee has READ, READ_ACP, and WRITE_ACP permissions for the objects that Elastic Transcoder adds to the Amazon S3 bucket.      StorageClass: The Amazon S3 storage class, Standard or ReducedRedundancy, that you want Elastic Transcoder to assign to the video files and playlists that it stores in your Amazon S3 bucket.
@@ -1978,6 +1997,19 @@ extension ElasticTranscoder {
             self.notifications = notifications
             self.role = role
             self.thumbnailConfig = thumbnailConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.awsKmsKeyArn, forKey: .awsKmsKeyArn)
+            try container.encodeIfPresent(self.contentConfig, forKey: .contentConfig)
+            request.encodePath(self.id, key: "Id")
+            try container.encodeIfPresent(self.inputBucket, forKey: .inputBucket)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.notifications, forKey: .notifications)
+            try container.encodeIfPresent(self.role, forKey: .role)
+            try container.encodeIfPresent(self.thumbnailConfig, forKey: .thumbnailConfig)
         }
 
         public func validate(name: String) throws {
@@ -2021,10 +2053,6 @@ extension ElasticTranscoder {
     }
 
     public struct UpdatePipelineStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the pipeline to update.
         public let id: String
         /// The desired status of the pipeline:    Active: The pipeline is processing jobs.    Paused: The pipeline is not currently processing jobs.
@@ -2033,6 +2061,13 @@ extension ElasticTranscoder {
         public init(id: String, status: String) {
             self.id = id
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.status, forKey: .status)
         }
 
         public func validate(name: String) throws {

@@ -424,10 +424,6 @@ extension LexModelBuildingService {
     }
 
     public struct CreateBotVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// Identifies a specific revision of the $LATEST version of the bot. If you specify a checksum and the $LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
         public let checksum: String?
         /// The name of the bot that you want to create a new version of. The name is case sensitive.
@@ -436,6 +432,13 @@ extension LexModelBuildingService {
         public init(checksum: String? = nil, name: String) {
             self.checksum = checksum
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.checksum, forKey: .checksum)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -527,10 +530,6 @@ extension LexModelBuildingService {
     }
 
     public struct CreateIntentVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// Checksum of the $LATEST version of the intent that should be used to create the new version. If you specify a checksum and the $LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
         public let checksum: String?
         /// The name of the intent that you want to create a new version of. The name is case sensitive.
@@ -539,6 +538,13 @@ extension LexModelBuildingService {
         public init(checksum: String? = nil, name: String) {
             self.checksum = checksum
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.checksum, forKey: .checksum)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -634,10 +640,6 @@ extension LexModelBuildingService {
     }
 
     public struct CreateSlotTypeVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// Checksum for the $LATEST version of the slot type that you want to publish. If you specify a checksum and the $LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
         public let checksum: String?
         /// The name of the slot type that you want to create a new version for. The name is case sensitive.
@@ -646,6 +648,13 @@ extension LexModelBuildingService {
         public init(checksum: String? = nil, name: String) {
             self.checksum = checksum
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.checksum, forKey: .checksum)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -709,11 +718,6 @@ extension LexModelBuildingService {
     }
 
     public struct DeleteBotAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .uri("botName")),
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The name of the bot that the alias points to.
         public let botName: String
         /// The name of the alias to delete. The name is case sensitive.
@@ -722,6 +726,13 @@ extension LexModelBuildingService {
         public init(botName: String, name: String) {
             self.botName = botName
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botName, key: "botName")
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -737,12 +748,6 @@ extension LexModelBuildingService {
     }
 
     public struct DeleteBotChannelAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botAlias", location: .uri("botAlias")),
-            AWSMemberEncoding(label: "botName", location: .uri("botName")),
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// An alias that points to the specific version of the Amazon Lex bot to which this association is being made.
         public let botAlias: String
         /// The name of the Amazon Lex bot.
@@ -754,6 +759,14 @@ extension LexModelBuildingService {
             self.botAlias = botAlias
             self.botName = botName
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botAlias, key: "botAlias")
+            request.encodePath(self.botName, key: "botName")
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -772,15 +785,17 @@ extension LexModelBuildingService {
     }
 
     public struct DeleteBotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The name of the bot. The name is case sensitive.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -793,11 +808,6 @@ extension LexModelBuildingService {
     }
 
     public struct DeleteBotVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "version", location: .uri("version"))
-        ]
-
         /// The name of the bot.
         public let name: String
         /// The version of the bot to delete. You cannot delete the $LATEST version of the bot. To delete the $LATEST version, use the DeleteBot operation.
@@ -806,6 +816,13 @@ extension LexModelBuildingService {
         public init(name: String, version: String) {
             self.name = name
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.version, key: "version")
         }
 
         public func validate(name: String) throws {
@@ -821,15 +838,17 @@ extension LexModelBuildingService {
     }
 
     public struct DeleteIntentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The name of the intent. The name is case sensitive.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -842,11 +861,6 @@ extension LexModelBuildingService {
     }
 
     public struct DeleteIntentVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "version", location: .uri("version"))
-        ]
-
         /// The name of the intent.
         public let name: String
         /// The version of the intent to delete. You cannot delete the $LATEST version of the intent. To delete the $LATEST version, use the DeleteIntent operation.
@@ -855,6 +869,13 @@ extension LexModelBuildingService {
         public init(name: String, version: String) {
             self.name = name
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.version, key: "version")
         }
 
         public func validate(name: String) throws {
@@ -870,15 +891,17 @@ extension LexModelBuildingService {
     }
 
     public struct DeleteSlotTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The name of the slot type. The name is case sensitive.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -891,11 +914,6 @@ extension LexModelBuildingService {
     }
 
     public struct DeleteSlotTypeVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "version", location: .uri("version"))
-        ]
-
         /// The name of the slot type.
         public let name: String
         /// The version of the slot type to delete. You cannot delete the $LATEST version of the slot type. To delete the $LATEST version, use the DeleteSlotType operation.
@@ -904,6 +922,13 @@ extension LexModelBuildingService {
         public init(name: String, version: String) {
             self.name = name
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.version, key: "version")
         }
 
         public func validate(name: String) throws {
@@ -919,11 +944,6 @@ extension LexModelBuildingService {
     }
 
     public struct DeleteUtterancesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .uri("botName")),
-            AWSMemberEncoding(label: "userId", location: .uri("userId"))
-        ]
-
         /// The name of the bot that stored the utterances.
         public let botName: String
         ///  The unique identifier for the user that made the utterances. This is the user ID that was sent in the PostContent or PostText operation request that contained the utterance.
@@ -932,6 +952,13 @@ extension LexModelBuildingService {
         public init(botName: String, userId: String) {
             self.botName = botName
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botName, key: "botName")
+            request.encodePath(self.userId, key: "userId")
         }
 
         public func validate(name: String) throws {
@@ -1015,11 +1042,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .uri("botName")),
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The name of the bot.
         public let botName: String
         /// The name of the bot alias. The name is case sensitive.
@@ -1028,6 +1050,13 @@ extension LexModelBuildingService {
         public init(botName: String, name: String) {
             self.botName = botName
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botName, key: "botName")
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -1084,13 +1113,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotAliasesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .uri("botName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring("nameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the bot.
         public let botName: String
         /// The maximum number of aliases to return in the response. The default is 50. .
@@ -1105,6 +1127,15 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botName, key: "botName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nameContains, key: "nameContains")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1139,12 +1170,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotChannelAssociationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botAlias", location: .uri("botAlias")),
-            AWSMemberEncoding(label: "botName", location: .uri("botName")),
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
         public let botAlias: String
         /// The name of the Amazon Lex bot.
@@ -1156,6 +1181,14 @@ extension LexModelBuildingService {
             self.botAlias = botAlias
             self.botName = botName
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botAlias, key: "botAlias")
+            request.encodePath(self.botName, key: "botName")
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -1219,14 +1252,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotChannelAssociationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botAlias", location: .uri("botAlias")),
-            AWSMemberEncoding(label: "botName", location: .uri("botName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring("nameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
         public let botAlias: String
         /// The name of the Amazon Lex bot in the association.
@@ -1244,6 +1269,16 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botAlias, key: "botAlias")
+            request.encodePath(self.botName, key: "botName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nameContains, key: "nameContains")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1281,11 +1316,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "versionOrAlias", location: .uri("versionOrAlias"))
-        ]
-
         /// The name of the bot. The name is case sensitive.
         public let name: String
         /// The version or alias of the bot.
@@ -1294,6 +1324,13 @@ extension LexModelBuildingService {
         public init(name: String, versionOrAlias: String) {
             self.name = name
             self.versionOrAlias = versionOrAlias
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.versionOrAlias, key: "versionOrAlias")
         }
 
         public func validate(name: String) throws {
@@ -1387,12 +1424,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of bot versions to return in the response. The default is 10.
         public let maxResults: Int?
         /// The name of the bot for which versions should be returned.
@@ -1404,6 +1435,14 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1435,12 +1474,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBotsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring("nameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of bots to return in the response that the request will return. The default is 10.
         public let maxResults: Int?
         /// Substring to match in bot names. A bot will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
@@ -1452,6 +1485,14 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nameContains, key: "nameContains")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1483,15 +1524,17 @@ extension LexModelBuildingService {
     }
 
     public struct GetBuiltinIntentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "signature", location: .uri("signature"))
-        ]
-
         /// The unique identifier for a built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
         public let signature: String
 
         public init(signature: String) {
             self.signature = signature
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.signature, key: "signature")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1519,13 +1562,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBuiltinIntentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "locale", location: .querystring("locale")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "signatureContains", location: .querystring("signatureContains"))
-        ]
-
         /// A list of locales that the intent supports.
         public let locale: Locale?
         /// The maximum number of intents to return in the response. The default is 10.
@@ -1540,6 +1576,15 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.signatureContains = signatureContains
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.locale, key: "locale")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.signatureContains, key: "signatureContains")
         }
 
         public func validate(name: String) throws {
@@ -1568,13 +1613,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetBuiltinSlotTypesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "locale", location: .querystring("locale")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "signatureContains", location: .querystring("signatureContains"))
-        ]
-
         /// A list of locales that the slot type supports.
         public let locale: Locale?
         /// The maximum number of slot types to return in the response. The default is 10.
@@ -1589,6 +1627,15 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.signatureContains = signatureContains
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.locale, key: "locale")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.signatureContains, key: "signatureContains")
         }
 
         public func validate(name: String) throws {
@@ -1617,13 +1664,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetExportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "exportType", location: .querystring("exportType")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
         /// The format of the exported data.
         public let exportType: ExportType
         /// The name of the bot to export.
@@ -1638,6 +1678,15 @@ extension LexModelBuildingService {
             self.name = name
             self.resourceType = resourceType
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.exportType, key: "exportType")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.resourceType, key: "resourceType")
+            request.encodeQuery(self.version, key: "version")
         }
 
         public func validate(name: String) throws {
@@ -1690,15 +1739,17 @@ extension LexModelBuildingService {
     }
 
     public struct GetImportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "importId", location: .uri("importId"))
-        ]
-
         /// The identifier of the import job information to return.
         public let importId: String
 
         public init(importId: String) {
             self.importId = importId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.importId, key: "importId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1742,11 +1793,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetIntentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "version", location: .uri("version"))
-        ]
-
         /// The name of the intent. The name is case sensitive.
         public let name: String
         /// The version of the intent.
@@ -1755,6 +1801,13 @@ extension LexModelBuildingService {
         public init(name: String, version: String) {
             self.name = name
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.version, key: "version")
         }
 
         public func validate(name: String) throws {
@@ -1851,12 +1904,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetIntentVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of intent versions to return in the response. The default is 10.
         public let maxResults: Int?
         /// The name of the intent for which versions should be returned.
@@ -1868,6 +1915,14 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1899,12 +1954,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetIntentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring("nameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of intents to return in the response. The default is 10.
         public let maxResults: Int?
         /// Substring to match in intent names. An intent will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
@@ -1916,6 +1965,14 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nameContains, key: "nameContains")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1947,15 +2004,17 @@ extension LexModelBuildingService {
     }
 
     public struct GetMigrationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "migrationId", location: .uri("migrationId"))
-        ]
-
         /// The unique identifier of the migration to view. The migrationID is returned by the  operation.
         public let migrationId: String
 
         public init(migrationId: String) {
             self.migrationId = migrationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.migrationId, key: "migrationId")
         }
 
         public func validate(name: String) throws {
@@ -2017,15 +2076,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetMigrationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "migrationStatusEquals", location: .querystring("migrationStatusEquals")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "sortByAttribute", location: .querystring("sortByAttribute")),
-            AWSMemberEncoding(label: "sortByOrder", location: .querystring("sortByOrder")),
-            AWSMemberEncoding(label: "v1BotNameContains", location: .querystring("v1BotNameContains"))
-        ]
-
         /// The maximum number of migrations to return in the response. The default is 10.
         public let maxResults: Int?
         /// Filters the list to contain only migrations in the specified state.
@@ -2046,6 +2096,17 @@ extension LexModelBuildingService {
             self.sortByAttribute = sortByAttribute
             self.sortByOrder = sortByOrder
             self.v1BotNameContains = v1BotNameContains
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.migrationStatusEquals, key: "migrationStatusEquals")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortByAttribute, key: "sortByAttribute")
+            request.encodeQuery(self.sortByOrder, key: "sortByOrder")
+            request.encodeQuery(self.v1BotNameContains, key: "v1BotNameContains")
         }
 
         public func validate(name: String) throws {
@@ -2077,11 +2138,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetSlotTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "version", location: .uri("version"))
-        ]
-
         /// The name of the slot type. The name is case sensitive.
         public let name: String
         /// The version of the slot type.
@@ -2090,6 +2146,13 @@ extension LexModelBuildingService {
         public init(name: String, version: String) {
             self.name = name
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.version, key: "version")
         }
 
         public func validate(name: String) throws {
@@ -2154,12 +2217,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetSlotTypeVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of slot type versions to return in the response. The default is 10.
         public let maxResults: Int?
         /// The name of the slot type for which versions should be returned.
@@ -2171,6 +2228,14 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2202,12 +2267,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetSlotTypesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nameContains", location: .querystring("nameContains")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of slot types to return in the response. The default is 10.
         public let maxResults: Int?
         /// Substring to match in slot type names. A slot type will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
@@ -2219,6 +2278,14 @@ extension LexModelBuildingService {
             self.maxResults = maxResults
             self.nameContains = nameContains
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nameContains, key: "nameContains")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2250,12 +2317,6 @@ extension LexModelBuildingService {
     }
 
     public struct GetUtterancesViewRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .uri("botName")),
-            AWSMemberEncoding(label: "botVersions", location: .querystring("bot_versions")),
-            AWSMemberEncoding(label: "statusType", location: .querystring("status_type"))
-        ]
-
         /// The name of the bot for which utterance information should be returned.
         public let botName: String
         /// An array of bot versions for which utterance information should be returned. The limit is 5 versions per request.
@@ -2267,6 +2328,14 @@ extension LexModelBuildingService {
             self.botName = botName
             self.botVersions = botVersions
             self.statusType = statusType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botName, key: "botName")
+            request.encodeQuery(self.botVersions, key: "bot_versions")
+            request.encodeQuery(self.statusType, key: "status_type")
         }
 
         public func validate(name: String) throws {
@@ -2407,15 +2476,17 @@ extension LexModelBuildingService {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource to get a list of tags for.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2665,11 +2736,6 @@ extension LexModelBuildingService {
     }
 
     public struct PutBotAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botName", location: .uri("botName")),
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The name of the bot.
         public let botName: String
         /// The version of the bot.
@@ -2693,6 +2759,18 @@ extension LexModelBuildingService {
             self.description = description
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botName, key: "botName")
+            try container.encode(self.botVersion, forKey: .botVersion)
+            try container.encodeIfPresent(self.checksum, forKey: .checksum)
+            try container.encodeIfPresent(self.conversationLogs, forKey: .conversationLogs)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2768,10 +2846,6 @@ extension LexModelBuildingService {
     }
 
     public struct PutBotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// When Amazon Lex can't understand the user's input in context, it tries to elicit the information a few times. After that, Amazon Lex sends the message defined in abortStatement to the user, and then cancels the conversation. To set the number of retries, use the valueElicitationPrompt field for the slot type.  For example, in a pizza ordering bot, Amazon Lex might ask a user "What type of crust would you like?" If the user's response is not one of the expected responses (for example, "thin crust, "deep dish," etc.), Amazon Lex tries to elicit a correct response a few more times.  For example, in a pizza ordering application, OrderPizza might be one of the intents. This intent might require the CrustType slot. You specify the valueElicitationPrompt field when you create the CrustType slot. If you have defined a fallback intent the cancel statement will not be sent to the user, the fallback intent is used instead. For more information, see  AMAZON.FallbackIntent.
         public let abortStatement: Statement?
         /// Identifies a specific revision of the $LATEST version. When you create a new bot, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a bot, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
@@ -2823,6 +2897,27 @@ extension LexModelBuildingService {
             self.processBehavior = processBehavior
             self.tags = tags
             self.voiceId = voiceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.abortStatement, forKey: .abortStatement)
+            try container.encodeIfPresent(self.checksum, forKey: .checksum)
+            try container.encode(self.childDirected, forKey: .childDirected)
+            try container.encodeIfPresent(self.clarificationPrompt, forKey: .clarificationPrompt)
+            try container.encodeIfPresent(self.createVersion, forKey: .createVersion)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.detectSentiment, forKey: .detectSentiment)
+            try container.encodeIfPresent(self.enableModelImprovements, forKey: .enableModelImprovements)
+            try container.encodeIfPresent(self.idleSessionTTLInSeconds, forKey: .idleSessionTTLInSeconds)
+            try container.encodeIfPresent(self.intents, forKey: .intents)
+            try container.encode(self.locale, forKey: .locale)
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.nluIntentConfidenceThreshold, forKey: .nluIntentConfidenceThreshold)
+            try container.encodeIfPresent(self.processBehavior, forKey: .processBehavior)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.voiceId, forKey: .voiceId)
         }
 
         public func validate(name: String) throws {
@@ -2954,10 +3049,6 @@ extension LexModelBuildingService {
     }
 
     public struct PutIntentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// Identifies a specific revision of the $LATEST version. When you create a new intent, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a intent, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
         public let checksum: String?
         ///  The statement that you want Amazon Lex to convey to the user after the intent is successfully fulfilled by the Lambda function.  This element is relevant only if you provide a Lambda function in the fulfillmentActivity. If you return the intent to the client application, you can't specify this element.  The followUpPrompt and conclusionStatement are mutually exclusive. You can specify only one.
@@ -3010,6 +3101,27 @@ extension LexModelBuildingService {
             self.rejectionStatement = rejectionStatement
             self.sampleUtterances = sampleUtterances
             self.slots = slots
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.checksum, forKey: .checksum)
+            try container.encodeIfPresent(self.conclusionStatement, forKey: .conclusionStatement)
+            try container.encodeIfPresent(self.confirmationPrompt, forKey: .confirmationPrompt)
+            try container.encodeIfPresent(self.createVersion, forKey: .createVersion)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.dialogCodeHook, forKey: .dialogCodeHook)
+            try container.encodeIfPresent(self.followUpPrompt, forKey: .followUpPrompt)
+            try container.encodeIfPresent(self.fulfillmentActivity, forKey: .fulfillmentActivity)
+            try container.encodeIfPresent(self.inputContexts, forKey: .inputContexts)
+            try container.encodeIfPresent(self.kendraConfiguration, forKey: .kendraConfiguration)
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.outputContexts, forKey: .outputContexts)
+            try container.encodeIfPresent(self.parentIntentSignature, forKey: .parentIntentSignature)
+            try container.encodeIfPresent(self.rejectionStatement, forKey: .rejectionStatement)
+            try container.encodeIfPresent(self.sampleUtterances, forKey: .sampleUtterances)
+            try container.encodeIfPresent(self.slots, forKey: .slots)
         }
 
         public func validate(name: String) throws {
@@ -3148,10 +3260,6 @@ extension LexModelBuildingService {
     }
 
     public struct PutSlotTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// Identifies a specific revision of the $LATEST version. When you create a new slot type, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a slot type, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
         public let checksum: String?
         /// When set to true a new numbered version of the slot type is created. This is the same as calling the CreateSlotTypeVersion operation. If you do not specify createVersion, the default is false.
@@ -3178,6 +3286,19 @@ extension LexModelBuildingService {
             self.parentSlotTypeSignature = parentSlotTypeSignature
             self.slotTypeConfigurations = slotTypeConfigurations
             self.valueSelectionStrategy = valueSelectionStrategy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.checksum, forKey: .checksum)
+            try container.encodeIfPresent(self.createVersion, forKey: .createVersion)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.enumerationValues, forKey: .enumerationValues)
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.parentSlotTypeSignature, forKey: .parentSlotTypeSignature)
+            try container.encodeIfPresent(self.slotTypeConfigurations, forKey: .slotTypeConfigurations)
+            try container.encodeIfPresent(self.valueSelectionStrategy, forKey: .valueSelectionStrategy)
         }
 
         public func validate(name: String) throws {
@@ -3646,10 +3767,6 @@ extension LexModelBuildingService {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the bot, bot alias, or bot channel to tag.
         public let resourceArn: String
         /// A list of tag keys to add to the resource. If a tag key already exists, the existing value is replaced with the new value.
@@ -3658,6 +3775,13 @@ extension LexModelBuildingService {
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3679,11 +3803,6 @@ extension LexModelBuildingService {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource to remove the tags from.
         public let resourceArn: String
         /// A list of tag keys to remove from the resource. If a tag key does not exist on the resource, it is ignored.
@@ -3692,6 +3811,13 @@ extension LexModelBuildingService {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {

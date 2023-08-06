@@ -397,15 +397,17 @@ extension DLM {
     }
 
     public struct DeleteLifecyclePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyId", location: .uri("PolicyId"))
-        ]
-
         /// The identifier of the lifecycle policy.
         public let policyId: String
 
         public init(policyId: String) {
             self.policyId = policyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyId, key: "PolicyId")
         }
 
         public func validate(name: String) throws {
@@ -574,14 +576,6 @@ extension DLM {
     }
 
     public struct GetLifecyclePoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyIds", location: .querystring("policyIds")),
-            AWSMemberEncoding(label: "resourceTypes", location: .querystring("resourceTypes")),
-            AWSMemberEncoding(label: "state", location: .querystring("state")),
-            AWSMemberEncoding(label: "tagsToAdd", location: .querystring("tagsToAdd")),
-            AWSMemberEncoding(label: "targetTags", location: .querystring("targetTags"))
-        ]
-
         /// The identifiers of the data lifecycle policies.
         public let policyIds: [String]?
         /// The resource type.
@@ -599,6 +593,16 @@ extension DLM {
             self.state = state
             self.tagsToAdd = tagsToAdd
             self.targetTags = targetTags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.policyIds, key: "policyIds")
+            request.encodeQuery(self.resourceTypes, key: "resourceTypes")
+            request.encodeQuery(self.state, key: "state")
+            request.encodeQuery(self.tagsToAdd, key: "tagsToAdd")
+            request.encodeQuery(self.targetTags, key: "targetTags")
         }
 
         public func validate(name: String) throws {
@@ -638,15 +642,17 @@ extension DLM {
     }
 
     public struct GetLifecyclePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyId", location: .uri("PolicyId"))
-        ]
-
         /// The identifier of the lifecycle policy.
         public let policyId: String
 
         public init(policyId: String) {
             self.policyId = policyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyId, key: "PolicyId")
         }
 
         public func validate(name: String) throws {
@@ -756,15 +762,17 @@ extension DLM {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1117,10 +1125,6 @@ extension DLM {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// One or more tags.
@@ -1129,6 +1133,13 @@ extension DLM {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1155,11 +1166,6 @@ extension DLM {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tag keys.
@@ -1168,6 +1174,13 @@ extension DLM {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1190,10 +1203,6 @@ extension DLM {
     }
 
     public struct UpdateLifecyclePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyId", location: .uri("PolicyId"))
-        ]
-
         /// A description of the lifecycle policy.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by
@@ -1213,6 +1222,16 @@ extension DLM {
             self.policyDetails = policyDetails
             self.policyId = policyId
             self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.policyDetails, forKey: .policyDetails)
+            request.encodePath(self.policyId, key: "PolicyId")
+            try container.encodeIfPresent(self.state, forKey: .state)
         }
 
         public func validate(name: String) throws {

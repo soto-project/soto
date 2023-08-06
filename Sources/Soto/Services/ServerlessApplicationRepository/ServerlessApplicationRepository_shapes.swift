@@ -257,11 +257,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct CreateApplicationVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "semanticVersion", location: .uri("SemanticVersion"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
         /// The semantic version of the new version.
@@ -282,6 +277,17 @@ extension ServerlessApplicationRepository {
             self.sourceCodeUrl = sourceCodeUrl
             self.templateBody = templateBody
             self.templateUrl = templateUrl
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.semanticVersion, key: "SemanticVersion")
+            try container.encodeIfPresent(self.sourceCodeArchiveUrl, forKey: .sourceCodeArchiveUrl)
+            try container.encodeIfPresent(self.sourceCodeUrl, forKey: .sourceCodeUrl)
+            try container.encodeIfPresent(self.templateBody, forKey: .templateBody)
+            try container.encodeIfPresent(self.templateUrl, forKey: .templateUrl)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -338,10 +344,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct CreateCloudFormationChangeSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
         /// A list of values that you must specify before you can deploy certain applications. Some applications might include resources that can affect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. For those applications, you must explicitly acknowledge their capabilities by specifying this parameter.The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM, CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.The following resources require you to specify CAPABILITY_IAM or CAPABILITY_NAMED_IAM: AWS::IAM::Group, AWS::IAM::InstanceProfile, AWS::IAM::Policy, and AWS::IAM::Role. If the application contains IAM resources, you can specify either CAPABILITY_IAM or CAPABILITY_NAMED_IAM. If the application contains IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.The following resources require you to specify CAPABILITY_RESOURCE_POLICY: AWS::Lambda::Permission, AWS::IAM:Policy, AWS::ApplicationAutoScaling::ScalingPolicy, AWS::S3::BucketPolicy, AWS::SQS::QueuePolicy, and AWS::SNS:TopicPolicy.Applications that contain one or more nested applications require you to specify CAPABILITY_AUTO_EXPAND.If your application template contains any of the above resources, we recommend that you review all permissions associated with the application before deploying. If you don't specify this parameter for an application that requires capabilities, the call will fail.
@@ -383,6 +385,24 @@ extension ServerlessApplicationRepository {
             self.stackName = stackName
             self.tags = tags
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encodeIfPresent(self.capabilities, forKey: .capabilities)
+            try container.encodeIfPresent(self.changeSetName, forKey: .changeSetName)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.notificationArns, forKey: .notificationArns)
+            try container.encodeIfPresent(self.parameterOverrides, forKey: .parameterOverrides)
+            try container.encodeIfPresent(self.resourceTypes, forKey: .resourceTypes)
+            try container.encodeIfPresent(self.rollbackConfiguration, forKey: .rollbackConfiguration)
+            try container.encodeIfPresent(self.semanticVersion, forKey: .semanticVersion)
+            try container.encode(self.stackName, forKey: .stackName)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.templateId, forKey: .templateId)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -427,10 +447,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct CreateCloudFormationTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
         /// The semantic version of the application: https://semver.org/
@@ -439,6 +455,13 @@ extension ServerlessApplicationRepository {
         public init(applicationId: String, semanticVersion: String? = nil) {
             self.applicationId = applicationId
             self.semanticVersion = semanticVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encodeIfPresent(self.semanticVersion, forKey: .semanticVersion)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -484,10 +507,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
 
@@ -495,19 +514,27 @@ extension ServerlessApplicationRepository {
             self.applicationId = applicationId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApplicationPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -527,11 +554,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct GetApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "semanticVersion", location: .querystring("semanticVersion"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
         /// The semantic version of the application to get.
@@ -540,6 +562,13 @@ extension ServerlessApplicationRepository {
         public init(applicationId: String, semanticVersion: String? = nil) {
             self.applicationId = applicationId
             self.semanticVersion = semanticVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self.semanticVersion, key: "semanticVersion")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -607,11 +636,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct GetCloudFormationTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "templateId", location: .uri("TemplateId"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
         /// The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
@@ -620,6 +644,13 @@ extension ServerlessApplicationRepository {
         public init(applicationId: String, templateId: String) {
             self.applicationId = applicationId
             self.templateId = templateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.templateId, key: "TemplateId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -663,13 +694,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ListApplicationDependenciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxItems")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "semanticVersion", location: .querystring("semanticVersion"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
         /// The total number of items to return.
@@ -684,6 +708,15 @@ extension ServerlessApplicationRepository {
             self.maxItems = maxItems
             self.nextToken = nextToken
             self.semanticVersion = semanticVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self.maxItems, key: "maxItems")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.semanticVersion, key: "semanticVersion")
         }
 
         public func validate(name: String) throws {
@@ -712,12 +745,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ListApplicationVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxItems")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
         /// The total number of items to return.
@@ -729,6 +756,14 @@ extension ServerlessApplicationRepository {
             self.applicationId = applicationId
             self.maxItems = maxItems
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self.maxItems, key: "maxItems")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -757,11 +792,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxItems", location: .querystring("maxItems")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The total number of items to return.
         public let maxItems: Int?
         /// A token to specify where to start paginating.
@@ -770,6 +800,13 @@ extension ServerlessApplicationRepository {
         public init(maxItems: Int? = nil, nextToken: String? = nil) {
             self.maxItems = maxItems
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxItems, key: "maxItems")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -876,10 +913,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct PutApplicationPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
         /// An array of policy statements applied to the application.
@@ -888,6 +921,13 @@ extension ServerlessApplicationRepository {
         public init(applicationId: String, statements: [ApplicationPolicyStatement]) {
             self.applicationId = applicationId
             self.statements = statements
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.statements, forKey: .statements)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -960,10 +1000,6 @@ extension ServerlessApplicationRepository {
     }
 
     public struct UnshareApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
         /// The AWS Organization ID to unshare the application from.
@@ -974,16 +1010,19 @@ extension ServerlessApplicationRepository {
             self.organizationId = organizationId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.organizationId, forKey: .organizationId)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case organizationId = "organizationId"
         }
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
         /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
@@ -1007,6 +1046,18 @@ extension ServerlessApplicationRepository {
             self.labels = labels
             self.readmeBody = readmeBody
             self.readmeUrl = readmeUrl
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encodeIfPresent(self.author, forKey: .author)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.homePageUrl, forKey: .homePageUrl)
+            try container.encodeIfPresent(self.labels, forKey: .labels)
+            try container.encodeIfPresent(self.readmeBody, forKey: .readmeBody)
+            try container.encodeIfPresent(self.readmeUrl, forKey: .readmeUrl)
         }
 
         private enum CodingKeys: String, CodingKey {

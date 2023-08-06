@@ -330,15 +330,17 @@ extension DocDBElastic {
     }
 
     public struct DeleteClusterInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("clusterArn"))
-        ]
-
         /// The arn of the Elastic DocumentDB cluster that is to be deleted.
         public let clusterArn: String
 
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "clusterArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -358,15 +360,17 @@ extension DocDBElastic {
     }
 
     public struct DeleteClusterSnapshotInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "snapshotArn", location: .uri("snapshotArn"))
-        ]
-
         /// The arn of the Elastic DocumentDB snapshot that is to be deleted.
         public let snapshotArn: String
 
         public init(snapshotArn: String) {
             self.snapshotArn = snapshotArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.snapshotArn, key: "snapshotArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -386,15 +390,17 @@ extension DocDBElastic {
     }
 
     public struct GetClusterInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("clusterArn"))
-        ]
-
         /// The arn of the Elastic DocumentDB cluster.
         public let clusterArn: String
 
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "clusterArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -414,15 +420,17 @@ extension DocDBElastic {
     }
 
     public struct GetClusterSnapshotInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "snapshotArn", location: .uri("snapshotArn"))
-        ]
-
         /// The arn of the Elastic DocumentDB snapshot.
         public let snapshotArn: String
 
         public init(snapshotArn: String) {
             self.snapshotArn = snapshotArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.snapshotArn, key: "snapshotArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -442,12 +450,6 @@ extension DocDBElastic {
     }
 
     public struct ListClusterSnapshotsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .querystring("clusterArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The arn of the Elastic DocumentDB cluster.
         public let clusterArn: String?
         /// The maximum number of entries to recieve in the response.
@@ -459,6 +461,14 @@ extension DocDBElastic {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clusterArn, key: "clusterArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -482,11 +492,6 @@ extension DocDBElastic {
     }
 
     public struct ListClustersInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of entries to recieve in the response.
         public let maxResults: Int?
         /// The nextToken which is used the get the next page of data.
@@ -495,6 +500,13 @@ extension DocDBElastic {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -518,15 +530,17 @@ extension DocDBElastic {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The arn of the Elastic DocumentDB resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -551,10 +565,6 @@ extension DocDBElastic {
     }
 
     public struct RestoreClusterFromSnapshotInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "snapshotArn", location: .uri("snapshotArn"))
-        ]
-
         /// The name of the Elastic DocumentDB cluster.
         public let clusterName: String
         /// The KMS key identifier to use to encrypt the new Elastic DocumentDB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon account that owns this KMS encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key. If an encryption key is not specified here, Elastic DocumentDB uses the default encryption key that KMS creates for your account. Your account has a different default encryption key for each Amazon Region.
@@ -575,6 +585,17 @@ extension DocDBElastic {
             self.subnetIds = subnetIds
             self.tags = tags
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clusterName, forKey: .clusterName)
+            try container.encodeIfPresent(self.kmsKeyId, forKey: .kmsKeyId)
+            request.encodePath(self.snapshotArn, key: "snapshotArn")
+            try container.encodeIfPresent(self.subnetIds, forKey: .subnetIds)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.vpcSecurityGroupIds, forKey: .vpcSecurityGroupIds)
         }
 
         public func validate(name: String) throws {
@@ -609,10 +630,6 @@ extension DocDBElastic {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The arn of the Elastic DocumentDB resource.
         public let resourceArn: String
         /// The tags to be assigned to the Elastic DocumentDB resource.
@@ -621,6 +638,13 @@ extension DocDBElastic {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -644,11 +668,6 @@ extension DocDBElastic {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The arn of the Elastic DocumentDB resource.
         public let resourceArn: String
         /// The tag keys to be removed from the Elastic DocumentDB resource.
@@ -657,6 +676,13 @@ extension DocDBElastic {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -678,10 +704,6 @@ extension DocDBElastic {
     }
 
     public struct UpdateClusterInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("clusterArn"))
-        ]
-
         /// The password for the Elastic DocumentDB cluster administrator. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@).  Constraints: Must contain from 8 to 100 characters.
         public let adminUserPassword: String?
         /// The authentication type for the Elastic DocumentDB cluster.
@@ -711,6 +733,20 @@ extension DocDBElastic {
             self.shardCount = shardCount
             self.subnetIds = subnetIds
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.adminUserPassword, forKey: .adminUserPassword)
+            try container.encodeIfPresent(self.authType, forKey: .authType)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.clusterArn, key: "clusterArn")
+            try container.encodeIfPresent(self.preferredMaintenanceWindow, forKey: .preferredMaintenanceWindow)
+            try container.encodeIfPresent(self.shardCapacity, forKey: .shardCapacity)
+            try container.encodeIfPresent(self.shardCount, forKey: .shardCount)
+            try container.encodeIfPresent(self.subnetIds, forKey: .subnetIds)
+            try container.encodeIfPresent(self.vpcSecurityGroupIds, forKey: .vpcSecurityGroupIds)
         }
 
         private enum CodingKeys: String, CodingKey {

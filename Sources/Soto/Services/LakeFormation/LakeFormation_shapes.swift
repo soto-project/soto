@@ -1720,9 +1720,8 @@ extension LakeFormation {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.resultStream = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.resultStream = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}

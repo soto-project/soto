@@ -248,11 +248,6 @@ extension Grafana {
     }
 
     public struct AssociateLicenseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "licenseType", location: .uri("licenseType")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The type of license to associate with the workspace.
         public let licenseType: LicenseType
         /// The ID of the workspace to associate the license with.
@@ -261,6 +256,13 @@ extension Grafana {
         public init(licenseType: LicenseType, workspaceId: String) {
             self.licenseType = licenseType
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.licenseType, key: "licenseType")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -335,10 +337,6 @@ extension Grafana {
     }
 
     public struct CreateWorkspaceApiKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Specifies the name of the key. Keynames must be unique to the workspace.
         public let keyName: String
         /// Specifies the permission level of the key. Valid values: VIEWER|EDITOR|ADMIN
@@ -353,6 +351,15 @@ extension Grafana {
             self.keyRole = keyRole
             self.secondsToLive = secondsToLive
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.keyName, forKey: .keyName)
+            try container.encode(self.keyRole, forKey: .keyRole)
+            try container.encode(self.secondsToLive, forKey: .secondsToLive)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -502,11 +509,6 @@ extension Grafana {
     }
 
     public struct DeleteWorkspaceApiKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "keyName", location: .uri("keyName")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The name of the API key to delete.
         public let keyName: String
         /// The ID of the workspace to delete.
@@ -515,6 +517,13 @@ extension Grafana {
         public init(keyName: String, workspaceId: String) {
             self.keyName = keyName
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.keyName, key: "keyName")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -544,15 +553,17 @@ extension Grafana {
     }
 
     public struct DeleteWorkspaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the workspace to delete.
         public let workspaceId: String
 
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -576,15 +587,17 @@ extension Grafana {
     }
 
     public struct DescribeWorkspaceAuthenticationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the workspace to return authentication information about.
         public let workspaceId: String
 
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -608,15 +621,17 @@ extension Grafana {
     }
 
     public struct DescribeWorkspaceConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the workspace to get configuration information for.
         public let workspaceId: String
 
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -640,15 +655,17 @@ extension Grafana {
     }
 
     public struct DescribeWorkspaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The ID of the workspace to display information about.
         public let workspaceId: String
 
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -672,11 +689,6 @@ extension Grafana {
     }
 
     public struct DisassociateLicenseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "licenseType", location: .uri("licenseType")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The type of license to remove from the workspace.
         public let licenseType: LicenseType
         /// The ID of the workspace to remove the Grafana Enterprise license from.
@@ -685,6 +697,13 @@ extension Grafana {
         public init(licenseType: LicenseType, workspaceId: String) {
             self.licenseType = licenseType
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.licenseType, key: "licenseType")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -708,15 +727,6 @@ extension Grafana {
     }
 
     public struct ListPermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupId", location: .querystring("groupId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "userId", location: .querystring("userId")),
-            AWSMemberEncoding(label: "userType", location: .querystring("userType")),
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// (Optional) Limits the results to only the group that matches this ID.
         public let groupId: String?
         /// The maximum number of results to include in the response.
@@ -737,6 +747,17 @@ extension Grafana {
             self.userId = userId
             self.userType = userType
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.groupId, key: "groupId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.userId, key: "userId")
+            request.encodeQuery(self.userType, key: "userType")
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -768,15 +789,17 @@ extension Grafana {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource the list of tags are associated with.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -796,11 +819,6 @@ extension Grafana {
     }
 
     public struct ListWorkspacesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of workspaces to include in the results.
         public let maxResults: Int?
         /// The token for the next set of workspaces to return. (You receive this token from a previous ListWorkspaces operation.)
@@ -809,6 +827,13 @@ extension Grafana {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -961,10 +986,6 @@ extension Grafana {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of the resource the tag is associated with.
         public let resourceArn: String
         /// The list of tag keys and values to associate with the resource. You can associate tag keys only, tags (key and values) only or a combination of tag keys and tags.
@@ -973,6 +994,13 @@ extension Grafana {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -994,11 +1022,6 @@ extension Grafana {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource the tag association is removed from.
         public let resourceArn: String
         /// The key values of the tag to be removed from the resource.
@@ -1007,6 +1030,13 @@ extension Grafana {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1072,10 +1102,6 @@ extension Grafana {
     }
 
     public struct UpdatePermissionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// An array of structures that contain the permission updates to make.
         public let updateInstructionBatch: [UpdateInstruction]
         /// The ID of the workspace to update.
@@ -1084,6 +1110,13 @@ extension Grafana {
         public init(updateInstructionBatch: [UpdateInstruction], workspaceId: String) {
             self.updateInstructionBatch = updateInstructionBatch
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.updateInstructionBatch, forKey: .updateInstructionBatch)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1113,10 +1146,6 @@ extension Grafana {
     }
 
     public struct UpdateWorkspaceAuthenticationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center (successor to Single Sign-On), or both to authenticate users for using the Grafana console within a workspace. For more information, see User authentication in Amazon Managed Grafana.
         public let authenticationProviders: [AuthenticationProviderTypes]
         /// If the workspace uses SAML, use this structure to map SAML assertion attributes to workspace user information and define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace.
@@ -1128,6 +1157,14 @@ extension Grafana {
             self.authenticationProviders = authenticationProviders
             self.samlConfiguration = samlConfiguration
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.authenticationProviders, forKey: .authenticationProviders)
+            try container.encodeIfPresent(self.samlConfiguration, forKey: .samlConfiguration)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1155,10 +1192,6 @@ extension Grafana {
     }
 
     public struct UpdateWorkspaceConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// The new configuration string for the workspace. For more information about the format and configuration options available, see Working in your Grafana workspace.
         public let configuration: String
         /// The ID of the workspace to update.
@@ -1167,6 +1200,13 @@ extension Grafana {
         public init(configuration: String, workspaceId: String) {
             self.configuration = configuration
             self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.configuration, forKey: .configuration)
+            request.encodePath(self.workspaceId, key: "workspaceId")
         }
 
         public func validate(name: String) throws {
@@ -1185,10 +1225,6 @@ extension Grafana {
     }
 
     public struct UpdateWorkspaceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
-        ]
-
         /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
         public let accountAccessType: AccountAccessType?
         /// The configuration settings for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
@@ -1236,6 +1272,26 @@ extension Grafana {
             self.workspaceNotificationDestinations = workspaceNotificationDestinations
             self.workspaceOrganizationalUnits = workspaceOrganizationalUnits
             self.workspaceRoleArn = workspaceRoleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accountAccessType, forKey: .accountAccessType)
+            try container.encodeIfPresent(self.networkAccessControl, forKey: .networkAccessControl)
+            try container.encodeIfPresent(self.organizationRoleName, forKey: .organizationRoleName)
+            try container.encodeIfPresent(self.permissionType, forKey: .permissionType)
+            try container.encodeIfPresent(self.removeNetworkAccessConfiguration, forKey: .removeNetworkAccessConfiguration)
+            try container.encodeIfPresent(self.removeVpcConfiguration, forKey: .removeVpcConfiguration)
+            try container.encodeIfPresent(self.stackSetName, forKey: .stackSetName)
+            try container.encodeIfPresent(self.vpcConfiguration, forKey: .vpcConfiguration)
+            try container.encodeIfPresent(self.workspaceDataSources, forKey: .workspaceDataSources)
+            try container.encodeIfPresent(self.workspaceDescription, forKey: .workspaceDescription)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+            try container.encodeIfPresent(self.workspaceName, forKey: .workspaceName)
+            try container.encodeIfPresent(self.workspaceNotificationDestinations, forKey: .workspaceNotificationDestinations)
+            try container.encodeIfPresent(self.workspaceOrganizationalUnits, forKey: .workspaceOrganizationalUnits)
+            try container.encodeIfPresent(self.workspaceRoleArn, forKey: .workspaceRoleArn)
         }
 
         public func validate(name: String) throws {

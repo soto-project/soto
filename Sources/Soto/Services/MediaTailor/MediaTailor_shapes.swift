@@ -403,10 +403,6 @@ extension MediaTailor {
     }
 
     public struct CreateChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name of the channel.
         public let channelName: String
         /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
@@ -427,6 +423,17 @@ extension MediaTailor {
             self.playbackMode = playbackMode
             self.tags = tags
             self.tier = tier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "ChannelName")
+            try container.encodeIfPresent(self.fillerSlate, forKey: .fillerSlate)
+            try container.encode(self.outputs, forKey: .outputs)
+            try container.encode(self.playbackMode, forKey: .playbackMode)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tier, forKey: .tier)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -490,11 +497,6 @@ extension MediaTailor {
     }
 
     public struct CreateLiveSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "liveSourceName", location: .uri("LiveSourceName")),
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
-        ]
-
         /// A list of HTTP package configuration parameters for this live source.
         public let httpPackageConfigurations: [HttpPackageConfiguration]
         /// The name of the live source.
@@ -509,6 +511,15 @@ extension MediaTailor {
             self.liveSourceName = liveSourceName
             self.sourceLocationName = sourceLocationName
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.httpPackageConfigurations, forKey: .httpPackageConfigurations)
+            request.encodePath(self.liveSourceName, key: "LiveSourceName")
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -557,11 +568,6 @@ extension MediaTailor {
     }
 
     public struct CreatePrefetchScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "playbackConfigurationName", location: .uri("PlaybackConfigurationName"))
-        ]
-
         /// The configuration settings for MediaTailor's consumption of the prefetched ads from the ad decision server. Each consumption configuration contains an end time and an optional start time that define the consumption window. Prefetch schedules automatically expire no earlier than seven days after the end time.
         public let consumption: PrefetchConsumption
         /// The name to assign to the schedule request.
@@ -579,6 +585,16 @@ extension MediaTailor {
             self.playbackConfigurationName = playbackConfigurationName
             self.retrieval = retrieval
             self.streamId = streamId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.consumption, forKey: .consumption)
+            request.encodePath(self.name, key: "Name")
+            request.encodePath(self.playbackConfigurationName, key: "PlaybackConfigurationName")
+            try container.encode(self.retrieval, forKey: .retrieval)
+            try container.encodeIfPresent(self.streamId, forKey: .streamId)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -622,11 +638,6 @@ extension MediaTailor {
     }
 
     public struct CreateProgramRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
-            AWSMemberEncoding(label: "programName", location: .uri("ProgramName"))
-        ]
-
         /// The ad break configuration settings.
         public let adBreaks: [AdBreak]?
         /// The name of the channel for this Program.
@@ -650,6 +661,18 @@ extension MediaTailor {
             self.scheduleConfiguration = scheduleConfiguration
             self.sourceLocationName = sourceLocationName
             self.vodSourceName = vodSourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.adBreaks, forKey: .adBreaks)
+            request.encodePath(self.channelName, key: "ChannelName")
+            try container.encodeIfPresent(self.liveSourceName, forKey: .liveSourceName)
+            request.encodePath(self.programName, key: "ProgramName")
+            try container.encode(self.scheduleConfiguration, forKey: .scheduleConfiguration)
+            try container.encode(self.sourceLocationName, forKey: .sourceLocationName)
+            try container.encodeIfPresent(self.vodSourceName, forKey: .vodSourceName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -717,10 +740,6 @@ extension MediaTailor {
     }
 
     public struct CreateSourceLocationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
-        ]
-
         /// Access configuration parameters. Configures the type of authentication used to access content from your source location.
         public let accessConfiguration: AccessConfiguration?
         /// The optional configuration for the server that serves segments.
@@ -741,6 +760,17 @@ extension MediaTailor {
             self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accessConfiguration, forKey: .accessConfiguration)
+            try container.encodeIfPresent(self.defaultSegmentDeliveryConfiguration, forKey: .defaultSegmentDeliveryConfiguration)
+            try container.encode(self.httpConfiguration, forKey: .httpConfiguration)
+            try container.encodeIfPresent(self.segmentDeliveryConfigurations, forKey: .segmentDeliveryConfigurations)
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -800,11 +830,6 @@ extension MediaTailor {
     }
 
     public struct CreateVodSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName")),
-            AWSMemberEncoding(label: "vodSourceName", location: .uri("VodSourceName"))
-        ]
-
         /// A list of HTTP package configuration parameters for this VOD source.
         public let httpPackageConfigurations: [HttpPackageConfiguration]
         /// The name of the source location for this VOD source.
@@ -819,6 +844,15 @@ extension MediaTailor {
             self.sourceLocationName = sourceLocationName
             self.tags = tags
             self.vodSourceName = vodSourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.httpPackageConfigurations, forKey: .httpPackageConfigurations)
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.vodSourceName, key: "VodSourceName")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -943,15 +977,17 @@ extension MediaTailor {
     }
 
     public struct DeleteChannelPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name of the channel associated with this channel policy.
         public let channelName: String
 
         public init(channelName: String) {
             self.channelName = channelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "ChannelName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -962,15 +998,17 @@ extension MediaTailor {
     }
 
     public struct DeleteChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name of the channel.
         public let channelName: String
 
         public init(channelName: String) {
             self.channelName = channelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "ChannelName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -981,11 +1019,6 @@ extension MediaTailor {
     }
 
     public struct DeleteLiveSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "liveSourceName", location: .uri("LiveSourceName")),
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
-        ]
-
         /// The name of the live source.
         public let liveSourceName: String
         /// The name of the source location associated with this Live Source.
@@ -996,6 +1029,13 @@ extension MediaTailor {
             self.sourceLocationName = sourceLocationName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.liveSourceName, key: "LiveSourceName")
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1004,15 +1044,17 @@ extension MediaTailor {
     }
 
     public struct DeletePlaybackConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the playback configuration.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1023,11 +1065,6 @@ extension MediaTailor {
     }
 
     public struct DeletePrefetchScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "playbackConfigurationName", location: .uri("PlaybackConfigurationName"))
-        ]
-
         /// The name of the prefetch schedule. If the action is successful, the service sends back an HTTP 204 response with an empty HTTP body.
         public let name: String
         /// The name of the playback configuration for this prefetch schedule.
@@ -1038,6 +1075,13 @@ extension MediaTailor {
             self.playbackConfigurationName = playbackConfigurationName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodePath(self.playbackConfigurationName, key: "PlaybackConfigurationName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1046,11 +1090,6 @@ extension MediaTailor {
     }
 
     public struct DeleteProgramRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
-            AWSMemberEncoding(label: "programName", location: .uri("ProgramName"))
-        ]
-
         /// The name of the channel.
         public let channelName: String
         /// The name of the program.
@@ -1061,6 +1100,13 @@ extension MediaTailor {
             self.programName = programName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodePath(self.programName, key: "ProgramName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1069,15 +1115,17 @@ extension MediaTailor {
     }
 
     public struct DeleteSourceLocationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
-        ]
-
         /// The name of the source location.
         public let sourceLocationName: String
 
         public init(sourceLocationName: String) {
             self.sourceLocationName = sourceLocationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1088,11 +1136,6 @@ extension MediaTailor {
     }
 
     public struct DeleteVodSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName")),
-            AWSMemberEncoding(label: "vodSourceName", location: .uri("VodSourceName"))
-        ]
-
         /// The name of the source location associated with this VOD Source.
         public let sourceLocationName: String
         /// The name of the VOD source.
@@ -1103,6 +1146,13 @@ extension MediaTailor {
             self.vodSourceName = vodSourceName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
+            request.encodePath(self.vodSourceName, key: "VodSourceName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1111,15 +1161,17 @@ extension MediaTailor {
     }
 
     public struct DescribeChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name of the channel.
         public let channelName: String
 
         public init(channelName: String) {
             self.channelName = channelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "ChannelName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1181,11 +1233,6 @@ extension MediaTailor {
     }
 
     public struct DescribeLiveSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "liveSourceName", location: .uri("LiveSourceName")),
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
-        ]
-
         /// The name of the live source.
         public let liveSourceName: String
         /// The name of the source location associated with this Live Source.
@@ -1194,6 +1241,13 @@ extension MediaTailor {
         public init(liveSourceName: String, sourceLocationName: String) {
             self.liveSourceName = liveSourceName
             self.sourceLocationName = sourceLocationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.liveSourceName, key: "LiveSourceName")
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1239,11 +1293,6 @@ extension MediaTailor {
     }
 
     public struct DescribeProgramRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
-            AWSMemberEncoding(label: "programName", location: .uri("ProgramName"))
-        ]
-
         /// The name of the channel associated with this Program.
         public let channelName: String
         /// The name of the program.
@@ -1252,6 +1301,13 @@ extension MediaTailor {
         public init(channelName: String, programName: String) {
             self.channelName = channelName
             self.programName = programName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodePath(self.programName, key: "ProgramName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1313,15 +1369,17 @@ extension MediaTailor {
     }
 
     public struct DescribeSourceLocationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
-        ]
-
         /// The name of the source location.
         public let sourceLocationName: String
 
         public init(sourceLocationName: String) {
             self.sourceLocationName = sourceLocationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1375,11 +1433,6 @@ extension MediaTailor {
     }
 
     public struct DescribeVodSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName")),
-            AWSMemberEncoding(label: "vodSourceName", location: .uri("VodSourceName"))
-        ]
-
         /// The name of the source location associated with this VOD Source.
         public let sourceLocationName: String
         /// The name of the VOD Source.
@@ -1388,6 +1441,13 @@ extension MediaTailor {
         public init(sourceLocationName: String, vodSourceName: String) {
             self.sourceLocationName = sourceLocationName
             self.vodSourceName = vodSourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
+            request.encodePath(self.vodSourceName, key: "VodSourceName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1433,15 +1493,17 @@ extension MediaTailor {
     }
 
     public struct GetChannelPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name of the channel associated with this Channel Policy.
         public let channelName: String
 
         public init(channelName: String) {
             self.channelName = channelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "ChannelName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1461,13 +1523,6 @@ extension MediaTailor {
     }
 
     public struct GetChannelScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
-            AWSMemberEncoding(label: "durationMinutes", location: .querystring("durationMinutes")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the channel associated with this Channel Schedule.
         public let channelName: String
         /// The duration in minutes of the channel schedule.
@@ -1482,6 +1537,15 @@ extension MediaTailor {
             self.durationMinutes = durationMinutes
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodeQuery(self.durationMinutes, key: "durationMinutes")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1510,15 +1574,17 @@ extension MediaTailor {
     }
 
     public struct GetPlaybackConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The identifier for the playback configuration.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1610,11 +1676,6 @@ extension MediaTailor {
     }
 
     public struct GetPrefetchScheduleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "playbackConfigurationName", location: .uri("PlaybackConfigurationName"))
-        ]
-
         /// The name of the prefetch schedule. The name must be unique among all prefetch schedules that are associated with the specified playback configuration.
         public let name: String
         /// Returns information about the prefetch schedule for a specific playback configuration. If you call GetPrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code.
@@ -1623,6 +1684,13 @@ extension MediaTailor {
         public init(name: String, playbackConfigurationName: String) {
             self.name = name
             self.playbackConfigurationName = playbackConfigurationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodePath(self.playbackConfigurationName, key: "PlaybackConfigurationName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1722,12 +1790,6 @@ extension MediaTailor {
     }
 
     public struct ListAlertsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The maximum number of alerts that you want MediaTailor to return in response to the current request. If there are more than MaxResults alerts, use the value of NextToken in the response to get the next page of results.
         public let maxResults: Int?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -1739,6 +1801,14 @@ extension MediaTailor {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1767,11 +1837,6 @@ extension MediaTailor {
     }
 
     public struct ListChannelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of channels that you want MediaTailor to return in response to the current request. If there are more than MaxResults channels, use the value of NextToken in the response to get the next page of results.
         public let maxResults: Int?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -1780,6 +1845,13 @@ extension MediaTailor {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1808,12 +1880,6 @@ extension MediaTailor {
     }
 
     public struct ListLiveSourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
-        ]
-
         /// The maximum number of live sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults live sources, use the value of NextToken in the response to get the next page of results.
         public let maxResults: Int?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -1825,6 +1891,14 @@ extension MediaTailor {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sourceLocationName = sourceLocationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
         }
 
         public func validate(name: String) throws {
@@ -1853,11 +1927,6 @@ extension MediaTailor {
     }
 
     public struct ListPlaybackConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of playback configurations that you want MediaTailor to return in response to the current request. If there are more than MaxResults playback configurations, use the value of NextToken in the response to get the next page of results.
         public let maxResults: Int?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -1866,6 +1935,13 @@ extension MediaTailor {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -1894,10 +1970,6 @@ extension MediaTailor {
     }
 
     public struct ListPrefetchSchedulesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "playbackConfigurationName", location: .uri("PlaybackConfigurationName"))
-        ]
-
         /// The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
         public let maxResults: Int?
         /// (Optional) If the playback configuration has more than MaxResults prefetch schedules, use NextToken to get the second and subsequent pages of results. For the first ListPrefetchSchedulesRequest request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. If the previous response didn't include a NextToken element, there are no more prefetch schedules to get.
@@ -1912,6 +1984,15 @@ extension MediaTailor {
             self.nextToken = nextToken
             self.playbackConfigurationName = playbackConfigurationName
             self.streamId = streamId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodePath(self.playbackConfigurationName, key: "PlaybackConfigurationName")
+            try container.encodeIfPresent(self.streamId, forKey: .streamId)
         }
 
         public func validate(name: String) throws {
@@ -1944,11 +2025,6 @@ extension MediaTailor {
     }
 
     public struct ListSourceLocationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of source locations that you want MediaTailor to return in response to the current request. If there are more than MaxResults source locations, use the value of NextToken in the response to get the next page of results.
         public let maxResults: Int?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -1957,6 +2033,13 @@ extension MediaTailor {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1985,15 +2068,17 @@ extension MediaTailor {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) associated with this resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2013,12 +2098,6 @@ extension MediaTailor {
     }
 
     public struct ListVodSourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
-        ]
-
         ///  The maximum number of VOD sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults VOD sources, use the value of NextToken in the response to get the next page of results.
         public let maxResults: Int?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
@@ -2030,6 +2109,14 @@ extension MediaTailor {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sourceLocationName = sourceLocationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
         }
 
         public func validate(name: String) throws {
@@ -2317,10 +2404,6 @@ extension MediaTailor {
     }
 
     public struct PutChannelPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The channel name associated with this Channel Policy.
         public let channelName: String
         /// Adds an IAM role that determines the permissions of your channel.
@@ -2329,6 +2412,13 @@ extension MediaTailor {
         public init(channelName: String, policy: String) {
             self.channelName = channelName
             self.policy = policy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "ChannelName")
+            try container.encode(self.policy, forKey: .policy)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2810,15 +2900,17 @@ extension MediaTailor {
     }
 
     public struct StartChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name of the channel.
         public let channelName: String
 
         public init(channelName: String) {
             self.channelName = channelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "ChannelName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2829,15 +2921,17 @@ extension MediaTailor {
     }
 
     public struct StopChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name of the channel.
         public let channelName: String
 
         public init(channelName: String) {
             self.channelName = channelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "ChannelName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2848,10 +2942,6 @@ extension MediaTailor {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) associated with the resource.
         public let resourceArn: String
         /// The tags to assign to the resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
@@ -2860,6 +2950,13 @@ extension MediaTailor {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2910,11 +3007,6 @@ extension MediaTailor {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource to untag.
         public let resourceArn: String
         /// The tag keys associated with the resource.
@@ -2925,14 +3017,17 @@ extension MediaTailor {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName"))
-        ]
-
         /// The name of the channel.
         public let channelName: String
         /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
@@ -2944,6 +3039,14 @@ extension MediaTailor {
             self.channelName = channelName
             self.fillerSlate = fillerSlate
             self.outputs = outputs
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelName, key: "ChannelName")
+            try container.encodeIfPresent(self.fillerSlate, forKey: .fillerSlate)
+            try container.encode(self.outputs, forKey: .outputs)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3004,11 +3107,6 @@ extension MediaTailor {
     }
 
     public struct UpdateLiveSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "liveSourceName", location: .uri("LiveSourceName")),
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
-        ]
-
         /// A list of HTTP package configurations for the live source on this account.
         public let httpPackageConfigurations: [HttpPackageConfiguration]
         /// The name of the live source.
@@ -3020,6 +3118,14 @@ extension MediaTailor {
             self.httpPackageConfigurations = httpPackageConfigurations
             self.liveSourceName = liveSourceName
             self.sourceLocationName = sourceLocationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.httpPackageConfigurations, forKey: .httpPackageConfigurations)
+            request.encodePath(self.liveSourceName, key: "LiveSourceName")
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3067,11 +3173,6 @@ extension MediaTailor {
     }
 
     public struct UpdateProgramRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "channelName", location: .uri("ChannelName")),
-            AWSMemberEncoding(label: "programName", location: .uri("ProgramName"))
-        ]
-
         /// The ad break configuration settings.
         public let adBreaks: [AdBreak]?
         /// The name of the channel for this Program.
@@ -3086,6 +3187,15 @@ extension MediaTailor {
             self.channelName = channelName
             self.programName = programName
             self.scheduleConfiguration = scheduleConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.adBreaks, forKey: .adBreaks)
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodePath(self.programName, key: "ProgramName")
+            try container.encode(self.scheduleConfiguration, forKey: .scheduleConfiguration)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3184,10 +3294,6 @@ extension MediaTailor {
     }
 
     public struct UpdateSourceLocationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName"))
-        ]
-
         /// Access configuration parameters. Configures the type of authentication used to access content from your source location.
         public let accessConfiguration: AccessConfiguration?
         /// The optional configuration for the host server that serves segments.
@@ -3205,6 +3311,16 @@ extension MediaTailor {
             self.httpConfiguration = httpConfiguration
             self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accessConfiguration, forKey: .accessConfiguration)
+            try container.encodeIfPresent(self.defaultSegmentDeliveryConfiguration, forKey: .defaultSegmentDeliveryConfiguration)
+            try container.encode(self.httpConfiguration, forKey: .httpConfiguration)
+            try container.encodeIfPresent(self.segmentDeliveryConfigurations, forKey: .segmentDeliveryConfigurations)
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3263,11 +3379,6 @@ extension MediaTailor {
     }
 
     public struct UpdateVodSourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sourceLocationName", location: .uri("SourceLocationName")),
-            AWSMemberEncoding(label: "vodSourceName", location: .uri("VodSourceName"))
-        ]
-
         /// A list of HTTP package configurations for the VOD source on this account.
         public let httpPackageConfigurations: [HttpPackageConfiguration]
         /// The name of the source location associated with this VOD Source.
@@ -3279,6 +3390,14 @@ extension MediaTailor {
             self.httpPackageConfigurations = httpPackageConfigurations
             self.sourceLocationName = sourceLocationName
             self.vodSourceName = vodSourceName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.httpPackageConfigurations, forKey: .httpPackageConfigurations)
+            request.encodePath(self.sourceLocationName, key: "SourceLocationName")
+            request.encodePath(self.vodSourceName, key: "VodSourceName")
         }
 
         private enum CodingKeys: String, CodingKey {

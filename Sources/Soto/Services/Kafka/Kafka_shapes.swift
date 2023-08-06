@@ -109,10 +109,6 @@ extension Kafka {
     // MARK: Shapes
 
     public struct BatchAssociateScramSecretRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the cluster to be updated.
         public let clusterArn: String
         /// List of AWS Secrets Manager secret ARNs.
@@ -121,6 +117,13 @@ extension Kafka {
         public init(clusterArn: String, secretArnList: [String]) {
             self.clusterArn = clusterArn
             self.secretArnList = secretArnList
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encode(self.secretArnList, forKey: .secretArnList)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -146,10 +149,6 @@ extension Kafka {
     }
 
     public struct BatchDisassociateScramSecretRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the cluster to be updated.
         public let clusterArn: String
         /// List of AWS Secrets Manager secret ARNs.
@@ -158,6 +157,13 @@ extension Kafka {
         public init(clusterArn: String, secretArnList: [String]) {
             self.clusterArn = clusterArn
             self.secretArnList = secretArnList
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encode(self.secretArnList, forKey: .secretArnList)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -997,15 +1003,17 @@ extension Kafka {
     }
 
     public struct DeleteClusterPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String
 
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1016,11 +1024,6 @@ extension Kafka {
     }
 
     public struct DeleteClusterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn")),
-            AWSMemberEncoding(label: "currentVersion", location: .querystring("currentVersion"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
         /// The current version of the MSK cluster.
@@ -1029,6 +1032,13 @@ extension Kafka {
         public init(clusterArn: String, currentVersion: String? = nil) {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            request.encodeQuery(self.currentVersion, key: "currentVersion")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1052,15 +1062,17 @@ extension Kafka {
     }
 
     public struct DeleteConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1084,15 +1096,17 @@ extension Kafka {
     }
 
     public struct DeleteVpcConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies an MSK VPC connection.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1116,15 +1130,17 @@ extension Kafka {
     }
 
     public struct DescribeClusterOperationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterOperationArn", location: .uri("ClusterOperationArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the MSK cluster operation.
         public let clusterOperationArn: String
 
         public init(clusterOperationArn: String) {
             self.clusterOperationArn = clusterOperationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterOperationArn, key: "ClusterOperationArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1144,15 +1160,17 @@ extension Kafka {
     }
 
     public struct DescribeClusterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
 
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1172,15 +1190,17 @@ extension Kafka {
     }
 
     public struct DescribeClusterV2Request: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
 
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1200,15 +1220,17 @@ extension Kafka {
     }
 
     public struct DescribeConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of its revisions.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1253,11 +1275,6 @@ extension Kafka {
     }
 
     public struct DescribeConfigurationRevisionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn")),
-            AWSMemberEncoding(label: "revision", location: .uri("Revision"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of its revisions.
         public let arn: String
         /// A string that uniquely identifies a revision of an MSK configuration.
@@ -1266,6 +1283,13 @@ extension Kafka {
         public init(arn: String, revision: Int64) {
             self.arn = arn
             self.revision = revision
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
+            request.encodePath(self.revision, key: "Revision")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1302,15 +1326,17 @@ extension Kafka {
     }
 
     public struct DescribeVpcConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies a MSK VPC connection.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1464,15 +1490,17 @@ extension Kafka {
     }
 
     public struct GetBootstrapBrokersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
 
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1528,15 +1556,17 @@ extension Kafka {
     }
 
     public struct GetClusterPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String
 
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1560,15 +1590,17 @@ extension Kafka {
     }
 
     public struct GetCompatibleKafkaVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .querystring("clusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the cluster check.
         public let clusterArn: String?
 
         public init(clusterArn: String? = nil) {
             self.clusterArn = clusterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clusterArn, key: "clusterArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1642,12 +1674,6 @@ extension Kafka {
     }
 
     public struct ListClientVpcConnectionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String
         /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
@@ -1659,6 +1685,14 @@ extension Kafka {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1687,12 +1721,6 @@ extension Kafka {
     }
 
     public struct ListClusterOperationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
         /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
@@ -1704,6 +1732,14 @@ extension Kafka {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1732,12 +1768,6 @@ extension Kafka {
     }
 
     public struct ListClustersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterNameFilter", location: .querystring("clusterNameFilter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Specify a prefix of the name of the clusters that you want to list. The service lists all the clusters whose names start with this prefix.
         public let clusterNameFilter: String?
         /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
@@ -1749,6 +1779,14 @@ extension Kafka {
             self.clusterNameFilter = clusterNameFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clusterNameFilter, key: "clusterNameFilter")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1777,13 +1815,6 @@ extension Kafka {
     }
 
     public struct ListClustersV2Request: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterNameFilter", location: .querystring("clusterNameFilter")),
-            AWSMemberEncoding(label: "clusterTypeFilter", location: .querystring("clusterTypeFilter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Specify a prefix of the names of the clusters that you want to list. The service lists all the clusters whose names start with this prefix.
         public let clusterNameFilter: String?
         /// Specify either PROVISIONED or SERVERLESS.
@@ -1798,6 +1829,15 @@ extension Kafka {
             self.clusterTypeFilter = clusterTypeFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clusterNameFilter, key: "clusterNameFilter")
+            request.encodeQuery(self.clusterTypeFilter, key: "clusterTypeFilter")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1826,12 +1866,6 @@ extension Kafka {
     }
 
     public struct ListConfigurationRevisionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of its revisions.
         public let arn: String
         /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
@@ -1843,6 +1877,14 @@ extension Kafka {
             self.arn = arn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1871,11 +1913,6 @@ extension Kafka {
     }
 
     public struct ListConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
         public let maxResults: Int?
         /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
@@ -1884,6 +1921,13 @@ extension Kafka {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1912,11 +1956,6 @@ extension Kafka {
     }
 
     public struct ListKafkaVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
         public let maxResults: Int?
         /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response. To get the next batch, provide this token in your next request.
@@ -1925,6 +1964,13 @@ extension Kafka {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1951,12 +1997,6 @@ extension Kafka {
     }
 
     public struct ListNodesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
         /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
@@ -1968,6 +2008,14 @@ extension Kafka {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1996,12 +2044,6 @@ extension Kafka {
     }
 
     public struct ListScramSecretsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The arn of the cluster.
         public let clusterArn: String
         /// The maxResults of the query.
@@ -2013,6 +2055,14 @@ extension Kafka {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2041,15 +2091,17 @@ extension Kafka {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated with the tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2069,11 +2121,6 @@ extension Kafka {
     }
 
     public struct ListVpcConnectionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
         public let maxResults: Int?
         /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
@@ -2082,6 +2129,13 @@ extension Kafka {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2438,10 +2492,6 @@ extension Kafka {
     }
 
     public struct PutClusterPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String
         /// The policy version.
@@ -2453,6 +2503,14 @@ extension Kafka {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
             self.policy = policy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encodeIfPresent(self.currentVersion, forKey: .currentVersion)
+            try container.encode(self.policy, forKey: .policy)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2475,10 +2533,6 @@ extension Kafka {
     }
 
     public struct RebootBrokerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The list of broker IDs to be rebooted. The reboot-broker operation supports rebooting one broker at a time.
         public let brokerIds: [String]
         /// The Amazon Resource Name (ARN) of the cluster to be updated.
@@ -2487,6 +2541,13 @@ extension Kafka {
         public init(brokerIds: [String], clusterArn: String) {
             self.brokerIds = brokerIds
             self.clusterArn = clusterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.brokerIds, forKey: .brokerIds)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2512,10 +2573,6 @@ extension Kafka {
     }
 
     public struct RejectClientVpcConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String
         /// The VPC connection ARN.
@@ -2524,6 +2581,13 @@ extension Kafka {
         public init(clusterArn: String, vpcConnectionArn: String) {
             self.clusterArn = clusterArn
             self.vpcConnectionArn = vpcConnectionArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encode(self.vpcConnectionArn, forKey: .vpcConnectionArn)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2676,10 +2740,6 @@ extension Kafka {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated with the tags.
         public let resourceArn: String
         /// The key-value pair for the resource tag.
@@ -2688,6 +2748,13 @@ extension Kafka {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2747,11 +2814,6 @@ extension Kafka {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated with the tags.
         public let resourceArn: String
         /// Tag keys must be unique for a given cluster. In addition, the following restrictions apply:   Each tag key must be unique. If you add a tag with a key that's already in use, your new tag overwrites the existing key-value pair.    You can't start a tag key with aws: because this prefix is reserved for use by  AWS.  AWS creates tags that begin with this prefix on your behalf, but you can't edit or delete them.   Tag keys must be between 1 and 128 Unicode characters in length.   Tag keys must consist of the following characters: Unicode letters, digits, white space, and the following special characters: _ . / = + - @.
@@ -2762,14 +2824,17 @@ extension Kafka {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateBrokerCountRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
         /// The version of cluster to update from. A successful operation will then generate a new version.
@@ -2781,6 +2846,14 @@ extension Kafka {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
             self.targetNumberOfBrokerNodes = targetNumberOfBrokerNodes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encode(self.currentVersion, forKey: .currentVersion)
+            try container.encode(self.targetNumberOfBrokerNodes, forKey: .targetNumberOfBrokerNodes)
         }
 
         public func validate(name: String) throws {
@@ -2812,10 +2885,6 @@ extension Kafka {
     }
 
     public struct UpdateBrokerStorageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
         /// The version of cluster to update from. A successful operation will then generate a new version.
@@ -2827,6 +2896,14 @@ extension Kafka {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
             self.targetBrokerEBSVolumeInfo = targetBrokerEBSVolumeInfo
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encode(self.currentVersion, forKey: .currentVersion)
+            try container.encode(self.targetBrokerEBSVolumeInfo, forKey: .targetBrokerEBSVolumeInfo)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2853,10 +2930,6 @@ extension Kafka {
     }
 
     public struct UpdateBrokerTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
         /// The cluster version that you want to change. After this operation completes successfully, the cluster will have a new version.
@@ -2868,6 +2941,14 @@ extension Kafka {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
             self.targetInstanceType = targetInstanceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encode(self.currentVersion, forKey: .currentVersion)
+            try container.encode(self.targetInstanceType, forKey: .targetInstanceType)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2894,10 +2975,6 @@ extension Kafka {
     }
 
     public struct UpdateClusterConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
         /// Represents the configuration that you want MSK to use for the brokers in a cluster.
@@ -2909,6 +2986,14 @@ extension Kafka {
             self.clusterArn = clusterArn
             self.configurationInfo = configurationInfo
             self.currentVersion = currentVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encode(self.configurationInfo, forKey: .configurationInfo)
+            try container.encode(self.currentVersion, forKey: .currentVersion)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2935,10 +3020,6 @@ extension Kafka {
     }
 
     public struct UpdateClusterKafkaVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the cluster to be updated.
         public let clusterArn: String
         /// The custom configuration that should be applied on the new version of cluster.
@@ -2953,6 +3034,15 @@ extension Kafka {
             self.configurationInfo = configurationInfo
             self.currentVersion = currentVersion
             self.targetKafkaVersion = targetKafkaVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encodeIfPresent(self.configurationInfo, forKey: .configurationInfo)
+            try container.encode(self.currentVersion, forKey: .currentVersion)
+            try container.encode(self.targetKafkaVersion, forKey: .targetKafkaVersion)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2980,10 +3070,6 @@ extension Kafka {
     }
 
     public struct UpdateConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the configuration.
         public let arn: String
         /// The description of the configuration revision.
@@ -2995,6 +3081,14 @@ extension Kafka {
             self.arn = arn
             self.description = description
             self.serverProperties = serverProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.serverProperties, forKey: .serverProperties)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3021,10 +3115,6 @@ extension Kafka {
     }
 
     public struct UpdateConnectivityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the configuration.
         public let clusterArn: String
         /// Information about the broker access configuration.
@@ -3036,6 +3126,14 @@ extension Kafka {
             self.clusterArn = clusterArn
             self.connectivityInfo = connectivityInfo
             self.currentVersion = currentVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encode(self.connectivityInfo, forKey: .connectivityInfo)
+            try container.encode(self.currentVersion, forKey: .currentVersion)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3062,10 +3160,6 @@ extension Kafka {
     }
 
     public struct UpdateMonitoringRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
         /// The version of the MSK cluster to update. Cluster versions aren't simple numbers. You can describe an MSK cluster to find its version. When this update operation is successful, it generates a new cluster version.
@@ -3082,6 +3176,16 @@ extension Kafka {
             self.enhancedMonitoring = enhancedMonitoring
             self.loggingInfo = loggingInfo
             self.openMonitoring = openMonitoring
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encode(self.currentVersion, forKey: .currentVersion)
+            try container.encodeIfPresent(self.enhancedMonitoring, forKey: .enhancedMonitoring)
+            try container.encodeIfPresent(self.loggingInfo, forKey: .loggingInfo)
+            try container.encodeIfPresent(self.openMonitoring, forKey: .openMonitoring)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3110,10 +3214,6 @@ extension Kafka {
     }
 
     public struct UpdateSecurityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// Includes all client authentication related information.
         public let clientAuthentication: ClientAuthentication?
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
@@ -3128,6 +3228,15 @@ extension Kafka {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
             self.encryptionInfo = encryptionInfo
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientAuthentication, forKey: .clientAuthentication)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encode(self.currentVersion, forKey: .currentVersion)
+            try container.encodeIfPresent(self.encryptionInfo, forKey: .encryptionInfo)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3155,10 +3264,6 @@ extension Kafka {
     }
 
     public struct UpdateStorageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the cluster to be updated.
         public let clusterArn: String
         /// The version of cluster to update from. A successful operation will then generate a new version.
@@ -3176,6 +3281,16 @@ extension Kafka {
             self.provisionedThroughput = provisionedThroughput
             self.storageMode = storageMode
             self.volumeSizeGB = volumeSizeGB
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encode(self.currentVersion, forKey: .currentVersion)
+            try container.encodeIfPresent(self.provisionedThroughput, forKey: .provisionedThroughput)
+            try container.encodeIfPresent(self.storageMode, forKey: .storageMode)
+            try container.encodeIfPresent(self.volumeSizeGB, forKey: .volumeSizeGB)
         }
 
         private enum CodingKeys: String, CodingKey {

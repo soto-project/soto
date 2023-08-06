@@ -408,10 +408,6 @@ extension IoTFleetWise {
     }
 
     public struct AssociateVehicleFleetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vehicleName", location: .uri("vehicleName"))
-        ]
-
         ///  The ID of a fleet.
         public let fleetId: String
         ///  The unique ID of the vehicle to associate with the fleet.
@@ -420,6 +416,13 @@ extension IoTFleetWise {
         public init(fleetId: String, vehicleName: String) {
             self.fleetId = fleetId
             self.vehicleName = vehicleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.fleetId, forKey: .fleetId)
+            request.encodePath(self.vehicleName, key: "vehicleName")
         }
 
         public func validate(name: String) throws {
@@ -836,10 +839,6 @@ extension IoTFleetWise {
     }
 
     public struct CreateCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  The data collection scheme associated with the campaign. You can specify a scheme that collects data based on time or an event.
         public let collectionScheme: CollectionScheme
         ///  (Optional) Whether to compress signals before transmitting data to Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use OFF. If it's not specified, SNAPPY is used.  Default: SNAPPY
@@ -890,6 +889,27 @@ extension IoTFleetWise {
             self.startTime = startTime
             self.tags = tags
             self.targetArn = targetArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.collectionScheme, forKey: .collectionScheme)
+            try container.encodeIfPresent(self.compression, forKey: .compression)
+            try container.encodeIfPresent(self.dataDestinationConfigs, forKey: .dataDestinationConfigs)
+            try container.encodeIfPresent(self.dataExtraDimensions, forKey: .dataExtraDimensions)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.diagnosticsMode, forKey: .diagnosticsMode)
+            try container.encodeIfPresent(self.expiryTime, forKey: .expiryTime)
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.postTriggerCollectionDuration, forKey: .postTriggerCollectionDuration)
+            try container.encodeIfPresent(self.priority, forKey: .priority)
+            try container.encode(self.signalCatalogArn, forKey: .signalCatalogArn)
+            try container.encodeIfPresent(self.signalsToCollect, forKey: .signalsToCollect)
+            try container.encodeIfPresent(self.spoolingMode, forKey: .spoolingMode)
+            try container.encodeIfPresent(self.startTime, forKey: .startTime)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.targetArn, forKey: .targetArn)
         }
 
         public func validate(name: String) throws {
@@ -961,10 +981,6 @@ extension IoTFleetWise {
     }
 
     public struct CreateDecoderManifestRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  A brief description of the decoder manifest.
         public let description: String?
         ///  The Amazon Resource Name (ARN) of the vehicle model (model manifest).
@@ -985,6 +1001,17 @@ extension IoTFleetWise {
             self.networkInterfaces = networkInterfaces
             self.signalDecoders = signalDecoders
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.modelManifestArn, forKey: .modelManifestArn)
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.networkInterfaces, forKey: .networkInterfaces)
+            try container.encodeIfPresent(self.signalDecoders, forKey: .signalDecoders)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1037,10 +1064,6 @@ extension IoTFleetWise {
     }
 
     public struct CreateFleetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fleetId", location: .uri("fleetId"))
-        ]
-
         ///  A brief description of the fleet to create.
         public let description: String?
         ///  The unique ID of the fleet to create.
@@ -1055,6 +1078,15 @@ extension IoTFleetWise {
             self.fleetId = fleetId
             self.signalCatalogArn = signalCatalogArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.fleetId, key: "fleetId")
+            try container.encode(self.signalCatalogArn, forKey: .signalCatalogArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1095,10 +1127,6 @@ extension IoTFleetWise {
     }
 
     public struct CreateModelManifestRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  A brief description of the vehicle model.
         public let description: String?
         ///  The name of the vehicle model to create.
@@ -1116,6 +1144,16 @@ extension IoTFleetWise {
             self.nodes = nodes
             self.signalCatalogArn = signalCatalogArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "name")
+            try container.encode(self.nodes, forKey: .nodes)
+            try container.encode(self.signalCatalogArn, forKey: .signalCatalogArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1157,10 +1195,6 @@ extension IoTFleetWise {
     }
 
     public struct CreateSignalCatalogRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// A brief description of the signal catalog.
         public let description: String?
         ///  The name of the signal catalog to create.
@@ -1175,6 +1209,15 @@ extension IoTFleetWise {
             self.name = name
             self.nodes = nodes
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.nodes, forKey: .nodes)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1240,10 +1283,6 @@ extension IoTFleetWise {
     }
 
     public struct CreateVehicleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vehicleName", location: .uri("vehicleName"))
-        ]
-
         ///  An option to create a new Amazon Web Services IoT thing when creating a vehicle, or to validate an existing Amazon Web Services IoT thing as a vehicle.  Default:
         public let associationBehavior: VehicleAssociationBehavior?
         /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2"  A campaign must include the keys (attribute names) in dataExtraDimensions for them to display in Amazon Timestream.
@@ -1264,6 +1303,17 @@ extension IoTFleetWise {
             self.modelManifestArn = modelManifestArn
             self.tags = tags
             self.vehicleName = vehicleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.associationBehavior, forKey: .associationBehavior)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
+            try container.encode(self.decoderManifestArn, forKey: .decoderManifestArn)
+            try container.encode(self.modelManifestArn, forKey: .modelManifestArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.vehicleName, key: "vehicleName")
         }
 
         public func validate(name: String) throws {
@@ -1418,15 +1468,17 @@ extension IoTFleetWise {
     }
 
     public struct DeleteCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  The name of the campaign to delete.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -1456,15 +1508,17 @@ extension IoTFleetWise {
     }
 
     public struct DeleteDecoderManifestRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  The name of the decoder manifest to delete.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -1494,15 +1548,17 @@ extension IoTFleetWise {
     }
 
     public struct DeleteFleetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fleetId", location: .uri("fleetId"))
-        ]
-
         ///  The ID of the fleet to delete.
         public let fleetId: String
 
         public init(fleetId: String) {
             self.fleetId = fleetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fleetId, key: "fleetId")
         }
 
         public func validate(name: String) throws {
@@ -1532,15 +1588,17 @@ extension IoTFleetWise {
     }
 
     public struct DeleteModelManifestRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  The name of the model manifest to delete.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -1570,15 +1628,17 @@ extension IoTFleetWise {
     }
 
     public struct DeleteSignalCatalogRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  The name of the signal catalog to delete.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -1608,15 +1668,17 @@ extension IoTFleetWise {
     }
 
     public struct DeleteVehicleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vehicleName", location: .uri("vehicleName"))
-        ]
-
         /// The ID of the vehicle to delete.
         public let vehicleName: String
 
         public init(vehicleName: String) {
             self.vehicleName = vehicleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vehicleName, key: "vehicleName")
         }
 
         public func validate(name: String) throws {
@@ -1646,10 +1708,6 @@ extension IoTFleetWise {
     }
 
     public struct DisassociateVehicleFleetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vehicleName", location: .uri("vehicleName"))
-        ]
-
         ///  The unique ID of a fleet.
         public let fleetId: String
         ///  The unique ID of the vehicle to disassociate from the fleet.
@@ -1658,6 +1716,13 @@ extension IoTFleetWise {
         public init(fleetId: String, vehicleName: String) {
             self.fleetId = fleetId
             self.vehicleName = vehicleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.fleetId, forKey: .fleetId)
+            request.encodePath(self.vehicleName, key: "vehicleName")
         }
 
         public func validate(name: String) throws {
@@ -1712,15 +1777,17 @@ extension IoTFleetWise {
     }
 
     public struct GetCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  The name of the campaign to retrieve information about.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -1818,15 +1885,17 @@ extension IoTFleetWise {
     }
 
     public struct GetDecoderManifestRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  The name of the decoder manifest to retrieve information about.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -1876,15 +1945,17 @@ extension IoTFleetWise {
     }
 
     public struct GetFleetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fleetId", location: .uri("fleetId"))
-        ]
-
         ///  The ID of the fleet to retrieve information about.
         public let fleetId: String
 
         public init(fleetId: String) {
             self.fleetId = fleetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fleetId, key: "fleetId")
         }
 
         public func validate(name: String) throws {
@@ -1947,15 +2018,17 @@ extension IoTFleetWise {
     }
 
     public struct GetModelManifestRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  The name of the vehicle model to retrieve information about.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -2042,15 +2115,17 @@ extension IoTFleetWise {
     }
 
     public struct GetSignalCatalogRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  The name of the signal catalog to retrieve information about.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -2096,15 +2171,17 @@ extension IoTFleetWise {
     }
 
     public struct GetVehicleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vehicleName", location: .uri("vehicleName"))
-        ]
-
         ///  The ID of the vehicle to retrieve information about.
         public let vehicleName: String
 
         public init(vehicleName: String) {
             self.vehicleName = vehicleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vehicleName, key: "vehicleName")
         }
 
         public func validate(name: String) throws {
@@ -2154,12 +2231,6 @@ extension IoTFleetWise {
     }
 
     public struct GetVehicleStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "vehicleName", location: .uri("vehicleName"))
-        ]
-
         ///  The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -2171,6 +2242,14 @@ extension IoTFleetWise {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.vehicleName = vehicleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.vehicleName, key: "vehicleName")
         }
 
         public func validate(name: String) throws {
@@ -2244,10 +2323,6 @@ extension IoTFleetWise {
     }
 
     public struct ImportDecoderManifestRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  The name of the decoder manifest to import.
         public let name: String
         ///  The file to load into an Amazon Web Services account.
@@ -2256,6 +2331,13 @@ extension IoTFleetWise {
         public init(name: String, networkFileDefinitions: [NetworkFileDefinition]) {
             self.name = name
             self.networkFileDefinitions = networkFileDefinitions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+            try container.encode(self.networkFileDefinitions, forKey: .networkFileDefinitions)
         }
 
         public func validate(name: String) throws {
@@ -2290,10 +2372,6 @@ extension IoTFleetWise {
     }
 
     public struct ImportSignalCatalogRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  A brief description of the signal catalog.
         public let description: String?
         /// The name of the signal catalog to import.
@@ -2308,6 +2386,15 @@ extension IoTFleetWise {
             self.name = name
             self.tags = tags
             self.vss = vss
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.vss, forKey: .vss)
         }
 
         public func validate(name: String) throws {
@@ -2348,12 +2435,6 @@ extension IoTFleetWise {
     }
 
     public struct ListCampaignsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         ///  The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -2365,6 +2446,14 @@ extension IoTFleetWise {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -2395,12 +2484,6 @@ extension IoTFleetWise {
     }
 
     public struct ListDecoderManifestNetworkInterfacesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The name of the decoder manifest to list information about.
@@ -2412,6 +2495,14 @@ extension IoTFleetWise {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2445,12 +2536,6 @@ extension IoTFleetWise {
     }
 
     public struct ListDecoderManifestSignalsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The name of the decoder manifest to list information about.
@@ -2462,6 +2547,14 @@ extension IoTFleetWise {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2495,12 +2588,6 @@ extension IoTFleetWise {
     }
 
     public struct ListDecoderManifestsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "modelManifestArn", location: .querystring("modelManifestArn")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The Amazon Resource Name (ARN) of a vehicle model (model manifest) associated with the decoder manifest.
@@ -2512,6 +2599,14 @@ extension IoTFleetWise {
             self.maxResults = maxResults
             self.modelManifestArn = modelManifestArn
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.modelManifestArn, key: "modelManifestArn")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2542,12 +2637,6 @@ extension IoTFleetWise {
     }
 
     public struct ListFleetsForVehicleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "vehicleName", location: .uri("vehicleName"))
-        ]
-
         ///  The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -2559,6 +2648,14 @@ extension IoTFleetWise {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.vehicleName = vehicleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.vehicleName, key: "vehicleName")
         }
 
         public func validate(name: String) throws {
@@ -2592,11 +2689,6 @@ extension IoTFleetWise {
     }
 
     public struct ListFleetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -2605,6 +2697,13 @@ extension IoTFleetWise {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2635,12 +2734,6 @@ extension IoTFleetWise {
     }
 
     public struct ListModelManifestNodesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The name of the vehicle model to list information about.
@@ -2652,6 +2745,14 @@ extension IoTFleetWise {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2685,12 +2786,6 @@ extension IoTFleetWise {
     }
 
     public struct ListModelManifestsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "signalCatalogArn", location: .querystring("signalCatalogArn"))
-        ]
-
         ///  The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -2702,6 +2797,14 @@ extension IoTFleetWise {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.signalCatalogArn = signalCatalogArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.signalCatalogArn, key: "signalCatalogArn")
         }
 
         public func validate(name: String) throws {
@@ -2732,12 +2835,6 @@ extension IoTFleetWise {
     }
 
     public struct ListSignalCatalogNodesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .uri("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The name of the signal catalog to list information about.
@@ -2749,6 +2846,14 @@ extension IoTFleetWise {
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2782,11 +2887,6 @@ extension IoTFleetWise {
     }
 
     public struct ListSignalCatalogsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -2795,6 +2895,13 @@ extension IoTFleetWise {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2825,15 +2932,17 @@ extension IoTFleetWise {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .querystring("resourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceARN, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2858,12 +2967,6 @@ extension IoTFleetWise {
     }
 
     public struct ListVehiclesInFleetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fleetId", location: .uri("fleetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The ID of a fleet.
         public let fleetId: String
         ///  The maximum number of items to return, between 1 and 100, inclusive.
@@ -2875,6 +2978,14 @@ extension IoTFleetWise {
             self.fleetId = fleetId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fleetId, key: "fleetId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2908,12 +3019,6 @@ extension IoTFleetWise {
     }
 
     public struct ListVehiclesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "modelManifestArn", location: .querystring("modelManifestArn")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The Amazon Resource Name (ARN) of a vehicle model (model manifest). You can use this optional parameter to list only the vehicles created from a certain vehicle model.
@@ -2925,6 +3030,14 @@ extension IoTFleetWise {
             self.maxResults = maxResults
             self.modelManifestArn = modelManifestArn
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.modelManifestArn, key: "modelManifestArn")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3441,10 +3554,6 @@ extension IoTFleetWise {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .querystring("resourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceARN: String
         /// The new or modified tags for the resource.
@@ -3453,6 +3562,13 @@ extension IoTFleetWise {
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceARN, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3577,11 +3693,6 @@ extension IoTFleetWise {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .querystring("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource.
         public let resourceARN: String
         /// A list of the keys of the tags to be removed from the resource.
@@ -3590,6 +3701,13 @@ extension IoTFleetWise {
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceARN, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -3610,10 +3728,6 @@ extension IoTFleetWise {
     }
 
     public struct UpdateCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  Specifies how to update a campaign. The action can be one of the following:    APPROVE - To approve delivering a data collection scheme to vehicles.     SUSPEND - To suspend collecting signal data. The campaign is deleted from vehicles and all vehicles in the suspended campaign will stop sending data.    RESUME - To reactivate the SUSPEND campaign. The campaign is redeployed to all vehicles and the vehicles will resume sending data.    UPDATE - To update a campaign.
         public let action: UpdateCampaignAction
         ///  A list of vehicle attributes to associate with a signal.  Default: An empty array
@@ -3628,6 +3742,15 @@ extension IoTFleetWise {
             self.dataExtraDimensions = dataExtraDimensions
             self.description = description
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.action, forKey: .action)
+            try container.encodeIfPresent(self.dataExtraDimensions, forKey: .dataExtraDimensions)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -3674,10 +3797,6 @@ extension IoTFleetWise {
     }
 
     public struct UpdateDecoderManifestRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  A brief description of the decoder manifest to update.
         public let description: String?
         ///  The name of the decoder manifest to update.
@@ -3707,6 +3826,20 @@ extension IoTFleetWise {
             self.signalDecodersToRemove = signalDecodersToRemove
             self.signalDecodersToUpdate = signalDecodersToUpdate
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.networkInterfacesToAdd, forKey: .networkInterfacesToAdd)
+            try container.encodeIfPresent(self.networkInterfacesToRemove, forKey: .networkInterfacesToRemove)
+            try container.encodeIfPresent(self.networkInterfacesToUpdate, forKey: .networkInterfacesToUpdate)
+            try container.encodeIfPresent(self.signalDecodersToAdd, forKey: .signalDecodersToAdd)
+            try container.encodeIfPresent(self.signalDecodersToRemove, forKey: .signalDecodersToRemove)
+            try container.encodeIfPresent(self.signalDecodersToUpdate, forKey: .signalDecodersToUpdate)
+            try container.encodeIfPresent(self.status, forKey: .status)
         }
 
         public func validate(name: String) throws {
@@ -3780,10 +3913,6 @@ extension IoTFleetWise {
     }
 
     public struct UpdateFleetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fleetId", location: .uri("fleetId"))
-        ]
-
         ///  An updated description of the fleet.
         public let description: String?
         ///  The ID of the fleet to update.
@@ -3792,6 +3921,13 @@ extension IoTFleetWise {
         public init(description: String? = nil, fleetId: String) {
             self.description = description
             self.fleetId = fleetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.fleetId, key: "fleetId")
         }
 
         public func validate(name: String) throws {
@@ -3826,10 +3962,6 @@ extension IoTFleetWise {
     }
 
     public struct UpdateModelManifestRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  A brief description of the vehicle model.
         public let description: String?
         ///  The name of the vehicle model to update.
@@ -3847,6 +3979,16 @@ extension IoTFleetWise {
             self.nodesToAdd = nodesToAdd
             self.nodesToRemove = nodesToRemove
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.nodesToAdd, forKey: .nodesToAdd)
+            try container.encodeIfPresent(self.nodesToRemove, forKey: .nodesToRemove)
+            try container.encodeIfPresent(self.status, forKey: .status)
         }
 
         public func validate(name: String) throws {
@@ -3898,10 +4040,6 @@ extension IoTFleetWise {
     }
 
     public struct UpdateSignalCatalogRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         ///  A brief description of the signal catalog to update.
         public let description: String?
         ///  The name of the signal catalog to update.
@@ -3919,6 +4057,16 @@ extension IoTFleetWise {
             self.nodesToAdd = nodesToAdd
             self.nodesToRemove = nodesToRemove
             self.nodesToUpdate = nodesToUpdate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.nodesToAdd, forKey: .nodesToAdd)
+            try container.encodeIfPresent(self.nodesToRemove, forKey: .nodesToRemove)
+            try container.encodeIfPresent(self.nodesToUpdate, forKey: .nodesToUpdate)
         }
 
         public func validate(name: String) throws {
@@ -3992,10 +4140,6 @@ extension IoTFleetWise {
     }
 
     public struct UpdateVehicleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vehicleName", location: .uri("vehicleName"))
-        ]
-
         /// Static information about a vehicle in a key-value pair. For example:  "engineType" : "1.3 L R2"
         public let attributes: [String: String]?
         /// The method the specified attributes will update the existing attributes on the vehicle. UseOverwite to replace the vehicle attributes with the specified attributes. Or use Merge to combine all attributes. This is required if attributes are present in the input.
@@ -4013,6 +4157,16 @@ extension IoTFleetWise {
             self.decoderManifestArn = decoderManifestArn
             self.modelManifestArn = modelManifestArn
             self.vehicleName = vehicleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
+            try container.encodeIfPresent(self.attributeUpdateMode, forKey: .attributeUpdateMode)
+            try container.encodeIfPresent(self.decoderManifestArn, forKey: .decoderManifestArn)
+            try container.encodeIfPresent(self.modelManifestArn, forKey: .modelManifestArn)
+            request.encodePath(self.vehicleName, key: "vehicleName")
         }
 
         public func validate(name: String) throws {

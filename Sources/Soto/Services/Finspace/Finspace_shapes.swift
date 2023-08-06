@@ -360,11 +360,6 @@ extension Finspace {
     }
 
     public struct CreateKxChangesetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "databaseName", location: .uri("databaseName")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// A list of change request objects that are run in order. A change request object consists of  changeType , s3Path, and  a dbPath.  A changeType can has the following values:    PUT – Adds or updates files in a database.   DELETE – Deletes files in a database.   All the change requests require a mandatory dbPath attribute that defines the path within the database directory. The s3Path attribute defines the s3 source file path and is required for a PUT change type. Here is an example of how you can use the change request object:  [ { "changeType": "PUT", "s3Path":"s3://bucket/db/2020.01.02/", "dbPath":"/2020.01.02/"},  { "changeType": "PUT", "s3Path":"s3://bucket/db/sym", "dbPath":"/"},  { "changeType": "DELETE", "dbPath": "/2020.01.01/"} ]  In this example, the first request with PUT change type allows you to add files in the given s3Path under the 2020.01.02 partition of the database. The second request with PUT change type allows you to add a single sym file at database root location. The last request with DELETE change type allows you to delete the files under the 2020.01.01 partition of the database.
         public let changeRequests: [ChangeRequest]
         /// A token that ensures idempotency. This token expires in 10 minutes.
@@ -379,6 +374,15 @@ extension Finspace {
             self.clientToken = clientToken
             self.databaseName = databaseName
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.changeRequests, forKey: .changeRequests)
+            try container.encode(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.databaseName, key: "databaseName")
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -446,10 +450,6 @@ extension Finspace {
     }
 
     public struct CreateKxClusterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// The configuration based on which FinSpace will scale in or scale out nodes in your cluster.
         public let autoScalingConfiguration: AutoScalingConfiguration?
         /// The availability zone identifiers for the requested regions.
@@ -509,6 +509,30 @@ extension Finspace {
             self.savedownStorageConfiguration = savedownStorageConfiguration
             self.tags = tags
             self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.autoScalingConfiguration, forKey: .autoScalingConfiguration)
+            try container.encodeIfPresent(self.availabilityZoneId, forKey: .availabilityZoneId)
+            try container.encode(self.azMode, forKey: .azMode)
+            try container.encodeIfPresent(self.cacheStorageConfigurations, forKey: .cacheStorageConfigurations)
+            try container.encode(self.capacityConfiguration, forKey: .capacityConfiguration)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.clusterDescription, forKey: .clusterDescription)
+            try container.encode(self.clusterName, forKey: .clusterName)
+            try container.encode(self.clusterType, forKey: .clusterType)
+            try container.encodeIfPresent(self.code, forKey: .code)
+            try container.encodeIfPresent(self.commandLineArguments, forKey: .commandLineArguments)
+            try container.encodeIfPresent(self.databases, forKey: .databases)
+            request.encodePath(self.environmentId, key: "environmentId")
+            try container.encodeIfPresent(self.executionRole, forKey: .executionRole)
+            try container.encodeIfPresent(self.initializationScript, forKey: .initializationScript)
+            try container.encode(self.releaseLabel, forKey: .releaseLabel)
+            try container.encodeIfPresent(self.savedownStorageConfiguration, forKey: .savedownStorageConfiguration)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.vpcConfiguration, forKey: .vpcConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -675,10 +699,6 @@ extension Finspace {
     }
 
     public struct CreateKxDatabaseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String
         /// The name of the kdb database.
@@ -696,6 +716,16 @@ extension Finspace {
             self.description = description
             self.environmentId = environmentId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientToken, forKey: .clientToken)
+            try container.encode(self.databaseName, forKey: .databaseName)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.environmentId, key: "environmentId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -856,10 +886,6 @@ extension Finspace {
     }
 
     public struct CreateKxUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// A unique identifier for the kdb environment where you want to create a user.
@@ -877,6 +903,16 @@ extension Finspace {
             self.iamRole = iamRole
             self.tags = tags
             self.userName = userName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.environmentId, key: "environmentId")
+            try container.encode(self.iamRole, forKey: .iamRole)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.userName, forKey: .userName)
         }
 
         public func validate(name: String) throws {
@@ -962,15 +998,17 @@ extension Finspace {
     }
 
     public struct DeleteEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// The identifier for the FinSpace environment.
         public let environmentId: String
 
         public init(environmentId: String) {
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -987,12 +1025,6 @@ extension Finspace {
     }
 
     public struct DeleteKxClusterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// The name of the cluster that you want to delete.
@@ -1004,6 +1036,14 @@ extension Finspace {
             self.clientToken = clientToken
             self.clusterName = clusterName
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -1026,12 +1066,6 @@ extension Finspace {
     }
 
     public struct DeleteKxDatabaseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "databaseName", location: .uri("databaseName")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String
         /// The name of the kdb database that you want to delete.
@@ -1043,6 +1077,14 @@ extension Finspace {
             self.clientToken = clientToken
             self.databaseName = databaseName
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.databaseName, key: "databaseName")
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -1065,15 +1107,17 @@ extension Finspace {
     }
 
     public struct DeleteKxEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// A unique identifier for the kdb environment.
         public let environmentId: String
 
         public init(environmentId: String) {
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -1090,11 +1134,6 @@ extension Finspace {
     }
 
     public struct DeleteKxUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId")),
-            AWSMemberEncoding(label: "userName", location: .uri("userName"))
-        ]
-
         /// A unique identifier for the kdb environment.
         public let environmentId: String
         /// A unique identifier for the user that you want to delete.
@@ -1103,6 +1142,13 @@ extension Finspace {
         public init(environmentId: String, userName: String) {
             self.environmentId = environmentId
             self.userName = userName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentId, key: "environmentId")
+            request.encodePath(self.userName, key: "userName")
         }
 
         public func validate(name: String) throws {
@@ -1255,15 +1301,17 @@ extension Finspace {
     }
 
     public struct GetEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// The identifier of the FinSpace environment.
         public let environmentId: String
 
         public init(environmentId: String) {
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -1289,12 +1337,6 @@ extension Finspace {
     }
 
     public struct GetKxChangesetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "changesetId", location: .uri("changesetId")),
-            AWSMemberEncoding(label: "databaseName", location: .uri("databaseName")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// A unique identifier of the changeset for which you want to retrieve data.
         public let changesetId: String
         /// The name of the kdb database.
@@ -1306,6 +1348,14 @@ extension Finspace {
             self.changesetId = changesetId
             self.databaseName = databaseName
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.changesetId, key: "changesetId")
+            request.encodePath(self.databaseName, key: "databaseName")
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -1368,11 +1418,6 @@ extension Finspace {
     }
 
     public struct GetKxClusterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// The name of the cluster that you want to retrieve.
         public let clusterName: String
         /// A unique identifier for the kdb environment.
@@ -1381,6 +1426,13 @@ extension Finspace {
         public init(clusterName: String, environmentId: String) {
             self.clusterName = clusterName
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -1485,12 +1537,6 @@ extension Finspace {
     }
 
     public struct GetKxConnectionStringRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .querystring("clusterName")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId")),
-            AWSMemberEncoding(label: "userArn", location: .querystring("userArn"))
-        ]
-
         /// A name of the kdb cluster.
         public let clusterName: String
         /// A unique identifier for the kdb environment.
@@ -1502,6 +1548,14 @@ extension Finspace {
             self.clusterName = clusterName
             self.environmentId = environmentId
             self.userArn = userArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clusterName, key: "clusterName")
+            request.encodePath(self.environmentId, key: "environmentId")
+            request.encodeQuery(self.userArn, key: "userArn")
         }
 
         public func validate(name: String) throws {
@@ -1533,11 +1587,6 @@ extension Finspace {
     }
 
     public struct GetKxDatabaseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "databaseName", location: .uri("databaseName")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// The name of the kdb database.
         public let databaseName: String
         /// A unique identifier for the kdb environment.
@@ -1546,6 +1595,13 @@ extension Finspace {
         public init(databaseName: String, environmentId: String) {
             self.databaseName = databaseName
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.databaseName, key: "databaseName")
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -1610,15 +1666,17 @@ extension Finspace {
     }
 
     public struct GetKxEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// A unique identifier for the kdb environment.
         public let environmentId: String
 
         public init(environmentId: String) {
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -1707,11 +1765,6 @@ extension Finspace {
     }
 
     public struct GetKxUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId")),
-            AWSMemberEncoding(label: "userName", location: .uri("userName"))
-        ]
-
         /// A unique identifier for the kdb environment.
         public let environmentId: String
         /// A unique identifier for the user.
@@ -1720,6 +1773,13 @@ extension Finspace {
         public init(environmentId: String, userName: String) {
             self.environmentId = environmentId
             self.userName = userName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentId, key: "environmentId")
+            request.encodePath(self.userName, key: "userName")
         }
 
         public func validate(name: String) throws {
@@ -2125,11 +2185,6 @@ extension Finspace {
     }
 
     public struct ListEnvironmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this request.
         public let maxResults: Int?
         /// A token generated by FinSpace that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the nextTokennextToken value from the response object of the previous page call.
@@ -2138,6 +2193,13 @@ extension Finspace {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2169,13 +2231,6 @@ extension Finspace {
     }
 
     public struct ListKxChangesetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "databaseName", location: .uri("databaseName")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the kdb database.
         public let databaseName: String
         /// A unique identifier for the kdb environment.
@@ -2190,6 +2245,15 @@ extension Finspace {
             self.environmentId = environmentId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.databaseName, key: "databaseName")
+            request.encodePath(self.environmentId, key: "environmentId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2227,13 +2291,6 @@ extension Finspace {
     }
 
     public struct ListKxClusterNodesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A unique name for the cluster.
         public let clusterName: String
         /// A unique identifier for the kdb environment.
@@ -2248,6 +2305,15 @@ extension Finspace {
             self.environmentId = environmentId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodePath(self.environmentId, key: "environmentId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2285,13 +2351,6 @@ extension Finspace {
     }
 
     public struct ListKxClustersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterType", location: .querystring("clusterType")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Specifies the type of KDB database that is being created. The following types are available:    HDB – A Historical Database. The data is only accessible with read-only permissions from one of the FinSpace managed kdb databases mounted to the cluster.   RDB – A Realtime Database. This type of database captures all the data from a ticker plant and stores it in memory until the end of day, after which it writes all of its data to a disk and reloads the HDB. This cluster type requires local storage for temporary storage of data during the savedown process. If you specify this field in your request, you must provide the savedownStorageConfiguration parameter.   GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a  writable local storage.
         public let clusterType: KxClusterType?
         /// A unique identifier for the kdb environment.
@@ -2306,6 +2365,15 @@ extension Finspace {
             self.environmentId = environmentId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clusterType, key: "clusterType")
+            request.encodePath(self.environmentId, key: "environmentId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2340,12 +2408,6 @@ extension Finspace {
     }
 
     public struct ListKxDatabasesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A unique identifier for the kdb environment.
         public let environmentId: String
         /// The maximum number of results to return in this request.
@@ -2357,6 +2419,14 @@ extension Finspace {
             self.environmentId = environmentId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentId, key: "environmentId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2391,11 +2461,6 @@ extension Finspace {
     }
 
     public struct ListKxEnvironmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this request.
         public let maxResults: Int?
         /// A token that indicates where a results page should begin.
@@ -2404,6 +2469,13 @@ extension Finspace {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2433,12 +2505,6 @@ extension Finspace {
     }
 
     public struct ListKxUsersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A unique identifier for the kdb environment.
         public let environmentId: String
         /// The maximum number of results to return in this request.
@@ -2450,6 +2516,14 @@ extension Finspace {
             self.environmentId = environmentId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentId, key: "environmentId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2484,15 +2558,17 @@ extension Finspace {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2551,10 +2627,6 @@ extension Finspace {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the resource.
         public let resourceArn: String
         /// One or more tags to be assigned to the resource.
@@ -2563,6 +2635,13 @@ extension Finspace {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2614,11 +2693,6 @@ extension Finspace {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// A FinSpace resource from which you want to remove a tag or tags. The value for this parameter is an Amazon Resource Name (ARN).
         public let resourceArn: String
         /// The tag keys (names) of one or more tags to be removed.
@@ -2627,6 +2701,13 @@ extension Finspace {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2650,10 +2731,6 @@ extension Finspace {
     }
 
     public struct UpdateEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// The description of the environment.
         public let description: String?
         /// The identifier of the FinSpace environment.
@@ -2670,6 +2747,16 @@ extension Finspace {
             self.federationMode = federationMode
             self.federationParameters = federationParameters
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.environmentId, key: "environmentId")
+            try container.encodeIfPresent(self.federationMode, forKey: .federationMode)
+            try container.encodeIfPresent(self.federationParameters, forKey: .federationParameters)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -2707,11 +2794,6 @@ extension Finspace {
     }
 
     public struct UpdateKxClusterDatabasesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterName", location: .uri("clusterName")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// A unique name for the cluster that you want to modify.
@@ -2726,6 +2808,15 @@ extension Finspace {
             self.clusterName = clusterName
             self.databases = databases
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encode(self.databases, forKey: .databases)
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -2754,11 +2845,6 @@ extension Finspace {
     }
 
     public struct UpdateKxDatabaseRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "databaseName", location: .uri("databaseName")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String
         /// The name of the kdb database.
@@ -2773,6 +2859,15 @@ extension Finspace {
             self.databaseName = databaseName
             self.description = description
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.databaseName, key: "databaseName")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -2822,10 +2917,6 @@ extension Finspace {
     }
 
     public struct UpdateKxEnvironmentNetworkRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers.
@@ -2840,6 +2931,15 @@ extension Finspace {
             self.customDNSConfiguration = customDNSConfiguration
             self.environmentId = environmentId
             self.transitGatewayConfiguration = transitGatewayConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.customDNSConfiguration, forKey: .customDNSConfiguration)
+            request.encodePath(self.environmentId, key: "environmentId")
+            try container.encodeIfPresent(self.transitGatewayConfiguration, forKey: .transitGatewayConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -2935,10 +3035,6 @@ extension Finspace {
     }
 
     public struct UpdateKxEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// A description of the kdb environment.
@@ -2953,6 +3049,15 @@ extension Finspace {
             self.description = description
             self.environmentId = environmentId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.environmentId, key: "environmentId")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -3050,11 +3155,6 @@ extension Finspace {
     }
 
     public struct UpdateKxUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId")),
-            AWSMemberEncoding(label: "userName", location: .uri("userName"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// A unique identifier for the kdb environment.
@@ -3069,6 +3169,15 @@ extension Finspace {
             self.environmentId = environmentId
             self.iamRole = iamRole
             self.userName = userName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.environmentId, key: "environmentId")
+            try container.encode(self.iamRole, forKey: .iamRole)
+            request.encodePath(self.userName, key: "userName")
         }
 
         public func validate(name: String) throws {

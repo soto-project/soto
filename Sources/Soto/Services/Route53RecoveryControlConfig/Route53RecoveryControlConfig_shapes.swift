@@ -393,15 +393,17 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct DeleteClusterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the cluster that you're deleting.
         public let clusterArn: String
 
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -412,15 +414,17 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct DeleteControlPanelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "controlPanelArn", location: .uri("ControlPanelArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the control panel.
         public let controlPanelArn: String
 
         public init(controlPanelArn: String) {
             self.controlPanelArn = controlPanelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.controlPanelArn, key: "ControlPanelArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -431,15 +435,17 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct DeleteRoutingControlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "routingControlArn", location: .uri("RoutingControlArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the routing control that you're deleting.
         public let routingControlArn: String
 
         public init(routingControlArn: String) {
             self.routingControlArn = routingControlArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.routingControlArn, key: "RoutingControlArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -450,15 +456,17 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct DeleteSafetyRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "safetyRuleArn", location: .uri("SafetyRuleArn"))
-        ]
-
         /// The ARN of the safety rule.
         public let safetyRuleArn: String
 
         public init(safetyRuleArn: String) {
             self.safetyRuleArn = safetyRuleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.safetyRuleArn, key: "SafetyRuleArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -469,15 +477,17 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct DescribeClusterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String
 
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -497,15 +507,17 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct DescribeControlPanelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "controlPanelArn", location: .uri("ControlPanelArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the control panel.
         public let controlPanelArn: String
 
         public init(controlPanelArn: String) {
             self.controlPanelArn = controlPanelArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.controlPanelArn, key: "ControlPanelArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -525,15 +537,17 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct DescribeRoutingControlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "routingControlArn", location: .uri("RoutingControlArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the routing control.
         public let routingControlArn: String
 
         public init(routingControlArn: String) {
             self.routingControlArn = routingControlArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.routingControlArn, key: "RoutingControlArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -553,15 +567,17 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct DescribeSafetyRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "safetyRuleArn", location: .uri("SafetyRuleArn"))
-        ]
-
         /// The ARN of the safety rule.
         public let safetyRuleArn: String
 
         public init(safetyRuleArn: String) {
             self.safetyRuleArn = safetyRuleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.safetyRuleArn, key: "SafetyRuleArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -656,12 +672,6 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct ListAssociatedRoute53HealthChecksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "routingControlArn", location: .uri("RoutingControlArn"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// The token that identifies which batch of results you want to see.
@@ -673,6 +683,14 @@ extension Route53RecoveryControlConfig {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.routingControlArn = routingControlArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.routingControlArn, key: "RoutingControlArn")
         }
 
         public func validate(name: String) throws {
@@ -701,11 +719,6 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct ListClustersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// The token that identifies which batch of results you want to see.
@@ -714,6 +727,13 @@ extension Route53RecoveryControlConfig {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -742,12 +762,6 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct ListControlPanelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clusterArn", location: .querystring("ClusterArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The Amazon Resource Name (ARN) of a cluster.
         public let clusterArn: String?
         /// The number of objects that you want to return with this call.
@@ -759,6 +773,14 @@ extension Route53RecoveryControlConfig {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clusterArn, key: "ClusterArn")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -787,12 +809,6 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct ListRoutingControlsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "controlPanelArn", location: .uri("ControlPanelArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the control panel.
         public let controlPanelArn: String
         /// The number of objects that you want to return with this call.
@@ -804,6 +820,14 @@ extension Route53RecoveryControlConfig {
             self.controlPanelArn = controlPanelArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.controlPanelArn, key: "ControlPanelArn")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -832,12 +856,6 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct ListSafetyRulesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "controlPanelArn", location: .uri("ControlPanelArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the control panel.
         public let controlPanelArn: String
         /// The number of objects that you want to return with this call.
@@ -849,6 +867,14 @@ extension Route53RecoveryControlConfig {
             self.controlPanelArn = controlPanelArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.controlPanelArn, key: "ControlPanelArn")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -877,15 +903,17 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the resource that's tagged.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1063,10 +1091,6 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the resource that's tagged.
         public let resourceArn: String
         /// The tags associated with the resource.
@@ -1075,6 +1099,13 @@ extension Route53RecoveryControlConfig {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1094,11 +1125,6 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("TagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) for the resource that's tagged.
         public let resourceArn: String
         /// Keys for the tags to be removed.
@@ -1107,6 +1133,13 @@ extension Route53RecoveryControlConfig {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "TagKeys")
         }
 
         private enum CodingKeys: CodingKey {}

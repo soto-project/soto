@@ -672,15 +672,17 @@ extension DevOpsGuru {
     }
 
     public struct DeleteInsightRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the insight.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -780,11 +782,6 @@ extension DevOpsGuru {
     }
 
     public struct DescribeAnomalyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .querystring("AccountId")),
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the member account.
         public let accountId: String?
         ///  The ID of the anomaly.
@@ -793,6 +790,13 @@ extension DevOpsGuru {
         public init(accountId: String? = nil, id: String) {
             self.accountId = accountId
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accountId, key: "AccountId")
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -873,11 +877,6 @@ extension DevOpsGuru {
     }
 
     public struct DescribeInsightRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .querystring("AccountId")),
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the member account in the organization.
         public let accountId: String?
         ///  The ID of the insight.
@@ -886,6 +885,13 @@ extension DevOpsGuru {
         public init(accountId: String? = nil, id: String) {
             self.accountId = accountId
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accountId, key: "AccountId")
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1130,11 +1136,6 @@ extension DevOpsGuru {
     }
 
     public struct DescribeResourceCollectionHealthRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "resourceCollectionType", location: .uri("ResourceCollectionType"))
-        ]
-
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
         ///  An Amazon Web Services resource collection type. This type specifies how analyzed Amazon Web Services resources
@@ -1144,6 +1145,13 @@ extension DevOpsGuru {
         public init(nextToken: String? = nil, resourceCollectionType: ResourceCollectionType) {
             self.nextToken = nextToken
             self.resourceCollectionType = resourceCollectionType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.resourceCollectionType, key: "ResourceCollectionType")
         }
 
         public func validate(name: String) throws {
@@ -1320,15 +1328,17 @@ extension DevOpsGuru {
     }
 
     public struct GetCostEstimationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -1380,11 +1390,6 @@ extension DevOpsGuru {
     }
 
     public struct GetResourceCollectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "resourceCollectionType", location: .uri("ResourceCollectionType"))
-        ]
-
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
         ///  The type of Amazon Web Services resource collections to return. The one valid value is
@@ -1394,6 +1399,13 @@ extension DevOpsGuru {
         public init(nextToken: String? = nil, resourceCollectionType: ResourceCollectionType) {
             self.nextToken = nextToken
             self.resourceCollectionType = resourceCollectionType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.resourceCollectionType, key: "ResourceCollectionType")
         }
 
         public func validate(name: String) throws {
@@ -1497,10 +1509,6 @@ extension DevOpsGuru {
     }
 
     public struct ListAnomaliesForInsightRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "insightId", location: .uri("InsightId"))
-        ]
-
         /// The ID of the Amazon Web Services account.
         public let accountId: String?
         /// 			Specifies one or more service names that are used to list anomalies.
@@ -1524,6 +1532,17 @@ extension DevOpsGuru {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.startTimeRange = startTimeRange
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accountId, forKey: .accountId)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            request.encodePath(self.insightId, key: "InsightId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.startTimeRange, forKey: .startTimeRange)
         }
 
         public func validate(name: String) throws {
@@ -3228,15 +3247,17 @@ extension DevOpsGuru {
     }
 
     public struct RemoveNotificationChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         ///  The ID of the notification channel to be removed.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {

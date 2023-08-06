@@ -1007,10 +1007,6 @@ extension IoTSiteWise {
     }
 
     public struct AssociateAssetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("assetId"))
-        ]
-
         /// The ID of the parent asset.
         public let assetId: String
         /// The ID of the child asset to be associated.
@@ -1025,6 +1021,15 @@ extension IoTSiteWise {
             self.childAssetId = childAssetId
             self.clientToken = clientToken
             self.hierarchyId = hierarchyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetId, key: "assetId")
+            try container.encode(self.childAssetId, forKey: .childAssetId)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.hierarchyId, forKey: .hierarchyId)
         }
 
         public func validate(name: String) throws {
@@ -1050,12 +1055,6 @@ extension IoTSiteWise {
     }
 
     public struct AssociateTimeSeriesToAssetPropertyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "alias", location: .querystring("alias")),
-            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId"))
-        ]
-
         /// The alias that identifies the time series.
         public let alias: String
         /// The ID of the asset in which the asset property was created.
@@ -1070,6 +1069,15 @@ extension IoTSiteWise {
             self.assetId = assetId
             self.clientToken = clientToken
             self.propertyId = propertyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.alias, key: "alias")
+            request.encodeQuery(self.assetId, key: "assetId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodeQuery(self.propertyId, key: "propertyId")
         }
 
         public func validate(name: String) throws {
@@ -1156,10 +1164,6 @@ extension IoTSiteWise {
     }
 
     public struct BatchAssociateProjectAssetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
-        ]
-
         /// The IDs of the assets to be associated to the project.
         public let assetIds: [String]
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -1171,6 +1175,14 @@ extension IoTSiteWise {
             self.assetIds = assetIds
             self.clientToken = clientToken
             self.projectId = projectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.assetIds, forKey: .assetIds)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.projectId, key: "projectId")
         }
 
         public func validate(name: String) throws {
@@ -1209,10 +1221,6 @@ extension IoTSiteWise {
     }
 
     public struct BatchDisassociateProjectAssetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
-        ]
-
         /// The IDs of the assets to be disassociated from the project.
         public let assetIds: [String]
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -1224,6 +1232,14 @@ extension IoTSiteWise {
             self.assetIds = assetIds
             self.clientToken = clientToken
             self.projectId = projectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.assetIds, forKey: .assetIds)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.projectId, key: "projectId")
         }
 
         public func validate(name: String) throws {
@@ -2600,11 +2616,6 @@ extension IoTSiteWise {
     }
 
     public struct DeleteAccessPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessPolicyId", location: .uri("accessPolicyId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
-        ]
-
         /// The ID of the access policy to be deleted.
         public let accessPolicyId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -2613,6 +2624,13 @@ extension IoTSiteWise {
         public init(accessPolicyId: String, clientToken: String? = DeleteAccessPolicyRequest.idempotencyToken()) {
             self.accessPolicyId = accessPolicyId
             self.clientToken = clientToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessPolicyId, key: "accessPolicyId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
         }
 
         public func validate(name: String) throws {
@@ -2632,11 +2650,6 @@ extension IoTSiteWise {
     }
 
     public struct DeleteAssetModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetModelId", location: .uri("assetModelId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
-        ]
-
         /// The ID of the asset model to delete.
         public let assetModelId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -2645,6 +2658,13 @@ extension IoTSiteWise {
         public init(assetModelId: String, clientToken: String? = DeleteAssetModelRequest.idempotencyToken()) {
             self.assetModelId = assetModelId
             self.clientToken = clientToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetModelId, key: "assetModelId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
         }
 
         public func validate(name: String) throws {
@@ -2673,11 +2693,6 @@ extension IoTSiteWise {
     }
 
     public struct DeleteAssetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
-        ]
-
         /// The ID of the asset to delete.
         public let assetId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -2686,6 +2701,13 @@ extension IoTSiteWise {
         public init(assetId: String, clientToken: String? = DeleteAssetRequest.idempotencyToken()) {
             self.assetId = assetId
             self.clientToken = clientToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetId, key: "assetId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
         }
 
         public func validate(name: String) throws {
@@ -2714,11 +2736,6 @@ extension IoTSiteWise {
     }
 
     public struct DeleteDashboardRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "dashboardId", location: .uri("dashboardId"))
-        ]
-
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
         /// The ID of the dashboard to delete.
@@ -2727,6 +2744,13 @@ extension IoTSiteWise {
         public init(clientToken: String? = DeleteDashboardRequest.idempotencyToken(), dashboardId: String) {
             self.clientToken = clientToken
             self.dashboardId = dashboardId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.dashboardId, key: "dashboardId")
         }
 
         public func validate(name: String) throws {
@@ -2746,15 +2770,17 @@ extension IoTSiteWise {
     }
 
     public struct DeleteGatewayRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayId", location: .uri("gatewayId"))
-        ]
-
         /// The ID of the gateway to delete.
         public let gatewayId: String
 
         public init(gatewayId: String) {
             self.gatewayId = gatewayId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gatewayId, key: "gatewayId")
         }
 
         public func validate(name: String) throws {
@@ -2767,11 +2793,6 @@ extension IoTSiteWise {
     }
 
     public struct DeletePortalRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "portalId", location: .uri("portalId"))
-        ]
-
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
         /// The ID of the portal to delete.
@@ -2780,6 +2801,13 @@ extension IoTSiteWise {
         public init(clientToken: String? = DeletePortalRequest.idempotencyToken(), portalId: String) {
             self.clientToken = clientToken
             self.portalId = portalId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.portalId, key: "portalId")
         }
 
         public func validate(name: String) throws {
@@ -2808,11 +2836,6 @@ extension IoTSiteWise {
     }
 
     public struct DeleteProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
-        ]
-
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
         /// The ID of the project.
@@ -2821,6 +2844,13 @@ extension IoTSiteWise {
         public init(clientToken: String? = DeleteProjectRequest.idempotencyToken(), projectId: String) {
             self.clientToken = clientToken
             self.projectId = projectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.projectId, key: "projectId")
         }
 
         public func validate(name: String) throws {
@@ -2840,12 +2870,6 @@ extension IoTSiteWise {
     }
 
     public struct DeleteTimeSeriesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "alias", location: .querystring("alias")),
-            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId"))
-        ]
-
         /// The alias that identifies the time series.
         public let alias: String?
         /// The ID of the asset in which the asset property was created.
@@ -2860,6 +2884,15 @@ extension IoTSiteWise {
             self.assetId = assetId
             self.clientToken = clientToken
             self.propertyId = propertyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.alias, key: "alias")
+            request.encodeQuery(self.assetId, key: "assetId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodeQuery(self.propertyId, key: "propertyId")
         }
 
         public func validate(name: String) throws {
@@ -2882,15 +2915,17 @@ extension IoTSiteWise {
     }
 
     public struct DescribeAccessPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessPolicyId", location: .uri("accessPolicyId"))
-        ]
-
         /// The ID of the access policy.
         public let accessPolicyId: String
 
         public init(accessPolicyId: String) {
             self.accessPolicyId = accessPolicyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessPolicyId, key: "accessPolicyId")
         }
 
         public func validate(name: String) throws {
@@ -2940,11 +2975,6 @@ extension IoTSiteWise {
     }
 
     public struct DescribeAssetModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetModelId", location: .uri("assetModelId")),
-            AWSMemberEncoding(label: "excludeProperties", location: .querystring("excludeProperties"))
-        ]
-
         /// The ID of the asset model.
         public let assetModelId: String
         ///  Whether or not to exclude asset model properties from the response.
@@ -2953,6 +2983,13 @@ extension IoTSiteWise {
         public init(assetModelId: String, excludeProperties: Bool? = nil) {
             self.assetModelId = assetModelId
             self.excludeProperties = excludeProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetModelId, key: "assetModelId")
+            request.encodeQuery(self.excludeProperties, key: "excludeProperties")
         }
 
         public func validate(name: String) throws {
@@ -3014,11 +3051,6 @@ extension IoTSiteWise {
     }
 
     public struct DescribeAssetPropertyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
-            AWSMemberEncoding(label: "propertyId", location: .uri("propertyId"))
-        ]
-
         /// The ID of the asset.
         public let assetId: String
         /// The ID of the asset property.
@@ -3027,6 +3059,13 @@ extension IoTSiteWise {
         public init(assetId: String, propertyId: String) {
             self.assetId = assetId
             self.propertyId = propertyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetId, key: "assetId")
+            request.encodePath(self.propertyId, key: "propertyId")
         }
 
         public func validate(name: String) throws {
@@ -3071,11 +3110,6 @@ extension IoTSiteWise {
     }
 
     public struct DescribeAssetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
-            AWSMemberEncoding(label: "excludeProperties", location: .querystring("excludeProperties"))
-        ]
-
         /// The ID of the asset.
         public let assetId: String
         ///  Whether or not to exclude asset properties from the response.
@@ -3084,6 +3118,13 @@ extension IoTSiteWise {
         public init(assetId: String, excludeProperties: Bool? = nil) {
             self.assetId = assetId
             self.excludeProperties = excludeProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetId, key: "assetId")
+            request.encodeQuery(self.excludeProperties, key: "excludeProperties")
         }
 
         public func validate(name: String) throws {
@@ -3149,15 +3190,17 @@ extension IoTSiteWise {
     }
 
     public struct DescribeBulkImportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// The ID of the job.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         public func validate(name: String) throws {
@@ -3215,15 +3258,17 @@ extension IoTSiteWise {
     }
 
     public struct DescribeDashboardRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dashboardId", location: .uri("dashboardId"))
-        ]
-
         /// The ID of the dashboard.
         public let dashboardId: String
 
         public init(dashboardId: String) {
             self.dashboardId = dashboardId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dashboardId, key: "dashboardId")
         }
 
         public func validate(name: String) throws {
@@ -3302,11 +3347,6 @@ extension IoTSiteWise {
     }
 
     public struct DescribeGatewayCapabilityConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "capabilityNamespace", location: .uri("capabilityNamespace")),
-            AWSMemberEncoding(label: "gatewayId", location: .uri("gatewayId"))
-        ]
-
         /// The namespace of the capability configuration. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
         public let capabilityNamespace: String
         /// The ID of the gateway that defines the capability configuration.
@@ -3315,6 +3355,13 @@ extension IoTSiteWise {
         public init(capabilityNamespace: String, gatewayId: String) {
             self.capabilityNamespace = capabilityNamespace
             self.gatewayId = gatewayId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.capabilityNamespace, key: "capabilityNamespace")
+            request.encodePath(self.gatewayId, key: "gatewayId")
         }
 
         public func validate(name: String) throws {
@@ -3355,15 +3402,17 @@ extension IoTSiteWise {
     }
 
     public struct DescribeGatewayRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayId", location: .uri("gatewayId"))
-        ]
-
         /// The ID of the gateway device.
         public let gatewayId: String
 
         public init(gatewayId: String) {
             self.gatewayId = gatewayId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gatewayId, key: "gatewayId")
         }
 
         public func validate(name: String) throws {
@@ -3430,15 +3479,17 @@ extension IoTSiteWise {
     }
 
     public struct DescribePortalRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalId", location: .uri("portalId"))
-        ]
-
         /// The ID of the portal.
         public let portalId: String
 
         public init(portalId: String) {
             self.portalId = portalId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalId, key: "portalId")
         }
 
         public func validate(name: String) throws {
@@ -3520,15 +3571,17 @@ extension IoTSiteWise {
     }
 
     public struct DescribeProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
-        ]
-
         /// The ID of the project.
         public let projectId: String
 
         public init(projectId: String) {
             self.projectId = projectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.projectId, key: "projectId")
         }
 
         public func validate(name: String) throws {
@@ -3614,12 +3667,6 @@ extension IoTSiteWise {
     }
 
     public struct DescribeTimeSeriesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "alias", location: .querystring("alias")),
-            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId"))
-        ]
-
         /// The alias that identifies the time series.
         public let alias: String?
         /// The ID of the asset in which the asset property was created.
@@ -3631,6 +3678,14 @@ extension IoTSiteWise {
             self.alias = alias
             self.assetId = assetId
             self.propertyId = propertyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.alias, key: "alias")
+            request.encodeQuery(self.assetId, key: "assetId")
+            request.encodeQuery(self.propertyId, key: "propertyId")
         }
 
         public func validate(name: String) throws {
@@ -3710,10 +3765,6 @@ extension IoTSiteWise {
     }
 
     public struct DisassociateAssetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("assetId"))
-        ]
-
         /// The ID of the parent asset from which to disassociate the child asset.
         public let assetId: String
         /// The ID of the child asset to disassociate.
@@ -3728,6 +3779,15 @@ extension IoTSiteWise {
             self.childAssetId = childAssetId
             self.clientToken = clientToken
             self.hierarchyId = hierarchyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetId, key: "assetId")
+            try container.encode(self.childAssetId, forKey: .childAssetId)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.hierarchyId, forKey: .hierarchyId)
         }
 
         public func validate(name: String) throws {
@@ -3753,12 +3813,6 @@ extension IoTSiteWise {
     }
 
     public struct DisassociateTimeSeriesFromAssetPropertyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "alias", location: .querystring("alias")),
-            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId"))
-        ]
-
         /// The alias that identifies the time series.
         public let alias: String
         /// The ID of the asset in which the asset property was created.
@@ -3773,6 +3827,15 @@ extension IoTSiteWise {
             self.assetId = assetId
             self.clientToken = clientToken
             self.propertyId = propertyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.alias, key: "alias")
+            request.encodeQuery(self.assetId, key: "assetId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodeQuery(self.propertyId, key: "propertyId")
         }
 
         public func validate(name: String) throws {
@@ -3985,20 +4048,6 @@ extension IoTSiteWise {
     }
 
     public struct GetAssetPropertyAggregatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aggregateTypes", location: .querystring("aggregateTypes")),
-            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
-            AWSMemberEncoding(label: "endDate", location: .querystring("endDate")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "propertyAlias", location: .querystring("propertyAlias")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId")),
-            AWSMemberEncoding(label: "qualities", location: .querystring("qualities")),
-            AWSMemberEncoding(label: "resolution", location: .querystring("resolution")),
-            AWSMemberEncoding(label: "startDate", location: .querystring("startDate")),
-            AWSMemberEncoding(label: "timeOrdering", location: .querystring("timeOrdering"))
-        ]
-
         /// The data aggregating function.
         public let aggregateTypes: [AggregateType]
         /// The ID of the asset.
@@ -4034,6 +4083,22 @@ extension IoTSiteWise {
             self.resolution = resolution
             self.startDate = startDate
             self.timeOrdering = timeOrdering
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.aggregateTypes, key: "aggregateTypes")
+            request.encodeQuery(self.assetId, key: "assetId")
+            request.encodeQuery(self.endDate, key: "endDate")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.propertyAlias, key: "propertyAlias")
+            request.encodeQuery(self.propertyId, key: "propertyId")
+            request.encodeQuery(self.qualities, key: "qualities")
+            request.encodeQuery(self.resolution, key: "resolution")
+            request.encodeQuery(self.startDate, key: "startDate")
+            request.encodeQuery(self.timeOrdering, key: "timeOrdering")
         }
 
         public func validate(name: String) throws {
@@ -4079,18 +4144,6 @@ extension IoTSiteWise {
     }
 
     public struct GetAssetPropertyValueHistoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
-            AWSMemberEncoding(label: "endDate", location: .querystring("endDate")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "propertyAlias", location: .querystring("propertyAlias")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId")),
-            AWSMemberEncoding(label: "qualities", location: .querystring("qualities")),
-            AWSMemberEncoding(label: "startDate", location: .querystring("startDate")),
-            AWSMemberEncoding(label: "timeOrdering", location: .querystring("timeOrdering"))
-        ]
-
         /// The ID of the asset.
         public let assetId: String?
         /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
@@ -4120,6 +4173,20 @@ extension IoTSiteWise {
             self.qualities = qualities
             self.startDate = startDate
             self.timeOrdering = timeOrdering
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.assetId, key: "assetId")
+            request.encodeQuery(self.endDate, key: "endDate")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.propertyAlias, key: "propertyAlias")
+            request.encodeQuery(self.propertyId, key: "propertyId")
+            request.encodeQuery(self.qualities, key: "qualities")
+            request.encodeQuery(self.startDate, key: "startDate")
+            request.encodeQuery(self.timeOrdering, key: "timeOrdering")
         }
 
         public func validate(name: String) throws {
@@ -4161,12 +4228,6 @@ extension IoTSiteWise {
     }
 
     public struct GetAssetPropertyValueRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
-            AWSMemberEncoding(label: "propertyAlias", location: .querystring("propertyAlias")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId"))
-        ]
-
         /// The ID of the asset.
         public let assetId: String?
         /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
@@ -4178,6 +4239,14 @@ extension IoTSiteWise {
             self.assetId = assetId
             self.propertyAlias = propertyAlias
             self.propertyId = propertyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.assetId, key: "assetId")
+            request.encodeQuery(self.propertyAlias, key: "propertyAlias")
+            request.encodeQuery(self.propertyId, key: "propertyId")
         }
 
         public func validate(name: String) throws {
@@ -4209,22 +4278,6 @@ extension IoTSiteWise {
     }
 
     public struct GetInterpolatedAssetPropertyValuesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
-            AWSMemberEncoding(label: "endTimeInSeconds", location: .querystring("endTimeInSeconds")),
-            AWSMemberEncoding(label: "endTimeOffsetInNanos", location: .querystring("endTimeOffsetInNanos")),
-            AWSMemberEncoding(label: "intervalInSeconds", location: .querystring("intervalInSeconds")),
-            AWSMemberEncoding(label: "intervalWindowInSeconds", location: .querystring("intervalWindowInSeconds")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "propertyAlias", location: .querystring("propertyAlias")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId")),
-            AWSMemberEncoding(label: "quality", location: .querystring("quality")),
-            AWSMemberEncoding(label: "startTimeInSeconds", location: .querystring("startTimeInSeconds")),
-            AWSMemberEncoding(label: "startTimeOffsetInNanos", location: .querystring("startTimeOffsetInNanos")),
-            AWSMemberEncoding(label: "type", location: .querystring("type"))
-        ]
-
         /// The ID of the asset.
         public let assetId: String?
         /// The inclusive end of the range from which to interpolate data, expressed in seconds in Unix epoch time.
@@ -4266,6 +4319,24 @@ extension IoTSiteWise {
             self.startTimeInSeconds = startTimeInSeconds
             self.startTimeOffsetInNanos = startTimeOffsetInNanos
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.assetId, key: "assetId")
+            request.encodeQuery(self.endTimeInSeconds, key: "endTimeInSeconds")
+            request.encodeQuery(self.endTimeOffsetInNanos, key: "endTimeOffsetInNanos")
+            request.encodeQuery(self.intervalInSeconds, key: "intervalInSeconds")
+            request.encodeQuery(self.intervalWindowInSeconds, key: "intervalWindowInSeconds")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.propertyAlias, key: "propertyAlias")
+            request.encodeQuery(self.propertyId, key: "propertyId")
+            request.encodeQuery(self.quality, key: "quality")
+            request.encodeQuery(self.startTimeInSeconds, key: "startTimeInSeconds")
+            request.encodeQuery(self.startTimeOffsetInNanos, key: "startTimeOffsetInNanos")
+            request.encodeQuery(self.type, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -4556,16 +4627,6 @@ extension IoTSiteWise {
     }
 
     public struct ListAccessPoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "iamArn", location: .querystring("iamArn")),
-            AWSMemberEncoding(label: "identityId", location: .querystring("identityId")),
-            AWSMemberEncoding(label: "identityType", location: .querystring("identityType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceId", location: .querystring("resourceId")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// The ARN of the IAM user. For more information, see IAM ARNs in the IAM User Guide. This parameter is required if you specify IAM for identityType.
         public let iamArn: String?
         /// The ID of the identity. This parameter is required if you specify USER or GROUP for identityType.
@@ -4589,6 +4650,18 @@ extension IoTSiteWise {
             self.nextToken = nextToken
             self.resourceId = resourceId
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.iamArn, key: "iamArn")
+            request.encodeQuery(self.identityId, key: "identityId")
+            request.encodeQuery(self.identityType, key: "identityType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceId, key: "resourceId")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -4629,13 +4702,6 @@ extension IoTSiteWise {
     }
 
     public struct ListAssetModelPropertiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetModelId", location: .uri("assetModelId")),
-            AWSMemberEncoding(label: "filter", location: .querystring("filter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ID of the asset model.
         public let assetModelId: String
         ///  Filters the requested list of asset model properties. You can choose one of the following options:    ALL – The list includes all asset model properties for a given asset model ID.     BASE – The list includes only base asset model properties for a given asset model ID.    Default: BASE
@@ -4650,6 +4716,15 @@ extension IoTSiteWise {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetModelId, key: "assetModelId")
+            request.encodeQuery(self.filter, key: "filter")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4684,11 +4759,6 @@ extension IoTSiteWise {
     }
 
     public struct ListAssetModelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
@@ -4697,6 +4767,13 @@ extension IoTSiteWise {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4728,13 +4805,6 @@ extension IoTSiteWise {
     }
 
     public struct ListAssetPropertiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
-            AWSMemberEncoding(label: "filter", location: .querystring("filter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ID of the asset.
         public let assetId: String
         ///  Filters the requested list of asset properties. You can choose one of the following options:    ALL – The list includes all asset properties for a given asset model ID.     BASE – The list includes only base asset properties for a given asset model ID.    Default: BASE
@@ -4749,6 +4819,15 @@ extension IoTSiteWise {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetId, key: "assetId")
+            request.encodeQuery(self.filter, key: "filter")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4783,13 +4862,6 @@ extension IoTSiteWise {
     }
 
     public struct ListAssetRelationshipsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "traversalType", location: .querystring("traversalType"))
-        ]
-
         /// The ID of the asset.
         public let assetId: String
         /// The maximum number of results to return for each paginated request.
@@ -4804,6 +4876,15 @@ extension IoTSiteWise {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.traversalType = traversalType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetId, key: "assetId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.traversalType, key: "traversalType")
         }
 
         public func validate(name: String) throws {
@@ -4838,13 +4919,6 @@ extension IoTSiteWise {
     }
 
     public struct ListAssetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetModelId", location: .querystring("assetModelId")),
-            AWSMemberEncoding(label: "filter", location: .querystring("filter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ID of the asset model by which to filter the list of assets. This parameter is required if you choose ALL for filter.
         public let assetModelId: String?
         /// The filter for the requested list of assets. Choose one of the following options:    ALL – The list includes all assets for a given asset model ID. The assetModelId parameter is required if you filter by ALL.    TOP_LEVEL – The list includes only top-level assets in the asset hierarchy tree.   Default: ALL
@@ -4859,6 +4933,15 @@ extension IoTSiteWise {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.assetModelId, key: "assetModelId")
+            request.encodeQuery(self.filter, key: "filter")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4893,14 +4976,6 @@ extension IoTSiteWise {
     }
 
     public struct ListAssociatedAssetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
-            AWSMemberEncoding(label: "hierarchyId", location: .querystring("hierarchyId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "traversalDirection", location: .querystring("traversalDirection"))
-        ]
-
         /// The ID of the asset to query.
         public let assetId: String
         /// The ID of the hierarchy by which child assets are associated to the asset. To find a hierarchy ID, use the DescribeAsset or DescribeAssetModel operations. This parameter is required if you choose CHILD for traversalDirection. For more information, see Asset hierarchies in the IoT SiteWise User Guide.
@@ -4918,6 +4993,16 @@ extension IoTSiteWise {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.traversalDirection = traversalDirection
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetId, key: "assetId")
+            request.encodeQuery(self.hierarchyId, key: "hierarchyId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.traversalDirection, key: "traversalDirection")
         }
 
         public func validate(name: String) throws {
@@ -4955,12 +5040,6 @@ extension IoTSiteWise {
     }
 
     public struct ListBulkImportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filter", location: .querystring("filter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// You can use a filter to select the bulk import jobs that you want to retrieve.
         public let filter: ListBulkImportJobsFilter?
         /// The maximum number of results to return for each paginated request.
@@ -4972,6 +5051,14 @@ extension IoTSiteWise {
             self.filter = filter
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.filter, key: "filter")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -5003,12 +5090,6 @@ extension IoTSiteWise {
     }
 
     public struct ListDashboardsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "projectId", location: .querystring("projectId"))
-        ]
-
         /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
@@ -5020,6 +5101,14 @@ extension IoTSiteWise {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.projectId = projectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.projectId, key: "projectId")
         }
 
         public func validate(name: String) throws {
@@ -5054,11 +5143,6 @@ extension IoTSiteWise {
     }
 
     public struct ListGatewaysRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
@@ -5067,6 +5151,13 @@ extension IoTSiteWise {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -5098,11 +5189,6 @@ extension IoTSiteWise {
     }
 
     public struct ListPortalsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
@@ -5111,6 +5197,13 @@ extension IoTSiteWise {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -5142,12 +5235,6 @@ extension IoTSiteWise {
     }
 
     public struct ListProjectAssetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
-        ]
-
         /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
@@ -5159,6 +5246,14 @@ extension IoTSiteWise {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.projectId = projectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.projectId, key: "projectId")
         }
 
         public func validate(name: String) throws {
@@ -5193,12 +5288,6 @@ extension IoTSiteWise {
     }
 
     public struct ListProjectsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "portalId", location: .querystring("portalId"))
-        ]
-
         /// The maximum number of results to return for each paginated request. Default: 50
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
@@ -5210,6 +5299,14 @@ extension IoTSiteWise {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.portalId = portalId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.portalId, key: "portalId")
         }
 
         public func validate(name: String) throws {
@@ -5244,15 +5341,17 @@ extension IoTSiteWise {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -5277,14 +5376,6 @@ extension IoTSiteWise {
     }
 
     public struct ListTimeSeriesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "aliasPrefix", location: .querystring("aliasPrefix")),
-            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "timeSeriesType", location: .querystring("timeSeriesType"))
-        ]
-
         /// The alias prefix of the time series.
         public let aliasPrefix: String?
         /// The ID of the asset in which the asset property was created.
@@ -5302,6 +5393,16 @@ extension IoTSiteWise {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.timeSeriesType = timeSeriesType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.aliasPrefix, key: "aliasPrefix")
+            request.encodeQuery(self.assetId, key: "assetId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.timeSeriesType, key: "timeSeriesType")
         }
 
         public func validate(name: String) throws {
@@ -5890,10 +5991,6 @@ extension IoTSiteWise {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The ARN of the resource to tag.
         public let resourceArn: String
         /// A list of key-value pairs that contain metadata for the resource. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
@@ -5902,6 +5999,13 @@ extension IoTSiteWise {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -6064,11 +6168,6 @@ extension IoTSiteWise {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource to untag.
         public let resourceArn: String
         /// A list of keys for tags to remove from the resource.
@@ -6077,6 +6176,13 @@ extension IoTSiteWise {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -6097,10 +6203,6 @@ extension IoTSiteWise {
     }
 
     public struct UpdateAccessPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessPolicyId", location: .uri("accessPolicyId"))
-        ]
-
         /// The ID of the access policy.
         public let accessPolicyId: String
         /// The identity for this access policy. Choose an IAM Identity Center user, an IAM Identity Center group, or an IAM user.
@@ -6118,6 +6220,16 @@ extension IoTSiteWise {
             self.accessPolicyPermission = accessPolicyPermission
             self.accessPolicyResource = accessPolicyResource
             self.clientToken = clientToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessPolicyId, key: "accessPolicyId")
+            try container.encode(self.accessPolicyIdentity, forKey: .accessPolicyIdentity)
+            try container.encode(self.accessPolicyPermission, forKey: .accessPolicyPermission)
+            try container.encode(self.accessPolicyResource, forKey: .accessPolicyResource)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
         }
 
         public func validate(name: String) throws {
@@ -6144,10 +6256,6 @@ extension IoTSiteWise {
     }
 
     public struct UpdateAssetModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetModelId", location: .uri("assetModelId"))
-        ]
-
         /// The composite asset models that are part of this asset model. Composite asset models are asset models that contain specific properties. Each composite model has a type that defines the properties that the composite model supports. Use composite asset models to define alarms on this asset model.
         public let assetModelCompositeModels: [AssetModelCompositeModel]?
         /// A description for the asset model.
@@ -6171,6 +6279,18 @@ extension IoTSiteWise {
             self.assetModelName = assetModelName
             self.assetModelProperties = assetModelProperties
             self.clientToken = clientToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.assetModelCompositeModels, forKey: .assetModelCompositeModels)
+            try container.encodeIfPresent(self.assetModelDescription, forKey: .assetModelDescription)
+            try container.encodeIfPresent(self.assetModelHierarchies, forKey: .assetModelHierarchies)
+            request.encodePath(self.assetModelId, key: "assetModelId")
+            try container.encode(self.assetModelName, forKey: .assetModelName)
+            try container.encodeIfPresent(self.assetModelProperties, forKey: .assetModelProperties)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
         }
 
         public func validate(name: String) throws {
@@ -6221,11 +6341,6 @@ extension IoTSiteWise {
     }
 
     public struct UpdateAssetPropertyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("assetId")),
-            AWSMemberEncoding(label: "propertyId", location: .uri("propertyId"))
-        ]
-
         /// The ID of the asset to be updated.
         public let assetId: String
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -6246,6 +6361,17 @@ extension IoTSiteWise {
             self.propertyId = propertyId
             self.propertyNotificationState = propertyNotificationState
             self.propertyUnit = propertyUnit
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetId, key: "assetId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.propertyAlias, forKey: .propertyAlias)
+            request.encodePath(self.propertyId, key: "propertyId")
+            try container.encodeIfPresent(self.propertyNotificationState, forKey: .propertyNotificationState)
+            try container.encodeIfPresent(self.propertyUnit, forKey: .propertyUnit)
         }
 
         public func validate(name: String) throws {
@@ -6274,10 +6400,6 @@ extension IoTSiteWise {
     }
 
     public struct UpdateAssetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("assetId"))
-        ]
-
         /// A description for the asset.
         public let assetDescription: String?
         /// The ID of the asset to update.
@@ -6292,6 +6414,15 @@ extension IoTSiteWise {
             self.assetId = assetId
             self.assetName = assetName
             self.clientToken = clientToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.assetDescription, forKey: .assetDescription)
+            request.encodePath(self.assetId, key: "assetId")
+            try container.encode(self.assetName, forKey: .assetName)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
         }
 
         public func validate(name: String) throws {
@@ -6330,10 +6461,6 @@ extension IoTSiteWise {
     }
 
     public struct UpdateDashboardRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dashboardId", location: .uri("dashboardId"))
-        ]
-
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
         /// The new dashboard definition, as specified in a JSON literal. For detailed information, see Creating dashboards (CLI) in the IoT SiteWise User Guide.
@@ -6351,6 +6478,16 @@ extension IoTSiteWise {
             self.dashboardDescription = dashboardDescription
             self.dashboardId = dashboardId
             self.dashboardName = dashboardName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.dashboardDefinition, forKey: .dashboardDefinition)
+            try container.encodeIfPresent(self.dashboardDescription, forKey: .dashboardDescription)
+            request.encodePath(self.dashboardId, key: "dashboardId")
+            try container.encode(self.dashboardName, forKey: .dashboardName)
         }
 
         public func validate(name: String) throws {
@@ -6383,10 +6520,6 @@ extension IoTSiteWise {
     }
 
     public struct UpdateGatewayCapabilityConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayId", location: .uri("gatewayId"))
-        ]
-
         /// The JSON document that defines the configuration for the gateway capability. For more information, see Configuring data sources (CLI) in the IoT SiteWise User Guide.
         public let capabilityConfiguration: String
         /// The namespace of the gateway capability configuration to be updated. For example, if you configure OPC-UA sources from the IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
@@ -6398,6 +6531,14 @@ extension IoTSiteWise {
             self.capabilityConfiguration = capabilityConfiguration
             self.capabilityNamespace = capabilityNamespace
             self.gatewayId = gatewayId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.capabilityConfiguration, forKey: .capabilityConfiguration)
+            try container.encode(self.capabilityNamespace, forKey: .capabilityNamespace)
+            request.encodePath(self.gatewayId, key: "gatewayId")
         }
 
         public func validate(name: String) throws {
@@ -6435,10 +6576,6 @@ extension IoTSiteWise {
     }
 
     public struct UpdateGatewayRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gatewayId", location: .uri("gatewayId"))
-        ]
-
         /// The ID of the gateway to update.
         public let gatewayId: String
         /// A unique, friendly name for the gateway.
@@ -6447,6 +6584,13 @@ extension IoTSiteWise {
         public init(gatewayId: String, gatewayName: String) {
             self.gatewayId = gatewayId
             self.gatewayName = gatewayName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gatewayId, key: "gatewayId")
+            try container.encode(self.gatewayName, forKey: .gatewayName)
         }
 
         public func validate(name: String) throws {
@@ -6464,10 +6608,6 @@ extension IoTSiteWise {
     }
 
     public struct UpdatePortalRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "portalId", location: .uri("portalId"))
-        ]
-
         /// Contains the configuration information of an alarm created in an IoT SiteWise Monitor portal.  You can use the alarm to monitor an asset property and get notified when the asset property value is outside a specified range.  For more information, see Monitoring with alarms in the IoT SiteWise Application Guide.
         public let alarms: Alarms?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -6496,6 +6636,20 @@ extension IoTSiteWise {
             self.portalLogoImage = portalLogoImage
             self.portalName = portalName
             self.roleArn = roleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.alarms, forKey: .alarms)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.notificationSenderEmail, forKey: .notificationSenderEmail)
+            try container.encode(self.portalContactEmail, forKey: .portalContactEmail)
+            try container.encodeIfPresent(self.portalDescription, forKey: .portalDescription)
+            request.encodePath(self.portalId, key: "portalId")
+            try container.encodeIfPresent(self.portalLogoImage, forKey: .portalLogoImage)
+            try container.encode(self.portalName, forKey: .portalName)
+            try container.encode(self.roleArn, forKey: .roleArn)
         }
 
         public func validate(name: String) throws {
@@ -6550,10 +6704,6 @@ extension IoTSiteWise {
     }
 
     public struct UpdateProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
-        ]
-
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
         /// A new description for the project.
@@ -6568,6 +6718,15 @@ extension IoTSiteWise {
             self.projectDescription = projectDescription
             self.projectId = projectId
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.projectDescription, forKey: .projectDescription)
+            request.encodePath(self.projectId, key: "projectId")
+            try container.encode(self.projectName, forKey: .projectName)
         }
 
         public func validate(name: String) throws {

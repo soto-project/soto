@@ -206,15 +206,17 @@ extension Polly {
     // MARK: Shapes
 
     public struct DeleteLexiconInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -229,13 +231,6 @@ extension Polly {
     }
 
     public struct DescribeVoicesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "engine", location: .querystring("Engine")),
-            AWSMemberEncoding(label: "includeAdditionalLanguageCodes", location: .querystring("IncludeAdditionalLanguageCodes")),
-            AWSMemberEncoding(label: "languageCode", location: .querystring("LanguageCode")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// Specifies the engine (standard or neural) used by Amazon Polly when processing input text for speech synthesis.
         public let engine: Engine?
         /// Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you specify no.
@@ -250,6 +245,15 @@ extension Polly {
             self.includeAdditionalLanguageCodes = includeAdditionalLanguageCodes
             self.languageCode = languageCode
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.engine, key: "Engine")
+            request.encodeQuery(self.includeAdditionalLanguageCodes, key: "IncludeAdditionalLanguageCodes")
+            request.encodeQuery(self.languageCode, key: "LanguageCode")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -277,15 +281,17 @@ extension Polly {
     }
 
     public struct GetLexiconInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// Name of the lexicon.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -313,15 +319,17 @@ extension Polly {
     }
 
     public struct GetSpeechSynthesisTaskInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri("TaskId"))
-        ]
-
         /// The Amazon Polly generated identifier for a speech synthesis task.
         public let taskId: String
 
         public init(taskId: String) {
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskId, key: "TaskId")
         }
 
         public func validate(name: String) throws {
@@ -412,15 +420,17 @@ extension Polly {
     }
 
     public struct ListLexiconsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// An opaque pagination token returned from previous ListLexicons operation. If present, indicates where to continue the list of lexicons.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -448,12 +458,6 @@ extension Polly {
     }
 
     public struct ListSpeechSynthesisTasksInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("Status"))
-        ]
-
         /// Maximum number of speech synthesis tasks returned in a List operation.
         public let maxResults: Int?
         /// The pagination token to use in the next request to continue the listing of speech synthesis tasks.
@@ -465,6 +469,14 @@ extension Polly {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.status, key: "Status")
         }
 
         public func validate(name: String) throws {
@@ -494,10 +506,6 @@ extension Polly {
     }
 
     public struct PutLexiconInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// Content of the PLS lexicon as string data.
         public let content: String
         /// Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long.
@@ -506,6 +514,13 @@ extension Polly {
         public init(content: String, name: String) {
             self.content = content
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.content, forKey: .content)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -741,10 +756,10 @@ extension Polly {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.audioStream = response.decodePayload()
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-            self.requestCharacters = try response.decodeIfPresent(Int.self, forHeader: "x-amzn-RequestCharacters")
-
+            let container = try decoder.singleValueContainer()
+            self.audioStream = try container.decode(AWSHTTPBody.self)
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
+            self.requestCharacters = try response.decodeHeaderIfPresent(Int.self, key: "x-amzn-RequestCharacters")
         }
 
         private enum CodingKeys: CodingKey {}

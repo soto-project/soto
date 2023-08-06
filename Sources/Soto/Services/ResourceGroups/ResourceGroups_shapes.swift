@@ -375,15 +375,17 @@ extension ResourceGroups {
     }
 
     public struct GetTagsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The ARN of the resource group whose tags you want to retrieve.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
         }
 
         public func validate(name: String) throws {
@@ -738,11 +740,6 @@ extension ResourceGroups {
     }
 
     public struct ListGroupsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter the results to include only those of the specified resource types. Specify up to five resource types in the format AWS::ServiceCode::ResourceType . For example, AWS::EC2::Instance, or AWS::S3::Bucket.    configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:    AWS::EC2::CapacityReservationPool     AWS::EC2::HostManagement
         public let filters: [GroupFilter]?
         /// The total number of results that you want included on each page of the
@@ -764,6 +761,14 @@ extension ResourceGroups {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1016,10 +1021,6 @@ extension ResourceGroups {
     }
 
     public struct TagInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The ARN of the resource group to which to add tags.
         public let arn: String
         /// The tags to add to the specified resource group. A tag is a string-to-string map of key-value pairs.
@@ -1028,6 +1029,13 @@ extension ResourceGroups {
         public init(arn: String, tags: [String: String]) {
             self.arn = arn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1115,10 +1123,6 @@ extension ResourceGroups {
     }
 
     public struct UntagInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("Arn"))
-        ]
-
         /// The ARN of the resource group from which to remove tags. The command removed both the specified keys and any values associated with those keys.
         public let arn: String
         /// The keys of the tags to be removed.
@@ -1127,6 +1131,13 @@ extension ResourceGroups {
         public init(arn: String, keys: [String]) {
             self.arn = arn
             self.keys = keys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "Arn")
+            try container.encode(self.keys, forKey: .keys)
         }
 
         public func validate(name: String) throws {

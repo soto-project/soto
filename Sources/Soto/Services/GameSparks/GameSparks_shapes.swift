@@ -152,10 +152,6 @@ extension GameSparks {
     }
 
     public struct CreateSnapshotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName"))
-        ]
-
         /// The description of the snapshot.
         public let description: String?
         /// The name of the game.
@@ -164,6 +160,13 @@ extension GameSparks {
         public init(description: String? = nil, gameName: String) {
             self.description = description
             self.gameName = gameName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.gameName, key: "GameName")
         }
 
         public func validate(name: String) throws {
@@ -193,10 +196,6 @@ extension GameSparks {
     }
 
     public struct CreateStageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName"))
-        ]
-
         ///  A client-defined token. With an active client token in the request, this action is idempotent.
         public let clientToken: String?
         /// The description of the stage.
@@ -217,6 +216,17 @@ extension GameSparks {
             self.role = role
             self.stageName = stageName
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.gameName, key: "GameName")
+            try container.encode(self.role, forKey: .role)
+            try container.encode(self.stageName, forKey: .stageName)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -267,15 +277,17 @@ extension GameSparks {
     }
 
     public struct DeleteGameRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName"))
-        ]
-
         /// The name of the game to delete.
         public let gameName: String
 
         public init(gameName: String) {
             self.gameName = gameName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
         }
 
         public func validate(name: String) throws {
@@ -292,11 +304,6 @@ extension GameSparks {
     }
 
     public struct DeleteStageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The name of the stage to delete.
@@ -305,6 +312,13 @@ extension GameSparks {
         public init(gameName: String, stageName: String) {
             self.gameName = gameName
             self.stageName = stageName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodePath(self.stageName, key: "StageName")
         }
 
         public func validate(name: String) throws {
@@ -341,12 +355,6 @@ extension GameSparks {
     }
 
     public struct DisconnectPlayerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "playerId", location: .uri("PlayerId")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The unique identifier representing a player.
@@ -358,6 +366,14 @@ extension GameSparks {
             self.gameName = gameName
             self.playerId = playerId
             self.stageName = stageName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodePath(self.playerId, key: "PlayerId")
+            request.encodePath(self.stageName, key: "StageName")
         }
 
         public func validate(name: String) throws {
@@ -393,11 +409,6 @@ extension GameSparks {
     }
 
     public struct ExportSnapshotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The identifier of the snapshot to export.
@@ -406,6 +417,13 @@ extension GameSparks {
         public init(gameName: String, snapshotId: String) {
             self.gameName = gameName
             self.snapshotId = snapshotId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodePath(self.snapshotId, key: "SnapshotId")
         }
 
         public func validate(name: String) throws {
@@ -634,11 +652,6 @@ extension GameSparks {
     }
 
     public struct GetExtensionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The name of the extension.
         public let name: String
         /// The namespace (qualifier) of the extension.
@@ -647,6 +660,13 @@ extension GameSparks {
         public init(name: String, namespace: String) {
             self.name = name
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodePath(self.namespace, key: "Namespace")
         }
 
         public func validate(name: String) throws {
@@ -675,12 +695,6 @@ extension GameSparks {
     }
 
     public struct GetExtensionVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "extensionVersion", location: .uri("ExtensionVersion")),
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
-        ]
-
         /// The version of the extension.
         public let extensionVersion: String
         /// The name of the extension.
@@ -692,6 +706,14 @@ extension GameSparks {
             self.extensionVersion = extensionVersion
             self.name = name
             self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.extensionVersion, key: "ExtensionVersion")
+            request.encodePath(self.name, key: "Name")
+            request.encodePath(self.namespace, key: "Namespace")
         }
 
         public func validate(name: String) throws {
@@ -721,11 +743,6 @@ extension GameSparks {
     }
 
     public struct GetGameConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "sections", location: .querystring("Sections"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The list of sections to return.
@@ -734,6 +751,13 @@ extension GameSparks {
         public init(gameName: String, sections: [String]? = nil) {
             self.gameName = gameName
             self.sections = sections
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodeQuery(self.sections, key: "Sections")
         }
 
         public func validate(name: String) throws {
@@ -766,15 +790,17 @@ extension GameSparks {
     }
 
     public struct GetGameRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName"))
-        ]
-
         /// The name of the game.
         public let gameName: String
 
         public init(gameName: String) {
             self.gameName = gameName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
         }
 
         public func validate(name: String) throws {
@@ -800,12 +826,6 @@ extension GameSparks {
     }
 
     public struct GetGeneratedCodeJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The identifier of the code generation job.
@@ -817,6 +837,14 @@ extension GameSparks {
             self.gameName = gameName
             self.jobId = jobId
             self.snapshotId = snapshotId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodePath(self.jobId, key: "JobId")
+            request.encodePath(self.snapshotId, key: "SnapshotId")
         }
 
         public func validate(name: String) throws {
@@ -846,12 +874,6 @@ extension GameSparks {
     }
 
     public struct GetPlayerConnectionStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "playerId", location: .uri("PlayerId")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The unique identifier representing a player.
@@ -863,6 +885,14 @@ extension GameSparks {
             self.gameName = gameName
             self.playerId = playerId
             self.stageName = stageName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodePath(self.playerId, key: "PlayerId")
+            request.encodePath(self.stageName, key: "StageName")
         }
 
         public func validate(name: String) throws {
@@ -894,12 +924,6 @@ extension GameSparks {
     }
 
     public struct GetSnapshotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "sections", location: .querystring("Sections")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The list of game configuration sections to be described.
@@ -911,6 +935,14 @@ extension GameSparks {
             self.gameName = gameName
             self.sections = sections
             self.snapshotId = snapshotId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodeQuery(self.sections, key: "Sections")
+            request.encodePath(self.snapshotId, key: "SnapshotId")
         }
 
         public func validate(name: String) throws {
@@ -946,12 +978,6 @@ extension GameSparks {
     }
 
     public struct GetStageDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deploymentId", location: .querystring("DeploymentId")),
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         ///  The identifier of the stage deployment. StartStageDeployment returns the identifier that you use here.
         public let deploymentId: String?
         /// The name of the game.
@@ -963,6 +989,14 @@ extension GameSparks {
             self.deploymentId = deploymentId
             self.gameName = gameName
             self.stageName = stageName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deploymentId, key: "DeploymentId")
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodePath(self.stageName, key: "StageName")
         }
 
         public func validate(name: String) throws {
@@ -994,11 +1028,6 @@ extension GameSparks {
     }
 
     public struct GetStageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The name of the stage.
@@ -1007,6 +1036,13 @@ extension GameSparks {
         public init(gameName: String, stageName: String) {
             self.gameName = gameName
             self.stageName = stageName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodePath(self.stageName, key: "StageName")
         }
 
         public func validate(name: String) throws {
@@ -1035,10 +1071,6 @@ extension GameSparks {
     }
 
     public struct ImportGameConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The source used to import configuration sections.
@@ -1047,6 +1079,13 @@ extension GameSparks {
         public init(gameName: String, importSource: ImportGameConfigurationSource) {
             self.gameName = gameName
             self.importSource = importSource
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            try container.encode(self.importSource, forKey: .importSource)
         }
 
         public func validate(name: String) throws {
@@ -1093,13 +1132,6 @@ extension GameSparks {
     }
 
     public struct ListExtensionVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "namespace", location: .uri("Namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to return.  Use this parameter with NextToken to get results as a set of sequential pages.
         public let maxResults: Int?
         /// The name of the extension.
@@ -1114,6 +1146,15 @@ extension GameSparks {
             self.name = name
             self.namespace = namespace
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodePath(self.name, key: "Name")
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -1151,11 +1192,6 @@ extension GameSparks {
     }
 
     public struct ListExtensionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to return.  Use this parameter with NextToken to get results as a set of sequential pages.
         public let maxResults: Int?
         /// The token that indicates the start of the next sequential page of results.  Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
@@ -1164,6 +1200,13 @@ extension GameSparks {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -1195,11 +1238,6 @@ extension GameSparks {
     }
 
     public struct ListGamesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The maximum number of results to return.  Use this parameter with NextToken to get results as a set of sequential pages.
         public let maxResults: Int?
         /// The token that indicates the start of the next sequential page of results.  Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
@@ -1208,6 +1246,13 @@ extension GameSparks {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -1239,13 +1284,6 @@ extension GameSparks {
     }
 
     public struct ListGeneratedCodeJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The maximum number of results to return.  Use this parameter with NextToken to get results as a set of sequential pages.
@@ -1260,6 +1298,15 @@ extension GameSparks {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.snapshotId = snapshotId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.snapshotId, key: "SnapshotId")
         }
 
         public func validate(name: String) throws {
@@ -1297,12 +1344,6 @@ extension GameSparks {
     }
 
     public struct ListSnapshotsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The maximum number of results to return.  Use this parameter with NextToken to get results as a set of sequential pages.
@@ -1314,6 +1355,14 @@ extension GameSparks {
             self.gameName = gameName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -1348,13 +1397,6 @@ extension GameSparks {
     }
 
     public struct ListStageDeploymentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The maximum number of results to return.  Use this parameter with NextToken to get results as a set of sequential pages.
@@ -1369,6 +1411,15 @@ extension GameSparks {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.stageName = stageName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.stageName, key: "StageName")
         }
 
         public func validate(name: String) throws {
@@ -1406,12 +1457,6 @@ extension GameSparks {
     }
 
     public struct ListStagesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The maximum number of results to return.  Use this parameter with NextToken to get results as a set of sequential pages.
@@ -1423,6 +1468,14 @@ extension GameSparks {
             self.gameName = gameName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -1457,15 +1510,17 @@ extension GameSparks {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the GameSparks resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1757,11 +1812,6 @@ extension GameSparks {
     }
 
     public struct StartGeneratedCodeJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// Properties of the generator to use for the job.
@@ -1773,6 +1823,14 @@ extension GameSparks {
             self.gameName = gameName
             self.generator = generator
             self.snapshotId = snapshotId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            try container.encode(self.generator, forKey: .generator)
+            request.encodePath(self.snapshotId, key: "SnapshotId")
         }
 
         public func validate(name: String) throws {
@@ -1804,11 +1862,6 @@ extension GameSparks {
     }
 
     public struct StartStageDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         ///  A client-defined token. With an active client token in the request, this action is idempotent.
         public let clientToken: String?
         /// The name of the game.
@@ -1823,6 +1876,15 @@ extension GameSparks {
             self.gameName = gameName
             self.snapshotId = snapshotId
             self.stageName = stageName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.gameName, key: "GameName")
+            try container.encode(self.snapshotId, forKey: .snapshotId)
+            request.encodePath(self.stageName, key: "StageName")
         }
 
         public func validate(name: String) throws {
@@ -1859,10 +1921,6 @@ extension GameSparks {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource to add the tags to.
         public let resourceArn: String
         /// The tags to add to the resource.
@@ -1871,6 +1929,13 @@ extension GameSparks {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1898,11 +1963,6 @@ extension GameSparks {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource to remove the tags from.
         public let resourceArn: String
         /// The keys of the tags to remove.
@@ -1911,6 +1971,13 @@ extension GameSparks {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1934,10 +2001,6 @@ extension GameSparks {
     }
 
     public struct UpdateGameConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName"))
-        ]
-
         /// The name of the game.
         public let gameName: String
         /// The list of modifications to make.
@@ -1946,6 +2009,13 @@ extension GameSparks {
         public init(gameName: String, modifications: [SectionModification]) {
             self.gameName = gameName
             self.modifications = modifications
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gameName, key: "GameName")
+            try container.encode(self.modifications, forKey: .modifications)
         }
 
         public func validate(name: String) throws {
@@ -1978,10 +2048,6 @@ extension GameSparks {
     }
 
     public struct UpdateGameRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName"))
-        ]
-
         /// The description of the game.
         public let description: String?
         /// The name of the game.
@@ -1990,6 +2056,13 @@ extension GameSparks {
         public init(description: String? = nil, gameName: String) {
             self.description = description
             self.gameName = gameName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.gameName, key: "GameName")
         }
 
         public func validate(name: String) throws {
@@ -2019,11 +2092,6 @@ extension GameSparks {
     }
 
     public struct UpdateSnapshotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri("SnapshotId"))
-        ]
-
         /// The description of the snapshot.
         public let description: String?
         /// The name of the game.
@@ -2035,6 +2103,14 @@ extension GameSparks {
             self.description = description
             self.gameName = gameName
             self.snapshotId = snapshotId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.gameName, key: "GameName")
+            request.encodePath(self.snapshotId, key: "SnapshotId")
         }
 
         public func validate(name: String) throws {
@@ -2067,11 +2143,6 @@ extension GameSparks {
     }
 
     public struct UpdateStageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "gameName", location: .uri("GameName")),
-            AWSMemberEncoding(label: "stageName", location: .uri("StageName"))
-        ]
-
         /// The description of the stage.
         public let description: String?
         /// The name of the game.
@@ -2086,6 +2157,15 @@ extension GameSparks {
             self.gameName = gameName
             self.role = role
             self.stageName = stageName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.gameName, key: "GameName")
+            try container.encodeIfPresent(self.role, forKey: .role)
+            request.encodePath(self.stageName, key: "StageName")
         }
 
         public func validate(name: String) throws {

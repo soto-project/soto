@@ -111,11 +111,6 @@ extension LookoutVision {
     }
 
     public struct CreateDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// ClientToken is an idempotency token that ensures a call to CreateDataset completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from CreateDataset. In this case, safely retry your call to CreateDataset by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple dataset creation requests. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateDataset. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The location of the manifest file that Amazon Lookout for Vision uses to create the dataset. If you don't specify DatasetSource, an empty dataset is created and the operation  synchronously returns. Later, you can add JSON Lines by calling UpdateDatasetEntries.  If you specify a value for DataSource, the manifest at the S3 location is validated and used to create the dataset. The call to CreateDataset is asynchronous and might take a while to complete. To find out the current status, Check the value of Status returned in a call to DescribeDataset.
@@ -130,6 +125,15 @@ extension LookoutVision {
             self.datasetSource = datasetSource
             self.datasetType = datasetType
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.datasetSource, forKey: .datasetSource)
+            try container.encode(self.datasetType, forKey: .datasetType)
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -165,11 +169,6 @@ extension LookoutVision {
     }
 
     public struct CreateModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// ClientToken is an idempotency token that ensures a call to CreateModel completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from CreateModel. In this case, safely retry your call to CreateModel by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from starting multiple training jobs. You'll need to provide your own value for other use cases.    An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateModel. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// A description for the version of the model.
@@ -190,6 +189,17 @@ extension LookoutVision {
             self.outputConfig = outputConfig
             self.projectName = projectName
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.kmsKeyId, forKey: .kmsKeyId)
+            try container.encode(self.outputConfig, forKey: .outputConfig)
+            request.encodePath(self.projectName, key: "ProjectName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -234,10 +244,6 @@ extension LookoutVision {
     }
 
     public struct CreateProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token"))
-        ]
-
         /// ClientToken is an idempotency token that ensures a call to CreateProject completes only once.  You choose the value to pass. For example, An issue might prevent you from  getting a response from CreateProject. In this case, safely retry your call to CreateProject by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple project creation requests. You'll need to provide your own value for other use cases.        An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to CreateProject. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The name for the project.
@@ -246,6 +252,13 @@ extension LookoutVision {
         public init(clientToken: String? = CreateProjectRequest.idempotencyToken(), projectName: String) {
             self.clientToken = clientToken
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encode(self.projectName, forKey: .projectName)
         }
 
         public func validate(name: String) throws {
@@ -397,12 +410,6 @@ extension LookoutVision {
     }
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "datasetType", location: .uri("DatasetType")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// ClientToken is an idempotency token that ensures a call to DeleteDataset completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from DeleteDataset. In this case, safely retry your call to DeleteDataset by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple deletetion requests. You'll need to provide your own value for other use cases.         An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteDataset. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The type of the dataset to delete. Specify train to delete the training dataset. Specify test to delete the test dataset. To delete the dataset in a single dataset project,  specify train.
@@ -414,6 +421,14 @@ extension LookoutVision {
             self.clientToken = clientToken
             self.datasetType = datasetType
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            request.encodePath(self.datasetType, key: "DatasetType")
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -436,12 +451,6 @@ extension LookoutVision {
     }
 
     public struct DeleteModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "modelVersion", location: .uri("ModelVersion")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// ClientToken is an idempotency token that ensures a call to DeleteModel completes only once.  You choose the value to pass. For example, an issue might prevent you from getting a response from DeleteModel. In this case, safely retry your call to DeleteModel by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple model deletion requests. You'll need to provide your own value for other use cases.   An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteModel. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The version of the model that you want to delete.
@@ -453,6 +462,14 @@ extension LookoutVision {
             self.clientToken = clientToken
             self.modelVersion = modelVersion
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            request.encodePath(self.modelVersion, key: "ModelVersion")
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -484,11 +501,6 @@ extension LookoutVision {
     }
 
     public struct DeleteProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// ClientToken is an idempotency token that ensures a call to DeleteProject completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from DeleteProject. In this case, safely retry your call to DeleteProject by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple project deletion requests. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to DeleteProject. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The name of the project to delete.
@@ -497,6 +509,13 @@ extension LookoutVision {
         public init(clientToken: String? = DeleteProjectRequest.idempotencyToken(), projectName: String) {
             self.clientToken = clientToken
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -525,11 +544,6 @@ extension LookoutVision {
     }
 
     public struct DescribeDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetType", location: .uri("DatasetType")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// The type of the dataset to describe. Specify train to describe the  training dataset. Specify test to describe the test dataset. If you have a single dataset project, specify train
         public let datasetType: String
         /// The name of the project that contains the dataset that you want to describe.
@@ -538,6 +552,13 @@ extension LookoutVision {
         public init(datasetType: String, projectName: String) {
             self.datasetType = datasetType
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetType, key: "DatasetType")
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -566,11 +587,6 @@ extension LookoutVision {
     }
 
     public struct DescribeModelPackagingJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobName", location: .uri("JobName")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// The job name for the model packaging job.
         public let jobName: String
         /// The name of the project that contains the model packaging job that you want to describe.
@@ -579,6 +595,13 @@ extension LookoutVision {
         public init(jobName: String, projectName: String) {
             self.jobName = jobName
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobName, key: "JobName")
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -607,11 +630,6 @@ extension LookoutVision {
     }
 
     public struct DescribeModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "modelVersion", location: .uri("ModelVersion")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// The version of the model that you want to describe.
         public let modelVersion: String
         /// The project that contains the version of a model that you want to describe.
@@ -620,6 +638,13 @@ extension LookoutVision {
         public init(modelVersion: String, projectName: String) {
             self.modelVersion = modelVersion
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.modelVersion, key: "ModelVersion")
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -648,15 +673,17 @@ extension LookoutVision {
     }
 
     public struct DescribeProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// The name of the project that you want to describe.
         public let projectName: String
 
         public init(projectName: String) {
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -681,16 +708,8 @@ extension LookoutVision {
         }
     }
 
-    public struct DetectAnomaliesRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
+    public struct DetectAnomaliesRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "modelVersion", location: .uri("ModelVersion")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// The unencrypted image bytes that you want to analyze.
         public let body: AWSHTTPBody
         /// The type of the image passed in Body. Valid values are image/png (PNG format images) and image/jpeg (JPG format images).
@@ -705,6 +724,15 @@ extension LookoutVision {
             self.contentType = contentType
             self.modelVersion = modelVersion
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.body)
+            request.encodeHeader(self.contentType, key: "Content-Type")
+            request.encodePath(self.modelVersion, key: "ModelVersion")
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -893,18 +921,6 @@ extension LookoutVision {
     }
 
     public struct ListDatasetEntriesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "afterCreationDate", location: .querystring("createdAfter")),
-            AWSMemberEncoding(label: "anomalyClass", location: .querystring("anomalyClass")),
-            AWSMemberEncoding(label: "beforeCreationDate", location: .querystring("createdBefore")),
-            AWSMemberEncoding(label: "datasetType", location: .uri("DatasetType")),
-            AWSMemberEncoding(label: "labeled", location: .querystring("labeled")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName")),
-            AWSMemberEncoding(label: "sourceRefContains", location: .querystring("sourceRefContains"))
-        ]
-
         /// Only includes entries after the specified date in the response. For example, 2020-06-23T00:00:00.
         public let afterCreationDate: Date?
         /// Specify normal to include only normal images. Specify anomaly to only include anomalous entries. If you don't specify a value, Amazon Lookout for Vision returns normal and anomalous images.
@@ -934,6 +950,20 @@ extension LookoutVision {
             self.nextToken = nextToken
             self.projectName = projectName
             self.sourceRefContains = sourceRefContains
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.afterCreationDate, key: "createdAfter")
+            request.encodeQuery(self.anomalyClass, key: "anomalyClass")
+            request.encodeQuery(self.beforeCreationDate, key: "createdBefore")
+            request.encodePath(self.datasetType, key: "DatasetType")
+            request.encodeQuery(self.labeled, key: "labeled")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.projectName, key: "ProjectName")
+            request.encodeQuery(self.sourceRefContains, key: "sourceRefContains")
         }
 
         public func validate(name: String) throws {
@@ -976,12 +1006,6 @@ extension LookoutVision {
     }
 
     public struct ListModelPackagingJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// The maximum number of results to return per paginated call. The largest value you can specify is 100.  If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
         public let maxResults: Int?
         /// If the previous response was incomplete (because there is more results to retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can use this pagination  token to retrieve the next set of results.
@@ -993,6 +1017,14 @@ extension LookoutVision {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -1026,12 +1058,6 @@ extension LookoutVision {
     }
 
     public struct ListModelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// The maximum number of results to return per paginated call. The largest value you can specify is 100.  If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
         public let maxResults: Int?
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can use this pagination token to retrieve the next set of models.
@@ -1043,6 +1069,14 @@ extension LookoutVision {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -1076,11 +1110,6 @@ extension LookoutVision {
     }
 
     public struct ListProjectsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per paginated call. The largest value you can specify is 100.  If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
         public let maxResults: Int?
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can use this pagination token to retrieve the next set of projects.
@@ -1089,6 +1118,13 @@ extension LookoutVision {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1119,15 +1155,17 @@ extension LookoutVision {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the model for which you want to list tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1526,11 +1564,6 @@ extension LookoutVision {
     }
 
     public struct StartModelPackagingJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// ClientToken is an idempotency token that ensures a call to StartModelPackagingJob completes only once.  You choose the value to pass. For example, An issue might prevent you from getting a response from StartModelPackagingJob. In this case, safely retry your call to StartModelPackagingJob by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple dataset creation requests. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to StartModelPackagingJob. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The configuration for the model packaging job.
@@ -1551,6 +1584,17 @@ extension LookoutVision {
             self.jobName = jobName
             self.modelVersion = modelVersion
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encode(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.jobName, forKey: .jobName)
+            try container.encode(self.modelVersion, forKey: .modelVersion)
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -1594,12 +1638,6 @@ extension LookoutVision {
     }
 
     public struct StartModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "modelVersion", location: .uri("ModelVersion")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// ClientToken is an idempotency token that ensures a call to StartModel completes only once.  You choose the value to pass. For example, An issue might prevent  you from getting a response from StartModel. In this case, safely retry your call to StartModel by using the same ClientToken parameter value.  If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple start requests. You'll need to provide your own value for other use cases.   An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to StartModel. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The maximum number of inference units to use for auto-scaling the model. If you don't specify a value, Amazon Lookout for Vision doesn't auto-scale the model.
@@ -1617,6 +1655,16 @@ extension LookoutVision {
             self.minInferenceUnits = minInferenceUnits
             self.modelVersion = modelVersion
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.maxInferenceUnits, forKey: .maxInferenceUnits)
+            try container.encode(self.minInferenceUnits, forKey: .minInferenceUnits)
+            request.encodePath(self.modelVersion, key: "ModelVersion")
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -1653,12 +1701,6 @@ extension LookoutVision {
     }
 
     public struct StopModelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "modelVersion", location: .uri("ModelVersion")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// ClientToken is an idempotency token that ensures a call to StopModel completes only once.  You choose the value to pass. For example, An issue  might prevent you from getting a response from StopModel. In this case, safely retry your call to StopModel by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple stop requests. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to StopModel. An idempotency token is active for 8 hours.
         public let clientToken: String?
         /// The version of the model that you want to stop.
@@ -1670,6 +1712,14 @@ extension LookoutVision {
             self.clientToken = clientToken
             self.modelVersion = modelVersion
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            request.encodePath(self.modelVersion, key: "ModelVersion")
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {
@@ -1726,10 +1776,6 @@ extension LookoutVision {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the model to assign the tags.
         public let resourceArn: String
         /// The key-value tags to assign to the model.
@@ -1738,6 +1784,13 @@ extension LookoutVision {
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1780,11 +1833,6 @@ extension LookoutVision {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the model from which you want to remove tags.
         public let resourceArn: String
         /// A list of the keys of the tags that you want to remove.
@@ -1793,6 +1841,13 @@ extension LookoutVision {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1814,12 +1869,6 @@ extension LookoutVision {
     }
 
     public struct UpdateDatasetEntriesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amzn-Client-Token")),
-            AWSMemberEncoding(label: "datasetType", location: .uri("DatasetType")),
-            AWSMemberEncoding(label: "projectName", location: .uri("ProjectName"))
-        ]
-
         /// The entries to add to the dataset.
         public let changes: AWSBase64Data
         /// ClientToken is an idempotency token that ensures a call to UpdateDatasetEntries completes only once.  You choose the value to pass. For example, An issue  might prevent you from getting a response from UpdateDatasetEntries. In this case, safely retry your call to UpdateDatasetEntries by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you.  This prevents retries after a network error from making multiple updates with the same dataset entries. You'll need to provide your own value for other use cases.  An error occurs if the other input parameters are not the same as in the first request. Using a different   value for ClientToken is considered a new call to UpdateDatasetEntries. An idempotency token is active for 8 hours.
@@ -1834,6 +1883,15 @@ extension LookoutVision {
             self.clientToken = clientToken
             self.datasetType = datasetType
             self.projectName = projectName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.changes, forKey: .changes)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            request.encodePath(self.datasetType, key: "DatasetType")
+            request.encodePath(self.projectName, key: "ProjectName")
         }
 
         public func validate(name: String) throws {

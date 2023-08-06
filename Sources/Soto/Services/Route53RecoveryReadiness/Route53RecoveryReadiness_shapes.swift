@@ -316,10 +316,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct DeleteCellRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cellName", location: .uri("CellName"))
-        ]
-
         /// The name of the cell.
         public let cellName: String
 
@@ -327,19 +323,27 @@ extension Route53RecoveryReadiness {
             self.cellName = cellName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.cellName, key: "CellName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteCrossAccountAuthorizationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "crossAccountAuthorization", location: .uri("CrossAccountAuthorization"))
-        ]
-
         /// The cross-account authorization.
         public let crossAccountAuthorization: String
 
         public init(crossAccountAuthorization: String) {
             self.crossAccountAuthorization = crossAccountAuthorization
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.crossAccountAuthorization, key: "CrossAccountAuthorization")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -350,10 +354,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct DeleteReadinessCheckRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName"))
-        ]
-
         /// Name of a readiness check.
         public let readinessCheckName: String
 
@@ -361,14 +361,16 @@ extension Route53RecoveryReadiness {
             self.readinessCheckName = readinessCheckName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.readinessCheckName, key: "ReadinessCheckName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRecoveryGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
-        ]
-
         /// The name of a recovery group.
         public let recoveryGroupName: String
 
@@ -376,14 +378,16 @@ extension Route53RecoveryReadiness {
             self.recoveryGroupName = recoveryGroupName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.recoveryGroupName, key: "RecoveryGroupName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteResourceSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceSetName", location: .uri("ResourceSetName"))
-        ]
-
         /// Name of a resource set.
         public let resourceSetName: String
 
@@ -391,16 +395,16 @@ extension Route53RecoveryReadiness {
             self.resourceSetName = resourceSetName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceSetName, key: "ResourceSetName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetArchitectureRecommendationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// The token that identifies which batch of results you want to see.
@@ -412,6 +416,14 @@ extension Route53RecoveryReadiness {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.recoveryGroupName = recoveryGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.recoveryGroupName, key: "RecoveryGroupName")
         }
 
         public func validate(name: String) throws {
@@ -445,12 +457,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetCellReadinessSummaryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cellName", location: .uri("CellName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the cell.
         public let cellName: String
         /// The number of objects that you want to return with this call.
@@ -462,6 +468,14 @@ extension Route53RecoveryReadiness {
             self.cellName = cellName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.cellName, key: "CellName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -494,15 +508,17 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetCellRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cellName", location: .uri("CellName"))
-        ]
-
         /// The name of the cell.
         public let cellName: String
 
         public init(cellName: String) {
             self.cellName = cellName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.cellName, key: "CellName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -538,10 +554,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetReadinessCheckRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName"))
-        ]
-
         /// Name of a readiness check.
         public let readinessCheckName: String
 
@@ -549,17 +561,16 @@ extension Route53RecoveryReadiness {
             self.readinessCheckName = readinessCheckName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.readinessCheckName, key: "ReadinessCheckName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetReadinessCheckResourceStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName")),
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// The token that identifies which batch of results you want to see.
@@ -574,6 +585,15 @@ extension Route53RecoveryReadiness {
             self.nextToken = nextToken
             self.readinessCheckName = readinessCheckName
             self.resourceIdentifier = resourceIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.readinessCheckName, key: "ReadinessCheckName")
+            request.encodePath(self.resourceIdentifier, key: "ResourceIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -630,12 +650,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetReadinessCheckStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// The token that identifies which batch of results you want to see.
@@ -647,6 +661,14 @@ extension Route53RecoveryReadiness {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.readinessCheckName = readinessCheckName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.readinessCheckName, key: "ReadinessCheckName")
         }
 
         public func validate(name: String) throws {
@@ -683,12 +705,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetRecoveryGroupReadinessSummaryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// The token that identifies which batch of results you want to see.
@@ -700,6 +716,14 @@ extension Route53RecoveryReadiness {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.recoveryGroupName = recoveryGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.recoveryGroupName, key: "RecoveryGroupName")
         }
 
         public func validate(name: String) throws {
@@ -732,15 +756,17 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetRecoveryGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
-        ]
-
         /// The name of a recovery group.
         public let recoveryGroupName: String
 
         public init(recoveryGroupName: String) {
             self.recoveryGroupName = recoveryGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.recoveryGroupName, key: "RecoveryGroupName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -772,15 +798,17 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetResourceSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceSetName", location: .uri("ResourceSetName"))
-        ]
-
         /// Name of a resource set.
         public let resourceSetName: String
 
         public init(resourceSetName: String) {
             self.resourceSetName = resourceSetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceSetName, key: "ResourceSetName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -815,11 +843,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListCellsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// The token that identifies which batch of results you want to see.
@@ -828,6 +851,13 @@ extension Route53RecoveryReadiness {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -856,11 +886,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListCrossAccountAuthorizationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// The token that identifies which batch of results you want to see.
@@ -869,6 +894,13 @@ extension Route53RecoveryReadiness {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -897,11 +929,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListReadinessChecksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// The token that identifies which batch of results you want to see.
@@ -910,6 +937,13 @@ extension Route53RecoveryReadiness {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -938,11 +972,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListRecoveryGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// The token that identifies which batch of results you want to see.
@@ -951,6 +980,13 @@ extension Route53RecoveryReadiness {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -979,11 +1015,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListResourceSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// The token that identifies which batch of results you want to see.
@@ -992,6 +1023,13 @@ extension Route53RecoveryReadiness {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1041,12 +1079,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListRulesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// The number of objects that you want to return with this call.
         public let maxResults: Int?
         /// The token that identifies which batch of results you want to see.
@@ -1058,6 +1090,14 @@ extension Route53RecoveryReadiness {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -1086,15 +1126,17 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListTagsForResourcesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for a resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1340,10 +1382,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) for a resource.
         public let resourceArn: String
         public let tags: [String: String]
@@ -1351,6 +1389,13 @@ extension Route53RecoveryReadiness {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1380,11 +1425,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) for a resource.
         public let resourceArn: String
         /// The keys for tags you add to resources.
@@ -1395,14 +1435,17 @@ extension Route53RecoveryReadiness {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateCellRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cellName", location: .uri("CellName"))
-        ]
-
         /// The name of the cell.
         public let cellName: String
         /// A list of cell Amazon Resource Names (ARNs), which completely replaces the previous list.
@@ -1411,6 +1454,13 @@ extension Route53RecoveryReadiness {
         public init(cellName: String, cells: [String]) {
             self.cellName = cellName
             self.cells = cells
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.cellName, key: "CellName")
+            try container.encode(self.cells, forKey: .cells)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1448,10 +1498,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct UpdateReadinessCheckRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName"))
-        ]
-
         /// Name of a readiness check.
         public let readinessCheckName: String
         /// The name of the resource set to be checked.
@@ -1460,6 +1506,13 @@ extension Route53RecoveryReadiness {
         public init(readinessCheckName: String, resourceSetName: String) {
             self.readinessCheckName = readinessCheckName
             self.resourceSetName = resourceSetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.readinessCheckName, key: "ReadinessCheckName")
+            try container.encode(self.resourceSetName, forKey: .resourceSetName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1492,10 +1545,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct UpdateRecoveryGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
-        ]
-
         /// A list of cell Amazon Resource Names (ARNs). This list completely replaces the previous list.
         public let cells: [String]
         /// The name of a recovery group.
@@ -1504,6 +1553,13 @@ extension Route53RecoveryReadiness {
         public init(cells: [String], recoveryGroupName: String) {
             self.cells = cells
             self.recoveryGroupName = recoveryGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.cells, forKey: .cells)
+            request.encodePath(self.recoveryGroupName, key: "RecoveryGroupName")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1537,10 +1593,6 @@ extension Route53RecoveryReadiness {
     }
 
     public struct UpdateResourceSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceSetName", location: .uri("ResourceSetName"))
-        ]
-
         /// A list of resource objects.
         public let resources: [Resource]
         /// Name of a resource set.
@@ -1552,6 +1604,14 @@ extension Route53RecoveryReadiness {
             self.resources = resources
             self.resourceSetName = resourceSetName
             self.resourceSetType = resourceSetType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.resources, forKey: .resources)
+            request.encodePath(self.resourceSetName, key: "ResourceSetName")
+            try container.encode(self.resourceSetType, forKey: .resourceSetType)
         }
 
         public func validate(name: String) throws {

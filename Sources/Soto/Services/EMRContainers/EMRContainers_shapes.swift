@@ -82,11 +82,6 @@ extension EMRContainers {
     // MARK: Shapes
 
     public struct CancelJobRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
-        ]
-
         /// The ID of the job run to cancel.
         public let id: String
         /// The ID of the virtual cluster for which the job run will be canceled.
@@ -95,6 +90,13 @@ extension EMRContainers {
         public init(id: String, virtualClusterId: String) {
             self.id = id
             self.virtualClusterId = virtualClusterId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.virtualClusterId, key: "virtualClusterId")
         }
 
         public func validate(name: String) throws {
@@ -364,10 +366,6 @@ extension EMRContainers {
     }
 
     public struct CreateManagedEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
-        ]
-
         /// The certificate ARN provided by users for the managed endpoint. This field is under deprecation and will be removed in future releases.
         public let certificateArn: String?
         /// The client idempotency token for this create call.
@@ -410,6 +408,20 @@ extension EMRContainers {
             self.tags = tags
             self.type = type
             self.virtualClusterId = virtualClusterId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.certificateArn, forKey: .certificateArn)
+            try container.encode(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.configurationOverrides, forKey: .configurationOverrides)
+            try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.releaseLabel, forKey: .releaseLabel)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.type, forKey: .type)
+            request.encodePath(self.virtualClusterId, key: "virtualClusterId")
         }
 
         public func validate(name: String) throws {
@@ -547,15 +559,17 @@ extension EMRContainers {
     }
 
     public struct DeleteJobTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the job template that will be deleted.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -581,11 +595,6 @@ extension EMRContainers {
     }
 
     public struct DeleteManagedEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
-        ]
-
         /// The ID of the managed endpoint.
         public let id: String
         /// The ID of the endpoint's virtual cluster.
@@ -594,6 +603,13 @@ extension EMRContainers {
         public init(id: String, virtualClusterId: String) {
             self.id = id
             self.virtualClusterId = virtualClusterId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.virtualClusterId, key: "virtualClusterId")
         }
 
         public func validate(name: String) throws {
@@ -626,15 +642,17 @@ extension EMRContainers {
     }
 
     public struct DeleteVirtualClusterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the virtual cluster that will be deleted.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -660,11 +678,6 @@ extension EMRContainers {
     }
 
     public struct DescribeJobRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
-        ]
-
         /// The ID of the job run request.
         public let id: String
         /// The ID of the virtual cluster for which the job run is submitted.
@@ -673,6 +686,13 @@ extension EMRContainers {
         public init(id: String, virtualClusterId: String) {
             self.id = id
             self.virtualClusterId = virtualClusterId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.virtualClusterId, key: "virtualClusterId")
         }
 
         public func validate(name: String) throws {
@@ -701,15 +721,17 @@ extension EMRContainers {
     }
 
     public struct DescribeJobTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the job template that will be described.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -735,11 +757,6 @@ extension EMRContainers {
     }
 
     public struct DescribeManagedEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id")),
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
-        ]
-
         /// This output displays ID of the managed endpoint.
         public let id: String
         /// The ID of the endpoint's virtual cluster.
@@ -748,6 +765,13 @@ extension EMRContainers {
         public init(id: String, virtualClusterId: String) {
             self.id = id
             self.virtualClusterId = virtualClusterId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.virtualClusterId, key: "virtualClusterId")
         }
 
         public func validate(name: String) throws {
@@ -776,15 +800,17 @@ extension EMRContainers {
     }
 
     public struct DescribeVirtualClusterRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("id"))
-        ]
-
         /// The ID of the virtual cluster that will be described.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
         }
 
         public func validate(name: String) throws {
@@ -933,11 +959,6 @@ extension EMRContainers {
     }
 
     public struct GetManagedEndpointSessionCredentialsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endpointIdentifier", location: .uri("endpointIdentifier")),
-            AWSMemberEncoding(label: "virtualClusterIdentifier", location: .uri("virtualClusterIdentifier"))
-        ]
-
         /// The client idempotency token of the job run request.
         public let clientToken: String?
         /// Type of the token requested. Currently supported and default value of this field is “TOKEN.”
@@ -961,6 +982,18 @@ extension EMRContainers {
             self.executionRoleArn = executionRoleArn
             self.logContext = logContext
             self.virtualClusterIdentifier = virtualClusterIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.credentialType, forKey: .credentialType)
+            try container.encodeIfPresent(self.durationInSeconds, forKey: .durationInSeconds)
+            request.encodePath(self.endpointIdentifier, key: "endpointIdentifier")
+            try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.logContext, forKey: .logContext)
+            request.encodePath(self.virtualClusterIdentifier, key: "virtualClusterIdentifier")
         }
 
         public func validate(name: String) throws {
@@ -1225,16 +1258,6 @@ extension EMRContainers {
     }
 
     public struct ListJobRunsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "_createdAfter", location: .querystring("createdAfter")),
-            AWSMemberEncoding(label: "_createdBefore", location: .querystring("createdBefore")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "states", location: .querystring("states")),
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
-        ]
-
         /// The date and time after which the job runs were submitted.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAfter: Date?
@@ -1260,6 +1283,18 @@ extension EMRContainers {
             self.nextToken = nextToken
             self.states = states
             self.virtualClusterId = virtualClusterId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._createdAfter, key: "createdAfter")
+            request.encodeQuery(self._createdBefore, key: "createdBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.states, key: "states")
+            request.encodePath(self.virtualClusterId, key: "virtualClusterId")
         }
 
         public func validate(name: String) throws {
@@ -1296,13 +1331,6 @@ extension EMRContainers {
     }
 
     public struct ListJobTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "_createdAfter", location: .querystring("createdAfter")),
-            AWSMemberEncoding(label: "_createdBefore", location: .querystring("createdBefore")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The date and time after which the job templates were created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAfter: Date?
@@ -1319,6 +1347,15 @@ extension EMRContainers {
             self.createdBefore = createdBefore
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._createdAfter, key: "createdAfter")
+            request.encodeQuery(self._createdBefore, key: "createdBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1348,16 +1385,6 @@ extension EMRContainers {
     }
 
     public struct ListManagedEndpointsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "_createdAfter", location: .querystring("createdAfter")),
-            AWSMemberEncoding(label: "_createdBefore", location: .querystring("createdBefore")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "states", location: .querystring("states")),
-            AWSMemberEncoding(label: "types", location: .querystring("types")),
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
-        ]
-
         ///  The date and time after which the endpoints are created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAfter: Date?
@@ -1383,6 +1410,18 @@ extension EMRContainers {
             self.states = states
             self.types = types
             self.virtualClusterId = virtualClusterId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._createdAfter, key: "createdAfter")
+            request.encodeQuery(self._createdBefore, key: "createdBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.states, key: "states")
+            request.encodeQuery(self.types, key: "types")
+            request.encodePath(self.virtualClusterId, key: "virtualClusterId")
         }
 
         public func validate(name: String) throws {
@@ -1422,15 +1461,17 @@ extension EMRContainers {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of tagged resources.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1456,16 +1497,6 @@ extension EMRContainers {
     }
 
     public struct ListVirtualClustersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "containerProviderId", location: .querystring("containerProviderId")),
-            AWSMemberEncoding(label: "containerProviderType", location: .querystring("containerProviderType")),
-            AWSMemberEncoding(label: "_createdAfter", location: .querystring("createdAfter")),
-            AWSMemberEncoding(label: "_createdBefore", location: .querystring("createdBefore")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "states", location: .querystring("states"))
-        ]
-
         /// The container provider ID of the virtual cluster.
         public let containerProviderId: String?
         /// The container provider type of the virtual cluster. Amazon EKS is the only supported type as of now.
@@ -1491,6 +1522,18 @@ extension EMRContainers {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.states = states
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.containerProviderId, key: "containerProviderId")
+            request.encodeQuery(self.containerProviderType, key: "containerProviderType")
+            request.encodeQuery(self._createdAfter, key: "createdAfter")
+            request.encodeQuery(self._createdBefore, key: "createdBefore")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.states, key: "states")
         }
 
         public func validate(name: String) throws {
@@ -1760,10 +1803,6 @@ extension EMRContainers {
     }
 
     public struct StartJobRunRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "virtualClusterId", location: .uri("virtualClusterId"))
-        ]
-
         /// The client idempotency token of the job run request.
         public let clientToken: String
         /// The configuration overrides for the job run.
@@ -1799,6 +1838,22 @@ extension EMRContainers {
             self.retryPolicyConfiguration = retryPolicyConfiguration
             self.tags = tags
             self.virtualClusterId = virtualClusterId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.configurationOverrides, forKey: .configurationOverrides)
+            try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.jobDriver, forKey: .jobDriver)
+            try container.encodeIfPresent(self.jobTemplateId, forKey: .jobTemplateId)
+            try container.encodeIfPresent(self.jobTemplateParameters, forKey: .jobTemplateParameters)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.releaseLabel, forKey: .releaseLabel)
+            try container.encodeIfPresent(self.retryPolicyConfiguration, forKey: .retryPolicyConfiguration)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.virtualClusterId, key: "virtualClusterId")
         }
 
         public func validate(name: String) throws {
@@ -1881,10 +1936,6 @@ extension EMRContainers {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The ARN of resources.
         public let resourceArn: String
         /// The tags assigned to resources.
@@ -1893,6 +1944,13 @@ extension EMRContainers {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1942,11 +2000,6 @@ extension EMRContainers {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of resources.
         public let resourceArn: String
         /// The tag keys of the resources.
@@ -1955,6 +2008,13 @@ extension EMRContainers {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {

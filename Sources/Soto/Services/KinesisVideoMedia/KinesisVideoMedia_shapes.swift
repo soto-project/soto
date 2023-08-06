@@ -83,9 +83,9 @@ extension KinesisVideoMedia {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-            self.payload = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
+            self.payload = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}

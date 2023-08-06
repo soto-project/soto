@@ -466,16 +466,19 @@ extension IoTWireless {
     }
 
     public struct AssociateMulticastGroupWithFuotaTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
         public let multicastGroupId: String
 
         public init(id: String, multicastGroupId: String) {
             self.id = id
             self.multicastGroupId = multicastGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.multicastGroupId, forKey: .multicastGroupId)
         }
 
         public func validate(name: String) throws {
@@ -493,16 +496,19 @@ extension IoTWireless {
     }
 
     public struct AssociateWirelessDeviceWithFuotaTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
         public let wirelessDeviceId: String
 
         public init(id: String, wirelessDeviceId: String) {
             self.id = id
             self.wirelessDeviceId = wirelessDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.wirelessDeviceId, forKey: .wirelessDeviceId)
         }
 
         public func validate(name: String) throws {
@@ -520,16 +526,19 @@ extension IoTWireless {
     }
 
     public struct AssociateWirelessDeviceWithMulticastGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
         public let wirelessDeviceId: String
 
         public init(id: String, wirelessDeviceId: String) {
             self.id = id
             self.wirelessDeviceId = wirelessDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.wirelessDeviceId, forKey: .wirelessDeviceId)
         }
 
         public func validate(name: String) throws {
@@ -547,10 +556,6 @@ extension IoTWireless {
     }
 
     public struct AssociateWirelessDeviceWithThingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to update.
         public let id: String
         /// The ARN of the thing to associate with the wireless device.
@@ -559,6 +564,13 @@ extension IoTWireless {
         public init(id: String, thingArn: String) {
             self.id = id
             self.thingArn = thingArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.thingArn, forKey: .thingArn)
         }
 
         public func validate(name: String) throws {
@@ -575,10 +587,6 @@ extension IoTWireless {
     }
 
     public struct AssociateWirelessGatewayWithCertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to update.
         public let id: String
         /// The ID of the certificate to associate with the wireless gateway.
@@ -587,6 +595,13 @@ extension IoTWireless {
         public init(id: String, iotCertificateId: String) {
             self.id = id
             self.iotCertificateId = iotCertificateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.iotCertificateId, forKey: .iotCertificateId)
         }
 
         public func validate(name: String) throws {
@@ -614,10 +629,6 @@ extension IoTWireless {
     }
 
     public struct AssociateWirelessGatewayWithThingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to update.
         public let id: String
         /// The ARN of the thing to associate with the wireless gateway.
@@ -626,6 +637,13 @@ extension IoTWireless {
         public init(id: String, thingArn: String) {
             self.id = id
             self.thingArn = thingArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.thingArn, forKey: .thingArn)
         }
 
         public func validate(name: String) throws {
@@ -669,14 +687,16 @@ extension IoTWireless {
     }
 
     public struct CancelMulticastGroupSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1505,10 +1525,6 @@ extension IoTWireless {
     }
 
     public struct CreateWirelessGatewayTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to update.
         public let id: String
         /// The ID of the WirelessGatewayTaskDefinition.
@@ -1517,6 +1533,13 @@ extension IoTWireless {
         public init(id: String, wirelessGatewayTaskDefinitionId: String) {
             self.id = id
             self.wirelessGatewayTaskDefinitionId = wirelessGatewayTaskDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.wirelessGatewayTaskDefinitionId, forKey: .wirelessGatewayTaskDefinitionId)
         }
 
         public func validate(name: String) throws {
@@ -1577,15 +1600,17 @@ extension IoTWireless {
     }
 
     public struct DeleteDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the resource to delete.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1601,15 +1626,17 @@ extension IoTWireless {
     }
 
     public struct DeleteDeviceProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1624,14 +1651,16 @@ extension IoTWireless {
     }
 
     public struct DeleteFuotaTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1646,14 +1675,16 @@ extension IoTWireless {
     }
 
     public struct DeleteMulticastGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1668,14 +1699,16 @@ extension IoTWireless {
     }
 
     public struct DeleteNetworkAnalyzerConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationName", location: .uri("ConfigurationName"))
-        ]
-
         public let configurationName: String
 
         public init(configurationName: String) {
             self.configurationName = configurationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationName, key: "ConfigurationName")
         }
 
         public func validate(name: String) throws {
@@ -1692,12 +1725,6 @@ extension IoTWireless {
     }
 
     public struct DeleteQueuedMessagesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "messageId", location: .querystring("messageId")),
-            AWSMemberEncoding(label: "wirelessDeviceType", location: .querystring("WirelessDeviceType"))
-        ]
-
         /// The ID of a given wireless device for which downlink messages will be deleted.
         public let id: String
         /// If message ID is "*", it cleares the entire downlink queue for a given device, specified by the wireless device ID. Otherwise, the downlink message with the specified message ID will be deleted.
@@ -1709,6 +1736,14 @@ extension IoTWireless {
             self.id = id
             self.messageId = messageId
             self.wirelessDeviceType = wirelessDeviceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeQuery(self.messageId, key: "messageId")
+            request.encodeQuery(self.wirelessDeviceType, key: "WirelessDeviceType")
         }
 
         public func validate(name: String) throws {
@@ -1723,15 +1758,17 @@ extension IoTWireless {
     }
 
     public struct DeleteServiceProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1746,15 +1783,17 @@ extension IoTWireless {
     }
 
     public struct DeleteWirelessDeviceImportTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The unique identifier of the import task to be deleted.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1769,15 +1808,17 @@ extension IoTWireless {
     }
 
     public struct DeleteWirelessDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1792,15 +1833,17 @@ extension IoTWireless {
     }
 
     public struct DeleteWirelessGatewayRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1815,15 +1858,17 @@ extension IoTWireless {
     }
 
     public struct DeleteWirelessGatewayTaskDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1839,15 +1884,17 @@ extension IoTWireless {
     }
 
     public struct DeleteWirelessGatewayTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to delete.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -1862,11 +1909,6 @@ extension IoTWireless {
     }
 
     public struct DeregisterWirelessDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
-            AWSMemberEncoding(label: "wirelessDeviceType", location: .querystring("WirelessDeviceType"))
-        ]
-
         /// The identifier of the wireless device to deregister from AWS IoT Wireless.
         public let identifier: String
         /// The type of wireless device to deregister from AWS IoT Wireless, which can be LoRaWAN  or Sidewalk.
@@ -1875,6 +1917,13 @@ extension IoTWireless {
         public init(identifier: String, wirelessDeviceType: WirelessDeviceType? = nil) {
             self.identifier = identifier
             self.wirelessDeviceType = wirelessDeviceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+            request.encodeQuery(self.wirelessDeviceType, key: "WirelessDeviceType")
         }
 
         public func validate(name: String) throws {
@@ -1973,11 +2022,6 @@ extension IoTWireless {
     }
 
     public struct DisassociateAwsAccountFromPartnerAccountRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "partnerAccountId", location: .uri("PartnerAccountId")),
-            AWSMemberEncoding(label: "partnerType", location: .querystring("partnerType"))
-        ]
-
         /// The partner account ID to disassociate from the AWS account.
         public let partnerAccountId: String
         /// The partner type.
@@ -1986,6 +2030,13 @@ extension IoTWireless {
         public init(partnerAccountId: String, partnerType: PartnerType) {
             self.partnerAccountId = partnerAccountId
             self.partnerType = partnerType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.partnerAccountId, key: "PartnerAccountId")
+            request.encodeQuery(self.partnerType, key: "partnerType")
         }
 
         public func validate(name: String) throws {
@@ -2000,17 +2051,19 @@ extension IoTWireless {
     }
 
     public struct DisassociateMulticastGroupFromFuotaTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "multicastGroupId", location: .uri("MulticastGroupId"))
-        ]
-
         public let id: String
         public let multicastGroupId: String
 
         public init(id: String, multicastGroupId: String) {
             self.id = id
             self.multicastGroupId = multicastGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodePath(self.multicastGroupId, key: "MulticastGroupId")
         }
 
         public func validate(name: String) throws {
@@ -2026,17 +2079,19 @@ extension IoTWireless {
     }
 
     public struct DisassociateWirelessDeviceFromFuotaTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "wirelessDeviceId", location: .uri("WirelessDeviceId"))
-        ]
-
         public let id: String
         public let wirelessDeviceId: String
 
         public init(id: String, wirelessDeviceId: String) {
             self.id = id
             self.wirelessDeviceId = wirelessDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodePath(self.wirelessDeviceId, key: "WirelessDeviceId")
         }
 
         public func validate(name: String) throws {
@@ -2052,17 +2107,19 @@ extension IoTWireless {
     }
 
     public struct DisassociateWirelessDeviceFromMulticastGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "wirelessDeviceId", location: .uri("WirelessDeviceId"))
-        ]
-
         public let id: String
         public let wirelessDeviceId: String
 
         public init(id: String, wirelessDeviceId: String) {
             self.id = id
             self.wirelessDeviceId = wirelessDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodePath(self.wirelessDeviceId, key: "WirelessDeviceId")
         }
 
         public func validate(name: String) throws {
@@ -2078,15 +2135,17 @@ extension IoTWireless {
     }
 
     public struct DisassociateWirelessDeviceFromThingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to update.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -2101,15 +2160,17 @@ extension IoTWireless {
     }
 
     public struct DisassociateWirelessGatewayFromCertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to update.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -2124,15 +2185,17 @@ extension IoTWireless {
     }
 
     public struct DisassociateWirelessGatewayFromThingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to update.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -2304,15 +2367,17 @@ extension IoTWireless {
     }
 
     public struct GetDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the resource to get.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -2357,15 +2422,17 @@ extension IoTWireless {
     }
 
     public struct GetDeviceProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to get.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -2438,14 +2505,16 @@ extension IoTWireless {
     }
 
     public struct GetFuotaTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -2523,14 +2592,16 @@ extension IoTWireless {
     }
 
     public struct GetMulticastGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -2571,14 +2642,16 @@ extension IoTWireless {
     }
 
     public struct GetMulticastGroupSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -2601,14 +2674,16 @@ extension IoTWireless {
     }
 
     public struct GetNetworkAnalyzerConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationName", location: .uri("ConfigurationName"))
-        ]
-
         public let configurationName: String
 
         public init(configurationName: String) {
             self.configurationName = configurationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationName, key: "ConfigurationName")
         }
 
         public func validate(name: String) throws {
@@ -2655,11 +2730,6 @@ extension IoTWireless {
     }
 
     public struct GetPartnerAccountRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "partnerAccountId", location: .uri("PartnerAccountId")),
-            AWSMemberEncoding(label: "partnerType", location: .querystring("partnerType"))
-        ]
-
         /// The partner account ID to disassociate from the AWS account.
         public let partnerAccountId: String
         /// The partner type.
@@ -2668,6 +2738,13 @@ extension IoTWireless {
         public init(partnerAccountId: String, partnerType: PartnerType) {
             self.partnerAccountId = partnerAccountId
             self.partnerType = partnerType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.partnerAccountId, key: "PartnerAccountId")
+            request.encodeQuery(self.partnerType, key: "partnerType")
         }
 
         public func validate(name: String) throws {
@@ -2695,11 +2772,6 @@ extension IoTWireless {
     }
 
     public struct GetPositionConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// Resource identifier used in a position configuration.
         public let resourceIdentifier: String
         /// Resource type of the resource for which position configuration is retrieved.
@@ -2708,6 +2780,13 @@ extension IoTWireless {
         public init(resourceIdentifier: String, resourceType: PositionResourceType) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceIdentifier, key: "ResourceIdentifier")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -2781,20 +2860,14 @@ extension IoTWireless {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.geoJsonPayload = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.geoJsonPayload = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPositionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// Resource identifier used to retrieve the position information.
         public let resourceIdentifier: String
         /// Resource type of the resource for which position information is retrieved.
@@ -2803,6 +2876,13 @@ extension IoTWireless {
         public init(resourceIdentifier: String, resourceType: PositionResourceType) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceIdentifier, key: "ResourceIdentifier")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -2846,12 +2926,6 @@ extension IoTWireless {
     }
 
     public struct GetResourceEventConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
-            AWSMemberEncoding(label: "identifierType", location: .querystring("identifierType")),
-            AWSMemberEncoding(label: "partnerType", location: .querystring("partnerType"))
-        ]
-
         /// Resource identifier to opt in for event messaging.
         public let identifier: String
         /// Identifier type of the particular resource identifier for event configuration.
@@ -2863,6 +2937,14 @@ extension IoTWireless {
             self.identifier = identifier
             self.identifierType = identifierType
             self.partnerType = partnerType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+            request.encodeQuery(self.identifierType, key: "identifierType")
+            request.encodeQuery(self.partnerType, key: "partnerType")
         }
 
         public func validate(name: String) throws {
@@ -2902,11 +2984,6 @@ extension IoTWireless {
     }
 
     public struct GetResourceLogLevelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         public let resourceIdentifier: String
         /// The type of the resource, which can be WirelessDevice or WirelessGateway.
         public let resourceType: String
@@ -2914,6 +2991,13 @@ extension IoTWireless {
         public init(resourceIdentifier: String, resourceType: String) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceIdentifier, key: "ResourceIdentifier")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -2936,11 +3020,6 @@ extension IoTWireless {
     }
 
     public struct GetResourcePositionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// The identifier of the resource for which position information is retrieved. It can be the wireless device ID or the wireless gateway ID, depending on the resource type.
         public let resourceIdentifier: String
         /// The type of resource for which position information is retrieved, which can be a wireless device or a wireless gateway.
@@ -2949,6 +3028,13 @@ extension IoTWireless {
         public init(resourceIdentifier: String, resourceType: PositionResourceType) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceIdentifier, key: "ResourceIdentifier")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -2968,24 +3054,25 @@ extension IoTWireless {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.geoJsonPayload = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.geoJsonPayload = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetServiceEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "serviceType", location: .querystring("serviceType"))
-        ]
-
         /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint or CLAIM for the global endpoint.
         public let serviceType: WirelessGatewayServiceType?
 
         public init(serviceType: WirelessGatewayServiceType? = nil) {
             self.serviceType = serviceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.serviceType, key: "serviceType")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3013,15 +3100,17 @@ extension IoTWireless {
     }
 
     public struct GetServiceProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to get.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -3057,15 +3146,17 @@ extension IoTWireless {
     }
 
     public struct GetWirelessDeviceImportTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the import task for which information is requested.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -3130,11 +3221,6 @@ extension IoTWireless {
     }
 
     public struct GetWirelessDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
-            AWSMemberEncoding(label: "identifierType", location: .querystring("identifierType"))
-        ]
-
         /// The identifier of the wireless device to get.
         public let identifier: String
         /// The type of identifier used in identifier.
@@ -3143,6 +3229,13 @@ extension IoTWireless {
         public init(identifier: String, identifierType: WirelessDeviceIdType) {
             self.identifier = identifier
             self.identifierType = identifierType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+            request.encodeQuery(self.identifierType, key: "identifierType")
         }
 
         public func validate(name: String) throws {
@@ -3206,15 +3299,17 @@ extension IoTWireless {
     }
 
     public struct GetWirelessDeviceStatisticsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "wirelessDeviceId", location: .uri("WirelessDeviceId"))
-        ]
-
         /// The ID of the wireless device for which to get the data.
         public let wirelessDeviceId: String
 
         public init(wirelessDeviceId: String) {
             self.wirelessDeviceId = wirelessDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.wirelessDeviceId, key: "WirelessDeviceId")
         }
 
         public func validate(name: String) throws {
@@ -3250,15 +3345,17 @@ extension IoTWireless {
     }
 
     public struct GetWirelessGatewayCertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to get.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -3286,15 +3383,17 @@ extension IoTWireless {
     }
 
     public struct GetWirelessGatewayFirmwareInformationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to get.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -3318,11 +3417,6 @@ extension IoTWireless {
     }
 
     public struct GetWirelessGatewayRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
-            AWSMemberEncoding(label: "identifierType", location: .querystring("identifierType"))
-        ]
-
         /// The identifier of the wireless gateway to get.
         public let identifier: String
         /// The type of identifier used in identifier.
@@ -3331,6 +3425,13 @@ extension IoTWireless {
         public init(identifier: String, identifierType: WirelessGatewayIdType) {
             self.identifier = identifier
             self.identifierType = identifierType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+            request.encodeQuery(self.identifierType, key: "identifierType")
         }
 
         public func validate(name: String) throws {
@@ -3378,15 +3479,17 @@ extension IoTWireless {
     }
 
     public struct GetWirelessGatewayStatisticsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "wirelessGatewayId", location: .uri("WirelessGatewayId"))
-        ]
-
         /// The ID of the wireless gateway for which to get the data.
         public let wirelessGatewayId: String
 
         public init(wirelessGatewayId: String) {
             self.wirelessGatewayId = wirelessGatewayId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.wirelessGatewayId, key: "WirelessGatewayId")
         }
 
         public func validate(name: String) throws {
@@ -3418,15 +3521,17 @@ extension IoTWireless {
     }
 
     public struct GetWirelessGatewayTaskDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to get.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -3463,15 +3568,17 @@ extension IoTWireless {
     }
 
     public struct GetWirelessGatewayTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the resource to get.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -3777,11 +3884,6 @@ extension IoTWireless {
     }
 
     public struct ListDestinationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -3790,6 +3892,13 @@ extension IoTWireless {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3819,12 +3928,6 @@ extension IoTWireless {
     }
 
     public struct ListDeviceProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deviceProfileType", location: .querystring("deviceProfileType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A filter to list only device profiles that use this type, which can be LoRaWAN or Sidewalk.
         public let deviceProfileType: DeviceProfileType?
         /// The maximum number of results to return in this operation.
@@ -3836,6 +3939,14 @@ extension IoTWireless {
             self.deviceProfileType = deviceProfileType
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deviceProfileType, key: "deviceProfileType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3865,13 +3976,6 @@ extension IoTWireless {
     }
 
     public struct ListDevicesForWirelessDeviceImportTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .querystring("id")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The identifier of the import task for which wireless devices are listed.
         public let id: String
         public let maxResults: Int?
@@ -3885,6 +3989,15 @@ extension IoTWireless {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.id, key: "id")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -3919,12 +4032,6 @@ extension IoTWireless {
     }
 
     public struct ListEventConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
@@ -3935,6 +4042,14 @@ extension IoTWireless {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -3964,11 +4079,6 @@ extension IoTWireless {
     }
 
     public struct ListFuotaTasksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
@@ -3976,6 +4086,13 @@ extension IoTWireless {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4004,12 +4121,6 @@ extension IoTWireless {
     }
 
     public struct ListMulticastGroupsByFuotaTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         public let id: String
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -4019,6 +4130,14 @@ extension IoTWireless {
             self.id = id
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4048,11 +4167,6 @@ extension IoTWireless {
     }
 
     public struct ListMulticastGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
@@ -4060,6 +4174,13 @@ extension IoTWireless {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4088,11 +4209,6 @@ extension IoTWireless {
     }
 
     public struct ListNetworkAnalyzerConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
@@ -4100,6 +4216,13 @@ extension IoTWireless {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4129,11 +4252,6 @@ extension IoTWireless {
     }
 
     public struct ListPartnerAccountsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -4142,6 +4260,13 @@ extension IoTWireless {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4171,12 +4296,6 @@ extension IoTWireless {
     }
 
     public struct ListPositionConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
@@ -4187,6 +4306,14 @@ extension IoTWireless {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -4216,13 +4343,6 @@ extension IoTWireless {
     }
 
     public struct ListQueuedMessagesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "wirelessDeviceType", location: .querystring("WirelessDeviceType"))
-        ]
-
         /// The ID of a given wireless device which the downlink message packets are being sent.
         public let id: String
         /// The maximum number of results to return in this operation.
@@ -4237,6 +4357,15 @@ extension IoTWireless {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.wirelessDeviceType = wirelessDeviceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.wirelessDeviceType, key: "WirelessDeviceType")
         }
 
         public func validate(name: String) throws {
@@ -4267,11 +4396,6 @@ extension IoTWireless {
     }
 
     public struct ListServiceProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -4280,6 +4404,13 @@ extension IoTWireless {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4309,15 +4440,17 @@ extension IoTWireless {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The ARN of the resource for which you want to list tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -4342,11 +4475,6 @@ extension IoTWireless {
     }
 
     public struct ListWirelessDeviceImportTasksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
@@ -4354,6 +4482,13 @@ extension IoTWireless {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -4383,17 +4518,6 @@ extension IoTWireless {
     }
 
     public struct ListWirelessDevicesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "destinationName", location: .querystring("destinationName")),
-            AWSMemberEncoding(label: "deviceProfileId", location: .querystring("deviceProfileId")),
-            AWSMemberEncoding(label: "fuotaTaskId", location: .querystring("fuotaTaskId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "multicastGroupId", location: .querystring("multicastGroupId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "serviceProfileId", location: .querystring("serviceProfileId")),
-            AWSMemberEncoding(label: "wirelessDeviceType", location: .querystring("wirelessDeviceType"))
-        ]
-
         /// A filter to list only the wireless devices that use this destination.
         public let destinationName: String?
         /// A filter to list only the wireless devices that use this device profile.
@@ -4418,6 +4542,19 @@ extension IoTWireless {
             self.nextToken = nextToken
             self.serviceProfileId = serviceProfileId
             self.wirelessDeviceType = wirelessDeviceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.destinationName, key: "destinationName")
+            request.encodeQuery(self.deviceProfileId, key: "deviceProfileId")
+            request.encodeQuery(self.fuotaTaskId, key: "fuotaTaskId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.multicastGroupId, key: "multicastGroupId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.serviceProfileId, key: "serviceProfileId")
+            request.encodeQuery(self.wirelessDeviceType, key: "wirelessDeviceType")
         }
 
         public func validate(name: String) throws {
@@ -4453,12 +4590,6 @@ extension IoTWireless {
     }
 
     public struct ListWirelessGatewayTaskDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "taskDefinitionType", location: .querystring("taskDefinitionType"))
-        ]
-
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -4470,6 +4601,14 @@ extension IoTWireless {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.taskDefinitionType = taskDefinitionType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.taskDefinitionType, key: "taskDefinitionType")
         }
 
         public func validate(name: String) throws {
@@ -4499,11 +4638,6 @@ extension IoTWireless {
     }
 
     public struct ListWirelessGatewaysRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -4512,6 +4646,13 @@ extension IoTWireless {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -5709,11 +5850,6 @@ extension IoTWireless {
     }
 
     public struct PutPositionConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// The position data destination that describes the AWS IoT rule that processes the device's position data for use by AWS IoT Core for LoRaWAN.
         public let destination: String?
         /// Resource identifier used to update the position configuration.
@@ -5728,6 +5864,15 @@ extension IoTWireless {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
             self.solvers = solvers
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.destination, forKey: .destination)
+            request.encodePath(self.resourceIdentifier, key: "ResourceIdentifier")
+            request.encodeQuery(self.resourceType, key: "resourceType")
+            try container.encodeIfPresent(self.solvers, forKey: .solvers)
         }
 
         public func validate(name: String) throws {
@@ -5747,11 +5892,6 @@ extension IoTWireless {
     }
 
     public struct PutResourceLogLevelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         public let logLevel: LogLevel
         public let resourceIdentifier: String
         /// The type of the resource, which can be WirelessDevice or WirelessGateway.
@@ -5761,6 +5901,14 @@ extension IoTWireless {
             self.logLevel = logLevel
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.logLevel, forKey: .logLevel)
+            request.encodePath(self.resourceIdentifier, key: "ResourceIdentifier")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -5785,11 +5933,6 @@ extension IoTWireless {
     }
 
     public struct ResetResourceLogLevelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         public let resourceIdentifier: String
         /// The type of the resource, which can be WirelessDevice or WirelessGateway.
         public let resourceType: String
@@ -5797,6 +5940,13 @@ extension IoTWireless {
         public init(resourceIdentifier: String, resourceType: String) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceIdentifier, key: "ResourceIdentifier")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -5853,10 +6003,6 @@ extension IoTWireless {
     }
 
     public struct SendDataToMulticastGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
         public let payloadData: String
         public let wirelessMetadata: MulticastWirelessMetadata
@@ -5865,6 +6011,14 @@ extension IoTWireless {
             self.id = id
             self.payloadData = payloadData
             self.wirelessMetadata = wirelessMetadata
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.payloadData, forKey: .payloadData)
+            try container.encode(self.wirelessMetadata, forKey: .wirelessMetadata)
         }
 
         public func validate(name: String) throws {
@@ -5893,10 +6047,6 @@ extension IoTWireless {
     }
 
     public struct SendDataToWirelessDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the wireless device to receive the data.
         public let id: String
         public let payloadData: String
@@ -5910,6 +6060,15 @@ extension IoTWireless {
             self.payloadData = payloadData
             self.transmitMode = transmitMode
             self.wirelessMetadata = wirelessMetadata
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.payloadData, forKey: .payloadData)
+            try container.encode(self.transmitMode, forKey: .transmitMode)
+            try container.encodeIfPresent(self.wirelessMetadata, forKey: .wirelessMetadata)
         }
 
         public func validate(name: String) throws {
@@ -6347,10 +6506,6 @@ extension IoTWireless {
     }
 
     public struct StartBulkAssociateWirelessDeviceWithMulticastGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
         public let queryString: String?
         public let tags: [Tag]?
@@ -6359,6 +6514,14 @@ extension IoTWireless {
             self.id = id
             self.queryString = queryString
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encodeIfPresent(self.queryString, forKey: .queryString)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -6381,10 +6544,6 @@ extension IoTWireless {
     }
 
     public struct StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
         public let queryString: String?
         public let tags: [Tag]?
@@ -6393,6 +6552,14 @@ extension IoTWireless {
             self.id = id
             self.queryString = queryString
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encodeIfPresent(self.queryString, forKey: .queryString)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -6415,16 +6582,19 @@ extension IoTWireless {
     }
 
     public struct StartFuotaTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
         public let loRaWAN: LoRaWANStartFuotaTask?
 
         public init(id: String, loRaWAN: LoRaWANStartFuotaTask? = nil) {
             self.id = id
             self.loRaWAN = loRaWAN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encodeIfPresent(self.loRaWAN, forKey: .loRaWAN)
         }
 
         public func validate(name: String) throws {
@@ -6441,16 +6611,19 @@ extension IoTWireless {
     }
 
     public struct StartMulticastGroupSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let id: String
         public let loRaWAN: LoRaWANMulticastSession
 
         public init(id: String, loRaWAN: LoRaWANMulticastSession) {
             self.id = id
             self.loRaWAN = loRaWAN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.loRaWAN, forKey: .loRaWAN)
         }
 
         public func validate(name: String) throws {
@@ -6601,10 +6774,6 @@ extension IoTWireless {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// The ARN of the resource to add tags to.
         public let resourceArn: String
         /// Adds to or modifies the tags of the given resource. Tags are metadata that you can use to manage a resource.
@@ -6613,6 +6782,13 @@ extension IoTWireless {
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -6768,15 +6944,17 @@ extension IoTWireless {
     }
 
     public struct TestWirelessDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The ID of the wireless device to test.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         public func validate(name: String) throws {
@@ -6818,11 +6996,6 @@ extension IoTWireless {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the resource to remove tags from.
         public let resourceArn: String
         /// A list of the keys of the tags to remove from the resource.
@@ -6831,6 +7004,13 @@ extension IoTWireless {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -6887,10 +7067,6 @@ extension IoTWireless {
     }
 
     public struct UpdateDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A new description of the resource.
         public let description: String?
         /// The new rule name or topic rule to send messages to.
@@ -6908,6 +7084,16 @@ extension IoTWireless {
             self.expressionType = expressionType
             self.name = name
             self.roleArn = roleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.expression, forKey: .expression)
+            try container.encodeIfPresent(self.expressionType, forKey: .expressionType)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
         }
 
         public func validate(name: String) throws {
@@ -6989,10 +7175,6 @@ extension IoTWireless {
     }
 
     public struct UpdateFuotaTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let description: String?
         public let firmwareUpdateImage: String?
         public let firmwareUpdateRole: String?
@@ -7013,6 +7195,20 @@ extension IoTWireless {
             self.loRaWAN = loRaWAN
             self.name = name
             self.redundancyPercent = redundancyPercent
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.firmwareUpdateImage, forKey: .firmwareUpdateImage)
+            try container.encodeIfPresent(self.firmwareUpdateRole, forKey: .firmwareUpdateRole)
+            try container.encodeIfPresent(self.fragmentIntervalMS, forKey: .fragmentIntervalMS)
+            try container.encodeIfPresent(self.fragmentSizeBytes, forKey: .fragmentSizeBytes)
+            request.encodePath(self.id, key: "Id")
+            try container.encodeIfPresent(self.loRaWAN, forKey: .loRaWAN)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.redundancyPercent, forKey: .redundancyPercent)
         }
 
         public func validate(name: String) throws {
@@ -7068,10 +7264,6 @@ extension IoTWireless {
     }
 
     public struct UpdateMulticastGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         public let description: String?
         public let id: String
         public let loRaWAN: LoRaWANMulticast?
@@ -7082,6 +7274,15 @@ extension IoTWireless {
             self.id = id
             self.loRaWAN = loRaWAN
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.id, key: "Id")
+            try container.encodeIfPresent(self.loRaWAN, forKey: .loRaWAN)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -7102,10 +7303,6 @@ extension IoTWireless {
     }
 
     public struct UpdateNetworkAnalyzerConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationName", location: .uri("ConfigurationName"))
-        ]
-
         public let configurationName: String
         public let description: String?
         /// Multicast group resources to add to the network analyzer configuration. Provide the MulticastGroupId of the resource to add in the input array.
@@ -7132,6 +7329,20 @@ extension IoTWireless {
             self.wirelessDevicesToRemove = wirelessDevicesToRemove
             self.wirelessGatewaysToAdd = wirelessGatewaysToAdd
             self.wirelessGatewaysToRemove = wirelessGatewaysToRemove
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationName, key: "ConfigurationName")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.multicastGroupsToAdd, forKey: .multicastGroupsToAdd)
+            try container.encodeIfPresent(self.multicastGroupsToRemove, forKey: .multicastGroupsToRemove)
+            try container.encodeIfPresent(self.traceContent, forKey: .traceContent)
+            try container.encodeIfPresent(self.wirelessDevicesToAdd, forKey: .wirelessDevicesToAdd)
+            try container.encodeIfPresent(self.wirelessDevicesToRemove, forKey: .wirelessDevicesToRemove)
+            try container.encodeIfPresent(self.wirelessGatewaysToAdd, forKey: .wirelessGatewaysToAdd)
+            try container.encodeIfPresent(self.wirelessGatewaysToRemove, forKey: .wirelessGatewaysToRemove)
         }
 
         public func validate(name: String) throws {
@@ -7180,11 +7391,6 @@ extension IoTWireless {
     }
 
     public struct UpdatePartnerAccountRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "partnerAccountId", location: .uri("PartnerAccountId")),
-            AWSMemberEncoding(label: "partnerType", location: .querystring("partnerType"))
-        ]
-
         /// The ID of the partner account to update.
         public let partnerAccountId: String
         /// The partner type.
@@ -7196,6 +7402,14 @@ extension IoTWireless {
             self.partnerAccountId = partnerAccountId
             self.partnerType = partnerType
             self.sidewalk = sidewalk
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.partnerAccountId, key: "PartnerAccountId")
+            request.encodeQuery(self.partnerType, key: "partnerType")
+            try container.encode(self.sidewalk, forKey: .sidewalk)
         }
 
         public func validate(name: String) throws {
@@ -7213,11 +7427,6 @@ extension IoTWireless {
     }
 
     public struct UpdatePositionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
         /// The position information of the resource.
         public let position: [Float]
         /// Resource identifier of the resource for which position is updated.
@@ -7229,6 +7438,14 @@ extension IoTWireless {
             self.position = position
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.position, forKey: .position)
+            request.encodePath(self.resourceIdentifier, key: "ResourceIdentifier")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -7245,12 +7462,6 @@ extension IoTWireless {
     }
 
     public struct UpdateResourceEventConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "identifier", location: .uri("Identifier")),
-            AWSMemberEncoding(label: "identifierType", location: .querystring("identifierType")),
-            AWSMemberEncoding(label: "partnerType", location: .querystring("partnerType"))
-        ]
-
         /// Event configuration for the connection status event.
         public let connectionStatus: ConnectionStatusEventConfiguration?
         /// Event configuration for the device registration state event.
@@ -7279,6 +7490,19 @@ extension IoTWireless {
             self.proximity = proximity
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.connectionStatus, forKey: .connectionStatus)
+            try container.encodeIfPresent(self.deviceRegistrationState, forKey: .deviceRegistrationState)
+            request.encodePath(self.identifier, key: "Identifier")
+            request.encodeQuery(self.identifierType, key: "identifierType")
+            try container.encodeIfPresent(self.join, forKey: .join)
+            try container.encodeIfPresent(self.messageDeliveryStatus, forKey: .messageDeliveryStatus)
+            request.encodeQuery(self.partnerType, key: "partnerType")
+            try container.encodeIfPresent(self.proximity, forKey: .proximity)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
         }
@@ -7296,14 +7520,7 @@ extension IoTWireless {
         public init() {}
     }
 
-    public struct UpdateResourcePositionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "geoJsonPayload"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier")),
-            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
-        ]
-
+    public struct UpdateResourcePositionRequest: AWSEncodableShape {
         /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format,  which a format that's used to encode geographic data structures. For more information, see GeoJSON.
         public let geoJsonPayload: AWSHTTPBody?
         /// The identifier of the resource for which position information is updated. It can be the wireless device ID or the wireless gateway ID, depending on the resource type.
@@ -7315,6 +7532,14 @@ extension IoTWireless {
             self.geoJsonPayload = geoJsonPayload
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.geoJsonPayload)
+            request.encodePath(self.resourceIdentifier, key: "ResourceIdentifier")
+            request.encodeQuery(self.resourceType, key: "resourceType")
         }
 
         public func validate(name: String) throws {
@@ -7329,10 +7554,6 @@ extension IoTWireless {
     }
 
     public struct UpdateWirelessDeviceImportTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the import task to be updated.
         public let id: String
         /// The Sidewalk-related parameters of the import task to be updated.
@@ -7341,6 +7562,13 @@ extension IoTWireless {
         public init(id: String, sidewalk: SidewalkUpdateImportInfo) {
             self.id = id
             self.sidewalk = sidewalk
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.sidewalk, forKey: .sidewalk)
         }
 
         public func validate(name: String) throws {
@@ -7358,10 +7586,6 @@ extension IoTWireless {
     }
 
     public struct UpdateWirelessDeviceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// A new description of the resource.
         public let description: String?
         /// The name of the new destination for the device.
@@ -7382,6 +7606,17 @@ extension IoTWireless {
             self.loRaWAN = loRaWAN
             self.name = name
             self.positioning = positioning
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.destinationName, forKey: .destinationName)
+            request.encodePath(self.id, key: "Id")
+            try container.encodeIfPresent(self.loRaWAN, forKey: .loRaWAN)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.positioning, forKey: .positioning)
         }
 
         public func validate(name: String) throws {
@@ -7407,10 +7642,6 @@ extension IoTWireless {
     }
 
     public struct UpdateWirelessGatewayRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// A new description of the resource.
         public let description: String?
         /// The ID of the resource to update.
@@ -7429,6 +7660,17 @@ extension IoTWireless {
             self.maxEirp = maxEirp
             self.name = name
             self.netIdFilters = netIdFilters
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.id, key: "Id")
+            try container.encodeIfPresent(self.joinEuiFilters, forKey: .joinEuiFilters)
+            try container.encodeIfPresent(self.maxEirp, forKey: .maxEirp)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.netIdFilters, forKey: .netIdFilters)
         }
 
         public func validate(name: String) throws {

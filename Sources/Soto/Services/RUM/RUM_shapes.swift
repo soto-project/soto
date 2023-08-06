@@ -245,10 +245,6 @@ extension RUM {
     }
 
     public struct BatchCreateRumMetricDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName"))
-        ]
-
         /// The name of the CloudWatch RUM app monitor that is to send the metrics.
         public let appMonitorName: String
         /// The destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment  that will receive the metrics and an IAM role that has permission to write to the experiment.
@@ -263,6 +259,15 @@ extension RUM {
             self.destination = destination
             self.destinationArn = destinationArn
             self.metricDefinitions = metricDefinitions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appMonitorName, key: "AppMonitorName")
+            try container.encode(self.destination, forKey: .destination)
+            try container.encodeIfPresent(self.destinationArn, forKey: .destinationArn)
+            try container.encode(self.metricDefinitions, forKey: .metricDefinitions)
         }
 
         public func validate(name: String) throws {
@@ -322,13 +327,6 @@ extension RUM {
     }
 
     public struct BatchDeleteRumMetricDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName")),
-            AWSMemberEncoding(label: "destination", location: .querystring("destination")),
-            AWSMemberEncoding(label: "destinationArn", location: .querystring("destinationArn")),
-            AWSMemberEncoding(label: "metricDefinitionIds", location: .querystring("metricDefinitionIds"))
-        ]
-
         /// The name of the CloudWatch RUM app monitor that is sending these metrics.
         public let appMonitorName: String
         /// Defines the destination where you want to stop sending the specified metrics. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that is to  be the destination and an IAM role that has permission to write to the experiment.
@@ -343,6 +341,15 @@ extension RUM {
             self.destination = destination
             self.destinationArn = destinationArn
             self.metricDefinitionIds = metricDefinitionIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appMonitorName, key: "AppMonitorName")
+            request.encodeQuery(self.destination, key: "destination")
+            request.encodeQuery(self.destinationArn, key: "destinationArn")
+            request.encodeQuery(self.metricDefinitionIds, key: "metricDefinitionIds")
         }
 
         public func validate(name: String) throws {
@@ -378,14 +385,6 @@ extension RUM {
     }
 
     public struct BatchGetRumMetricDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName")),
-            AWSMemberEncoding(label: "destination", location: .querystring("destination")),
-            AWSMemberEncoding(label: "destinationArn", location: .querystring("destinationArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the CloudWatch RUM app monitor that is sending the metrics.
         public let appMonitorName: String
         /// The type of destination that you want to view metrics for. Valid values are CloudWatch  and Evidently.
@@ -403,6 +402,16 @@ extension RUM {
             self.destinationArn = destinationArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appMonitorName, key: "AppMonitorName")
+            request.encodeQuery(self.destination, key: "destination")
+            request.encodeQuery(self.destinationArn, key: "destinationArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -541,15 +550,17 @@ extension RUM {
     }
 
     public struct DeleteAppMonitorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the app monitor to delete.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -566,12 +577,6 @@ extension RUM {
     }
 
     public struct DeleteRumMetricsDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName")),
-            AWSMemberEncoding(label: "destination", location: .querystring("destination")),
-            AWSMemberEncoding(label: "destinationArn", location: .querystring("destinationArn"))
-        ]
-
         /// The name of the app monitor that is sending metrics to the destination that you want to delete.
         public let appMonitorName: String
         /// The type of destination to delete. Valid values are CloudWatch and Evidently.
@@ -583,6 +588,14 @@ extension RUM {
             self.appMonitorName = appMonitorName
             self.destination = destination
             self.destinationArn = destinationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appMonitorName, key: "AppMonitorName")
+            request.encodeQuery(self.destination, key: "destination")
+            request.encodeQuery(self.destinationArn, key: "destinationArn")
         }
 
         public func validate(name: String) throws {
@@ -601,10 +614,6 @@ extension RUM {
     }
 
     public struct GetAppMonitorDataRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
         public let filters: [QueryFilter]?
         /// The maximum number of results to return in one operation.
@@ -622,6 +631,16 @@ extension RUM {
             self.name = name
             self.nextToken = nextToken
             self.timeRange = timeRange
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encode(self.timeRange, forKey: .timeRange)
         }
 
         public func validate(name: String) throws {
@@ -658,15 +677,17 @@ extension RUM {
     }
 
     public struct GetAppMonitorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The app monitor to retrieve information for.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -692,11 +713,6 @@ extension RUM {
     }
 
     public struct ListAppMonitorsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100.
         public let maxResults: Int?
         /// Use the token returned by the previous operation to request the next page of results.
@@ -705,6 +721,13 @@ extension RUM {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -733,12 +756,6 @@ extension RUM {
     }
 
     public struct ListRumMetricsDestinationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the app monitor associated with the destinations that you want to retrieve.
         public let appMonitorName: String
         /// The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100. To retrieve the remaining results, make another call with the returned  NextToken value.
@@ -750,6 +767,14 @@ extension RUM {
             self.appMonitorName = appMonitorName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appMonitorName, key: "AppMonitorName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -781,15 +806,17 @@ extension RUM {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the resource that you want to see the tags of.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -929,10 +956,6 @@ extension RUM {
     }
 
     public struct PutRumEventsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// A structure that contains information about the app monitor that collected this telemetry information.
         public let appMonitorDetails: AppMonitorDetails
         /// A unique identifier for this batch of RUM event data.
@@ -950,6 +973,16 @@ extension RUM {
             self.id = id
             self.rumEvents = rumEvents
             self.userDetails = userDetails
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.appMonitorDetails, forKey: .appMonitorDetails)
+            try container.encode(self.batchId, forKey: .batchId)
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.rumEvents, forKey: .rumEvents)
+            try container.encode(self.userDetails, forKey: .userDetails)
         }
 
         public func validate(name: String) throws {
@@ -971,10 +1004,6 @@ extension RUM {
     }
 
     public struct PutRumMetricsDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName"))
-        ]
-
         /// The name of the CloudWatch RUM app monitor that will send the metrics.
         public let appMonitorName: String
         /// Defines the destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that is to  be the destination and an IAM role that has permission to write to the experiment.
@@ -989,6 +1018,15 @@ extension RUM {
             self.destination = destination
             self.destinationArn = destinationArn
             self.iamRoleArn = iamRoleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appMonitorName, key: "AppMonitorName")
+            try container.encode(self.destination, forKey: .destination)
+            try container.encodeIfPresent(self.destinationArn, forKey: .destinationArn)
+            try container.encodeIfPresent(self.iamRoleArn, forKey: .iamRoleArn)
         }
 
         public func validate(name: String) throws {
@@ -1058,10 +1096,6 @@ extension RUM {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the CloudWatch RUM resource that you're adding tags to.
         public let resourceArn: String
         /// The list of key-value pairs to associate with the resource.
@@ -1070,6 +1104,13 @@ extension RUM {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1109,11 +1150,6 @@ extension RUM {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The ARN of the CloudWatch RUM resource that you're removing tags from.
         public let resourceArn: String
         /// The list of tag keys to remove from the resource.
@@ -1122,6 +1158,13 @@ extension RUM {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1142,10 +1185,6 @@ extension RUM {
     }
 
     public struct UpdateAppMonitorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A structure that contains much of the configuration data for the app monitor. If you are using  Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the  Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own  authorization method. For more information, see  Authorize your application to send data to Amazon Web Services.
         public let appMonitorConfiguration: AppMonitorConfiguration?
         /// Specifies whether this app monitor allows the web client to define and send custom events. The default is for custom events to be DISABLED. For more information about custom events, see  Send custom events.
@@ -1163,6 +1202,16 @@ extension RUM {
             self.cwLogEnabled = cwLogEnabled
             self.domain = domain
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.appMonitorConfiguration, forKey: .appMonitorConfiguration)
+            try container.encodeIfPresent(self.customEvents, forKey: .customEvents)
+            try container.encodeIfPresent(self.cwLogEnabled, forKey: .cwLogEnabled)
+            try container.encodeIfPresent(self.domain, forKey: .domain)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1188,10 +1237,6 @@ extension RUM {
     }
 
     public struct UpdateRumMetricDefinitionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appMonitorName", location: .uri("AppMonitorName"))
-        ]
-
         /// The name of the CloudWatch RUM app monitor that sends these metrics.
         public let appMonitorName: String
         /// The destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment  that will receive the metrics and an IAM role that has permission to write to the experiment.
@@ -1209,6 +1254,16 @@ extension RUM {
             self.destinationArn = destinationArn
             self.metricDefinition = metricDefinition
             self.metricDefinitionId = metricDefinitionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appMonitorName, key: "AppMonitorName")
+            try container.encode(self.destination, forKey: .destination)
+            try container.encodeIfPresent(self.destinationArn, forKey: .destinationArn)
+            try container.encode(self.metricDefinition, forKey: .metricDefinition)
+            try container.encode(self.metricDefinitionId, forKey: .metricDefinitionId)
         }
 
         public func validate(name: String) throws {

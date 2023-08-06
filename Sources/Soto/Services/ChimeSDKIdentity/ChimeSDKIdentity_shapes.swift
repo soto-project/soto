@@ -390,10 +390,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct CreateAppInstanceAdminRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
-        ]
-
         /// The ARN of the administrator of the current AppInstance.
         public let appInstanceAdminArn: String
         /// The ARN of the AppInstance.
@@ -402,6 +398,13 @@ extension ChimeSDKIdentity {
         public init(appInstanceAdminArn: String, appInstanceArn: String) {
             self.appInstanceAdminArn = appInstanceAdminArn
             self.appInstanceArn = appInstanceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.appInstanceAdminArn, forKey: .appInstanceAdminArn)
+            request.encodePath(self.appInstanceArn, key: "AppInstanceArn")
         }
 
         public func validate(name: String) throws {
@@ -628,11 +631,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct DeleteAppInstanceAdminRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceAdminArn", location: .uri("AppInstanceAdminArn")),
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
-        ]
-
         /// The ARN of the AppInstance's administrator.
         public let appInstanceAdminArn: String
         /// The ARN of the AppInstance.
@@ -641,6 +639,13 @@ extension ChimeSDKIdentity {
         public init(appInstanceAdminArn: String, appInstanceArn: String) {
             self.appInstanceAdminArn = appInstanceAdminArn
             self.appInstanceArn = appInstanceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceAdminArn, key: "AppInstanceAdminArn")
+            request.encodePath(self.appInstanceArn, key: "AppInstanceArn")
         }
 
         public func validate(name: String) throws {
@@ -656,15 +661,17 @@ extension ChimeSDKIdentity {
     }
 
     public struct DeleteAppInstanceBotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceBotArn", location: .uri("AppInstanceBotArn"))
-        ]
-
         /// The ARN of the AppInstanceBot being deleted.
         public let appInstanceBotArn: String
 
         public init(appInstanceBotArn: String) {
             self.appInstanceBotArn = appInstanceBotArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceBotArn, key: "AppInstanceBotArn")
         }
 
         public func validate(name: String) throws {
@@ -677,15 +684,17 @@ extension ChimeSDKIdentity {
     }
 
     public struct DeleteAppInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
-        ]
-
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceArn, key: "AppInstanceArn")
         }
 
         public func validate(name: String) throws {
@@ -698,15 +707,17 @@ extension ChimeSDKIdentity {
     }
 
     public struct DeleteAppInstanceUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn"))
-        ]
-
         /// The ARN of the user request being deleted.
         public let appInstanceUserArn: String
 
         public init(appInstanceUserArn: String) {
             self.appInstanceUserArn = appInstanceUserArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceUserArn, key: "AppInstanceUserArn")
         }
 
         public func validate(name: String) throws {
@@ -719,11 +730,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct DeregisterAppInstanceUserEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn")),
-            AWSMemberEncoding(label: "endpointId", location: .uri("EndpointId"))
-        ]
-
         /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String
         /// The unique identifier of the AppInstanceUserEndpoint.
@@ -732,6 +738,13 @@ extension ChimeSDKIdentity {
         public init(appInstanceUserArn: String, endpointId: String) {
             self.appInstanceUserArn = appInstanceUserArn
             self.endpointId = endpointId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceUserArn, key: "AppInstanceUserArn")
+            request.encodePath(self.endpointId, key: "EndpointId")
         }
 
         public func validate(name: String) throws {
@@ -746,11 +759,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct DescribeAppInstanceAdminRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceAdminArn", location: .uri("AppInstanceAdminArn")),
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
-        ]
-
         /// The ARN of the AppInstanceAdmin.
         public let appInstanceAdminArn: String
         /// The ARN of the AppInstance.
@@ -759,6 +767,13 @@ extension ChimeSDKIdentity {
         public init(appInstanceAdminArn: String, appInstanceArn: String) {
             self.appInstanceAdminArn = appInstanceAdminArn
             self.appInstanceArn = appInstanceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceAdminArn, key: "AppInstanceAdminArn")
+            request.encodePath(self.appInstanceArn, key: "AppInstanceArn")
         }
 
         public func validate(name: String) throws {
@@ -787,15 +802,17 @@ extension ChimeSDKIdentity {
     }
 
     public struct DescribeAppInstanceBotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceBotArn", location: .uri("AppInstanceBotArn"))
-        ]
-
         /// The ARN of the AppInstanceBot.
         public let appInstanceBotArn: String
 
         public init(appInstanceBotArn: String) {
             self.appInstanceBotArn = appInstanceBotArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceBotArn, key: "AppInstanceBotArn")
         }
 
         public func validate(name: String) throws {
@@ -821,15 +838,17 @@ extension ChimeSDKIdentity {
     }
 
     public struct DescribeAppInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
-        ]
-
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceArn, key: "AppInstanceArn")
         }
 
         public func validate(name: String) throws {
@@ -855,11 +874,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct DescribeAppInstanceUserEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn")),
-            AWSMemberEncoding(label: "endpointId", location: .uri("EndpointId"))
-        ]
-
         /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String
         /// The unique identifier of the AppInstanceUserEndpoint.
@@ -868,6 +882,13 @@ extension ChimeSDKIdentity {
         public init(appInstanceUserArn: String, endpointId: String) {
             self.appInstanceUserArn = appInstanceUserArn
             self.endpointId = endpointId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceUserArn, key: "AppInstanceUserArn")
+            request.encodePath(self.endpointId, key: "EndpointId")
         }
 
         public func validate(name: String) throws {
@@ -894,15 +915,17 @@ extension ChimeSDKIdentity {
     }
 
     public struct DescribeAppInstanceUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn"))
-        ]
-
         /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String
 
         public init(appInstanceUserArn: String) {
             self.appInstanceUserArn = appInstanceUserArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceUserArn, key: "AppInstanceUserArn")
         }
 
         public func validate(name: String) throws {
@@ -993,15 +1016,17 @@ extension ChimeSDKIdentity {
     }
 
     public struct GetAppInstanceRetentionSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
-        ]
-
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
 
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceArn, key: "AppInstanceArn")
         }
 
         public func validate(name: String) throws {
@@ -1082,12 +1107,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct ListAppInstanceAdminsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
         /// The maximum number of administrators that you want to return.
@@ -1099,6 +1118,14 @@ extension ChimeSDKIdentity {
             self.appInstanceArn = appInstanceArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceArn, key: "AppInstanceArn")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -1136,12 +1163,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct ListAppInstanceBotsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .querystring("app-instance-arn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
         /// The maximum number of requests to return.
@@ -1153,6 +1174,14 @@ extension ChimeSDKIdentity {
             self.appInstanceArn = appInstanceArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.appInstanceArn, key: "app-instance-arn")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -1190,12 +1219,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct ListAppInstanceUserEndpointsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String
         /// The maximum number of endpoints that you want to return.
@@ -1207,6 +1230,14 @@ extension ChimeSDKIdentity {
             self.appInstanceUserArn = appInstanceUserArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceUserArn, key: "AppInstanceUserArn")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -1240,12 +1271,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct ListAppInstanceUsersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .querystring("app-instance-arn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
         /// The maximum number of requests that you want returned.
@@ -1257,6 +1282,14 @@ extension ChimeSDKIdentity {
             self.appInstanceArn = appInstanceArn
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.appInstanceArn, key: "app-instance-arn")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -1294,11 +1327,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct ListAppInstancesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The maximum number of AppInstances that you want to return.
         public let maxResults: Int?
         /// The token passed by previous API requests until you reach the maximum number of AppInstances.
@@ -1307,6 +1335,13 @@ extension ChimeSDKIdentity {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -1337,15 +1372,17 @@ extension ChimeSDKIdentity {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .querystring("arn"))
-        ]
-
         /// The ARN of the resource.
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceARN, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -1371,10 +1408,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct PutAppInstanceRetentionSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
-        ]
-
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
         /// The time in days to retain data. Data type: number.
@@ -1383,6 +1416,13 @@ extension ChimeSDKIdentity {
         public init(appInstanceArn: String, appInstanceRetentionSettings: AppInstanceRetentionSettings) {
             self.appInstanceArn = appInstanceArn
             self.appInstanceRetentionSettings = appInstanceRetentionSettings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceArn, key: "AppInstanceArn")
+            try container.encode(self.appInstanceRetentionSettings, forKey: .appInstanceRetentionSettings)
         }
 
         public func validate(name: String) throws {
@@ -1415,10 +1455,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct PutAppInstanceUserExpirationSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn"))
-        ]
-
         /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String
         /// Settings that control the interval after which an AppInstanceUser is automatically deleted.
@@ -1427,6 +1463,13 @@ extension ChimeSDKIdentity {
         public init(appInstanceUserArn: String, expirationSettings: ExpirationSettings? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.expirationSettings = expirationSettings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceUserArn, key: "AppInstanceUserArn")
+            try container.encodeIfPresent(self.expirationSettings, forKey: .expirationSettings)
         }
 
         public func validate(name: String) throws {
@@ -1459,10 +1502,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct RegisterAppInstanceUserEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn"))
-        ]
-
         /// Boolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint receives all messages.  NONE indicates the endpoint receives no messages.
         public let allowMessages: AllowMessages?
         /// The ARN of the AppInstanceUser.
@@ -1486,6 +1525,18 @@ extension ChimeSDKIdentity {
             self.name = name
             self.resourceArn = resourceArn
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowMessages, forKey: .allowMessages)
+            request.encodePath(self.appInstanceUserArn, key: "AppInstanceUserArn")
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.endpointAttributes, forKey: .endpointAttributes)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encode(self.resourceArn, forKey: .resourceArn)
+            try container.encode(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -1612,10 +1663,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct UpdateAppInstanceBotRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceBotArn", location: .uri("AppInstanceBotArn"))
-        ]
-
         /// The ARN of the AppInstanceBot.
         public let appInstanceBotArn: String
         /// The metadata of the AppInstanceBot.
@@ -1627,6 +1674,14 @@ extension ChimeSDKIdentity {
             self.appInstanceBotArn = appInstanceBotArn
             self.metadata = metadata
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceBotArn, key: "AppInstanceBotArn")
+            try container.encode(self.metadata, forKey: .metadata)
+            try container.encode(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -1659,10 +1714,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct UpdateAppInstanceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceArn", location: .uri("AppInstanceArn"))
-        ]
-
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
         /// The metadata that you want to change.
@@ -1674,6 +1725,14 @@ extension ChimeSDKIdentity {
             self.appInstanceArn = appInstanceArn
             self.metadata = metadata
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceArn, key: "AppInstanceArn")
+            try container.encode(self.metadata, forKey: .metadata)
+            try container.encode(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -1707,11 +1766,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct UpdateAppInstanceUserEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn")),
-            AWSMemberEncoding(label: "endpointId", location: .uri("EndpointId"))
-        ]
-
         /// Boolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint will receive all messages.  NONE indicates the endpoint will receive no messages.
         public let allowMessages: AllowMessages?
         /// The ARN of the AppInstanceUser.
@@ -1726,6 +1780,15 @@ extension ChimeSDKIdentity {
             self.appInstanceUserArn = appInstanceUserArn
             self.endpointId = endpointId
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowMessages, forKey: .allowMessages)
+            request.encodePath(self.appInstanceUserArn, key: "AppInstanceUserArn")
+            request.encodePath(self.endpointId, key: "EndpointId")
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {
@@ -1762,10 +1825,6 @@ extension ChimeSDKIdentity {
     }
 
     public struct UpdateAppInstanceUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "appInstanceUserArn", location: .uri("AppInstanceUserArn"))
-        ]
-
         /// The ARN of the AppInstanceUser.
         public let appInstanceUserArn: String
         /// The metadata of the AppInstanceUser.
@@ -1777,6 +1836,14 @@ extension ChimeSDKIdentity {
             self.appInstanceUserArn = appInstanceUserArn
             self.metadata = metadata
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.appInstanceUserArn, key: "AppInstanceUserArn")
+            try container.encode(self.metadata, forKey: .metadata)
+            try container.encode(self.name, forKey: .name)
         }
 
         public func validate(name: String) throws {

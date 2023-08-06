@@ -330,12 +330,6 @@ extension Lambda {
     }
 
     public struct AddLayerVersionPermissionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "layerName", location: .uri("LayerName")),
-            AWSMemberEncoding(label: "revisionId", location: .querystring("RevisionId")),
-            AWSMemberEncoding(label: "versionNumber", location: .uri("VersionNumber"))
-        ]
-
         /// The API action that grants access to the layer. For example, lambda:GetLayerVersion.
         public let action: String
         /// The name or Amazon Resource Name (ARN) of the layer.
@@ -359,6 +353,18 @@ extension Lambda {
             self.revisionId = revisionId
             self.statementId = statementId
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.action, forKey: .action)
+            request.encodePath(self.layerName, key: "LayerName")
+            try container.encodeIfPresent(self.organizationId, forKey: .organizationId)
+            try container.encode(self.principal, forKey: .principal)
+            request.encodeQuery(self.revisionId, key: "RevisionId")
+            try container.encode(self.statementId, forKey: .statementId)
+            request.encodePath(self.versionNumber, key: "VersionNumber")
         }
 
         public func validate(name: String) throws {
@@ -401,11 +407,6 @@ extension Lambda {
     }
 
     public struct AddPermissionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The action that the principal can use on the function. For example, lambda:InvokeFunction or lambda:GetFunction.
         public let action: String
         /// For Alexa Smart Home functions, a token that the invoker must supply.
@@ -441,6 +442,22 @@ extension Lambda {
             self.sourceAccount = sourceAccount
             self.sourceArn = sourceArn
             self.statementId = statementId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.action, forKey: .action)
+            try container.encodeIfPresent(self.eventSourceToken, forKey: .eventSourceToken)
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encodeIfPresent(self.functionUrlAuthType, forKey: .functionUrlAuthType)
+            try container.encode(self.principal, forKey: .principal)
+            try container.encodeIfPresent(self.principalOrgID, forKey: .principalOrgID)
+            request.encodeQuery(self.qualifier, key: "Qualifier")
+            try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
+            try container.encodeIfPresent(self.sourceAccount, forKey: .sourceAccount)
+            try container.encodeIfPresent(self.sourceArn, forKey: .sourceArn)
+            try container.encode(self.statementId, forKey: .statementId)
         }
 
         public func validate(name: String) throws {
@@ -706,10 +723,6 @@ extension Lambda {
     }
 
     public struct CreateAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
-        ]
-
         /// A description of the alias.
         public let description: String?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -727,6 +740,16 @@ extension Lambda {
             self.functionVersion = functionVersion
             self.name = name
             self.routingConfig = routingConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encode(self.functionVersion, forKey: .functionVersion)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.routingConfig, forKey: .routingConfig)
         }
 
         public func validate(name: String) throws {
@@ -1079,11 +1102,6 @@ extension Lambda {
     }
 
     public struct CreateFunctionUrlConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType
         /// The cross-origin resource sharing (CORS) settings for your function URL.
@@ -1101,6 +1119,16 @@ extension Lambda {
             self.functionName = functionName
             self.invokeMode = invokeMode
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.authType, forKey: .authType)
+            try container.encodeIfPresent(self.cors, forKey: .cors)
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encodeIfPresent(self.invokeMode, forKey: .invokeMode)
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -1171,11 +1199,6 @@ extension Lambda {
     }
 
     public struct DeleteAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The name of the alias.
@@ -1184,6 +1207,13 @@ extension Lambda {
         public init(functionName: String, name: String) {
             self.functionName = functionName
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -1199,15 +1229,17 @@ extension Lambda {
     }
 
     public struct DeleteCodeSigningConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "codeSigningConfigArn", location: .uri("CodeSigningConfigArn"))
-        ]
-
         /// The The Amazon Resource Name (ARN) of the code signing configuration.
         public let codeSigningConfigArn: String
 
         public init(codeSigningConfigArn: String) {
             self.codeSigningConfigArn = codeSigningConfigArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.codeSigningConfigArn, key: "CodeSigningConfigArn")
         }
 
         public func validate(name: String) throws {
@@ -1223,10 +1255,6 @@ extension Lambda {
     }
 
     public struct DeleteEventSourceMappingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "uuid", location: .uri("UUID"))
-        ]
-
         /// The identifier of the event source mapping.
         public let uuid: String
 
@@ -1234,19 +1262,27 @@ extension Lambda {
             self.uuid = uuid
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.uuid, key: "UUID")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFunctionCodeSigningConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
         public init(functionName: String) {
             self.functionName = functionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
         }
 
         public func validate(name: String) throws {
@@ -1259,15 +1295,17 @@ extension Lambda {
     }
 
     public struct DeleteFunctionConcurrencyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
         public init(functionName: String) {
             self.functionName = functionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
         }
 
         public func validate(name: String) throws {
@@ -1280,11 +1318,6 @@ extension Lambda {
     }
 
     public struct DeleteFunctionEventInvokeConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// A version number or alias name.
@@ -1293,6 +1326,13 @@ extension Lambda {
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -1308,11 +1348,6 @@ extension Lambda {
     }
 
     public struct DeleteFunctionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The name of the Lambda function or version.  Name formats     Function name – my-function (name-only), my-function:1 (with version).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version to delete. You can't delete a version that an alias references.
@@ -1321,6 +1356,13 @@ extension Lambda {
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -1336,11 +1378,6 @@ extension Lambda {
     }
 
     public struct DeleteFunctionUrlConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The alias name.
@@ -1349,6 +1386,13 @@ extension Lambda {
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -1364,11 +1408,6 @@ extension Lambda {
     }
 
     public struct DeleteLayerVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "layerName", location: .uri("LayerName")),
-            AWSMemberEncoding(label: "versionNumber", location: .uri("VersionNumber"))
-        ]
-
         /// The name or Amazon Resource Name (ARN) of the layer.
         public let layerName: String
         /// The version number.
@@ -1377,6 +1416,13 @@ extension Lambda {
         public init(layerName: String, versionNumber: Int64 = 0) {
             self.layerName = layerName
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.layerName, key: "LayerName")
+            request.encodePath(self.versionNumber, key: "VersionNumber")
         }
 
         public func validate(name: String) throws {
@@ -1389,11 +1435,6 @@ extension Lambda {
     }
 
     public struct DeleteProvisionedConcurrencyConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The version number or alias name.
@@ -1402,6 +1443,13 @@ extension Lambda {
         public init(functionName: String, qualifier: String) {
             self.functionName = functionName
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -2020,11 +2068,6 @@ extension Lambda {
     }
 
     public struct GetAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The name of the alias.
@@ -2033,6 +2076,13 @@ extension Lambda {
         public init(functionName: String, name: String) {
             self.functionName = functionName
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -2048,15 +2098,17 @@ extension Lambda {
     }
 
     public struct GetCodeSigningConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "codeSigningConfigArn", location: .uri("CodeSigningConfigArn"))
-        ]
-
         /// The The Amazon Resource Name (ARN) of the code signing configuration.
         public let codeSigningConfigArn: String
 
         public init(codeSigningConfigArn: String) {
             self.codeSigningConfigArn = codeSigningConfigArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.codeSigningConfigArn, key: "CodeSigningConfigArn")
         }
 
         public func validate(name: String) throws {
@@ -2081,10 +2133,6 @@ extension Lambda {
     }
 
     public struct GetEventSourceMappingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "uuid", location: .uri("UUID"))
-        ]
-
         /// The identifier of the event source mapping.
         public let uuid: String
 
@@ -2092,19 +2140,27 @@ extension Lambda {
             self.uuid = uuid
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.uuid, key: "UUID")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFunctionCodeSigningConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
         public init(functionName: String) {
             self.functionName = functionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
         }
 
         public func validate(name: String) throws {
@@ -2134,15 +2190,17 @@ extension Lambda {
     }
 
     public struct GetFunctionConcurrencyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
 
         public init(functionName: String) {
             self.functionName = functionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
         }
 
         public func validate(name: String) throws {
@@ -2168,11 +2226,6 @@ extension Lambda {
     }
 
     public struct GetFunctionConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The name of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version or alias to get details about a published version of the function.
@@ -2181,6 +2234,13 @@ extension Lambda {
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -2196,11 +2256,6 @@ extension Lambda {
     }
 
     public struct GetFunctionEventInvokeConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// A version number or alias name.
@@ -2209,6 +2264,13 @@ extension Lambda {
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -2224,11 +2286,6 @@ extension Lambda {
     }
 
     public struct GetFunctionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The name of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version or alias to get details about a published version of the function.
@@ -2237,6 +2294,13 @@ extension Lambda {
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -2277,11 +2341,6 @@ extension Lambda {
     }
 
     public struct GetFunctionUrlConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The alias name.
@@ -2290,6 +2349,13 @@ extension Lambda {
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -2342,15 +2408,17 @@ extension Lambda {
     }
 
     public struct GetLayerVersionByArnRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring("Arn"))
-        ]
-
         /// The ARN of the layer version.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.arn, key: "Arn")
         }
 
         public func validate(name: String) throws {
@@ -2363,11 +2431,6 @@ extension Lambda {
     }
 
     public struct GetLayerVersionPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "layerName", location: .uri("LayerName")),
-            AWSMemberEncoding(label: "versionNumber", location: .uri("VersionNumber"))
-        ]
-
         /// The name or Amazon Resource Name (ARN) of the layer.
         public let layerName: String
         /// The version number.
@@ -2376,6 +2439,13 @@ extension Lambda {
         public init(layerName: String, versionNumber: Int64 = 0) {
             self.layerName = layerName
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.layerName, key: "LayerName")
+            request.encodePath(self.versionNumber, key: "VersionNumber")
         }
 
         public func validate(name: String) throws {
@@ -2405,11 +2475,6 @@ extension Lambda {
     }
 
     public struct GetLayerVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "layerName", location: .uri("LayerName")),
-            AWSMemberEncoding(label: "versionNumber", location: .uri("VersionNumber"))
-        ]
-
         /// The name or Amazon Resource Name (ARN) of the layer.
         public let layerName: String
         /// The version number.
@@ -2418,6 +2483,13 @@ extension Lambda {
         public init(layerName: String, versionNumber: Int64 = 0) {
             self.layerName = layerName
             self.versionNumber = versionNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.layerName, key: "LayerName")
+            request.encodePath(self.versionNumber, key: "VersionNumber")
         }
 
         public func validate(name: String) throws {
@@ -2476,11 +2548,6 @@ extension Lambda {
     }
 
     public struct GetPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The name of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version or alias to get the policy for that resource.
@@ -2489,6 +2556,13 @@ extension Lambda {
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -2521,11 +2595,6 @@ extension Lambda {
     }
 
     public struct GetProvisionedConcurrencyConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The version number or alias name.
@@ -2534,6 +2603,13 @@ extension Lambda {
         public init(functionName: String, qualifier: String) {
             self.functionName = functionName
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -2582,11 +2658,6 @@ extension Lambda {
     }
 
     public struct GetRuntimeManagementConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the  $LATEST version is returned.
@@ -2595,6 +2666,13 @@ extension Lambda {
         public init(functionName: String, qualifier: String? = nil) {
             self.functionName = functionName
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -2691,17 +2769,7 @@ extension Lambda {
         }
     }
 
-    public struct InvocationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "payload"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientContext", location: .header("X-Amz-Client-Context")),
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "invocationType", location: .header("X-Amz-Invocation-Type")),
-            AWSMemberEncoding(label: "logType", location: .header("X-Amz-Log-Type")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
+    public struct InvocationRequest: AWSEncodableShape {
         /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object.
         public let clientContext: String?
         /// The name of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -2722,6 +2790,17 @@ extension Lambda {
             self.logType = logType
             self.payload = payload
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.clientContext, key: "X-Amz-Client-Context")
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeHeader(self.invocationType, key: "X-Amz-Invocation-Type")
+            request.encodeHeader(self.logType, key: "X-Amz-Log-Type")
+            try container.encode(self.payload)
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -2759,25 +2838,19 @@ extension Lambda {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.executedVersion = try response.decodeIfPresent(String.self, forHeader: "X-Amz-Executed-Version")
-            self.functionError = try response.decodeIfPresent(String.self, forHeader: "X-Amz-Function-Error")
-            self.logResult = try response.decodeIfPresent(String.self, forHeader: "X-Amz-Log-Result")
-            self.payload = response.decodePayload()
+            let container = try decoder.singleValueContainer()
+            self.executedVersion = try response.decodeHeaderIfPresent(String.self, key: "X-Amz-Executed-Version")
+            self.functionError = try response.decodeHeaderIfPresent(String.self, key: "X-Amz-Function-Error")
+            self.logResult = try response.decodeHeaderIfPresent(String.self, key: "X-Amz-Log-Result")
+            self.payload = try container.decode(AWSHTTPBody.self)
             self.statusCode = response.decodeStatus()
-
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct InvokeAsyncRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "invokeArgs"
+    public struct InvokeAsyncRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The JSON that you want to provide to your Lambda function as input.
@@ -2786,6 +2859,13 @@ extension Lambda {
         public init(functionName: String, invokeArgs: AWSHTTPBody) {
             self.functionName = functionName
             self.invokeArgs = invokeArgs
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encode(self.invokeArgs)
         }
 
         public func validate(name: String) throws {
@@ -2808,28 +2888,22 @@ extension Lambda {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             self.status = response.decodeStatus()
-
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct InvokeResponseStreamUpdate: AWSDecodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "payload", location: .body("Payload"))
-        ]
-
         /// Data returned by your Lambda function.
-        public let payload: ByteBuffer
+        public let payload: AWSEventPayload
 
-        public init(payload: ByteBuffer) {
+        public init(payload: AWSEventPayload) {
             self.payload = payload
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsEvent]! as! EventDecodingContainer
-            self.payload = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.payload = try container.decode(AWSEventPayload.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2856,17 +2930,7 @@ extension Lambda {
         }
     }
 
-    public struct InvokeWithResponseStreamRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "payload"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientContext", location: .header("X-Amz-Client-Context")),
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "invocationType", location: .header("X-Amz-Invocation-Type")),
-            AWSMemberEncoding(label: "logType", location: .header("X-Amz-Log-Type")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
+    public struct InvokeWithResponseStreamRequest: AWSEncodableShape {
         /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object.
         public let clientContext: String?
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -2887,6 +2951,17 @@ extension Lambda {
             self.logType = logType
             self.payload = payload
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.clientContext, key: "X-Amz-Client-Context")
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeHeader(self.invocationType, key: "X-Amz-Invocation-Type")
+            request.encodeHeader(self.logType, key: "X-Amz-Log-Type")
+            try container.encode(self.payload)
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -2921,11 +2996,11 @@ extension Lambda {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eventStream = response.decodeEventStream()
-            self.executedVersion = try response.decodeIfPresent(String.self, forHeader: "X-Amz-Executed-Version")
-            self.responseStreamContentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
+            let container = try decoder.singleValueContainer()
+            self.eventStream = try container.decode(AWSEventStream<InvokeWithResponseStreamResponseEvent>.self)
+            self.executedVersion = try response.decodeHeaderIfPresent(String.self, key: "X-Amz-Executed-Version")
+            self.responseStreamContentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
             self.statusCode = response.decodeStatus()
-
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3079,13 +3154,6 @@ extension Lambda {
     }
 
     public struct ListAliasesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "functionVersion", location: .querystring("FunctionVersion")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a function version to only list aliases that invoke that version.
@@ -3100,6 +3168,15 @@ extension Lambda {
             self.functionVersion = functionVersion
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.functionVersion, key: "FunctionVersion")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         public func validate(name: String) throws {
@@ -3134,11 +3211,6 @@ extension Lambda {
     }
 
     public struct ListCodeSigningConfigsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
         public let marker: String?
         /// Maximum number of items to return.
@@ -3147,6 +3219,13 @@ extension Lambda {
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         public func validate(name: String) throws {
@@ -3175,13 +3254,6 @@ extension Lambda {
     }
 
     public struct ListEventSourceMappingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventSourceArn", location: .querystring("EventSourceArn")),
-            AWSMemberEncoding(label: "functionName", location: .querystring("FunctionName")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis – The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams – The ARN of the stream.    Amazon Simple Queue Service – The ARN of the queue.    Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.    Amazon MQ – The ARN of the broker.    Amazon DocumentDB – The ARN of the DocumentDB change stream.
         public let eventSourceArn: String?
         /// The name of the Lambda function.  Name formats     Function name – MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
@@ -3196,6 +3268,15 @@ extension Lambda {
             self.functionName = functionName
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.eventSourceArn, key: "EventSourceArn")
+            request.encodeQuery(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         public func validate(name: String) throws {
@@ -3228,12 +3309,6 @@ extension Lambda {
     }
 
     public struct ListFunctionEventInvokeConfigsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
@@ -3245,6 +3320,14 @@ extension Lambda {
             self.functionName = functionName
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         public func validate(name: String) throws {
@@ -3276,12 +3359,6 @@ extension Lambda {
     }
 
     public struct ListFunctionUrlConfigsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
@@ -3293,6 +3370,14 @@ extension Lambda {
             self.functionName = functionName
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         public func validate(name: String) throws {
@@ -3324,12 +3409,6 @@ extension Lambda {
     }
 
     public struct ListFunctionsByCodeSigningConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "codeSigningConfigArn", location: .uri("CodeSigningConfigArn")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The The Amazon Resource Name (ARN) of the code signing configuration.
         public let codeSigningConfigArn: String
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
@@ -3341,6 +3420,14 @@ extension Lambda {
             self.codeSigningConfigArn = codeSigningConfigArn
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.codeSigningConfigArn, key: "CodeSigningConfigArn")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         public func validate(name: String) throws {
@@ -3371,13 +3458,6 @@ extension Lambda {
     }
 
     public struct ListFunctionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionVersion", location: .querystring("FunctionVersion")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "masterRegion", location: .querystring("MasterRegion")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// Set to ALL to include entries for all published versions of each function.
         public let functionVersion: FunctionVersion?
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
@@ -3392,6 +3472,15 @@ extension Lambda {
             self.marker = marker
             self.masterRegion = masterRegion
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.functionVersion, key: "FunctionVersion")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.masterRegion, key: "MasterRegion")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         public func validate(name: String) throws {
@@ -3420,14 +3509,6 @@ extension Lambda {
     }
 
     public struct ListLayerVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "compatibleArchitecture", location: .querystring("CompatibleArchitecture")),
-            AWSMemberEncoding(label: "compatibleRuntime", location: .querystring("CompatibleRuntime")),
-            AWSMemberEncoding(label: "layerName", location: .uri("LayerName")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The compatible
         /// instruction set architecture.
         public let compatibleArchitecture: Architecture?
@@ -3446,6 +3527,16 @@ extension Lambda {
             self.layerName = layerName
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.compatibleArchitecture, key: "CompatibleArchitecture")
+            request.encodeQuery(self.compatibleRuntime, key: "CompatibleRuntime")
+            request.encodePath(self.layerName, key: "LayerName")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         public func validate(name: String) throws {
@@ -3477,13 +3568,6 @@ extension Lambda {
     }
 
     public struct ListLayersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "compatibleArchitecture", location: .querystring("CompatibleArchitecture")),
-            AWSMemberEncoding(label: "compatibleRuntime", location: .querystring("CompatibleRuntime")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The compatible
         /// instruction set architecture.
         public let compatibleArchitecture: Architecture?
@@ -3499,6 +3583,15 @@ extension Lambda {
             self.compatibleRuntime = compatibleRuntime
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.compatibleArchitecture, key: "CompatibleArchitecture")
+            request.encodeQuery(self.compatibleRuntime, key: "CompatibleRuntime")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         public func validate(name: String) throws {
@@ -3527,12 +3620,6 @@ extension Lambda {
     }
 
     public struct ListProvisionedConcurrencyConfigsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
@@ -3544,6 +3631,14 @@ extension Lambda {
             self.functionName = functionName
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         public func validate(name: String) throws {
@@ -3575,15 +3670,17 @@ extension Lambda {
     }
 
     public struct ListTagsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resource", location: .uri("Resource"))
-        ]
-
         /// The function's Amazon Resource Name (ARN).  Note: Lambda does not support adding tags to aliases or versions.
         public let resource: String
 
         public init(resource: String) {
             self.resource = resource
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resource, key: "Resource")
         }
 
         public func validate(name: String) throws {
@@ -3607,12 +3704,6 @@ extension Lambda {
     }
 
     public struct ListVersionsByFunctionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
@@ -3624,6 +3715,14 @@ extension Lambda {
             self.functionName = functionName
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         public func validate(name: String) throws {
@@ -3728,10 +3827,6 @@ extension Lambda {
     }
 
     public struct PublishLayerVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "layerName", location: .uri("LayerName"))
-        ]
-
         /// A list of compatible
         /// instruction set architectures.
         public let compatibleArchitectures: [Architecture]?
@@ -3753,6 +3848,17 @@ extension Lambda {
             self.description = description
             self.layerName = layerName
             self.licenseInfo = licenseInfo
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.compatibleArchitectures, forKey: .compatibleArchitectures)
+            try container.encodeIfPresent(self.compatibleRuntimes, forKey: .compatibleRuntimes)
+            try container.encode(self.content, forKey: .content)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.layerName, key: "LayerName")
+            try container.encodeIfPresent(self.licenseInfo, forKey: .licenseInfo)
         }
 
         public func validate(name: String) throws {
@@ -3822,10 +3928,6 @@ extension Lambda {
     }
 
     public struct PublishVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
-        ]
-
         /// Only publish a version if the hash value matches the value that's specified. Use this option to avoid publishing a version if the function code has changed since you last updated it. You can get the hash for the version that you uploaded from the output of UpdateFunctionCode.
         public let codeSha256: String?
         /// A description for the version to override the description in the function configuration.
@@ -3840,6 +3942,15 @@ extension Lambda {
             self.description = description
             self.functionName = functionName
             self.revisionId = revisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.codeSha256, forKey: .codeSha256)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
         }
 
         public func validate(name: String) throws {
@@ -3857,10 +3968,6 @@ extension Lambda {
     }
 
     public struct PutFunctionCodeSigningConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
-        ]
-
         /// The The Amazon Resource Name (ARN) of the code signing configuration.
         public let codeSigningConfigArn: String
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -3869,6 +3976,13 @@ extension Lambda {
         public init(codeSigningConfigArn: String, functionName: String) {
             self.codeSigningConfigArn = codeSigningConfigArn
             self.functionName = functionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.codeSigningConfigArn, forKey: .codeSigningConfigArn)
+            request.encodePath(self.functionName, key: "FunctionName")
         }
 
         public func validate(name: String) throws {
@@ -3902,10 +4016,6 @@ extension Lambda {
     }
 
     public struct PutFunctionConcurrencyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The number of simultaneous executions to reserve for the function.
@@ -3914,6 +4024,13 @@ extension Lambda {
         public init(functionName: String, reservedConcurrentExecutions: Int) {
             self.functionName = functionName
             self.reservedConcurrentExecutions = reservedConcurrentExecutions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encode(self.reservedConcurrentExecutions, forKey: .reservedConcurrentExecutions)
         }
 
         public func validate(name: String) throws {
@@ -3929,11 +4046,6 @@ extension Lambda {
     }
 
     public struct PutFunctionEventInvokeConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of a standard SQS queue.    Topic - The ARN of a standard SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
         public let destinationConfig: DestinationConfig?
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -3951,6 +4063,16 @@ extension Lambda {
             self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.destinationConfig, forKey: .destinationConfig)
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encodeIfPresent(self.maximumEventAgeInSeconds, forKey: .maximumEventAgeInSeconds)
+            try container.encodeIfPresent(self.maximumRetryAttempts, forKey: .maximumRetryAttempts)
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -3975,11 +4097,6 @@ extension Lambda {
     }
 
     public struct PutProvisionedConcurrencyConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// The amount of provisioned concurrency to allocate for the version or alias.
@@ -3991,6 +4108,14 @@ extension Lambda {
             self.functionName = functionName
             self.provisionedConcurrentExecutions = provisionedConcurrentExecutions
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encode(self.provisionedConcurrentExecutions, forKey: .provisionedConcurrentExecutions)
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -4042,11 +4167,6 @@ extension Lambda {
     }
 
     public struct PutRuntimeManagementConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The name of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the  $LATEST version is returned.
@@ -4061,6 +4181,15 @@ extension Lambda {
             self.qualifier = qualifier
             self.runtimeVersionArn = runtimeVersionArn
             self.updateRuntimeOn = updateRuntimeOn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.qualifier, key: "Qualifier")
+            try container.encodeIfPresent(self.runtimeVersionArn, forKey: .runtimeVersionArn)
+            try container.encode(self.updateRuntimeOn, forKey: .updateRuntimeOn)
         }
 
         public func validate(name: String) throws {
@@ -4103,13 +4232,6 @@ extension Lambda {
     }
 
     public struct RemoveLayerVersionPermissionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "layerName", location: .uri("LayerName")),
-            AWSMemberEncoding(label: "revisionId", location: .querystring("RevisionId")),
-            AWSMemberEncoding(label: "statementId", location: .uri("StatementId")),
-            AWSMemberEncoding(label: "versionNumber", location: .uri("VersionNumber"))
-        ]
-
         /// The name or Amazon Resource Name (ARN) of the layer.
         public let layerName: String
         /// Only update the policy if the revision ID matches the ID specified. Use this option to avoid modifying a policy that has changed since you last read it.
@@ -4126,6 +4248,15 @@ extension Lambda {
             self.versionNumber = versionNumber
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.layerName, key: "LayerName")
+            request.encodeQuery(self.revisionId, key: "RevisionId")
+            request.encodePath(self.statementId, key: "StatementId")
+            request.encodePath(self.versionNumber, key: "VersionNumber")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
@@ -4139,13 +4270,6 @@ extension Lambda {
     }
 
     public struct RemovePermissionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier")),
-            AWSMemberEncoding(label: "revisionId", location: .querystring("RevisionId")),
-            AWSMemberEncoding(label: "statementId", location: .uri("StatementId"))
-        ]
-
         /// The name of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
         /// Specify a version or alias to remove permissions from a published version of the function.
@@ -4160,6 +4284,15 @@ extension Lambda {
             self.qualifier = qualifier
             self.revisionId = revisionId
             self.statementId = statementId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionName, key: "FunctionName")
+            request.encodeQuery(self.qualifier, key: "Qualifier")
+            request.encodeQuery(self.revisionId, key: "RevisionId")
+            request.encodePath(self.statementId, key: "StatementId")
         }
 
         public func validate(name: String) throws {
@@ -4324,10 +4457,6 @@ extension Lambda {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resource", location: .uri("Resource"))
-        ]
-
         /// The function's Amazon Resource Name (ARN).
         public let resource: String
         /// A list of tags to apply to the function.
@@ -4336,6 +4465,13 @@ extension Lambda {
         public init(resource: String, tags: [String: String]) {
             self.resource = resource
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resource, key: "Resource")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -4374,11 +4510,6 @@ extension Lambda {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resource", location: .uri("Resource")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The function's Amazon Resource Name (ARN).
         public let resource: String
         /// A list of tag keys to remove from the function.
@@ -4389,6 +4520,13 @@ extension Lambda {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resource, key: "Resource")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
         }
@@ -4397,11 +4535,6 @@ extension Lambda {
     }
 
     public struct UpdateAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// A description of the alias.
         public let description: String?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -4422,6 +4555,17 @@ extension Lambda {
             self.name = name
             self.revisionId = revisionId
             self.routingConfig = routingConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encodeIfPresent(self.functionVersion, forKey: .functionVersion)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
+            try container.encodeIfPresent(self.routingConfig, forKey: .routingConfig)
         }
 
         public func validate(name: String) throws {
@@ -4447,10 +4591,6 @@ extension Lambda {
     }
 
     public struct UpdateCodeSigningConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "codeSigningConfigArn", location: .uri("CodeSigningConfigArn"))
-        ]
-
         /// Signing profiles for this code signing configuration.
         public let allowedPublishers: AllowedPublishers?
         /// The The Amazon Resource Name (ARN) of the code signing configuration.
@@ -4465,6 +4605,15 @@ extension Lambda {
             self.codeSigningConfigArn = codeSigningConfigArn
             self.codeSigningPolicies = codeSigningPolicies
             self.description = description
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowedPublishers, forKey: .allowedPublishers)
+            request.encodePath(self.codeSigningConfigArn, key: "CodeSigningConfigArn")
+            try container.encodeIfPresent(self.codeSigningPolicies, forKey: .codeSigningPolicies)
+            try container.encodeIfPresent(self.description, forKey: .description)
         }
 
         public func validate(name: String) throws {
@@ -4495,10 +4644,6 @@ extension Lambda {
     }
 
     public struct UpdateEventSourceMappingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "uuid", location: .uri("UUID"))
-        ]
-
         /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis – Default 100. Max 10,000.    Amazon DynamoDB Streams – Default 100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.    DocumentDB – Default 100. Max 10,000.
         public let batchSize: Int?
         /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry.
@@ -4551,6 +4696,27 @@ extension Lambda {
             self.uuid = uuid
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.batchSize, forKey: .batchSize)
+            try container.encodeIfPresent(self.bisectBatchOnFunctionError, forKey: .bisectBatchOnFunctionError)
+            try container.encodeIfPresent(self.destinationConfig, forKey: .destinationConfig)
+            try container.encodeIfPresent(self.documentDBEventSourceConfig, forKey: .documentDBEventSourceConfig)
+            try container.encodeIfPresent(self.enabled, forKey: .enabled)
+            try container.encodeIfPresent(self.filterCriteria, forKey: .filterCriteria)
+            try container.encodeIfPresent(self.functionName, forKey: .functionName)
+            try container.encodeIfPresent(self.functionResponseTypes, forKey: .functionResponseTypes)
+            try container.encodeIfPresent(self.maximumBatchingWindowInSeconds, forKey: .maximumBatchingWindowInSeconds)
+            try container.encodeIfPresent(self.maximumRecordAgeInSeconds, forKey: .maximumRecordAgeInSeconds)
+            try container.encodeIfPresent(self.maximumRetryAttempts, forKey: .maximumRetryAttempts)
+            try container.encodeIfPresent(self.parallelizationFactor, forKey: .parallelizationFactor)
+            try container.encodeIfPresent(self.scalingConfig, forKey: .scalingConfig)
+            try container.encodeIfPresent(self.sourceAccessConfigurations, forKey: .sourceAccessConfigurations)
+            try container.encodeIfPresent(self.tumblingWindowInSeconds, forKey: .tumblingWindowInSeconds)
+            request.encodePath(self.uuid, key: "UUID")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.batchSize, name: "batchSize", parent: name, max: 10000)
             try self.validate(self.batchSize, name: "batchSize", parent: name, min: 1)
@@ -4598,10 +4764,6 @@ extension Lambda {
     }
 
     public struct UpdateFunctionCodeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
-        ]
-
         /// The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
         public let architectures: [Architecture]?
         /// Set to true to validate the request parameters and access permissions without modifying the function code.
@@ -4638,6 +4800,21 @@ extension Lambda {
             self.zipFile = zipFile
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.architectures, forKey: .architectures)
+            try container.encodeIfPresent(self.dryRun, forKey: .dryRun)
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encodeIfPresent(self.imageUri, forKey: .imageUri)
+            try container.encodeIfPresent(self.publish, forKey: .publish)
+            try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
+            try container.encodeIfPresent(self.s3Bucket, forKey: .s3Bucket)
+            try container.encodeIfPresent(self.s3Key, forKey: .s3Key)
+            try container.encodeIfPresent(self.s3ObjectVersion, forKey: .s3ObjectVersion)
+            try container.encodeIfPresent(self.zipFile, forKey: .zipFile)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.architectures, name: "architectures", parent: name, max: 1)
             try self.validate(self.architectures, name: "architectures", parent: name, min: 1)
@@ -4667,10 +4844,6 @@ extension Lambda {
     }
 
     public struct UpdateFunctionConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName"))
-        ]
-
         /// A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead-letter queues.
         public let deadLetterConfig: DeadLetterConfig?
         /// A description of the function.
@@ -4736,6 +4909,29 @@ extension Lambda {
             self.vpcConfig = vpcConfig
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.deadLetterConfig, forKey: .deadLetterConfig)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.environment, forKey: .environment)
+            try container.encodeIfPresent(self.ephemeralStorage, forKey: .ephemeralStorage)
+            try container.encodeIfPresent(self.fileSystemConfigs, forKey: .fileSystemConfigs)
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encodeIfPresent(self.handler, forKey: .handler)
+            try container.encodeIfPresent(self.imageConfig, forKey: .imageConfig)
+            try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
+            try container.encodeIfPresent(self.layers, forKey: .layers)
+            try container.encodeIfPresent(self.memorySize, forKey: .memorySize)
+            try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
+            try container.encodeIfPresent(self.role, forKey: .role)
+            try container.encodeIfPresent(self.runtime, forKey: .runtime)
+            try container.encodeIfPresent(self.snapStart, forKey: .snapStart)
+            try container.encodeIfPresent(self.timeout, forKey: .timeout)
+            try container.encodeIfPresent(self.tracingConfig, forKey: .tracingConfig)
+            try container.encodeIfPresent(self.vpcConfig, forKey: .vpcConfig)
+        }
+
         public func validate(name: String) throws {
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
             try self.validate(self.description, name: "description", parent: name, max: 256)
@@ -4786,11 +4982,6 @@ extension Lambda {
     }
 
     public struct UpdateFunctionEventInvokeConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// A destination for events after they have been sent to a function for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda function.    Queue - The ARN of a standard SQS queue.    Topic - The ARN of a standard SNS topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
         public let destinationConfig: DestinationConfig?
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -4808,6 +4999,16 @@ extension Lambda {
             self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.destinationConfig, forKey: .destinationConfig)
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encodeIfPresent(self.maximumEventAgeInSeconds, forKey: .maximumEventAgeInSeconds)
+            try container.encodeIfPresent(self.maximumRetryAttempts, forKey: .maximumRetryAttempts)
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {
@@ -4832,11 +5033,6 @@ extension Lambda {
     }
 
     public struct UpdateFunctionUrlConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
-        ]
-
         /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
         public let authType: FunctionUrlAuthType?
         /// The cross-origin resource sharing (CORS) settings for your function URL.
@@ -4854,6 +5050,16 @@ extension Lambda {
             self.functionName = functionName
             self.invokeMode = invokeMode
             self.qualifier = qualifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.authType, forKey: .authType)
+            try container.encodeIfPresent(self.cors, forKey: .cors)
+            request.encodePath(self.functionName, key: "FunctionName")
+            try container.encodeIfPresent(self.invokeMode, forKey: .invokeMode)
+            request.encodeQuery(self.qualifier, key: "Qualifier")
         }
 
         public func validate(name: String) throws {

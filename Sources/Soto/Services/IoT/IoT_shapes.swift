@@ -696,11 +696,6 @@ extension IoT {
     }
 
     public struct AcceptCertificateTransferRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId")),
-            AWSMemberEncoding(label: "setAsActive", location: .querystring("setAsActive"))
-        ]
-
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
         /// Specifies whether the certificate is active.
@@ -709,6 +704,13 @@ extension IoT {
         public init(certificateId: String, setAsActive: Bool? = nil) {
             self.certificateId = certificateId
             self.setAsActive = setAsActive
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateId, key: "certificateId")
+            request.encodeQuery(self.setAsActive, key: "setAsActive")
         }
 
         public func validate(name: String) throws {
@@ -1095,11 +1097,6 @@ extension IoT {
     }
 
     public struct AssociateTargetsWithJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
-            AWSMemberEncoding(label: "namespaceId", location: .querystring("namespaceId"))
-        ]
-
         /// An optional comment string describing why the job was associated with the targets.
         public let comment: String?
         /// The unique identifier you assigned to this job when it was created.
@@ -1114,6 +1111,15 @@ extension IoT {
             self.jobId = jobId
             self.namespaceId = namespaceId
             self.targets = targets
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.comment, forKey: .comment)
+            request.encodePath(self.jobId, key: "jobId")
+            request.encodeQuery(self.namespaceId, key: "namespaceId")
+            try container.encode(self.targets, forKey: .targets)
         }
 
         public func validate(name: String) throws {
@@ -1157,10 +1163,6 @@ extension IoT {
     }
 
     public struct AttachPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
-        ]
-
         /// The name of the policy to attach.
         public let policyName: String
         /// The identity to which the policy is attached. For example, a thing group or a certificate.
@@ -1169,6 +1171,13 @@ extension IoT {
         public init(policyName: String, target: String) {
             self.policyName = policyName
             self.target = target
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyName, key: "policyName")
+            try container.encode(self.target, forKey: .target)
         }
 
         public func validate(name: String) throws {
@@ -1183,11 +1192,6 @@ extension IoT {
     }
 
     public struct AttachPrincipalPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri("policyName")),
-            AWSMemberEncoding(label: "principal", location: .header("x-amzn-iot-principal"))
-        ]
-
         /// The policy name.
         public let policyName: String
         /// The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
@@ -1196,6 +1200,13 @@ extension IoT {
         public init(policyName: String, principal: String) {
             self.policyName = policyName
             self.principal = principal
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyName, key: "policyName")
+            request.encodeHeader(self.principal, key: "x-amzn-iot-principal")
         }
 
         public func validate(name: String) throws {
@@ -1208,11 +1219,6 @@ extension IoT {
     }
 
     public struct AttachSecurityProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName")),
-            AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring("securityProfileTargetArn"))
-        ]
-
         /// The security profile that is attached.
         public let securityProfileName: String
         /// The ARN of the target (thing group) to which the security profile is attached.
@@ -1221,6 +1227,13 @@ extension IoT {
         public init(securityProfileName: String, securityProfileTargetArn: String) {
             self.securityProfileName = securityProfileName
             self.securityProfileTargetArn = securityProfileTargetArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.securityProfileName, key: "securityProfileName")
+            request.encodeQuery(self.securityProfileTargetArn, key: "securityProfileTargetArn")
         }
 
         public func validate(name: String) throws {
@@ -1237,11 +1250,6 @@ extension IoT {
     }
 
     public struct AttachThingPrincipalRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "principal", location: .header("x-amzn-principal")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// The principal, which can be a certificate ARN (as returned from the
         /// 			CreateCertificate operation) or an Amazon Cognito ID.
         public let principal: String
@@ -1251,6 +1259,13 @@ extension IoT {
         public init(principal: String, thingName: String) {
             self.principal = principal
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.principal, key: "x-amzn-principal")
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -2131,15 +2146,17 @@ extension IoT {
     }
 
     public struct CancelAuditMitigationActionsTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         /// The unique identifier for the task that you want to cancel.
         public let taskId: String
 
         public init(taskId: String) {
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -2156,15 +2173,17 @@ extension IoT {
     }
 
     public struct CancelAuditTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         /// The ID of the audit you want to cancel. You can only cancel an audit that is "IN_PROGRESS".
         public let taskId: String
 
         public init(taskId: String) {
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -2181,15 +2200,17 @@ extension IoT {
     }
 
     public struct CancelCertificateTransferRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId"))
-        ]
-
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
 
         public init(certificateId: String) {
             self.certificateId = certificateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateId, key: "certificateId")
         }
 
         public func validate(name: String) throws {
@@ -2202,15 +2223,17 @@ extension IoT {
     }
 
     public struct CancelDetectMitigationActionsTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         ///  The unique identifier of the task.
         public let taskId: String
 
         public init(taskId: String) {
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -2227,12 +2250,6 @@ extension IoT {
     }
 
     public struct CancelJobExecutionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "force", location: .querystring("force")),
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// (Optional) The expected current version of the job execution. Each time you update the job  execution, its version is incremented. If the version of the job execution stored in Jobs does  not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that  contains the current job execution status data is returned. (This makes it unnecessary to  perform a separate DescribeJobExecution request in order to obtain the job execution status  data.)
         public let expectedVersion: Int64?
         /// (Optional) If true the job execution will be canceled if it has status  IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status  QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set  force to true, then an InvalidStateTransitionException  will be thrown. The default is false. Canceling a job execution which is "IN_PROGRESS", will cause the device to be unable  to update the job execution status.  Use caution and ensure that the device is able to  recover to a valid state.
@@ -2250,6 +2267,16 @@ extension IoT {
             self.jobId = jobId
             self.statusDetails = statusDetails
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.expectedVersion, forKey: .expectedVersion)
+            request.encodeQuery(self.force, key: "force")
+            request.encodePath(self.jobId, key: "jobId")
+            try container.encodeIfPresent(self.statusDetails, forKey: .statusDetails)
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -2275,11 +2302,6 @@ extension IoT {
     }
 
     public struct CancelJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "force", location: .querystring("force")),
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// An optional comment string describing why the job was canceled.
         public let comment: String?
         /// (Optional) If true job executions with status "IN_PROGRESS" and "QUEUED"  are canceled, otherwise only job executions with status "QUEUED" are canceled. The default  is false. Canceling a job which is "IN_PROGRESS", will cause a device which is executing  the job to be unable to update the job execution status.  Use caution and ensure that each  device executing a job which is canceled is able to recover to a valid state.
@@ -2294,6 +2316,15 @@ extension IoT {
             self.force = force
             self.jobId = jobId
             self.reasonCode = reasonCode
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.comment, forKey: .comment)
+            request.encodeQuery(self.force, key: "force")
+            request.encodePath(self.jobId, key: "jobId")
+            try container.encodeIfPresent(self.reasonCode, forKey: .reasonCode)
         }
 
         public func validate(name: String) throws {
@@ -2600,15 +2631,17 @@ extension IoT {
     }
 
     public struct ConfirmTopicRuleDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "confirmationToken", location: .uri("confirmationToken"))
-        ]
-
         /// The token used to confirm ownership or access to the topic rule confirmation URL.
         public let confirmationToken: String
 
         public init(confirmationToken: String) {
             self.confirmationToken = confirmationToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.confirmationToken, key: "confirmationToken")
         }
 
         public func validate(name: String) throws {
@@ -2668,10 +2701,6 @@ extension IoT {
     }
 
     public struct CreateAuthorizerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authorizerName", location: .uri("authorizerName"))
-        ]
-
         /// The ARN of the authorizer's Lambda function.
         public let authorizerFunctionArn: String
         /// The authorizer name.
@@ -2700,6 +2729,19 @@ extension IoT {
             self.tags = tags
             self.tokenKeyName = tokenKeyName
             self.tokenSigningPublicKeys = tokenSigningPublicKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.authorizerFunctionArn, forKey: .authorizerFunctionArn)
+            request.encodePath(self.authorizerName, key: "authorizerName")
+            try container.encodeIfPresent(self.enableCachingForHttp, forKey: .enableCachingForHttp)
+            try container.encodeIfPresent(self.signingDisabled, forKey: .signingDisabled)
+            try container.encodeIfPresent(self.status, forKey: .status)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tokenKeyName, forKey: .tokenKeyName)
+            try container.encodeIfPresent(self.tokenSigningPublicKeys, forKey: .tokenSigningPublicKeys)
         }
 
         public func validate(name: String) throws {
@@ -2752,10 +2794,6 @@ extension IoT {
     }
 
     public struct CreateBillingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "billingGroupName", location: .uri("billingGroupName"))
-        ]
-
         /// The name you wish to give to the billing group.
         public let billingGroupName: String
         /// The properties of the billing group.
@@ -2767,6 +2805,14 @@ extension IoT {
             self.billingGroupName = billingGroupName
             self.billingGroupProperties = billingGroupProperties
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.billingGroupName, key: "billingGroupName")
+            try container.encodeIfPresent(self.billingGroupProperties, forKey: .billingGroupProperties)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2807,10 +2853,6 @@ extension IoT {
     }
 
     public struct CreateCertificateFromCsrRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "setAsActive", location: .querystring("setAsActive"))
-        ]
-
         /// The certificate signing request (CSR).
         public let certificateSigningRequest: String
         /// Specifies whether the certificate is active.
@@ -2819,6 +2861,13 @@ extension IoT {
         public init(certificateSigningRequest: String, setAsActive: Bool? = nil) {
             self.certificateSigningRequest = certificateSigningRequest
             self.setAsActive = setAsActive
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.certificateSigningRequest, forKey: .certificateSigningRequest)
+            request.encodeQuery(self.setAsActive, key: "setAsActive")
         }
 
         public func validate(name: String) throws {
@@ -2854,10 +2903,6 @@ extension IoT {
     }
 
     public struct CreateCustomMetricRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
-        ]
-
         /// Each custom metric must have a unique client request token. If you try to create a new custom metric that already exists with a different token, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
         public let clientRequestToken: String
         ///  The friendly name in the console for the custom metric. This name doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. You can update the friendly name after you define it.
@@ -2875,6 +2920,16 @@ extension IoT {
             self.metricName = metricName
             self.metricType = metricType
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            request.encodePath(self.metricName, key: "metricName")
+            try container.encode(self.metricType, forKey: .metricType)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2917,10 +2972,6 @@ extension IoT {
     }
 
     public struct CreateDimensionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// Each dimension must have a unique client request token. If you try to create a new dimension with the same token as a dimension that already exists, an exception occurs.  If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
         public let clientRequestToken: String
         /// A unique identifier for the dimension. Choose something that describes the type and value to make it easy to remember what it does.
@@ -2938,6 +2989,16 @@ extension IoT {
             self.stringValues = stringValues
             self.tags = tags
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.name, key: "name")
+            try container.encode(self.stringValues, forKey: .stringValues)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -2984,10 +3045,6 @@ extension IoT {
     }
 
     public struct CreateDomainConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainConfigurationName", location: .uri("domainConfigurationName"))
-        ]
-
         /// An object that specifies the authorization service for a domain.
         public let authorizerConfig: AuthorizerConfig?
         /// The name of the domain configuration. This value must be unique to a region.
@@ -3014,6 +3071,19 @@ extension IoT {
             self.tags = tags
             self.tlsConfig = tlsConfig
             self.validationCertificateArn = validationCertificateArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.authorizerConfig, forKey: .authorizerConfig)
+            request.encodePath(self.domainConfigurationName, key: "domainConfigurationName")
+            try container.encodeIfPresent(self.domainName, forKey: .domainName)
+            try container.encodeIfPresent(self.serverCertificateArns, forKey: .serverCertificateArns)
+            try container.encodeIfPresent(self.serviceType, forKey: .serviceType)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.tlsConfig, forKey: .tlsConfig)
+            try container.encodeIfPresent(self.validationCertificateArn, forKey: .validationCertificateArn)
         }
 
         public func validate(name: String) throws {
@@ -3068,10 +3138,6 @@ extension IoT {
     }
 
     public struct CreateDynamicThingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
-        ]
-
         /// The dynamic thing group index name.  Currently one index is supported: AWS_Things.
         public let indexName: String?
         /// The dynamic thing group search query string. See Query Syntax for information about query string syntax.
@@ -3093,6 +3159,17 @@ extension IoT {
             self.tags = tags
             self.thingGroupName = thingGroupName
             self.thingGroupProperties = thingGroupProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.indexName, forKey: .indexName)
+            try container.encode(self.queryString, forKey: .queryString)
+            try container.encodeIfPresent(self.queryVersion, forKey: .queryVersion)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.thingGroupName, key: "thingGroupName")
+            try container.encodeIfPresent(self.thingGroupProperties, forKey: .thingGroupProperties)
         }
 
         public func validate(name: String) throws {
@@ -3152,10 +3229,6 @@ extension IoT {
     }
 
     public struct CreateFleetMetricRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
-        ]
-
         /// The field to aggregate.
         public let aggregationField: String
         /// The type of the aggregation query.
@@ -3188,6 +3261,21 @@ extension IoT {
             self.queryVersion = queryVersion
             self.tags = tags
             self.unit = unit
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.aggregationField, forKey: .aggregationField)
+            try container.encode(self.aggregationType, forKey: .aggregationType)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.indexName, forKey: .indexName)
+            request.encodePath(self.metricName, key: "metricName")
+            try container.encode(self.period, forKey: .period)
+            try container.encode(self.queryString, forKey: .queryString)
+            try container.encodeIfPresent(self.queryVersion, forKey: .queryVersion)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.unit, forKey: .unit)
         }
 
         public func validate(name: String) throws {
@@ -3240,10 +3328,6 @@ extension IoT {
     }
 
     public struct CreateJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// Allows you to create the criteria to abort a job.
         public let abortConfig: AbortConfig?
         /// A short text description of the job.
@@ -3297,6 +3381,28 @@ extension IoT {
             self.targets = targets
             self.targetSelection = targetSelection
             self.timeoutConfig = timeoutConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.abortConfig, forKey: .abortConfig)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.destinationPackageVersions, forKey: .destinationPackageVersions)
+            try container.encodeIfPresent(self.document, forKey: .document)
+            try container.encodeIfPresent(self.documentParameters, forKey: .documentParameters)
+            try container.encodeIfPresent(self.documentSource, forKey: .documentSource)
+            try container.encodeIfPresent(self.jobExecutionsRetryConfig, forKey: .jobExecutionsRetryConfig)
+            try container.encodeIfPresent(self.jobExecutionsRolloutConfig, forKey: .jobExecutionsRolloutConfig)
+            request.encodePath(self.jobId, key: "jobId")
+            try container.encodeIfPresent(self.jobTemplateArn, forKey: .jobTemplateArn)
+            try container.encodeIfPresent(self.namespaceId, forKey: .namespaceId)
+            try container.encodeIfPresent(self.presignedUrlConfig, forKey: .presignedUrlConfig)
+            try container.encodeIfPresent(self.schedulingConfig, forKey: .schedulingConfig)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.targets, forKey: .targets)
+            try container.encodeIfPresent(self.targetSelection, forKey: .targetSelection)
+            try container.encodeIfPresent(self.timeoutConfig, forKey: .timeoutConfig)
         }
 
         public func validate(name: String) throws {
@@ -3381,10 +3487,6 @@ extension IoT {
     }
 
     public struct CreateJobTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobTemplateId", location: .uri("jobTemplateId"))
-        ]
-
         public let abortConfig: AbortConfig?
         /// A description of the job document.
         public let description: String
@@ -3422,6 +3524,24 @@ extension IoT {
             self.presignedUrlConfig = presignedUrlConfig
             self.tags = tags
             self.timeoutConfig = timeoutConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.abortConfig, forKey: .abortConfig)
+            try container.encode(self.description, forKey: .description)
+            try container.encodeIfPresent(self.destinationPackageVersions, forKey: .destinationPackageVersions)
+            try container.encodeIfPresent(self.document, forKey: .document)
+            try container.encodeIfPresent(self.documentSource, forKey: .documentSource)
+            try container.encodeIfPresent(self.jobArn, forKey: .jobArn)
+            try container.encodeIfPresent(self.jobExecutionsRetryConfig, forKey: .jobExecutionsRetryConfig)
+            try container.encodeIfPresent(self.jobExecutionsRolloutConfig, forKey: .jobExecutionsRolloutConfig)
+            request.encodePath(self.jobTemplateId, key: "jobTemplateId")
+            try container.encodeIfPresent(self.maintenanceWindows, forKey: .maintenanceWindows)
+            try container.encodeIfPresent(self.presignedUrlConfig, forKey: .presignedUrlConfig)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.timeoutConfig, forKey: .timeoutConfig)
         }
 
         public func validate(name: String) throws {
@@ -3484,15 +3604,17 @@ extension IoT {
     }
 
     public struct CreateKeysAndCertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "setAsActive", location: .querystring("setAsActive"))
-        ]
-
         /// Specifies whether the certificate is active.
         public let setAsActive: Bool?
 
         public init(setAsActive: Bool? = nil) {
             self.setAsActive = setAsActive
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.setAsActive, key: "setAsActive")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3524,10 +3646,6 @@ extension IoT {
     }
 
     public struct CreateMitigationActionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actionName", location: .uri("actionName"))
-        ]
-
         /// A friendly name for the action. Choose a friendly name that accurately describes the action (for example, EnableLoggingAction).
         public let actionName: String
         /// Defines the type of action and the parameters for that action.
@@ -3542,6 +3660,15 @@ extension IoT {
             self.actionParams = actionParams
             self.roleArn = roleArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.actionName, key: "actionName")
+            try container.encode(self.actionParams, forKey: .actionParams)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3580,10 +3707,6 @@ extension IoT {
     }
 
     public struct CreateOTAUpdateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "otaUpdateId", location: .uri("otaUpdateId"))
-        ]
-
         /// A list of additional OTA update parameters which are name-value pairs.
         public let additionalParameters: [String: String]?
         /// The criteria that determine when and how a job abort takes place.
@@ -3625,6 +3748,24 @@ extension IoT {
             self.tags = tags
             self.targets = targets
             self.targetSelection = targetSelection
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.additionalParameters, forKey: .additionalParameters)
+            try container.encodeIfPresent(self.awsJobAbortConfig, forKey: .awsJobAbortConfig)
+            try container.encodeIfPresent(self.awsJobExecutionsRolloutConfig, forKey: .awsJobExecutionsRolloutConfig)
+            try container.encodeIfPresent(self.awsJobPresignedUrlConfig, forKey: .awsJobPresignedUrlConfig)
+            try container.encodeIfPresent(self.awsJobTimeoutConfig, forKey: .awsJobTimeoutConfig)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.files, forKey: .files)
+            request.encodePath(self.otaUpdateId, key: "otaUpdateId")
+            try container.encodeIfPresent(self.protocols, forKey: .protocols)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.targets, forKey: .targets)
+            try container.encodeIfPresent(self.targetSelection, forKey: .targetSelection)
         }
 
         public func validate(name: String) throws {
@@ -3699,11 +3840,6 @@ extension IoT {
     }
 
     public struct CreatePackageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "packageName", location: .uri("packageName"))
-        ]
-
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
         /// A summary of the package being created. This can be used to outline the package's contents or purpose.
@@ -3718,6 +3854,15 @@ extension IoT {
             self.description = description
             self.packageName = packageName
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.packageName, key: "packageName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3767,12 +3912,6 @@ extension IoT {
     }
 
     public struct CreatePackageVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "packageName", location: .uri("packageName")),
-            AWSMemberEncoding(label: "versionName", location: .uri("versionName"))
-        ]
-
         /// Metadata that can be used to define a package version’s configuration. For example, the S3 file location, configuration options that are being sent to the device or fleet. The combined size of all the attributes on a package version is limited to 3KB.
         public let attributes: [String: String]?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
@@ -3793,6 +3932,17 @@ extension IoT {
             self.packageName = packageName
             self.tags = tags
             self.versionName = versionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.packageName, key: "packageName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.versionName, key: "versionName")
         }
 
         public func validate(name: String) throws {
@@ -3868,10 +4018,6 @@ extension IoT {
     }
 
     public struct CreatePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
-        ]
-
         /// The JSON document that describes the policy. policyDocument must have a minimum length of 1, with a maximum length of 2048, excluding whitespace.
         public let policyDocument: String
         /// The policy name.
@@ -3883,6 +4029,14 @@ extension IoT {
             self.policyDocument = policyDocument
             self.policyName = policyName
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.policyDocument, forKey: .policyDocument)
+            request.encodePath(self.policyName, key: "policyName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3928,11 +4082,6 @@ extension IoT {
     }
 
     public struct CreatePolicyVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri("policyName")),
-            AWSMemberEncoding(label: "setAsDefault", location: .querystring("setAsDefault"))
-        ]
-
         /// The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespace.
         public let policyDocument: String
         /// The policy name.
@@ -3944,6 +4093,14 @@ extension IoT {
             self.policyDocument = policyDocument
             self.policyName = policyName
             self.setAsDefault = setAsDefault
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.policyDocument, forKey: .policyDocument)
+            request.encodePath(self.policyName, key: "policyName")
+            request.encodeQuery(self.setAsDefault, key: "setAsDefault")
         }
 
         public func validate(name: String) throws {
@@ -3985,15 +4142,17 @@ extension IoT {
     }
 
     public struct CreateProvisioningClaimRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("templateName"))
-        ]
-
         /// The name of the provisioning template to use.
         public let templateName: String
 
         public init(templateName: String) {
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "templateName")
         }
 
         public func validate(name: String) throws {
@@ -4109,11 +4268,6 @@ extension IoT {
     }
 
     public struct CreateProvisioningTemplateVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "setAsDefault", location: .querystring("setAsDefault")),
-            AWSMemberEncoding(label: "templateName", location: .uri("templateName"))
-        ]
-
         /// Sets a fleet provision template version as the default version.
         public let setAsDefault: Bool?
         /// The JSON formatted contents of the provisioning template.
@@ -4125,6 +4279,14 @@ extension IoT {
             self.setAsDefault = setAsDefault
             self.templateBody = templateBody
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.setAsDefault, key: "setAsDefault")
+            try container.encode(self.templateBody, forKey: .templateBody)
+            request.encodePath(self.templateName, key: "templateName")
         }
 
         public func validate(name: String) throws {
@@ -4166,10 +4328,6 @@ extension IoT {
     }
 
     public struct CreateRoleAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "roleAlias", location: .uri("roleAlias"))
-        ]
-
         /// How long (in seconds) the credentials will be valid. The default value is 3,600 seconds. This value must be less than or equal to the maximum session duration of the IAM role that the role alias references.
         public let credentialDurationSeconds: Int?
         /// The role alias that points to a role ARN. This allows you to change the role without having to update the device.
@@ -4184,6 +4342,15 @@ extension IoT {
             self.roleAlias = roleAlias
             self.roleArn = roleArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.credentialDurationSeconds, forKey: .credentialDurationSeconds)
+            request.encodePath(self.roleAlias, key: "roleAlias")
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -4224,10 +4391,6 @@ extension IoT {
     }
 
     public struct CreateScheduledAuditRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledAuditName", location: .uri("scheduledAuditName"))
-        ]
-
         /// The day of the month on which the scheduled audit takes place. This can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to MONTHLY. If days 29 to 31 are specified, and the month doesn't have that many days, the audit takes place on the LAST day of the month.
         public let dayOfMonth: String?
         /// The day of the week on which the scheduled audit takes place, either SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the frequency parameter is set to WEEKLY or BIWEEKLY.
@@ -4248,6 +4411,17 @@ extension IoT {
             self.scheduledAuditName = scheduledAuditName
             self.tags = tags
             self.targetCheckNames = targetCheckNames
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dayOfMonth, forKey: .dayOfMonth)
+            try container.encodeIfPresent(self.dayOfWeek, forKey: .dayOfWeek)
+            try container.encode(self.frequency, forKey: .frequency)
+            request.encodePath(self.scheduledAuditName, key: "scheduledAuditName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.targetCheckNames, forKey: .targetCheckNames)
         }
 
         public func validate(name: String) throws {
@@ -4283,10 +4457,6 @@ extension IoT {
     }
 
     public struct CreateSecurityProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName"))
-        ]
-
         ///  Please use CreateSecurityProfileRequest$additionalMetricsToRetainV2 instead.  A list of metrics whose data is retained (stored). By default, data is retained  for any metric used in the profile's behaviors, but it is also retained for  any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
         public let additionalMetricsToRetain: [String]?
         /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
@@ -4321,6 +4491,18 @@ extension IoT {
             self.securityProfileDescription = securityProfileDescription
             self.securityProfileName = securityProfileName
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.additionalMetricsToRetain, forKey: .additionalMetricsToRetain)
+            try container.encodeIfPresent(self.additionalMetricsToRetainV2, forKey: .additionalMetricsToRetainV2)
+            try container.encodeIfPresent(self.alertTargets, forKey: .alertTargets)
+            try container.encodeIfPresent(self.behaviors, forKey: .behaviors)
+            try container.encodeIfPresent(self.securityProfileDescription, forKey: .securityProfileDescription)
+            request.encodePath(self.securityProfileName, key: "securityProfileName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -4372,10 +4554,6 @@ extension IoT {
     }
 
     public struct CreateStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "streamId", location: .uri("streamId"))
-        ]
-
         /// A description of the stream.
         public let description: String?
         /// The files to stream.
@@ -4393,6 +4571,16 @@ extension IoT {
             self.roleArn = roleArn
             self.streamId = streamId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.files, forKey: .files)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            request.encodePath(self.streamId, key: "streamId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -4447,10 +4635,6 @@ extension IoT {
     }
 
     public struct CreateThingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
-        ]
-
         /// The name of the parent thing group.
         public let parentGroupName: String?
         /// Metadata which can be used to manage the thing group.
@@ -4465,6 +4649,15 @@ extension IoT {
             self.tags = tags
             self.thingGroupName = thingGroupName
             self.thingGroupProperties = thingGroupProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.parentGroupName, forKey: .parentGroupName)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.thingGroupName, key: "thingGroupName")
+            try container.encodeIfPresent(self.thingGroupProperties, forKey: .thingGroupProperties)
         }
 
         public func validate(name: String) throws {
@@ -4509,10 +4702,6 @@ extension IoT {
     }
 
     public struct CreateThingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// The attribute payload, which consists of up to three name/value pairs in a JSON
         /// 			document. For example:  {\"attributes\":{\"string1\":\"string2\"}}
         public let attributePayload: AttributePayload?
@@ -4529,6 +4718,15 @@ extension IoT {
             self.billingGroupName = billingGroupName
             self.thingName = thingName
             self.thingTypeName = thingTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributePayload, forKey: .attributePayload)
+            try container.encodeIfPresent(self.billingGroupName, forKey: .billingGroupName)
+            request.encodePath(self.thingName, key: "thingName")
+            try container.encodeIfPresent(self.thingTypeName, forKey: .thingTypeName)
         }
 
         public func validate(name: String) throws {
@@ -4573,10 +4771,6 @@ extension IoT {
     }
 
     public struct CreateThingTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingTypeName", location: .uri("thingTypeName"))
-        ]
-
         /// Metadata which can be used to manage the thing type.
         public let tags: [Tag]?
         /// The name of the thing type.
@@ -4590,6 +4784,14 @@ extension IoT {
             self.tags = tags
             self.thingTypeName = thingTypeName
             self.thingTypeProperties = thingTypeProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.thingTypeName, key: "thingTypeName")
+            try container.encodeIfPresent(self.thingTypeProperties, forKey: .thingTypeProperties)
         }
 
         public func validate(name: String) throws {
@@ -4659,14 +4861,7 @@ extension IoT {
         }
     }
 
-    public struct CreateTopicRuleRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "topicRulePayload"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName")),
-            AWSMemberEncoding(label: "tags", location: .header("x-amz-tagging"))
-        ]
-
+    public struct CreateTopicRuleRequest: AWSEncodableShape {
         /// The name of the rule.
         public let ruleName: String
         /// Metadata which can be used to manage the topic rule.  For URI Request parameters use format: ...key1=value1&key2=value2... For the CLI command-line parameter use format: --tags "key1=value1&key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
@@ -4678,6 +4873,14 @@ extension IoT {
             self.ruleName = ruleName
             self.tags = tags
             self.topicRulePayload = topicRulePayload
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.ruleName, key: "ruleName")
+            request.encodeHeader(self.tags, key: "x-amz-tagging")
+            try container.encode(self.topicRulePayload)
         }
 
         public func validate(name: String) throws {
@@ -4716,15 +4919,17 @@ extension IoT {
     }
 
     public struct DeleteAccountAuditConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deleteScheduledAudits", location: .querystring("deleteScheduledAudits"))
-        ]
-
         /// If true, all scheduled audits are deleted.
         public let deleteScheduledAudits: Bool?
 
         public init(deleteScheduledAudits: Bool? = nil) {
             self.deleteScheduledAudits = deleteScheduledAudits
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deleteScheduledAudits, key: "deleteScheduledAudits")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4758,15 +4963,17 @@ extension IoT {
     }
 
     public struct DeleteAuthorizerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authorizerName", location: .uri("authorizerName"))
-        ]
-
         /// The name of the authorizer to delete.
         public let authorizerName: String
 
         public init(authorizerName: String) {
             self.authorizerName = authorizerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.authorizerName, key: "authorizerName")
         }
 
         public func validate(name: String) throws {
@@ -4783,11 +4990,6 @@ extension IoT {
     }
 
     public struct DeleteBillingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "billingGroupName", location: .uri("billingGroupName")),
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion"))
-        ]
-
         /// The name of the billing group.
         public let billingGroupName: String
         /// The expected version of the billing group. If the version of the billing group does
@@ -4799,6 +5001,13 @@ extension IoT {
         public init(billingGroupName: String, expectedVersion: Int64? = nil) {
             self.billingGroupName = billingGroupName
             self.expectedVersion = expectedVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.billingGroupName, key: "billingGroupName")
+            request.encodeQuery(self.expectedVersion, key: "expectedVersion")
         }
 
         public func validate(name: String) throws {
@@ -4815,15 +5024,17 @@ extension IoT {
     }
 
     public struct DeleteCACertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId"))
-        ]
-
         /// The ID of the certificate to delete. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
 
         public init(certificateId: String) {
             self.certificateId = certificateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateId, key: "certificateId")
         }
 
         public func validate(name: String) throws {
@@ -4840,11 +5051,6 @@ extension IoT {
     }
 
     public struct DeleteCertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId")),
-            AWSMemberEncoding(label: "forceDelete", location: .querystring("forceDelete"))
-        ]
-
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
         /// Forces the deletion of a certificate if it is inactive and is not attached to an IoT thing.
@@ -4853,6 +5059,13 @@ extension IoT {
         public init(certificateId: String, forceDelete: Bool? = nil) {
             self.certificateId = certificateId
             self.forceDelete = forceDelete
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateId, key: "certificateId")
+            request.encodeQuery(self.forceDelete, key: "forceDelete")
         }
 
         public func validate(name: String) throws {
@@ -4865,15 +5078,17 @@ extension IoT {
     }
 
     public struct DeleteCustomMetricRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
-        ]
-
         ///  The name of the custom metric.
         public let metricName: String
 
         public init(metricName: String) {
             self.metricName = metricName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.metricName, key: "metricName")
         }
 
         public func validate(name: String) throws {
@@ -4890,15 +5105,17 @@ extension IoT {
     }
 
     public struct DeleteDimensionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The unique identifier for the dimension that you want to delete.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -4915,15 +5132,17 @@ extension IoT {
     }
 
     public struct DeleteDomainConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainConfigurationName", location: .uri("domainConfigurationName"))
-        ]
-
         /// The name of the domain configuration to be deleted.
         public let domainConfigurationName: String
 
         public init(domainConfigurationName: String) {
             self.domainConfigurationName = domainConfigurationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainConfigurationName, key: "domainConfigurationName")
         }
 
         public func validate(name: String) throws {
@@ -4940,11 +5159,6 @@ extension IoT {
     }
 
     public struct DeleteDynamicThingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion")),
-            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
-        ]
-
         /// The expected version of the dynamic thing group to delete.
         public let expectedVersion: Int64?
         /// The name of the dynamic thing group to delete.
@@ -4953,6 +5167,13 @@ extension IoT {
         public init(expectedVersion: Int64? = nil, thingGroupName: String) {
             self.expectedVersion = expectedVersion
             self.thingGroupName = thingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.expectedVersion, key: "expectedVersion")
+            request.encodePath(self.thingGroupName, key: "thingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -4969,11 +5190,6 @@ extension IoT {
     }
 
     public struct DeleteFleetMetricRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion")),
-            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
-        ]
-
         /// The expected version of the fleet metric to delete.
         public let expectedVersion: Int64?
         /// The name of the fleet metric to delete.
@@ -4982,6 +5198,13 @@ extension IoT {
         public init(expectedVersion: Int64? = nil, metricName: String) {
             self.expectedVersion = expectedVersion
             self.metricName = metricName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.expectedVersion, key: "expectedVersion")
+            request.encodePath(self.metricName, key: "metricName")
         }
 
         public func validate(name: String) throws {
@@ -4994,14 +5217,6 @@ extension IoT {
     }
 
     public struct DeleteJobExecutionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "executionNumber", location: .uri("executionNumber")),
-            AWSMemberEncoding(label: "force", location: .querystring("force")),
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
-            AWSMemberEncoding(label: "namespaceId", location: .querystring("namespaceId")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// The ID of the job execution to be deleted. The executionNumber refers to the  execution of a particular job on a particular device. Note that once a job execution is deleted, the executionNumber may be reused  by IoT, so be sure you get and use the correct value here.
         public let executionNumber: Int64
         /// (Optional) When true, you can delete a job execution which is "IN_PROGRESS". Otherwise,  you can only delete a job execution which is in a terminal state ("SUCCEEDED", "FAILED", "REJECTED", "REMOVED" or "CANCELED") or an exception will occur. The default is false.  Deleting a job execution which is "IN_PROGRESS", will cause the device  to be unable to access job information or update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
@@ -5021,6 +5236,16 @@ extension IoT {
             self.thingName = thingName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.executionNumber, key: "executionNumber")
+            request.encodeQuery(self.force, key: "force")
+            request.encodePath(self.jobId, key: "jobId")
+            request.encodeQuery(self.namespaceId, key: "namespaceId")
+            request.encodePath(self.thingName, key: "thingName")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
@@ -5035,12 +5260,6 @@ extension IoT {
     }
 
     public struct DeleteJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "force", location: .querystring("force")),
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
-            AWSMemberEncoding(label: "namespaceId", location: .querystring("namespaceId"))
-        ]
-
         /// (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise, you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an exception  will occur. The default is false.  Deleting a job which is "IN_PROGRESS", will cause a device which is executing  the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to  a valid state.
         public let force: Bool?
         /// The ID of the job to be deleted. After a job deletion is completed, you may reuse this jobId when you create a new job.  However, this is not recommended, and you must ensure that your devices are not using the  jobId to refer to the deleted job.
@@ -5054,6 +5273,14 @@ extension IoT {
             self.namespaceId = namespaceId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.force, key: "force")
+            request.encodePath(self.jobId, key: "jobId")
+            request.encodeQuery(self.namespaceId, key: "namespaceId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
@@ -5065,15 +5292,17 @@ extension IoT {
     }
 
     public struct DeleteJobTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobTemplateId", location: .uri("jobTemplateId"))
-        ]
-
         /// The unique identifier of the job template to delete.
         public let jobTemplateId: String
 
         public init(jobTemplateId: String) {
             self.jobTemplateId = jobTemplateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobTemplateId, key: "jobTemplateId")
         }
 
         public func validate(name: String) throws {
@@ -5086,15 +5315,17 @@ extension IoT {
     }
 
     public struct DeleteMitigationActionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actionName", location: .uri("actionName"))
-        ]
-
         /// The name of the mitigation action that you want to delete.
         public let actionName: String
 
         public init(actionName: String) {
             self.actionName = actionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.actionName, key: "actionName")
         }
 
         public func validate(name: String) throws {
@@ -5110,12 +5341,6 @@ extension IoT {
     }
 
     public struct DeleteOTAUpdateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "deleteStream", location: .querystring("deleteStream")),
-            AWSMemberEncoding(label: "forceDeleteAWSJob", location: .querystring("forceDeleteAWSJob")),
-            AWSMemberEncoding(label: "otaUpdateId", location: .uri("otaUpdateId"))
-        ]
-
         /// When true, the stream created by the OTAUpdate process is deleted when the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied by the user.
         public let deleteStream: Bool?
         /// When true, deletes the IoT job created by the OTAUpdate process even if it is "IN_PROGRESS". Otherwise, if the  job is not in a terminal state ("COMPLETED" or "CANCELED") an exception will occur. The default is false.
@@ -5127,6 +5352,14 @@ extension IoT {
             self.deleteStream = deleteStream
             self.forceDeleteAWSJob = forceDeleteAWSJob
             self.otaUpdateId = otaUpdateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.deleteStream, key: "deleteStream")
+            request.encodeQuery(self.forceDeleteAWSJob, key: "forceDeleteAWSJob")
+            request.encodePath(self.otaUpdateId, key: "otaUpdateId")
         }
 
         public func validate(name: String) throws {
@@ -5143,11 +5376,6 @@ extension IoT {
     }
 
     public struct DeletePackageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "packageName", location: .uri("packageName"))
-        ]
-
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
         /// The name of the target package.
@@ -5156,6 +5384,13 @@ extension IoT {
         public init(clientToken: String? = DeletePackageRequest.idempotencyToken(), packageName: String) {
             self.clientToken = clientToken
             self.packageName = packageName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.packageName, key: "packageName")
         }
 
         public func validate(name: String) throws {
@@ -5175,12 +5410,6 @@ extension IoT {
     }
 
     public struct DeletePackageVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "packageName", location: .uri("packageName")),
-            AWSMemberEncoding(label: "versionName", location: .uri("versionName"))
-        ]
-
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
         /// The name of the associated package.
@@ -5192,6 +5421,14 @@ extension IoT {
             self.clientToken = clientToken
             self.packageName = packageName
             self.versionName = versionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.packageName, key: "packageName")
+            request.encodePath(self.versionName, key: "versionName")
         }
 
         public func validate(name: String) throws {
@@ -5214,15 +5451,17 @@ extension IoT {
     }
 
     public struct DeletePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
-        ]
-
         /// The name of the policy to delete.
         public let policyName: String
 
         public init(policyName: String) {
             self.policyName = policyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyName, key: "policyName")
         }
 
         public func validate(name: String) throws {
@@ -5235,11 +5474,6 @@ extension IoT {
     }
 
     public struct DeletePolicyVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri("policyName")),
-            AWSMemberEncoding(label: "policyVersionId", location: .uri("policyVersionId"))
-        ]
-
         /// The name of the policy.
         public let policyName: String
         /// The policy version ID.
@@ -5248,6 +5482,13 @@ extension IoT {
         public init(policyName: String, policyVersionId: String) {
             self.policyName = policyName
             self.policyVersionId = policyVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyName, key: "policyName")
+            request.encodePath(self.policyVersionId, key: "policyVersionId")
         }
 
         public func validate(name: String) throws {
@@ -5261,15 +5502,17 @@ extension IoT {
     }
 
     public struct DeleteProvisioningTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("templateName"))
-        ]
-
         /// The name of the fleet provision template to delete.
         public let templateName: String
 
         public init(templateName: String) {
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "templateName")
         }
 
         public func validate(name: String) throws {
@@ -5286,11 +5529,6 @@ extension IoT {
     }
 
     public struct DeleteProvisioningTemplateVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("templateName")),
-            AWSMemberEncoding(label: "versionId", location: .uri("versionId"))
-        ]
-
         /// The name of the provisioning template version to delete.
         public let templateName: String
         /// The provisioning template version ID to delete.
@@ -5299,6 +5537,13 @@ extension IoT {
         public init(templateName: String, versionId: Int) {
             self.templateName = templateName
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "templateName")
+            request.encodePath(self.versionId, key: "versionId")
         }
 
         public func validate(name: String) throws {
@@ -5323,15 +5568,17 @@ extension IoT {
     }
 
     public struct DeleteRoleAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "roleAlias", location: .uri("roleAlias"))
-        ]
-
         /// The role alias to delete.
         public let roleAlias: String
 
         public init(roleAlias: String) {
             self.roleAlias = roleAlias
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.roleAlias, key: "roleAlias")
         }
 
         public func validate(name: String) throws {
@@ -5348,15 +5595,17 @@ extension IoT {
     }
 
     public struct DeleteScheduledAuditRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledAuditName", location: .uri("scheduledAuditName"))
-        ]
-
         /// The name of the scheduled audit you want to delete.
         public let scheduledAuditName: String
 
         public init(scheduledAuditName: String) {
             self.scheduledAuditName = scheduledAuditName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.scheduledAuditName, key: "scheduledAuditName")
         }
 
         public func validate(name: String) throws {
@@ -5373,11 +5622,6 @@ extension IoT {
     }
 
     public struct DeleteSecurityProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion")),
-            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName"))
-        ]
-
         /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different from the actual version, a VersionConflictException is thrown.
         public let expectedVersion: Int64?
         /// The name of the security profile to be deleted.
@@ -5386,6 +5630,13 @@ extension IoT {
         public init(expectedVersion: Int64? = nil, securityProfileName: String) {
             self.expectedVersion = expectedVersion
             self.securityProfileName = securityProfileName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.expectedVersion, key: "expectedVersion")
+            request.encodePath(self.securityProfileName, key: "securityProfileName")
         }
 
         public func validate(name: String) throws {
@@ -5402,15 +5653,17 @@ extension IoT {
     }
 
     public struct DeleteStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "streamId", location: .uri("streamId"))
-        ]
-
         /// The stream ID.
         public let streamId: String
 
         public init(streamId: String) {
             self.streamId = streamId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.streamId, key: "streamId")
         }
 
         public func validate(name: String) throws {
@@ -5427,11 +5680,6 @@ extension IoT {
     }
 
     public struct DeleteThingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion")),
-            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
-        ]
-
         /// The expected version of the thing group to delete.
         public let expectedVersion: Int64?
         /// The name of the thing group to delete.
@@ -5440,6 +5688,13 @@ extension IoT {
         public init(expectedVersion: Int64? = nil, thingGroupName: String) {
             self.expectedVersion = expectedVersion
             self.thingGroupName = thingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.expectedVersion, key: "expectedVersion")
+            request.encodePath(self.thingGroupName, key: "thingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -5456,11 +5711,6 @@ extension IoT {
     }
 
     public struct DeleteThingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// The expected version of the thing record in the registry. If the version of the
         /// 			record in the registry does not match the expected version specified in the request, the
         /// 				DeleteThing request is rejected with a
@@ -5472,6 +5722,13 @@ extension IoT {
         public init(expectedVersion: Int64? = nil, thingName: String) {
             self.expectedVersion = expectedVersion
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.expectedVersion, key: "expectedVersion")
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -5488,15 +5745,17 @@ extension IoT {
     }
 
     public struct DeleteThingTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingTypeName", location: .uri("thingTypeName"))
-        ]
-
         /// The name of the thing type.
         public let thingTypeName: String
 
         public init(thingTypeName: String) {
             self.thingTypeName = thingTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.thingTypeName, key: "thingTypeName")
         }
 
         public func validate(name: String) throws {
@@ -5513,15 +5772,17 @@ extension IoT {
     }
 
     public struct DeleteTopicRuleDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("arn"))
-        ]
-
         /// The ARN of the topic rule destination to delete.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5532,15 +5793,17 @@ extension IoT {
     }
 
     public struct DeleteTopicRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
-        ]
-
         /// The name of the rule.
         public let ruleName: String
 
         public init(ruleName: String) {
             self.ruleName = ruleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ruleName, key: "ruleName")
         }
 
         public func validate(name: String) throws {
@@ -5553,11 +5816,6 @@ extension IoT {
     }
 
     public struct DeleteV2LoggingLevelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "targetName", location: .querystring("targetName")),
-            AWSMemberEncoding(label: "targetType", location: .querystring("targetType"))
-        ]
-
         /// The name of the resource for which you are configuring logging.
         public let targetName: String
         /// The type of resource for which you are configuring logging. Must be THING_Group.
@@ -5566,6 +5824,13 @@ extension IoT {
         public init(targetName: String, targetType: LogTargetType) {
             self.targetName = targetName
             self.targetType = targetType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.targetName, key: "targetName")
+            request.encodeQuery(self.targetType, key: "targetType")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5589,10 +5854,6 @@ extension IoT {
     }
 
     public struct DeprecateThingTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingTypeName", location: .uri("thingTypeName"))
-        ]
-
         /// The name of the thing type to deprecate.
         public let thingTypeName: String
         /// Whether to undeprecate a deprecated thing type. If true, the thing type will not be deprecated anymore and you can
@@ -5602,6 +5863,13 @@ extension IoT {
         public init(thingTypeName: String, undoDeprecate: Bool? = nil) {
             self.thingTypeName = thingTypeName
             self.undoDeprecate = undoDeprecate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.thingTypeName, key: "thingTypeName")
+            try container.encodeIfPresent(self.undoDeprecate, forKey: .undoDeprecate)
         }
 
         public func validate(name: String) throws {
@@ -5645,15 +5913,17 @@ extension IoT {
     }
 
     public struct DescribeAuditFindingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "findingId", location: .uri("findingId"))
-        ]
-
         /// A unique identifier for a single audit finding. You can use this identifier to apply mitigation actions to the finding.
         public let findingId: String
 
         public init(findingId: String) {
             self.findingId = findingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.findingId, key: "findingId")
         }
 
         public func validate(name: String) throws {
@@ -5678,15 +5948,17 @@ extension IoT {
     }
 
     public struct DescribeAuditMitigationActionsTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         /// The unique identifier for the audit mitigation task.
         public let taskId: String
 
         public init(taskId: String) {
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -5782,15 +6054,17 @@ extension IoT {
     }
 
     public struct DescribeAuditTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         /// The ID of the audit whose information you want to get.
         public let taskId: String
 
         public init(taskId: String) {
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -5836,15 +6110,17 @@ extension IoT {
     }
 
     public struct DescribeAuthorizerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authorizerName", location: .uri("authorizerName"))
-        ]
-
         /// The name of the authorizer to describe.
         public let authorizerName: String
 
         public init(authorizerName: String) {
             self.authorizerName = authorizerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.authorizerName, key: "authorizerName")
         }
 
         public func validate(name: String) throws {
@@ -5870,15 +6146,17 @@ extension IoT {
     }
 
     public struct DescribeBillingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "billingGroupName", location: .uri("billingGroupName"))
-        ]
-
         /// The name of the billing group.
         public let billingGroupName: String
 
         public init(billingGroupName: String) {
             self.billingGroupName = billingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.billingGroupName, key: "billingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -5924,15 +6202,17 @@ extension IoT {
     }
 
     public struct DescribeCACertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId"))
-        ]
-
         /// The CA certificate identifier.
         public let certificateId: String
 
         public init(certificateId: String) {
             self.certificateId = certificateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateId, key: "certificateId")
         }
 
         public func validate(name: String) throws {
@@ -5962,15 +6242,17 @@ extension IoT {
     }
 
     public struct DescribeCertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId"))
-        ]
-
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
 
         public init(certificateId: String) {
             self.certificateId = certificateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateId, key: "certificateId")
         }
 
         public func validate(name: String) throws {
@@ -5996,15 +6278,17 @@ extension IoT {
     }
 
     public struct DescribeCustomMetricRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
-        ]
-
         ///  The name of the custom metric.
         public let metricName: String
 
         public init(metricName: String) {
             self.metricName = metricName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.metricName, key: "metricName")
         }
 
         public func validate(name: String) throws {
@@ -6067,15 +6351,17 @@ extension IoT {
     }
 
     public struct DescribeDetectMitigationActionsTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         ///  The unique identifier of the task.
         public let taskId: String
 
         public init(taskId: String) {
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -6101,15 +6387,17 @@ extension IoT {
     }
 
     public struct DescribeDimensionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// The unique identifier for the dimension.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
         }
 
         public func validate(name: String) throws {
@@ -6155,15 +6443,17 @@ extension IoT {
     }
 
     public struct DescribeDomainConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainConfigurationName", location: .uri("domainConfigurationName"))
-        ]
-
         /// The name of the domain configuration.
         public let domainConfigurationName: String
 
         public init(domainConfigurationName: String) {
             self.domainConfigurationName = domainConfigurationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainConfigurationName, key: "domainConfigurationName")
         }
 
         public func validate(name: String) throws {
@@ -6225,15 +6515,17 @@ extension IoT {
     }
 
     public struct DescribeEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endpointType", location: .querystring("endpointType"))
-        ]
-
         /// The endpoint type. Valid endpoint types include:    iot:Data - Returns a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.      iot:CredentialProvider - Returns an IoT credentials provider API endpoint.      iot:Jobs - Returns an IoT device management Jobs API endpoint.   We strongly recommend that customers use the newer iot:Data-ATS endpoint type to avoid  issues related to the widespread distrust of Symantec certificate authorities.
         public let endpointType: String?
 
         public init(endpointType: String? = nil) {
             self.endpointType = endpointType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endpointType, key: "endpointType")
         }
 
         public func validate(name: String) throws {
@@ -6283,15 +6575,17 @@ extension IoT {
     }
 
     public struct DescribeFleetMetricRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
-        ]
-
         /// The name of the fleet metric to describe.
         public let metricName: String
 
         public init(metricName: String) {
             self.metricName = metricName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.metricName, key: "metricName")
         }
 
         public func validate(name: String) throws {
@@ -6365,15 +6659,17 @@ extension IoT {
     }
 
     public struct DescribeIndexRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "indexName", location: .uri("indexName"))
-        ]
-
         /// The index name.
         public let indexName: String
 
         public init(indexName: String) {
             self.indexName = indexName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.indexName, key: "indexName")
         }
 
         public func validate(name: String) throws {
@@ -6407,12 +6703,6 @@ extension IoT {
     }
 
     public struct DescribeJobExecutionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "executionNumber", location: .querystring("executionNumber")),
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// A string (consisting of the digits "0" through "9" which is used to specify a particular job execution on a particular device.
         public let executionNumber: Int64?
         /// The unique identifier you assigned to this job when it was created.
@@ -6424,6 +6714,14 @@ extension IoT {
             self.executionNumber = executionNumber
             self.jobId = jobId
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.executionNumber, key: "executionNumber")
+            request.encodePath(self.jobId, key: "jobId")
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -6452,15 +6750,17 @@ extension IoT {
     }
 
     public struct DescribeJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         public func validate(name: String) throws {
@@ -6490,15 +6790,17 @@ extension IoT {
     }
 
     public struct DescribeJobTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobTemplateId", location: .uri("jobTemplateId"))
-        ]
-
         /// The unique identifier of the job template.
         public let jobTemplateId: String
 
         public init(jobTemplateId: String) {
             self.jobTemplateId = jobTemplateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobTemplateId, key: "jobTemplateId")
         }
 
         public func validate(name: String) throws {
@@ -6568,11 +6870,6 @@ extension IoT {
     }
 
     public struct DescribeManagedJobTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("templateName")),
-            AWSMemberEncoding(label: "templateVersion", location: .querystring("templateVersion"))
-        ]
-
         /// The unique name of a managed job template, which is required.
         public let templateName: String
         /// An optional parameter to specify version of a managed template. If not specified, the  pre-defined default version is returned.
@@ -6581,6 +6878,13 @@ extension IoT {
         public init(templateName: String, templateVersion: String? = nil) {
             self.templateName = templateName
             self.templateVersion = templateVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "templateName")
+            request.encodeQuery(self.templateVersion, key: "templateVersion")
         }
 
         public func validate(name: String) throws {
@@ -6630,15 +6934,17 @@ extension IoT {
     }
 
     public struct DescribeMitigationActionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actionName", location: .uri("actionName"))
-        ]
-
         /// The friendly name that uniquely identifies the mitigation action.
         public let actionName: String
 
         public init(actionName: String) {
             self.actionName = actionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.actionName, key: "actionName")
         }
 
         public func validate(name: String) throws {
@@ -6691,15 +6997,17 @@ extension IoT {
     }
 
     public struct DescribeProvisioningTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("templateName"))
-        ]
-
         /// The name of the provisioning template.
         public let templateName: String
 
         public init(templateName: String) {
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "templateName")
         }
 
         public func validate(name: String) throws {
@@ -6765,11 +7073,6 @@ extension IoT {
     }
 
     public struct DescribeProvisioningTemplateVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("templateName")),
-            AWSMemberEncoding(label: "versionId", location: .uri("versionId"))
-        ]
-
         /// The template name.
         public let templateName: String
         /// The provisioning template version ID.
@@ -6778,6 +7081,13 @@ extension IoT {
         public init(templateName: String, versionId: Int) {
             self.templateName = templateName
             self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "templateName")
+            request.encodePath(self.versionId, key: "versionId")
         }
 
         public func validate(name: String) throws {
@@ -6815,15 +7125,17 @@ extension IoT {
     }
 
     public struct DescribeRoleAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "roleAlias", location: .uri("roleAlias"))
-        ]
-
         /// The role alias to describe.
         public let roleAlias: String
 
         public init(roleAlias: String) {
             self.roleAlias = roleAlias
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.roleAlias, key: "roleAlias")
         }
 
         public func validate(name: String) throws {
@@ -6849,15 +7161,17 @@ extension IoT {
     }
 
     public struct DescribeScheduledAuditRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledAuditName", location: .uri("scheduledAuditName"))
-        ]
-
         /// The name of the scheduled audit whose information you want to get.
         public let scheduledAuditName: String
 
         public init(scheduledAuditName: String) {
             self.scheduledAuditName = scheduledAuditName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.scheduledAuditName, key: "scheduledAuditName")
         }
 
         public func validate(name: String) throws {
@@ -6903,15 +7217,17 @@ extension IoT {
     }
 
     public struct DescribeSecurityProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName"))
-        ]
-
         /// The name of the security profile whose information you want to get.
         public let securityProfileName: String
 
         public init(securityProfileName: String) {
             self.securityProfileName = securityProfileName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.securityProfileName, key: "securityProfileName")
         }
 
         public func validate(name: String) throws {
@@ -6987,15 +7303,17 @@ extension IoT {
     }
 
     public struct DescribeStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "streamId", location: .uri("streamId"))
-        ]
-
         /// The stream ID.
         public let streamId: String
 
         public init(streamId: String) {
             self.streamId = streamId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.streamId, key: "streamId")
         }
 
         public func validate(name: String) throws {
@@ -7021,15 +7339,17 @@ extension IoT {
     }
 
     public struct DescribeThingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
-        ]
-
         /// The name of the thing group.
         public let thingGroupName: String
 
         public init(thingGroupName: String) {
             self.thingGroupName = thingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.thingGroupName, key: "thingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -7091,15 +7411,17 @@ extension IoT {
     }
 
     public struct DescribeThingRegistrationTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         /// The task ID.
         public let taskId: String
 
         public init(taskId: String) {
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -7167,15 +7489,17 @@ extension IoT {
     }
 
     public struct DescribeThingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// The name of the thing.
         public let thingName: String
 
         public init(thingName: String) {
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -7233,15 +7557,17 @@ extension IoT {
     }
 
     public struct DescribeThingTypeRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingTypeName", location: .uri("thingTypeName"))
-        ]
-
         /// The name of the thing type.
         public let thingTypeName: String
 
         public init(thingTypeName: String) {
             self.thingTypeName = thingTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.thingTypeName, key: "thingTypeName")
         }
 
         public func validate(name: String) throws {
@@ -7303,10 +7629,6 @@ extension IoT {
     }
 
     public struct DetachPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
-        ]
-
         /// The policy to detach.
         public let policyName: String
         /// The target from which the policy will be detached.
@@ -7315,6 +7637,13 @@ extension IoT {
         public init(policyName: String, target: String) {
             self.policyName = policyName
             self.target = target
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyName, key: "policyName")
+            try container.encode(self.target, forKey: .target)
         }
 
         public func validate(name: String) throws {
@@ -7329,11 +7658,6 @@ extension IoT {
     }
 
     public struct DetachPrincipalPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri("policyName")),
-            AWSMemberEncoding(label: "principal", location: .header("x-amzn-iot-principal"))
-        ]
-
         /// The name of the policy to detach.
         public let policyName: String
         /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
@@ -7342,6 +7666,13 @@ extension IoT {
         public init(policyName: String, principal: String) {
             self.policyName = policyName
             self.principal = principal
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyName, key: "policyName")
+            request.encodeHeader(self.principal, key: "x-amzn-iot-principal")
         }
 
         public func validate(name: String) throws {
@@ -7354,11 +7685,6 @@ extension IoT {
     }
 
     public struct DetachSecurityProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName")),
-            AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring("securityProfileTargetArn"))
-        ]
-
         /// The security profile that is detached.
         public let securityProfileName: String
         /// The ARN of the thing group from which the security profile is detached.
@@ -7367,6 +7693,13 @@ extension IoT {
         public init(securityProfileName: String, securityProfileTargetArn: String) {
             self.securityProfileName = securityProfileName
             self.securityProfileTargetArn = securityProfileTargetArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.securityProfileName, key: "securityProfileName")
+            request.encodeQuery(self.securityProfileTargetArn, key: "securityProfileTargetArn")
         }
 
         public func validate(name: String) throws {
@@ -7383,11 +7716,6 @@ extension IoT {
     }
 
     public struct DetachThingPrincipalRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "principal", location: .header("x-amzn-principal")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// If the principal is a certificate, this value must be ARN of the certificate. If
         /// 			the principal is an Amazon Cognito identity, this value must be the ID of the Amazon
         /// 			Cognito identity.
@@ -7398,6 +7726,13 @@ extension IoT {
         public init(principal: String, thingName: String) {
             self.principal = principal
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.principal, key: "x-amzn-principal")
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -7566,15 +7901,17 @@ extension IoT {
     }
 
     public struct DisableTopicRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
-        ]
-
         /// The name of the rule to disable.
         public let ruleName: String
 
         public init(ruleName: String) {
             self.ruleName = ruleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ruleName, key: "ruleName")
         }
 
         public func validate(name: String) throws {
@@ -7779,15 +8116,17 @@ extension IoT {
     }
 
     public struct EnableTopicRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
-        ]
-
         /// The name of the topic rule to enable.
         public let ruleName: String
 
         public init(ruleName: String) {
             self.ruleName = ruleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ruleName, key: "ruleName")
         }
 
         public func validate(name: String) throws {
@@ -7944,12 +8283,6 @@ extension IoT {
     }
 
     public struct GetBehaviorModelTrainingSummariesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "securityProfileName", location: .querystring("securityProfileName"))
-        ]
-
         ///  The maximum number of results to return at one time. The default is 10.
         public let maxResults: Int?
         ///  The token for the next set of results.
@@ -7961,6 +8294,14 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.securityProfileName = securityProfileName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.securityProfileName, key: "securityProfileName")
         }
 
         public func validate(name: String) throws {
@@ -8093,10 +8434,6 @@ extension IoT {
     }
 
     public struct GetEffectivePoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .querystring("thingName"))
-        ]
-
         /// The Cognito identity pool ID.
         public let cognitoIdentityPoolId: String?
         /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
@@ -8108,6 +8445,14 @@ extension IoT {
             self.cognitoIdentityPoolId = cognitoIdentityPoolId
             self.principal = principal
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cognitoIdentityPoolId, forKey: .cognitoIdentityPoolId)
+            try container.encodeIfPresent(self.principal, forKey: .principal)
+            request.encodeQuery(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -8157,15 +8502,17 @@ extension IoT {
     }
 
     public struct GetJobDocumentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
-        ]
-
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
         }
 
         public func validate(name: String) throws {
@@ -8212,15 +8559,17 @@ extension IoT {
     }
 
     public struct GetOTAUpdateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "otaUpdateId", location: .uri("otaUpdateId"))
-        ]
-
         /// The OTA update ID.
         public let otaUpdateId: String
 
         public init(otaUpdateId: String) {
             self.otaUpdateId = otaUpdateId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.otaUpdateId, key: "otaUpdateId")
         }
 
         public func validate(name: String) throws {
@@ -8263,15 +8612,17 @@ extension IoT {
     }
 
     public struct GetPackageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "packageName", location: .uri("packageName"))
-        ]
-
         /// The name of the target package.
         public let packageName: String
 
         public init(packageName: String) {
             self.packageName = packageName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.packageName, key: "packageName")
         }
 
         public func validate(name: String) throws {
@@ -8317,11 +8668,6 @@ extension IoT {
     }
 
     public struct GetPackageVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "packageName", location: .uri("packageName")),
-            AWSMemberEncoding(label: "versionName", location: .uri("versionName"))
-        ]
-
         /// The name of the associated package.
         public let packageName: String
         /// The name of the target package version.
@@ -8330,6 +8676,13 @@ extension IoT {
         public init(packageName: String, versionName: String) {
             self.packageName = packageName
             self.versionName = versionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.packageName, key: "packageName")
+            request.encodePath(self.versionName, key: "versionName")
         }
 
         public func validate(name: String) throws {
@@ -8444,15 +8797,17 @@ extension IoT {
     }
 
     public struct GetPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
-        ]
-
         /// The name of the policy.
         public let policyName: String
 
         public init(policyName: String) {
             self.policyName = policyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyName, key: "policyName")
         }
 
         public func validate(name: String) throws {
@@ -8502,11 +8857,6 @@ extension IoT {
     }
 
     public struct GetPolicyVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri("policyName")),
-            AWSMemberEncoding(label: "policyVersionId", location: .uri("policyVersionId"))
-        ]
-
         /// The name of the policy.
         public let policyName: String
         /// The policy version ID.
@@ -8515,6 +8865,13 @@ extension IoT {
         public init(policyName: String, policyVersionId: String) {
             self.policyName = policyName
             self.policyVersionId = policyVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyName, key: "policyName")
+            request.encodePath(self.policyVersionId, key: "policyVersionId")
         }
 
         public func validate(name: String) throws {
@@ -8632,15 +8989,17 @@ extension IoT {
     }
 
     public struct GetTopicRuleDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .uri("arn"))
-        ]
-
         /// The ARN of the topic rule destination.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.arn, key: "arn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8660,15 +9019,17 @@ extension IoT {
     }
 
     public struct GetTopicRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
-        ]
-
         /// The name of the rule.
         public let ruleName: String
 
         public init(ruleName: String) {
             self.ruleName = ruleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ruleName, key: "ruleName")
         }
 
         public func validate(name: String) throws {
@@ -9507,16 +9868,6 @@ extension IoT {
     }
 
     public struct ListActiveViolationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "behaviorCriteriaType", location: .querystring("behaviorCriteriaType")),
-            AWSMemberEncoding(label: "listSuppressedAlerts", location: .querystring("listSuppressedAlerts")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "securityProfileName", location: .querystring("securityProfileName")),
-            AWSMemberEncoding(label: "thingName", location: .querystring("thingName")),
-            AWSMemberEncoding(label: "verificationState", location: .querystring("verificationState"))
-        ]
-
         ///  The criteria for a behavior.
         public let behaviorCriteriaType: BehaviorCriteriaType?
         ///  A list of all suppressed alerts.
@@ -9540,6 +9891,18 @@ extension IoT {
             self.securityProfileName = securityProfileName
             self.thingName = thingName
             self.verificationState = verificationState
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.behaviorCriteriaType, key: "behaviorCriteriaType")
+            request.encodeQuery(self.listSuppressedAlerts, key: "listSuppressedAlerts")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.securityProfileName, key: "securityProfileName")
+            request.encodeQuery(self.thingName, key: "thingName")
+            request.encodeQuery(self.verificationState, key: "verificationState")
         }
 
         public func validate(name: String) throws {
@@ -9573,13 +9936,6 @@ extension IoT {
     }
 
     public struct ListAttachedPoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
-            AWSMemberEncoding(label: "recursive", location: .querystring("recursive")),
-            AWSMemberEncoding(label: "target", location: .uri("target"))
-        ]
-
         /// The token to retrieve the next set of results.
         public let marker: String?
         /// The maximum number of results to be returned per request.
@@ -9594,6 +9950,15 @@ extension IoT {
             self.pageSize = pageSize
             self.recursive = recursive
             self.target = target
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.pageSize, key: "pageSize")
+            request.encodeQuery(self.recursive, key: "recursive")
+            request.encodePath(self.target, key: "target")
         }
 
         public func validate(name: String) throws {
@@ -9691,14 +10056,6 @@ extension IoT {
     }
 
     public struct ListAuditMitigationActionsExecutionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actionStatus", location: .querystring("actionStatus")),
-            AWSMemberEncoding(label: "findingId", location: .querystring("findingId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "taskId", location: .querystring("taskId"))
-        ]
-
         /// Specify this filter to limit results to those with a specific status.
         public let actionStatus: AuditMitigationActionsExecutionStatus?
         /// Specify this filter to limit results to those that were applied to a specific audit finding.
@@ -9716,6 +10073,16 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.actionStatus, key: "actionStatus")
+            request.encodeQuery(self.findingId, key: "findingId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -9750,16 +10117,6 @@ extension IoT {
     }
 
     public struct ListAuditMitigationActionsTasksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "auditTaskId", location: .querystring("auditTaskId")),
-            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "findingId", location: .querystring("findingId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "startTime", location: .querystring("startTime")),
-            AWSMemberEncoding(label: "taskStatus", location: .querystring("taskStatus"))
-        ]
-
         /// Specify this filter to limit results to tasks that were applied to results for a specific audit.
         public let auditTaskId: String?
         /// Specify this filter to limit results to tasks that were completed or canceled on or before a specific date and time.
@@ -9783,6 +10140,18 @@ extension IoT {
             self.nextToken = nextToken
             self.startTime = startTime
             self.taskStatus = taskStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.auditTaskId, key: "auditTaskId")
+            request.encodeQuery(self.endTime, key: "endTime")
+            request.encodeQuery(self.findingId, key: "findingId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.startTime, key: "startTime")
+            request.encodeQuery(self.taskStatus, key: "taskStatus")
         }
 
         public func validate(name: String) throws {
@@ -9867,15 +10236,6 @@ extension IoT {
     }
 
     public struct ListAuditTasksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "startTime", location: .querystring("startTime")),
-            AWSMemberEncoding(label: "taskStatus", location: .querystring("taskStatus")),
-            AWSMemberEncoding(label: "taskType", location: .querystring("taskType"))
-        ]
-
         /// The end of the time period.
         public let endTime: Date
         /// The maximum number of results to return at one time. The default is 25.
@@ -9896,6 +10256,17 @@ extension IoT {
             self.startTime = startTime
             self.taskStatus = taskStatus
             self.taskType = taskType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endTime, key: "endTime")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.startTime, key: "startTime")
+            request.encodeQuery(self.taskStatus, key: "taskStatus")
+            request.encodeQuery(self.taskType, key: "taskType")
         }
 
         public func validate(name: String) throws {
@@ -9924,13 +10295,6 @@ extension IoT {
     }
 
     public struct ListAuthorizersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// Return the list of authorizers in ascending alphabetical order.
         public let ascendingOrder: Bool?
         /// A marker used to get the next set of results.
@@ -9945,6 +10309,15 @@ extension IoT {
             self.marker = marker
             self.pageSize = pageSize
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascendingOrder, key: "isAscendingOrder")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.pageSize, key: "pageSize")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -9975,12 +10348,6 @@ extension IoT {
     }
 
     public struct ListBillingGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "namePrefixFilter", location: .querystring("namePrefixFilter")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return per request.
         public let maxResults: Int?
         /// Limit the results to billing groups whose names have the given prefix.
@@ -9994,6 +10361,14 @@ extension IoT {
             self.maxResults = maxResults
             self.namePrefixFilter = namePrefixFilter
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.namePrefixFilter, key: "namePrefixFilter")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -10025,13 +10400,6 @@ extension IoT {
     }
 
     public struct ListCACertificatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
-            AWSMemberEncoding(label: "templateName", location: .querystring("templateName"))
-        ]
-
         /// Determines the order of the results.
         public let ascendingOrder: Bool?
         /// The marker for the next set of results.
@@ -10046,6 +10414,15 @@ extension IoT {
             self.marker = marker
             self.pageSize = pageSize
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascendingOrder, key: "isAscendingOrder")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.pageSize, key: "pageSize")
+            request.encodeQuery(self.templateName, key: "templateName")
         }
 
         public func validate(name: String) throws {
@@ -10079,13 +10456,6 @@ extension IoT {
     }
 
     public struct ListCertificatesByCARequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
-            AWSMemberEncoding(label: "caCertificateId", location: .uri("caCertificateId")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize"))
-        ]
-
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
         public let ascendingOrder: Bool?
         /// The ID of the CA certificate. This operation will list all registered device certificate that were signed by this CA certificate.
@@ -10100,6 +10470,15 @@ extension IoT {
             self.caCertificateId = caCertificateId
             self.marker = marker
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascendingOrder, key: "isAscendingOrder")
+            request.encodePath(self.caCertificateId, key: "caCertificateId")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.pageSize, key: "pageSize")
         }
 
         public func validate(name: String) throws {
@@ -10133,12 +10512,6 @@ extension IoT {
     }
 
     public struct ListCertificatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize"))
-        ]
-
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
         public let ascendingOrder: Bool?
         /// The marker for the next set of results.
@@ -10150,6 +10523,14 @@ extension IoT {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascendingOrder, key: "isAscendingOrder")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.pageSize, key: "pageSize")
         }
 
         public func validate(name: String) throws {
@@ -10180,11 +10561,6 @@ extension IoT {
     }
 
     public struct ListCustomMetricsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  The maximum number of results to return at one time. The default is 25.
         public let maxResults: Int?
         ///  The token for the next set of results.
@@ -10193,6 +10569,13 @@ extension IoT {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -10221,16 +10604,6 @@ extension IoT {
     }
 
     public struct ListDetectMitigationActionsExecutionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "startTime", location: .querystring("startTime")),
-            AWSMemberEncoding(label: "taskId", location: .querystring("taskId")),
-            AWSMemberEncoding(label: "thingName", location: .querystring("thingName")),
-            AWSMemberEncoding(label: "violationId", location: .querystring("violationId"))
-        ]
-
         ///  The end of the time period for which ML Detect mitigation actions executions are returned.
         public let endTime: Date?
         ///  The maximum number of results to return at one time. The default is 25.
@@ -10254,6 +10627,18 @@ extension IoT {
             self.taskId = taskId
             self.thingName = thingName
             self.violationId = violationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endTime, key: "endTime")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.startTime, key: "startTime")
+            request.encodeQuery(self.taskId, key: "taskId")
+            request.encodeQuery(self.thingName, key: "thingName")
+            request.encodeQuery(self.violationId, key: "violationId")
         }
 
         public func validate(name: String) throws {
@@ -10290,13 +10675,6 @@ extension IoT {
     }
 
     public struct ListDetectMitigationActionsTasksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "startTime", location: .querystring("startTime"))
-        ]
-
         ///  The end of the time period for which ML Detect mitigation actions tasks are returned.
         public let endTime: Date
         /// The maximum number of results to return at one time. The default is 25.
@@ -10311,6 +10689,15 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endTime, key: "endTime")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.startTime, key: "startTime")
         }
 
         public func validate(name: String) throws {
@@ -10339,11 +10726,6 @@ extension IoT {
     }
 
     public struct ListDimensionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to retrieve at one time.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -10352,6 +10734,13 @@ extension IoT {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -10380,12 +10769,6 @@ extension IoT {
     }
 
     public struct ListDomainConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
-            AWSMemberEncoding(label: "serviceType", location: .querystring("serviceType"))
-        ]
-
         /// The marker for the next set of results.
         public let marker: String?
         /// The result page size.
@@ -10397,6 +10780,14 @@ extension IoT {
             self.marker = marker
             self.pageSize = pageSize
             self.serviceType = serviceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.pageSize, key: "pageSize")
+            request.encodeQuery(self.serviceType, key: "serviceType")
         }
 
         public func validate(name: String) throws {
@@ -10427,11 +10818,6 @@ extension IoT {
     }
 
     public struct ListFleetMetricsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response;  otherwise null to receive the first set of results.
@@ -10440,6 +10826,13 @@ extension IoT {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -10468,11 +10861,6 @@ extension IoT {
     }
 
     public struct ListIndicesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// The token used to get the next set of results, or null if there are no additional results.
@@ -10481,6 +10869,13 @@ extension IoT {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -10509,13 +10904,6 @@ extension IoT {
     }
 
     public struct ListJobExecutionsForJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
         /// The maximum number of results to be returned per request.
@@ -10530,6 +10918,15 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "jobId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -10561,15 +10958,6 @@ extension IoT {
     }
 
     public struct ListJobExecutionsForThingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .querystring("jobId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "namespaceId", location: .querystring("namespaceId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String?
         /// The maximum number of results to be returned per request.
@@ -10590,6 +10978,17 @@ extension IoT {
             self.nextToken = nextToken
             self.status = status
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.jobId, key: "jobId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.namespaceId, key: "namespaceId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -10625,11 +11024,6 @@ extension IoT {
     }
 
     public struct ListJobTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return in the list.
         public let maxResults: Int?
         /// The token to use to return the next set of results in the list.
@@ -10638,6 +11032,13 @@ extension IoT {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -10666,16 +11067,6 @@ extension IoT {
     }
 
     public struct ListJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "namespaceId", location: .querystring("namespaceId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status")),
-            AWSMemberEncoding(label: "targetSelection", location: .querystring("targetSelection")),
-            AWSMemberEncoding(label: "thingGroupId", location: .querystring("thingGroupId")),
-            AWSMemberEncoding(label: "thingGroupName", location: .querystring("thingGroupName"))
-        ]
-
         /// The maximum number of results to return per request.
         public let maxResults: Int?
         /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
@@ -10699,6 +11090,18 @@ extension IoT {
             self.targetSelection = targetSelection
             self.thingGroupId = thingGroupId
             self.thingGroupName = thingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.namespaceId, key: "namespaceId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+            request.encodeQuery(self.targetSelection, key: "targetSelection")
+            request.encodeQuery(self.thingGroupId, key: "thingGroupId")
+            request.encodeQuery(self.thingGroupName, key: "thingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -10734,12 +11137,6 @@ extension IoT {
     }
 
     public struct ListManagedJobTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "templateName", location: .querystring("templateName"))
-        ]
-
         /// Maximum number of entries that can be returned.
         public let maxResults: Int?
         /// The token to retrieve the next set of results.
@@ -10751,6 +11148,14 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.templateName, key: "templateName")
         }
 
         public func validate(name: String) throws {
@@ -10781,17 +11186,6 @@ extension IoT {
     }
 
     public struct ListMetricValuesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dimensionName", location: .querystring("dimensionName")),
-            AWSMemberEncoding(label: "dimensionValueOperator", location: .querystring("dimensionValueOperator")),
-            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "metricName", location: .querystring("metricName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "startTime", location: .querystring("startTime")),
-            AWSMemberEncoding(label: "thingName", location: .querystring("thingName"))
-        ]
-
         /// The dimension name.
         public let dimensionName: String?
         /// The dimension value operator.
@@ -10818,6 +11212,19 @@ extension IoT {
             self.nextToken = nextToken
             self.startTime = startTime
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.dimensionName, key: "dimensionName")
+            request.encodeQuery(self.dimensionValueOperator, key: "dimensionValueOperator")
+            request.encodeQuery(self.endTime, key: "endTime")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.metricName, key: "metricName")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.startTime, key: "startTime")
+            request.encodeQuery(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -10851,12 +11258,6 @@ extension IoT {
     }
 
     public struct ListMitigationActionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actionType", location: .querystring("actionType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Specify a value to limit the result to mitigation actions with a specific action type.
         public let actionType: MitigationActionType?
         /// The maximum number of results to return at one time. The default is 25.
@@ -10868,6 +11269,14 @@ extension IoT {
             self.actionType = actionType
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.actionType, key: "actionType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -10896,12 +11305,6 @@ extension IoT {
     }
 
     public struct ListOTAUpdatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "otaUpdateStatus", location: .querystring("otaUpdateStatus"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// A token used to retrieve the next set of results.
@@ -10913,6 +11316,14 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.otaUpdateStatus = otaUpdateStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.otaUpdateStatus, key: "otaUpdateStatus")
         }
 
         public func validate(name: String) throws {
@@ -10941,12 +11352,6 @@ extension IoT {
     }
 
     public struct ListOutgoingCertificatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize"))
-        ]
-
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
         public let ascendingOrder: Bool?
         /// The marker for the next set of results.
@@ -10958,6 +11363,14 @@ extension IoT {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascendingOrder, key: "isAscendingOrder")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.pageSize, key: "pageSize")
         }
 
         public func validate(name: String) throws {
@@ -10988,13 +11401,6 @@ extension IoT {
     }
 
     public struct ListPackageVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "packageName", location: .uri("packageName")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -11009,6 +11415,15 @@ extension IoT {
             self.nextToken = nextToken
             self.packageName = packageName
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.packageName, key: "packageName")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -11040,11 +11455,6 @@ extension IoT {
     }
 
     public struct ListPackagesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results returned at one time.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -11053,6 +11463,13 @@ extension IoT {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -11081,12 +11498,6 @@ extension IoT {
     }
 
     public struct ListPoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize"))
-        ]
-
         /// Specifies the order for results. If true, the results are returned in ascending creation order.
         public let ascendingOrder: Bool?
         /// The marker for the next set of results.
@@ -11098,6 +11509,14 @@ extension IoT {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascendingOrder, key: "isAscendingOrder")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.pageSize, key: "pageSize")
         }
 
         public func validate(name: String) throws {
@@ -11128,13 +11547,6 @@ extension IoT {
     }
 
     public struct ListPolicyPrincipalsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
-            AWSMemberEncoding(label: "policyName", location: .header("x-amzn-iot-policy"))
-        ]
-
         /// Specifies the order for results. If true, the results are returned in ascending creation order.
         public let ascendingOrder: Bool?
         /// The marker for the next set of results.
@@ -11149,6 +11561,15 @@ extension IoT {
             self.marker = marker
             self.pageSize = pageSize
             self.policyName = policyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascendingOrder, key: "isAscendingOrder")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.pageSize, key: "pageSize")
+            request.encodeHeader(self.policyName, key: "x-amzn-iot-policy")
         }
 
         public func validate(name: String) throws {
@@ -11182,15 +11603,17 @@ extension IoT {
     }
 
     public struct ListPolicyVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
-        ]
-
         /// The policy name.
         public let policyName: String
 
         public init(policyName: String) {
             self.policyName = policyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyName, key: "policyName")
         }
 
         public func validate(name: String) throws {
@@ -11216,13 +11639,6 @@ extension IoT {
     }
 
     public struct ListPrincipalPoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
-            AWSMemberEncoding(label: "principal", location: .header("x-amzn-iot-principal"))
-        ]
-
         /// Specifies the order for results. If true, results are returned in ascending creation order.
         public let ascendingOrder: Bool?
         /// The marker for the next set of results.
@@ -11237,6 +11653,15 @@ extension IoT {
             self.marker = marker
             self.pageSize = pageSize
             self.principal = principal
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascendingOrder, key: "isAscendingOrder")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.pageSize, key: "pageSize")
+            request.encodeHeader(self.principal, key: "x-amzn-iot-principal")
         }
 
         public func validate(name: String) throws {
@@ -11267,12 +11692,6 @@ extension IoT {
     }
 
     public struct ListPrincipalThingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "principal", location: .header("x-amzn-principal"))
-        ]
-
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken
@@ -11286,6 +11705,14 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.principal = principal
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeHeader(self.principal, key: "x-amzn-principal")
         }
 
         public func validate(name: String) throws {
@@ -11314,12 +11741,6 @@ extension IoT {
     }
 
     public struct ListProvisioningTemplateVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "templateName", location: .uri("templateName"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// A token to retrieve the next set of results.
@@ -11331,6 +11752,14 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.templateName, key: "templateName")
         }
 
         public func validate(name: String) throws {
@@ -11362,11 +11791,6 @@ extension IoT {
     }
 
     public struct ListProvisioningTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// A token to retrieve the next set of results.
@@ -11375,6 +11799,13 @@ extension IoT {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -11403,12 +11834,6 @@ extension IoT {
     }
 
     public struct ListRelatedResourcesForAuditFindingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "findingId", location: .querystring("findingId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The finding Id.
         public let findingId: String
         /// The maximum number of results to return at one time.
@@ -11420,6 +11845,14 @@ extension IoT {
             self.findingId = findingId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.findingId, key: "findingId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -11451,12 +11884,6 @@ extension IoT {
     }
 
     public struct ListRoleAliasesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize"))
-        ]
-
         /// Return the list of role aliases in ascending alphabetical order.
         public let ascendingOrder: Bool?
         /// A marker used to get the next set of results.
@@ -11468,6 +11895,14 @@ extension IoT {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascendingOrder, key: "isAscendingOrder")
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.pageSize, key: "pageSize")
         }
 
         public func validate(name: String) throws {
@@ -11498,11 +11933,6 @@ extension IoT {
     }
 
     public struct ListScheduledAuditsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return at one time. The default is 25.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -11511,6 +11941,13 @@ extension IoT {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -11539,13 +11976,6 @@ extension IoT {
     }
 
     public struct ListSecurityProfilesForTargetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "recursive", location: .querystring("recursive")),
-            AWSMemberEncoding(label: "securityProfileTargetArn", location: .querystring("securityProfileTargetArn"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -11560,6 +11990,15 @@ extension IoT {
             self.nextToken = nextToken
             self.recursive = recursive
             self.securityProfileTargetArn = securityProfileTargetArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.recursive, key: "recursive")
+            request.encodeQuery(self.securityProfileTargetArn, key: "securityProfileTargetArn")
         }
 
         public func validate(name: String) throws {
@@ -11588,13 +12027,6 @@ extension IoT {
     }
 
     public struct ListSecurityProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dimensionName", location: .querystring("dimensionName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "metricName", location: .querystring("metricName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// A filter to limit results to the security profiles that use the defined dimension. Cannot be used with metricName
         public let dimensionName: String?
         /// The maximum number of results to return at one time.
@@ -11609,6 +12041,15 @@ extension IoT {
             self.maxResults = maxResults
             self.metricName = metricName
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.dimensionName, key: "dimensionName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.metricName, key: "metricName")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -11643,12 +12084,6 @@ extension IoT {
     }
 
     public struct ListStreamsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ascendingOrder", location: .querystring("isAscendingOrder")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// Set to true to return the list of streams in ascending order.
         public let ascendingOrder: Bool?
         /// The maximum number of results to return at a time.
@@ -11660,6 +12095,14 @@ extension IoT {
             self.ascendingOrder = ascendingOrder
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.ascendingOrder, key: "isAscendingOrder")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -11688,11 +12131,6 @@ extension IoT {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
-        ]
-
         /// To retrieve the next set of results, the nextToken
         /// 			value from a previous response; otherwise null to receive
         /// 			the first set of results.
@@ -11703,6 +12141,13 @@ extension IoT {
         public init(nextToken: String? = nil, resourceArn: String) {
             self.nextToken = nextToken
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -11726,12 +12171,6 @@ extension IoT {
     }
 
     public struct ListTargetsForPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("marker")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("pageSize")),
-            AWSMemberEncoding(label: "policyName", location: .uri("policyName"))
-        ]
-
         /// A marker used to get the next set of results.
         public let marker: String?
         /// The maximum number of results to return at one time.
@@ -11743,6 +12182,14 @@ extension IoT {
             self.marker = marker
             self.pageSize = pageSize
             self.policyName = policyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "marker")
+            request.encodeQuery(self.pageSize, key: "pageSize")
+            request.encodePath(self.policyName, key: "policyName")
         }
 
         public func validate(name: String) throws {
@@ -11776,12 +12223,6 @@ extension IoT {
     }
 
     public struct ListTargetsForSecurityProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// The token for the next set of results.
@@ -11793,6 +12234,14 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.securityProfileName = securityProfileName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.securityProfileName, key: "securityProfileName")
         }
 
         public func validate(name: String) throws {
@@ -11824,12 +12273,6 @@ extension IoT {
     }
 
     public struct ListThingGroupsForThingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken
@@ -11843,6 +12286,14 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -11874,14 +12325,6 @@ extension IoT {
     }
 
     public struct ListThingGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "namePrefixFilter", location: .querystring("namePrefixFilter")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "parentGroup", location: .querystring("parentGroup")),
-            AWSMemberEncoding(label: "recursive", location: .querystring("recursive"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// A filter that limits the results to those with the specified name prefix.
@@ -11901,6 +12344,16 @@ extension IoT {
             self.nextToken = nextToken
             self.parentGroup = parentGroup
             self.recursive = recursive
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.namePrefixFilter, key: "namePrefixFilter")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.parentGroup, key: "parentGroup")
+            request.encodeQuery(self.recursive, key: "recursive")
         }
 
         public func validate(name: String) throws {
@@ -11935,12 +12388,6 @@ extension IoT {
     }
 
     public struct ListThingPrincipalsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken
@@ -11954,6 +12401,14 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.thingName, key: "thingName")
         }
 
         public func validate(name: String) throws {
@@ -11985,13 +12440,6 @@ extension IoT {
     }
 
     public struct ListThingRegistrationTaskReportsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "reportType", location: .querystring("reportType")),
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         /// The maximum number of results to return per request.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken
@@ -12008,6 +12456,15 @@ extension IoT {
             self.nextToken = nextToken
             self.reportType = reportType
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.reportType, key: "reportType")
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -12041,12 +12498,6 @@ extension IoT {
     }
 
     public struct ListThingRegistrationTasksRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken
@@ -12060,6 +12511,14 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -12088,12 +12547,6 @@ extension IoT {
     }
 
     public struct ListThingTypesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "thingTypeName", location: .querystring("thingTypeName"))
-        ]
-
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken
@@ -12107,6 +12560,14 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.thingTypeName = thingTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.thingTypeName, key: "thingTypeName")
         }
 
         public func validate(name: String) throws {
@@ -12138,12 +12599,6 @@ extension IoT {
     }
 
     public struct ListThingsInBillingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "billingGroupName", location: .uri("billingGroupName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the billing group.
         public let billingGroupName: String
         /// The maximum number of results to return per request.
@@ -12157,6 +12612,14 @@ extension IoT {
             self.billingGroupName = billingGroupName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.billingGroupName, key: "billingGroupName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -12188,13 +12651,6 @@ extension IoT {
     }
 
     public struct ListThingsInThingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "recursive", location: .querystring("recursive")),
-            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken
@@ -12212,6 +12668,15 @@ extension IoT {
             self.nextToken = nextToken
             self.recursive = recursive
             self.thingGroupName = thingGroupName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.recursive, key: "recursive")
+            request.encodePath(self.thingGroupName, key: "thingGroupName")
         }
 
         public func validate(name: String) throws {
@@ -12243,15 +12708,6 @@ extension IoT {
     }
 
     public struct ListThingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "attributeName", location: .querystring("attributeName")),
-            AWSMemberEncoding(label: "attributeValue", location: .querystring("attributeValue")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "thingTypeName", location: .querystring("thingTypeName")),
-            AWSMemberEncoding(label: "usePrefixAttributeValue", location: .querystring("usePrefixAttributeValue"))
-        ]
-
         /// The attribute name used to search for things.
         public let attributeName: String?
         /// The attribute value used to search for things.
@@ -12276,6 +12732,17 @@ extension IoT {
             self.nextToken = nextToken
             self.thingTypeName = thingTypeName
             self.usePrefixAttributeValue = usePrefixAttributeValue
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.attributeName, key: "attributeName")
+            request.encodeQuery(self.attributeValue, key: "attributeValue")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.thingTypeName, key: "thingTypeName")
+            request.encodeQuery(self.usePrefixAttributeValue, key: "usePrefixAttributeValue")
         }
 
         public func validate(name: String) throws {
@@ -12311,11 +12778,6 @@ extension IoT {
     }
 
     public struct ListTopicRuleDestinationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -12324,6 +12786,13 @@ extension IoT {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -12352,13 +12821,6 @@ extension IoT {
     }
 
     public struct ListTopicRulesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "ruleDisabled", location: .querystring("ruleDisabled")),
-            AWSMemberEncoding(label: "topic", location: .querystring("topic"))
-        ]
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -12373,6 +12835,15 @@ extension IoT {
             self.nextToken = nextToken
             self.ruleDisabled = ruleDisabled
             self.topic = topic
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.ruleDisabled, key: "ruleDisabled")
+            request.encodeQuery(self.topic, key: "topic")
         }
 
         public func validate(name: String) throws {
@@ -12401,12 +12872,6 @@ extension IoT {
     }
 
     public struct ListV2LoggingLevelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "targetType", location: .querystring("targetType"))
-        ]
-
         /// The maximum number of results to return at one time.
         public let maxResults: Int?
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -12418,6 +12883,14 @@ extension IoT {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.targetType = targetType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.targetType, key: "targetType")
         }
 
         public func validate(name: String) throws {
@@ -12446,18 +12919,6 @@ extension IoT {
     }
 
     public struct ListViolationEventsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "behaviorCriteriaType", location: .querystring("behaviorCriteriaType")),
-            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
-            AWSMemberEncoding(label: "listSuppressedAlerts", location: .querystring("listSuppressedAlerts")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "securityProfileName", location: .querystring("securityProfileName")),
-            AWSMemberEncoding(label: "startTime", location: .querystring("startTime")),
-            AWSMemberEncoding(label: "thingName", location: .querystring("thingName")),
-            AWSMemberEncoding(label: "verificationState", location: .querystring("verificationState"))
-        ]
-
         ///  The criteria for a behavior.
         public let behaviorCriteriaType: BehaviorCriteriaType?
         /// The end time for the alerts to be listed.
@@ -12487,6 +12948,20 @@ extension IoT {
             self.startTime = startTime
             self.thingName = thingName
             self.verificationState = verificationState
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.behaviorCriteriaType, key: "behaviorCriteriaType")
+            request.encodeQuery(self.endTime, key: "endTime")
+            request.encodeQuery(self.listSuppressedAlerts, key: "listSuppressedAlerts")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.securityProfileName, key: "securityProfileName")
+            request.encodeQuery(self.startTime, key: "startTime")
+            request.encodeQuery(self.thingName, key: "thingName")
+            request.encodeQuery(self.verificationState, key: "verificationState")
         }
 
         public func validate(name: String) throws {
@@ -13488,10 +13963,6 @@ extension IoT {
     }
 
     public struct PutVerificationStateOnViolationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "violationId", location: .uri("violationId"))
-        ]
-
         /// The verification state of the violation.
         public let verificationState: VerificationState
         /// The description of the verification state of the violation (detect alarm).
@@ -13503,6 +13974,14 @@ extension IoT {
             self.verificationState = verificationState
             self.verificationStateDescription = verificationStateDescription
             self.violationId = violationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.verificationState, forKey: .verificationState)
+            try container.encodeIfPresent(self.verificationStateDescription, forKey: .verificationStateDescription)
+            request.encodePath(self.violationId, key: "violationId")
         }
 
         public func validate(name: String) throws {
@@ -13546,11 +14025,6 @@ extension IoT {
     }
 
     public struct RegisterCACertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "allowAutoRegistration", location: .querystring("allowAutoRegistration")),
-            AWSMemberEncoding(label: "setAsActive", location: .querystring("setAsActive"))
-        ]
-
         /// Allows this CA certificate to be used for auto registration of device certificates.
         public let allowAutoRegistration: Bool?
         /// The CA certificate.
@@ -13574,6 +14048,18 @@ extension IoT {
             self.setAsActive = setAsActive
             self.tags = tags
             self.verificationCertificate = verificationCertificate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.allowAutoRegistration, key: "allowAutoRegistration")
+            try container.encode(self.caCertificate, forKey: .caCertificate)
+            try container.encodeIfPresent(self.certificateMode, forKey: .certificateMode)
+            try container.encodeIfPresent(self.registrationConfig, forKey: .registrationConfig)
+            request.encodeQuery(self.setAsActive, key: "setAsActive")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.verificationCertificate, forKey: .verificationCertificate)
         }
 
         public func validate(name: String) throws {
@@ -13616,10 +14102,6 @@ extension IoT {
     }
 
     public struct RegisterCertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "setAsActive", location: .querystring("setAsActive"))
-        ]
-
         /// The CA certificate used to sign the device certificate being registered.
         public let caCertificatePem: String?
         /// The certificate data, in PEM format.
@@ -13642,6 +14124,15 @@ extension IoT {
             self.certificatePem = certificatePem
             self.setAsActive = setAsActive
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.caCertificatePem, forKey: .caCertificatePem)
+            try container.encode(self.certificatePem, forKey: .certificatePem)
+            request.encodeQuery(self.setAsActive, key: "setAsActive")
+            try container.encodeIfPresent(self.status, forKey: .status)
         }
 
         public func validate(name: String) throws {
@@ -13794,10 +14285,6 @@ extension IoT {
     }
 
     public struct RejectCertificateTransferRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId"))
-        ]
-
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
         /// The reason the certificate transfer was rejected.
@@ -13806,6 +14293,13 @@ extension IoT {
         public init(certificateId: String, rejectReason: String? = nil) {
             self.certificateId = certificateId
             self.rejectReason = rejectReason
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateId, key: "certificateId")
+            try container.encodeIfPresent(self.rejectReason, forKey: .rejectReason)
         }
 
         public func validate(name: String) throws {
@@ -13931,13 +14425,7 @@ extension IoT {
         }
     }
 
-    public struct ReplaceTopicRuleRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "topicRulePayload"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ruleName", location: .uri("ruleName"))
-        ]
-
+    public struct ReplaceTopicRuleRequest: AWSEncodableShape {
         /// The name of the rule.
         public let ruleName: String
         /// The rule payload.
@@ -13946,6 +14434,13 @@ extension IoT {
         public init(ruleName: String, topicRulePayload: TopicRulePayload) {
             self.ruleName = ruleName
             self.topicRulePayload = topicRulePayload
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.ruleName, key: "ruleName")
+            try container.encode(self.topicRulePayload)
         }
 
         public func validate(name: String) throws {
@@ -14451,11 +14946,6 @@ extension IoT {
     }
 
     public struct SetDefaultPolicyVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "policyName", location: .uri("policyName")),
-            AWSMemberEncoding(label: "policyVersionId", location: .uri("policyVersionId"))
-        ]
-
         /// The policy name.
         public let policyName: String
         /// The policy version ID.
@@ -14464,6 +14954,13 @@ extension IoT {
         public init(policyName: String, policyVersionId: String) {
             self.policyName = policyName
             self.policyVersionId = policyVersionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.policyName, key: "policyName")
+            request.encodePath(self.policyVersionId, key: "policyVersionId")
         }
 
         public func validate(name: String) throws {
@@ -14476,14 +14973,17 @@ extension IoT {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct SetLoggingOptionsRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "loggingOptionsPayload"
+    public struct SetLoggingOptionsRequest: AWSEncodableShape {
         /// The logging options payload.
         public let loggingOptionsPayload: LoggingOptionsPayload
 
         public init(loggingOptionsPayload: LoggingOptionsPayload) {
             self.loggingOptionsPayload = loggingOptionsPayload
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.loggingOptionsPayload)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -14612,10 +15112,6 @@ extension IoT {
     }
 
     public struct StartAuditMitigationActionsTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         /// For an audit check, specifies which mitigation actions to apply. Those actions must be defined in your Amazon Web Services accounts.
         public let auditCheckToActionsMapping: [String: [String]]
         /// Each audit mitigation task must have a unique client request token. If you try to start a new task with the same token as a task that already exists, an exception occurs. If you omit this value, a unique client request token is generated automatically.
@@ -14630,6 +15126,15 @@ extension IoT {
             self.clientRequestToken = clientRequestToken
             self.target = target
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.auditCheckToActionsMapping, forKey: .auditCheckToActionsMapping)
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.target, forKey: .target)
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -14667,10 +15172,6 @@ extension IoT {
     }
 
     public struct StartDetectMitigationActionsTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         ///  The actions to be performed when a device has unexpected behavior.
         public let actions: [String]
         ///  Each mitigation action task must have a unique client request token. If you try to create a new task with the same token as a task that already exists, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
@@ -14694,6 +15195,18 @@ extension IoT {
             self.target = target
             self.taskId = taskId
             self.violationEventOccurrenceRange = violationEventOccurrenceRange
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.actions, forKey: .actions)
+            try container.encode(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.includeOnlyActiveViolations, forKey: .includeOnlyActiveViolations)
+            try container.encodeIfPresent(self.includeSuppressedAlerts, forKey: .includeSuppressedAlerts)
+            try container.encode(self.target, forKey: .target)
+            request.encodePath(self.taskId, key: "taskId")
+            try container.encodeIfPresent(self.violationEventOccurrenceRange, forKey: .violationEventOccurrenceRange)
         }
 
         public func validate(name: String) throws {
@@ -14919,15 +15432,17 @@ extension IoT {
     }
 
     public struct StopThingRegistrationTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         /// The bulk thing provisioning task ID.
         public let taskId: String
 
         public init(taskId: String) {
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -15191,10 +15706,6 @@ extension IoT {
     }
 
     public struct TestAuthorizationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientId", location: .querystring("clientId"))
-        ]
-
         /// A list of authorization info objects. Simulating authorization will create a response for each authInfo object in the list.
         public let authInfos: [AuthInfo]
         /// The MQTT client ID.
@@ -15215,6 +15726,17 @@ extension IoT {
             self.policyNamesToAdd = policyNamesToAdd
             self.policyNamesToSkip = policyNamesToSkip
             self.principal = principal
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.authInfos, forKey: .authInfos)
+            request.encodeQuery(self.clientId, key: "clientId")
+            try container.encodeIfPresent(self.cognitoIdentityPoolId, forKey: .cognitoIdentityPoolId)
+            try container.encodeIfPresent(self.policyNamesToAdd, forKey: .policyNamesToAdd)
+            try container.encodeIfPresent(self.policyNamesToSkip, forKey: .policyNamesToSkip)
+            try container.encodeIfPresent(self.principal, forKey: .principal)
         }
 
         public func validate(name: String) throws {
@@ -15258,10 +15780,6 @@ extension IoT {
     }
 
     public struct TestInvokeAuthorizerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authorizerName", location: .uri("authorizerName"))
-        ]
-
         /// The custom authorizer name.
         public let authorizerName: String
         /// Specifies a test HTTP authorization request.
@@ -15282,6 +15800,17 @@ extension IoT {
             self.tlsContext = tlsContext
             self.token = token
             self.tokenSignature = tokenSignature
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.authorizerName, key: "authorizerName")
+            try container.encodeIfPresent(self.httpContext, forKey: .httpContext)
+            try container.encodeIfPresent(self.mqttContext, forKey: .mqttContext)
+            try container.encodeIfPresent(self.tlsContext, forKey: .tlsContext)
+            try container.encodeIfPresent(self.token, forKey: .token)
+            try container.encodeIfPresent(self.tokenSignature, forKey: .tokenSignature)
         }
 
         public func validate(name: String) throws {
@@ -15963,11 +16492,6 @@ extension IoT {
     }
 
     public struct TransferCertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId")),
-            AWSMemberEncoding(label: "targetAwsAccount", location: .querystring("targetAwsAccount"))
-        ]
-
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
         /// The Amazon Web Services account.
@@ -15979,6 +16503,14 @@ extension IoT {
             self.certificateId = certificateId
             self.targetAwsAccount = targetAwsAccount
             self.transferMessage = transferMessage
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateId, key: "certificateId")
+            request.encodeQuery(self.targetAwsAccount, key: "targetAwsAccount")
+            try container.encodeIfPresent(self.transferMessage, forKey: .transferMessage)
         }
 
         public func validate(name: String) throws {
@@ -16139,10 +16671,6 @@ extension IoT {
     }
 
     public struct UpdateAuthorizerRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "authorizerName", location: .uri("authorizerName"))
-        ]
-
         /// The ARN of the authorizer's Lambda function.
         public let authorizerFunctionArn: String?
         /// The authorizer name.
@@ -16165,6 +16693,17 @@ extension IoT {
             self.status = status
             self.tokenKeyName = tokenKeyName
             self.tokenSigningPublicKeys = tokenSigningPublicKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.authorizerFunctionArn, forKey: .authorizerFunctionArn)
+            request.encodePath(self.authorizerName, key: "authorizerName")
+            try container.encodeIfPresent(self.enableCachingForHttp, forKey: .enableCachingForHttp)
+            try container.encodeIfPresent(self.status, forKey: .status)
+            try container.encodeIfPresent(self.tokenKeyName, forKey: .tokenKeyName)
+            try container.encodeIfPresent(self.tokenSigningPublicKeys, forKey: .tokenSigningPublicKeys)
         }
 
         public func validate(name: String) throws {
@@ -16212,10 +16751,6 @@ extension IoT {
     }
 
     public struct UpdateBillingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "billingGroupName", location: .uri("billingGroupName"))
-        ]
-
         /// The name of the billing group.
         public let billingGroupName: String
         /// The properties of the billing group.
@@ -16230,6 +16765,14 @@ extension IoT {
             self.billingGroupName = billingGroupName
             self.billingGroupProperties = billingGroupProperties
             self.expectedVersion = expectedVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.billingGroupName, key: "billingGroupName")
+            try container.encode(self.billingGroupProperties, forKey: .billingGroupProperties)
+            try container.encodeIfPresent(self.expectedVersion, forKey: .expectedVersion)
         }
 
         public func validate(name: String) throws {
@@ -16272,12 +16815,6 @@ extension IoT {
     }
 
     public struct UpdateCACertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId")),
-            AWSMemberEncoding(label: "newAutoRegistrationStatus", location: .querystring("newAutoRegistrationStatus")),
-            AWSMemberEncoding(label: "newStatus", location: .querystring("newStatus"))
-        ]
-
         /// The CA certificate identifier.
         public let certificateId: String
         /// The new value for the auto registration status. Valid values are: "ENABLE" or "DISABLE".
@@ -16297,6 +16834,16 @@ extension IoT {
             self.removeAutoRegistration = removeAutoRegistration
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateId, key: "certificateId")
+            request.encodeQuery(self.newAutoRegistrationStatus, key: "newAutoRegistrationStatus")
+            request.encodeQuery(self.newStatus, key: "newStatus")
+            try container.encodeIfPresent(self.registrationConfig, forKey: .registrationConfig)
+            try container.encodeIfPresent(self.removeAutoRegistration, forKey: .removeAutoRegistration)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.certificateId, name: "certificateId", parent: name, max: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, min: 64)
@@ -16311,11 +16858,6 @@ extension IoT {
     }
 
     public struct UpdateCertificateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "certificateId", location: .uri("certificateId")),
-            AWSMemberEncoding(label: "newStatus", location: .querystring("newStatus"))
-        ]
-
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
         /// The new status.  Note: Setting the status to PENDING_TRANSFER  or PENDING_ACTIVATION will result in an exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used internally by IoT. They  are not intended for developer use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
@@ -16324,6 +16866,13 @@ extension IoT {
         public init(certificateId: String, newStatus: CertificateStatus) {
             self.certificateId = certificateId
             self.newStatus = newStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateId, key: "certificateId")
+            request.encodeQuery(self.newStatus, key: "newStatus")
         }
 
         public func validate(name: String) throws {
@@ -16336,10 +16885,6 @@ extension IoT {
     }
 
     public struct UpdateCustomMetricRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
-        ]
-
         ///  Field represents a friendly name in the console for the custom metric, it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated.
         public let displayName: String
         ///  The name of the custom metric. Cannot be updated.
@@ -16348,6 +16893,13 @@ extension IoT {
         public init(displayName: String, metricName: String) {
             self.displayName = displayName
             self.metricName = metricName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.displayName, forKey: .displayName)
+            request.encodePath(self.metricName, key: "metricName")
         }
 
         public func validate(name: String) throws {
@@ -16410,10 +16962,6 @@ extension IoT {
     }
 
     public struct UpdateDimensionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("name"))
-        ]
-
         /// A unique identifier for the dimension. Choose something that describes the type and value to make it easy to remember what it does.
         public let name: String
         /// Specifies the value or list of values for the dimension. For TOPIC_FILTER dimensions, this is a pattern used to match the MQTT topic (for example, "admin/#").
@@ -16422,6 +16970,13 @@ extension IoT {
         public init(name: String, stringValues: [String]) {
             self.name = name
             self.stringValues = stringValues
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+            try container.encode(self.stringValues, forKey: .stringValues)
         }
 
         public func validate(name: String) throws {
@@ -16475,10 +17030,6 @@ extension IoT {
     }
 
     public struct UpdateDomainConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainConfigurationName", location: .uri("domainConfigurationName"))
-        ]
-
         /// An object that specifies the authorization service for a domain.
         public let authorizerConfig: AuthorizerConfig?
         /// The name of the domain configuration to be updated.
@@ -16496,6 +17047,16 @@ extension IoT {
             self.domainConfigurationStatus = domainConfigurationStatus
             self.removeAuthorizerConfig = removeAuthorizerConfig
             self.tlsConfig = tlsConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.authorizerConfig, forKey: .authorizerConfig)
+            request.encodePath(self.domainConfigurationName, key: "domainConfigurationName")
+            try container.encodeIfPresent(self.domainConfigurationStatus, forKey: .domainConfigurationStatus)
+            try container.encodeIfPresent(self.removeAuthorizerConfig, forKey: .removeAuthorizerConfig)
+            try container.encodeIfPresent(self.tlsConfig, forKey: .tlsConfig)
         }
 
         public func validate(name: String) throws {
@@ -16532,10 +17093,6 @@ extension IoT {
     }
 
     public struct UpdateDynamicThingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
-        ]
-
         /// The expected version of the dynamic thing group to update.
         public let expectedVersion: Int64?
         /// The dynamic thing group index to update.  Currently one index is supported: AWS_Things.
@@ -16557,6 +17114,17 @@ extension IoT {
             self.queryVersion = queryVersion
             self.thingGroupName = thingGroupName
             self.thingGroupProperties = thingGroupProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.expectedVersion, forKey: .expectedVersion)
+            try container.encodeIfPresent(self.indexName, forKey: .indexName)
+            try container.encodeIfPresent(self.queryString, forKey: .queryString)
+            try container.encodeIfPresent(self.queryVersion, forKey: .queryVersion)
+            request.encodePath(self.thingGroupName, key: "thingGroupName")
+            try container.encode(self.thingGroupProperties, forKey: .thingGroupProperties)
         }
 
         public func validate(name: String) throws {
@@ -16610,10 +17178,6 @@ extension IoT {
     }
 
     public struct UpdateFleetMetricRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "metricName", location: .uri("metricName"))
-        ]
-
         /// The field to aggregate.
         public let aggregationField: String?
         /// The type of the aggregation query.
@@ -16646,6 +17210,21 @@ extension IoT {
             self.queryString = queryString
             self.queryVersion = queryVersion
             self.unit = unit
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.aggregationField, forKey: .aggregationField)
+            try container.encodeIfPresent(self.aggregationType, forKey: .aggregationType)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.expectedVersion, forKey: .expectedVersion)
+            try container.encode(self.indexName, forKey: .indexName)
+            request.encodePath(self.metricName, key: "metricName")
+            try container.encodeIfPresent(self.period, forKey: .period)
+            try container.encodeIfPresent(self.queryString, forKey: .queryString)
+            try container.encodeIfPresent(self.queryVersion, forKey: .queryVersion)
+            try container.encodeIfPresent(self.unit, forKey: .unit)
         }
 
         public func validate(name: String) throws {
@@ -16703,11 +17282,6 @@ extension IoT {
     }
 
     public struct UpdateJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("jobId")),
-            AWSMemberEncoding(label: "namespaceId", location: .querystring("namespaceId"))
-        ]
-
         /// Allows you to create criteria to abort a job.
         public let abortConfig: AbortConfig?
         /// A short text description of the job.
@@ -16736,6 +17310,19 @@ extension IoT {
             self.timeoutConfig = timeoutConfig
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.abortConfig, forKey: .abortConfig)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.jobExecutionsRetryConfig, forKey: .jobExecutionsRetryConfig)
+            try container.encodeIfPresent(self.jobExecutionsRolloutConfig, forKey: .jobExecutionsRolloutConfig)
+            request.encodePath(self.jobId, key: "jobId")
+            request.encodeQuery(self.namespaceId, key: "namespaceId")
+            try container.encodeIfPresent(self.presignedUrlConfig, forKey: .presignedUrlConfig)
+            try container.encodeIfPresent(self.timeoutConfig, forKey: .timeoutConfig)
+        }
+
         public func validate(name: String) throws {
             try self.abortConfig?.validate(name: "\(name).abortConfig")
             try self.validate(self.description, name: "description", parent: name, max: 2028)
@@ -16760,10 +17347,6 @@ extension IoT {
     }
 
     public struct UpdateMitigationActionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "actionName", location: .uri("actionName"))
-        ]
-
         /// The friendly name for the mitigation action. You cannot change the name by using UpdateMitigationAction. Instead, you must delete and recreate the mitigation action with the new name.
         public let actionName: String
         /// Defines the type of action and the parameters for that action.
@@ -16775,6 +17358,14 @@ extension IoT {
             self.actionName = actionName
             self.actionParams = actionParams
             self.roleArn = roleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.actionName, key: "actionName")
+            try container.encodeIfPresent(self.actionParams, forKey: .actionParams)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
         }
 
         public func validate(name: String) throws {
@@ -16809,10 +17400,6 @@ extension IoT {
     }
 
     public struct UpdatePackageConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken"))
-        ]
-
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
         /// Configuration to manage job's package version reporting. This updates the thing's reserved named shadow that the job targets.
@@ -16821,6 +17408,13 @@ extension IoT {
         public init(clientToken: String? = UpdatePackageConfigurationRequest.idempotencyToken(), versionUpdateByJobsConfig: VersionUpdateByJobsConfig? = nil) {
             self.clientToken = clientToken
             self.versionUpdateByJobsConfig = versionUpdateByJobsConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            try container.encodeIfPresent(self.versionUpdateByJobsConfig, forKey: .versionUpdateByJobsConfig)
         }
 
         public func validate(name: String) throws {
@@ -16840,11 +17434,6 @@ extension IoT {
     }
 
     public struct UpdatePackageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "packageName", location: .uri("packageName"))
-        ]
-
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
         /// The name of the default package version.  Note: You cannot name a defaultVersion and set unsetDefaultVersion equal to true at the same time.
@@ -16862,6 +17451,16 @@ extension IoT {
             self.description = description
             self.packageName = packageName
             self.unsetDefaultVersion = unsetDefaultVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            try container.encodeIfPresent(self.defaultVersionName, forKey: .defaultVersionName)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.packageName, key: "packageName")
+            try container.encodeIfPresent(self.unsetDefaultVersion, forKey: .unsetDefaultVersion)
         }
 
         public func validate(name: String) throws {
@@ -16890,12 +17489,6 @@ extension IoT {
     }
 
     public struct UpdatePackageVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "packageName", location: .uri("packageName")),
-            AWSMemberEncoding(label: "versionName", location: .uri("versionName"))
-        ]
-
         /// The status that the package version should be assigned. For more information, see Package version lifecycle.
         public let action: PackageVersionAction?
         /// Metadata that can be used to define a package version’s configuration. For example, the S3 file location, configuration options that are being sent to the device or fleet.   Note: Attributes can be updated only when the package version is in a draft state. The combined size of all the attributes on a package version is limited to 3KB.
@@ -16916,6 +17509,17 @@ extension IoT {
             self.description = description
             self.packageName = packageName
             self.versionName = versionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.action, forKey: .action)
+            try container.encodeIfPresent(self.attributes, forKey: .attributes)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.packageName, key: "packageName")
+            request.encodePath(self.versionName, key: "versionName")
         }
 
         public func validate(name: String) throws {
@@ -16950,10 +17554,6 @@ extension IoT {
     }
 
     public struct UpdateProvisioningTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("templateName"))
-        ]
-
         /// The ID of the default provisioning template version.
         public let defaultVersionId: Int?
         /// The description of the provisioning template.
@@ -16977,6 +17577,18 @@ extension IoT {
             self.provisioningRoleArn = provisioningRoleArn
             self.removePreProvisioningHook = removePreProvisioningHook
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.defaultVersionId, forKey: .defaultVersionId)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.enabled, forKey: .enabled)
+            try container.encodeIfPresent(self.preProvisioningHook, forKey: .preProvisioningHook)
+            try container.encodeIfPresent(self.provisioningRoleArn, forKey: .provisioningRoleArn)
+            try container.encodeIfPresent(self.removePreProvisioningHook, forKey: .removePreProvisioningHook)
+            request.encodePath(self.templateName, key: "templateName")
         }
 
         public func validate(name: String) throws {
@@ -17005,10 +17617,6 @@ extension IoT {
     }
 
     public struct UpdateRoleAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "roleAlias", location: .uri("roleAlias"))
-        ]
-
         /// The number of seconds the credential will be valid. This value must be less than or equal to the maximum session duration of the IAM role that the role alias references.
         public let credentialDurationSeconds: Int?
         /// The role alias to update.
@@ -17020,6 +17628,14 @@ extension IoT {
             self.credentialDurationSeconds = credentialDurationSeconds
             self.roleAlias = roleAlias
             self.roleArn = roleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.credentialDurationSeconds, forKey: .credentialDurationSeconds)
+            request.encodePath(self.roleAlias, key: "roleAlias")
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
         }
 
         public func validate(name: String) throws {
@@ -17056,10 +17672,6 @@ extension IoT {
     }
 
     public struct UpdateScheduledAuditRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "scheduledAuditName", location: .uri("scheduledAuditName"))
-        ]
-
         /// The day of the month on which the scheduled audit takes place. This can be 1 through 31 or LAST. This field is required if the frequency parameter is set to MONTHLY. If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
         public let dayOfMonth: String?
         /// The day of the week on which the scheduled audit takes place. This can be one of SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the "frequency" parameter is set to WEEKLY or BIWEEKLY.
@@ -17077,6 +17689,16 @@ extension IoT {
             self.frequency = frequency
             self.scheduledAuditName = scheduledAuditName
             self.targetCheckNames = targetCheckNames
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dayOfMonth, forKey: .dayOfMonth)
+            try container.encodeIfPresent(self.dayOfWeek, forKey: .dayOfWeek)
+            try container.encodeIfPresent(self.frequency, forKey: .frequency)
+            request.encodePath(self.scheduledAuditName, key: "scheduledAuditName")
+            try container.encodeIfPresent(self.targetCheckNames, forKey: .targetCheckNames)
         }
 
         public func validate(name: String) throws {
@@ -17108,11 +17730,6 @@ extension IoT {
     }
 
     public struct UpdateSecurityProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "expectedVersion", location: .querystring("expectedVersion")),
-            AWSMemberEncoding(label: "securityProfileName", location: .uri("securityProfileName"))
-        ]
-
         ///  Please use UpdateSecurityProfileRequest$additionalMetricsToRetainV2 instead.  A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
         public let additionalMetricsToRetain: [String]?
         /// A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
@@ -17159,6 +17776,21 @@ extension IoT {
             self.expectedVersion = expectedVersion
             self.securityProfileDescription = securityProfileDescription
             self.securityProfileName = securityProfileName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.additionalMetricsToRetain, forKey: .additionalMetricsToRetain)
+            try container.encodeIfPresent(self.additionalMetricsToRetainV2, forKey: .additionalMetricsToRetainV2)
+            try container.encodeIfPresent(self.alertTargets, forKey: .alertTargets)
+            try container.encodeIfPresent(self.behaviors, forKey: .behaviors)
+            try container.encodeIfPresent(self.deleteAdditionalMetricsToRetain, forKey: .deleteAdditionalMetricsToRetain)
+            try container.encodeIfPresent(self.deleteAlertTargets, forKey: .deleteAlertTargets)
+            try container.encodeIfPresent(self.deleteBehaviors, forKey: .deleteBehaviors)
+            request.encodeQuery(self.expectedVersion, key: "expectedVersion")
+            try container.encodeIfPresent(self.securityProfileDescription, forKey: .securityProfileDescription)
+            request.encodePath(self.securityProfileName, key: "securityProfileName")
         }
 
         public func validate(name: String) throws {
@@ -17255,10 +17887,6 @@ extension IoT {
     }
 
     public struct UpdateStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "streamId", location: .uri("streamId"))
-        ]
-
         /// The description of the stream.
         public let description: String?
         /// The files associated with the stream.
@@ -17273,6 +17901,15 @@ extension IoT {
             self.files = files
             self.roleArn = roleArn
             self.streamId = streamId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.files, forKey: .files)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+            request.encodePath(self.streamId, key: "streamId")
         }
 
         public func validate(name: String) throws {
@@ -17323,10 +17960,6 @@ extension IoT {
     }
 
     public struct UpdateThingGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingGroupName", location: .uri("thingGroupName"))
-        ]
-
         /// The expected version of the thing group. If this does not match the version of the
         /// 			thing group being updated, the update will fail.
         public let expectedVersion: Int64?
@@ -17339,6 +17972,14 @@ extension IoT {
             self.expectedVersion = expectedVersion
             self.thingGroupName = thingGroupName
             self.thingGroupProperties = thingGroupProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.expectedVersion, forKey: .expectedVersion)
+            request.encodePath(self.thingGroupName, key: "thingGroupName")
+            try container.encode(self.thingGroupProperties, forKey: .thingGroupProperties)
         }
 
         public func validate(name: String) throws {
@@ -17416,10 +18057,6 @@ extension IoT {
     }
 
     public struct UpdateThingRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
-        ]
-
         /// A list of thing attributes, a JSON string containing name-value pairs. For
         /// 			example:  {\"attributes\":{\"name1\":\"value2\"}}  This data is used to add new attributes or update existing attributes.
         public let attributePayload: AttributePayload?
@@ -17443,6 +18080,16 @@ extension IoT {
             self.removeThingType = removeThingType
             self.thingName = thingName
             self.thingTypeName = thingTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributePayload, forKey: .attributePayload)
+            try container.encodeIfPresent(self.expectedVersion, forKey: .expectedVersion)
+            try container.encodeIfPresent(self.removeThingType, forKey: .removeThingType)
+            request.encodePath(self.thingName, key: "thingName")
+            try container.encodeIfPresent(self.thingTypeName, forKey: .thingTypeName)
         }
 
         public func validate(name: String) throws {

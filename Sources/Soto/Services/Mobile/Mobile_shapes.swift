@@ -73,15 +73,7 @@ extension Mobile {
         }
     }
 
-    public struct CreateProjectRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "contents"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .querystring("name")),
-            AWSMemberEncoding(label: "region", location: .querystring("region")),
-            AWSMemberEncoding(label: "snapshotId", location: .querystring("snapshotId"))
-        ]
-
+    public struct CreateProjectRequest: AWSEncodableShape {
         ///  ZIP or YAML file which contains configuration settings to be used when creating the project. This may be the contents of the file downloaded from the URL provided in an export project operation.
         public let contents: AWSHTTPBody?
         ///  Name of the project.
@@ -96,6 +88,15 @@ extension Mobile {
             self.name = name
             self.region = region
             self.snapshotId = snapshotId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.contents)
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.region, key: "region")
+            request.encodeQuery(self.snapshotId, key: "snapshotId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -115,15 +116,17 @@ extension Mobile {
     }
 
     public struct DeleteProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
-        ]
-
         ///  Unique project identifier.
         public let projectId: String
 
         public init(projectId: String) {
             self.projectId = projectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.projectId, key: "projectId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -147,15 +150,17 @@ extension Mobile {
     }
 
     public struct DescribeBundleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bundleId", location: .uri("bundleId"))
-        ]
-
         ///  Unique bundle identifier.
         public let bundleId: String
 
         public init(bundleId: String) {
             self.bundleId = bundleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bundleId, key: "bundleId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -175,11 +180,6 @@ extension Mobile {
     }
 
     public struct DescribeProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .querystring("projectId")),
-            AWSMemberEncoding(label: "syncFromResources", location: .querystring("syncFromResources"))
-        ]
-
         ///  Unique project identifier.
         public let projectId: String
         ///  If set to true, causes AWS Mobile Hub to synchronize information from other services, e.g., update state of AWS CloudFormation stacks in the AWS Mobile Hub project.
@@ -188,6 +188,13 @@ extension Mobile {
         public init(projectId: String, syncFromResources: Bool? = nil) {
             self.projectId = projectId
             self.syncFromResources = syncFromResources
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.projectId, key: "projectId")
+            request.encodeQuery(self.syncFromResources, key: "syncFromResources")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -206,12 +213,6 @@ extension Mobile {
     }
 
     public struct ExportBundleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "bundleId", location: .uri("bundleId")),
-            AWSMemberEncoding(label: "platform", location: .querystring("platform")),
-            AWSMemberEncoding(label: "projectId", location: .querystring("projectId"))
-        ]
-
         ///  Unique bundle identifier.
         public let bundleId: String
         ///  Developer desktop or target application platform.
@@ -223,6 +224,14 @@ extension Mobile {
             self.bundleId = bundleId
             self.platform = platform
             self.projectId = projectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.bundleId, key: "bundleId")
+            request.encodeQuery(self.platform, key: "platform")
+            request.encodeQuery(self.projectId, key: "projectId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -242,15 +251,17 @@ extension Mobile {
     }
 
     public struct ExportProjectRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .uri("projectId"))
-        ]
-
         ///  Unique project identifier.
         public let projectId: String
 
         public init(projectId: String) {
             self.projectId = projectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.projectId, key: "projectId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -278,11 +289,6 @@ extension Mobile {
     }
 
     public struct ListBundlesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  Maximum number of records to list in a single response.
         public let maxResults: Int?
         ///  Pagination token. Set to null to start listing bundles from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more bundles.
@@ -291,6 +297,13 @@ extension Mobile {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -314,11 +327,6 @@ extension Mobile {
     }
 
     public struct ListProjectsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         ///  Maximum number of records to list in a single response.
         public let maxResults: Int?
         ///  Pagination token. Set to null to start listing projects from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more projects.
@@ -327,6 +335,13 @@ extension Mobile {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -424,13 +439,7 @@ extension Mobile {
         }
     }
 
-    public struct UpdateProjectRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "contents"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "projectId", location: .querystring("projectId"))
-        ]
-
+    public struct UpdateProjectRequest: AWSEncodableShape {
         ///  ZIP or YAML file which contains project configuration to be updated. This should be the contents of the file downloaded from the URL provided in an export project operation.
         public let contents: AWSHTTPBody?
         ///  Unique project identifier.
@@ -439,6 +448,13 @@ extension Mobile {
         public init(contents: AWSHTTPBody? = nil, projectId: String) {
             self.contents = contents
             self.projectId = projectId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.contents)
+            request.encodeQuery(self.projectId, key: "projectId")
         }
 
         private enum CodingKeys: CodingKey {}

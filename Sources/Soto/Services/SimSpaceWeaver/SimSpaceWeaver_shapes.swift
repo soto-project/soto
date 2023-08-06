@@ -132,12 +132,6 @@ extension SimSpaceWeaver {
     }
 
     public struct DeleteAppInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "app", location: .querystring("app")),
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "simulation", location: .querystring("simulation"))
-        ]
-
         /// The name of the app.
         public let app: String
         /// The name of the domain of the app.
@@ -149,6 +143,14 @@ extension SimSpaceWeaver {
             self.app = app
             self.domain = domain
             self.simulation = simulation
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.app, key: "app")
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.simulation, key: "simulation")
         }
 
         public func validate(name: String) throws {
@@ -171,15 +173,17 @@ extension SimSpaceWeaver {
     }
 
     public struct DeleteSimulationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "simulation", location: .querystring("simulation"))
-        ]
-
         /// The name of the simulation.
         public let simulation: String
 
         public init(simulation: String) {
             self.simulation = simulation
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.simulation, key: "simulation")
         }
 
         public func validate(name: String) throws {
@@ -196,12 +200,6 @@ extension SimSpaceWeaver {
     }
 
     public struct DescribeAppInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "app", location: .querystring("app")),
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "simulation", location: .querystring("simulation"))
-        ]
-
         /// The name of the app.
         public let app: String
         /// The name of the domain of the app.
@@ -213,6 +211,14 @@ extension SimSpaceWeaver {
             self.app = app
             self.domain = domain
             self.simulation = simulation
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.app, key: "app")
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.simulation, key: "simulation")
         }
 
         public func validate(name: String) throws {
@@ -271,15 +277,17 @@ extension SimSpaceWeaver {
     }
 
     public struct DescribeSimulationInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "simulation", location: .querystring("simulation"))
-        ]
-
         /// The name of the simulation.
         public let simulation: String
 
         public init(simulation: String) {
             self.simulation = simulation
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.simulation, key: "simulation")
         }
 
         public func validate(name: String) throws {
@@ -417,13 +425,6 @@ extension SimSpaceWeaver {
     }
 
     public struct ListAppsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring("domain")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "simulation", location: .querystring("simulation"))
-        ]
-
         /// The name of the domain that you want to list apps for.
         public let domain: String?
         /// The maximum number of apps to list.
@@ -438,6 +439,15 @@ extension SimSpaceWeaver {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.simulation = simulation
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.simulation, key: "simulation")
         }
 
         public func validate(name: String) throws {
@@ -471,11 +481,6 @@ extension SimSpaceWeaver {
     }
 
     public struct ListSimulationsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of simulations to list.
         public let maxResults: Int?
         /// If SimSpace Weaver returns nextToken, then there are more results available.  The value of nextToken is a unique pagination token for each page. To retrieve the next page,  call the operation again using the returned token. Keep all other arguments unchanged. If no results remain,  then nextToken is set to null. Each pagination token expires after 24 hours.  If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
@@ -484,6 +489,13 @@ extension SimSpaceWeaver {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -511,15 +523,17 @@ extension SimSpaceWeaver {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1005,10 +1019,6 @@ extension SimSpaceWeaver {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to add tags to. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
         /// A list of tags to apply to the resource.
@@ -1017,6 +1027,13 @@ extension SimSpaceWeaver {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1041,11 +1058,6 @@ extension SimSpaceWeaver {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
         /// A list of tag keys to remove from the resource.
@@ -1054,6 +1066,13 @@ extension SimSpaceWeaver {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {

@@ -399,11 +399,6 @@ extension Nimble {
     // MARK: Shapes
 
     public struct AcceptEulasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The EULA ID.
@@ -415,6 +410,14 @@ extension Nimble {
             self.clientToken = clientToken
             self.eulaIds = eulaIds
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.eulaIds, forKey: .eulaIds)
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -512,11 +515,6 @@ extension Nimble {
     }
 
     public struct CreateLaunchProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The description.
@@ -546,6 +544,20 @@ extension Nimble {
             self.studioComponentIds = studioComponentIds
             self.studioId = studioId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.ec2SubnetIds, forKey: .ec2SubnetIds)
+            try container.encode(self.launchProfileProtocolVersions, forKey: .launchProfileProtocolVersions)
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.streamConfiguration, forKey: .streamConfiguration)
+            try container.encode(self.studioComponentIds, forKey: .studioComponentIds)
+            request.encodePath(self.studioId, key: "studioId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -589,11 +601,6 @@ extension Nimble {
     }
 
     public struct CreateStreamingImageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// A human-readable description of the streaming image.
@@ -614,6 +621,17 @@ extension Nimble {
             self.name = name
             self.studioId = studioId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.ec2ImageId, forKey: .ec2ImageId)
+            try container.encode(self.name, forKey: .name)
+            request.encodePath(self.studioId, key: "studioId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -646,11 +664,6 @@ extension Nimble {
     }
 
     public struct CreateStreamingSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The EC2 Instance type used for the streaming session.
@@ -674,6 +687,18 @@ extension Nimble {
             self.streamingImageId = streamingImageId
             self.studioId = studioId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.ec2InstanceType, forKey: .ec2InstanceType)
+            try container.encode(self.launchProfileId, forKey: .launchProfileId)
+            try container.encodeIfPresent(self.ownedBy, forKey: .ownedBy)
+            try container.encodeIfPresent(self.streamingImageId, forKey: .streamingImageId)
+            request.encodePath(self.studioId, key: "studioId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -706,12 +731,6 @@ extension Nimble {
     }
 
     public struct CreateStreamingSessionStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The expiration time in seconds.
@@ -726,6 +745,15 @@ extension Nimble {
             self.expirationInSeconds = expirationInSeconds
             self.sessionId = sessionId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.expirationInSeconds, forKey: .expirationInSeconds)
+            request.encodePath(self.sessionId, key: "sessionId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -754,11 +782,6 @@ extension Nimble {
     }
 
     public struct CreateStudioComponentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The configuration of the studio component, based on component type.
@@ -800,6 +823,24 @@ extension Nimble {
             self.subtype = subtype
             self.tags = tags
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.ec2SecurityGroupIds, forKey: .ec2SecurityGroupIds)
+            try container.encodeIfPresent(self.initializationScripts, forKey: .initializationScripts)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.runtimeRoleArn, forKey: .runtimeRoleArn)
+            try container.encodeIfPresent(self.scriptParameters, forKey: .scriptParameters)
+            try container.encodeIfPresent(self.secureInitializationRoleArn, forKey: .secureInitializationRoleArn)
+            request.encodePath(self.studioId, key: "studioId")
+            try container.encodeIfPresent(self.subtype, forKey: .subtype)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -849,10 +890,6 @@ extension Nimble {
     }
 
     public struct CreateStudioRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token"))
-        ]
-
         /// The IAM role that studio admins will assume when logging in to the Nimble Studio portal.
         public let adminRoleArn: String
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
@@ -876,6 +913,18 @@ extension Nimble {
             self.studioName = studioName
             self.tags = tags
             self.userRoleArn = userRoleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.adminRoleArn, forKey: .adminRoleArn)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encode(self.displayName, forKey: .displayName)
+            try container.encodeIfPresent(self.studioEncryptionConfiguration, forKey: .studioEncryptionConfiguration)
+            try container.encode(self.studioName, forKey: .studioName)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.userRoleArn, forKey: .userRoleArn)
         }
 
         public func validate(name: String) throws {
@@ -914,13 +963,6 @@ extension Nimble {
     }
 
     public struct DeleteLaunchProfileMemberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
-            AWSMemberEncoding(label: "principalId", location: .uri("principalId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The ID of the launch profile used to control access from the streaming session.
@@ -937,6 +979,15 @@ extension Nimble {
             self.studioId = studioId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            request.encodePath(self.launchProfileId, key: "launchProfileId")
+            request.encodePath(self.principalId, key: "principalId")
+            request.encodePath(self.studioId, key: "studioId")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
@@ -950,12 +1001,6 @@ extension Nimble {
     }
 
     public struct DeleteLaunchProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The ID of the launch profile used to control access from the streaming session.
@@ -967,6 +1012,14 @@ extension Nimble {
             self.clientToken = clientToken
             self.launchProfileId = launchProfileId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            request.encodePath(self.launchProfileId, key: "launchProfileId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -991,12 +1044,6 @@ extension Nimble {
     }
 
     public struct DeleteStreamingImageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "streamingImageId", location: .uri("streamingImageId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The streaming image ID.
@@ -1008,6 +1055,14 @@ extension Nimble {
             self.clientToken = clientToken
             self.streamingImageId = streamingImageId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            request.encodePath(self.streamingImageId, key: "streamingImageId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -1032,12 +1087,6 @@ extension Nimble {
     }
 
     public struct DeleteStreamingSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The streaming session ID.
@@ -1049,6 +1098,14 @@ extension Nimble {
             self.clientToken = clientToken
             self.sessionId = sessionId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            request.encodePath(self.sessionId, key: "sessionId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -1073,12 +1130,6 @@ extension Nimble {
     }
 
     public struct DeleteStudioComponentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioComponentId", location: .uri("studioComponentId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The studio component ID.
@@ -1090,6 +1141,14 @@ extension Nimble {
             self.clientToken = clientToken
             self.studioComponentId = studioComponentId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            request.encodePath(self.studioComponentId, key: "studioComponentId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -1114,12 +1173,6 @@ extension Nimble {
     }
 
     public struct DeleteStudioMemberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "principalId", location: .uri("principalId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The principal ID. This currently supports a IAM Identity Center UserId.
@@ -1131,6 +1184,14 @@ extension Nimble {
             self.clientToken = clientToken
             self.principalId = principalId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            request.encodePath(self.principalId, key: "principalId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -1146,11 +1207,6 @@ extension Nimble {
     }
 
     public struct DeleteStudioRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The studio ID.
@@ -1159,6 +1215,13 @@ extension Nimble {
         public init(clientToken: String? = DeleteStudioRequest.idempotencyToken(), studioId: String) {
             self.clientToken = clientToken
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -1244,15 +1307,17 @@ extension Nimble {
     }
 
     public struct GetEulaRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eulaId", location: .uri("eulaId"))
-        ]
-
         /// The EULA ID.
         public let eulaId: String
 
         public init(eulaId: String) {
             self.eulaId = eulaId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.eulaId, key: "eulaId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1272,11 +1337,6 @@ extension Nimble {
     }
 
     public struct GetLaunchProfileDetailsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The studio ID.
@@ -1285,6 +1345,13 @@ extension Nimble {
         public init(launchProfileId: String, studioId: String) {
             self.launchProfileId = launchProfileId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.launchProfileId, key: "launchProfileId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1312,14 +1379,6 @@ extension Nimble {
     }
 
     public struct GetLaunchProfileInitializationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
-            AWSMemberEncoding(label: "launchProfileProtocolVersions", location: .querystring("launchProfileProtocolVersions")),
-            AWSMemberEncoding(label: "launchPurpose", location: .querystring("launchPurpose")),
-            AWSMemberEncoding(label: "platform", location: .querystring("platform")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The launch profile protocol versions supported by the client.
@@ -1339,6 +1398,16 @@ extension Nimble {
             self.studioId = studioId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.launchProfileId, key: "launchProfileId")
+            request.encodeQuery(self.launchProfileProtocolVersions, key: "launchProfileProtocolVersions")
+            request.encodeQuery(self.launchPurpose, key: "launchPurpose")
+            request.encodeQuery(self.platform, key: "platform")
+            request.encodePath(self.studioId, key: "studioId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1356,12 +1425,6 @@ extension Nimble {
     }
 
     public struct GetLaunchProfileMemberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
-            AWSMemberEncoding(label: "principalId", location: .uri("principalId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The principal ID. This currently supports a IAM Identity Center UserId.
@@ -1373,6 +1436,14 @@ extension Nimble {
             self.launchProfileId = launchProfileId
             self.principalId = principalId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.launchProfileId, key: "launchProfileId")
+            request.encodePath(self.principalId, key: "principalId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1392,11 +1463,6 @@ extension Nimble {
     }
 
     public struct GetLaunchProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The studio ID.
@@ -1405,6 +1471,13 @@ extension Nimble {
         public init(launchProfileId: String, studioId: String) {
             self.launchProfileId = launchProfileId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.launchProfileId, key: "launchProfileId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1424,11 +1497,6 @@ extension Nimble {
     }
 
     public struct GetStreamingImageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "streamingImageId", location: .uri("streamingImageId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The streaming image ID.
         public let streamingImageId: String
         /// The studio ID.
@@ -1437,6 +1505,13 @@ extension Nimble {
         public init(streamingImageId: String, studioId: String) {
             self.streamingImageId = streamingImageId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.streamingImageId, key: "streamingImageId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1456,11 +1531,6 @@ extension Nimble {
     }
 
     public struct GetStreamingSessionBackupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "backupId", location: .uri("backupId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The ID of the backup.
         public let backupId: String
         /// The studio ID.
@@ -1469,6 +1539,13 @@ extension Nimble {
         public init(backupId: String, studioId: String) {
             self.backupId = backupId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.backupId, key: "backupId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1488,11 +1565,6 @@ extension Nimble {
     }
 
     public struct GetStreamingSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The streaming session ID.
         public let sessionId: String
         /// The studio ID.
@@ -1501,6 +1573,13 @@ extension Nimble {
         public init(sessionId: String, studioId: String) {
             self.sessionId = sessionId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sessionId, key: "sessionId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1520,12 +1599,6 @@ extension Nimble {
     }
 
     public struct GetStreamingSessionStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
-            AWSMemberEncoding(label: "streamId", location: .uri("streamId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The streaming session ID.
         public let sessionId: String
         /// The streaming session stream ID.
@@ -1537,6 +1610,14 @@ extension Nimble {
             self.sessionId = sessionId
             self.streamId = streamId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sessionId, key: "sessionId")
+            request.encodePath(self.streamId, key: "streamId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1556,11 +1637,6 @@ extension Nimble {
     }
 
     public struct GetStudioComponentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "studioComponentId", location: .uri("studioComponentId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The studio component ID.
         public let studioComponentId: String
         /// The studio ID.
@@ -1569,6 +1645,13 @@ extension Nimble {
         public init(studioComponentId: String, studioId: String) {
             self.studioComponentId = studioComponentId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.studioComponentId, key: "studioComponentId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1588,11 +1671,6 @@ extension Nimble {
     }
 
     public struct GetStudioMemberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "principalId", location: .uri("principalId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The principal ID. This currently supports a IAM Identity Center UserId.
         public let principalId: String
         /// The studio ID.
@@ -1601,6 +1679,13 @@ extension Nimble {
         public init(principalId: String, studioId: String) {
             self.principalId = principalId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.principalId, key: "principalId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1620,15 +1705,17 @@ extension Nimble {
     }
 
     public struct GetStudioRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The studio ID.
         public let studioId: String
 
         public init(studioId: String) {
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1876,12 +1963,6 @@ extension Nimble {
     }
 
     public struct ListEulaAcceptancesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eulaIds", location: .querystring("eulaIds")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The list of EULA IDs that have been previously accepted.
         public let eulaIds: [String]?
         /// The token for the next set of results, or null if there are no more results.
@@ -1893,6 +1974,14 @@ extension Nimble {
             self.eulaIds = eulaIds
             self.nextToken = nextToken
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.eulaIds, key: "eulaIds")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1916,11 +2005,6 @@ extension Nimble {
     }
 
     public struct ListEulasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eulaIds", location: .querystring("eulaIds")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The list of EULA IDs that should be returned
         public let eulaIds: [String]?
         /// The token for the next set of results, or null if there are no more results.
@@ -1929,6 +2013,13 @@ extension Nimble {
         public init(eulaIds: [String]? = nil, nextToken: String? = nil) {
             self.eulaIds = eulaIds
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.eulaIds, key: "eulaIds")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1952,13 +2043,6 @@ extension Nimble {
     }
 
     public struct ListLaunchProfileMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String
         /// The max number of results to return in the response.
@@ -1973,6 +2057,15 @@ extension Nimble {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.launchProfileId, key: "launchProfileId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -2001,14 +2094,6 @@ extension Nimble {
     }
 
     public struct ListLaunchProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "principalId", location: .querystring("principalId")),
-            AWSMemberEncoding(label: "states", location: .querystring("states")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The max number of results to return in the response.
         public let maxResults: Int?
         /// The token for the next set of results, or null if there are no more results.
@@ -2026,6 +2111,16 @@ extension Nimble {
             self.principalId = principalId
             self.states = states
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.principalId, key: "principalId")
+            request.encodeQuery(self.states, key: "states")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -2054,12 +2149,6 @@ extension Nimble {
     }
 
     public struct ListStreamingImagesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "owner", location: .querystring("owner")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// Filter this request to streaming images with the given owner
@@ -2071,6 +2160,14 @@ extension Nimble {
             self.nextToken = nextToken
             self.owner = owner
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.owner, key: "owner")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2094,12 +2191,6 @@ extension Nimble {
     }
 
     public struct ListStreamingSessionBackupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "ownedBy", location: .querystring("ownedBy")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The user ID of the user that owns the streaming session.
@@ -2111,6 +2202,14 @@ extension Nimble {
             self.nextToken = nextToken
             self.ownedBy = ownedBy
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.ownedBy, key: "ownedBy")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2134,14 +2233,6 @@ extension Nimble {
     }
 
     public struct ListStreamingSessionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createdBy", location: .querystring("createdBy")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "ownedBy", location: .querystring("ownedBy")),
-            AWSMemberEncoding(label: "sessionIds", location: .querystring("sessionIds")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Filters the request to streaming sessions created by the given user.
         public let createdBy: String?
         /// The token for the next set of results, or null if there are no more results.
@@ -2159,6 +2250,16 @@ extension Nimble {
             self.ownedBy = ownedBy
             self.sessionIds = sessionIds
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.createdBy, key: "createdBy")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.ownedBy, key: "ownedBy")
+            request.encodeQuery(self.sessionIds, key: "sessionIds")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2182,14 +2283,6 @@ extension Nimble {
     }
 
     public struct ListStudioComponentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "states", location: .querystring("states")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId")),
-            AWSMemberEncoding(label: "types", location: .querystring("types"))
-        ]
-
         /// The max number of results to return in the response.
         public let maxResults: Int?
         /// The token for the next set of results, or null if there are no more results.
@@ -2207,6 +2300,16 @@ extension Nimble {
             self.states = states
             self.studioId = studioId
             self.types = types
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.states, key: "states")
+            request.encodePath(self.studioId, key: "studioId")
+            request.encodeQuery(self.types, key: "types")
         }
 
         public func validate(name: String) throws {
@@ -2235,12 +2338,6 @@ extension Nimble {
     }
 
     public struct ListStudioMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The max number of results to return in the response.
         public let maxResults: Int?
         /// The token for the next set of results, or null if there are no more results.
@@ -2252,6 +2349,14 @@ extension Nimble {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -2280,15 +2385,17 @@ extension Nimble {
     }
 
     public struct ListStudiosRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2312,15 +2419,17 @@ extension Nimble {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource for which you want to list tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2374,12 +2483,6 @@ extension Nimble {
     }
 
     public struct PutLaunchProfileMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The ID of the identity store.
@@ -2397,6 +2500,16 @@ extension Nimble {
             self.launchProfileId = launchProfileId
             self.members = members
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encode(self.identityStoreId, forKey: .identityStoreId)
+            request.encodePath(self.launchProfileId, key: "launchProfileId")
+            try container.encode(self.members, forKey: .members)
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -2417,11 +2530,6 @@ extension Nimble {
     }
 
     public struct PutStudioMembersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The ID of the identity store.
@@ -2436,6 +2544,15 @@ extension Nimble {
             self.identityStoreId = identityStoreId
             self.members = members
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encode(self.identityStoreId, forKey: .identityStoreId)
+            try container.encode(self.members, forKey: .members)
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -2516,12 +2633,6 @@ extension Nimble {
     }
 
     public struct StartStreamingSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The ID of the backup.
         public let backupId: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
@@ -2536,6 +2647,15 @@ extension Nimble {
             self.clientToken = clientToken
             self.sessionId = sessionId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.backupId, forKey: .backupId)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            request.encodePath(self.sessionId, key: "sessionId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -2561,11 +2681,6 @@ extension Nimble {
     }
 
     public struct StartStudioSSOConfigurationRepairRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The studio ID.
@@ -2574,6 +2689,13 @@ extension Nimble {
         public init(clientToken: String? = StartStudioSSOConfigurationRepairRequest.idempotencyToken(), studioId: String) {
             self.clientToken = clientToken
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -2598,12 +2720,6 @@ extension Nimble {
     }
 
     public struct StopStreamingSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The streaming session ID for the StopStreamingSessionRequest.
@@ -2618,6 +2734,15 @@ extension Nimble {
             self.sessionId = sessionId
             self.studioId = studioId
             self.volumeRetentionMode = volumeRetentionMode
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            request.encodePath(self.sessionId, key: "sessionId")
+            request.encodePath(self.studioId, key: "studioId")
+            try container.encodeIfPresent(self.volumeRetentionMode, forKey: .volumeRetentionMode)
         }
 
         public func validate(name: String) throws {
@@ -3414,10 +3539,6 @@ extension Nimble {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
         public let resourceArn: String
         /// A collection of labels, in the form of key-value pairs, that apply to this resource.
@@ -3426,6 +3547,13 @@ extension Nimble {
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3438,11 +3566,6 @@ extension Nimble {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// Identifies the Amazon Resource Name(ARN) key from which you are removing tags.
         public let resourceArn: String
         /// One or more tag keys. Specify only the tag keys, not the tag values.
@@ -3453,6 +3576,13 @@ extension Nimble {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -3461,13 +3591,6 @@ extension Nimble {
     }
 
     public struct UpdateLaunchProfileMemberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
-            AWSMemberEncoding(label: "principalId", location: .uri("principalId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The ID of the launch profile used to control access from the streaming session.
@@ -3485,6 +3608,16 @@ extension Nimble {
             self.persona = persona
             self.principalId = principalId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            request.encodePath(self.launchProfileId, key: "launchProfileId")
+            try container.encode(self.persona, forKey: .persona)
+            request.encodePath(self.principalId, key: "principalId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -3511,12 +3644,6 @@ extension Nimble {
     }
 
     public struct UpdateLaunchProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "launchProfileId", location: .uri("launchProfileId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The description.
@@ -3543,6 +3670,19 @@ extension Nimble {
             self.streamConfiguration = streamConfiguration
             self.studioComponentIds = studioComponentIds
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.launchProfileId, key: "launchProfileId")
+            try container.encodeIfPresent(self.launchProfileProtocolVersions, forKey: .launchProfileProtocolVersions)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.streamConfiguration, forKey: .streamConfiguration)
+            try container.encodeIfPresent(self.studioComponentIds, forKey: .studioComponentIds)
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -3583,12 +3723,6 @@ extension Nimble {
     }
 
     public struct UpdateStreamingImageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "streamingImageId", location: .uri("streamingImageId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The description.
@@ -3606,6 +3740,16 @@ extension Nimble {
             self.name = name
             self.streamingImageId = streamingImageId
             self.studioId = studioId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.streamingImageId, key: "streamingImageId")
+            request.encodePath(self.studioId, key: "studioId")
         }
 
         public func validate(name: String) throws {
@@ -3634,12 +3778,6 @@ extension Nimble {
     }
 
     public struct UpdateStudioComponentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioComponentId", location: .uri("studioComponentId")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
         public let clientToken: String?
         /// The configuration of the studio component, based on component type.
@@ -3681,6 +3819,24 @@ extension Nimble {
             self.studioId = studioId
             self.subtype = subtype
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.ec2SecurityGroupIds, forKey: .ec2SecurityGroupIds)
+            try container.encodeIfPresent(self.initializationScripts, forKey: .initializationScripts)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.runtimeRoleArn, forKey: .runtimeRoleArn)
+            try container.encodeIfPresent(self.scriptParameters, forKey: .scriptParameters)
+            try container.encodeIfPresent(self.secureInitializationRoleArn, forKey: .secureInitializationRoleArn)
+            request.encodePath(self.studioComponentId, key: "studioComponentId")
+            request.encodePath(self.studioId, key: "studioId")
+            try container.encodeIfPresent(self.subtype, forKey: .subtype)
+            try container.encodeIfPresent(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -3729,11 +3885,6 @@ extension Nimble {
     }
 
     public struct UpdateStudioRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .header("X-Amz-Client-Token")),
-            AWSMemberEncoding(label: "studioId", location: .uri("studioId"))
-        ]
-
         /// The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.
         public let adminRoleArn: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency.
@@ -3751,6 +3902,16 @@ extension Nimble {
             self.displayName = displayName
             self.studioId = studioId
             self.userRoleArn = userRoleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.adminRoleArn, forKey: .adminRoleArn)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            request.encodePath(self.studioId, key: "studioId")
+            try container.encodeIfPresent(self.userRoleArn, forKey: .userRoleArn)
         }
 
         public func validate(name: String) throws {

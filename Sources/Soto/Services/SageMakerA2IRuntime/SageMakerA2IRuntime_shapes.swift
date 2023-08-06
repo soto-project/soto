@@ -50,15 +50,17 @@ extension SageMakerA2IRuntime {
     // MARK: Shapes
 
     public struct DeleteHumanLoopRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "humanLoopName", location: .uri("HumanLoopName"))
-        ]
-
         /// The name of the human loop that you want to delete.
         public let humanLoopName: String
 
         public init(humanLoopName: String) {
             self.humanLoopName = humanLoopName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.humanLoopName, key: "HumanLoopName")
         }
 
         public func validate(name: String) throws {
@@ -75,15 +77,17 @@ extension SageMakerA2IRuntime {
     }
 
     public struct DescribeHumanLoopRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "humanLoopName", location: .uri("HumanLoopName"))
-        ]
-
         /// The name of the human loop that you want information about.
         public let humanLoopName: String
 
         public init(humanLoopName: String) {
             self.humanLoopName = humanLoopName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.humanLoopName, key: "HumanLoopName")
         }
 
         public func validate(name: String) throws {
@@ -215,15 +219,6 @@ extension SageMakerA2IRuntime {
     }
 
     public struct ListHumanLoopsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "_creationTimeAfter", location: .querystring("CreationTimeAfter")),
-            AWSMemberEncoding(label: "_creationTimeBefore", location: .querystring("CreationTimeBefore")),
-            AWSMemberEncoding(label: "flowDefinitionArn", location: .querystring("FlowDefinitionArn")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "sortOrder", location: .querystring("SortOrder"))
-        ]
-
         /// (Optional) The timestamp of the date when you want the human loops to begin in ISO 8601 format. For example, 2020-02-24.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTimeAfter: Date?
@@ -246,6 +241,17 @@ extension SageMakerA2IRuntime {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortOrder = sortOrder
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self._creationTimeAfter, key: "CreationTimeAfter")
+            request.encodeQuery(self._creationTimeBefore, key: "CreationTimeBefore")
+            request.encodeQuery(self.flowDefinitionArn, key: "FlowDefinitionArn")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.sortOrder, key: "SortOrder")
         }
 
         public func validate(name: String) throws {

@@ -109,15 +109,17 @@ extension SnowDeviceManagement {
     // MARK: Shapes
 
     public struct CancelTaskInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         /// The ID of the task that you are attempting to cancel. You can retrieve a task ID by using the ListTasks operation.
         public let taskId: String
 
         public init(taskId: String) {
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -245,10 +247,6 @@ extension SnowDeviceManagement {
     }
 
     public struct DescribeDeviceEc2Input: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "managedDeviceId", location: .uri("managedDeviceId"))
-        ]
-
         /// A list of instance IDs associated with the managed device.
         public let instanceIds: [String]
         /// The ID of the managed device.
@@ -257,6 +255,13 @@ extension SnowDeviceManagement {
         public init(instanceIds: [String], managedDeviceId: String) {
             self.instanceIds = instanceIds
             self.managedDeviceId = managedDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.instanceIds, forKey: .instanceIds)
+            request.encodePath(self.managedDeviceId, key: "managedDeviceId")
         }
 
         public func validate(name: String) throws {
@@ -283,15 +288,17 @@ extension SnowDeviceManagement {
     }
 
     public struct DescribeDeviceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "managedDeviceId", location: .uri("managedDeviceId"))
-        ]
-
         /// The ID of the device that you are checking the information of.
         public let managedDeviceId: String
 
         public init(managedDeviceId: String) {
             self.managedDeviceId = managedDeviceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.managedDeviceId, key: "managedDeviceId")
         }
 
         public func validate(name: String) throws {
@@ -356,11 +363,6 @@ extension SnowDeviceManagement {
     }
 
     public struct DescribeExecutionInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "managedDeviceId", location: .uri("managedDeviceId")),
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         /// The ID of the managed device.
         public let managedDeviceId: String
         /// The ID of the task that the action is describing.
@@ -369,6 +371,13 @@ extension SnowDeviceManagement {
         public init(managedDeviceId: String, taskId: String) {
             self.managedDeviceId = managedDeviceId
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.managedDeviceId, key: "managedDeviceId")
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -415,15 +424,17 @@ extension SnowDeviceManagement {
     }
 
     public struct DescribeTaskInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         /// The ID of the task to be described.
         public let taskId: String
 
         public init(taskId: String) {
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -666,13 +677,6 @@ extension SnowDeviceManagement {
     }
 
     public struct ListDeviceResourcesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "managedDeviceId", location: .uri("managedDeviceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "type", location: .querystring("type"))
-        ]
-
         /// The ID of the managed device that you are listing the resources of.
         public let managedDeviceId: String
         /// The maximum number of resources per page.
@@ -687,6 +691,15 @@ extension SnowDeviceManagement {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.managedDeviceId, key: "managedDeviceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.type, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -720,12 +733,6 @@ extension SnowDeviceManagement {
     }
 
     public struct ListDevicesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .querystring("jobId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The ID of the job used to order the device.
         public let jobId: String?
         /// The maximum number of devices to list per page.
@@ -737,6 +744,14 @@ extension SnowDeviceManagement {
             self.jobId = jobId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.jobId, key: "jobId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -770,13 +785,6 @@ extension SnowDeviceManagement {
     }
 
     public struct ListExecutionsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "state", location: .querystring("state")),
-            AWSMemberEncoding(label: "taskId", location: .querystring("taskId"))
-        ]
-
         /// The maximum number of tasks to list per page.
         public let maxResults: Int?
         /// A pagination token to continue to the next page of tasks.
@@ -791,6 +799,15 @@ extension SnowDeviceManagement {
             self.nextToken = nextToken
             self.state = state
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.state, key: "state")
+            request.encodeQuery(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -824,15 +841,17 @@ extension SnowDeviceManagement {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the device or task.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -852,12 +871,6 @@ extension SnowDeviceManagement {
     }
 
     public struct ListTasksInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "state", location: .querystring("state"))
-        ]
-
         /// The maximum number of tasks per page.
         public let maxResults: Int?
         /// A pagination token to continue to the next page of tasks.
@@ -869,6 +882,14 @@ extension SnowDeviceManagement {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.state, key: "state")
         }
 
         public func validate(name: String) throws {
@@ -1000,10 +1021,6 @@ extension SnowDeviceManagement {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the device or task.
         public let resourceArn: String
         /// Optional metadata that you assign to a resource. You can use tags to categorize a resource in different ways, such as by purpose, owner, or environment.
@@ -1012,6 +1029,13 @@ extension SnowDeviceManagement {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1049,11 +1073,6 @@ extension SnowDeviceManagement {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the device or task.
         public let resourceArn: String
         /// Optional metadata that you assign to a resource. You can use tags to categorize a resource in different ways, such as by purpose, owner, or environment.
@@ -1062,6 +1081,13 @@ extension SnowDeviceManagement {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         private enum CodingKeys: CodingKey {}

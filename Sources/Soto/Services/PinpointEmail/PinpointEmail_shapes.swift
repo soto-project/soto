@@ -192,10 +192,6 @@ extension PinpointEmail {
     }
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set that you want to add an event destination to.
         public let configurationSetName: String
         /// An object that defines the event destination.
@@ -207,6 +203,14 @@ extension PinpointEmail {
             self.configurationSetName = configurationSetName
             self.eventDestination = eventDestination
             self.eventDestinationName = eventDestinationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encode(self.eventDestination, forKey: .eventDestination)
+            try container.encode(self.eventDestinationName, forKey: .eventDestinationName)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -408,11 +412,6 @@ extension PinpointEmail {
     }
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName")),
-            AWSMemberEncoding(label: "eventDestinationName", location: .uri("EventDestinationName"))
-        ]
-
         /// The name of the configuration set that contains the event destination that you want to delete.
         public let configurationSetName: String
         /// The name of the event destination that you want to delete.
@@ -423,6 +422,13 @@ extension PinpointEmail {
             self.eventDestinationName = eventDestinationName
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            request.encodePath(self.eventDestinationName, key: "EventDestinationName")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -431,15 +437,17 @@ extension PinpointEmail {
     }
 
     public struct DeleteConfigurationSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set that you want to delete.
         public let configurationSetName: String
 
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -450,15 +458,17 @@ extension PinpointEmail {
     }
 
     public struct DeleteDedicatedIpPoolRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "poolName", location: .uri("PoolName"))
-        ]
-
         /// The name of the dedicated IP pool that you want to delete.
         public let poolName: String
 
         public init(poolName: String) {
             self.poolName = poolName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.poolName, key: "PoolName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -469,15 +479,17 @@ extension PinpointEmail {
     }
 
     public struct DeleteEmailIdentityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
-        ]
-
         /// The identity (that is, the email address or domain) that you want to delete from your Amazon Pinpoint account.
         public let emailIdentity: String
 
         public init(emailIdentity: String) {
             self.emailIdentity = emailIdentity
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -823,15 +835,17 @@ extension PinpointEmail {
     }
 
     public struct GetBlacklistReportsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "blacklistItemNames", location: .querystring("BlacklistItemNames"))
-        ]
-
         /// A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon Pinpoint or Amazon SES.
         public let blacklistItemNames: [String]
 
         public init(blacklistItemNames: [String]) {
             self.blacklistItemNames = blacklistItemNames
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.blacklistItemNames, key: "BlacklistItemNames")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -851,15 +865,17 @@ extension PinpointEmail {
     }
 
     public struct GetConfigurationSetEventDestinationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set that contains the event destination.
         public let configurationSetName: String
 
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -879,15 +895,17 @@ extension PinpointEmail {
     }
 
     public struct GetConfigurationSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set that you want to obtain more information about.
         public let configurationSetName: String
 
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -927,15 +945,17 @@ extension PinpointEmail {
     }
 
     public struct GetDedicatedIpRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ip", location: .uri("Ip"))
-        ]
-
         /// The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your Amazon Pinpoint account.
         public let ip: String
 
         public init(ip: String) {
             self.ip = ip
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ip, key: "Ip")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -955,12 +975,6 @@ extension PinpointEmail {
     }
 
     public struct GetDedicatedIpsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize")),
-            AWSMemberEncoding(label: "poolName", location: .querystring("PoolName"))
-        ]
-
         /// A token returned from a previous call to GetDedicatedIps to indicate the position of the dedicated IP pool in the list of IP pools.
         public let nextToken: String?
         /// The number of results to show in a single call to GetDedicatedIpsRequest. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
@@ -972,6 +986,14 @@ extension PinpointEmail {
             self.nextToken = nextToken
             self.pageSize = pageSize
             self.poolName = poolName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
+            request.encodeQuery(self.poolName, key: "PoolName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1028,15 +1050,17 @@ extension PinpointEmail {
     }
 
     public struct GetDeliverabilityTestReportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "reportId", location: .uri("ReportId"))
-        ]
-
         /// A unique string that identifies the predictive inbox placement test.
         public let reportId: String
 
         public init(reportId: String) {
             self.reportId = reportId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.reportId, key: "ReportId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1072,15 +1096,17 @@ extension PinpointEmail {
     }
 
     public struct GetDomainDeliverabilityCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId"))
-        ]
-
         /// The unique identifier for the campaign. Amazon Pinpoint automatically generates and assigns this identifier to a campaign. This value is not the same as the campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage by using the Amazon Pinpoint API or the Amazon Pinpoint console.
         public let campaignId: String
 
         public init(campaignId: String) {
             self.campaignId = campaignId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.campaignId, key: "CampaignId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1100,12 +1126,6 @@ extension PinpointEmail {
     }
 
     public struct GetDomainStatisticsReportRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .uri("Domain")),
-            AWSMemberEncoding(label: "endDate", location: .querystring("EndDate")),
-            AWSMemberEncoding(label: "startDate", location: .querystring("StartDate"))
-        ]
-
         /// The domain that you want to obtain deliverability metrics for.
         public let domain: String
         /// The last day (in Unix time) that you want to obtain domain deliverability metrics for. The EndDate that you specify has to be less than or equal to 30 days after the StartDate.
@@ -1117,6 +1137,14 @@ extension PinpointEmail {
             self.domain = domain
             self.endDate = endDate
             self.startDate = startDate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domain, key: "Domain")
+            request.encodeQuery(self.endDate, key: "EndDate")
+            request.encodeQuery(self.startDate, key: "StartDate")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1140,15 +1168,17 @@ extension PinpointEmail {
     }
 
     public struct GetEmailIdentityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
-        ]
-
         /// The email identity that you want to retrieve details for.
         public let emailIdentity: String
 
         public init(emailIdentity: String) {
             self.emailIdentity = emailIdentity
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1260,11 +1290,6 @@ extension PinpointEmail {
     }
 
     public struct ListConfigurationSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
         public let nextToken: String?
         /// The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
@@ -1273,6 +1298,13 @@ extension PinpointEmail {
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1296,11 +1328,6 @@ extension PinpointEmail {
     }
 
     public struct ListDedicatedIpPoolsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// A token returned from a previous call to ListDedicatedIpPools to indicate the position in the list of dedicated IP pools.
         public let nextToken: String?
         /// The number of results to show in a single call to ListDedicatedIpPools. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
@@ -1309,6 +1336,13 @@ extension PinpointEmail {
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1332,11 +1366,6 @@ extension PinpointEmail {
     }
 
     public struct ListDeliverabilityTestReportsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// A token returned from a previous call to ListDeliverabilityTestReports to indicate the position in the list of predictive inbox placement tests.
         public let nextToken: String?
         /// The number of results to show in a single call to ListDeliverabilityTestReports. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
@@ -1345,6 +1374,13 @@ extension PinpointEmail {
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1368,14 +1404,6 @@ extension PinpointEmail {
     }
 
     public struct ListDomainDeliverabilityCampaignsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "endDate", location: .querystring("EndDate")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize")),
-            AWSMemberEncoding(label: "startDate", location: .querystring("StartDate")),
-            AWSMemberEncoding(label: "subscribedDomain", location: .uri("SubscribedDomain"))
-        ]
-
         /// The last day, in Unix time format, that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.
         public let endDate: Date
         /// A token that’s returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of a campaign in the list of campaigns.
@@ -1393,6 +1421,16 @@ extension PinpointEmail {
             self.pageSize = pageSize
             self.startDate = startDate
             self.subscribedDomain = subscribedDomain
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endDate, key: "EndDate")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
+            request.encodeQuery(self.startDate, key: "StartDate")
+            request.encodePath(self.subscribedDomain, key: "SubscribedDomain")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1416,11 +1454,6 @@ extension PinpointEmail {
     }
 
     public struct ListEmailIdentitiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("PageSize"))
-        ]
-
         /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
         public let nextToken: String?
         /// The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
@@ -1429,6 +1462,13 @@ extension PinpointEmail {
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.pageSize, key: "PageSize")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1452,15 +1492,17 @@ extension PinpointEmail {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1632,10 +1674,6 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set that you want to associate with a dedicated IP pool.
         public let configurationSetName: String
         /// The name of the dedicated IP pool that you want to associate with the configuration set.
@@ -1649,6 +1687,14 @@ extension PinpointEmail {
             self.tlsPolicy = tlsPolicy
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encodeIfPresent(self.sendingPoolName, forKey: .sendingPoolName)
+            try container.encodeIfPresent(self.tlsPolicy, forKey: .tlsPolicy)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case sendingPoolName = "SendingPoolName"
             case tlsPolicy = "TlsPolicy"
@@ -1660,10 +1706,6 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetReputationOptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set that you want to enable or disable reputation metric tracking for.
         public let configurationSetName: String
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
@@ -1672,6 +1714,13 @@ extension PinpointEmail {
         public init(configurationSetName: String, reputationMetricsEnabled: Bool? = nil) {
             self.configurationSetName = configurationSetName
             self.reputationMetricsEnabled = reputationMetricsEnabled
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encodeIfPresent(self.reputationMetricsEnabled, forKey: .reputationMetricsEnabled)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1684,10 +1733,6 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetSendingOptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set that you want to enable or disable email sending for.
         public let configurationSetName: String
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
@@ -1696,6 +1741,13 @@ extension PinpointEmail {
         public init(configurationSetName: String, sendingEnabled: Bool? = nil) {
             self.configurationSetName = configurationSetName
             self.sendingEnabled = sendingEnabled
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encodeIfPresent(self.sendingEnabled, forKey: .sendingEnabled)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1708,10 +1760,6 @@ extension PinpointEmail {
     }
 
     public struct PutConfigurationSetTrackingOptionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName"))
-        ]
-
         /// The name of the configuration set that you want to add a custom tracking domain to.
         public let configurationSetName: String
         /// The domain that you want to use to track open and click events.
@@ -1720,6 +1768,13 @@ extension PinpointEmail {
         public init(configurationSetName: String, customRedirectDomain: String? = nil) {
             self.configurationSetName = configurationSetName
             self.customRedirectDomain = customRedirectDomain
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encodeIfPresent(self.customRedirectDomain, forKey: .customRedirectDomain)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1732,10 +1787,6 @@ extension PinpointEmail {
     }
 
     public struct PutDedicatedIpInPoolRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ip", location: .uri("Ip"))
-        ]
-
         /// The name of the IP pool that you want to add the dedicated IP address to. You have to specify an IP pool that already exists.
         public let destinationPoolName: String
         /// The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your Amazon Pinpoint account.
@@ -1744,6 +1795,13 @@ extension PinpointEmail {
         public init(destinationPoolName: String, ip: String) {
             self.destinationPoolName = destinationPoolName
             self.ip = ip
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.destinationPoolName, forKey: .destinationPoolName)
+            request.encodePath(self.ip, key: "Ip")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1756,10 +1814,6 @@ extension PinpointEmail {
     }
 
     public struct PutDedicatedIpWarmupAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ip", location: .uri("Ip"))
-        ]
-
         /// The dedicated IP address that you want to update the warm-up attributes for.
         public let ip: String
         /// The warm-up percentage that you want to associate with the dedicated IP address.
@@ -1768,6 +1822,13 @@ extension PinpointEmail {
         public init(ip: String, warmupPercentage: Int) {
             self.ip = ip
             self.warmupPercentage = warmupPercentage
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ip, key: "Ip")
+            try container.encode(self.warmupPercentage, forKey: .warmupPercentage)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1801,10 +1862,6 @@ extension PinpointEmail {
     }
 
     public struct PutEmailIdentityDkimAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
-        ]
-
         /// The email identity that you want to change the DKIM settings for.
         public let emailIdentity: String
         /// Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that Amazon Pinpoint sends from the identity are DKIM-signed. When you set this value to false, then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed.
@@ -1813,6 +1870,13 @@ extension PinpointEmail {
         public init(emailIdentity: String, signingEnabled: Bool? = nil) {
             self.emailIdentity = emailIdentity
             self.signingEnabled = signingEnabled
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
+            try container.encodeIfPresent(self.signingEnabled, forKey: .signingEnabled)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1825,10 +1889,6 @@ extension PinpointEmail {
     }
 
     public struct PutEmailIdentityFeedbackAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
-        ]
-
         /// Sets the feedback forwarding configuration for the identity. If the value is true, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you set this value to false, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying an Amazon SNS topic or another event destination. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events occur (even if this setting is disabled).
         public let emailForwardingEnabled: Bool?
         /// The email identity that you want to configure bounce and complaint feedback forwarding for.
@@ -1837,6 +1897,13 @@ extension PinpointEmail {
         public init(emailForwardingEnabled: Bool? = nil, emailIdentity: String) {
             self.emailForwardingEnabled = emailForwardingEnabled
             self.emailIdentity = emailIdentity
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.emailForwardingEnabled, forKey: .emailForwardingEnabled)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1849,10 +1916,6 @@ extension PinpointEmail {
     }
 
     public struct PutEmailIdentityMailFromAttributesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailIdentity", location: .uri("EmailIdentity"))
-        ]
-
         /// The action that you want Amazon Pinpoint to take if it can't read the required MX record when you send an email. When you set this value to UseDefaultValue, Amazon Pinpoint uses amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, Amazon Pinpoint returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
         public let behaviorOnMxFailure: BehaviorOnMxFailure?
         /// The verified email identity that you want to set up the custom MAIL FROM domain for.
@@ -1864,6 +1927,14 @@ extension PinpointEmail {
             self.behaviorOnMxFailure = behaviorOnMxFailure
             self.emailIdentity = emailIdentity
             self.mailFromDomain = mailFromDomain
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.behaviorOnMxFailure, forKey: .behaviorOnMxFailure)
+            request.encodePath(self.emailIdentity, key: "EmailIdentity")
+            try container.encodeIfPresent(self.mailFromDomain, forKey: .mailFromDomain)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2080,11 +2151,6 @@ extension PinpointEmail {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("TagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource that you want to remove one or more tags from.
         public let resourceArn: String
         /// The tags (tag keys) that you want to remove from the resource. When you specify a tag key, the action removes both that key and its associated tag value. To remove more than one tag from the resource, append the TagKeys parameter and argument for each additional tag to remove, separated by an ampersand. For example: /v1/email/tags?ResourceArn=ResourceArn&TagKeys=Key1&TagKeys=Key2
@@ -2095,6 +2161,13 @@ extension PinpointEmail {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "TagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -2103,11 +2176,6 @@ extension PinpointEmail {
     }
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri("ConfigurationSetName")),
-            AWSMemberEncoding(label: "eventDestinationName", location: .uri("EventDestinationName"))
-        ]
-
         /// The name of the configuration set that contains the event destination that you want to modify.
         public let configurationSetName: String
         /// An object that defines the event destination.
@@ -2119,6 +2187,14 @@ extension PinpointEmail {
             self.configurationSetName = configurationSetName
             self.eventDestination = eventDestination
             self.eventDestinationName = eventDestinationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+            try container.encode(self.eventDestination, forKey: .eventDestination)
+            request.encodePath(self.eventDestinationName, key: "EventDestinationName")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -527,13 +527,6 @@ extension LexRuntimeV2 {
     }
 
     public struct DeleteSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
-        ]
-
         /// The alias identifier in use for the bot that contains the session data.
         public let botAliasId: String
         /// The identifier of the bot that contains the session data.
@@ -548,6 +541,15 @@ extension LexRuntimeV2 {
             self.botId = botId
             self.localeId = localeId
             self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botAliasId, key: "botAliasId")
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.localeId, key: "localeId")
+            request.encodePath(self.sessionId, key: "sessionId")
         }
 
         public func validate(name: String) throws {
@@ -676,13 +678,6 @@ extension LexRuntimeV2 {
     }
 
     public struct GetSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
-        ]
-
         /// The alias identifier in use for the bot that contains the session data.
         public let botAliasId: String
         /// The identifier of the bot that contains the session data.
@@ -697,6 +692,15 @@ extension LexRuntimeV2 {
             self.botId = botId
             self.localeId = localeId
             self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botAliasId, key: "botAliasId")
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.localeId, key: "localeId")
+            request.encodePath(self.sessionId, key: "sessionId")
         }
 
         public func validate(name: String) throws {
@@ -961,14 +965,6 @@ extension LexRuntimeV2 {
     }
 
     public struct PutSessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
-            AWSMemberEncoding(label: "responseContentType", location: .header("ResponseContentType")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
-        ]
-
         /// The alias identifier of the bot that receives the session data.
         public let botAliasId: String
         /// The identifier of the bot that receives the session data.
@@ -995,6 +991,19 @@ extension LexRuntimeV2 {
             self.responseContentType = responseContentType
             self.sessionId = sessionId
             self.sessionState = sessionState
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botAliasId, key: "botAliasId")
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.messages, forKey: .messages)
+            try container.encodeIfPresent(self.requestAttributes, forKey: .requestAttributes)
+            request.encodeHeader(self.responseContentType, key: "ResponseContentType")
+            request.encodePath(self.sessionId, key: "sessionId")
+            try container.encode(self.sessionState, forKey: .sessionState)
         }
 
         public func validate(name: String) throws {
@@ -1049,26 +1058,19 @@ extension LexRuntimeV2 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.audioStream = response.decodePayload()
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-            self.messages = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-messages")
-            self.requestAttributes = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-request-attributes")
-            self.sessionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-session-id")
-            self.sessionState = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-session-state")
-
+            let container = try decoder.singleValueContainer()
+            self.audioStream = try container.decode(AWSHTTPBody.self)
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
+            self.messages = try response.decodeHeaderIfPresent(String.self, key: "x-amz-lex-messages")
+            self.requestAttributes = try response.decodeHeaderIfPresent(String.self, key: "x-amz-lex-request-attributes")
+            self.sessionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-lex-session-id")
+            self.sessionState = try response.decodeHeaderIfPresent(String.self, key: "x-amz-lex-session-state")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct RecognizeTextRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
-        ]
-
         /// The alias identifier in use for the bot that processes the request.
         public let botAliasId: String
         /// The identifier of the bot that processes the request.
@@ -1092,6 +1094,18 @@ extension LexRuntimeV2 {
             self.sessionId = sessionId
             self.sessionState = sessionState
             self.text = text
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.botAliasId, key: "botAliasId")
+            request.encodePath(self.botId, key: "botId")
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encodeIfPresent(self.requestAttributes, forKey: .requestAttributes)
+            request.encodePath(self.sessionId, key: "sessionId")
+            try container.encodeIfPresent(self.sessionState, forKey: .sessionState)
+            try container.encode(self.text, forKey: .text)
         }
 
         public func validate(name: String) throws {
@@ -1150,21 +1164,8 @@ extension LexRuntimeV2 {
         }
     }
 
-    public struct RecognizeUtteranceRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "inputStream"
+    public struct RecognizeUtteranceRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
-            AWSMemberEncoding(label: "requestAttributes", location: .header("x-amz-lex-request-attributes")),
-            AWSMemberEncoding(label: "requestContentType", location: .header("Content-Type")),
-            AWSMemberEncoding(label: "responseContentType", location: .header("Response-Content-Type")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId")),
-            AWSMemberEncoding(label: "sessionState", location: .header("x-amz-lex-session-state"))
-        ]
-
         /// The alias identifier in use for the bot that should receive the request.
         public let botAliasId: String
         /// The identifier of the bot that should receive the request.
@@ -1194,6 +1195,20 @@ extension LexRuntimeV2 {
             self.responseContentType = responseContentType
             self.sessionId = sessionId
             self.sessionState = sessionState
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.botAliasId, key: "botAliasId")
+            request.encodePath(self.botId, key: "botId")
+            try container.encode(self.inputStream)
+            request.encodePath(self.localeId, key: "localeId")
+            request.encodeHeader(self.requestAttributes, key: "x-amz-lex-request-attributes")
+            request.encodeHeader(self.requestContentType, key: "Content-Type")
+            request.encodeHeader(self.responseContentType, key: "Response-Content-Type")
+            request.encodePath(self.sessionId, key: "sessionId")
+            request.encodeHeader(self.sessionState, key: "x-amz-lex-session-state")
         }
 
         public func validate(name: String) throws {
@@ -1249,17 +1264,17 @@ extension LexRuntimeV2 {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.audioStream = response.decodePayload()
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-            self.inputMode = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-input-mode")
-            self.inputTranscript = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-input-transcript")
-            self.interpretations = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-interpretations")
-            self.messages = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-messages")
-            self.recognizedBotMember = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-recognized-bot-member")
-            self.requestAttributes = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-request-attributes")
-            self.sessionId = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-session-id")
-            self.sessionState = try response.decodeIfPresent(String.self, forHeader: "x-amz-lex-session-state")
-
+            let container = try decoder.singleValueContainer()
+            self.audioStream = try container.decode(AWSHTTPBody.self)
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
+            self.inputMode = try response.decodeHeaderIfPresent(String.self, key: "x-amz-lex-input-mode")
+            self.inputTranscript = try response.decodeHeaderIfPresent(String.self, key: "x-amz-lex-input-transcript")
+            self.interpretations = try response.decodeHeaderIfPresent(String.self, key: "x-amz-lex-interpretations")
+            self.messages = try response.decodeHeaderIfPresent(String.self, key: "x-amz-lex-messages")
+            self.recognizedBotMember = try response.decodeHeaderIfPresent(String.self, key: "x-amz-lex-recognized-bot-member")
+            self.requestAttributes = try response.decodeHeaderIfPresent(String.self, key: "x-amz-lex-request-attributes")
+            self.sessionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-lex-session-id")
+            self.sessionState = try response.decodeHeaderIfPresent(String.self, key: "x-amz-lex-session-state")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1488,17 +1503,7 @@ extension LexRuntimeV2 {
         }
     }
 
-    public struct StartConversationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "requestEventStream"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "botAliasId", location: .uri("botAliasId")),
-            AWSMemberEncoding(label: "botId", location: .uri("botId")),
-            AWSMemberEncoding(label: "conversationMode", location: .header("x-amz-lex-conversation-mode")),
-            AWSMemberEncoding(label: "localeId", location: .uri("localeId")),
-            AWSMemberEncoding(label: "sessionId", location: .uri("sessionId"))
-        ]
-
+    public struct StartConversationRequest: AWSEncodableShape {
         /// The alias identifier in use for the bot that processes the request.
         public let botAliasId: String
         /// The identifier of the bot to process the request.
@@ -1519,6 +1524,17 @@ extension LexRuntimeV2 {
             self.localeId = localeId
             self.requestEventStream = requestEventStream
             self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.botAliasId, key: "botAliasId")
+            request.encodePath(self.botId, key: "botId")
+            request.encodeHeader(self.conversationMode, key: "x-amz-lex-conversation-mode")
+            request.encodePath(self.localeId, key: "localeId")
+            try container.encode(self.requestEventStream)
+            request.encodePath(self.sessionId, key: "sessionId")
         }
 
         public func validate(name: String) throws {
@@ -1544,9 +1560,8 @@ extension LexRuntimeV2 {
         }
 
         public init(from decoder: Decoder) throws {
-            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.responseEventStream = response.decodeEventStream()
-
+            let container = try decoder.singleValueContainer()
+            self.responseEventStream = try container.decode(AWSEventStream<StartConversationResponseEventStream>.self)
         }
 
         private enum CodingKeys: CodingKey {}

@@ -50,12 +50,6 @@ extension SSO {
     }
 
     public struct GetRoleCredentialsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessToken", location: .header("x-amz-sso_bearer_token")),
-            AWSMemberEncoding(label: "accountId", location: .querystring("account_id")),
-            AWSMemberEncoding(label: "roleName", location: .querystring("role_name"))
-        ]
-
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
         public let accessToken: String
         /// The identifier for the AWS account that is assigned to the user.
@@ -67,6 +61,14 @@ extension SSO {
             self.accessToken = accessToken
             self.accountId = accountId
             self.roleName = roleName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accessToken, key: "x-amz-sso_bearer_token")
+            request.encodeQuery(self.accountId, key: "account_id")
+            request.encodeQuery(self.roleName, key: "role_name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -86,13 +88,6 @@ extension SSO {
     }
 
     public struct ListAccountRolesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessToken", location: .header("x-amz-sso_bearer_token")),
-            AWSMemberEncoding(label: "accountId", location: .querystring("account_id")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_result")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
-        ]
-
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
         public let accessToken: String
         /// The identifier for the AWS account that is assigned to the user.
@@ -107,6 +102,15 @@ extension SSO {
             self.accountId = accountId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accessToken, key: "x-amz-sso_bearer_token")
+            request.encodeQuery(self.accountId, key: "account_id")
+            request.encodeQuery(self.maxResults, key: "max_result")
+            request.encodeQuery(self.nextToken, key: "next_token")
         }
 
         public func validate(name: String) throws {
@@ -135,12 +139,6 @@ extension SSO {
     }
 
     public struct ListAccountsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessToken", location: .header("x-amz-sso_bearer_token")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max_result")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next_token"))
-        ]
-
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
         public let accessToken: String
         /// This is the number of items clients can request per page.
@@ -152,6 +150,14 @@ extension SSO {
             self.accessToken = accessToken
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accessToken, key: "x-amz-sso_bearer_token")
+            request.encodeQuery(self.maxResults, key: "max_result")
+            request.encodeQuery(self.nextToken, key: "next_token")
         }
 
         public func validate(name: String) throws {
@@ -180,15 +186,17 @@ extension SSO {
     }
 
     public struct LogoutRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "accessToken", location: .header("x-amz-sso_bearer_token"))
-        ]
-
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
         public let accessToken: String
 
         public init(accessToken: String) {
             self.accessToken = accessToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accessToken, key: "x-amz-sso_bearer_token")
         }
 
         private enum CodingKeys: CodingKey {}

@@ -463,15 +463,17 @@ extension OpenSearch {
     }
 
     public struct AcceptInboundConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
-        ]
-
         /// The ID of the inbound connection to accept.
         public let connectionId: String
 
         public init(connectionId: String) {
             self.connectionId = connectionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectionId, key: "ConnectionId")
         }
 
         public func validate(name: String) throws {
@@ -654,11 +656,6 @@ extension OpenSearch {
     }
 
     public struct AssociatePackageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
-        ]
-
         /// Name of the domain to associate the package with.
         public let domainName: String
         /// Internal ID of the package to associate with a domain. Use DescribePackages to find this value.
@@ -667,6 +664,13 @@ extension OpenSearch {
         public init(domainName: String, packageID: String) {
             self.domainName = domainName
             self.packageID = packageID
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.packageID, key: "PackageID")
         }
 
         public func validate(name: String) throws {
@@ -692,10 +696,6 @@ extension OpenSearch {
     }
 
     public struct AuthorizeVpcEndpointAccessRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The Amazon Web Services account ID to grant access to.
         public let account: String
         /// The name of the OpenSearch Service domain to provide access to.
@@ -704,6 +704,13 @@ extension OpenSearch {
         public init(account: String, domainName: String) {
             self.account = account
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.account, forKey: .account)
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -1525,15 +1532,17 @@ extension OpenSearch {
     }
 
     public struct DeleteDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The name of the domain you want to permanently delete.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -1559,15 +1568,17 @@ extension OpenSearch {
     }
 
     public struct DeleteInboundConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
-        ]
-
         /// The ID of the inbound connection to permanently delete.
         public let connectionId: String
 
         public init(connectionId: String) {
             self.connectionId = connectionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectionId, key: "ConnectionId")
         }
 
         public func validate(name: String) throws {
@@ -1593,15 +1604,17 @@ extension OpenSearch {
     }
 
     public struct DeleteOutboundConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
-        ]
-
         /// The ID of the outbound connection you want to permanently delete.
         public let connectionId: String
 
         public init(connectionId: String) {
             self.connectionId = connectionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectionId, key: "ConnectionId")
         }
 
         public func validate(name: String) throws {
@@ -1627,15 +1640,17 @@ extension OpenSearch {
     }
 
     public struct DeletePackageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
-        ]
-
         /// The internal ID of the package you want to delete. Use DescribePackages to find this value.
         public let packageID: String
 
         public init(packageID: String) {
             self.packageID = packageID
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.packageID, key: "PackageID")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1655,15 +1670,17 @@ extension OpenSearch {
     }
 
     public struct DeleteVpcEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "vpcEndpointId", location: .uri("VpcEndpointId"))
-        ]
-
         /// The unique identifier of the endpoint.
         public let vpcEndpointId: String
 
         public init(vpcEndpointId: String) {
             self.vpcEndpointId = vpcEndpointId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.vpcEndpointId, key: "VpcEndpointId")
         }
 
         public func validate(name: String) throws {
@@ -1689,10 +1706,6 @@ extension OpenSearch {
     }
 
     public struct DescribeDomainAutoTunesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// Name of the domain that you want Auto-Tune details about.
         public let domainName: String
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -1704,6 +1717,14 @@ extension OpenSearch {
             self.domainName = domainName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
         }
 
         public func validate(name: String) throws {
@@ -1737,11 +1758,6 @@ extension OpenSearch {
     }
 
     public struct DescribeDomainChangeProgressRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "changeId", location: .querystring("changeid")),
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The specific change ID for which you want to get progress information. If omitted, the request returns information about the most recent configuration change.
         public let changeId: String?
         /// The name of the domain to get progress information for.
@@ -1750,6 +1766,13 @@ extension OpenSearch {
         public init(changeId: String? = nil, domainName: String) {
             self.changeId = changeId
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.changeId, key: "changeid")
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -1778,15 +1801,17 @@ extension OpenSearch {
     }
 
     public struct DescribeDomainConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// Name of the OpenSearch Service domain configuration that you want to describe.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -1812,15 +1837,17 @@ extension OpenSearch {
     }
 
     public struct DescribeDomainHealthRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The name of the domain.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -1894,15 +1921,17 @@ extension OpenSearch {
     }
 
     public struct DescribeDomainNodesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The name of the domain.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -1928,15 +1957,17 @@ extension OpenSearch {
     }
 
     public struct DescribeDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The name of the domain that you want information about.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -1996,12 +2027,6 @@ extension OpenSearch {
     }
 
     public struct DescribeDryRunProgressRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "dryRunId", location: .querystring("dryRunId")),
-            AWSMemberEncoding(label: "loadDryRunConfig", location: .querystring("loadDryRunConfig"))
-        ]
-
         /// The name of the domain.
         public let domainName: String
         /// The unique identifier of the dry run.
@@ -2013,6 +2038,14 @@ extension OpenSearch {
             self.domainName = domainName
             self.dryRunId = dryRunId
             self.loadDryRunConfig = loadDryRunConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.dryRunId, key: "dryRunId")
+            request.encodeQuery(self.loadDryRunConfig, key: "loadDryRunConfig")
         }
 
         public func validate(name: String) throws {
@@ -2094,12 +2127,6 @@ extension OpenSearch {
     }
 
     public struct DescribeInstanceTypeLimitsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .querystring("domainName")),
-            AWSMemberEncoding(label: "engineVersion", location: .uri("EngineVersion")),
-            AWSMemberEncoding(label: "instanceType", location: .uri("InstanceType"))
-        ]
-
         /// The name of the domain. Only specify if you need the limits for an existing domain.
         public let domainName: String?
         /// Version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
@@ -2111,6 +2138,14 @@ extension OpenSearch {
             self.domainName = domainName
             self.engineVersion = engineVersion
             self.instanceType = instanceType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domainName, key: "domainName")
+            request.encodePath(self.engineVersion, key: "EngineVersion")
+            request.encodePath(self.instanceType, key: "InstanceType")
         }
 
         public func validate(name: String) throws {
@@ -2253,12 +2288,6 @@ extension OpenSearch {
     }
 
     public struct DescribeReservedInstanceOfferingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "reservedInstanceOfferingId", location: .querystring("offeringId"))
-        ]
-
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
         /// If your initial DescribeReservedInstanceOfferings operation returns a nextToken, you can include the returned nextToken in subsequent DescribeReservedInstanceOfferings operations, which returns results in the next page.
@@ -2270,6 +2299,14 @@ extension OpenSearch {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.reservedInstanceOfferingId = reservedInstanceOfferingId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.reservedInstanceOfferingId, key: "offeringId")
         }
 
         public func validate(name: String) throws {
@@ -2300,12 +2337,6 @@ extension OpenSearch {
     }
 
     public struct DescribeReservedInstancesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "reservedInstanceId", location: .querystring("reservationId"))
-        ]
-
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
         /// If your initial DescribeReservedInstances operation returns a nextToken, you can include the returned nextToken in subsequent DescribeReservedInstances operations, which returns results in the next page.
@@ -2317,6 +2348,14 @@ extension OpenSearch {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.reservedInstanceId = reservedInstanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.reservedInstanceId, key: "reservationId")
         }
 
         public func validate(name: String) throws {
@@ -2385,11 +2424,6 @@ extension OpenSearch {
     }
 
     public struct DissociatePackageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
-        ]
-
         /// Name of the domain to dissociate the package from.
         public let domainName: String
         /// Internal ID of the package to dissociate from the domain. Use ListPackagesForDomain to find this value.
@@ -2398,6 +2432,13 @@ extension OpenSearch {
         public init(domainName: String, packageID: String) {
             self.domainName = domainName
             self.packageID = packageID
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.packageID, key: "PackageID")
         }
 
         public func validate(name: String) throws {
@@ -3005,15 +3046,17 @@ extension OpenSearch {
     }
 
     public struct GetCompatibleVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .querystring("domainName"))
-        ]
-
         /// The name of an existing domain. Provide this parameter to limit the results to a single domain.
         public let domainName: String?
 
         public init(domainName: String? = nil) {
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domainName, key: "domainName")
         }
 
         public func validate(name: String) throws {
@@ -3039,12 +3082,6 @@ extension OpenSearch {
     }
 
     public struct GetPackageVersionHistoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
-        ]
-
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
         /// If your initial GetPackageVersionHistory operation returns a nextToken, you can include the returned nextToken in subsequent GetPackageVersionHistory operations, which returns results in the next page.
@@ -3056,6 +3093,14 @@ extension OpenSearch {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.packageID = packageID
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.packageID, key: "PackageID")
         }
 
         public func validate(name: String) throws {
@@ -3087,12 +3132,6 @@ extension OpenSearch {
     }
 
     public struct GetUpgradeHistoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of an existing domain.
         public let domainName: String
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -3104,6 +3143,14 @@ extension OpenSearch {
             self.domainName = domainName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3134,15 +3181,17 @@ extension OpenSearch {
     }
 
     public struct GetUpgradeStatusRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The domain of the domain to get upgrade status information for.
         public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -3314,15 +3363,17 @@ extension OpenSearch {
     }
 
     public struct ListDomainNamesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "engineType", location: .querystring("engineType"))
-        ]
-
         /// Filters the output by domain engine type.
         public let engineType: EngineType?
 
         public init(engineType: EngineType? = nil) {
             self.engineType = engineType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.engineType, key: "engineType")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3342,12 +3393,6 @@ extension OpenSearch {
     }
 
     public struct ListDomainsForPackageRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "packageID", location: .uri("PackageID"))
-        ]
-
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
         /// If your initial ListDomainsForPackage operation returns a nextToken, you can include the returned nextToken in subsequent ListDomainsForPackage operations, which returns results in the next page.
@@ -3359,6 +3404,14 @@ extension OpenSearch {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.packageID = packageID
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.packageID, key: "PackageID")
         }
 
         public func validate(name: String) throws {
@@ -3386,15 +3439,6 @@ extension OpenSearch {
     }
 
     public struct ListInstanceTypeDetailsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .querystring("domainName")),
-            AWSMemberEncoding(label: "engineVersion", location: .uri("EngineVersion")),
-            AWSMemberEncoding(label: "instanceType", location: .querystring("instanceType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "retrieveAZs", location: .querystring("retrieveAZs"))
-        ]
-
         /// The name of the domain.
         public let domainName: String?
         /// The version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
@@ -3415,6 +3459,17 @@ extension OpenSearch {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.retrieveAZs = retrieveAZs
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domainName, key: "domainName")
+            request.encodePath(self.engineVersion, key: "EngineVersion")
+            request.encodeQuery(self.instanceType, key: "instanceType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.retrieveAZs, key: "retrieveAZs")
         }
 
         public func validate(name: String) throws {
@@ -3451,12 +3506,6 @@ extension OpenSearch {
     }
 
     public struct ListPackagesForDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the domain for which you want to list associated packages.
         public let domainName: String
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -3468,6 +3517,14 @@ extension OpenSearch {
             self.domainName = domainName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3498,12 +3555,6 @@ extension OpenSearch {
     }
 
     public struct ListScheduledActionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the domain.
         public let domainName: String
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -3515,6 +3566,14 @@ extension OpenSearch {
             self.domainName = domainName
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3545,15 +3604,17 @@ extension OpenSearch {
     }
 
     public struct ListTagsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "arn", location: .querystring("arn"))
-        ]
-
         /// Amazon Resource Name (ARN) for the domain to view tags for.
         public let arn: String
 
         public init(arn: String) {
             self.arn = arn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.arn, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -3579,11 +3640,6 @@ extension OpenSearch {
     }
 
     public struct ListVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
         public let maxResults: Int?
         /// If your initial ListVersions operation returns a nextToken, you can include the returned nextToken in subsequent ListVersions operations, which returns results in the next page.
@@ -3592,6 +3648,13 @@ extension OpenSearch {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3619,11 +3682,6 @@ extension OpenSearch {
     }
 
     public struct ListVpcEndpointAccessRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the OpenSearch Service domain to retrieve access information for.
         public let domainName: String
         /// If your initial ListVpcEndpointAccess operation returns a nextToken, you can include the returned nextToken in subsequent ListVpcEndpointAccess operations, which returns results in the next page.
@@ -3632,6 +3690,13 @@ extension OpenSearch {
         public init(domainName: String, nextToken: String? = nil) {
             self.domainName = domainName
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3661,11 +3726,6 @@ extension OpenSearch {
     }
 
     public struct ListVpcEndpointsForDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The name of the domain to list associated VPC endpoints for.
         public let domainName: String
         /// If your initial ListEndpointsForDomain operation returns a nextToken, you can include the returned nextToken in subsequent ListEndpointsForDomain operations, which returns results in the next page.
@@ -3674,6 +3734,13 @@ extension OpenSearch {
         public init(domainName: String, nextToken: String? = nil) {
             self.domainName = domainName
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -3703,15 +3770,17 @@ extension OpenSearch {
     }
 
     public struct ListVpcEndpointsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// If your initial ListVpcEndpoints operation returns a nextToken, you can include the returned nextToken in subsequent ListVpcEndpoints operations, which returns results in the next page.
         public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4131,15 +4200,17 @@ extension OpenSearch {
     }
 
     public struct RejectInboundConnectionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri("ConnectionId"))
-        ]
-
         /// The unique identifier of the inbound connection to reject.
         public let connectionId: String
 
         public init(connectionId: String) {
             self.connectionId = connectionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectionId, key: "ConnectionId")
         }
 
         public func validate(name: String) throws {
@@ -4294,10 +4365,6 @@ extension OpenSearch {
     }
 
     public struct RevokeVpcEndpointAccessRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The account ID to revoke access from.
         public let account: String
         /// The name of the OpenSearch Service domain.
@@ -4306,6 +4373,13 @@ extension OpenSearch {
         public init(account: String, domainName: String) {
             self.account = account
             self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.account, forKey: .account)
+            request.encodePath(self.domainName, key: "DomainName")
         }
 
         public func validate(name: String) throws {
@@ -4698,10 +4772,6 @@ extension OpenSearch {
     }
 
     public struct UpdateDomainConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// Identity and Access Management (IAM) access policy as a JSON-formatted string.
         public let accessPolicies: String?
         /// Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:    "rest.action.multi.allow_explicit_index": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether explicit references to indexes are allowed inside the body of HTTP requests. If you want to configure access policies for domain sub-resources, such as specific indexes and domain APIs, you must disable this property. Default is true.    "indices.fielddata.cache.size": "80"  - Note the use of a string rather than a boolean. Specifies the percentage of heap space allocated to field data. Default is unbounded.    "indices.query.bool.max_clause_count": "1024" - Note the use of a string rather than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses error.   For more information, see Advanced cluster parameters.
@@ -4758,6 +4828,29 @@ extension OpenSearch {
             self.snapshotOptions = snapshotOptions
             self.softwareUpdateOptions = softwareUpdateOptions
             self.vpcOptions = vpcOptions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accessPolicies, forKey: .accessPolicies)
+            try container.encodeIfPresent(self.advancedOptions, forKey: .advancedOptions)
+            try container.encodeIfPresent(self.advancedSecurityOptions, forKey: .advancedSecurityOptions)
+            try container.encodeIfPresent(self.autoTuneOptions, forKey: .autoTuneOptions)
+            try container.encodeIfPresent(self.clusterConfig, forKey: .clusterConfig)
+            try container.encodeIfPresent(self.cognitoOptions, forKey: .cognitoOptions)
+            try container.encodeIfPresent(self.domainEndpointOptions, forKey: .domainEndpointOptions)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.dryRun, forKey: .dryRun)
+            try container.encodeIfPresent(self.dryRunMode, forKey: .dryRunMode)
+            try container.encodeIfPresent(self.ebsOptions, forKey: .ebsOptions)
+            try container.encodeIfPresent(self.encryptionAtRestOptions, forKey: .encryptionAtRestOptions)
+            try container.encodeIfPresent(self.logPublishingOptions, forKey: .logPublishingOptions)
+            try container.encodeIfPresent(self.nodeToNodeEncryptionOptions, forKey: .nodeToNodeEncryptionOptions)
+            try container.encodeIfPresent(self.offPeakWindowOptions, forKey: .offPeakWindowOptions)
+            try container.encodeIfPresent(self.snapshotOptions, forKey: .snapshotOptions)
+            try container.encodeIfPresent(self.softwareUpdateOptions, forKey: .softwareUpdateOptions)
+            try container.encodeIfPresent(self.vpcOptions, forKey: .vpcOptions)
         }
 
         public func validate(name: String) throws {
@@ -4864,10 +4957,6 @@ extension OpenSearch {
     }
 
     public struct UpdateScheduledActionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
-        ]
-
         /// The unique identifier of the action to reschedule. To retrieve this ID, send a ListScheduledActions request.
         public let actionID: String
         /// The type of action to reschedule. Can be one of SERVICE_SOFTWARE_UPDATE, JVM_HEAP_SIZE_TUNING, or JVM_YOUNG_GEN_TUNING. To retrieve this value, send a ListScheduledActions request.
@@ -4885,6 +4974,16 @@ extension OpenSearch {
             self.desiredStartTime = desiredStartTime
             self.domainName = domainName
             self.scheduleAt = scheduleAt
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.actionID, forKey: .actionID)
+            try container.encode(self.actionType, forKey: .actionType)
+            try container.encodeIfPresent(self.desiredStartTime, forKey: .desiredStartTime)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.scheduleAt, forKey: .scheduleAt)
         }
 
         public func validate(name: String) throws {

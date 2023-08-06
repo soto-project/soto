@@ -1935,17 +1935,16 @@ extension Pinpoint {
         }
     }
 
-    public struct CreateAppRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "createApplicationRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createApplicationRequest", location: .body("CreateApplicationRequest"))
-        ]
-
+    public struct CreateAppRequest: AWSEncodableShape {
         public let createApplicationRequest: CreateApplicationRequest
 
         public init(createApplicationRequest: CreateApplicationRequest) {
             self.createApplicationRequest = createApplicationRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.createApplicationRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1959,8 +1958,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.applicationResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.applicationResponse = try container.decode(ApplicationResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1983,14 +1982,7 @@ extension Pinpoint {
         }
     }
 
-    public struct CreateCampaignRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "writeCampaignRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "writeCampaignRequest", location: .body("WriteCampaignRequest"))
-        ]
-
+    public struct CreateCampaignRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let writeCampaignRequest: WriteCampaignRequest
@@ -1998,6 +1990,13 @@ extension Pinpoint {
         public init(applicationId: String, writeCampaignRequest: WriteCampaignRequest) {
             self.applicationId = applicationId
             self.writeCampaignRequest = writeCampaignRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.writeCampaignRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2011,21 +2010,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.campaignResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.campaignResponse = try container.decode(CampaignResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateEmailTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "emailTemplateRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "emailTemplateRequest", location: .body("EmailTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
-        ]
-
+    public struct CreateEmailTemplateRequest: AWSEncodableShape {
         public let emailTemplateRequest: EmailTemplateRequest
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
@@ -2033,6 +2025,13 @@ extension Pinpoint {
         public init(emailTemplateRequest: EmailTemplateRequest, templateName: String) {
             self.emailTemplateRequest = emailTemplateRequest
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.emailTemplateRequest)
+            request.encodePath(self.templateName, key: "TemplateName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2046,21 +2045,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.createTemplateMessageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.createTemplateMessageBody = try container.decode(CreateTemplateMessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateExportJobRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "exportJobRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "exportJobRequest", location: .body("ExportJobRequest"))
-        ]
-
+    public struct CreateExportJobRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let exportJobRequest: ExportJobRequest
@@ -2068,6 +2060,13 @@ extension Pinpoint {
         public init(applicationId: String, exportJobRequest: ExportJobRequest) {
             self.applicationId = applicationId
             self.exportJobRequest = exportJobRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.exportJobRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2081,21 +2080,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.exportJobResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.exportJobResponse = try container.decode(ExportJobResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateImportJobRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "importJobRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "importJobRequest", location: .body("ImportJobRequest"))
-        ]
-
+    public struct CreateImportJobRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let importJobRequest: ImportJobRequest
@@ -2103,6 +2095,13 @@ extension Pinpoint {
         public init(applicationId: String, importJobRequest: ImportJobRequest) {
             self.applicationId = applicationId
             self.importJobRequest = importJobRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.importJobRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2116,21 +2115,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.importJobResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.importJobResponse = try container.decode(ImportJobResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateInAppTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "inAppTemplateRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "inAppTemplateRequest", location: .body("InAppTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
-        ]
-
+    public struct CreateInAppTemplateRequest: AWSEncodableShape {
         public let inAppTemplateRequest: InAppTemplateRequest
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
@@ -2138,6 +2130,13 @@ extension Pinpoint {
         public init(inAppTemplateRequest: InAppTemplateRequest, templateName: String) {
             self.inAppTemplateRequest = inAppTemplateRequest
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.inAppTemplateRequest)
+            request.encodePath(self.templateName, key: "TemplateName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2151,21 +2150,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.templateCreateMessageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.templateCreateMessageBody = try container.decode(TemplateCreateMessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateJourneyRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "writeJourneyRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "writeJourneyRequest", location: .body("WriteJourneyRequest"))
-        ]
-
+    public struct CreateJourneyRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let writeJourneyRequest: WriteJourneyRequest
@@ -2173,6 +2165,13 @@ extension Pinpoint {
         public init(applicationId: String, writeJourneyRequest: WriteJourneyRequest) {
             self.applicationId = applicationId
             self.writeJourneyRequest = writeJourneyRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.writeJourneyRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2186,21 +2185,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.journeyResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.journeyResponse = try container.decode(JourneyResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreatePushTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "pushNotificationTemplateRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body("PushNotificationTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
-        ]
-
+    public struct CreatePushTemplateRequest: AWSEncodableShape {
         public let pushNotificationTemplateRequest: PushNotificationTemplateRequest
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
@@ -2208,6 +2200,13 @@ extension Pinpoint {
         public init(pushNotificationTemplateRequest: PushNotificationTemplateRequest, templateName: String) {
             self.pushNotificationTemplateRequest = pushNotificationTemplateRequest
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.pushNotificationTemplateRequest)
+            request.encodePath(self.templateName, key: "TemplateName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2221,24 +2220,23 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.createTemplateMessageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.createTemplateMessageBody = try container.decode(CreateTemplateMessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateRecommenderConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "createRecommenderConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createRecommenderConfiguration", location: .body("CreateRecommenderConfiguration"))
-        ]
-
+    public struct CreateRecommenderConfigurationRequest: AWSEncodableShape {
         public let createRecommenderConfiguration: CreateRecommenderConfigurationShape
 
         public init(createRecommenderConfiguration: CreateRecommenderConfigurationShape) {
             self.createRecommenderConfiguration = createRecommenderConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.createRecommenderConfiguration)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2252,8 +2250,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.recommenderConfigurationResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.recommenderConfigurationResponse = try container.decode(RecommenderConfigurationResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2304,14 +2302,7 @@ extension Pinpoint {
         }
     }
 
-    public struct CreateSegmentRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "writeSegmentRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "writeSegmentRequest", location: .body("WriteSegmentRequest"))
-        ]
-
+    public struct CreateSegmentRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let writeSegmentRequest: WriteSegmentRequest
@@ -2319,6 +2310,13 @@ extension Pinpoint {
         public init(applicationId: String, writeSegmentRequest: WriteSegmentRequest) {
             self.applicationId = applicationId
             self.writeSegmentRequest = writeSegmentRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.writeSegmentRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2332,21 +2330,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.segmentResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.segmentResponse = try container.decode(SegmentResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateSmsTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "smsTemplateRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "smsTemplateRequest", location: .body("SMSTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
-        ]
-
+    public struct CreateSmsTemplateRequest: AWSEncodableShape {
         public let smsTemplateRequest: SMSTemplateRequest
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
@@ -2354,6 +2345,13 @@ extension Pinpoint {
         public init(smsTemplateRequest: SMSTemplateRequest, templateName: String) {
             self.smsTemplateRequest = smsTemplateRequest
             self.templateName = templateName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.smsTemplateRequest)
+            request.encodePath(self.templateName, key: "TemplateName")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2367,8 +2365,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.createTemplateMessageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.createTemplateMessageBody = try container.decode(CreateTemplateMessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2395,14 +2393,7 @@ extension Pinpoint {
         }
     }
 
-    public struct CreateVoiceTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "voiceTemplateRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "voiceTemplateRequest", location: .body("VoiceTemplateRequest"))
-        ]
-
+    public struct CreateVoiceTemplateRequest: AWSEncodableShape {
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         public let voiceTemplateRequest: VoiceTemplateRequest
@@ -2410,6 +2401,13 @@ extension Pinpoint {
         public init(templateName: String, voiceTemplateRequest: VoiceTemplateRequest) {
             self.templateName = templateName
             self.voiceTemplateRequest = voiceTemplateRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.templateName, key: "TemplateName")
+            try container.encode(self.voiceTemplateRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2423,8 +2421,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.createTemplateMessageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.createTemplateMessageBody = try container.decode(CreateTemplateMessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2597,15 +2595,17 @@ extension Pinpoint {
     }
 
     public struct DeleteAdmChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2619,23 +2619,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.admChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.admChannelResponse = try container.decode(ADMChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApnsChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2649,23 +2651,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.apnsChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.apnsChannelResponse = try container.decode(APNSChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApnsSandboxChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2679,23 +2683,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.apnsSandboxChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.apnsSandboxChannelResponse = try container.decode(APNSSandboxChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApnsVoipChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2709,23 +2715,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.apnsVoipChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.apnsVoipChannelResponse = try container.decode(APNSVoipChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteApnsVoipSandboxChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2739,23 +2747,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.apnsVoipSandboxChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.apnsVoipSandboxChannelResponse = try container.decode(APNSVoipSandboxChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteAppRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2769,23 +2779,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.applicationResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.applicationResponse = try container.decode(ApplicationResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteBaiduChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2799,19 +2811,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.baiduChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.baiduChannelResponse = try container.decode(BaiduChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the campaign.
@@ -2820,6 +2827,13 @@ extension Pinpoint {
         public init(applicationId: String, campaignId: String) {
             self.applicationId = applicationId
             self.campaignId = campaignId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.campaignId, key: "CampaignId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2833,23 +2847,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.campaignResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.campaignResponse = try container.decode(CampaignResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEmailChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2863,19 +2879,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.emailChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.emailChannelResponse = try container.decode(EmailChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEmailTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
@@ -2884,6 +2895,13 @@ extension Pinpoint {
         public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2897,19 +2915,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageBody = try container.decode(MessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "endpointId", location: .uri("EndpointId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the endpoint.
@@ -2918,6 +2931,13 @@ extension Pinpoint {
         public init(applicationId: String, endpointId: String) {
             self.applicationId = applicationId
             self.endpointId = endpointId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.endpointId, key: "EndpointId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2931,23 +2951,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.endpointResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.endpointResponse = try container.decode(EndpointResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEventStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2961,23 +2983,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.eventStream = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eventStream = try container.decode(EventStream.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteGcmChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2991,19 +3015,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.gcmChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.gcmChannelResponse = try container.decode(GCMChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteInAppTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
@@ -3012,6 +3031,13 @@ extension Pinpoint {
         public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3025,19 +3051,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageBody = try container.decode(MessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteJourneyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the journey.
@@ -3046,6 +3067,13 @@ extension Pinpoint {
         public init(applicationId: String, journeyId: String) {
             self.applicationId = applicationId
             self.journeyId = journeyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.journeyId, key: "JourneyId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3059,19 +3087,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.journeyResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.journeyResponse = try container.decode(JourneyResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePushTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
@@ -3080,6 +3103,13 @@ extension Pinpoint {
         public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3093,23 +3123,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageBody = try container.decode(MessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRecommenderConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderId", location: .uri("RecommenderId"))
-        ]
-
         /// The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
         public let recommenderId: String
 
         public init(recommenderId: String) {
             self.recommenderId = recommenderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.recommenderId, key: "RecommenderId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3123,19 +3155,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.recommenderConfigurationResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.recommenderConfigurationResponse = try container.decode(RecommenderConfigurationResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSegmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the segment.
@@ -3144,6 +3171,13 @@ extension Pinpoint {
         public init(applicationId: String, segmentId: String) {
             self.applicationId = applicationId
             self.segmentId = segmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.segmentId, key: "SegmentId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3157,23 +3191,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.segmentResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.segmentResponse = try container.decode(SegmentResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSmsChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3187,19 +3223,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.smsChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.smsChannelResponse = try container.decode(SMSChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteSmsTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
@@ -3208,6 +3239,13 @@ extension Pinpoint {
         public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3221,19 +3259,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageBody = try container.decode(MessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteUserEndpointsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the user.
@@ -3242,6 +3275,13 @@ extension Pinpoint {
         public init(applicationId: String, userId: String) {
             self.applicationId = applicationId
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.userId, key: "UserId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3255,23 +3295,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.endpointsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.endpointsResponse = try container.decode(EndpointsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVoiceChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3285,19 +3327,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.voiceChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.voiceChannelResponse = try container.decode(VoiceChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteVoiceTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
@@ -3306,6 +3343,13 @@ extension Pinpoint {
         public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3319,8 +3363,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageBody = try container.decode(MessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4526,15 +4570,17 @@ extension Pinpoint {
     }
 
     public struct GetAdmChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4548,23 +4594,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.admChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.admChannelResponse = try container.decode(ADMChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApnsChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4578,23 +4626,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.apnsChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.apnsChannelResponse = try container.decode(APNSChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApnsSandboxChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4608,23 +4658,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.apnsSandboxChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.apnsSandboxChannelResponse = try container.decode(APNSSandboxChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApnsVoipChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4638,23 +4690,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.apnsVoipChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.apnsVoipChannelResponse = try container.decode(APNSVoipChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApnsVoipSandboxChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4668,23 +4722,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.apnsVoipSandboxChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.apnsVoipSandboxChannelResponse = try container.decode(APNSVoipSandboxChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAppRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4698,23 +4754,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.applicationResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.applicationResponse = try container.decode(ApplicationResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApplicationDateRangeKpiRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring("end-time")),
-            AWSMemberEncoding(label: "kpiName", location: .uri("KpiName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring("start-time"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The last date and time to retrieve data for, as part of an inclusive date range that filters the query results. This value should be in extended ISO 8601 format and use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM UTC July 26, 2019.
@@ -4739,6 +4786,17 @@ extension Pinpoint {
             self.startTime = startTime
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self._endTime, key: "end-time")
+            request.encodePath(self.kpiName, key: "KpiName")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self._startTime, key: "start-time")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -4750,23 +4808,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.applicationDateRangeKpiResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.applicationDateRangeKpiResponse = try container.decode(ApplicationDateRangeKpiResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetApplicationSettingsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4780,19 +4840,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.applicationSettingsResource = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.applicationSettingsResource = try container.decode(ApplicationSettingsResource.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetAppsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring("token"))
-        ]
-
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
         public let pageSize: String?
         /// The NextToken string that specifies which page of results to return in a paginated response.
@@ -4801,6 +4856,13 @@ extension Pinpoint {
         public init(pageSize: String? = nil, token: String? = nil) {
             self.pageSize = pageSize
             self.token = token
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self.token, key: "token")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4814,23 +4876,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.applicationsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.applicationsResponse = try container.decode(ApplicationsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetBaiduChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4844,21 +4908,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.baiduChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.baiduChannelResponse = try container.decode(BaiduChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignActivitiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring("token"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the campaign.
@@ -4875,6 +4932,15 @@ extension Pinpoint {
             self.token = token
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.campaignId, key: "CampaignId")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self.token, key: "token")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -4886,24 +4952,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.activitiesResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.activitiesResponse = try container.decode(ActivitiesResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignDateRangeKpiRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring("end-time")),
-            AWSMemberEncoding(label: "kpiName", location: .uri("KpiName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring("start-time"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the campaign.
@@ -4931,6 +4987,18 @@ extension Pinpoint {
             self.startTime = startTime
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.campaignId, key: "CampaignId")
+            request.encodeQuery(self._endTime, key: "end-time")
+            request.encodePath(self.kpiName, key: "KpiName")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self._startTime, key: "start-time")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -4942,19 +5010,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.campaignDateRangeKpiResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.campaignDateRangeKpiResponse = try container.decode(CampaignDateRangeKpiResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the campaign.
@@ -4963,6 +5026,13 @@ extension Pinpoint {
         public init(applicationId: String, campaignId: String) {
             self.applicationId = applicationId
             self.campaignId = campaignId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.campaignId, key: "CampaignId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4976,20 +5046,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.campaignResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.campaignResponse = try container.decode(CampaignResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId")),
-            AWSMemberEncoding(label: "version", location: .uri("Version"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the campaign.
@@ -5003,6 +5067,14 @@ extension Pinpoint {
             self.version = version
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.campaignId, key: "CampaignId")
+            request.encodePath(self.version, key: "Version")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5014,21 +5086,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.campaignResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.campaignResponse = try container.decode(CampaignResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring("token"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the campaign.
@@ -5045,6 +5110,15 @@ extension Pinpoint {
             self.token = token
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.campaignId, key: "CampaignId")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self.token, key: "token")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5056,20 +5130,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.campaignsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.campaignsResponse = try container.decode(CampaignsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCampaignsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring("token"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -5081,6 +5149,14 @@ extension Pinpoint {
             self.applicationId = applicationId
             self.pageSize = pageSize
             self.token = token
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self.token, key: "token")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5094,23 +5170,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.campaignsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.campaignsResponse = try container.decode(CampaignsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetChannelsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5124,23 +5202,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.channelsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.channelsResponse = try container.decode(ChannelsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEmailChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5154,19 +5234,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.emailChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.emailChannelResponse = try container.decode(EmailChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEmailTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
@@ -5175,6 +5250,13 @@ extension Pinpoint {
         public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5188,19 +5270,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.emailTemplateResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.emailTemplateResponse = try container.decode(EmailTemplateResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEndpointRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "endpointId", location: .uri("EndpointId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the endpoint.
@@ -5209,6 +5286,13 @@ extension Pinpoint {
         public init(applicationId: String, endpointId: String) {
             self.applicationId = applicationId
             self.endpointId = endpointId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.endpointId, key: "EndpointId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5222,23 +5306,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.endpointResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.endpointResponse = try container.decode(EndpointResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetEventStreamRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5252,19 +5338,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.eventStream = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eventStream = try container.decode(EventStream.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetExportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the job.
@@ -5273,6 +5354,13 @@ extension Pinpoint {
         public init(applicationId: String, jobId: String) {
             self.applicationId = applicationId
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5286,20 +5374,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.exportJobResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.exportJobResponse = try container.decode(ExportJobResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetExportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring("token"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -5311,6 +5393,14 @@ extension Pinpoint {
             self.applicationId = applicationId
             self.pageSize = pageSize
             self.token = token
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self.token, key: "token")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5324,23 +5414,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.exportJobsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.exportJobsResponse = try container.decode(ExportJobsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetGcmChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5354,19 +5446,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.gcmChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.gcmChannelResponse = try container.decode(GCMChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetImportJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the job.
@@ -5375,6 +5462,13 @@ extension Pinpoint {
         public init(applicationId: String, jobId: String) {
             self.applicationId = applicationId
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5388,20 +5482,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.importJobResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.importJobResponse = try container.decode(ImportJobResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetImportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring("token"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -5415,6 +5503,14 @@ extension Pinpoint {
             self.token = token
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self.token, key: "token")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5426,19 +5522,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.importJobsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.importJobsResponse = try container.decode(ImportJobsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetInAppMessagesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "endpointId", location: .uri("EndpointId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the endpoint.
@@ -5447,6 +5538,13 @@ extension Pinpoint {
         public init(applicationId: String, endpointId: String) {
             self.applicationId = applicationId
             self.endpointId = endpointId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.endpointId, key: "EndpointId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5460,19 +5558,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.inAppMessagesResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.inAppMessagesResponse = try container.decode(InAppMessagesResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetInAppTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
@@ -5481,6 +5574,13 @@ extension Pinpoint {
         public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5494,24 +5594,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.inAppTemplateResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.inAppTemplateResponse = try container.decode(InAppTemplateResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyDateRangeKpiRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "_endTime", location: .querystring("end-time")),
-            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId")),
-            AWSMemberEncoding(label: "kpiName", location: .uri("KpiName")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "_startTime", location: .querystring("start-time"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The last date and time to retrieve data for, as part of an inclusive date range that filters the query results. This value should be in extended ISO 8601 format and use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM UTC July 26, 2019.
@@ -5539,6 +5629,18 @@ extension Pinpoint {
             self.startTime = startTime
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self._endTime, key: "end-time")
+            request.encodePath(self.journeyId, key: "JourneyId")
+            request.encodePath(self.kpiName, key: "KpiName")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self._startTime, key: "start-time")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5550,22 +5652,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.journeyDateRangeKpiResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.journeyDateRangeKpiResponse = try container.decode(JourneyDateRangeKpiResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyExecutionActivityMetricsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "journeyActivityId", location: .uri("JourneyActivityId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the journey activity.
@@ -5585,6 +5679,16 @@ extension Pinpoint {
             self.pageSize = pageSize
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.journeyActivityId, key: "JourneyActivityId")
+            request.encodePath(self.journeyId, key: "JourneyId")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.pageSize, key: "page-size")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5596,21 +5700,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.journeyExecutionActivityMetricsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.journeyExecutionActivityMetricsResponse = try container.decode(JourneyExecutionActivityMetricsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyExecutionMetricsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the journey.
@@ -5627,6 +5724,15 @@ extension Pinpoint {
             self.pageSize = pageSize
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.journeyId, key: "JourneyId")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.pageSize, key: "page-size")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5638,19 +5744,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.journeyExecutionMetricsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.journeyExecutionMetricsResponse = try container.decode(JourneyExecutionMetricsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the journey.
@@ -5659,6 +5760,13 @@ extension Pinpoint {
         public init(applicationId: String, journeyId: String) {
             self.applicationId = applicationId
             self.journeyId = journeyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.journeyId, key: "JourneyId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5672,23 +5780,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.journeyResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.journeyResponse = try container.decode(JourneyResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyRunExecutionActivityMetricsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "journeyActivityId", location: .uri("JourneyActivityId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "runId", location: .uri("RunId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the journey activity.
@@ -5711,6 +5810,17 @@ extension Pinpoint {
             self.runId = runId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.journeyActivityId, key: "JourneyActivityId")
+            request.encodePath(self.journeyId, key: "JourneyId")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodePath(self.runId, key: "RunId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5722,22 +5832,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.journeyRunExecutionActivityMetricsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.journeyRunExecutionActivityMetricsResponse = try container.decode(JourneyRunExecutionActivityMetricsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyRunExecutionMetricsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "runId", location: .uri("RunId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the journey.
@@ -5757,6 +5859,16 @@ extension Pinpoint {
             self.runId = runId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.journeyId, key: "JourneyId")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodePath(self.runId, key: "RunId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5768,21 +5880,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.journeyRunExecutionMetricsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.journeyRunExecutionMetricsResponse = try container.decode(JourneyRunExecutionMetricsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetJourneyRunsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring("token"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the journey.
@@ -5799,6 +5904,15 @@ extension Pinpoint {
             self.token = token
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.journeyId, key: "JourneyId")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self.token, key: "token")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5810,19 +5924,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.journeyRunsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.journeyRunsResponse = try container.decode(JourneyRunsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPushTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
@@ -5831,6 +5940,13 @@ extension Pinpoint {
         public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5844,23 +5960,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.pushNotificationTemplateResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.pushNotificationTemplateResponse = try container.decode(PushNotificationTemplateResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRecommenderConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderId", location: .uri("RecommenderId"))
-        ]
-
         /// The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
         public let recommenderId: String
 
         public init(recommenderId: String) {
             self.recommenderId = recommenderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.recommenderId, key: "RecommenderId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5874,19 +5992,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.recommenderConfigurationResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.recommenderConfigurationResponse = try container.decode(RecommenderConfigurationResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetRecommenderConfigurationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring("token"))
-        ]
-
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
         public let pageSize: String?
         /// The NextToken string that specifies which page of results to return in a paginated response.
@@ -5895,6 +6008,13 @@ extension Pinpoint {
         public init(pageSize: String? = nil, token: String? = nil) {
             self.pageSize = pageSize
             self.token = token
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self.token, key: "token")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5908,21 +6028,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.listRecommenderConfigurationsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.listRecommenderConfigurationsResponse = try container.decode(ListRecommenderConfigurationsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentExportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId")),
-            AWSMemberEncoding(label: "token", location: .querystring("token"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -5937,6 +6050,15 @@ extension Pinpoint {
             self.pageSize = pageSize
             self.segmentId = segmentId
             self.token = token
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodePath(self.segmentId, key: "SegmentId")
+            request.encodeQuery(self.token, key: "token")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5950,21 +6072,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.exportJobsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.exportJobsResponse = try container.decode(ExportJobsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentImportJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId")),
-            AWSMemberEncoding(label: "token", location: .querystring("token"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -5979,6 +6094,15 @@ extension Pinpoint {
             self.pageSize = pageSize
             self.segmentId = segmentId
             self.token = token
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodePath(self.segmentId, key: "SegmentId")
+            request.encodeQuery(self.token, key: "token")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5992,19 +6116,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.importJobsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.importJobsResponse = try container.decode(ImportJobsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the segment.
@@ -6013,6 +6132,13 @@ extension Pinpoint {
         public init(applicationId: String, segmentId: String) {
             self.applicationId = applicationId
             self.segmentId = segmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.segmentId, key: "SegmentId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6026,20 +6152,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.segmentResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.segmentResponse = try container.decode(SegmentResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId")),
-            AWSMemberEncoding(label: "version", location: .uri("Version"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the segment.
@@ -6053,6 +6173,14 @@ extension Pinpoint {
             self.version = version
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.segmentId, key: "SegmentId")
+            request.encodePath(self.version, key: "Version")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -6064,21 +6192,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.segmentResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.segmentResponse = try container.decode(SegmentResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId")),
-            AWSMemberEncoding(label: "token", location: .querystring("token"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -6095,6 +6216,15 @@ extension Pinpoint {
             self.token = token
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodePath(self.segmentId, key: "SegmentId")
+            request.encodeQuery(self.token, key: "token")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -6106,20 +6236,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.segmentsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.segmentsResponse = try container.decode(SegmentsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSegmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring("token"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -6133,6 +6257,14 @@ extension Pinpoint {
             self.token = token
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self.token, key: "token")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -6144,23 +6276,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.segmentsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.segmentsResponse = try container.decode(SegmentsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSmsChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6174,19 +6308,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.smsChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.smsChannelResponse = try container.decode(SMSChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetSmsTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
@@ -6195,6 +6324,13 @@ extension Pinpoint {
         public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6208,19 +6344,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.smsTemplateResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.smsTemplateResponse = try container.decode(SMSTemplateResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetUserEndpointsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "userId", location: .uri("UserId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the user.
@@ -6229,6 +6360,13 @@ extension Pinpoint {
         public init(applicationId: String, userId: String) {
             self.applicationId = applicationId
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.userId, key: "UserId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6242,23 +6380,25 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.endpointsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.endpointsResponse = try container.decode(EndpointsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVoiceChannelRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6272,19 +6412,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.voiceChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.voiceChannelResponse = try container.decode(VoiceChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetVoiceTemplateRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
@@ -6293,6 +6428,13 @@ extension Pinpoint {
         public init(templateName: String, version: String? = nil) {
             self.templateName = templateName
             self.version = version
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6306,8 +6448,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.voiceTemplateResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.voiceTemplateResponse = try container.decode(VoiceTemplateResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7247,12 +7389,6 @@ extension Pinpoint {
     }
 
     public struct ListJourneysRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "token", location: .querystring("token"))
-        ]
-
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -7266,6 +7402,14 @@ extension Pinpoint {
             self.token = token
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self.token, key: "token")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -7277,8 +7421,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.journeysResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.journeysResponse = try container.decode(JourneysResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7302,15 +7446,17 @@ extension Pinpoint {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7324,21 +7470,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.tagsModel = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.tagsModel = try container.decode(TagsModel.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTemplateVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "templateType", location: .uri("TemplateType"))
-        ]
-
         /// The  string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
         public let nextToken: String?
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -7355,6 +7494,15 @@ extension Pinpoint {
             self.templateType = templateType
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodePath(self.templateType, key: "TemplateType")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -7366,21 +7514,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.templateVersionsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.templateVersionsResponse = try container.decode(TemplateVersionsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTemplatesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "pageSize", location: .querystring("page-size")),
-            AWSMemberEncoding(label: "prefix", location: .querystring("prefix")),
-            AWSMemberEncoding(label: "templateType", location: .querystring("template-type"))
-        ]
-
         /// The  string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
         public let nextToken: String?
         /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -7397,6 +7538,15 @@ extension Pinpoint {
             self.templateType = templateType
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.pageSize, key: "page-size")
+            request.encodeQuery(self.prefix, key: "prefix")
+            request.encodeQuery(self.templateType, key: "template-type")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -7408,8 +7558,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.templatesResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.templatesResponse = try container.decode(TemplatesResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7821,17 +7971,16 @@ extension Pinpoint {
         }
     }
 
-    public struct PhoneNumberValidateRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "numberValidateRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "numberValidateRequest", location: .body("NumberValidateRequest"))
-        ]
-
+    public struct PhoneNumberValidateRequest: AWSEncodableShape {
         public let numberValidateRequest: NumberValidateRequest
 
         public init(numberValidateRequest: NumberValidateRequest) {
             self.numberValidateRequest = numberValidateRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.numberValidateRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7845,8 +7994,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.numberValidateResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.numberValidateResponse = try container.decode(NumberValidateResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8044,14 +8193,7 @@ extension Pinpoint {
         }
     }
 
-    public struct PutEventStreamRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "writeEventStream"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "writeEventStream", location: .body("WriteEventStream"))
-        ]
-
+    public struct PutEventStreamRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let writeEventStream: WriteEventStream
@@ -8059,6 +8201,13 @@ extension Pinpoint {
         public init(applicationId: String, writeEventStream: WriteEventStream) {
             self.applicationId = applicationId
             self.writeEventStream = writeEventStream
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.writeEventStream)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8072,21 +8221,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.eventStream = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eventStream = try container.decode(EventStream.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct PutEventsRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "eventsRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "eventsRequest", location: .body("EventsRequest"))
-        ]
-
+    public struct PutEventsRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let eventsRequest: EventsRequest
@@ -8094,6 +8236,13 @@ extension Pinpoint {
         public init(applicationId: String, eventsRequest: EventsRequest) {
             self.applicationId = applicationId
             self.eventsRequest = eventsRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.eventsRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8107,8 +8256,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.eventsResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eventsResponse = try container.decode(EventsResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8248,15 +8397,7 @@ extension Pinpoint {
         }
     }
 
-    public struct RemoveAttributesRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "updateAttributesRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "attributeType", location: .uri("AttributeType")),
-            AWSMemberEncoding(label: "updateAttributesRequest", location: .body("UpdateAttributesRequest"))
-        ]
-
+    public struct RemoveAttributesRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The type of attribute or attributes to remove. Valid values are: endpoint-custom-attributes - Custom attributes that describe endpoints, such as the date when an associated user opted in or out of receiving communications from you through a specific type of channel. endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint for endpoints, such as the number of app sessions or the number of items left in a cart. endpoint-user-attributes - Custom attributes that describe users, such as first name, last name, and age.
@@ -8267,6 +8408,14 @@ extension Pinpoint {
             self.applicationId = applicationId
             self.attributeType = attributeType
             self.updateAttributesRequest = updateAttributesRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.attributeType, key: "AttributeType")
+            try container.encode(self.updateAttributesRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8280,8 +8429,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.attributesResource = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.attributesResource = try container.decode(AttributesResource.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8875,14 +9024,7 @@ extension Pinpoint {
         }
     }
 
-    public struct SendMessagesRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "messageRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "messageRequest", location: .body("MessageRequest"))
-        ]
-
+    public struct SendMessagesRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let messageRequest: MessageRequest
@@ -8890,6 +9032,13 @@ extension Pinpoint {
         public init(applicationId: String, messageRequest: MessageRequest) {
             self.applicationId = applicationId
             self.messageRequest = messageRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.messageRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8903,21 +9052,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageResponse = try container.decode(MessageResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct SendOTPMessageRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "sendOTPMessageRequestParameters"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "sendOTPMessageRequestParameters", location: .body("SendOTPMessageRequestParameters"))
-        ]
-
+    public struct SendOTPMessageRequest: AWSEncodableShape {
         /// The unique ID of your Amazon Pinpoint application.
         public let applicationId: String
         public let sendOTPMessageRequestParameters: SendOTPMessageRequestParameters
@@ -8925,6 +9067,13 @@ extension Pinpoint {
         public init(applicationId: String, sendOTPMessageRequestParameters: SendOTPMessageRequestParameters) {
             self.applicationId = applicationId
             self.sendOTPMessageRequestParameters = sendOTPMessageRequestParameters
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.sendOTPMessageRequestParameters)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8991,8 +9140,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageResponse = try container.decode(MessageResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9048,14 +9197,7 @@ extension Pinpoint {
         }
     }
 
-    public struct SendUsersMessagesRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "sendUsersMessageRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "sendUsersMessageRequest", location: .body("SendUsersMessageRequest"))
-        ]
-
+    public struct SendUsersMessagesRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let sendUsersMessageRequest: SendUsersMessageRequest
@@ -9063,6 +9205,13 @@ extension Pinpoint {
         public init(applicationId: String, sendUsersMessageRequest: SendUsersMessageRequest) {
             self.applicationId = applicationId
             self.sendUsersMessageRequest = sendUsersMessageRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.sendUsersMessageRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9076,8 +9225,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.sendUsersMessageResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.sendUsersMessageResponse = try container.decode(SendUsersMessageResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9204,14 +9353,7 @@ extension Pinpoint {
         }
     }
 
-    public struct TagResourceRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "tagsModel"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagsModel", location: .body("TagsModel"))
-        ]
-
+    public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         public let tagsModel: TagsModel
@@ -9219,6 +9361,13 @@ extension Pinpoint {
         public init(resourceArn: String, tagsModel: TagsModel) {
             self.resourceArn = resourceArn
             self.tagsModel = tagsModel
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tagsModel)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9483,11 +9632,6 @@ extension Pinpoint {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The key of the tag to remove from the resource. To remove multiple tags, append the tagKeys parameter and argument for each additional tag to remove, separated by an ampersand (&amp;).
@@ -9498,17 +9642,17 @@ extension Pinpoint {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateAdmChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "admChannelRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "admChannelRequest", location: .body("ADMChannelRequest")),
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
+    public struct UpdateAdmChannelRequest: AWSEncodableShape {
         public let admChannelRequest: ADMChannelRequest
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
@@ -9516,6 +9660,13 @@ extension Pinpoint {
         public init(admChannelRequest: ADMChannelRequest, applicationId: String) {
             self.admChannelRequest = admChannelRequest
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.admChannelRequest)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9529,21 +9680,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.admChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.admChannelResponse = try container.decode(ADMChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateApnsChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsChannelRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsChannelRequest", location: .body("APNSChannelRequest")),
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
+    public struct UpdateApnsChannelRequest: AWSEncodableShape {
         public let apnsChannelRequest: APNSChannelRequest
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
@@ -9551,6 +9695,13 @@ extension Pinpoint {
         public init(apnsChannelRequest: APNSChannelRequest, applicationId: String) {
             self.apnsChannelRequest = apnsChannelRequest
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.apnsChannelRequest)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9564,21 +9715,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.apnsChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.apnsChannelResponse = try container.decode(APNSChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateApnsSandboxChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsSandboxChannelRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsSandboxChannelRequest", location: .body("APNSSandboxChannelRequest")),
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
+    public struct UpdateApnsSandboxChannelRequest: AWSEncodableShape {
         public let apnsSandboxChannelRequest: APNSSandboxChannelRequest
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
@@ -9586,6 +9730,13 @@ extension Pinpoint {
         public init(apnsSandboxChannelRequest: APNSSandboxChannelRequest, applicationId: String) {
             self.apnsSandboxChannelRequest = apnsSandboxChannelRequest
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.apnsSandboxChannelRequest)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9599,21 +9750,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.apnsSandboxChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.apnsSandboxChannelResponse = try container.decode(APNSSandboxChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateApnsVoipChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsVoipChannelRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsVoipChannelRequest", location: .body("APNSVoipChannelRequest")),
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
+    public struct UpdateApnsVoipChannelRequest: AWSEncodableShape {
         public let apnsVoipChannelRequest: APNSVoipChannelRequest
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
@@ -9621,6 +9765,13 @@ extension Pinpoint {
         public init(apnsVoipChannelRequest: APNSVoipChannelRequest, applicationId: String) {
             self.apnsVoipChannelRequest = apnsVoipChannelRequest
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.apnsVoipChannelRequest)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9634,21 +9785,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.apnsVoipChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.apnsVoipChannelResponse = try container.decode(APNSVoipChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateApnsVoipSandboxChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "apnsVoipSandboxChannelRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "apnsVoipSandboxChannelRequest", location: .body("APNSVoipSandboxChannelRequest")),
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
-        ]
-
+    public struct UpdateApnsVoipSandboxChannelRequest: AWSEncodableShape {
         public let apnsVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
@@ -9656,6 +9800,13 @@ extension Pinpoint {
         public init(apnsVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest, applicationId: String) {
             self.apnsVoipSandboxChannelRequest = apnsVoipSandboxChannelRequest
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.apnsVoipSandboxChannelRequest)
+            request.encodePath(self.applicationId, key: "ApplicationId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9669,21 +9820,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.apnsVoipSandboxChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.apnsVoipSandboxChannelResponse = try container.decode(APNSVoipSandboxChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateApplicationSettingsRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "writeApplicationSettingsRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "writeApplicationSettingsRequest", location: .body("WriteApplicationSettingsRequest"))
-        ]
-
+    public struct UpdateApplicationSettingsRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let writeApplicationSettingsRequest: WriteApplicationSettingsRequest
@@ -9691,6 +9835,13 @@ extension Pinpoint {
         public init(applicationId: String, writeApplicationSettingsRequest: WriteApplicationSettingsRequest) {
             self.applicationId = applicationId
             self.writeApplicationSettingsRequest = writeApplicationSettingsRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.writeApplicationSettingsRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9704,8 +9855,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.applicationSettingsResource = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.applicationSettingsResource = try container.decode(ApplicationSettingsResource.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9724,14 +9875,7 @@ extension Pinpoint {
         }
     }
 
-    public struct UpdateBaiduChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "baiduChannelRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "baiduChannelRequest", location: .body("BaiduChannelRequest"))
-        ]
-
+    public struct UpdateBaiduChannelRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let baiduChannelRequest: BaiduChannelRequest
@@ -9739,6 +9883,13 @@ extension Pinpoint {
         public init(applicationId: String, baiduChannelRequest: BaiduChannelRequest) {
             self.applicationId = applicationId
             self.baiduChannelRequest = baiduChannelRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.baiduChannelRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9752,22 +9903,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.baiduChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.baiduChannelResponse = try container.decode(BaiduChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateCampaignRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "writeCampaignRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "campaignId", location: .uri("CampaignId")),
-            AWSMemberEncoding(label: "writeCampaignRequest", location: .body("WriteCampaignRequest"))
-        ]
-
+    public struct UpdateCampaignRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the campaign.
@@ -9778,6 +9921,14 @@ extension Pinpoint {
             self.applicationId = applicationId
             self.campaignId = campaignId
             self.writeCampaignRequest = writeCampaignRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.campaignId, key: "CampaignId")
+            try container.encode(self.writeCampaignRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9791,21 +9942,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.campaignResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.campaignResponse = try container.decode(CampaignResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateEmailChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "emailChannelRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "emailChannelRequest", location: .body("EmailChannelRequest"))
-        ]
-
+    public struct UpdateEmailChannelRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let emailChannelRequest: EmailChannelRequest
@@ -9813,6 +9957,13 @@ extension Pinpoint {
         public init(applicationId: String, emailChannelRequest: EmailChannelRequest) {
             self.applicationId = applicationId
             self.emailChannelRequest = emailChannelRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.emailChannelRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9826,23 +9977,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.emailChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.emailChannelResponse = try container.decode(EmailChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateEmailTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "emailTemplateRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring("create-new-version")),
-            AWSMemberEncoding(label: "emailTemplateRequest", location: .body("EmailTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
+    public struct UpdateEmailTemplateRequest: AWSEncodableShape {
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
         public let createNewVersion: Bool?
         public let emailTemplateRequest: EmailTemplateRequest
@@ -9858,6 +10000,15 @@ extension Pinpoint {
             self.version = version
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeQuery(self.createNewVersion, key: "create-new-version")
+            try container.encode(self.emailTemplateRequest)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -9869,22 +10020,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageBody = try container.decode(MessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateEndpointRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "endpointRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "endpointId", location: .uri("EndpointId")),
-            AWSMemberEncoding(label: "endpointRequest", location: .body("EndpointRequest"))
-        ]
-
+    public struct UpdateEndpointRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the endpoint.
@@ -9895,6 +10038,14 @@ extension Pinpoint {
             self.applicationId = applicationId
             self.endpointId = endpointId
             self.endpointRequest = endpointRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.endpointId, key: "EndpointId")
+            try container.encode(self.endpointRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9908,21 +10059,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageBody = try container.decode(MessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateEndpointsBatchRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "endpointBatchRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "endpointBatchRequest", location: .body("EndpointBatchRequest"))
-        ]
-
+    public struct UpdateEndpointsBatchRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let endpointBatchRequest: EndpointBatchRequest
@@ -9930,6 +10074,13 @@ extension Pinpoint {
         public init(applicationId: String, endpointBatchRequest: EndpointBatchRequest) {
             self.applicationId = applicationId
             self.endpointBatchRequest = endpointBatchRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.endpointBatchRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9943,21 +10094,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageBody = try container.decode(MessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateGcmChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "gcmChannelRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "gcmChannelRequest", location: .body("GCMChannelRequest"))
-        ]
-
+    public struct UpdateGcmChannelRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let gcmChannelRequest: GCMChannelRequest
@@ -9965,6 +10109,13 @@ extension Pinpoint {
         public init(applicationId: String, gcmChannelRequest: GCMChannelRequest) {
             self.applicationId = applicationId
             self.gcmChannelRequest = gcmChannelRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.gcmChannelRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9978,23 +10129,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.gcmChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.gcmChannelResponse = try container.decode(GCMChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateInAppTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "inAppTemplateRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring("create-new-version")),
-            AWSMemberEncoding(label: "inAppTemplateRequest", location: .body("InAppTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
+    public struct UpdateInAppTemplateRequest: AWSEncodableShape {
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
         public let createNewVersion: Bool?
         public let inAppTemplateRequest: InAppTemplateRequest
@@ -10010,6 +10152,15 @@ extension Pinpoint {
             self.version = version
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeQuery(self.createNewVersion, key: "create-new-version")
+            try container.encode(self.inAppTemplateRequest)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -10021,22 +10172,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageBody = try container.decode(MessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateJourneyRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "writeJourneyRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId")),
-            AWSMemberEncoding(label: "writeJourneyRequest", location: .body("WriteJourneyRequest"))
-        ]
-
+    public struct UpdateJourneyRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the journey.
@@ -10047,6 +10190,14 @@ extension Pinpoint {
             self.applicationId = applicationId
             self.journeyId = journeyId
             self.writeJourneyRequest = writeJourneyRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.journeyId, key: "JourneyId")
+            try container.encode(self.writeJourneyRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10060,22 +10211,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.journeyResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.journeyResponse = try container.decode(JourneyResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateJourneyStateRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "journeyStateRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "journeyId", location: .uri("JourneyId")),
-            AWSMemberEncoding(label: "journeyStateRequest", location: .body("JourneyStateRequest"))
-        ]
-
+    public struct UpdateJourneyStateRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the journey.
@@ -10086,6 +10229,14 @@ extension Pinpoint {
             self.applicationId = applicationId
             self.journeyId = journeyId
             self.journeyStateRequest = journeyStateRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.journeyId, key: "JourneyId")
+            try container.encode(self.journeyStateRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10099,23 +10250,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.journeyResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.journeyResponse = try container.decode(JourneyResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdatePushTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "pushNotificationTemplateRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring("create-new-version")),
-            AWSMemberEncoding(label: "pushNotificationTemplateRequest", location: .body("PushNotificationTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
+    public struct UpdatePushTemplateRequest: AWSEncodableShape {
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
         public let createNewVersion: Bool?
         public let pushNotificationTemplateRequest: PushNotificationTemplateRequest
@@ -10131,6 +10273,15 @@ extension Pinpoint {
             self.version = version
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeQuery(self.createNewVersion, key: "create-new-version")
+            try container.encode(self.pushNotificationTemplateRequest)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -10142,21 +10293,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageBody = try container.decode(MessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateRecommenderConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "updateRecommenderConfiguration"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "recommenderId", location: .uri("RecommenderId")),
-            AWSMemberEncoding(label: "updateRecommenderConfiguration", location: .body("UpdateRecommenderConfiguration"))
-        ]
-
+    public struct UpdateRecommenderConfigurationRequest: AWSEncodableShape {
         /// The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
         public let recommenderId: String
         public let updateRecommenderConfiguration: UpdateRecommenderConfigurationShape
@@ -10164,6 +10308,13 @@ extension Pinpoint {
         public init(recommenderId: String, updateRecommenderConfiguration: UpdateRecommenderConfigurationShape) {
             self.recommenderId = recommenderId
             self.updateRecommenderConfiguration = updateRecommenderConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.recommenderId, key: "RecommenderId")
+            try container.encode(self.updateRecommenderConfiguration)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10177,8 +10328,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.recommenderConfigurationResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.recommenderConfigurationResponse = try container.decode(RecommenderConfigurationResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10229,15 +10380,7 @@ extension Pinpoint {
         }
     }
 
-    public struct UpdateSegmentRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "writeSegmentRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "segmentId", location: .uri("SegmentId")),
-            AWSMemberEncoding(label: "writeSegmentRequest", location: .body("WriteSegmentRequest"))
-        ]
-
+    public struct UpdateSegmentRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         /// The unique identifier for the segment.
@@ -10248,6 +10391,14 @@ extension Pinpoint {
             self.applicationId = applicationId
             self.segmentId = segmentId
             self.writeSegmentRequest = writeSegmentRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            request.encodePath(self.segmentId, key: "SegmentId")
+            try container.encode(self.writeSegmentRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10261,21 +10412,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.segmentResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.segmentResponse = try container.decode(SegmentResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateSmsChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "smsChannelRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "smsChannelRequest", location: .body("SMSChannelRequest"))
-        ]
-
+    public struct UpdateSmsChannelRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let smsChannelRequest: SMSChannelRequest
@@ -10283,6 +10427,13 @@ extension Pinpoint {
         public init(applicationId: String, smsChannelRequest: SMSChannelRequest) {
             self.applicationId = applicationId
             self.smsChannelRequest = smsChannelRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.smsChannelRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10296,23 +10447,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.smsChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.smsChannelResponse = try container.decode(SMSChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateSmsTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "smsTemplateRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring("create-new-version")),
-            AWSMemberEncoding(label: "smsTemplateRequest", location: .body("SMSTemplateRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version"))
-        ]
-
+    public struct UpdateSmsTemplateRequest: AWSEncodableShape {
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
         public let createNewVersion: Bool?
         public let smsTemplateRequest: SMSTemplateRequest
@@ -10328,6 +10470,15 @@ extension Pinpoint {
             self.version = version
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeQuery(self.createNewVersion, key: "create-new-version")
+            try container.encode(self.smsTemplateRequest)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -10339,22 +10490,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageBody = try container.decode(MessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateTemplateActiveVersionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "templateActiveVersionRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "templateActiveVersionRequest", location: .body("TemplateActiveVersionRequest")),
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "templateType", location: .uri("TemplateType"))
-        ]
-
+    public struct UpdateTemplateActiveVersionRequest: AWSEncodableShape {
         public let templateActiveVersionRequest: TemplateActiveVersionRequest
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
@@ -10365,6 +10508,14 @@ extension Pinpoint {
             self.templateActiveVersionRequest = templateActiveVersionRequest
             self.templateName = templateName
             self.templateType = templateType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.templateActiveVersionRequest)
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodePath(self.templateType, key: "TemplateType")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10378,21 +10529,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageBody = try container.decode(MessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateVoiceChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "voiceChannelRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "voiceChannelRequest", location: .body("VoiceChannelRequest"))
-        ]
-
+    public struct UpdateVoiceChannelRequest: AWSEncodableShape {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
         public let voiceChannelRequest: VoiceChannelRequest
@@ -10400,6 +10544,13 @@ extension Pinpoint {
         public init(applicationId: String, voiceChannelRequest: VoiceChannelRequest) {
             self.applicationId = applicationId
             self.voiceChannelRequest = voiceChannelRequest
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.voiceChannelRequest)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10413,23 +10564,14 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.voiceChannelResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.voiceChannelResponse = try container.decode(VoiceChannelResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateVoiceTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "voiceTemplateRequest"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "createNewVersion", location: .querystring("create-new-version")),
-            AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
-            AWSMemberEncoding(label: "version", location: .querystring("version")),
-            AWSMemberEncoding(label: "voiceTemplateRequest", location: .body("VoiceTemplateRequest"))
-        ]
-
+    public struct UpdateVoiceTemplateRequest: AWSEncodableShape {
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
         public let createNewVersion: Bool?
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
@@ -10445,6 +10587,15 @@ extension Pinpoint {
             self.voiceTemplateRequest = voiceTemplateRequest
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeQuery(self.createNewVersion, key: "create-new-version")
+            request.encodePath(self.templateName, key: "TemplateName")
+            request.encodeQuery(self.version, key: "version")
+            try container.encode(self.voiceTemplateRequest)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -10456,8 +10607,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.messageBody = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.messageBody = try container.decode(MessageBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10476,14 +10627,7 @@ extension Pinpoint {
         }
     }
 
-    public struct VerifyOTPMessageRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "verifyOTPMessageRequestParameters"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "verifyOTPMessageRequestParameters", location: .body("VerifyOTPMessageRequestParameters"))
-        ]
-
+    public struct VerifyOTPMessageRequest: AWSEncodableShape {
         /// The unique ID of your Amazon Pinpoint application.
         public let applicationId: String
         public let verifyOTPMessageRequestParameters: VerifyOTPMessageRequestParameters
@@ -10491,6 +10635,13 @@ extension Pinpoint {
         public init(applicationId: String, verifyOTPMessageRequestParameters: VerifyOTPMessageRequestParameters) {
             self.applicationId = applicationId
             self.verifyOTPMessageRequestParameters = verifyOTPMessageRequestParameters
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.applicationId, key: "ApplicationId")
+            try container.encode(self.verifyOTPMessageRequestParameters)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -10525,8 +10676,8 @@ extension Pinpoint {
         }
 
         public init(from decoder: Decoder) throws {
-            self.verificationResponse = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.verificationResponse = try container.decode(VerificationResponse.self)
         }
 
         private enum CodingKeys: CodingKey {}

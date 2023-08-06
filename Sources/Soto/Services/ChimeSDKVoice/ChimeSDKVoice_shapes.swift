@@ -243,10 +243,6 @@ extension ChimeSDKVoice {
     }
 
     public struct AssociatePhoneNumbersWithVoiceConnectorGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri("VoiceConnectorGroupId"))
-        ]
-
         /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]
         /// If true, associates the provided phone numbers with the provided Amazon Chime SDK Voice Connector Group and removes any previously existing associations.  If false, does not associate any phone numbers that have previously existing associations.
@@ -258,6 +254,14 @@ extension ChimeSDKVoice {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.forceAssociate = forceAssociate
             self.voiceConnectorGroupId = voiceConnectorGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.e164PhoneNumbers, forKey: .e164PhoneNumbers)
+            try container.encodeIfPresent(self.forceAssociate, forKey: .forceAssociate)
+            request.encodePath(self.voiceConnectorGroupId, key: "VoiceConnectorGroupId")
         }
 
         public func validate(name: String) throws {
@@ -287,10 +291,6 @@ extension ChimeSDKVoice {
     }
 
     public struct AssociatePhoneNumbersWithVoiceConnectorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]
         /// If true, associates the provided phone numbers with the provided Amazon Chime SDK Voice Connector and removes any previously existing associations. If false, does not associate any phone numbers that have previously existing associations.
@@ -302,6 +302,14 @@ extension ChimeSDKVoice {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.forceAssociate = forceAssociate
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.e164PhoneNumbers, forKey: .e164PhoneNumbers)
+            try container.encodeIfPresent(self.forceAssociate, forKey: .forceAssociate)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -487,10 +495,6 @@ extension ChimeSDKVoice {
     }
 
     public struct CreateProxySessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The proxy session's capabilities.
         public let capabilities: [Capability]
         /// The number of minutes allowed for the proxy session.
@@ -517,6 +521,19 @@ extension ChimeSDKVoice {
             self.numberSelectionBehavior = numberSelectionBehavior
             self.participantPhoneNumbers = participantPhoneNumbers
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.capabilities, forKey: .capabilities)
+            try container.encodeIfPresent(self.expiryMinutes, forKey: .expiryMinutes)
+            try container.encodeIfPresent(self.geoMatchLevel, forKey: .geoMatchLevel)
+            try container.encodeIfPresent(self.geoMatchParams, forKey: .geoMatchParams)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.numberSelectionBehavior, forKey: .numberSelectionBehavior)
+            try container.encode(self.participantPhoneNumbers, forKey: .participantPhoneNumbers)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -558,10 +575,6 @@ extension ChimeSDKVoice {
     }
 
     public struct CreateSipMediaApplicationCallRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
-        ]
-
         /// Context passed to a CreateSipMediaApplication API call. For example, you could pass key-value pairs such as: "FirstName": "John", "LastName": "Doe"
         public let argumentsMap: [String: String]?
         /// The phone number that a user calls from. This is a phone number in your  Amazon Chime SDK phone number inventory.
@@ -579,6 +592,16 @@ extension ChimeSDKVoice {
             self.sipHeaders = sipHeaders
             self.sipMediaApplicationId = sipMediaApplicationId
             self.toPhoneNumber = toPhoneNumber
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.argumentsMap, forKey: .argumentsMap)
+            try container.encode(self.fromPhoneNumber, forKey: .fromPhoneNumber)
+            try container.encodeIfPresent(self.sipHeaders, forKey: .sipHeaders)
+            request.encodePath(self.sipMediaApplicationId, key: "SipMediaApplicationId")
+            try container.encode(self.toPhoneNumber, forKey: .toPhoneNumber)
         }
 
         public func validate(name: String) throws {
@@ -939,15 +962,17 @@ extension ChimeSDKVoice {
     }
 
     public struct DeletePhoneNumberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
-        ]
-
         /// The phone number ID.
         public let phoneNumberId: String
 
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.phoneNumberId, key: "PhoneNumberId")
         }
 
         public func validate(name: String) throws {
@@ -958,11 +983,6 @@ extension ChimeSDKVoice {
     }
 
     public struct DeleteProxySessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "proxySessionId", location: .uri("ProxySessionId")),
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The proxy session ID.
         public let proxySessionId: String
         /// The Voice Connector ID.
@@ -971,6 +991,13 @@ extension ChimeSDKVoice {
         public init(proxySessionId: String, voiceConnectorId: String) {
             self.proxySessionId = proxySessionId
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.proxySessionId, key: "ProxySessionId")
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -986,15 +1013,17 @@ extension ChimeSDKVoice {
     }
 
     public struct DeleteSipMediaApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
-        ]
-
         /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
         public init(sipMediaApplicationId: String) {
             self.sipMediaApplicationId = sipMediaApplicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sipMediaApplicationId, key: "SipMediaApplicationId")
         }
 
         public func validate(name: String) throws {
@@ -1005,15 +1034,17 @@ extension ChimeSDKVoice {
     }
 
     public struct DeleteSipRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sipRuleId", location: .uri("SipRuleId"))
-        ]
-
         /// The SIP rule ID.
         public let sipRuleId: String
 
         public init(sipRuleId: String) {
             self.sipRuleId = sipRuleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sipRuleId, key: "SipRuleId")
         }
 
         public func validate(name: String) throws {
@@ -1024,15 +1055,17 @@ extension ChimeSDKVoice {
     }
 
     public struct DeleteVoiceConnectorEmergencyCallingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1043,15 +1076,17 @@ extension ChimeSDKVoice {
     }
 
     public struct DeleteVoiceConnectorGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri("VoiceConnectorGroupId"))
-        ]
-
         /// The Voice Connector Group ID.
         public let voiceConnectorGroupId: String
 
         public init(voiceConnectorGroupId: String) {
             self.voiceConnectorGroupId = voiceConnectorGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorGroupId, key: "VoiceConnectorGroupId")
         }
 
         public func validate(name: String) throws {
@@ -1062,15 +1097,17 @@ extension ChimeSDKVoice {
     }
 
     public struct DeleteVoiceConnectorOriginationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1081,15 +1118,17 @@ extension ChimeSDKVoice {
     }
 
     public struct DeleteVoiceConnectorProxyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1102,15 +1141,17 @@ extension ChimeSDKVoice {
     }
 
     public struct DeleteVoiceConnectorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1121,15 +1162,17 @@ extension ChimeSDKVoice {
     }
 
     public struct DeleteVoiceConnectorStreamingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1140,10 +1183,6 @@ extension ChimeSDKVoice {
     }
 
     public struct DeleteVoiceConnectorTerminationCredentialsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The RFC2617 compliant username associated with the SIP credentials,  in US-ASCII format.
         public let usernames: [String]
         /// The Voice Connector ID.
@@ -1152,6 +1191,13 @@ extension ChimeSDKVoice {
         public init(usernames: [String], voiceConnectorId: String) {
             self.usernames = usernames
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.usernames, forKey: .usernames)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1164,15 +1210,17 @@ extension ChimeSDKVoice {
     }
 
     public struct DeleteVoiceConnectorTerminationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1183,15 +1231,17 @@ extension ChimeSDKVoice {
     }
 
     public struct DeleteVoiceProfileDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceProfileDomainId", location: .uri("VoiceProfileDomainId"))
-        ]
-
         /// The voice profile domain ID.
         public let voiceProfileDomainId: String
 
         public init(voiceProfileDomainId: String) {
             self.voiceProfileDomainId = voiceProfileDomainId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceProfileDomainId, key: "VoiceProfileDomainId")
         }
 
         public func validate(name: String) throws {
@@ -1204,15 +1254,17 @@ extension ChimeSDKVoice {
     }
 
     public struct DeleteVoiceProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceProfileId", location: .uri("VoiceProfileId"))
-        ]
-
         /// The voice profile ID.
         public let voiceProfileId: String
 
         public init(voiceProfileId: String) {
             self.voiceProfileId = voiceProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceProfileId, key: "VoiceProfileId")
         }
 
         public func validate(name: String) throws {
@@ -1225,10 +1277,6 @@ extension ChimeSDKVoice {
     }
 
     public struct DisassociatePhoneNumbersFromVoiceConnectorGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri("VoiceConnectorGroupId"))
-        ]
-
         /// The list of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]
         /// The Voice Connector group ID.
@@ -1237,6 +1285,13 @@ extension ChimeSDKVoice {
         public init(e164PhoneNumbers: [String], voiceConnectorGroupId: String) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.voiceConnectorGroupId = voiceConnectorGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.e164PhoneNumbers, forKey: .e164PhoneNumbers)
+            request.encodePath(self.voiceConnectorGroupId, key: "VoiceConnectorGroupId")
         }
 
         public func validate(name: String) throws {
@@ -1265,10 +1320,6 @@ extension ChimeSDKVoice {
     }
 
     public struct DisassociatePhoneNumbersFromVoiceConnectorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]
         /// The Voice Connector ID.
@@ -1277,6 +1328,13 @@ extension ChimeSDKVoice {
         public init(e164PhoneNumbers: [String], voiceConnectorId: String) {
             self.e164PhoneNumbers = e164PhoneNumbers
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.e164PhoneNumbers, forKey: .e164PhoneNumbers)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1359,15 +1417,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetPhoneNumberOrderRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "phoneNumberOrderId", location: .uri("PhoneNumberOrderId"))
-        ]
-
         /// The ID of the phone number order .
         public let phoneNumberOrderId: String
 
         public init(phoneNumberOrderId: String) {
             self.phoneNumberOrderId = phoneNumberOrderId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.phoneNumberOrderId, key: "PhoneNumberOrderId")
         }
 
         public func validate(name: String) throws {
@@ -1391,15 +1451,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetPhoneNumberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
-        ]
-
         /// The phone number ID.
         public let phoneNumberId: String
 
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.phoneNumberId, key: "PhoneNumberId")
         }
 
         public func validate(name: String) throws {
@@ -1441,11 +1503,6 @@ extension ChimeSDKVoice {
     }
 
     public struct GetProxySessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "proxySessionId", location: .uri("ProxySessionId")),
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The proxy session ID.
         public let proxySessionId: String
         /// The Voice Connector ID.
@@ -1454,6 +1511,13 @@ extension ChimeSDKVoice {
         public init(proxySessionId: String, voiceConnectorId: String) {
             self.proxySessionId = proxySessionId
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.proxySessionId, key: "ProxySessionId")
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1482,15 +1546,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetSipMediaApplicationAlexaSkillConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
-        ]
-
         /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
         public init(sipMediaApplicationId: String) {
             self.sipMediaApplicationId = sipMediaApplicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sipMediaApplicationId, key: "SipMediaApplicationId")
         }
 
         public func validate(name: String) throws {
@@ -1514,15 +1580,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetSipMediaApplicationLoggingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
-        ]
-
         /// The SIP media application ID.
         public let sipMediaApplicationId: String
 
         public init(sipMediaApplicationId: String) {
             self.sipMediaApplicationId = sipMediaApplicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sipMediaApplicationId, key: "SipMediaApplicationId")
         }
 
         public func validate(name: String) throws {
@@ -1546,15 +1614,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetSipMediaApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
-        ]
-
         /// The SIP media application ID .
         public let sipMediaApplicationId: String
 
         public init(sipMediaApplicationId: String) {
             self.sipMediaApplicationId = sipMediaApplicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sipMediaApplicationId, key: "SipMediaApplicationId")
         }
 
         public func validate(name: String) throws {
@@ -1578,15 +1648,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetSipRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sipRuleId", location: .uri("SipRuleId"))
-        ]
-
         /// The SIP rule ID.
         public let sipRuleId: String
 
         public init(sipRuleId: String) {
             self.sipRuleId = sipRuleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sipRuleId, key: "SipRuleId")
         }
 
         public func validate(name: String) throws {
@@ -1610,11 +1682,6 @@ extension ChimeSDKVoice {
     }
 
     public struct GetSpeakerSearchTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "speakerSearchTaskId", location: .uri("SpeakerSearchTaskId")),
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The ID of the speaker search task.
         public let speakerSearchTaskId: String
         /// The Voice Connector ID.
@@ -1623,6 +1690,13 @@ extension ChimeSDKVoice {
         public init(speakerSearchTaskId: String, voiceConnectorId: String) {
             self.speakerSearchTaskId = speakerSearchTaskId
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.speakerSearchTaskId, key: "SpeakerSearchTaskId")
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1651,15 +1725,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorEmergencyCallingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1683,15 +1759,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri("VoiceConnectorGroupId"))
-        ]
-
         /// The Voice Connector group ID.
         public let voiceConnectorGroupId: String
 
         public init(voiceConnectorGroupId: String) {
             self.voiceConnectorGroupId = voiceConnectorGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorGroupId, key: "VoiceConnectorGroupId")
         }
 
         public func validate(name: String) throws {
@@ -1715,15 +1793,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorLoggingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1747,15 +1827,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorOriginationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1779,15 +1861,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorProxyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1813,15 +1897,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1845,15 +1931,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorStreamingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1877,15 +1965,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorTerminationHealthRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1909,15 +1999,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceConnectorTerminationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -1941,15 +2033,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceProfileDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceProfileDomainId", location: .uri("VoiceProfileDomainId"))
-        ]
-
         /// The voice profile domain ID.
         public let voiceProfileDomainId: String
 
         public init(voiceProfileDomainId: String) {
             self.voiceProfileDomainId = voiceProfileDomainId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceProfileDomainId, key: "VoiceProfileDomainId")
         }
 
         public func validate(name: String) throws {
@@ -1975,15 +2069,17 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceProfileId", location: .uri("VoiceProfileId"))
-        ]
-
         /// The voice profile ID.
         public let voiceProfileId: String
 
         public init(voiceProfileId: String) {
             self.voiceProfileId = voiceProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceProfileId, key: "VoiceProfileId")
         }
 
         public func validate(name: String) throws {
@@ -2009,12 +2105,6 @@ extension ChimeSDKVoice {
     }
 
     public struct GetVoiceToneAnalysisTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "isCaller", location: .querystring("isCaller")),
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId")),
-            AWSMemberEncoding(label: "voiceToneAnalysisTaskId", location: .uri("VoiceToneAnalysisTaskId"))
-        ]
-
         /// Specifies whether the voice being analyzed is the caller (originator) or the callee (responder).
         public let isCaller: Bool
         /// The Voice Connector ID.
@@ -2026,6 +2116,14 @@ extension ChimeSDKVoice {
             self.isCaller = isCaller
             self.voiceConnectorId = voiceConnectorId
             self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.isCaller, key: "isCaller")
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
+            request.encodePath(self.voiceToneAnalysisTaskId, key: "VoiceToneAnalysisTaskId")
         }
 
         public func validate(name: String) throws {
@@ -2067,11 +2165,6 @@ extension ChimeSDKVoice {
     }
 
     public struct ListPhoneNumberOrdersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
         /// The token used to retrieve the next page of results.
@@ -2080,6 +2173,13 @@ extension ChimeSDKVoice {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -2108,15 +2208,6 @@ extension ChimeSDKVoice {
     }
 
     public struct ListPhoneNumbersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "filterName", location: .querystring("filter-name")),
-            AWSMemberEncoding(label: "filterValue", location: .querystring("filter-value")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "productType", location: .querystring("product-type")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The filter to limit the number of results.
         public let filterName: PhoneNumberAssociationName?
         /// The filter value.
@@ -2137,6 +2228,17 @@ extension ChimeSDKVoice {
             self.nextToken = nextToken
             self.productType = productType
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.filterName, key: "filter-name")
+            request.encodeQuery(self.filterValue, key: "filter-value")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.productType, key: "product-type")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -2165,13 +2267,6 @@ extension ChimeSDKVoice {
     }
 
     public struct ListProxySessionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "status", location: .querystring("status")),
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
         /// The token used to retrieve the next page of results.
@@ -2186,6 +2281,15 @@ extension ChimeSDKVoice {
             self.nextToken = nextToken
             self.status = status
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.status, key: "status")
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -2218,11 +2322,6 @@ extension ChimeSDKVoice {
     }
 
     public struct ListSipMediaApplicationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The maximum number of results to return in a single call. Defaults to 100.
         public let maxResults: Int?
         /// The token used to return the next page of results.
@@ -2231,6 +2330,13 @@ extension ChimeSDKVoice {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -2260,12 +2366,6 @@ extension ChimeSDKVoice {
     }
 
     public struct ListSipRulesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "sipMediaApplicationId", location: .querystring("sip-media-application"))
-        ]
-
         /// The maximum number of results to return in a single call. Defaults to 100.
         public let maxResults: Int?
         /// The token used to return the next page of results.
@@ -2277,6 +2377,14 @@ extension ChimeSDKVoice {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sipMediaApplicationId = sipMediaApplicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.sipMediaApplicationId, key: "sip-media-application")
         }
 
         public func validate(name: String) throws {
@@ -2307,15 +2415,17 @@ extension ChimeSDKVoice {
     }
 
     public struct ListSupportedPhoneNumberCountriesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "productType", location: .querystring("product-type"))
-        ]
-
         /// The phone number product type.
         public let productType: PhoneNumberProductType
 
         public init(productType: PhoneNumberProductType) {
             self.productType = productType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.productType, key: "product-type")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2335,15 +2445,17 @@ extension ChimeSDKVoice {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceARN", location: .querystring("arn"))
-        ]
-
         /// The resource ARN.
         public let resourceARN: String
 
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resourceARN, key: "arn")
         }
 
         public func validate(name: String) throws {
@@ -2369,11 +2481,6 @@ extension ChimeSDKVoice {
     }
 
     public struct ListVoiceConnectorGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
         /// The token used to return the next page of results.
@@ -2382,6 +2489,13 @@ extension ChimeSDKVoice {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -2410,15 +2524,17 @@ extension ChimeSDKVoice {
     }
 
     public struct ListVoiceConnectorTerminationCredentialsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         public init(voiceConnectorId: String) {
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -2442,11 +2558,6 @@ extension ChimeSDKVoice {
     }
 
     public struct ListVoiceConnectorsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
         /// The token used to return the next page of results.
@@ -2455,6 +2566,13 @@ extension ChimeSDKVoice {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -2483,11 +2601,6 @@ extension ChimeSDKVoice {
     }
 
     public struct ListVoiceProfileDomainsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
-        ]
-
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
         /// The token used to return the next page of results.
@@ -2496,6 +2609,13 @@ extension ChimeSDKVoice {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
         }
 
         public func validate(name: String) throws {
@@ -2524,12 +2644,6 @@ extension ChimeSDKVoice {
     }
 
     public struct ListVoiceProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "voiceProfileDomainId", location: .querystring("voice-profile-domain-id"))
-        ]
-
         /// The maximum number of results in the request.
         public let maxResults: Int?
         /// The token used to retrieve the next page of results.
@@ -2541,6 +2655,14 @@ extension ChimeSDKVoice {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.voiceProfileDomainId = voiceProfileDomainId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.voiceProfileDomainId, key: "voice-profile-domain-id")
         }
 
         public func validate(name: String) throws {
@@ -2996,10 +3118,6 @@ extension ChimeSDKVoice {
     }
 
     public struct PutSipMediaApplicationAlexaSkillConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
-        ]
-
         /// The Alexa Skill configuration.
         public let sipMediaApplicationAlexaSkillConfiguration: SipMediaApplicationAlexaSkillConfiguration?
         /// The SIP media application ID.
@@ -3008,6 +3126,13 @@ extension ChimeSDKVoice {
         public init(sipMediaApplicationAlexaSkillConfiguration: SipMediaApplicationAlexaSkillConfiguration? = nil, sipMediaApplicationId: String) {
             self.sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfiguration
             self.sipMediaApplicationId = sipMediaApplicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.sipMediaApplicationAlexaSkillConfiguration, forKey: .sipMediaApplicationAlexaSkillConfiguration)
+            request.encodePath(self.sipMediaApplicationId, key: "SipMediaApplicationId")
         }
 
         public func validate(name: String) throws {
@@ -3034,10 +3159,6 @@ extension ChimeSDKVoice {
     }
 
     public struct PutSipMediaApplicationLoggingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
-        ]
-
         /// The SIP media application ID.
         public let sipMediaApplicationId: String
         /// The logging configuration for the specified SIP media application.
@@ -3046,6 +3167,13 @@ extension ChimeSDKVoice {
         public init(sipMediaApplicationId: String, sipMediaApplicationLoggingConfiguration: SipMediaApplicationLoggingConfiguration? = nil) {
             self.sipMediaApplicationId = sipMediaApplicationId
             self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sipMediaApplicationId, key: "SipMediaApplicationId")
+            try container.encodeIfPresent(self.sipMediaApplicationLoggingConfiguration, forKey: .sipMediaApplicationLoggingConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -3071,10 +3199,6 @@ extension ChimeSDKVoice {
     }
 
     public struct PutVoiceConnectorEmergencyCallingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The configuration being updated.
         public let emergencyCallingConfiguration: EmergencyCallingConfiguration
         /// The Voice Connector ID.
@@ -3083,6 +3207,13 @@ extension ChimeSDKVoice {
         public init(emergencyCallingConfiguration: EmergencyCallingConfiguration, voiceConnectorId: String) {
             self.emergencyCallingConfiguration = emergencyCallingConfiguration
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.emergencyCallingConfiguration, forKey: .emergencyCallingConfiguration)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -3109,10 +3240,6 @@ extension ChimeSDKVoice {
     }
 
     public struct PutVoiceConnectorLoggingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The logging configuration being updated.
         public let loggingConfiguration: LoggingConfiguration
         /// The Voice Connector ID.
@@ -3121,6 +3248,13 @@ extension ChimeSDKVoice {
         public init(loggingConfiguration: LoggingConfiguration, voiceConnectorId: String) {
             self.loggingConfiguration = loggingConfiguration
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.loggingConfiguration, forKey: .loggingConfiguration)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -3146,10 +3280,6 @@ extension ChimeSDKVoice {
     }
 
     public struct PutVoiceConnectorOriginationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The origination settings being updated.
         public let origination: Origination
         /// The Voice Connector ID.
@@ -3158,6 +3288,13 @@ extension ChimeSDKVoice {
         public init(origination: Origination, voiceConnectorId: String) {
             self.origination = origination
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.origination, forKey: .origination)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -3184,10 +3321,6 @@ extension ChimeSDKVoice {
     }
 
     public struct PutVoiceConnectorProxyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The default number of minutes allowed for proxy session.
         public let defaultSessionExpiryMinutes: Int
         /// When true, stops proxy sessions from being created on the specified Amazon Chime SDK Voice Connector.
@@ -3205,6 +3338,16 @@ extension ChimeSDKVoice {
             self.fallBackPhoneNumber = fallBackPhoneNumber
             self.phoneNumberPoolCountries = phoneNumberPoolCountries
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.defaultSessionExpiryMinutes, forKey: .defaultSessionExpiryMinutes)
+            try container.encodeIfPresent(self.disabled, forKey: .disabled)
+            try container.encodeIfPresent(self.fallBackPhoneNumber, forKey: .fallBackPhoneNumber)
+            try container.encode(self.phoneNumberPoolCountries, forKey: .phoneNumberPoolCountries)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -3241,10 +3384,6 @@ extension ChimeSDKVoice {
     }
 
     public struct PutVoiceConnectorStreamingConfigurationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The streaming settings being updated.
         public let streamingConfiguration: StreamingConfiguration
         /// The Voice Connector ID.
@@ -3253,6 +3392,13 @@ extension ChimeSDKVoice {
         public init(streamingConfiguration: StreamingConfiguration, voiceConnectorId: String) {
             self.streamingConfiguration = streamingConfiguration
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.streamingConfiguration, forKey: .streamingConfiguration)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -3279,10 +3425,6 @@ extension ChimeSDKVoice {
     }
 
     public struct PutVoiceConnectorTerminationCredentialsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The termination credentials being updated.
         public let credentials: [Credential]?
         /// The Voice Connector ID.
@@ -3291,6 +3433,13 @@ extension ChimeSDKVoice {
         public init(credentials: [Credential]? = nil, voiceConnectorId: String) {
             self.credentials = credentials
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.credentials, forKey: .credentials)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -3303,10 +3452,6 @@ extension ChimeSDKVoice {
     }
 
     public struct PutVoiceConnectorTerminationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The termination settings to be updated.
         public let termination: Termination
         /// The Voice Connector ID.
@@ -3315,6 +3460,13 @@ extension ChimeSDKVoice {
         public init(termination: Termination, voiceConnectorId: String) {
             self.termination = termination
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.termination, forKey: .termination)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -3341,15 +3493,17 @@ extension ChimeSDKVoice {
     }
 
     public struct RestorePhoneNumberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
-        ]
-
         /// The ID of the phone number being restored.
         public let phoneNumberId: String
 
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.phoneNumberId, key: "PhoneNumberId")
         }
 
         public func validate(name: String) throws {
@@ -3373,17 +3527,6 @@ extension ChimeSDKVoice {
     }
 
     public struct SearchAvailablePhoneNumbersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "areaCode", location: .querystring("area-code")),
-            AWSMemberEncoding(label: "city", location: .querystring("city")),
-            AWSMemberEncoding(label: "country", location: .querystring("country")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
-            AWSMemberEncoding(label: "phoneNumberType", location: .querystring("phone-number-type")),
-            AWSMemberEncoding(label: "state", location: .querystring("state")),
-            AWSMemberEncoding(label: "tollFreePrefix", location: .querystring("toll-free-prefix"))
-        ]
-
         /// Confines a search to just the phone numbers associated with the specified area code.
         public let areaCode: String?
         /// Confines a search to just the phone numbers associated with the specified city.
@@ -3410,6 +3553,19 @@ extension ChimeSDKVoice {
             self.phoneNumberType = phoneNumberType
             self.state = state
             self.tollFreePrefix = tollFreePrefix
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.areaCode, key: "area-code")
+            request.encodeQuery(self.city, key: "city")
+            request.encodeQuery(self.country, key: "country")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodeQuery(self.phoneNumberType, key: "phone-number-type")
+            request.encodeQuery(self.state, key: "state")
+            request.encodeQuery(self.tollFreePrefix, key: "toll-free-prefix")
         }
 
         public func validate(name: String) throws {
@@ -3717,10 +3873,6 @@ extension ChimeSDKVoice {
     }
 
     public struct StartSpeakerSearchTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// Specifies which call leg to stream for speaker search.
         public let callLeg: CallLegType?
         /// The unique identifier for the client request. Use a different token for different speaker search tasks.
@@ -3738,6 +3890,16 @@ extension ChimeSDKVoice {
             self.transactionId = transactionId
             self.voiceConnectorId = voiceConnectorId
             self.voiceProfileDomainId = voiceProfileDomainId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.callLeg, forKey: .callLeg)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.transactionId, forKey: .transactionId)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
+            try container.encode(self.voiceProfileDomainId, forKey: .voiceProfileDomainId)
         }
 
         public func validate(name: String) throws {
@@ -3775,10 +3937,6 @@ extension ChimeSDKVoice {
     }
 
     public struct StartVoiceToneAnalysisTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The unique identifier for the client request. Use a different token for different voice tone analysis  tasks.
         public let clientRequestToken: String?
         /// The language code.
@@ -3793,6 +3951,15 @@ extension ChimeSDKVoice {
             self.languageCode = languageCode
             self.transactionId = transactionId
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encode(self.languageCode, forKey: .languageCode)
+            try container.encode(self.transactionId, forKey: .transactionId)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -3826,11 +3993,6 @@ extension ChimeSDKVoice {
     }
 
     public struct StopSpeakerSearchTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "speakerSearchTaskId", location: .uri("SpeakerSearchTaskId")),
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The speaker search task ID.
         public let speakerSearchTaskId: String
         /// The Voice Connector ID.
@@ -3839,6 +4001,13 @@ extension ChimeSDKVoice {
         public init(speakerSearchTaskId: String, voiceConnectorId: String) {
             self.speakerSearchTaskId = speakerSearchTaskId
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.speakerSearchTaskId, key: "SpeakerSearchTaskId")
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -3854,11 +4023,6 @@ extension ChimeSDKVoice {
     }
 
     public struct StopVoiceToneAnalysisTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId")),
-            AWSMemberEncoding(label: "voiceToneAnalysisTaskId", location: .uri("VoiceToneAnalysisTaskId"))
-        ]
-
         /// The Voice Connector ID.
         public let voiceConnectorId: String
         /// The ID of the voice tone analysis task.
@@ -3867,6 +4031,13 @@ extension ChimeSDKVoice {
         public init(voiceConnectorId: String, voiceToneAnalysisTaskId: String) {
             self.voiceConnectorId = voiceConnectorId
             self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
+            request.encodePath(self.voiceToneAnalysisTaskId, key: "VoiceToneAnalysisTaskId")
         }
 
         public func validate(name: String) throws {
@@ -4072,10 +4243,6 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdatePhoneNumberRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "phoneNumberId", location: .uri("PhoneNumberId"))
-        ]
-
         /// The outbound calling name associated with the phone number.
         public let callingName: String?
         /// The phone number ID.
@@ -4087,6 +4254,14 @@ extension ChimeSDKVoice {
             self.callingName = callingName
             self.phoneNumberId = phoneNumberId
             self.productType = productType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.callingName, forKey: .callingName)
+            request.encodePath(self.phoneNumberId, key: "PhoneNumberId")
+            try container.encodeIfPresent(self.productType, forKey: .productType)
         }
 
         public func validate(name: String) throws {
@@ -4157,11 +4332,6 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateProxySessionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "proxySessionId", location: .uri("ProxySessionId")),
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The proxy session capabilities.
         public let capabilities: [Capability]
         /// The number of minutes allowed for the proxy session.
@@ -4176,6 +4346,15 @@ extension ChimeSDKVoice {
             self.expiryMinutes = expiryMinutes
             self.proxySessionId = proxySessionId
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.capabilities, forKey: .capabilities)
+            try container.encodeIfPresent(self.expiryMinutes, forKey: .expiryMinutes)
+            request.encodePath(self.proxySessionId, key: "ProxySessionId")
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -4208,11 +4387,6 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateSipMediaApplicationCallRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId")),
-            AWSMemberEncoding(label: "transactionId", location: .uri("TransactionId"))
-        ]
-
         /// Arguments made available to the Lambda function as part of the  CALL_UPDATE_REQUESTED event. Can contain 0-20 key-value pairs.
         public let arguments: [String: String]
         /// The ID of the SIP media application handling the call.
@@ -4224,6 +4398,14 @@ extension ChimeSDKVoice {
             self.arguments = arguments
             self.sipMediaApplicationId = sipMediaApplicationId
             self.transactionId = transactionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.arguments, forKey: .arguments)
+            request.encodePath(self.sipMediaApplicationId, key: "SipMediaApplicationId")
+            request.encodePath(self.transactionId, key: "TransactionId")
         }
 
         public func validate(name: String) throws {
@@ -4251,10 +4433,6 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateSipMediaApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sipMediaApplicationId", location: .uri("SipMediaApplicationId"))
-        ]
-
         /// The new set of endpoints for the specified SIP media application.
         public let endpoints: [SipMediaApplicationEndpoint]?
         /// The new name for the specified SIP media application.
@@ -4266,6 +4444,14 @@ extension ChimeSDKVoice {
             self.endpoints = endpoints
             self.name = name
             self.sipMediaApplicationId = sipMediaApplicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.endpoints, forKey: .endpoints)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.sipMediaApplicationId, key: "SipMediaApplicationId")
         }
 
         public func validate(name: String) throws {
@@ -4300,10 +4486,6 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateSipRuleRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "sipRuleId", location: .uri("SipRuleId"))
-        ]
-
         /// The new value that indicates whether the rule is disabled.
         public let disabled: Bool?
         /// The new name for the specified SIP rule.
@@ -4318,6 +4500,15 @@ extension ChimeSDKVoice {
             self.name = name
             self.sipRuleId = sipRuleId
             self.targetApplications = targetApplications
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.disabled, forKey: .disabled)
+            try container.encode(self.name, forKey: .name)
+            request.encodePath(self.sipRuleId, key: "SipRuleId")
+            try container.encodeIfPresent(self.targetApplications, forKey: .targetApplications)
         }
 
         public func validate(name: String) throws {
@@ -4353,10 +4544,6 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateVoiceConnectorGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorGroupId", location: .uri("VoiceConnectorGroupId"))
-        ]
-
         /// The name of the Voice Connector group.
         public let name: String
         /// The Voice Connector ID.
@@ -4368,6 +4555,14 @@ extension ChimeSDKVoice {
             self.name = name
             self.voiceConnectorGroupId = voiceConnectorGroupId
             self.voiceConnectorItems = voiceConnectorItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.name, forKey: .name)
+            request.encodePath(self.voiceConnectorGroupId, key: "VoiceConnectorGroupId")
+            try container.encode(self.voiceConnectorItems, forKey: .voiceConnectorItems)
         }
 
         public func validate(name: String) throws {
@@ -4400,10 +4595,6 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateVoiceConnectorRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceConnectorId", location: .uri("VoiceConnectorId"))
-        ]
-
         /// The name of the Voice Connector.
         public let name: String
         /// When enabled, requires encryption for the Voice Connector.
@@ -4415,6 +4606,14 @@ extension ChimeSDKVoice {
             self.name = name
             self.requireEncryption = requireEncryption
             self.voiceConnectorId = voiceConnectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.requireEncryption, forKey: .requireEncryption)
+            request.encodePath(self.voiceConnectorId, key: "VoiceConnectorId")
         }
 
         public func validate(name: String) throws {
@@ -4444,10 +4643,6 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateVoiceProfileDomainRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceProfileDomainId", location: .uri("VoiceProfileDomainId"))
-        ]
-
         /// The description of the voice profile domain.
         public let description: String?
         /// The name of the voice profile domain.
@@ -4459,6 +4654,14 @@ extension ChimeSDKVoice {
             self.description = description
             self.name = name
             self.voiceProfileDomainId = voiceProfileDomainId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.voiceProfileDomainId, key: "VoiceProfileDomainId")
         }
 
         public func validate(name: String) throws {
@@ -4491,10 +4694,6 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateVoiceProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "voiceProfileId", location: .uri("VoiceProfileId"))
-        ]
-
         /// The ID of the speaker search task.
         public let speakerSearchTaskId: String
         /// The profile ID.
@@ -4503,6 +4702,13 @@ extension ChimeSDKVoice {
         public init(speakerSearchTaskId: String, voiceProfileId: String) {
             self.speakerSearchTaskId = speakerSearchTaskId
             self.voiceProfileId = voiceProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.speakerSearchTaskId, forKey: .speakerSearchTaskId)
+            request.encodePath(self.voiceProfileId, key: "VoiceProfileId")
         }
 
         public func validate(name: String) throws {

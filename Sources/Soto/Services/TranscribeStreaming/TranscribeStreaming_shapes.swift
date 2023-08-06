@@ -352,9 +352,9 @@ extension TranscribeStreaming {
 
     public struct AudioEvent: AWSEncodableShape {
         /// An audio blob that contains the next part of the audio that you want to transcribe. The maximum audio chunk size is 32 KB.
-        public let audioChunk: ByteBuffer?
+        public let audioChunk: AWSEventPayload?
 
-        public init(audioChunk: ByteBuffer? = nil) {
+        public init(audioChunk: AWSEventPayload? = nil) {
             self.audioChunk = audioChunk
         }
 
@@ -897,26 +897,7 @@ extension TranscribeStreaming {
         }
     }
 
-    public struct StartCallAnalyticsStreamTranscriptionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "audioStream"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "audioStream", location: .body("AudioStream")),
-            AWSMemberEncoding(label: "contentIdentificationType", location: .header("x-amzn-transcribe-content-identification-type")),
-            AWSMemberEncoding(label: "contentRedactionType", location: .header("x-amzn-transcribe-content-redaction-type")),
-            AWSMemberEncoding(label: "enablePartialResultsStabilization", location: .header("x-amzn-transcribe-enable-partial-results-stabilization")),
-            AWSMemberEncoding(label: "languageCode", location: .header("x-amzn-transcribe-language-code")),
-            AWSMemberEncoding(label: "languageModelName", location: .header("x-amzn-transcribe-language-model-name")),
-            AWSMemberEncoding(label: "mediaEncoding", location: .header("x-amzn-transcribe-media-encoding")),
-            AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header("x-amzn-transcribe-sample-rate")),
-            AWSMemberEncoding(label: "partialResultsStability", location: .header("x-amzn-transcribe-partial-results-stability")),
-            AWSMemberEncoding(label: "piiEntityTypes", location: .header("x-amzn-transcribe-pii-entity-types")),
-            AWSMemberEncoding(label: "sessionId", location: .header("x-amzn-transcribe-session-id")),
-            AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header("x-amzn-transcribe-vocabulary-filter-method")),
-            AWSMemberEncoding(label: "vocabularyFilterName", location: .header("x-amzn-transcribe-vocabulary-filter-name")),
-            AWSMemberEncoding(label: "vocabularyName", location: .header("x-amzn-transcribe-vocabulary-name"))
-        ]
-
+    public struct StartCallAnalyticsStreamTranscriptionRequest: AWSEncodableShape {
         public let audioStream: AWSEventStream<AudioStream>
         /// Labels all personally identifiable information (PII) identified in your transcript.      Content identification is performed at the segment level; PII specified in  PiiEntityTypes is flagged upon complete transcription of an audio segment.  You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
         public let contentIdentificationType: ContentIdentificationType?
@@ -960,6 +941,25 @@ extension TranscribeStreaming {
             self.vocabularyFilterMethod = vocabularyFilterMethod
             self.vocabularyFilterName = vocabularyFilterName
             self.vocabularyName = vocabularyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.audioStream)
+            request.encodeHeader(self.contentIdentificationType, key: "x-amzn-transcribe-content-identification-type")
+            request.encodeHeader(self.contentRedactionType, key: "x-amzn-transcribe-content-redaction-type")
+            request.encodeHeader(self.enablePartialResultsStabilization, key: "x-amzn-transcribe-enable-partial-results-stabilization")
+            request.encodeHeader(self.languageCode, key: "x-amzn-transcribe-language-code")
+            request.encodeHeader(self.languageModelName, key: "x-amzn-transcribe-language-model-name")
+            request.encodeHeader(self.mediaEncoding, key: "x-amzn-transcribe-media-encoding")
+            request.encodeHeader(self.mediaSampleRateHertz, key: "x-amzn-transcribe-sample-rate")
+            request.encodeHeader(self.partialResultsStability, key: "x-amzn-transcribe-partial-results-stability")
+            request.encodeHeader(self.piiEntityTypes, key: "x-amzn-transcribe-pii-entity-types")
+            request.encodeHeader(self.sessionId, key: "x-amzn-transcribe-session-id")
+            request.encodeHeader(self.vocabularyFilterMethod, key: "x-amzn-transcribe-vocabulary-filter-method")
+            request.encodeHeader(self.vocabularyFilterName, key: "x-amzn-transcribe-vocabulary-filter-name")
+            request.encodeHeader(self.vocabularyName, key: "x-amzn-transcribe-vocabulary-name")
         }
 
         public func validate(name: String) throws {
@@ -1038,45 +1038,28 @@ extension TranscribeStreaming {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.callAnalyticsTranscriptResultStream = response.decodeEventStream()
-            self.contentIdentificationType = try response.decodeIfPresent(ContentIdentificationType.self, forHeader: "x-amzn-transcribe-content-identification-type")
-            self.contentRedactionType = try response.decodeIfPresent(ContentRedactionType.self, forHeader: "x-amzn-transcribe-content-redaction-type")
-            self.enablePartialResultsStabilization = try response.decodeIfPresent(Bool.self, forHeader: "x-amzn-transcribe-enable-partial-results-stabilization")
-            self.languageCode = try response.decodeIfPresent(CallAnalyticsLanguageCode.self, forHeader: "x-amzn-transcribe-language-code")
-            self.languageModelName = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-language-model-name")
-            self.mediaEncoding = try response.decodeIfPresent(MediaEncoding.self, forHeader: "x-amzn-transcribe-media-encoding")
-            self.mediaSampleRateHertz = try response.decodeIfPresent(Int.self, forHeader: "x-amzn-transcribe-sample-rate")
-            self.partialResultsStability = try response.decodeIfPresent(PartialResultsStability.self, forHeader: "x-amzn-transcribe-partial-results-stability")
-            self.piiEntityTypes = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-pii-entity-types")
-            self.requestId = try response.decodeIfPresent(String.self, forHeader: "x-amzn-request-id")
-            self.sessionId = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-session-id")
-            self.vocabularyFilterMethod = try response.decodeIfPresent(VocabularyFilterMethod.self, forHeader: "x-amzn-transcribe-vocabulary-filter-method")
-            self.vocabularyFilterName = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-vocabulary-filter-name")
-            self.vocabularyName = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-vocabulary-name")
-
+            let container = try decoder.singleValueContainer()
+            self.callAnalyticsTranscriptResultStream = try container.decode(AWSEventStream<CallAnalyticsTranscriptResultStream>.self)
+            self.contentIdentificationType = try response.decodeHeaderIfPresent(ContentIdentificationType.self, key: "x-amzn-transcribe-content-identification-type")
+            self.contentRedactionType = try response.decodeHeaderIfPresent(ContentRedactionType.self, key: "x-amzn-transcribe-content-redaction-type")
+            self.enablePartialResultsStabilization = try response.decodeHeaderIfPresent(Bool.self, key: "x-amzn-transcribe-enable-partial-results-stabilization")
+            self.languageCode = try response.decodeHeaderIfPresent(CallAnalyticsLanguageCode.self, key: "x-amzn-transcribe-language-code")
+            self.languageModelName = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-language-model-name")
+            self.mediaEncoding = try response.decodeHeaderIfPresent(MediaEncoding.self, key: "x-amzn-transcribe-media-encoding")
+            self.mediaSampleRateHertz = try response.decodeHeaderIfPresent(Int.self, key: "x-amzn-transcribe-sample-rate")
+            self.partialResultsStability = try response.decodeHeaderIfPresent(PartialResultsStability.self, key: "x-amzn-transcribe-partial-results-stability")
+            self.piiEntityTypes = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-pii-entity-types")
+            self.requestId = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-request-id")
+            self.sessionId = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-session-id")
+            self.vocabularyFilterMethod = try response.decodeHeaderIfPresent(VocabularyFilterMethod.self, key: "x-amzn-transcribe-vocabulary-filter-method")
+            self.vocabularyFilterName = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-vocabulary-filter-name")
+            self.vocabularyName = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-vocabulary-name")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct StartMedicalStreamTranscriptionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "audioStream"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "audioStream", location: .body("AudioStream")),
-            AWSMemberEncoding(label: "contentIdentificationType", location: .header("x-amzn-transcribe-content-identification-type")),
-            AWSMemberEncoding(label: "enableChannelIdentification", location: .header("x-amzn-transcribe-enable-channel-identification")),
-            AWSMemberEncoding(label: "languageCode", location: .header("x-amzn-transcribe-language-code")),
-            AWSMemberEncoding(label: "mediaEncoding", location: .header("x-amzn-transcribe-media-encoding")),
-            AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header("x-amzn-transcribe-sample-rate")),
-            AWSMemberEncoding(label: "numberOfChannels", location: .header("x-amzn-transcribe-number-of-channels")),
-            AWSMemberEncoding(label: "sessionId", location: .header("x-amzn-transcribe-session-id")),
-            AWSMemberEncoding(label: "showSpeakerLabel", location: .header("x-amzn-transcribe-show-speaker-label")),
-            AWSMemberEncoding(label: "specialty", location: .header("x-amzn-transcribe-specialty")),
-            AWSMemberEncoding(label: "type", location: .header("x-amzn-transcribe-type")),
-            AWSMemberEncoding(label: "vocabularyName", location: .header("x-amzn-transcribe-vocabulary-name"))
-        ]
-
+    public struct StartMedicalStreamTranscriptionRequest: AWSEncodableShape {
         public let audioStream: AWSEventStream<AudioStream>
         /// Labels all personal health information (PHI) identified in your transcript.      Content identification is performed at the segment level; PHI is flagged upon complete transcription of an audio segment.  For more information, see Identifying personal health information (PHI) in a transcription.
         public let contentIdentificationType: MedicalContentIdentificationType?
@@ -1114,6 +1097,23 @@ extension TranscribeStreaming {
             self.specialty = specialty
             self.type = type
             self.vocabularyName = vocabularyName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.audioStream)
+            request.encodeHeader(self.contentIdentificationType, key: "x-amzn-transcribe-content-identification-type")
+            request.encodeHeader(self.enableChannelIdentification, key: "x-amzn-transcribe-enable-channel-identification")
+            request.encodeHeader(self.languageCode, key: "x-amzn-transcribe-language-code")
+            request.encodeHeader(self.mediaEncoding, key: "x-amzn-transcribe-media-encoding")
+            request.encodeHeader(self.mediaSampleRateHertz, key: "x-amzn-transcribe-sample-rate")
+            request.encodeHeader(self.numberOfChannels, key: "x-amzn-transcribe-number-of-channels")
+            request.encodeHeader(self.sessionId, key: "x-amzn-transcribe-session-id")
+            request.encodeHeader(self.showSpeakerLabel, key: "x-amzn-transcribe-show-speaker-label")
+            request.encodeHeader(self.specialty, key: "x-amzn-transcribe-specialty")
+            request.encodeHeader(self.type, key: "x-amzn-transcribe-type")
+            request.encodeHeader(self.vocabularyName, key: "x-amzn-transcribe-vocabulary-name")
         }
 
         public func validate(name: String) throws {
@@ -1178,53 +1178,26 @@ extension TranscribeStreaming {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.contentIdentificationType = try response.decodeIfPresent(MedicalContentIdentificationType.self, forHeader: "x-amzn-transcribe-content-identification-type")
-            self.enableChannelIdentification = try response.decodeIfPresent(Bool.self, forHeader: "x-amzn-transcribe-enable-channel-identification")
-            self.languageCode = try response.decodeIfPresent(LanguageCode.self, forHeader: "x-amzn-transcribe-language-code")
-            self.mediaEncoding = try response.decodeIfPresent(MediaEncoding.self, forHeader: "x-amzn-transcribe-media-encoding")
-            self.mediaSampleRateHertz = try response.decodeIfPresent(Int.self, forHeader: "x-amzn-transcribe-sample-rate")
-            self.numberOfChannels = try response.decodeIfPresent(Int.self, forHeader: "x-amzn-transcribe-number-of-channels")
-            self.requestId = try response.decodeIfPresent(String.self, forHeader: "x-amzn-request-id")
-            self.sessionId = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-session-id")
-            self.showSpeakerLabel = try response.decodeIfPresent(Bool.self, forHeader: "x-amzn-transcribe-show-speaker-label")
-            self.specialty = try response.decodeIfPresent(Specialty.self, forHeader: "x-amzn-transcribe-specialty")
-            self.transcriptResultStream = response.decodeEventStream()
-            self.type = try response.decodeIfPresent(`Type`.self, forHeader: "x-amzn-transcribe-type")
-            self.vocabularyName = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-vocabulary-name")
-
+            let container = try decoder.singleValueContainer()
+            self.contentIdentificationType = try response.decodeHeaderIfPresent(MedicalContentIdentificationType.self, key: "x-amzn-transcribe-content-identification-type")
+            self.enableChannelIdentification = try response.decodeHeaderIfPresent(Bool.self, key: "x-amzn-transcribe-enable-channel-identification")
+            self.languageCode = try response.decodeHeaderIfPresent(LanguageCode.self, key: "x-amzn-transcribe-language-code")
+            self.mediaEncoding = try response.decodeHeaderIfPresent(MediaEncoding.self, key: "x-amzn-transcribe-media-encoding")
+            self.mediaSampleRateHertz = try response.decodeHeaderIfPresent(Int.self, key: "x-amzn-transcribe-sample-rate")
+            self.numberOfChannels = try response.decodeHeaderIfPresent(Int.self, key: "x-amzn-transcribe-number-of-channels")
+            self.requestId = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-request-id")
+            self.sessionId = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-session-id")
+            self.showSpeakerLabel = try response.decodeHeaderIfPresent(Bool.self, key: "x-amzn-transcribe-show-speaker-label")
+            self.specialty = try response.decodeHeaderIfPresent(Specialty.self, key: "x-amzn-transcribe-specialty")
+            self.transcriptResultStream = try container.decode(AWSEventStream<MedicalTranscriptResultStream>.self)
+            self.type = try response.decodeHeaderIfPresent(`Type`.self, key: "x-amzn-transcribe-type")
+            self.vocabularyName = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-vocabulary-name")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct StartStreamTranscriptionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "audioStream"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "audioStream", location: .body("AudioStream")),
-            AWSMemberEncoding(label: "contentIdentificationType", location: .header("x-amzn-transcribe-content-identification-type")),
-            AWSMemberEncoding(label: "contentRedactionType", location: .header("x-amzn-transcribe-content-redaction-type")),
-            AWSMemberEncoding(label: "enableChannelIdentification", location: .header("x-amzn-transcribe-enable-channel-identification")),
-            AWSMemberEncoding(label: "enablePartialResultsStabilization", location: .header("x-amzn-transcribe-enable-partial-results-stabilization")),
-            AWSMemberEncoding(label: "identifyLanguage", location: .header("x-amzn-transcribe-identify-language")),
-            AWSMemberEncoding(label: "languageCode", location: .header("x-amzn-transcribe-language-code")),
-            AWSMemberEncoding(label: "languageModelName", location: .header("x-amzn-transcribe-language-model-name")),
-            AWSMemberEncoding(label: "languageOptions", location: .header("x-amzn-transcribe-language-options")),
-            AWSMemberEncoding(label: "mediaEncoding", location: .header("x-amzn-transcribe-media-encoding")),
-            AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header("x-amzn-transcribe-sample-rate")),
-            AWSMemberEncoding(label: "numberOfChannels", location: .header("x-amzn-transcribe-number-of-channels")),
-            AWSMemberEncoding(label: "partialResultsStability", location: .header("x-amzn-transcribe-partial-results-stability")),
-            AWSMemberEncoding(label: "piiEntityTypes", location: .header("x-amzn-transcribe-pii-entity-types")),
-            AWSMemberEncoding(label: "preferredLanguage", location: .header("x-amzn-transcribe-preferred-language")),
-            AWSMemberEncoding(label: "sessionId", location: .header("x-amzn-transcribe-session-id")),
-            AWSMemberEncoding(label: "showSpeakerLabel", location: .header("x-amzn-transcribe-show-speaker-label")),
-            AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header("x-amzn-transcribe-vocabulary-filter-method")),
-            AWSMemberEncoding(label: "vocabularyFilterName", location: .header("x-amzn-transcribe-vocabulary-filter-name")),
-            AWSMemberEncoding(label: "vocabularyFilterNames", location: .header("x-amzn-transcribe-vocabulary-filter-names")),
-            AWSMemberEncoding(label: "vocabularyName", location: .header("x-amzn-transcribe-vocabulary-name")),
-            AWSMemberEncoding(label: "vocabularyNames", location: .header("x-amzn-transcribe-vocabulary-names"))
-        ]
-
+    public struct StartStreamTranscriptionRequest: AWSEncodableShape {
         /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket  data frames.  For more information, see Transcribing streaming audio.
         public let audioStream: AWSEventStream<AudioStream>
         /// Labels all personally identifiable information (PII) identified in your transcript.      Content identification is performed at the segment level; PII specified in  PiiEntityTypes is flagged upon complete transcription of an audio segment.  You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see Redacting or identifying personally identifiable information.
@@ -1293,6 +1266,33 @@ extension TranscribeStreaming {
             self.vocabularyFilterNames = vocabularyFilterNames
             self.vocabularyName = vocabularyName
             self.vocabularyNames = vocabularyNames
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.audioStream)
+            request.encodeHeader(self.contentIdentificationType, key: "x-amzn-transcribe-content-identification-type")
+            request.encodeHeader(self.contentRedactionType, key: "x-amzn-transcribe-content-redaction-type")
+            request.encodeHeader(self.enableChannelIdentification, key: "x-amzn-transcribe-enable-channel-identification")
+            request.encodeHeader(self.enablePartialResultsStabilization, key: "x-amzn-transcribe-enable-partial-results-stabilization")
+            request.encodeHeader(self.identifyLanguage, key: "x-amzn-transcribe-identify-language")
+            request.encodeHeader(self.languageCode, key: "x-amzn-transcribe-language-code")
+            request.encodeHeader(self.languageModelName, key: "x-amzn-transcribe-language-model-name")
+            request.encodeHeader(self.languageOptions, key: "x-amzn-transcribe-language-options")
+            request.encodeHeader(self.mediaEncoding, key: "x-amzn-transcribe-media-encoding")
+            request.encodeHeader(self.mediaSampleRateHertz, key: "x-amzn-transcribe-sample-rate")
+            request.encodeHeader(self.numberOfChannels, key: "x-amzn-transcribe-number-of-channels")
+            request.encodeHeader(self.partialResultsStability, key: "x-amzn-transcribe-partial-results-stability")
+            request.encodeHeader(self.piiEntityTypes, key: "x-amzn-transcribe-pii-entity-types")
+            request.encodeHeader(self.preferredLanguage, key: "x-amzn-transcribe-preferred-language")
+            request.encodeHeader(self.sessionId, key: "x-amzn-transcribe-session-id")
+            request.encodeHeader(self.showSpeakerLabel, key: "x-amzn-transcribe-show-speaker-label")
+            request.encodeHeader(self.vocabularyFilterMethod, key: "x-amzn-transcribe-vocabulary-filter-method")
+            request.encodeHeader(self.vocabularyFilterName, key: "x-amzn-transcribe-vocabulary-filter-name")
+            request.encodeHeader(self.vocabularyFilterNames, key: "x-amzn-transcribe-vocabulary-filter-names")
+            request.encodeHeader(self.vocabularyName, key: "x-amzn-transcribe-vocabulary-name")
+            request.encodeHeader(self.vocabularyNames, key: "x-amzn-transcribe-vocabulary-names")
         }
 
         public func validate(name: String) throws {
@@ -1405,30 +1405,30 @@ extension TranscribeStreaming {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.contentIdentificationType = try response.decodeIfPresent(ContentIdentificationType.self, forHeader: "x-amzn-transcribe-content-identification-type")
-            self.contentRedactionType = try response.decodeIfPresent(ContentRedactionType.self, forHeader: "x-amzn-transcribe-content-redaction-type")
-            self.enableChannelIdentification = try response.decodeIfPresent(Bool.self, forHeader: "x-amzn-transcribe-enable-channel-identification")
-            self.enablePartialResultsStabilization = try response.decodeIfPresent(Bool.self, forHeader: "x-amzn-transcribe-enable-partial-results-stabilization")
-            self.identifyLanguage = try response.decodeIfPresent(Bool.self, forHeader: "x-amzn-transcribe-identify-language")
-            self.languageCode = try response.decodeIfPresent(LanguageCode.self, forHeader: "x-amzn-transcribe-language-code")
-            self.languageModelName = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-language-model-name")
-            self.languageOptions = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-language-options")
-            self.mediaEncoding = try response.decodeIfPresent(MediaEncoding.self, forHeader: "x-amzn-transcribe-media-encoding")
-            self.mediaSampleRateHertz = try response.decodeIfPresent(Int.self, forHeader: "x-amzn-transcribe-sample-rate")
-            self.numberOfChannels = try response.decodeIfPresent(Int.self, forHeader: "x-amzn-transcribe-number-of-channels")
-            self.partialResultsStability = try response.decodeIfPresent(PartialResultsStability.self, forHeader: "x-amzn-transcribe-partial-results-stability")
-            self.piiEntityTypes = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-pii-entity-types")
-            self.preferredLanguage = try response.decodeIfPresent(LanguageCode.self, forHeader: "x-amzn-transcribe-preferred-language")
-            self.requestId = try response.decodeIfPresent(String.self, forHeader: "x-amzn-request-id")
-            self.sessionId = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-session-id")
-            self.showSpeakerLabel = try response.decodeIfPresent(Bool.self, forHeader: "x-amzn-transcribe-show-speaker-label")
-            self.transcriptResultStream = response.decodeEventStream()
-            self.vocabularyFilterMethod = try response.decodeIfPresent(VocabularyFilterMethod.self, forHeader: "x-amzn-transcribe-vocabulary-filter-method")
-            self.vocabularyFilterName = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-vocabulary-filter-name")
-            self.vocabularyFilterNames = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-vocabulary-filter-names")
-            self.vocabularyName = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-vocabulary-name")
-            self.vocabularyNames = try response.decodeIfPresent(String.self, forHeader: "x-amzn-transcribe-vocabulary-names")
-
+            let container = try decoder.singleValueContainer()
+            self.contentIdentificationType = try response.decodeHeaderIfPresent(ContentIdentificationType.self, key: "x-amzn-transcribe-content-identification-type")
+            self.contentRedactionType = try response.decodeHeaderIfPresent(ContentRedactionType.self, key: "x-amzn-transcribe-content-redaction-type")
+            self.enableChannelIdentification = try response.decodeHeaderIfPresent(Bool.self, key: "x-amzn-transcribe-enable-channel-identification")
+            self.enablePartialResultsStabilization = try response.decodeHeaderIfPresent(Bool.self, key: "x-amzn-transcribe-enable-partial-results-stabilization")
+            self.identifyLanguage = try response.decodeHeaderIfPresent(Bool.self, key: "x-amzn-transcribe-identify-language")
+            self.languageCode = try response.decodeHeaderIfPresent(LanguageCode.self, key: "x-amzn-transcribe-language-code")
+            self.languageModelName = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-language-model-name")
+            self.languageOptions = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-language-options")
+            self.mediaEncoding = try response.decodeHeaderIfPresent(MediaEncoding.self, key: "x-amzn-transcribe-media-encoding")
+            self.mediaSampleRateHertz = try response.decodeHeaderIfPresent(Int.self, key: "x-amzn-transcribe-sample-rate")
+            self.numberOfChannels = try response.decodeHeaderIfPresent(Int.self, key: "x-amzn-transcribe-number-of-channels")
+            self.partialResultsStability = try response.decodeHeaderIfPresent(PartialResultsStability.self, key: "x-amzn-transcribe-partial-results-stability")
+            self.piiEntityTypes = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-pii-entity-types")
+            self.preferredLanguage = try response.decodeHeaderIfPresent(LanguageCode.self, key: "x-amzn-transcribe-preferred-language")
+            self.requestId = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-request-id")
+            self.sessionId = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-session-id")
+            self.showSpeakerLabel = try response.decodeHeaderIfPresent(Bool.self, key: "x-amzn-transcribe-show-speaker-label")
+            self.transcriptResultStream = try container.decode(AWSEventStream<TranscriptResultStream>.self)
+            self.vocabularyFilterMethod = try response.decodeHeaderIfPresent(VocabularyFilterMethod.self, key: "x-amzn-transcribe-vocabulary-filter-method")
+            self.vocabularyFilterName = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-vocabulary-filter-name")
+            self.vocabularyFilterNames = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-vocabulary-filter-names")
+            self.vocabularyName = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-vocabulary-name")
+            self.vocabularyNames = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-vocabulary-names")
         }
 
         private enum CodingKeys: CodingKey {}

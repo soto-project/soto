@@ -539,11 +539,6 @@ extension M2 {
     }
 
     public struct CancelBatchJobExecutionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "executionId", location: .uri("executionId"))
-        ]
-
         /// The unique identifier of the application.
         public let applicationId: String
         /// The unique identifier of the batch job execution.
@@ -552,6 +547,13 @@ extension M2 {
         public init(applicationId: String, executionId: String) {
             self.applicationId = applicationId
             self.executionId = executionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.executionId, key: "executionId")
         }
 
         public func validate(name: String) throws {
@@ -643,10 +645,6 @@ extension M2 {
     }
 
     public struct CreateDataSetImportTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The unique identifier of the application for which you want to import data sets.
         public let applicationId: String
         ///  Unique, case-sensitive identifier you provide to ensure the idempotency of the request to create a data set import. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires.
@@ -658,6 +656,14 @@ extension M2 {
             self.applicationId = applicationId
             self.clientToken = clientToken
             self.importConfig = importConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.importConfig, forKey: .importConfig)
         }
 
         public func validate(name: String) throws {
@@ -685,10 +691,6 @@ extension M2 {
     }
 
     public struct CreateDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The application identifier.
         public let applicationId: String
         /// The version of the application to deploy.
@@ -703,6 +705,15 @@ extension M2 {
             self.applicationVersion = applicationVersion
             self.clientToken = clientToken
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encode(self.applicationVersion, forKey: .applicationVersion)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.environmentId, forKey: .environmentId)
         }
 
         public func validate(name: String) throws {
@@ -973,11 +984,6 @@ extension M2 {
     }
 
     public struct DeleteApplicationFromEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// The unique identifier of the application you want to delete.
         public let applicationId: String
         /// The unique identifier of the runtime environment where the application was previously deployed.
@@ -986,6 +992,13 @@ extension M2 {
         public init(applicationId: String, environmentId: String) {
             self.applicationId = applicationId
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -1001,15 +1014,17 @@ extension M2 {
     }
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The unique identifier of the application you want to delete.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
         }
 
         public func validate(name: String) throws {
@@ -1024,15 +1039,17 @@ extension M2 {
     }
 
     public struct DeleteEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// The unique identifier of the runtime environment you want to delete.
         public let environmentId: String
 
         public init(environmentId: String) {
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -1275,15 +1292,17 @@ extension M2 {
     }
 
     public struct GetApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The identifier of the application.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
         }
 
         public func validate(name: String) throws {
@@ -1383,11 +1402,6 @@ extension M2 {
     }
 
     public struct GetApplicationVersionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "applicationVersion", location: .uri("applicationVersion"))
-        ]
-
         /// The unique identifier of the application.
         public let applicationId: String
         /// The specific version of the application.
@@ -1396,6 +1410,13 @@ extension M2 {
         public init(applicationId: String, applicationVersion: Int) {
             self.applicationId = applicationId
             self.applicationVersion = applicationVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.applicationVersion, key: "applicationVersion")
         }
 
         public func validate(name: String) throws {
@@ -1444,11 +1465,6 @@ extension M2 {
     }
 
     public struct GetBatchJobExecutionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "executionId", location: .uri("executionId"))
-        ]
-
         /// The identifier of the application.
         public let applicationId: String
         /// The unique identifier of the batch job execution.
@@ -1457,6 +1473,13 @@ extension M2 {
         public init(applicationId: String, executionId: String) {
             self.applicationId = applicationId
             self.executionId = executionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.executionId, key: "executionId")
         }
 
         public func validate(name: String) throws {
@@ -1525,11 +1548,6 @@ extension M2 {
     }
 
     public struct GetDataSetDetailsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "dataSetName", location: .uri("dataSetName"))
-        ]
-
         /// The unique identifier of the application that this data set is associated with.
         public let applicationId: String
         /// The name of the data set.
@@ -1538,6 +1556,13 @@ extension M2 {
         public init(applicationId: String, dataSetName: String) {
             self.applicationId = applicationId
             self.dataSetName = dataSetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.dataSetName, key: "dataSetName")
         }
 
         public func validate(name: String) throws {
@@ -1590,11 +1615,6 @@ extension M2 {
     }
 
     public struct GetDataSetImportTaskRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "taskId", location: .uri("taskId"))
-        ]
-
         /// The application identifier.
         public let applicationId: String
         /// The task identifier returned by the CreateDataSetImportTask operation.
@@ -1603,6 +1623,13 @@ extension M2 {
         public init(applicationId: String, taskId: String) {
             self.applicationId = applicationId
             self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.taskId, key: "taskId")
         }
 
         public func validate(name: String) throws {
@@ -1635,11 +1662,6 @@ extension M2 {
     }
 
     public struct GetDeploymentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "deploymentId", location: .uri("deploymentId"))
-        ]
-
         /// The unique identifier of the application.
         public let applicationId: String
         /// The unique identifier for the deployment.
@@ -1648,6 +1670,13 @@ extension M2 {
         public init(applicationId: String, deploymentId: String) {
             self.applicationId = applicationId
             self.deploymentId = deploymentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.deploymentId, key: "deploymentId")
         }
 
         public func validate(name: String) throws {
@@ -1696,15 +1725,17 @@ extension M2 {
     }
 
     public struct GetEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// The unique identifier of the runtime environment.
         public let environmentId: String
 
         public init(environmentId: String) {
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -1830,12 +1861,6 @@ extension M2 {
     }
 
     public struct ListApplicationVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier of the application.
         public let applicationId: String
         /// The maximum number of application versions to return.
@@ -1847,6 +1872,14 @@ extension M2 {
             self.applicationId = applicationId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1877,13 +1910,6 @@ extension M2 {
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .querystring("environmentId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "names", location: .querystring("names")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier of the runtime environment where the applications are deployed.
         public let environmentId: String?
         /// The maximum number of applications to return.
@@ -1898,6 +1924,15 @@ extension M2 {
             self.maxResults = maxResults
             self.names = names
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.environmentId, key: "environmentId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.names, key: "names")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1933,13 +1968,6 @@ extension M2 {
     }
 
     public struct ListBatchJobDefinitionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "prefix", location: .querystring("prefix"))
-        ]
-
         /// The identifier of the application.
         public let applicationId: String
         /// The maximum number of batch job definitions to return.
@@ -1954,6 +1982,15 @@ extension M2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.prefix = prefix
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.prefix, key: "prefix")
         }
 
         public func validate(name: String) throws {
@@ -1984,17 +2021,6 @@ extension M2 {
     }
 
     public struct ListBatchJobExecutionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "executionIds", location: .querystring("executionIds")),
-            AWSMemberEncoding(label: "jobName", location: .querystring("jobName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "startedAfter", location: .querystring("startedAfter")),
-            AWSMemberEncoding(label: "startedBefore", location: .querystring("startedBefore")),
-            AWSMemberEncoding(label: "status", location: .querystring("status"))
-        ]
-
         /// The unique identifier of the application.
         public let applicationId: String
         /// The unique identifier of each batch job execution.
@@ -2021,6 +2047,19 @@ extension M2 {
             self.startedAfter = startedAfter
             self.startedBefore = startedBefore
             self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.executionIds, key: "executionIds")
+            request.encodeQuery(self.jobName, key: "jobName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.startedAfter, key: "startedAfter")
+            request.encodeQuery(self.startedBefore, key: "startedBefore")
+            request.encodeQuery(self.status, key: "status")
         }
 
         public func validate(name: String) throws {
@@ -2057,12 +2096,6 @@ extension M2 {
     }
 
     public struct ListDataSetImportHistoryRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier of the application.
         public let applicationId: String
         /// The maximum number of objects to return.
@@ -2074,6 +2107,14 @@ extension M2 {
             self.applicationId = applicationId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2104,13 +2145,6 @@ extension M2 {
     }
 
     public struct ListDataSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "prefix", location: .querystring("prefix"))
-        ]
-
         /// The unique identifier of the application for which you want to list the associated data sets.
         public let applicationId: String
         /// The maximum number of objects to return.
@@ -2125,6 +2159,15 @@ extension M2 {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.prefix = prefix
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.prefix, key: "prefix")
         }
 
         public func validate(name: String) throws {
@@ -2156,12 +2199,6 @@ extension M2 {
     }
 
     public struct ListDeploymentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The application identifier.
         public let applicationId: String
         /// The maximum number of objects to return.
@@ -2173,6 +2210,14 @@ extension M2 {
             self.applicationId = applicationId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2203,12 +2248,6 @@ extension M2 {
     }
 
     public struct ListEngineVersionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "engineType", location: .querystring("engineType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The type of target platform.
         public let engineType: EngineType?
         /// The maximum number of objects to return.
@@ -2220,6 +2259,14 @@ extension M2 {
             self.engineType = engineType
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.engineType, key: "engineType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2249,13 +2296,6 @@ extension M2 {
     }
 
     public struct ListEnvironmentsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "engineType", location: .querystring("engineType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "names", location: .querystring("names")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The engine type for the runtime environment.
         public let engineType: EngineType?
         /// The maximum number of runtime environments to return.
@@ -2270,6 +2310,15 @@ extension M2 {
             self.maxResults = maxResults
             self.names = names
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.engineType, key: "engineType")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.names, key: "names")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2304,15 +2353,17 @@ extension M2 {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -2531,15 +2582,17 @@ extension M2 {
     }
 
     public struct StartApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The unique identifier of the application you want to start.
         public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
         }
 
         public func validate(name: String) throws {
@@ -2554,10 +2607,6 @@ extension M2 {
     }
 
     public struct StartBatchJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The unique identifier of the application associated with this batch job.
         public let applicationId: String
         /// The unique identifier of the batch job.
@@ -2569,6 +2618,14 @@ extension M2 {
             self.applicationId = applicationId
             self.batchJobIdentifier = batchJobIdentifier
             self.jobParams = jobParams
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encode(self.batchJobIdentifier, forKey: .batchJobIdentifier)
+            try container.encodeIfPresent(self.jobParams, forKey: .jobParams)
         }
 
         public func validate(name: String) throws {
@@ -2602,10 +2659,6 @@ extension M2 {
     }
 
     public struct StopApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The unique identifier of the application you want to stop.
         public let applicationId: String
         /// Stopping an application process can take a long time. Setting this parameter to true lets you force stop the application so you don't need to wait until the process finishes to apply another action on the application. The default value is false.
@@ -2614,6 +2667,13 @@ extension M2 {
         public init(applicationId: String, forceStop: Bool? = nil) {
             self.applicationId = applicationId
             self.forceStop = forceStop
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.forceStop, forKey: .forceStop)
         }
 
         public func validate(name: String) throws {
@@ -2630,10 +2690,6 @@ extension M2 {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tags to add to the resource.
@@ -2642,6 +2698,13 @@ extension M2 {
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2665,11 +2728,6 @@ extension M2 {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The keys of the tags to remove.
@@ -2678,6 +2736,13 @@ extension M2 {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
         }
 
         public func validate(name: String) throws {
@@ -2697,10 +2762,6 @@ extension M2 {
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "applicationId", location: .uri("applicationId"))
-        ]
-
         /// The unique identifier of the application you want to update.
         public let applicationId: String
         /// The current version of the application to update.
@@ -2715,6 +2776,15 @@ extension M2 {
             self.currentApplicationVersion = currentApplicationVersion
             self.definition = definition
             self.description = description
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encode(self.currentApplicationVersion, forKey: .currentApplicationVersion)
+            try container.encodeIfPresent(self.definition, forKey: .definition)
+            try container.encodeIfPresent(self.description, forKey: .description)
         }
 
         public func validate(name: String) throws {
@@ -2745,10 +2815,6 @@ extension M2 {
     }
 
     public struct UpdateEnvironmentRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "environmentId", location: .uri("environmentId"))
-        ]
-
         /// Indicates whether to update the runtime environment during the maintenance window. The default is false. Currently, Amazon Web Services Mainframe Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest, it will fail if applyDuringMaintenanceWindow is set to true.
         public let applyDuringMaintenanceWindow: Bool?
         /// The desired capacity for the runtime environment to update.
@@ -2769,6 +2835,17 @@ extension M2 {
             self.environmentId = environmentId
             self.instanceType = instanceType
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.applyDuringMaintenanceWindow, forKey: .applyDuringMaintenanceWindow)
+            try container.encodeIfPresent(self.desiredCapacity, forKey: .desiredCapacity)
+            try container.encodeIfPresent(self.engineVersion, forKey: .engineVersion)
+            request.encodePath(self.environmentId, key: "environmentId")
+            try container.encodeIfPresent(self.instanceType, forKey: .instanceType)
+            try container.encodeIfPresent(self.preferredMaintenanceWindow, forKey: .preferredMaintenanceWindow)
         }
 
         public func validate(name: String) throws {

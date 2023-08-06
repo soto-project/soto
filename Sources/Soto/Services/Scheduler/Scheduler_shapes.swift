@@ -144,10 +144,6 @@ extension Scheduler {
     }
 
     public struct CreateScheduleGroupInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         ///  Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
         public let clientToken: String?
         /// The name of the schedule group that you are creating.
@@ -159,6 +155,14 @@ extension Scheduler {
             self.clientToken = clientToken
             self.name = name
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -194,10 +198,6 @@ extension Scheduler {
     }
 
     public struct CreateScheduleInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         ///  Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
         public let clientToken: String?
         /// The description you specify for the schedule.
@@ -241,6 +241,23 @@ extension Scheduler {
             self.startDate = startDate
             self.state = state
             self.target = target
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.endDate, forKey: .endDate)
+            try container.encode(self.flexibleTimeWindow, forKey: .flexibleTimeWindow)
+            try container.encodeIfPresent(self.groupName, forKey: .groupName)
+            try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.scheduleExpression, forKey: .scheduleExpression)
+            try container.encodeIfPresent(self.scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
+            try container.encodeIfPresent(self.startDate, forKey: .startDate)
+            try container.encodeIfPresent(self.state, forKey: .state)
+            try container.encode(self.target, forKey: .target)
         }
 
         public func validate(name: String) throws {
@@ -312,11 +329,6 @@ extension Scheduler {
     }
 
     public struct DeleteScheduleGroupInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         ///  Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
         public let clientToken: String?
         /// The name of the schedule group to delete.
@@ -325,6 +337,13 @@ extension Scheduler {
         public init(clientToken: String? = DeleteScheduleGroupInput.idempotencyToken(), name: String) {
             self.clientToken = clientToken
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -344,12 +363,6 @@ extension Scheduler {
     }
 
     public struct DeleteScheduleInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "groupName", location: .querystring("groupName")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         ///  Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
         public let clientToken: String?
         /// The name of the schedule group associated with this schedule. If you omit this, the default schedule group is used.
@@ -361,6 +374,14 @@ extension Scheduler {
             self.clientToken = clientToken
             self.groupName = groupName
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodeQuery(self.groupName, key: "groupName")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -521,15 +542,17 @@ extension Scheduler {
     }
 
     public struct GetScheduleGroupInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the schedule group to retrieve.
         public let name: String
 
         public init(name: String) {
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -571,11 +594,6 @@ extension Scheduler {
     }
 
     public struct GetScheduleInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupName", location: .querystring("groupName")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The name of the schedule group associated with this schedule. If you omit this, EventBridge Scheduler assumes that the schedule is associated with the default group.
         public let groupName: String?
         /// The name of the schedule to retrieve.
@@ -584,6 +602,13 @@ extension Scheduler {
         public init(groupName: String? = nil, name: String) {
             self.groupName = groupName
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.groupName, key: "groupName")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -687,12 +712,6 @@ extension Scheduler {
     }
 
     public struct ListScheduleGroupsInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "namePrefix", location: .querystring("NamePrefix")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
-        ]
-
         /// If specified, limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
         public let maxResults: Int?
         /// The name prefix that you can use to return a filtered list of your schedule groups.
@@ -704,6 +723,14 @@ extension Scheduler {
             self.maxResults = maxResults
             self.namePrefix = namePrefix
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.namePrefix, key: "NamePrefix")
+            request.encodeQuery(self.nextToken, key: "NextToken")
         }
 
         public func validate(name: String) throws {
@@ -737,14 +764,6 @@ extension Scheduler {
     }
 
     public struct ListSchedulesInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "groupName", location: .querystring("ScheduleGroup")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "namePrefix", location: .querystring("NamePrefix")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
-            AWSMemberEncoding(label: "state", location: .querystring("State"))
-        ]
-
         /// If specified, only lists the schedules whose associated schedule group matches the given filter.
         public let groupName: String?
         /// If specified, limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
@@ -762,6 +781,16 @@ extension Scheduler {
             self.namePrefix = namePrefix
             self.nextToken = nextToken
             self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.groupName, key: "ScheduleGroup")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.namePrefix, key: "NamePrefix")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.state, key: "State")
         }
 
         public func validate(name: String) throws {
@@ -798,15 +827,17 @@ extension Scheduler {
     }
 
     public struct ListTagsForResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The ARN of the EventBridge Scheduler resource for which you want to view tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         public func validate(name: String) throws {
@@ -1068,10 +1099,6 @@ extension Scheduler {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the schedule group that you are adding tags to.
         public let resourceArn: String
         /// The list of tags to associate with the schedule group.
@@ -1080,6 +1107,13 @@ extension Scheduler {
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -1180,11 +1214,6 @@ extension Scheduler {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("TagKeys"))
-        ]
-
         /// The Amazon Resource Name (ARN) of the schedule group from which you are removing tags.
         public let resourceArn: String
         /// The list of tag keys to remove from the resource.
@@ -1193,6 +1222,13 @@ extension Scheduler {
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "TagKeys")
         }
 
         public func validate(name: String) throws {
@@ -1214,10 +1250,6 @@ extension Scheduler {
     }
 
     public struct UpdateScheduleInput: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         ///  Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly generated token for the request to ensure idempotency.
         public let clientToken: String?
         /// The description you specify for the schedule.
@@ -1261,6 +1293,23 @@ extension Scheduler {
             self.startDate = startDate
             self.state = state
             self.target = target
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.endDate, forKey: .endDate)
+            try container.encode(self.flexibleTimeWindow, forKey: .flexibleTimeWindow)
+            try container.encodeIfPresent(self.groupName, forKey: .groupName)
+            try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.scheduleExpression, forKey: .scheduleExpression)
+            try container.encodeIfPresent(self.scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
+            try container.encodeIfPresent(self.startDate, forKey: .startDate)
+            try container.encodeIfPresent(self.state, forKey: .state)
+            try container.encode(self.target, forKey: .target)
         }
 
         public func validate(name: String) throws {

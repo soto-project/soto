@@ -344,15 +344,17 @@ extension DataExchange {
     }
 
     public struct CancelJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The unique identifier for a job.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -555,10 +557,6 @@ extension DataExchange {
     }
 
     public struct CreateRevisionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// An optional comment about the revision.
         public let comment: String?
         /// The unique identifier for a data set.
@@ -570,6 +568,14 @@ extension DataExchange {
             self.comment = comment
             self.dataSetId = dataSetId
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.comment, forKey: .comment)
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -770,12 +776,6 @@ extension DataExchange {
     }
 
     public struct DeleteAssetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("AssetId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
-        ]
-
         /// The unique identifier for an asset.
         public let assetId: String
         /// The unique identifier for a data set.
@@ -789,14 +789,18 @@ extension DataExchange {
             self.revisionId = revisionId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetId, key: "AssetId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            request.encodePath(self.revisionId, key: "RevisionId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDataSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The unique identifier for a data set.
         public let dataSetId: String
 
@@ -804,14 +808,16 @@ extension DataExchange {
             self.dataSetId = dataSetId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSetId, key: "DataSetId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteEventActionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventActionId", location: .uri("EventActionId"))
-        ]
-
         /// The unique identifier for the event action.
         public let eventActionId: String
 
@@ -819,15 +825,16 @@ extension DataExchange {
             self.eventActionId = eventActionId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.eventActionId, key: "EventActionId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteRevisionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
-        ]
-
         /// The unique identifier for a data set.
         public let dataSetId: String
         /// The unique identifier for a revision.
@@ -836,6 +843,13 @@ extension DataExchange {
         public init(dataSetId: String, revisionId: String) {
             self.dataSetId = dataSetId
             self.revisionId = revisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            request.encodePath(self.revisionId, key: "RevisionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1071,12 +1085,6 @@ extension DataExchange {
     }
 
     public struct GetAssetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("AssetId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
-        ]
-
         /// The unique identifier for an asset.
         public let assetId: String
         /// The unique identifier for a data set.
@@ -1088,6 +1096,14 @@ extension DataExchange {
             self.assetId = assetId
             self.dataSetId = dataSetId
             self.revisionId = revisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetId, key: "AssetId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            request.encodePath(self.revisionId, key: "RevisionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1145,15 +1161,17 @@ extension DataExchange {
     }
 
     public struct GetDataSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The unique identifier for a data set.
         public let dataSetId: String
 
         public init(dataSetId: String) {
             self.dataSetId = dataSetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSetId, key: "DataSetId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1215,15 +1233,17 @@ extension DataExchange {
     }
 
     public struct GetEventActionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventActionId", location: .uri("EventActionId"))
-        ]
-
         /// The unique identifier for the event action.
         public let eventActionId: String
 
         public init(eventActionId: String) {
             self.eventActionId = eventActionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.eventActionId, key: "EventActionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1265,15 +1285,17 @@ extension DataExchange {
     }
 
     public struct GetJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The unique identifier for a job.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1323,11 +1345,6 @@ extension DataExchange {
     }
 
     public struct GetRevisionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
-        ]
-
         /// The unique identifier for a data set.
         public let dataSetId: String
         /// The unique identifier for a revision.
@@ -1336,6 +1353,13 @@ extension DataExchange {
         public init(dataSetId: String, revisionId: String) {
             self.dataSetId = dataSetId
             self.revisionId = revisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            request.encodePath(self.revisionId, key: "RevisionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1933,12 +1957,6 @@ extension DataExchange {
     }
 
     public struct ListDataSetRevisionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier for a data set.
         public let dataSetId: String
         /// The maximum number of results returned by a single call.
@@ -1950,6 +1968,14 @@ extension DataExchange {
             self.dataSetId = dataSetId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1978,12 +2004,6 @@ extension DataExchange {
     }
 
     public struct ListDataSetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "origin", location: .querystring("origin"))
-        ]
-
         /// The maximum number of results returned by a single call.
         public let maxResults: Int?
         /// The token value retrieved from a previous call to access the next page of results.
@@ -1995,6 +2015,14 @@ extension DataExchange {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.origin = origin
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.origin, key: "origin")
         }
 
         public func validate(name: String) throws {
@@ -2023,12 +2051,6 @@ extension DataExchange {
     }
 
     public struct ListEventActionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventSourceId", location: .querystring("eventSourceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier for the event source.
         public let eventSourceId: String?
         /// The maximum number of results returned by a single call.
@@ -2040,6 +2062,14 @@ extension DataExchange {
             self.eventSourceId = eventSourceId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.eventSourceId, key: "eventSourceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2068,13 +2098,6 @@ extension DataExchange {
     }
 
     public struct ListJobsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .querystring("dataSetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "revisionId", location: .querystring("revisionId"))
-        ]
-
         /// The unique identifier for a data set.
         public let dataSetId: String?
         /// The maximum number of results returned by a single call.
@@ -2089,6 +2112,15 @@ extension DataExchange {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.revisionId = revisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.dataSetId, key: "dataSetId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.revisionId, key: "revisionId")
         }
 
         public func validate(name: String) throws {
@@ -2117,13 +2149,6 @@ extension DataExchange {
     }
 
     public struct ListRevisionAssetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
-        ]
-
         /// The unique identifier for a data set.
         public let dataSetId: String
         /// The maximum number of results returned by a single call.
@@ -2138,6 +2163,15 @@ extension DataExchange {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.revisionId = revisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.revisionId, key: "RevisionId")
         }
 
         public func validate(name: String) throws {
@@ -2166,15 +2200,17 @@ extension DataExchange {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2420,11 +2456,6 @@ extension DataExchange {
     }
 
     public struct RevokeRevisionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
-        ]
-
         /// The unique identifier for a data set.
         public let dataSetId: String
         /// The unique identifier for a revision.
@@ -2436,6 +2467,14 @@ extension DataExchange {
             self.dataSetId = dataSetId
             self.revisionId = revisionId
             self.revocationComment = revocationComment
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            request.encodePath(self.revisionId, key: "RevisionId")
+            try container.encode(self.revocationComment, forKey: .revocationComment)
         }
 
         public func validate(name: String) throws {
@@ -2583,19 +2622,7 @@ extension DataExchange {
         }
     }
 
-    public struct SendApiAssetRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "body"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .header("x-amzn-dataexchange-asset-id")),
-            AWSMemberEncoding(label: "body", location: .body("Body")),
-            AWSMemberEncoding(label: "dataSetId", location: .header("x-amzn-dataexchange-data-set-id")),
-            AWSMemberEncoding(label: "method", location: .header("x-amzn-dataexchange-http-method")),
-            AWSMemberEncoding(label: "path", location: .header("x-amzn-dataexchange-path")),
-            AWSMemberEncoding(label: "requestHeaders", location: .headerPrefix("x-amzn-dataexchange-header-")),
-            AWSMemberEncoding(label: "revisionId", location: .header("x-amzn-dataexchange-revision-id"))
-        ]
-
+    public struct SendApiAssetRequest: AWSEncodableShape {
         /// Asset ID value for the API request.
         public let assetId: String
         /// The request body.
@@ -2624,9 +2651,20 @@ extension DataExchange {
             self.revisionId = revisionId
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case queryStringParameters = "QueryStringParameters"
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeHeader(self.assetId, key: "x-amzn-dataexchange-asset-id")
+            try container.encode(self.body)
+            request.encodeHeader(self.dataSetId, key: "x-amzn-dataexchange-data-set-id")
+            request.encodeHeader(self.method, key: "x-amzn-dataexchange-http-method")
+            request.encodeHeader(self.path, key: "x-amzn-dataexchange-path")
+            request.encodeQuery(self.queryStringParameters)
+            request.encodeHeader(self.requestHeaders, key: "x-amzn-dataexchange-header-")
+            request.encodeHeader(self.revisionId, key: "x-amzn-dataexchange-revision-id")
         }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct SendApiAssetResponse: AWSDecodableShape {
@@ -2642,24 +2680,26 @@ extension DataExchange {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.body = try .init(from: decoder)
-            self.responseHeaders = try response.decodeIfPresent([String: String].self, forHeader: "")
-
+            let container = try decoder.singleValueContainer()
+            self.body = try container.decode(String.self)
+            self.responseHeaders = try response.decodeHeaderIfPresent([String: String].self, key: "")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct StartJobRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
-        ]
-
         /// The unique identifier for a job.
         public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "JobId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2700,10 +2740,6 @@ extension DataExchange {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
-        ]
-
         /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
         public let resourceArn: String
         /// A label that consists of a customer-defined key and an optional value.
@@ -2714,17 +2750,19 @@ extension DataExchange {
             self.tags = tags
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn")),
-            AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
-        ]
-
         /// An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
         public let resourceArn: String
         /// The key tags.
@@ -2735,16 +2773,17 @@ extension DataExchange {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateAssetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri("AssetId")),
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
-        ]
-
         /// The unique identifier for an asset.
         public let assetId: String
         /// The unique identifier for a data set.
@@ -2759,6 +2798,15 @@ extension DataExchange {
             self.dataSetId = dataSetId
             self.name = name
             self.revisionId = revisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.assetId, key: "AssetId")
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            try container.encode(self.name, forKey: .name)
+            request.encodePath(self.revisionId, key: "RevisionId")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2818,10 +2866,6 @@ extension DataExchange {
     }
 
     public struct UpdateDataSetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId"))
-        ]
-
         /// The unique identifier for a data set.
         public let dataSetId: String
         /// The description for the data set.
@@ -2833,6 +2877,14 @@ extension DataExchange {
             self.dataSetId = dataSetId
             self.description = description
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2893,10 +2945,6 @@ extension DataExchange {
     }
 
     public struct UpdateEventActionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "eventActionId", location: .uri("EventActionId"))
-        ]
-
         /// What occurs after a certain event.
         public let action: Action?
         /// The unique identifier for the event action.
@@ -2905,6 +2953,13 @@ extension DataExchange {
         public init(action: Action? = nil, eventActionId: String) {
             self.action = action
             self.eventActionId = eventActionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.action, forKey: .action)
+            request.encodePath(self.eventActionId, key: "EventActionId")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2948,11 +3003,6 @@ extension DataExchange {
     }
 
     public struct UpdateRevisionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
-            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
-        ]
-
         /// An optional comment about the revision.
         public let comment: String?
         /// The unique identifier for a data set.
@@ -2967,6 +3017,15 @@ extension DataExchange {
             self.dataSetId = dataSetId
             self.finalized = finalized
             self.revisionId = revisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.comment, forKey: .comment)
+            request.encodePath(self.dataSetId, key: "DataSetId")
+            try container.encodeIfPresent(self.finalized, forKey: .finalized)
+            request.encodePath(self.revisionId, key: "RevisionId")
         }
 
         public func validate(name: String) throws {

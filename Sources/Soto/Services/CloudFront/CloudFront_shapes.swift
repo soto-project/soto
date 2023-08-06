@@ -408,11 +408,6 @@ extension CloudFront {
     }
 
     public struct AssociateAliasRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "alias", location: .querystring("Alias")),
-            AWSMemberEncoding(label: "targetDistributionId", location: .uri("TargetDistributionId"))
-        ]
-
         /// The alias (also known as a CNAME) to add to the target distribution.
         public let alias: String
         /// The ID of the distribution that you're associating the alias with.
@@ -421,6 +416,13 @@ extension CloudFront {
         public init(alias: String, targetDistributionId: String) {
             self.alias = alias
             self.targetDistributionId = targetDistributionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.alias, key: "Alias")
+            request.encodePath(self.targetDistributionId, key: "TargetDistributionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1293,12 +1295,6 @@ extension CloudFront {
     }
 
     public struct CopyDistributionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "primaryDistributionId", location: .uri("PrimaryDistributionId")),
-            AWSMemberEncoding(label: "staging", location: .header("Staging"))
-        ]
-
         /// A value that uniquely identifies a request to create a resource. This helps to prevent
         /// 			CloudFront from creating a duplicate resource if you accidentally resubmit an identical
         /// 			request.
@@ -1322,6 +1318,15 @@ extension CloudFront {
             self.staging = staging
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.callerReference, forKey: .callerReference)
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodePath(self.primaryDistributionId, key: "PrimaryDistributionId")
+            request.encodeHeader(self.staging, key: "Staging")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case callerReference = "CallerReference"
         }
@@ -1342,27 +1347,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.distribution = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            let container = try decoder.singleValueContainer()
+            self.distribution = try container.decode(Distribution.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateCachePolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cachePolicyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cachePolicyConfig", location: .body("CachePolicyConfig"))
-        ]
-
+    public struct CreateCachePolicyRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "CachePolicyConfig"
         /// A cache policy configuration.
         public let cachePolicyConfig: CachePolicyConfig
 
         public init(cachePolicyConfig: CachePolicyConfig) {
             self.cachePolicyConfig = cachePolicyConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.cachePolicyConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1384,27 +1389,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.cachePolicy = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            let container = try decoder.singleValueContainer()
+            self.cachePolicy = try container.decode(CachePolicy.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateCloudFrontOriginAccessIdentityRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cloudFrontOriginAccessIdentityConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentityConfig", location: .body("CloudFrontOriginAccessIdentityConfig"))
-        ]
-
+    public struct CreateCloudFrontOriginAccessIdentityRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "CloudFrontOriginAccessIdentityConfig"
         /// The current configuration information for the identity.
         public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
 
         public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig) {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.cloudFrontOriginAccessIdentityConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1426,27 +1431,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.cloudFrontOriginAccessIdentity = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            let container = try decoder.singleValueContainer()
+            self.cloudFrontOriginAccessIdentity = try container.decode(CloudFrontOriginAccessIdentity.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateContinuousDeploymentPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "continuousDeploymentPolicyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "continuousDeploymentPolicyConfig", location: .body("ContinuousDeploymentPolicyConfig"))
-        ]
-
+    public struct CreateContinuousDeploymentPolicyRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "ContinuousDeploymentPolicyConfig"
         /// Contains the configuration for a continuous deployment policy.
         public let continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig
 
         public init(continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig) {
             self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.continuousDeploymentPolicyConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1469,27 +1474,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.continuousDeploymentPolicy = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            let container = try decoder.singleValueContainer()
+            self.continuousDeploymentPolicy = try container.decode(ContinuousDeploymentPolicy.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distributionConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionConfig", location: .body("DistributionConfig"))
-        ]
-
+    public struct CreateDistributionRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "DistributionConfig"
         /// The distribution's configuration information.
         public let distributionConfig: DistributionConfig
 
         public init(distributionConfig: DistributionConfig) {
             self.distributionConfig = distributionConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.distributionConfig)
         }
 
         public func validate(name: String) throws {
@@ -1515,27 +1520,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.distribution = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            let container = try decoder.singleValueContainer()
+            self.distribution = try container.decode(Distribution.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateDistributionWithTagsRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distributionConfigWithTags"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionConfigWithTags", location: .body("DistributionConfigWithTags"))
-        ]
-
+    public struct CreateDistributionWithTagsRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "DistributionConfigWithTags"
         /// The distribution's configuration information.
         public let distributionConfigWithTags: DistributionConfigWithTags
 
         public init(distributionConfigWithTags: DistributionConfigWithTags) {
             self.distributionConfigWithTags = distributionConfigWithTags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.distributionConfigWithTags)
         }
 
         public func validate(name: String) throws {
@@ -1561,27 +1566,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.distribution = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            let container = try decoder.singleValueContainer()
+            self.distribution = try container.decode(Distribution.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateFieldLevelEncryptionConfigRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryptionConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fieldLevelEncryptionConfig", location: .body("FieldLevelEncryptionConfig"))
-        ]
-
+    public struct CreateFieldLevelEncryptionConfigRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "FieldLevelEncryptionConfig"
         /// The request to create a new field-level encryption configuration.
         public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
 
         public init(fieldLevelEncryptionConfig: FieldLevelEncryptionConfig) {
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.fieldLevelEncryptionConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1604,27 +1609,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.fieldLevelEncryption = try .init(from: decoder)
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.fieldLevelEncryption = try container.decode(FieldLevelEncryption.self)
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateFieldLevelEncryptionProfileRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryptionProfileConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fieldLevelEncryptionProfileConfig", location: .body("FieldLevelEncryptionProfileConfig"))
-        ]
-
+    public struct CreateFieldLevelEncryptionProfileRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "FieldLevelEncryptionProfileConfig"
         /// The request to create a field-level encryption profile.
         public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
 
         public init(fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig) {
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.fieldLevelEncryptionProfileConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1647,10 +1652,10 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.fieldLevelEncryptionProfile = try .init(from: decoder)
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.fieldLevelEncryptionProfile = try container.decode(FieldLevelEncryptionProfile.self)
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1705,23 +1710,17 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.functionSummary = try .init(from: decoder)
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.functionSummary = try container.decode(FunctionSummary.self)
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateInvalidationRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "invalidationBatch"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionId", location: .uri("DistributionId")),
-            AWSMemberEncoding(label: "invalidationBatch", location: .body("InvalidationBatch"))
-        ]
-
+    public struct CreateInvalidationRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "InvalidationBatch"
         /// The distribution's id.
         public let distributionId: String
         /// The batch information for the invalidation.
@@ -1730,6 +1729,13 @@ extension CloudFront {
         public init(distributionId: String, invalidationBatch: InvalidationBatch) {
             self.distributionId = distributionId
             self.invalidationBatch = invalidationBatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.distributionId, key: "DistributionId")
+            try container.encode(self.invalidationBatch)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1749,26 +1755,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.invalidation = try .init(from: decoder)
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            let container = try decoder.singleValueContainer()
+            self.invalidation = try container.decode(Invalidation.self)
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateKeyGroupRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "keyGroupConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "keyGroupConfig", location: .body("KeyGroupConfig"))
-        ]
-
+    public struct CreateKeyGroupRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "KeyGroupConfig"
         /// A key group configuration.
         public let keyGroupConfig: KeyGroupConfig
 
         public init(keyGroupConfig: KeyGroupConfig) {
             self.keyGroupConfig = keyGroupConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.keyGroupConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1790,23 +1796,17 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.keyGroup = try .init(from: decoder)
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.keyGroup = try container.decode(KeyGroup.self)
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateMonitoringSubscriptionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "monitoringSubscription"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionId", location: .uri("DistributionId")),
-            AWSMemberEncoding(label: "monitoringSubscription", location: .body("MonitoringSubscription"))
-        ]
-
+    public struct CreateMonitoringSubscriptionRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "MonitoringSubscription"
         /// The ID of the distribution that you are enabling metrics for.
         public let distributionId: String
         /// A monitoring subscription. This structure contains information about whether
@@ -1816,6 +1816,13 @@ extension CloudFront {
         public init(distributionId: String, monitoringSubscription: MonitoringSubscription) {
             self.distributionId = distributionId
             self.monitoringSubscription = monitoringSubscription
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.distributionId, key: "DistributionId")
+            try container.encode(self.monitoringSubscription)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1831,25 +1838,25 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.monitoringSubscription = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.monitoringSubscription = try container.decode(MonitoringSubscription.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateOriginAccessControlRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originAccessControlConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "originAccessControlConfig", location: .body("OriginAccessControlConfig"))
-        ]
-
+    public struct CreateOriginAccessControlRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "OriginAccessControlConfig"
         /// Contains the origin access control.
         public let originAccessControlConfig: OriginAccessControlConfig
 
         public init(originAccessControlConfig: OriginAccessControlConfig) {
             self.originAccessControlConfig = originAccessControlConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.originAccessControlConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1871,27 +1878,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-            self.originAccessControl = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+            self.originAccessControl = try container.decode(OriginAccessControl.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateOriginRequestPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originRequestPolicyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "originRequestPolicyConfig", location: .body("OriginRequestPolicyConfig"))
-        ]
-
+    public struct CreateOriginRequestPolicyRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "OriginRequestPolicyConfig"
         /// An origin request policy configuration.
         public let originRequestPolicyConfig: OriginRequestPolicyConfig
 
         public init(originRequestPolicyConfig: OriginRequestPolicyConfig) {
             self.originRequestPolicyConfig = originRequestPolicyConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.originRequestPolicyConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1913,27 +1920,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-            self.originRequestPolicy = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+            self.originRequestPolicy = try container.decode(OriginRequestPolicy.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreatePublicKeyRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "publicKeyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "publicKeyConfig", location: .body("PublicKeyConfig"))
-        ]
-
+    public struct CreatePublicKeyRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "PublicKeyConfig"
         /// A CloudFront public key configuration.
         public let publicKeyConfig: PublicKeyConfig
 
         public init(publicKeyConfig: PublicKeyConfig) {
             self.publicKeyConfig = publicKeyConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.publicKeyConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1955,10 +1962,10 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-            self.publicKey = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+            self.publicKey = try container.decode(PublicKey.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2010,19 +2017,19 @@ extension CloudFront {
         }
     }
 
-    public struct CreateResponseHeadersPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "responseHeadersPolicyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "responseHeadersPolicyConfig", location: .body("ResponseHeadersPolicyConfig"))
-        ]
-
+    public struct CreateResponseHeadersPolicyRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "ResponseHeadersPolicyConfig"
         /// Contains metadata about the response headers policy, and a set of configurations that
         /// 			specify the HTTP headers.
         public let responseHeadersPolicyConfig: ResponseHeadersPolicyConfig
 
         public init(responseHeadersPolicyConfig: ResponseHeadersPolicyConfig) {
             self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.responseHeadersPolicyConfig)
         }
 
         public func validate(name: String) throws {
@@ -2048,27 +2055,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-            self.responseHeadersPolicy = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+            self.responseHeadersPolicy = try container.decode(ResponseHeadersPolicy.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateStreamingDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "streamingDistributionConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "streamingDistributionConfig", location: .body("StreamingDistributionConfig"))
-        ]
-
+    public struct CreateStreamingDistributionRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "StreamingDistributionConfig"
         /// The streaming distribution's configuration information.
         public let streamingDistributionConfig: StreamingDistributionConfig
 
         public init(streamingDistributionConfig: StreamingDistributionConfig) {
             self.streamingDistributionConfig = streamingDistributionConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.streamingDistributionConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2091,27 +2098,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-            self.streamingDistribution = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+            self.streamingDistribution = try container.decode(StreamingDistribution.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct CreateStreamingDistributionWithTagsRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "streamingDistributionConfigWithTags"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "streamingDistributionConfigWithTags", location: .body("StreamingDistributionConfigWithTags"))
-        ]
-
+    public struct CreateStreamingDistributionWithTagsRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "StreamingDistributionConfigWithTags"
         /// The streaming distribution's configuration information.
         public let streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags
 
         public init(streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags) {
             self.streamingDistributionConfigWithTags = streamingDistributionConfigWithTags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(self.streamingDistributionConfigWithTags)
         }
 
         public func validate(name: String) throws {
@@ -2138,10 +2145,10 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.location = try response.decodeIfPresent(String.self, forHeader: "Location")
-            self.streamingDistribution = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+            self.streamingDistribution = try container.decode(StreamingDistribution.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2484,11 +2491,6 @@ extension CloudFront {
     }
 
     public struct DeleteCachePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
         /// The unique identifier for the cache policy that you are deleting. To get the
         /// 			identifier, you can use ListCachePolicies.
         public let id: String
@@ -2503,15 +2505,17 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteCloudFrontOriginAccessIdentityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
         /// The origin access identity's ID.
         public let id: String
         /// The value of the ETag header you received from a previous
@@ -2524,15 +2528,17 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteContinuousDeploymentPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
         /// The identifier of the continuous deployment policy that you are deleting.
         public let id: String
         /// The current version (ETag value) of the continuous deployment policy that
@@ -2544,15 +2550,17 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteDistributionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
         /// The distribution ID.
         public let id: String
         /// The value of the ETag header that you received when you disabled the
@@ -2564,15 +2572,17 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFieldLevelEncryptionConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
         /// The ID of the configuration you want to delete from CloudFront.
         public let id: String
         /// The value of the ETag header that you received when retrieving the
@@ -2584,15 +2594,17 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFieldLevelEncryptionProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
         /// Request the ID of the profile you want to delete from CloudFront.
         public let id: String
         /// The value of the ETag header that you received when retrieving the
@@ -2604,15 +2616,17 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteFunctionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The current version (ETag value) of the function that you are deleting,
         /// 			which you can get using DescribeFunction.
         public let ifMatch: String
@@ -2624,15 +2638,17 @@ extension CloudFront {
             self.name = name
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodePath(self.name, key: "Name")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteKeyGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
         /// The identifier of the key group that you are deleting. To get the identifier, use
         /// 				ListKeyGroups.
         public let id: String
@@ -2646,19 +2662,28 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteMonitoringSubscriptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionId", location: .uri("DistributionId"))
-        ]
-
         /// The ID of the distribution that you are disabling metrics for.
         public let distributionId: String
 
         public init(distributionId: String) {
             self.distributionId = distributionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.distributionId, key: "DistributionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2669,11 +2694,6 @@ extension CloudFront {
     }
 
     public struct DeleteOriginAccessControlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
         /// The unique identifier of the origin access control that you are deleting.
         public let id: String
         /// The current version (ETag value) of the origin access control that you
@@ -2685,15 +2705,17 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteOriginRequestPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
         /// The unique identifier for the origin request policy that you are deleting. To get the
         /// 			identifier, you can use ListOriginRequestPolicies.
         public let id: String
@@ -2708,15 +2730,17 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeletePublicKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
         /// The ID of the public key you want to remove from CloudFront.
         public let id: String
         /// The value of the ETag header that you received when retrieving the public
@@ -2726,6 +2750,13 @@ extension CloudFront {
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2749,11 +2780,6 @@ extension CloudFront {
     }
 
     public struct DeleteResponseHeadersPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
         /// The identifier for the response headers policy that you are deleting. To get the identifier, you can use ListResponseHeadersPolicies.
         public let id: String
         /// The version of the response headers policy that you are deleting. The version is the response headers policy's ETag value, which you can
@@ -2767,15 +2793,17 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeleteStreamingDistributionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
         /// The distribution ID.
         public let id: String
         /// The value of the ETag header that you received when you disabled the
@@ -2787,15 +2815,17 @@ extension CloudFront {
             self.ifMatch = ifMatch
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeFunctionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "stage", location: .querystring("Stage"))
-        ]
-
         /// The name of the function that you are getting information about.
         public let name: String
         /// The function's stage, either DEVELOPMENT or LIVE.
@@ -2804,6 +2834,13 @@ extension CloudFront {
         public init(name: String, stage: FunctionStage? = nil) {
             self.name = name
             self.stage = stage
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodeQuery(self.stage, key: "Stage")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2822,9 +2859,9 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.functionSummary = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.functionSummary = try container.decode(FunctionSummary.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3850,10 +3887,6 @@ extension CloudFront {
     }
 
     public struct GetCachePolicyConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The unique identifier for the cache policy. If the cache policy is attached to a
         /// 			distribution's cache behavior, you can get the policy's identifier using
         /// 				ListDistributions or GetDistribution. If the cache policy
@@ -3863,6 +3896,12 @@ extension CloudFront {
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3881,19 +3920,15 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.cachePolicyConfig = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-
+            let container = try decoder.singleValueContainer()
+            self.cachePolicyConfig = try container.decode(CachePolicyConfig.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCachePolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The unique identifier for the cache policy. If the cache policy is attached to a
         /// 			distribution's cache behavior, you can get the policy's identifier using
         /// 				ListDistributions or GetDistribution. If the cache policy
@@ -3903,6 +3938,12 @@ extension CloudFront {
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3921,24 +3962,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.cachePolicy = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-
+            let container = try decoder.singleValueContainer()
+            self.cachePolicy = try container.decode(CachePolicy.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCloudFrontOriginAccessIdentityConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identity's ID.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3958,24 +4001,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.cloudFrontOriginAccessIdentityConfig = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-
+            let container = try decoder.singleValueContainer()
+            self.cloudFrontOriginAccessIdentityConfig = try container.decode(CloudFrontOriginAccessIdentityConfig.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetCloudFrontOriginAccessIdentityRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identity's ID.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3995,25 +4040,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.cloudFrontOriginAccessIdentity = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-
+            let container = try decoder.singleValueContainer()
+            self.cloudFrontOriginAccessIdentity = try container.decode(CloudFrontOriginAccessIdentity.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetContinuousDeploymentPolicyConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the continuous deployment policy whose configuration you are
         /// 			getting.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4032,24 +4079,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.continuousDeploymentPolicyConfig = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-
+            let container = try decoder.singleValueContainer()
+            self.continuousDeploymentPolicyConfig = try container.decode(ContinuousDeploymentPolicyConfig.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetContinuousDeploymentPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the continuous deployment policy that you are getting.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4069,25 +4118,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.continuousDeploymentPolicy = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-
+            let container = try decoder.singleValueContainer()
+            self.continuousDeploymentPolicy = try container.decode(ContinuousDeploymentPolicy.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDistributionConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The distribution's ID. If the ID is empty, an empty distribution configuration is
         /// 			returned.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4107,25 +4158,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.distributionConfig = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-
+            let container = try decoder.singleValueContainer()
+            self.distributionConfig = try container.decode(DistributionConfig.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetDistributionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The distribution's ID. If the ID is empty, an empty distribution configuration is
         /// 			returned.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4145,24 +4198,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.distribution = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-
+            let container = try decoder.singleValueContainer()
+            self.distribution = try container.decode(Distribution.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFieldLevelEncryptionConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// Request the ID for the field-level encryption configuration information.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4182,24 +4237,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.fieldLevelEncryptionConfig = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.fieldLevelEncryptionConfig = try container.decode(FieldLevelEncryptionConfig.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFieldLevelEncryptionProfileConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// Get the ID for the field-level encryption profile configuration information.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4219,24 +4276,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.fieldLevelEncryptionProfileConfig = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.fieldLevelEncryptionProfileConfig = try container.decode(FieldLevelEncryptionProfileConfig.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFieldLevelEncryptionProfileRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// Get the ID for the field-level encryption profile information.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4256,24 +4315,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.fieldLevelEncryptionProfile = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.fieldLevelEncryptionProfile = try container.decode(FieldLevelEncryptionProfile.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFieldLevelEncryptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// Request the ID for the field-level encryption configuration information.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4293,20 +4354,15 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.fieldLevelEncryption = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.fieldLevelEncryption = try container.decode(FieldLevelEncryption.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetFunctionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "name", location: .uri("Name")),
-            AWSMemberEncoding(label: "stage", location: .querystring("Stage"))
-        ]
-
         /// The name of the function whose code you are getting.
         public let name: String
         /// The function's stage, either DEVELOPMENT or LIVE.
@@ -4315,6 +4371,13 @@ extension CloudFront {
         public init(name: String, stage: FunctionStage? = nil) {
             self.name = name
             self.stage = stage
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodeQuery(self.stage, key: "Stage")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4337,21 +4400,16 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.contentType = try response.decodeIfPresent(String.self, forHeader: "Content-Type")
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.functionCode = response.decodePayload()
-
+            let container = try decoder.singleValueContainer()
+            self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.functionCode = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetInvalidationRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionId", location: .uri("DistributionId")),
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The distribution's ID.
         public let distributionId: String
         /// The identifier for the invalidation request, for example,
@@ -4361,6 +4419,13 @@ extension CloudFront {
         public init(distributionId: String, id: String) {
             self.distributionId = distributionId
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.distributionId, key: "DistributionId")
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4376,24 +4441,26 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.invalidation = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.invalidation = try container.decode(Invalidation.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetKeyGroupConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the key group whose configuration you are getting. To get the
         /// 			identifier, use ListKeyGroups.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4412,25 +4479,27 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.keyGroupConfig = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.keyGroupConfig = try container.decode(KeyGroupConfig.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetKeyGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the key group that you are getting. To get the identifier, use
         /// 				ListKeyGroups.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4449,24 +4518,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.keyGroup = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.keyGroup = try container.decode(KeyGroup.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetMonitoringSubscriptionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionId", location: .uri("DistributionId"))
-        ]
-
         /// The ID of the distribution that you are getting metrics information for.
         public let distributionId: String
 
         public init(distributionId: String) {
             self.distributionId = distributionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.distributionId, key: "DistributionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4482,23 +4553,25 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.monitoringSubscription = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.monitoringSubscription = try container.decode(MonitoringSubscription.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetOriginAccessControlConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The unique identifier of the origin access control.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4517,24 +4590,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.originAccessControlConfig = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.originAccessControlConfig = try container.decode(OriginAccessControlConfig.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetOriginAccessControlRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The unique identifier of the origin access control.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4553,19 +4628,15 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.originAccessControl = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.originAccessControl = try container.decode(OriginAccessControl.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetOriginRequestPolicyConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The unique identifier for the origin request policy. If the origin request policy is
         /// 			attached to a distribution's cache behavior, you can get the policy's identifier using
         /// 				ListDistributions or GetDistribution. If the origin
@@ -4575,6 +4646,12 @@ extension CloudFront {
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4593,19 +4670,15 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.originRequestPolicyConfig = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.originRequestPolicyConfig = try container.decode(OriginRequestPolicyConfig.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetOriginRequestPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The unique identifier for the origin request policy. If the origin request policy is
         /// 			attached to a distribution's cache behavior, you can get the policy's identifier using
         /// 				ListDistributions or GetDistribution. If the origin
@@ -4615,6 +4688,12 @@ extension CloudFront {
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4633,24 +4712,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.originRequestPolicy = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.originRequestPolicy = try container.decode(OriginRequestPolicy.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPublicKeyConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the public key whose configuration you are getting.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4669,24 +4750,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.publicKeyConfig = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.publicKeyConfig = try container.decode(PublicKeyConfig.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetPublicKeyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier of the public key you are getting.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4705,9 +4788,9 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.publicKey = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.publicKey = try container.decode(PublicKey.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4744,10 +4827,6 @@ extension CloudFront {
     }
 
     public struct GetResponseHeadersPolicyConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can
         /// 			get the policy's identifier using ListDistributions or
         /// 				GetDistribution. If the response headers policy is not attached to a
@@ -4757,6 +4836,12 @@ extension CloudFront {
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4775,19 +4860,15 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.responseHeadersPolicyConfig = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.responseHeadersPolicyConfig = try container.decode(ResponseHeadersPolicyConfig.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetResponseHeadersPolicyRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can
         /// 			get the policy's identifier using ListDistributions or
         /// 				GetDistribution. If the response headers policy is not attached to a
@@ -4797,6 +4878,12 @@ extension CloudFront {
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4815,24 +4902,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.responseHeadersPolicy = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.responseHeadersPolicy = try container.decode(ResponseHeadersPolicy.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetStreamingDistributionConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The streaming distribution's ID.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4852,24 +4941,26 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.streamingDistributionConfig = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.streamingDistributionConfig = try container.decode(StreamingDistributionConfig.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetStreamingDistributionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id"))
-        ]
-
         /// The streaming distribution's ID.
         public let id: String
 
         public init(id: String) {
             self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4889,9 +4980,9 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.streamingDistribution = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.streamingDistribution = try container.decode(StreamingDistribution.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5240,12 +5331,6 @@ extension CloudFront {
     }
 
     public struct ListCachePoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems")),
-            AWSMemberEncoding(label: "type", location: .querystring("Type"))
-        ]
-
         /// Use this field when paginating results to indicate where to begin in your list of
         /// 			cache policies. The response includes cache policies in the list that occur after the
         /// 			marker. To get the next page of the list, set this field's value to the value of
@@ -5265,6 +5350,14 @@ extension CloudFront {
             self.type = type
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+            request.encodeQuery(self.type, key: "Type")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5277,19 +5370,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.cachePolicyList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.cachePolicyList = try container.decode(CachePolicyList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListCloudFrontOriginAccessIdentitiesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// Use this when paginating results to indicate where to begin in your list of origin
         /// 			access identities. The results include identities in the list that occur after the
         /// 			marker. To get the next page of results, set the Marker to the value of the
@@ -5304,6 +5392,13 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5316,21 +5411,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.cloudFrontOriginAccessIdentityList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.cloudFrontOriginAccessIdentityList = try container.decode(CloudFrontOriginAccessIdentityList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListConflictingAliasesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "alias", location: .querystring("Alias")),
-            AWSMemberEncoding(label: "distributionId", location: .querystring("DistributionId")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The alias (also called a CNAME) to search for conflicting aliases.
         public let alias: String
         /// The ID of a distribution in your account that has an attached SSL/TLS certificate that
@@ -5351,6 +5439,15 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.alias, key: "Alias")
+            request.encodeQuery(self.distributionId, key: "DistributionId")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.alias, name: "alias", parent: name, max: 253)
             try self.validate(self.distributionId, name: "distributionId", parent: name, max: 25)
@@ -5369,19 +5466,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.conflictingAliasesList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.conflictingAliasesList = try container.decode(ConflictingAliasesList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListContinuousDeploymentPoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// Use this field when paginating results to indicate where to begin in your list of
         /// 			continuous deployment policies. The response includes policies in the list that occur
         /// 			after the marker. To get the next page of the list, set this field's value to the value
@@ -5396,6 +5488,13 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5408,20 +5507,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.continuousDeploymentPolicyList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.continuousDeploymentPolicyList = try container.decode(ContinuousDeploymentPolicyList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsByCachePolicyIdRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cachePolicyId", location: .uri("CachePolicyId")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The ID of the cache policy whose associated distribution IDs you want to list.
         public let cachePolicyId: String
         /// Use this field when paginating results to indicate where to begin in your list of
@@ -5438,6 +5531,14 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.cachePolicyId, key: "CachePolicyId")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5450,20 +5551,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.distributionIdList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.distributionIdList = try container.decode(DistributionIdList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsByKeyGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "keyGroupId", location: .uri("KeyGroupId")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The ID of the key group whose associated distribution IDs you are listing.
         public let keyGroupId: String
         /// Use this field when paginating results to indicate where to begin in your list of
@@ -5480,6 +5575,14 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.keyGroupId, key: "KeyGroupId")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5491,20 +5594,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.distributionIdList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.distributionIdList = try container.decode(DistributionIdList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsByOriginRequestPolicyIdRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems")),
-            AWSMemberEncoding(label: "originRequestPolicyId", location: .uri("OriginRequestPolicyId"))
-        ]
-
         /// Use this field when paginating results to indicate where to begin in your list of
         /// 			distribution IDs. The response includes distribution IDs in the list that occur after
         /// 			the marker. To get the next page of the list, set this field's value to the value of
@@ -5522,6 +5619,14 @@ extension CloudFront {
             self.originRequestPolicyId = originRequestPolicyId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+            request.encodePath(self.originRequestPolicyId, key: "OriginRequestPolicyId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5534,8 +5639,8 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.distributionIdList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.distributionIdList = try container.decode(DistributionIdList.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5579,20 +5684,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.distributionList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.distributionList = try container.decode(DistributionList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsByResponseHeadersPolicyIdRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems")),
-            AWSMemberEncoding(label: "responseHeadersPolicyId", location: .uri("ResponseHeadersPolicyId"))
-        ]
-
         /// Use this field when paginating results to indicate where to begin in your list of
         /// 			distribution IDs. The response includes distribution IDs in the list that occur after
         /// 			the marker. To get the next page of the list, set this field's value to the value of
@@ -5610,6 +5709,14 @@ extension CloudFront {
             self.responseHeadersPolicyId = responseHeadersPolicyId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+            request.encodePath(self.responseHeadersPolicyId, key: "ResponseHeadersPolicyId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5621,20 +5728,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.distributionIdList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.distributionIdList = try container.decode(DistributionIdList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsByWebACLIdRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems")),
-            AWSMemberEncoding(label: "webACLId", location: .uri("WebACLId"))
-        ]
-
         /// Use Marker and MaxItems to control pagination of results. If
         /// 			you have more than MaxItems distributions that satisfy the request, the
         /// 			response includes a NextMarker element. To get the next page of results,
@@ -5656,6 +5757,14 @@ extension CloudFront {
             self.webACLId = webACLId
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+            request.encodePath(self.webACLId, key: "WebACLId")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5668,19 +5777,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.distributionList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.distributionList = try container.decode(DistributionList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListDistributionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// Use this when paginating results to indicate where to begin in your list of
         /// 			distributions. The results include distributions in the list that occur after the
         /// 			marker. To get the next page of results, set the Marker to the value of the
@@ -5695,6 +5799,13 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5707,19 +5818,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.distributionList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.distributionList = try container.decode(DistributionList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFieldLevelEncryptionConfigsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// Use this when paginating results to indicate where to begin in your list of
         /// 			configurations. The results include configurations in the list that occur after the
         /// 			marker. To get the next page of results, set the Marker to the value of the
@@ -5735,6 +5841,13 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5748,19 +5861,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.fieldLevelEncryptionList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.fieldLevelEncryptionList = try container.decode(FieldLevelEncryptionList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFieldLevelEncryptionProfilesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// Use this when paginating results to indicate where to begin in your list of profiles.
         /// 			The results include profiles in the list that occur after the marker. To get the next
         /// 			page of results, set the Marker to the value of the NextMarker
@@ -5776,6 +5884,13 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5789,20 +5904,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.fieldLevelEncryptionProfileList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.fieldLevelEncryptionProfileList = try container.decode(FieldLevelEncryptionProfileList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListFunctionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems")),
-            AWSMemberEncoding(label: "stage", location: .querystring("Stage"))
-        ]
-
         /// Use this field when paginating results to indicate where to begin in your list of
         /// 			functions. The response includes functions in the list that occur after the marker. To
         /// 			get the next page of the list, set this field's value to the value of
@@ -5820,6 +5929,14 @@ extension CloudFront {
             self.stage = stage
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+            request.encodeQuery(self.stage, key: "Stage")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5832,20 +5949,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.functionList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.functionList = try container.decode(FunctionList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListInvalidationsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionId", location: .uri("DistributionId")),
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The distribution's ID.
         public let distributionId: String
         /// Use this parameter when paginating results to indicate where to begin in your list of
@@ -5865,6 +5976,14 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.distributionId, key: "DistributionId")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5877,19 +5996,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.invalidationList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.invalidationList = try container.decode(InvalidationList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListKeyGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// Use this field when paginating results to indicate where to begin in your list of key
         /// 			groups. The response includes key groups in the list that occur after the marker. To get
         /// 			the next page of the list, set this field's value to the value of
@@ -5901,6 +6015,13 @@ extension CloudFront {
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5915,19 +6036,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.keyGroupList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.keyGroupList = try container.decode(KeyGroupList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListOriginAccessControlsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// Use this field when paginating results to indicate where to begin in your list of
         /// 			origin access controls. The response includes the items in the list that occur after the
         /// 			marker. To get the next page of the list, set this field's value to the value of
@@ -5939,6 +6055,13 @@ extension CloudFront {
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5953,20 +6076,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.originAccessControlList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.originAccessControlList = try container.decode(OriginAccessControlList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListOriginRequestPoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems")),
-            AWSMemberEncoding(label: "type", location: .querystring("Type"))
-        ]
-
         /// Use this field when paginating results to indicate where to begin in your list of
         /// 			origin request policies. The response includes origin request policies in the list that
         /// 			occur after the marker. To get the next page of the list, set this field's value to the
@@ -5986,6 +6103,14 @@ extension CloudFront {
             self.type = type
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+            request.encodeQuery(self.type, key: "Type")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -5998,19 +6123,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.originRequestPolicyList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.originRequestPolicyList = try container.decode(OriginRequestPolicyList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListPublicKeysRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// Use this when paginating results to indicate where to begin in your list of public
         /// 			keys. The results include public keys in the list that occur after the marker. To get
         /// 			the next page of results, set the Marker to the value of the
@@ -6023,6 +6143,13 @@ extension CloudFront {
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6038,19 +6165,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.publicKeyList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.publicKeyList = try container.decode(PublicKeyList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListRealtimeLogConfigsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// Use this field when paginating results to indicate where to begin in your list of
         /// 			real-time log configurations. The response includes real-time log configurations in the
         /// 			list that occur after the marker. To get the next page of the list, set this field's
@@ -6065,6 +6187,13 @@ extension CloudFront {
             self.maxItems = maxItems
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -6077,20 +6206,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.realtimeLogConfigs = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.realtimeLogConfigs = try container.decode(RealtimeLogConfigs.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListResponseHeadersPoliciesRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems")),
-            AWSMemberEncoding(label: "type", location: .querystring("Type"))
-        ]
-
         /// Use this field when paginating results to indicate where to begin in your list of
         /// 			response headers policies. The response includes response headers policies in the list
         /// 			that occur after the marker. To get the next page of the list, set this field's value to
@@ -6110,6 +6233,14 @@ extension CloudFront {
             self.type = type
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+            request.encodeQuery(self.type, key: "Type")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -6122,19 +6253,14 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.responseHeadersPolicyList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.responseHeadersPolicyList = try container.decode(ResponseHeadersPolicyList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListStreamingDistributionsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
-        ]
-
         /// The value that you provided for the Marker request parameter.
         public let marker: String?
         /// The value that you provided for the MaxItems request parameter.
@@ -6143,6 +6269,13 @@ extension CloudFront {
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6157,23 +6290,25 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.streamingDistributionList = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.streamingDistributionList = try container.decode(StreamingDistributionList.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resource", location: .querystring("Resource"))
-        ]
-
         /// An ARN of a CloudFront resource.
         public let resource: String
 
         public init(resource: String) {
             self.resource = resource
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.resource, key: "Resource")
         }
 
         public func validate(name: String) throws {
@@ -6192,8 +6327,8 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.tags = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.tags = try container.decode(Tags.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7050,11 +7185,6 @@ extension CloudFront {
     }
 
     public struct PublishFunctionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The current version (ETag value) of the function that you are publishing,
         /// 			which you can get using DescribeFunction.
         public let ifMatch: String
@@ -7064,6 +7194,13 @@ extension CloudFront {
         public init(ifMatch: String, name: String) {
             self.ifMatch = ifMatch
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodePath(self.name, key: "Name")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7078,8 +7215,8 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.functionSummary = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.functionSummary = try container.decode(FunctionSummary.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8276,14 +8413,8 @@ extension CloudFront {
         }
     }
 
-    public struct TagResourceRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "tags"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resource", location: .querystring("Resource")),
-            AWSMemberEncoding(label: "tags", location: .body("Tags"))
-        ]
-
+    public struct TagResourceRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "Tags"
         /// An ARN of a CloudFront resource.
         public let resource: String
         /// A complex type that contains zero or more Tag elements.
@@ -8292,6 +8423,13 @@ extension CloudFront {
         public init(resource: String, tags: Tags) {
             self.resource = resource
             self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeQuery(self.resource, key: "Resource")
+            try container.encode(self.tags)
         }
 
         public func validate(name: String) throws {
@@ -8325,11 +8463,6 @@ extension CloudFront {
     }
 
     public struct TestFunctionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The event object to test the function with. For more information about the structure
         /// 			of the event object, see Testing functions in the Amazon CloudFront Developer Guide.
         public let eventObject: AWSBase64Data
@@ -8347,6 +8480,15 @@ extension CloudFront {
             self.ifMatch = ifMatch
             self.name = name
             self.stage = stage
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.eventObject, forKey: .eventObject)
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodePath(self.name, key: "Name")
+            try container.encodeIfPresent(self.stage, forKey: .stage)
         }
 
         public func validate(name: String) throws {
@@ -8369,8 +8511,8 @@ extension CloudFront {
         }
 
         public init(from decoder: Decoder) throws {
-            self.testResult = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.testResult = try container.decode(TestResult.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8485,14 +8627,8 @@ extension CloudFront {
         }
     }
 
-    public struct UntagResourceRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "tagKeys"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "resource", location: .querystring("Resource")),
-            AWSMemberEncoding(label: "tagKeys", location: .body("TagKeys"))
-        ]
-
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "TagKeys"
         /// An ARN of a CloudFront resource.
         public let resource: String
         /// A complex type that contains zero or more Tag key elements.
@@ -8503,6 +8639,13 @@ extension CloudFront {
             self.tagKeys = tagKeys
         }
 
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeQuery(self.resource, key: "Resource")
+            try container.encode(self.tagKeys)
+        }
+
         public func validate(name: String) throws {
             try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:aws(-cn)?:cloudfront::[0-9]+:")
             try self.tagKeys.validate(name: "\(name).tagKeys")
@@ -8511,15 +8654,8 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateCachePolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cachePolicyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cachePolicyConfig", location: .body("CachePolicyConfig")),
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
+    public struct UpdateCachePolicyRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "CachePolicyConfig"
         /// A cache policy configuration.
         public let cachePolicyConfig: CachePolicyConfig
         /// The unique identifier for the cache policy that you are updating. The identifier is
@@ -8535,6 +8671,14 @@ extension CloudFront {
             self.cachePolicyConfig = cachePolicyConfig
             self.id = id
             self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.cachePolicyConfig)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8553,23 +8697,16 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.cachePolicy = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-
+            let container = try decoder.singleValueContainer()
+            self.cachePolicy = try container.decode(CachePolicy.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "cloudFrontOriginAccessIdentityConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "cloudFrontOriginAccessIdentityConfig", location: .body("CloudFrontOriginAccessIdentityConfig")),
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
+    public struct UpdateCloudFrontOriginAccessIdentityRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "CloudFrontOriginAccessIdentityConfig"
         /// The identity's configuration information.
         public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
         /// The identity's id.
@@ -8582,6 +8719,14 @@ extension CloudFront {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
             self.id = id
             self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.cloudFrontOriginAccessIdentityConfig)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8601,23 +8746,16 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.cloudFrontOriginAccessIdentity = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-
+            let container = try decoder.singleValueContainer()
+            self.cloudFrontOriginAccessIdentity = try container.decode(CloudFrontOriginAccessIdentity.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateContinuousDeploymentPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "continuousDeploymentPolicyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "continuousDeploymentPolicyConfig", location: .body("ContinuousDeploymentPolicyConfig")),
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
+    public struct UpdateContinuousDeploymentPolicyRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "ContinuousDeploymentPolicyConfig"
         /// The continuous deployment policy configuration.
         public let continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig
         /// The identifier of the continuous deployment policy that you are updating.
@@ -8630,6 +8768,14 @@ extension CloudFront {
             self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
             self.id = id
             self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.continuousDeploymentPolicyConfig)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8649,23 +8795,16 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.continuousDeploymentPolicy = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-
+            let container = try decoder.singleValueContainer()
+            self.continuousDeploymentPolicy = try container.decode(ContinuousDeploymentPolicy.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "distributionConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "distributionConfig", location: .body("DistributionConfig")),
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
+    public struct UpdateDistributionRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "DistributionConfig"
         /// The distribution's configuration information.
         public let distributionConfig: DistributionConfig
         /// The distribution's id.
@@ -8678,6 +8817,14 @@ extension CloudFront {
             self.distributionConfig = distributionConfig
             self.id = id
             self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.distributionConfig)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
         }
 
         public func validate(name: String) throws {
@@ -8701,21 +8848,15 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.distribution = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-
+            let container = try decoder.singleValueContainer()
+            self.distribution = try container.decode(Distribution.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateDistributionWithStagingConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "stagingDistributionId", location: .querystring("StagingDistributionId"))
-        ]
-
         /// The identifier of the primary distribution to which you are copying a staging distribution's
         /// 			configuration.
         public let id: String
@@ -8729,6 +8870,14 @@ extension CloudFront {
             self.id = id
             self.ifMatch = ifMatch
             self.stagingDistributionId = stagingDistributionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodeQuery(self.stagingDistributionId, key: "StagingDistributionId")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8746,23 +8895,16 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.distribution = try .init(from: decoder)
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-
+            let container = try decoder.singleValueContainer()
+            self.distribution = try container.decode(Distribution.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateFieldLevelEncryptionConfigRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryptionConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fieldLevelEncryptionConfig", location: .body("FieldLevelEncryptionConfig")),
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
+    public struct UpdateFieldLevelEncryptionConfigRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "FieldLevelEncryptionConfig"
         /// Request to update a field-level encryption configuration.
         public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
         /// The ID of the configuration you want to update.
@@ -8775,6 +8917,14 @@ extension CloudFront {
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
             self.id = id
             self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.fieldLevelEncryptionConfig)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8794,23 +8944,16 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.fieldLevelEncryption = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.fieldLevelEncryption = try container.decode(FieldLevelEncryption.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateFieldLevelEncryptionProfileRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "fieldLevelEncryptionProfileConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "fieldLevelEncryptionProfileConfig", location: .body("FieldLevelEncryptionProfileConfig")),
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match"))
-        ]
-
+    public struct UpdateFieldLevelEncryptionProfileRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "FieldLevelEncryptionProfileConfig"
         /// Request to update a field-level encryption profile.
         public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
         /// The ID of the field-level encryption profile request.
@@ -8823,6 +8966,14 @@ extension CloudFront {
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
             self.id = id
             self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.fieldLevelEncryptionProfileConfig)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8841,20 +8992,15 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.fieldLevelEncryptionProfile = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.fieldLevelEncryptionProfile = try container.decode(FieldLevelEncryptionProfile.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateFunctionRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "name", location: .uri("Name"))
-        ]
-
         /// The function code. For more information about writing a CloudFront function, see Writing
         /// 				function code for CloudFront Functions in the
         /// 			Amazon CloudFront Developer Guide.
@@ -8872,6 +9018,15 @@ extension CloudFront {
             self.functionConfig = functionConfig
             self.ifMatch = ifMatch
             self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.functionCode, forKey: .functionCode)
+            try container.encode(self.functionConfig, forKey: .functionConfig)
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
@@ -8898,23 +9053,16 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETtag")
-            self.functionSummary = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETtag")
+            self.functionSummary = try container.decode(FunctionSummary.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateKeyGroupRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "keyGroupConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "keyGroupConfig", location: .body("KeyGroupConfig"))
-        ]
-
+    public struct UpdateKeyGroupRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "KeyGroupConfig"
         /// The identifier of the key group that you are updating.
         public let id: String
         /// The version of the key group that you are updating. The version is the key group's
@@ -8927,6 +9075,14 @@ extension CloudFront {
             self.id = id
             self.ifMatch = ifMatch
             self.keyGroupConfig = keyGroupConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encode(self.keyGroupConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8945,23 +9101,16 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.keyGroup = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.keyGroup = try container.decode(KeyGroup.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateOriginAccessControlRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originAccessControlConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "originAccessControlConfig", location: .body("OriginAccessControlConfig"))
-        ]
-
+    public struct UpdateOriginAccessControlRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "OriginAccessControlConfig"
         /// The unique identifier of the origin access control that you are updating.
         public let id: String
         /// The current version (ETag value) of the origin access control that you
@@ -8974,6 +9123,14 @@ extension CloudFront {
             self.id = id
             self.ifMatch = ifMatch
             self.originAccessControlConfig = originAccessControlConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encode(self.originAccessControlConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8992,23 +9149,16 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.originAccessControl = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.originAccessControl = try container.decode(OriginAccessControl.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateOriginRequestPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "originRequestPolicyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "originRequestPolicyConfig", location: .body("OriginRequestPolicyConfig"))
-        ]
-
+    public struct UpdateOriginRequestPolicyRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "OriginRequestPolicyConfig"
         /// The unique identifier for the origin request policy that you are updating. The
         /// 			identifier is returned in a cache behavior's OriginRequestPolicyId field in
         /// 			the response to GetDistributionConfig.
@@ -9024,6 +9174,14 @@ extension CloudFront {
             self.id = id
             self.ifMatch = ifMatch
             self.originRequestPolicyConfig = originRequestPolicyConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encode(self.originRequestPolicyConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9042,23 +9200,16 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.originRequestPolicy = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.originRequestPolicy = try container.decode(OriginRequestPolicy.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdatePublicKeyRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "publicKeyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "publicKeyConfig", location: .body("PublicKeyConfig"))
-        ]
-
+    public struct UpdatePublicKeyRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "PublicKeyConfig"
         /// The identifier of the public key that you are updating.
         public let id: String
         /// The value of the ETag header that you received when retrieving the public
@@ -9071,6 +9222,14 @@ extension CloudFront {
             self.id = id
             self.ifMatch = ifMatch
             self.publicKeyConfig = publicKeyConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encode(self.publicKeyConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9089,9 +9248,9 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.publicKey = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.publicKey = try container.decode(PublicKey.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9147,15 +9306,8 @@ extension CloudFront {
         }
     }
 
-    public struct UpdateResponseHeadersPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "responseHeadersPolicyConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "responseHeadersPolicyConfig", location: .body("ResponseHeadersPolicyConfig"))
-        ]
-
+    public struct UpdateResponseHeadersPolicyRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "ResponseHeadersPolicyConfig"
         /// The identifier for the response headers policy that you are updating.
         public let id: String
         /// The version of the response headers policy that you are updating. The version is returned in the cache policy's ETag field in the response
@@ -9168,6 +9320,14 @@ extension CloudFront {
             self.id = id
             self.ifMatch = ifMatch
             self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encode(self.responseHeadersPolicyConfig)
         }
 
         public func validate(name: String) throws {
@@ -9190,23 +9350,16 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.responseHeadersPolicy = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.responseHeadersPolicy = try container.decode(ResponseHeadersPolicy.self)
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct UpdateStreamingDistributionRequest: AWSEncodableShape & AWSShapeWithPayload {
-        /// The key for the payload
-        public static let _payloadPath: String = "streamingDistributionConfig"
-        public static var _encoding = [
-            AWSMemberEncoding(label: "id", location: .uri("Id")),
-            AWSMemberEncoding(label: "ifMatch", location: .header("If-Match")),
-            AWSMemberEncoding(label: "streamingDistributionConfig", location: .body("StreamingDistributionConfig"))
-        ]
-
+    public struct UpdateStreamingDistributionRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "StreamingDistributionConfig"
         /// The streaming distribution's id.
         public let id: String
         /// The value of the ETag header that you received when retrieving the
@@ -9219,6 +9372,14 @@ extension CloudFront {
             self.id = id
             self.ifMatch = ifMatch
             self.streamingDistributionConfig = streamingDistributionConfig
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encode(self.streamingDistributionConfig)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -9238,9 +9399,9 @@ extension CloudFront {
 
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
-            self.eTag = try response.decodeIfPresent(String.self, forHeader: "ETag")
-            self.streamingDistribution = try .init(from: decoder)
-
+            let container = try decoder.singleValueContainer()
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.streamingDistribution = try container.decode(StreamingDistribution.self)
         }
 
         private enum CodingKeys: CodingKey {}

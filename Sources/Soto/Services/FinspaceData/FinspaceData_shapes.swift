@@ -148,11 +148,6 @@ extension FinspaceData {
     // MARK: Shapes
 
     public struct AssociateUserToPermissionGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId")),
-            AWSMemberEncoding(label: "userId", location: .uri("userId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// The unique identifier for the permission group.
@@ -164,6 +159,14 @@ extension FinspaceData {
             self.clientToken = clientToken
             self.permissionGroupId = permissionGroupId
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.permissionGroupId, key: "permissionGroupId")
+            request.encodePath(self.userId, key: "userId")
         }
 
         public func validate(name: String) throws {
@@ -194,7 +197,6 @@ extension FinspaceData {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             self.statusCode = response.decodeStatus()
-
         }
 
         private enum CodingKeys: CodingKey {}
@@ -332,10 +334,6 @@ extension FinspaceData {
     }
 
     public struct CreateChangesetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetId", location: .uri("datasetId"))
-        ]
-
         /// The option to indicate how a Changeset will be applied to a Dataset.    REPLACE – Changeset will be considered as a replacement to all prior loaded Changesets.    APPEND – Changeset will be considered as an addition to the end of all prior loaded Changesets.    MODIFY – Changeset is considered as a replacement to a specific prior ingested Changeset.
         public let changeType: ChangeType
         /// A token that ensures idempotency. This token expires in 10 minutes.
@@ -353,6 +351,16 @@ extension FinspaceData {
             self.datasetId = datasetId
             self.formatParams = formatParams
             self.sourceParams = sourceParams
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.changeType, forKey: .changeType)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.datasetId, key: "datasetId")
+            try container.encode(self.formatParams, forKey: .formatParams)
+            try container.encode(self.sourceParams, forKey: .sourceParams)
         }
 
         public func validate(name: String) throws {
@@ -401,10 +409,6 @@ extension FinspaceData {
     }
 
     public struct CreateDataViewRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetId", location: .uri("datasetId"))
-        ]
-
         /// Beginning time to use for the Dataview. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let asOfTimestamp: Int64?
         /// Flag to indicate Dataview should be updated automatically.
@@ -428,6 +432,18 @@ extension FinspaceData {
             self.destinationTypeParams = destinationTypeParams
             self.partitionColumns = partitionColumns
             self.sortColumns = sortColumns
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.asOfTimestamp, forKey: .asOfTimestamp)
+            try container.encodeIfPresent(self.autoUpdate, forKey: .autoUpdate)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.datasetId, key: "datasetId")
+            try container.encode(self.destinationTypeParams, forKey: .destinationTypeParams)
+            try container.encodeIfPresent(self.partitionColumns, forKey: .partitionColumns)
+            try container.encodeIfPresent(self.sortColumns, forKey: .sortColumns)
         }
 
         public func validate(name: String) throws {
@@ -873,11 +889,6 @@ extension FinspaceData {
     }
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "datasetId", location: .uri("datasetId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// The unique identifier of the Dataset to be deleted.
@@ -886,6 +897,13 @@ extension FinspaceData {
         public init(clientToken: String? = DeleteDatasetRequest.idempotencyToken(), datasetId: String) {
             self.clientToken = clientToken
             self.datasetId = datasetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.datasetId, key: "datasetId")
         }
 
         public func validate(name: String) throws {
@@ -913,11 +931,6 @@ extension FinspaceData {
     }
 
     public struct DeletePermissionGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// The unique identifier for the permission group that you want to delete.
@@ -926,6 +939,13 @@ extension FinspaceData {
         public init(clientToken: String? = DeletePermissionGroupRequest.idempotencyToken(), permissionGroupId: String) {
             self.clientToken = clientToken
             self.permissionGroupId = permissionGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.permissionGroupId, key: "permissionGroupId")
         }
 
         public func validate(name: String) throws {
@@ -954,10 +974,6 @@ extension FinspaceData {
     }
 
     public struct DisableUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "userId", location: .uri("userId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// The unique identifier for the user account that you want to disable.
@@ -966,6 +982,13 @@ extension FinspaceData {
         public init(clientToken: String? = DisableUserRequest.idempotencyToken(), userId: String) {
             self.clientToken = clientToken
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.userId, key: "userId")
         }
 
         public func validate(name: String) throws {
@@ -996,12 +1019,6 @@ extension FinspaceData {
     }
 
     public struct DisassociateUserFromPermissionGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
-            AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId")),
-            AWSMemberEncoding(label: "userId", location: .uri("userId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// The unique identifier for the permission group.
@@ -1013,6 +1030,14 @@ extension FinspaceData {
             self.clientToken = clientToken
             self.permissionGroupId = permissionGroupId
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.permissionGroupId, key: "permissionGroupId")
+            request.encodePath(self.userId, key: "userId")
         }
 
         public func validate(name: String) throws {
@@ -1041,17 +1066,12 @@ extension FinspaceData {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             self.statusCode = response.decodeStatus()
-
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct EnableUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "userId", location: .uri("userId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// The unique identifier for the user account that you want to enable.
@@ -1060,6 +1080,13 @@ extension FinspaceData {
         public init(clientToken: String? = EnableUserRequest.idempotencyToken(), userId: String) {
             self.clientToken = clientToken
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.userId, key: "userId")
         }
 
         public func validate(name: String) throws {
@@ -1090,11 +1117,6 @@ extension FinspaceData {
     }
 
     public struct GetChangesetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "changesetId", location: .uri("changesetId")),
-            AWSMemberEncoding(label: "datasetId", location: .uri("datasetId"))
-        ]
-
         /// The unique identifier of the Changeset for which to get data.
         public let changesetId: String
         /// The unique identifier for the FinSpace Dataset where the Changeset is created.
@@ -1103,6 +1125,13 @@ extension FinspaceData {
         public init(changesetId: String, datasetId: String) {
             self.changesetId = changesetId
             self.datasetId = datasetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.changesetId, key: "changesetId")
+            request.encodePath(self.datasetId, key: "datasetId")
         }
 
         public func validate(name: String) throws {
@@ -1177,11 +1206,6 @@ extension FinspaceData {
     }
 
     public struct GetDataViewRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetId", location: .uri("datasetId")),
-            AWSMemberEncoding(label: "dataViewId", location: .uri("dataViewId"))
-        ]
-
         /// The unique identifier for the Dataset used in the Dataview.
         public let datasetId: String
         /// The unique identifier for the Dataview.
@@ -1190,6 +1214,13 @@ extension FinspaceData {
         public init(datasetId: String, dataViewId: String) {
             self.datasetId = datasetId
             self.dataViewId = dataViewId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetId, key: "datasetId")
+            request.encodePath(self.dataViewId, key: "dataViewId")
         }
 
         public func validate(name: String) throws {
@@ -1260,15 +1291,17 @@ extension FinspaceData {
     }
 
     public struct GetDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetId", location: .uri("datasetId"))
-        ]
-
         /// The unique identifier for a Dataset.
         public let datasetId: String
 
         public init(datasetId: String) {
             self.datasetId = datasetId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetId, key: "datasetId")
         }
 
         public func validate(name: String) throws {
@@ -1330,11 +1363,6 @@ extension FinspaceData {
     }
 
     public struct GetExternalDataViewAccessDetailsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetId", location: .uri("datasetId")),
-            AWSMemberEncoding(label: "dataViewId", location: .uri("dataViewId"))
-        ]
-
         /// The unique identifier for the Dataset.
         public let datasetId: String
         /// The unique identifier for the Dataview that you want to access.
@@ -1343,6 +1371,13 @@ extension FinspaceData {
         public init(datasetId: String, dataViewId: String) {
             self.datasetId = datasetId
             self.dataViewId = dataViewId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetId, key: "datasetId")
+            request.encodePath(self.dataViewId, key: "dataViewId")
         }
 
         public func validate(name: String) throws {
@@ -1373,15 +1408,17 @@ extension FinspaceData {
     }
 
     public struct GetPermissionGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId"))
-        ]
-
         /// The unique identifier for the permission group.
         public let permissionGroupId: String
 
         public init(permissionGroupId: String) {
             self.permissionGroupId = permissionGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.permissionGroupId, key: "permissionGroupId")
         }
 
         public func validate(name: String) throws {
@@ -1406,11 +1443,6 @@ extension FinspaceData {
     }
 
     public struct GetProgrammaticAccessCredentialsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "durationInMinutes", location: .querystring("durationInMinutes")),
-            AWSMemberEncoding(label: "environmentId", location: .querystring("environmentId"))
-        ]
-
         /// The time duration in which the credentials remain valid.
         public let durationInMinutes: Int64?
         /// The FinSpace environment identifier.
@@ -1419,6 +1451,13 @@ extension FinspaceData {
         public init(durationInMinutes: Int64? = nil, environmentId: String) {
             self.durationInMinutes = durationInMinutes
             self.environmentId = environmentId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.durationInMinutes, key: "durationInMinutes")
+            request.encodeQuery(self.environmentId, key: "environmentId")
         }
 
         public func validate(name: String) throws {
@@ -1449,15 +1488,17 @@ extension FinspaceData {
     }
 
     public struct GetUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "userId", location: .uri("userId"))
-        ]
-
         /// The unique identifier of the user to get data for.
         public let userId: String
 
         public init(userId: String) {
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.userId, key: "userId")
         }
 
         public func validate(name: String) throws {
@@ -1565,12 +1606,6 @@ extension FinspaceData {
     }
 
     public struct ListChangesetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetId", location: .uri("datasetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier for the FinSpace Dataset to which the Changeset belongs.
         public let datasetId: String
         /// The maximum number of results per page.
@@ -1582,6 +1617,14 @@ extension FinspaceData {
             self.datasetId = datasetId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetId, key: "datasetId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1612,12 +1655,6 @@ extension FinspaceData {
     }
 
     public struct ListDataViewsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetId", location: .uri("datasetId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The unique identifier of the Dataset for which to retrieve Dataviews.
         public let datasetId: String
         /// The maximum number of results per page.
@@ -1629,6 +1666,14 @@ extension FinspaceData {
             self.datasetId = datasetId
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.datasetId, key: "datasetId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1659,11 +1704,6 @@ extension FinspaceData {
     }
 
     public struct ListDatasetsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results per page.
         public let maxResults: Int?
         /// A token that indicates where a results page should begin.
@@ -1672,6 +1712,13 @@ extension FinspaceData {
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1700,12 +1747,6 @@ extension FinspaceData {
     }
 
     public struct ListPermissionGroupsByUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "userId", location: .uri("userId"))
-        ]
-
         /// The maximum number of results per page.
         public let maxResults: Int
         /// A token that indicates where a results page should begin.
@@ -1717,6 +1758,14 @@ extension FinspaceData {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.userId, key: "userId")
         }
 
         public func validate(name: String) throws {
@@ -1748,11 +1797,6 @@ extension FinspaceData {
     }
 
     public struct ListPermissionGroupsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results per page.
         public let maxResults: Int
         /// A token that indicates where a results page should begin.
@@ -1761,6 +1805,13 @@ extension FinspaceData {
         public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1789,12 +1840,6 @@ extension FinspaceData {
     }
 
     public struct ListUsersByPermissionGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
-            AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId"))
-        ]
-
         /// The maximum number of results per page.
         public let maxResults: Int
         /// A token that indicates where a results page should begin.
@@ -1806,6 +1851,14 @@ extension FinspaceData {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.permissionGroupId = permissionGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.permissionGroupId, key: "permissionGroupId")
         }
 
         public func validate(name: String) throws {
@@ -1837,11 +1890,6 @@ extension FinspaceData {
     }
 
     public struct ListUsersRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
-        ]
-
         /// The maximum number of results per page.
         public let maxResults: Int
         /// A token that indicates where a results page should begin.
@@ -1850,6 +1898,13 @@ extension FinspaceData {
         public init(maxResults: Int = 0, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -1962,10 +2017,6 @@ extension FinspaceData {
     }
 
     public struct ResetUserPasswordRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "userId", location: .uri("userId"))
-        ]
-
         /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// The unique identifier of the user that a temporary password is requested for.
@@ -1974,6 +2025,13 @@ extension FinspaceData {
         public init(clientToken: String? = ResetUserPasswordRequest.idempotencyToken(), userId: String) {
             self.clientToken = clientToken
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.userId, key: "userId")
         }
 
         public func validate(name: String) throws {
@@ -2088,11 +2146,6 @@ extension FinspaceData {
     }
 
     public struct UpdateChangesetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "changesetId", location: .uri("changesetId")),
-            AWSMemberEncoding(label: "datasetId", location: .uri("datasetId"))
-        ]
-
         /// The unique identifier for the Changeset to update.
         public let changesetId: String
         /// A token that ensures idempotency. This token expires in 10 minutes.
@@ -2110,6 +2163,16 @@ extension FinspaceData {
             self.datasetId = datasetId
             self.formatParams = formatParams
             self.sourceParams = sourceParams
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.changesetId, key: "changesetId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.datasetId, key: "datasetId")
+            try container.encode(self.formatParams, forKey: .formatParams)
+            try container.encode(self.sourceParams, forKey: .sourceParams)
         }
 
         public func validate(name: String) throws {
@@ -2159,10 +2222,6 @@ extension FinspaceData {
     }
 
     public struct UpdateDatasetRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "datasetId", location: .uri("datasetId"))
-        ]
-
         /// The unique resource identifier for a Dataset.
         public let alias: String?
         /// A token that ensures idempotency. This token expires in 10 minutes.
@@ -2186,6 +2245,18 @@ extension FinspaceData {
             self.datasetTitle = datasetTitle
             self.kind = kind
             self.schemaDefinition = schemaDefinition
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.alias, forKey: .alias)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.datasetDescription, forKey: .datasetDescription)
+            request.encodePath(self.datasetId, key: "datasetId")
+            try container.encode(self.datasetTitle, forKey: .datasetTitle)
+            try container.encode(self.kind, forKey: .kind)
+            try container.encodeIfPresent(self.schemaDefinition, forKey: .schemaDefinition)
         }
 
         public func validate(name: String) throws {
@@ -2229,10 +2300,6 @@ extension FinspaceData {
     }
 
     public struct UpdatePermissionGroupRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId"))
-        ]
-
         /// The permissions that are granted to a specific group for accessing the FinSpace application.  When assigning application permissions, be aware that the permission ManageUsersAndGroups allows users to grant themselves or others access to any functionality in their FinSpace environment's application. It should only be granted to trusted users.     CreateDataset – Group members can create new datasets.    ManageClusters – Group members can manage Apache Spark clusters from FinSpace notebooks.    ManageUsersAndGroups – Group members can manage users and permission groups. This is a privileged permission that allows users to grant themselves or others access to any functionality in the application. It should only be granted to trusted users.    ManageAttributeSets – Group members can manage attribute sets.    ViewAuditData – Group members can view audit data.    AccessNotebooks – Group members will have access to FinSpace notebooks.    GetTemporaryCredentials – Group members can get temporary API credentials.
         public let applicationPermissions: [ApplicationPermission]?
         /// A token that ensures idempotency. This token expires in 10 minutes.
@@ -2250,6 +2317,16 @@ extension FinspaceData {
             self.description = description
             self.name = name
             self.permissionGroupId = permissionGroupId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.applicationPermissions, forKey: .applicationPermissions)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.permissionGroupId, key: "permissionGroupId")
         }
 
         public func validate(name: String) throws {
@@ -2289,10 +2366,6 @@ extension FinspaceData {
     }
 
     public struct UpdateUserRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "userId", location: .uri("userId"))
-        ]
-
         /// The option to indicate whether the user can use the GetProgrammaticAccessCredentials API to obtain credentials that can then be used to access other FinSpace Data API operations.    ENABLED – The user has permissions to use the APIs.    DISABLED – The user does not have permissions to use any APIs.
         public let apiAccess: ApiAccess?
         /// The ARN identifier of an AWS user or role that is allowed to call the GetProgrammaticAccessCredentials API to obtain a credentials token for a specific FinSpace user. This must be an IAM role within your FinSpace account.
@@ -2316,6 +2389,18 @@ extension FinspaceData {
             self.lastName = lastName
             self.type = type
             self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.apiAccess, forKey: .apiAccess)
+            try container.encodeIfPresent(self.apiAccessPrincipalArn, forKey: .apiAccessPrincipalArn)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.firstName, forKey: .firstName)
+            try container.encodeIfPresent(self.lastName, forKey: .lastName)
+            try container.encodeIfPresent(self.type, forKey: .type)
+            request.encodePath(self.userId, key: "userId")
         }
 
         public func validate(name: String) throws {
